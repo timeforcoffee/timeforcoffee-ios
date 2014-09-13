@@ -8,11 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		EC7A517919C427CA000F5E7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A517819C427CA000F5E7C /* AppDelegate.swift */; };
-		EC7A517B19C427CA000F5E7C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A517A19C427CA000F5E7C /* ViewController.swift */; };
+		EC7A517B19C427CA000F5E7C /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A517A19C427CA000F5E7C /* SearchResultsViewController.swift */; };
 		EC7A517E19C427CA000F5E7C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC7A517C19C427CA000F5E7C /* Main.storyboard */; };
 		EC7A518019C427CA000F5E7C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC7A517F19C427CA000F5E7C /* Images.xcassets */; };
 		EC7A518319C427CA000F5E7C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC7A518119C427CA000F5E7C /* LaunchScreen.xib */; };
 		EC7A518F19C427CA000F5E7C /* nextMigrosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A518E19C427CA000F5E7C /* nextMigrosTests.swift */; };
+		EC7A519919C42F9C000F5E7C /* APIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A519819C42F9C000F5E7C /* APIController.swift */; };
+		EC7A519B19C43E0A000F5E7C /* Blank52.png in Resources */ = {isa = PBXBuildFile; fileRef = EC7A519A19C43E0A000F5E7C /* Blank52.png */; };
+		EC7A519D19C43FED000F5E7C /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A519C19C43FED000F5E7C /* Album.swift */; };
+		EC7A519F19C4432F000F5E7C /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A519E19C4432F000F5E7C /* DetailsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,13 +33,17 @@
 		EC7A517319C427CA000F5E7C /* nextMigros.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = nextMigros.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC7A517719C427CA000F5E7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC7A517819C427CA000F5E7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		EC7A517A19C427CA000F5E7C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		EC7A517A19C427CA000F5E7C /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
 		EC7A517D19C427CA000F5E7C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EC7A517F19C427CA000F5E7C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		EC7A518219C427CA000F5E7C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		EC7A518819C427CA000F5E7C /* nextMigrosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = nextMigrosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC7A518D19C427CA000F5E7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC7A518E19C427CA000F5E7C /* nextMigrosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = nextMigrosTests.swift; sourceTree = "<group>"; };
+		EC7A519819C42F9C000F5E7C /* APIController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIController.swift; sourceTree = "<group>"; };
+		EC7A519A19C43E0A000F5E7C /* Blank52.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Blank52.png; sourceTree = "<group>"; };
+		EC7A519C19C43FED000F5E7C /* Album.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
+		EC7A519E19C4432F000F5E7C /* DetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,9 +85,13 @@
 		EC7A517519C427CA000F5E7C /* nextMigros */ = {
 			isa = PBXGroup;
 			children = (
+				EC7A519A19C43E0A000F5E7C /* Blank52.png */,
 				EC7A517819C427CA000F5E7C /* AppDelegate.swift */,
-				EC7A517A19C427CA000F5E7C /* ViewController.swift */,
+				EC7A517A19C427CA000F5E7C /* SearchResultsViewController.swift */,
 				EC7A517C19C427CA000F5E7C /* Main.storyboard */,
+				EC7A519819C42F9C000F5E7C /* APIController.swift */,
+				EC7A519C19C43FED000F5E7C /* Album.swift */,
+				EC7A519E19C4432F000F5E7C /* DetailsViewController.swift */,
 				EC7A517F19C427CA000F5E7C /* Images.xcassets */,
 				EC7A518119C427CA000F5E7C /* LaunchScreen.xib */,
 				EC7A517619C427CA000F5E7C /* Supporting Files */,
@@ -193,6 +205,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC7A517E19C427CA000F5E7C /* Main.storyboard in Resources */,
+				EC7A519B19C43E0A000F5E7C /* Blank52.png in Resources */,
 				EC7A518319C427CA000F5E7C /* LaunchScreen.xib in Resources */,
 				EC7A518019C427CA000F5E7C /* Images.xcassets in Resources */,
 			);
@@ -212,8 +225,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC7A517B19C427CA000F5E7C /* ViewController.swift in Sources */,
+				EC7A517B19C427CA000F5E7C /* SearchResultsViewController.swift in Sources */,
 				EC7A517919C427CA000F5E7C /* AppDelegate.swift in Sources */,
+				EC7A519919C42F9C000F5E7C /* APIController.swift in Sources */,
+				EC7A519D19C43FED000F5E7C /* Album.swift in Sources */,
+				EC7A519F19C4432F000F5E7C /* DetailsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
