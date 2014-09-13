@@ -1,0 +1,422 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		EC7A517919C427CA000F5E7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A517819C427CA000F5E7C /* AppDelegate.swift */; };
+		EC7A517B19C427CA000F5E7C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A517A19C427CA000F5E7C /* ViewController.swift */; };
+		EC7A517E19C427CA000F5E7C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC7A517C19C427CA000F5E7C /* Main.storyboard */; };
+		EC7A518019C427CA000F5E7C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC7A517F19C427CA000F5E7C /* Images.xcassets */; };
+		EC7A518319C427CA000F5E7C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC7A518119C427CA000F5E7C /* LaunchScreen.xib */; };
+		EC7A518F19C427CA000F5E7C /* nextMigrosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A518E19C427CA000F5E7C /* nextMigrosTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		EC7A518919C427CA000F5E7C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EC7A516B19C427CA000F5E7C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EC7A517219C427CA000F5E7C;
+			remoteInfo = nextMigros;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		EC7A517319C427CA000F5E7C /* nextMigros.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = nextMigros.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC7A517719C427CA000F5E7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EC7A517819C427CA000F5E7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		EC7A517A19C427CA000F5E7C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		EC7A517D19C427CA000F5E7C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		EC7A517F19C427CA000F5E7C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		EC7A518219C427CA000F5E7C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		EC7A518819C427CA000F5E7C /* nextMigrosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = nextMigrosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC7A518D19C427CA000F5E7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EC7A518E19C427CA000F5E7C /* nextMigrosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = nextMigrosTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EC7A517019C427CA000F5E7C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EC7A518519C427CA000F5E7C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		EC7A516A19C427CA000F5E7C = {
+			isa = PBXGroup;
+			children = (
+				EC7A517519C427CA000F5E7C /* nextMigros */,
+				EC7A518B19C427CA000F5E7C /* nextMigrosTests */,
+				EC7A517419C427CA000F5E7C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		EC7A517419C427CA000F5E7C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EC7A517319C427CA000F5E7C /* nextMigros.app */,
+				EC7A518819C427CA000F5E7C /* nextMigrosTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EC7A517519C427CA000F5E7C /* nextMigros */ = {
+			isa = PBXGroup;
+			children = (
+				EC7A517819C427CA000F5E7C /* AppDelegate.swift */,
+				EC7A517A19C427CA000F5E7C /* ViewController.swift */,
+				EC7A517C19C427CA000F5E7C /* Main.storyboard */,
+				EC7A517F19C427CA000F5E7C /* Images.xcassets */,
+				EC7A518119C427CA000F5E7C /* LaunchScreen.xib */,
+				EC7A517619C427CA000F5E7C /* Supporting Files */,
+			);
+			path = nextMigros;
+			sourceTree = "<group>";
+		};
+		EC7A517619C427CA000F5E7C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				EC7A517719C427CA000F5E7C /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		EC7A518B19C427CA000F5E7C /* nextMigrosTests */ = {
+			isa = PBXGroup;
+			children = (
+				EC7A518E19C427CA000F5E7C /* nextMigrosTests.swift */,
+				EC7A518C19C427CA000F5E7C /* Supporting Files */,
+			);
+			path = nextMigrosTests;
+			sourceTree = "<group>";
+		};
+		EC7A518C19C427CA000F5E7C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				EC7A518D19C427CA000F5E7C /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EC7A517219C427CA000F5E7C /* nextMigros */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EC7A519219C427CA000F5E7C /* Build configuration list for PBXNativeTarget "nextMigros" */;
+			buildPhases = (
+				EC7A516F19C427CA000F5E7C /* Sources */,
+				EC7A517019C427CA000F5E7C /* Frameworks */,
+				EC7A517119C427CA000F5E7C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = nextMigros;
+			productName = nextMigros;
+			productReference = EC7A517319C427CA000F5E7C /* nextMigros.app */;
+			productType = "com.apple.product-type.application";
+		};
+		EC7A518719C427CA000F5E7C /* nextMigrosTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EC7A519519C427CA000F5E7C /* Build configuration list for PBXNativeTarget "nextMigrosTests" */;
+			buildPhases = (
+				EC7A518419C427CA000F5E7C /* Sources */,
+				EC7A518519C427CA000F5E7C /* Frameworks */,
+				EC7A518619C427CA000F5E7C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EC7A518A19C427CA000F5E7C /* PBXTargetDependency */,
+			);
+			name = nextMigrosTests;
+			productName = nextMigrosTests;
+			productReference = EC7A518819C427CA000F5E7C /* nextMigrosTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EC7A516B19C427CA000F5E7C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0600;
+				ORGANIZATIONNAME = "Christian Stocker";
+				TargetAttributes = {
+					EC7A517219C427CA000F5E7C = {
+						CreatedOnToolsVersion = 6.0;
+					};
+					EC7A518719C427CA000F5E7C = {
+						CreatedOnToolsVersion = 6.0;
+						TestTargetID = EC7A517219C427CA000F5E7C;
+					};
+				};
+			};
+			buildConfigurationList = EC7A516E19C427CA000F5E7C /* Build configuration list for PBXProject "nextMigros" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = EC7A516A19C427CA000F5E7C;
+			productRefGroup = EC7A517419C427CA000F5E7C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EC7A517219C427CA000F5E7C /* nextMigros */,
+				EC7A518719C427CA000F5E7C /* nextMigrosTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EC7A517119C427CA000F5E7C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC7A517E19C427CA000F5E7C /* Main.storyboard in Resources */,
+				EC7A518319C427CA000F5E7C /* LaunchScreen.xib in Resources */,
+				EC7A518019C427CA000F5E7C /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EC7A518619C427CA000F5E7C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EC7A516F19C427CA000F5E7C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC7A517B19C427CA000F5E7C /* ViewController.swift in Sources */,
+				EC7A517919C427CA000F5E7C /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EC7A518419C427CA000F5E7C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC7A518F19C427CA000F5E7C /* nextMigrosTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		EC7A518A19C427CA000F5E7C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EC7A517219C427CA000F5E7C /* nextMigros */;
+			targetProxy = EC7A518919C427CA000F5E7C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		EC7A517C19C427CA000F5E7C /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EC7A517D19C427CA000F5E7C /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		EC7A518119C427CA000F5E7C /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EC7A518219C427CA000F5E7C /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		EC7A519019C427CA000F5E7C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EC7A519119C427CA000F5E7C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		EC7A519319C427CA000F5E7C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = nextMigros/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		EC7A519419C427CA000F5E7C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = nextMigros/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		EC7A519619C427CA000F5E7C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = nextMigrosTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/nextMigros.app/nextMigros";
+			};
+			name = Debug;
+		};
+		EC7A519719C427CA000F5E7C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = nextMigrosTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/nextMigros.app/nextMigros";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EC7A516E19C427CA000F5E7C /* Build configuration list for PBXProject "nextMigros" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EC7A519019C427CA000F5E7C /* Debug */,
+				EC7A519119C427CA000F5E7C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EC7A519219C427CA000F5E7C /* Build configuration list for PBXNativeTarget "nextMigros" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EC7A519319C427CA000F5E7C /* Debug */,
+				EC7A519419C427CA000F5E7C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		EC7A519519C427CA000F5E7C /* Build configuration list for PBXNativeTarget "nextMigrosTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EC7A519619C427CA000F5E7C /* Debug */,
+				EC7A519719C427CA000F5E7C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EC7A516B19C427CA000F5E7C /* Project object */;
+}
