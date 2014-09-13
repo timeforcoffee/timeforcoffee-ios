@@ -7,47 +7,48 @@
 //
 
 import Foundation
+import CoreLocation
 
 class APIController {
-
+    
     var delegate: APIControllerProtocol
     
     init(delegate: APIControllerProtocol) {
         self.delegate = delegate
     }
     
-    func searchItunesFor(searchTerm: String) {
-    
-        // The iTunes API wants multiple terms separated by + symbols, so replace spaces with + signs
-        let itunesSearchTerm = searchTerm.stringByReplacingOccurrencesOfString(" ", withString: "+", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
+    func searchFor(coord: CLLocationCoordinate2D) {
         
-        // Now escape anything else that isn't URL-friendly
-        if let escapedSearchTerm = itunesSearchTerm.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding) {
-            let urlPath = "https://itunes.apple.com/search?term=\(escapedSearchTerm)&media=music&entity=album"
-            let url: NSURL = NSURL(string: urlPath)
-            let session = NSURLSession.sharedSession()
-            let task = session.dataTaskWithURL(url, completionHandler: {data, response, error -> Void in
-                println("Task completed")
-                if(error != nil) {
-                    // If there is an error in the web request, print it to the console
-                    println(error.localizedDescription)
-                }
-                var err: NSError?
-                
-                var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &err) as NSDictionary
-                if(err != nil) {
-                    // If there is an error parsing JSON, print it to the console
-                    println("JSON Error \(err!.localizedDescription)")
-                }
-                let results: NSArray = jsonResult["results"] as NSArray
-                self.delegate.didReceiveAPIResults(jsonResult) 
-            })
+        var urlPath = "http://filialen.migros.ch/store/near/%28\(coord.latitude),\(coord.longitude)%29?radius=1&storeTypes=M,MM,MMM&nowOpen=true";
+        
+        println(urlPath);
+        let url: NSURL = NSURL(string: urlPath)
+        let session = NSURLSession.sharedSession()
+        
+        
+        let task = session.dataTaskWithURL(url, completionHandler: {data , response, error -> Void in
+            println("Task completed")
+            if(error != nil) {
+                // If there is an error in the web request, print it to the console
+                println(error.localizedDescription)
+            }
+            var err: NSError?
+            let jsonResult = JSONValue(data)
             
-            task.resume()
-        }
+/*            var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &err) as NSArray
+            if(err != nil) {
+                // If there is an error parsing JSON, print it to the console
+                println("JSON Error \(err!.localizedDescription)")
+            }*/
+            self.delegate.didReceiveAPIResults(jsonResult)
+        })
+
+        
+        task.resume()
+        
     }
 }
 
 protocol APIControllerProtocol {
-    func didReceiveAPIResults(results: NSDictionary)
+    func didReceiveAPIResults(results: JSONValue)
 }

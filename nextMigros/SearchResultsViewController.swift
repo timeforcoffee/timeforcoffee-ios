@@ -7,21 +7,89 @@
 //
 
 import UIKit
+import CoreLocation
 
-class SearchResultsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol {
+class SearchResultsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, CLLocationManagerDelegate {
     @IBOutlet var appsTableView : UITableView?
     var albums = [Album]()
     let kCellIdentifier: String = "SearchResultCell"
     var imageCache = [String : UIImage]()
     var api : APIController?
+    var locationManager : CLLocationManager!
+    var seenError : Bool = false
+    var locationFixAchieved : Bool = false
+    var locationStatus : NSString = "Not Started"
+    var currentLocation: CLLocation?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         api = APIController(delegate: self)
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-        api?.searchItunesFor("Beatles")
+        
+        initLocationManager()
     }
     
+    // Location Manager helper stuff
+    func initLocationManager() {
+        seenError = false
+        locationFixAchieved = false
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        
+        locationManager.requestWhenInUseAuthorization()
+
+    }
+    
+    func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
+        locationManager.stopUpdatingLocation()
+        if ((error) != nil) {
+            if (seenError == false) {
+                seenError = true
+                print(error)
+            }
+        }
+    }
+    
+    
+    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+        if (locationFixAchieved == false) {
+            locationFixAchieved = true
+            var locationArray = locations as NSArray
+            var locationObj = locationArray.lastObject as CLLocation
+            var coord = locationObj.coordinate
+            self.currentLocation = locationObj;
+            api?.searchFor(coord)
+            
+
+        }
+    }
+    
+    // authorization status
+    func locationManager(manager: CLLocationManager!,
+        didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+            var shouldIAllow = false
+            
+            switch status {
+            case CLAuthorizationStatus.Restricted:
+                locationStatus = "Restricted Access to location"
+            case CLAuthorizationStatus.Denied:
+                locationStatus = "User denied access to location"
+            case CLAuthorizationStatus.NotDetermined:
+                locationStatus = "Status not determined"
+            default:
+                locationStatus = "Allowed to location Access"
+                shouldIAllow = true
+            }
+            NSNotificationCenter.defaultCenter().postNotificationName("LabelHasbeenUpdated", object: nil)
+            if (shouldIAllow == true) {
+                NSLog("Location to Allowed")
+                // Start location services
+                locationManager.startUpdatingLocation()
+            } else {
+                NSLog("Denied access: \(locationStatus)")
+            }
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -37,14 +105,16 @@ class SearchResultsViewController: UIViewController, UITableViewDataSource, UITa
         let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as UITableViewCell
         
         let album = self.albums[indexPath.row]
-        cell.textLabel?.text = album.title
+        cell.textLabel?.text = album.name
         cell.imageView?.image = UIImage(named: "Blank52")
+        var distance = Int(currentLocation?.distanceFromLocation(album.coord) as Double!)
+        cell.detailTextLabel?.text = "\(distance) Meter"
         
         // Get the formatted price string for display in the subtitle
-        let formattedPrice = album.price
+//        let formattedPrice = album.price
         
         // Grab the artworkUrl60 key to get an image URL for the app's thumbnail
-        let urlString = album.thumbnailImageURL
+/*        let urlString = album.thumbnailImageURL
         
         // Check our image cache for the existing key. This is just a dictionary of UIImages
         //var image: UIImage? = self.imageCache.valueForKey(urlString) as? UIImage
@@ -82,15 +152,16 @@ class SearchResultsViewController: UIViewController, UITableViewDataSource, UITa
         }
         
         cell.detailTextLabel?.text = formattedPrice
-        
+*/        
         return cell
 
     }
     
-    func didReceiveAPIResults(results: NSDictionary) {
-        var resultsArr: NSArray = results["results"] as NSArray
+    func didReceiveAPIResults(results: JSONValue) {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+
         dispatch_async(dispatch_get_main_queue(), {
-            self.albums = Album.albumsWithJSON(resultsArr)
+            self.albums = Album.albumsWithJSON(results)
             self.appsTableView!.reloadData()
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         })

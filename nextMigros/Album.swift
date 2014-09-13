@@ -7,65 +7,43 @@
 //
 
 import Foundation
+import CoreLocation
 
 class Album {
-    var title: String
-    var price: String
-    var thumbnailImageURL: String
-    var largeImageURL: String
-    var itemURL: String
-    var artistURL: String
+    var name: String
+    var address: String
+    var distance: CLLocationDistance?
+    var coord: CLLocation
     
-    init(name: String, price: String, thumbnailImageURL: String, largeImageURL: String, itemURL: String, artistURL: String) {
-        self.title = name
-        self.price = price
-        self.thumbnailImageURL = thumbnailImageURL
-        self.largeImageURL = largeImageURL
-        self.itemURL = itemURL
-        self.artistURL = artistURL
+    init(name: String, address: String, coord: CLLocation) {
+        self.name = name
+        self.address = address
+        self.coord = coord
     }
-    class func albumsWithJSON(allResults: NSArray) -> [Album] {
+    class func albumsWithJSON(allResults: JSONValue) -> [Album] {
         
         // Create an empty array of Albums to append to from this list
         var albums = [Album]()
-        
         // Store the results in our table data array
-        if allResults.count>0 {
+        if allResults.array?.count>0 {
+            
+            if let results = allResults.array {
+                
+                for result in results {
+                    
+                    var name = result["name"].string
+                    var address = ""
+                    var longitude = result["location"]["longitude"].double
+                    var latitude = result["location"]["latitude"].double
+                    var Clocation = CLLocation(latitude: latitude!, longitude: longitude!)
+         
+                    var newAlbum = Album(name: name!, address: address, coord: Clocation)
+                    albums.append(newAlbum)
+                }
+            }
             
             // Sometimes iTunes returns a collection, not a track, so we check both for the 'name'
-            for result in allResults {
-                
-                var name = result["trackName"] as? String
-                if name == nil {
-                    name = result["collectionName"] as? String
-                }
-                
-                // Sometimes price comes in as formattedPrice, sometimes as collectionPrice.. and sometimes it's a float instead of a string. Hooray!
-                var price = result["formattedPrice"] as? String
-                if price == nil {
-                    price = result["collectionPrice"] as? String
-                    if price == nil {
-                        var priceFloat: Float? = result["collectionPrice"] as? Float
-                        var nf: NSNumberFormatter = NSNumberFormatter()
-                        nf.maximumFractionDigits = 2
-                        if priceFloat != nil {
-                            price = "$"+nf.stringFromNumber(priceFloat!)
-                        }
-                    }
-                }
-                
-                let thumbnailURL = result["artworkUrl60"] as? String ?? ""
-                let imageURL = result["artworkUrl100"] as? String ?? ""
-                let artistURL = result["artistViewUrl"] as? String ?? ""
-                
-                var itemURL = result["collectionViewUrl"] as? String
-                if itemURL == nil {
-                    itemURL = result["trackViewUrl"] as? String
-                }
-                
-                var newAlbum = Album(name: name!, price: price!, thumbnailImageURL: thumbnailURL, largeImageURL: imageURL, itemURL: itemURL!, artistURL: artistURL)
-                albums.append(newAlbum)
-            }
+            
         }
         return albums
     }

@@ -17,6 +17,7 @@
 		EC7A519B19C43E0A000F5E7C /* Blank52.png in Resources */ = {isa = PBXBuildFile; fileRef = EC7A519A19C43E0A000F5E7C /* Blank52.png */; };
 		EC7A519D19C43FED000F5E7C /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A519C19C43FED000F5E7C /* Album.swift */; };
 		EC7A519F19C4432F000F5E7C /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A519E19C4432F000F5E7C /* DetailsViewController.swift */; };
+		ECAC3CD919C4805300D821B0 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECAC3CD819C4805300D821B0 /* SwiftyJSON.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,7 @@
 		EC7A519A19C43E0A000F5E7C /* Blank52.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Blank52.png; sourceTree = "<group>"; };
 		EC7A519C19C43FED000F5E7C /* Album.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
 		EC7A519E19C4432F000F5E7C /* DetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
+		ECAC3CD819C4805300D821B0 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +92,7 @@
 				EC7A517A19C427CA000F5E7C /* SearchResultsViewController.swift */,
 				EC7A517C19C427CA000F5E7C /* Main.storyboard */,
 				EC7A519819C42F9C000F5E7C /* APIController.swift */,
+				ECAC3CD819C4805300D821B0 /* SwiftyJSON.swift */,
 				EC7A519C19C43FED000F5E7C /* Album.swift */,
 				EC7A519E19C4432F000F5E7C /* DetailsViewController.swift */,
 				EC7A517F19C427CA000F5E7C /* Images.xcassets */,
@@ -228,6 +231,7 @@
 				EC7A517B19C427CA000F5E7C /* SearchResultsViewController.swift in Sources */,
 				EC7A517919C427CA000F5E7C /* AppDelegate.swift in Sources */,
 				EC7A519919C42F9C000F5E7C /* APIController.swift in Sources */,
+				ECAC3CD919C4805300D821B0 /* SwiftyJSON.swift in Sources */,
 				EC7A519D19C43FED000F5E7C /* Album.swift in Sources */,
 				EC7A519F19C4432F000F5E7C /* DetailsViewController.swift in Sources */,
 			);
@@ -423,6 +427,7 @@
 				EC7A519419C427CA000F5E7C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		EC7A519519C427CA000F5E7C /* Build configuration list for PBXNativeTarget "nextMigrosTests" */ = {
 			isa = XCConfigurationList;
@@ -431,6 +436,7 @@
 				EC7A519719C427CA000F5E7C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
