@@ -17,17 +17,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yx3-rZ-sZF">
-                                <rect key="frame" x="0.0" y="64" width="100" height="100"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yx3-rZ-sZF">
+                                <rect key="frame" x="0.0" y="64" width="83" height="78"/>
                             </imageView>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="600" placeholderIntrinsicHeight="417" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="agI-At-M3s">
-                                <rect key="frame" x="0.0" y="183" width="600" height="417"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" placeholderIntrinsicWidth="600" placeholderIntrinsicHeight="417" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="agI-At-M3s">
+                                <rect key="frame" x="0.0" y="212" width="600" height="388"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="417" id="3eM-fb-g5P"/>
                                 </constraints>
                             </mapView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IDt-9v-FdX">
-                                <rect key="frame" x="132" y="103" width="366" height="21"/>
+                                <rect key="frame" x="113" y="81" width="366" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R1o-KO-74o">
+                                <rect key="frame" x="113" y="121" width="452" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -36,6 +42,8 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="agI-At-M3s" secondAttribute="trailing" constant="-16" id="0uj-8x-6oz"/>
+                            <constraint firstItem="yx3-rZ-sZF" firstAttribute="leading" secondItem="lLx-SZ-8b0" secondAttribute="leadingMargin" constant="16" id="8fu-zb-f1c"/>
+                            <constraint firstItem="R1o-KO-74o" firstAttribute="top" secondItem="IDt-9v-FdX" secondAttribute="bottom" constant="19" id="Fi5-g5-L4d"/>
                             <constraint firstItem="agI-At-M3s" firstAttribute="leading" secondItem="lLx-SZ-8b0" secondAttribute="leadingMargin" constant="-16" id="LFe-c7-h4W"/>
                             <constraint firstItem="agI-At-M3s" firstAttribute="top" secondItem="IDt-9v-FdX" secondAttribute="bottom" constant="59" id="ikD-Ai-Qr1"/>
                             <constraint firstItem="ezm-ZM-pxg" firstAttribute="top" secondItem="agI-At-M3s" secondAttribute="bottom" id="xuU-h0-wMv"/>
@@ -43,6 +51,7 @@
                     </view>
                     <connections>
                         <outlet property="albumCover" destination="yx3-rZ-sZF" id="g87-qw-2vC"/>
+                        <outlet property="distanceLabel" destination="R1o-KO-74o" id="WOO-iL-fry"/>
                         <outlet property="map" destination="agI-At-M3s" id="X3f-0x-kaI"/>
                         <outlet property="titleLabel" destination="IDt-9v-FdX" id="wSw-wp-Ixc"/>
                     </connections>
