@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A343f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6Gx-yE-V2l">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Details View Controller-->
@@ -17,19 +18,32 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yx3-rZ-sZF">
-                                <rect key="frame" x="16" y="175" width="100" height="100"/>
+                                <rect key="frame" x="0.0" y="64" width="100" height="100"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IDt-9v-FdX">
-                                <rect key="frame" x="217" y="208" width="42" height="21"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="600" placeholderIntrinsicHeight="417" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="agI-At-M3s">
+                                <rect key="frame" x="0.0" y="183" width="600" height="417"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="417" id="3eM-fb-g5P"/>
+                                </constraints>
+                            </mapView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IDt-9v-FdX">
+                                <rect key="frame" x="132" y="103" width="366" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="agI-At-M3s" secondAttribute="trailing" constant="-16" id="0uj-8x-6oz"/>
+                            <constraint firstItem="agI-At-M3s" firstAttribute="leading" secondItem="lLx-SZ-8b0" secondAttribute="leadingMargin" constant="-16" id="LFe-c7-h4W"/>
+                            <constraint firstItem="agI-At-M3s" firstAttribute="top" secondItem="IDt-9v-FdX" secondAttribute="bottom" constant="59" id="ikD-Ai-Qr1"/>
+                            <constraint firstItem="ezm-ZM-pxg" firstAttribute="top" secondItem="agI-At-M3s" secondAttribute="bottom" id="xuU-h0-wMv"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="albumCover" destination="yx3-rZ-sZF" id="g87-qw-2vC"/>
+                        <outlet property="map" destination="agI-At-M3s" id="X3f-0x-kaI"/>
                         <outlet property="titleLabel" destination="IDt-9v-FdX" id="wSw-wp-Ixc"/>
                     </connections>
                 </viewController>

@@ -9,21 +9,26 @@
 import Foundation
 import CoreLocation
 
-class Album {
+class Filiale {
     var name: String
     var address: String
     var distance: CLLocationDistance?
     var coord: CLLocation
+    var type: String
+    var partnerId: String
+    var imageURL: String?
     
-    init(name: String, address: String, coord: CLLocation) {
+    init(name: String, address: String, coord: CLLocation, type: String, partnerId: String) {
         self.name = name
         self.address = address
         self.coord = coord
+        self.type = type
+        self.partnerId = partnerId
     }
-    class func albumsWithJSON(allResults: JSONValue) -> [Album] {
+    class func albumsWithJSON(allResults: JSONValue) -> [Filiale] {
         
         // Create an empty array of Albums to append to from this list
-        var albums = [Album]()
+        var filialen = [Filiale]()
         // Store the results in our table data array
         if allResults.array?.count>0 {
             
@@ -36,16 +41,17 @@ class Album {
                     var longitude = result["location"]["longitude"].double
                     var latitude = result["location"]["latitude"].double
                     var Clocation = CLLocation(latitude: latitude!, longitude: longitude!)
-         
-                    var newAlbum = Album(name: name!, address: address, coord: Clocation)
-                    albums.append(newAlbum)
+                    var type =  result["location"]["type"].string
+                    var partnerId = result["location"]["partnerId"].string
+                    var newFiliale = Filiale(name: name!, address: address, coord: Clocation, type: type!, partnerId: partnerId!)
+                    filialen.append(newFiliale)
                 }
             }
             
             // Sometimes iTunes returns a collection, not a track, so we check both for the 'name'
             
         }
-        return albums
+        return filialen
     }
 }
 

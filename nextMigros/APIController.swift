@@ -19,9 +19,9 @@ class APIController {
     
     func searchFor(coord: CLLocationCoordinate2D) {
         
-        var urlPath = "http://filialen.migros.ch/store/near/%28\(coord.latitude),\(coord.longitude)%29?radius=1&storeTypes=M,MM,MMM&nowOpen=true";
+  //      var urlPath = "http://filialen.migros.ch/store/near/%28\(coord.latitude),\(coord.longitude)%29?radius=5&storeTypes=M,MM,MMM,MIG&nowOpen=true";
+        var urlPath = "http://filialen.migros.ch/store/near/%28\(coord.latitude),\(coord.longitude)%29?radius=5&storeTypes=M,MM,MMM,MIG,VOI&nowOpen=true";
         
-        println(urlPath);
         let url: NSURL = NSURL(string: urlPath)
         let session = NSURLSession.sharedSession()
         

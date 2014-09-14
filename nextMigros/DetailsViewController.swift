@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import MapKit
 
 class DetailsViewController: UIViewController {
   
+    @IBOutlet weak var map: MKMapView!
     @IBOutlet weak var albumCover: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
-    var album: Album?
+    var filiale: Filiale?
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -20,7 +22,23 @@ class DetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        titleLabel.text = self.album?.name
-//        albumCover.image = UIImage(data: NSData(contentsOfURL: NSURL(string: self.album!.largeImageURL)))
+        
+        titleLabel.text = self.filiale?.name
+        
+        var location = self.filiale?.coord.coordinate
+        
+        var region = MKCoordinateRegionMakeWithDistance(location!,1000,1000);
+        
+        map.setRegion(region, animated: true)
+        
+        var annotation = MKPointAnnotation()
+        annotation.setCoordinate(location!)
+        annotation.title = self.filiale?.name
+        annotation.subtitle = self.filiale?.type
+        
+        map.addAnnotation(annotation)
+        if (self.filiale!.imageURL != nil) {
+            albumCover.image = UIImage(data: NSData(contentsOfURL: NSURL(string: self.filiale!.imageURL!)))
+        }
     }
 }

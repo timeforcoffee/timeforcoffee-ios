@@ -11,7 +11,7 @@ import CoreLocation
 
 class SearchResultsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, CLLocationManagerDelegate {
     @IBOutlet var appsTableView : UITableView?
-    var albums = [Album]()
+    var filialen = [Filiale]()
     let kCellIdentifier: String = "SearchResultCell"
     var imageCache = [String : UIImage]()
     var api : APIController?
@@ -96,7 +96,7 @@ class SearchResultsViewController: UIViewController, UITableViewDataSource, UITa
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return albums.count
+        return filialen.count
     }
 
 
@@ -104,55 +104,70 @@ class SearchResultsViewController: UIViewController, UITableViewDataSource, UITa
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as UITableViewCell
         
-        let album = self.albums[indexPath.row]
-        cell.textLabel?.text = album.name
+        let filiale = self.filialen[indexPath.row]
+        cell.textLabel?.text = filiale.name
         cell.imageView?.image = UIImage(named: "Blank52")
-        var distance = Int(currentLocation?.distanceFromLocation(album.coord) as Double!)
+        var distance = Int(currentLocation?.distanceFromLocation(filiale.coord) as Double!)
         cell.detailTextLabel?.text = "\(distance) Meter"
         
         // Get the formatted price string for display in the subtitle
 //        let formattedPrice = album.price
         
         // Grab the artworkUrl60 key to get an image URL for the app's thumbnail
-/*        let urlString = album.thumbnailImageURL
-        
-        // Check our image cache for the existing key. This is just a dictionary of UIImages
-        //var image: UIImage? = self.imageCache.valueForKey(urlString) as? UIImage
-        var image = self.imageCache[urlString]
-        
-        
-        if( image == nil ) {
-            // If the image does not exist, we need to download it
-            var imgURL: NSURL = NSURL(string: urlString)
+        var urlString: String?
+        switch filiale.type {
+        case "MIG":
+            urlString = "http://filialen.migros.ch/images/logos_2/de/migrolino.png"
+        case "MMM":
+            urlString = "http://filialen.migros.ch/images/migros/marker-mmm.png"
+        case "MM":
+            urlString = "http://filialen.migros.ch/images/migros/marker-mm.png"
+        case "M":
+            urlString = "http://filialen.migros.ch/images/migros/marker-m.png"
+        case "VOI":
+            urlString = "http://filialen.migros.ch/images/logos_2/de/voi.png"
+        default:
+            urlString = nil
+        }
+        if (urlString != nil) {
+            // Check our image cache for the existing key. This is just a dictionary of UIImages
+            //var image: UIImage? = self.imageCache.valueForKey(urlString) as? UIImage
+            var image = self.imageCache[urlString!]
+            filiale.imageURL = urlString
             
-            // Download an NSData representation of the image at the URL
-            let request: NSURLRequest = NSURLRequest(URL: imgURL)
-            NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler: {(response: NSURLResponse!,data: NSData!,error: NSError!) -> Void in
-                if error == nil {
-                    image = UIImage(data: data)
-                    
-                    // Store the image in to our cache
-                    self.imageCache[urlString] = image
+            if( image == nil ) {
+                // If the image does not exist, we need to download it
+                var imgURL: NSURL = NSURL(string: urlString!)
+                
+                // Download an NSData representation of the image at the URL
+                let request: NSURLRequest = NSURLRequest(URL: imgURL)
+                NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler: {(response: NSURLResponse!,data: NSData!,error: NSError!) -> Void in
+                    if error == nil {
+                        image = UIImage(data: data)
+                        
+                        // Store the image in to our cache
+                        self.imageCache[urlString!] = image
+                        if let cellToUpdate = tableView.cellForRowAtIndexPath(indexPath) {
+                            cellToUpdate.imageView?.image = image
+                        }
+                    }
+                    else {
+                        println("Error: \(error.localizedDescription)")
+                    }
+                })
+                
+            }
+            else {
+                dispatch_async(dispatch_get_main_queue(), {
                     if let cellToUpdate = tableView.cellForRowAtIndexPath(indexPath) {
                         cellToUpdate.imageView?.image = image
                     }
-                }
-                else {
-                    println("Error: \(error.localizedDescription)")
-                }
-            })
-            
-        }
-        else {
-            dispatch_async(dispatch_get_main_queue(), {
-                if let cellToUpdate = tableView.cellForRowAtIndexPath(indexPath) {
-                    cellToUpdate.imageView?.image = image
-                }
-            })
+                })
+            }
         }
         
-        cell.detailTextLabel?.text = formattedPrice
-*/        
+//        cell.detailTextLabel?.text = formattedPrice
+
         return cell
 
     }
@@ -161,7 +176,7 @@ class SearchResultsViewController: UIViewController, UITableViewDataSource, UITa
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
 
         dispatch_async(dispatch_get_main_queue(), {
-            self.albums = Album.albumsWithJSON(results)
+            self.filialen = Filiale.albumsWithJSON(results)
             self.appsTableView!.reloadData()
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         })
@@ -171,8 +186,8 @@ class SearchResultsViewController: UIViewController, UITableViewDataSource, UITa
         var detailsViewController: DetailsViewController = segue.destinationViewController as DetailsViewController
         var albumIndex = appsTableView?.indexPathForSelectedRow()?.row
 //        var albumIndex = appsTableView!.indexPathForSelectedRow().row
-        var selectedAlbum = self.albums[albumIndex!]
-        detailsViewController.album = selectedAlbum
+        var selectedAlbum = self.filialen[albumIndex!]
+        detailsViewController.filiale = selectedAlbum
     }
 
     
