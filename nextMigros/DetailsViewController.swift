@@ -74,12 +74,9 @@ class DetailsViewController: UIViewController, MKMapViewDelegate {
                 for r in response.routes { println("route = \(r)") }
                 var route: MKRoute = response.routes[0] as MKRoute;
                 
-       //         self.map.removeOverlay(self.map.overlays)
-                
                 self.map.addOverlay(route.polyline)
                 self.map.setVisibleMapRect(route.polyline.boundingMapRect, edgePadding: UIEdgeInsets(top: 30.0, left: 30.0, bottom: 30.0, right: 30.0), animated: true)
 
-//                self.map.insertOverlay(route.polyline!, atIndex: 0, level: MKOverlayLevel.AboveRoads)
                 
                 var time =  Int(round(route.expectedTravelTime / 60))
                 var meters = Int(route.distance);
