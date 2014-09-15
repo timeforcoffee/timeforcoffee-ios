@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+import MapKit
 
 class SearchResultsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, CLLocationManagerDelegate {
     @IBOutlet var appsTableView : UITableView?
@@ -162,7 +163,9 @@ class SearchResultsViewController: UIViewController, UITableViewDataSource, UITa
                         // Store the image in to our cache
                         self.imageCache[urlString!] = image
                         if let cellToUpdate = tableView.cellForRowAtIndexPath(indexPath) {
+                           
                             cellToUpdate.imageView?.image = image
+                            self.fixWidthImage(cellToUpdate)
                         }
                     }
                     else {
@@ -175,15 +178,63 @@ class SearchResultsViewController: UIViewController, UITableViewDataSource, UITa
                 dispatch_async(dispatch_get_main_queue(), {
                     if let cellToUpdate = tableView.cellForRowAtIndexPath(indexPath) {
                         cellToUpdate.imageView?.image = image
+                        self.fixWidthImage(cellToUpdate)
                     }
                 })
             }
         }
         
+        // calculate exact distance
+        let currentCoordinate = currentLocation?.coordinate
+        var sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
+        
+        var destinationPlacemark:MKPlacemark = MKPlacemark(coordinate: filiale.coord.coordinate, addressDictionary: nil)
+        var source:MKMapItem = MKMapItem(placemark: sourcePlacemark)
+        var destination:MKMapItem = MKMapItem(placemark: destinationPlacemark)
+        var directionRequest:MKDirectionsRequest = MKDirectionsRequest()
+        
+        directionRequest.setSource(source)
+        directionRequest.setDestination(destination)
+        directionRequest.transportType = MKDirectionsTransportType.Walking
+        directionRequest.requestsAlternateRoutes = true
+        
+        var directions:MKDirections = MKDirections(request: directionRequest)
+        directions.calculateDirectionsWithCompletionHandler({
+            (response: MKDirectionsResponse!, error: NSError?) in
+            if error != nil{
+                println("Error")
+            }
+            if response != nil{
+                println("number of routes = \(response.routes.count)")
+                for r in response.routes { println("route = \(r)") }
+                var route: MKRoute = response.routes[0] as MKRoute;
+                
+                
+                var time =  Int(round(route.expectedTravelTime / 60))
+                var meters = Int(route.distance);
+                cell.detailTextLabel?.text = "\(time) min, \(meters) m"
+                println(route.expectedTravelTime / 60)
+            }
+            else{
+                println("No response")
+            }
+            println(error?.description)
+        })
+
+        
 //        cell.detailTextLabel?.text = formattedPrice
 
         return cell
 
+    }
+    
+    func fixWidthImage(cell: UITableViewCell) {
+        let itemSize = CGSizeMake(52, 52);
+        UIGraphicsBeginImageContextWithOptions(itemSize, false, UIScreen.mainScreen().scale);
+        let imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
+        cell.imageView?.image?.drawInRect(imageRect)
+        cell.imageView?.image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
     }
     
     func didReceiveAPIResults(results: JSONValue) {
