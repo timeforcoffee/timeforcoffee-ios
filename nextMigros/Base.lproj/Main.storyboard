@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A343f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6Gx-yE-V2l">
     <dependencies>
+        <deployment defaultVersion="1808" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -17,23 +18,24 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yx3-rZ-sZF">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yx3-rZ-sZF">
                                 <rect key="frame" x="0.0" y="64" width="83" height="78"/>
                             </imageView>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" placeholderIntrinsicWidth="600" placeholderIntrinsicHeight="417" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="agI-At-M3s">
-                                <rect key="frame" x="0.0" y="212" width="600" height="388"/>
+                                <rect key="frame" x="0.0" y="158" width="600" height="442"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="417" id="3eM-fb-g5P"/>
+                                    <constraint firstAttribute="width" constant="600" id="cbE-fr-FkL"/>
                                 </constraints>
                             </mapView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IDt-9v-FdX">
-                                <rect key="frame" x="113" y="81" width="366" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IDt-9v-FdX">
+                                <rect key="frame" x="113" y="81" width="487" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R1o-KO-74o">
-                                <rect key="frame" x="113" y="121" width="452" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R1o-KO-74o">
+                                <rect key="frame" x="113" y="121" width="487" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -41,12 +43,19 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="agI-At-M3s" secondAttribute="trailing" constant="-16" id="0uj-8x-6oz"/>
-                            <constraint firstItem="yx3-rZ-sZF" firstAttribute="leading" secondItem="lLx-SZ-8b0" secondAttribute="leadingMargin" constant="16" id="8fu-zb-f1c"/>
-                            <constraint firstItem="R1o-KO-74o" firstAttribute="top" secondItem="IDt-9v-FdX" secondAttribute="bottom" constant="19" id="Fi5-g5-L4d"/>
-                            <constraint firstItem="agI-At-M3s" firstAttribute="leading" secondItem="lLx-SZ-8b0" secondAttribute="leadingMargin" constant="-16" id="LFe-c7-h4W"/>
-                            <constraint firstItem="agI-At-M3s" firstAttribute="top" secondItem="IDt-9v-FdX" secondAttribute="bottom" constant="59" id="ikD-Ai-Qr1"/>
-                            <constraint firstItem="ezm-ZM-pxg" firstAttribute="top" secondItem="agI-At-M3s" secondAttribute="bottom" id="xuU-h0-wMv"/>
+                            <constraint firstItem="IDt-9v-FdX" firstAttribute="leading" secondItem="yx3-rZ-sZF" secondAttribute="trailing" constant="30" id="8uQ-jM-JYJ"/>
+                            <constraint firstItem="yx3-rZ-sZF" firstAttribute="leading" secondItem="lLx-SZ-8b0" secondAttribute="leadingMargin" constant="-16" id="91o-vF-WDD"/>
+                            <constraint firstItem="agI-At-M3s" firstAttribute="top" secondItem="yx3-rZ-sZF" secondAttribute="bottom" constant="16" id="GcI-En-ejr"/>
+                            <constraint firstItem="IDt-9v-FdX" firstAttribute="top" secondItem="6ip-UY-XAt" secondAttribute="bottom" constant="17" id="H9Z-0Z-SjF"/>
+                            <constraint firstItem="ezm-ZM-pxg" firstAttribute="top" secondItem="agI-At-M3s" secondAttribute="bottom" id="HCW-Ad-aoM"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="R1o-KO-74o" secondAttribute="trailing" constant="-16" id="aZ4-X9-2bV"/>
+                            <constraint firstAttribute="centerY" secondItem="agI-At-M3s" secondAttribute="centerY" constant="-79" id="acF-Js-lS9"/>
+                            <constraint firstAttribute="width" secondItem="agI-At-M3s" secondAttribute="width" id="flG-7F-Xxb"/>
+                            <constraint firstItem="R1o-KO-74o" firstAttribute="top" secondItem="IDt-9v-FdX" secondAttribute="bottom" constant="19" id="kg5-49-UEF"/>
+                            <constraint firstItem="yx3-rZ-sZF" firstAttribute="top" secondItem="6ip-UY-XAt" secondAttribute="bottom" id="pH2-1a-91F"/>
+                            <constraint firstItem="R1o-KO-74o" firstAttribute="leading" secondItem="yx3-rZ-sZF" secondAttribute="trailing" constant="30" id="s1g-6c-gje"/>
+                            <constraint firstAttribute="centerX" secondItem="agI-At-M3s" secondAttribute="centerX" id="so4-Oj-kaw"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="IDt-9v-FdX" secondAttribute="trailing" constant="-16" id="tU2-pc-pW6"/>
                         </constraints>
                     </view>
                     <connections>
@@ -60,7 +69,7 @@
             </objects>
             <point key="canvasLocation" x="1724" y="297"/>
         </scene>
-        <!--Search Results View Controller-->
+        <!--Where's the next Migros?-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="SearchResultsViewController" customModule="nextMigros" customModuleProvider="target" sceneMemberID="viewController">
@@ -73,7 +82,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleAspectFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="1sI-wO-cFy">
-                                <rect key="frame" x="0.0" y="20" width="600" height="586"/>
+                                <rect key="frame" x="0.0" y="7" width="600" height="586"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SearchResultCell" textLabel="atf-fg-TgK" detailTextLabel="Lt7-NW-HPW" style="IBUITableViewCellStyleSubtitle" id="DsA-Wp-8pW">
@@ -109,25 +118,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="1sI-wO-cFy" secondAttribute="trailing" constant="16" id="H6f-HS-4nP"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="1sI-wO-cFy" secondAttribute="trailing" id="S1t-zW-Sk4"/>
-                            <constraint firstItem="1sI-wO-cFy" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="by8-Ws-96O"/>
-                            <constraint firstItem="1sI-wO-cFy" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="dr2-t0-3af"/>
-                            <constraint firstItem="1sI-wO-cFy" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="16" id="sLl-Xh-0Bz"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="1sI-wO-cFy" secondAttribute="trailing" id="yY0-Nf-WAs"/>
+                            <constraint firstAttribute="centerX" secondItem="1sI-wO-cFy" secondAttribute="centerX" id="KC5-kD-Mwq"/>
+                            <constraint firstItem="1sI-wO-cFy" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="Pdw-5X-l8i"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="1sI-wO-cFy" secondAttribute="trailing" constant="-16" id="bdm-30-7ng"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="H6f-HS-4nP"/>
-                                <exclude reference="S1t-zW-Sk4"/>
-                                <exclude reference="by8-Ws-96O"/>
-                                <exclude reference="dr2-t0-3af"/>
-                                <exclude reference="sLl-Xh-0Bz"/>
-                                <exclude reference="yY0-Nf-WAs"/>
-                            </mask>
-                        </variation>
                     </view>
-                    <navigationItem key="navigationItem" id="QUA-Va-TaC"/>
+                    <navigationItem key="navigationItem" title="Where's the next Migros?" id="QUA-Va-TaC"/>
                     <connections>
                         <outlet property="appsTableView" destination="1sI-wO-cFy" id="tdf-3C-dK6"/>
                     </connections>
