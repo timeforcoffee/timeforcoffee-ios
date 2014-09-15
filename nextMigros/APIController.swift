@@ -25,7 +25,7 @@ class APIController {
         let url: NSURL = NSURL(string: urlPath)
         let session = NSURLSession.sharedSession()
         
-        
+        println("Start fetching data")
         let task = session.dataTaskWithURL(url, completionHandler: {data , response, error -> Void in
             println("Task completed")
             if(error != nil) {

@@ -20,29 +20,45 @@ class SearchResultsViewController: UIViewController, UITableViewDataSource, UITa
     var locationFixAchieved : Bool = false
     var locationStatus : NSString = "Not Started"
     var currentLocation: CLLocation?
+    var refreshControl:UIRefreshControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         api = APIController(delegate: self)
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-        
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refersh")
+        self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+        self.appsTableView?.addSubview(refreshControl)
         initLocationManager()
+    }
+    
+    func refresh(sender:AnyObject)
+    {
+        // Code to refresh table view
+        println("REFRESH")
+        locationFixAchieved = false
+        self.locationManager.startUpdatingLocation()
+
+
     }
     
     // Location Manager helper stuff
     func initLocationManager() {
         seenError = false
         locationFixAchieved = false
-        locationManager = CLLocationManager()
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        self.locationManager = CLLocationManager()
+        self.locationManager.delegate = self
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
         
-        locationManager.requestWhenInUseAuthorization()
+        self.locationManager.requestWhenInUseAuthorization()
+        self.locationManager.startUpdatingLocation()
+
 
     }
     
     func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
-        locationManager.stopUpdatingLocation()
+        self.locationManager.stopUpdatingLocation()
         if ((error) != nil) {
             if (seenError == false) {
                 seenError = true
@@ -51,7 +67,6 @@ class SearchResultsViewController: UIViewController, UITableViewDataSource, UITa
         }
     }
     
-    
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
         if (locationFixAchieved == false) {
             locationFixAchieved = true
@@ -59,9 +74,8 @@ class SearchResultsViewController: UIViewController, UITableViewDataSource, UITa
             var locationObj = locationArray.lastObject as CLLocation
             var coord = locationObj.coordinate
             self.currentLocation = locationObj;
-            api?.searchFor(coord)
-            
-
+            self.api?.searchFor(coord)
+            self.locationManager.stopUpdatingLocation()
         }
     }
     
@@ -174,6 +188,7 @@ class SearchResultsViewController: UIViewController, UITableViewDataSource, UITa
     
     func didReceiveAPIResults(results: JSONValue) {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        self.refreshControl.endRefreshing()
 
         dispatch_async(dispatch_get_main_queue(), {
             self.filialen = Filiale.albumsWithJSON(results)
