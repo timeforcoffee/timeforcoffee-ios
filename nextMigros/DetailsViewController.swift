@@ -18,6 +18,8 @@ class DetailsViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var distanceLabel: UILabel!
     
     var filiale: Filiale?
+    var sourceMapItem: MKMapItem?
+    var destinationMapItem: MKMapItem?
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -45,6 +47,12 @@ class DetailsViewController: UIViewController, MKMapViewDelegate {
         if (self.filiale!.imageURL != nil) {
             albumCover.image = UIImage(data: NSData(contentsOfURL: NSURL(string: self.filiale!.imageURL!)))
         }
+        var singleTap = UITapGestureRecognizer(target: self, action: "imageTapped:")
+        singleTap.numberOfTapsRequired = 1
+        singleTap.numberOfTouchesRequired = 1
+        self.albumCover.addGestureRecognizer(singleTap)
+        self.albumCover.userInteractionEnabled = true
+        
         
         var numberOfViewControllers = self.navigationController?.viewControllers.count
         var beforeController: SearchResultsViewController? = self.navigationController?.viewControllers[(numberOfViewControllers!-2) ] as? SearchResultsViewController
@@ -54,12 +62,12 @@ class DetailsViewController: UIViewController, MKMapViewDelegate {
         var sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
         
         var destinationPlacemark:MKPlacemark = MKPlacemark(coordinate: location!, addressDictionary: nil)
-        var source:MKMapItem = MKMapItem(placemark: sourcePlacemark)
-        var destination:MKMapItem = MKMapItem(placemark: destinationPlacemark)
+        self.sourceMapItem = MKMapItem(placemark: sourcePlacemark)
+        self.destinationMapItem = MKMapItem(placemark: destinationPlacemark)
         var directionRequest:MKDirectionsRequest = MKDirectionsRequest()
         
-        directionRequest.setSource(source)
-        directionRequest.setDestination(destination)
+        directionRequest.setSource(self.sourceMapItem)
+        directionRequest.setDestination(self.destinationMapItem)
         directionRequest.transportType = MKDirectionsTransportType.Walking
         directionRequest.requestsAlternateRoutes = true
         
@@ -101,5 +109,10 @@ class DetailsViewController: UIViewController, MKMapViewDelegate {
             return polylineRenderer
         }
         return nil
+    }
+    func imageTapped(gestureRecognizer:UIGestureRecognizer) {
+        let items = [self.destinationMapItem!];
+        let foo = [MKLaunchOptionsDirectionsModeKey:  MKLaunchOptionsDirectionsModeWalking]
+        MKMapItem.openMapsWithItems(items, launchOptions: foo)
     }
 }
