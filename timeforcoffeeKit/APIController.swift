@@ -9,28 +9,28 @@
 import Foundation
 import CoreLocation
 
-class APIController {
+public class APIController {
     
     var delegate: APIControllerProtocol
     
-    init(delegate: APIControllerProtocol) {
+    public init(delegate: APIControllerProtocol) {
         self.delegate = delegate
     }
     
-    func searchFor(coord: CLLocationCoordinate2D) {
+    public func searchFor(coord: CLLocationCoordinate2D) {
         
   //      var urlPath = "http://filialen.migros.ch/store/near/%28\(coord.latitude),\(coord.longitude)%29?radius=5&storeTypes=M,MM,MMM,MIG&nowOpen=true";
         var urlPath = "http://transport.opendata.ch/v1/locations?x=\(coord.latitude)&y=\(coord.longitude)";
        self.fetchUrl(urlPath)
     }
     
-    func getDepartures(id: String!) {
+    public func getDepartures(id: String!) {
         var urlPath = "http://www.timeforcoffee.ch/api/stationboard/\(id)"
         self.fetchUrl(urlPath)
         
     }
     
-    func fetchUrl(urlPath: String) {
+    public func fetchUrl(urlPath: String) {
         let url: NSURL = NSURL(string: urlPath)!
         let session = NSURLSession.sharedSession()
         println("Start fetching data \(urlPath)")
@@ -56,6 +56,6 @@ class APIController {
     }
 }
 
-protocol APIControllerProtocol {
+public protocol APIControllerProtocol {
     func didReceiveAPIResults(results: JSONValue)
 }

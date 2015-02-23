@@ -9,12 +9,12 @@
 import Foundation
 import CoreLocation
 
-class Station {
-    var name: String?
-    var coord: CLLocation
-    var imageURL: String?
-    var st_id: String?
-    var distance: CLLocationDistance?
+public class Station {
+    public var name: String?
+    public var coord: CLLocation
+    public var imageURL: String?
+    public var st_id: String?
+    public var distance: CLLocationDistance?
 
     init(name: String, id: String, coord: CLLocation?) {
         self.name = name
@@ -22,7 +22,7 @@ class Station {
         self.coord = coord!
     }
     
-    class func withJSON(allResults: JSONValue) -> [Station] {
+    public class func withJSON(allResults: JSONValue) -> [Station] {
         
         // Create an empty array of Albums to append to from this list
         var stations = [Station]()

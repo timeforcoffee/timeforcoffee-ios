@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import timeforcoffeeKit
 
 class DetailsViewController: UIViewController, MKMapViewDelegate {
   

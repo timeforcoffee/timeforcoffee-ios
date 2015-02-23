@@ -8,13 +8,13 @@
 
 import Foundation
 
-class Departure {
-    var name: String
-    var type: String
-    var accessible: Bool?
-    var to: String
-    var scheduled: NSDate?
-    var realtime: NSDate?
+public class Departure {
+    public var name: String
+    public var type: String
+    public var accessible: Bool?
+    public var to: String
+    public var scheduled: NSDate?
+    public var realtime: NSDate?
 
     init(name: String, type: String, accessible: Bool?, to: String, scheduled: NSDate?, realtime: NSDate? ) {
         self.name = name
@@ -25,7 +25,7 @@ class Departure {
         self.realtime = realtime
         
     }
-    class func withJSON(allResults: JSONValue) -> [Departure] {
+    public class func withJSON(allResults: JSONValue) -> [Departure] {
         
         // Create an empty array of Albums to append to from this list
         var departures = [Departure]()

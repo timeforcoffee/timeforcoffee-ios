@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0600"
+   LastUpgradeVersion = "0610"
+   wasCreatedForAppExtension = "YES"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,23 +15,23 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "EC7A517219C427CA000F5E7C"
-               BuildableName = "timeforcoffee.app"
-               BlueprintName = "timeforcoffee"
+               BlueprintIdentifier = "EC6EDCEE1A9B9F390098CAE0"
+               BuildableName = "timeforcoffee Widget.appex"
+               BlueprintName = "timeforcoffee Widget"
                ReferencedContainer = "container:timeforcoffee.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
             buildForTesting = "YES"
             buildForRunning = "YES"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "EC7A518719C427CA000F5E7C"
-               BuildableName = "timeforcoffeeTests.xctest"
-               BlueprintName = "timeforcoffeeTests"
+               BlueprintIdentifier = "EC7A517219C427CA000F5E7C"
+               BuildableName = "timeforcoffee.app"
+               BlueprintName = "timeforcoffee"
                ReferencedContainer = "container:timeforcoffee.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -60,21 +61,6 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "EC7A518719C427CA000F5E7C"
-               BuildableName = "timeforcoffeeTests.xctest"
-               BlueprintName = "timeforcoffeeTests"
-               ReferencedContainer = "container:timeforcoffee.xcodeproj">
-            </BuildableReference>
-            <SkippedTests>
-               <Test
-                  Identifier = "nextMigrosTests">
-               </Test>
-            </SkippedTests>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "EC6EDD111A9BA33B0098CAE0"
                BuildableName = "timeforcoffeeKitTests.xctest"
                BlueprintName = "timeforcoffeeKitTests"
@@ -93,15 +79,20 @@
       </MacroExpansion>
    </TestAction>
    <LaunchAction
-      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
-      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      selectedDebuggerIdentifier = ""
+      selectedLauncherIdentifier = "Xcode.IDEFoundation.Launcher.PosixSpawn"
       launchStyle = "0"
+      askForAppToLaunch = "Yes"
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Debug"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable>
+      <IDERemoteRunnable
+         RemotePath = "/Today-View"
+         BundleIdentifier = "/Today-View">
+      </IDERemoteRunnable>
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "EC7A517219C427CA000F5E7C"
@@ -109,7 +100,7 @@
             BlueprintName = "timeforcoffee"
             ReferencedContainer = "container:timeforcoffee.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -118,7 +109,8 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"
-      debugDocumentVersioning = "YES">
+      debugDocumentVersioning = "YES"
+      askForAppToLaunch = "Yes">
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"

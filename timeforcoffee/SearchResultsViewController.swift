@@ -9,6 +9,7 @@
 import UIKit
 import CoreLocation
 import MapKit
+import timeforcoffeeKit
 
 class SearchResultsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, CLLocationManagerDelegate {
     @IBOutlet var appsTableView : UITableView?
