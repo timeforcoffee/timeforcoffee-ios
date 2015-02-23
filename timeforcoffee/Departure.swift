@@ -43,15 +43,12 @@ class Departure {
                     var realtimeStr = result["departure"]["realtime"].string
                     var scheduled: NSDate?
                     var realtime: NSDate?
-                    println("+++ \(scheduledStr)")
                     if (scheduledStr != nil) {
                         scheduled = self.parseDate(scheduledStr!);
                     } else {
                         scheduled = nil
                     }
                     
-                    println(scheduled)
-                    println("--_")
                     if (realtimeStr != nil) {
                         realtime = self.parseDate(realtimeStr!);
                     } else {

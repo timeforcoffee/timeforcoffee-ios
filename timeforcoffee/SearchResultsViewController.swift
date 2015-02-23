@@ -118,7 +118,7 @@ class SearchResultsViewController: UIViewController, UITableViewDataSource, UITa
         
         let station = self.stations[indexPath.row]
         cell.textLabel?.text = station.name
-        cell.imageView?.image = UIImage(named: "Blank52")
+        //cell.imageView?.image = UIImage(named: "Blank52")
         var distance = Int(currentLocation?.distanceFromLocation(station.coord) as Double!)
         cell.detailTextLabel?.text = "\(distance) Meter"
         
@@ -126,7 +126,7 @@ class SearchResultsViewController: UIViewController, UITableViewDataSource, UITa
 //        let formattedPrice = album.price
         
         // Grab the artworkUrl60 key to get an image URL for the app's thumbnail
-        var urlString: String?
+        /*var urlString: String?
         urlString = nil
         if (urlString != nil) {
             // Check our image cache for the existing key. This is just a dictionary of UIImages
@@ -167,7 +167,7 @@ class SearchResultsViewController: UIViewController, UITableViewDataSource, UITa
                 })
             }
         }
-        
+        */
         // calculate exact distance
         let currentCoordinate = currentLocation?.coordinate
         var sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
