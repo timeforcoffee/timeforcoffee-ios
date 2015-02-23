@@ -11,15 +11,13 @@ import CoreLocation
 
 class Station {
     var name: String
-    var distanceCalc: CLLocationDistance?
     var coord: CLLocation
-    var distance: Double?
     var imageURL: String?
+    var distance: CLLocationDistance?
 
-    init(name: String,  coord: CLLocation?, distance: Double?) {
+    init(name: String,  coord: CLLocation?) {
         self.name = name
         self.coord = coord!
-        self.distance = distance
     }
     class func stationsWithJSON(allResults: JSONValue) -> [Station] {
         
@@ -33,13 +31,10 @@ class Station {
                 for result in results {
                     var name = result["name"].string
                     println(name);
-                    var longitude = result["coordinate"]["x"].double
-                    var latitude = result["coordinate"]["y"].double
+                    var longitude = result["coordinate"]["y"].double
+                    var latitude = result["coordinate"]["x"].double
                     var Clocation = CLLocation(latitude: latitude!, longitude: longitude!)
-                    println(Clocation)
-                    var distance =  result["distance"].double
-                    println(distance);
-                    var newStation = Station(name: name!, coord: Clocation, distance: distance)
+                    var newStation = Station(name: name!, coord: Clocation)
                     stations.append(newStation)
                 }
             }
