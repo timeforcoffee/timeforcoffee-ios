@@ -11,8 +11,8 @@ import NotificationCenter
 import CoreLocation
 import timeforcoffeeKit
 
-class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManagerDelegate,  UITableViewDataSource, UITableViewDelegate, APIControllerProtocol {
-    @IBOutlet weak var helloWorld: UILabel!
+class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManagerDelegate,  UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, UIGestureRecognizerDelegate {
+    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var appsTableView: UITableView!
     let kCellIdentifier: String = "SearchResultCellWidget"
 
@@ -27,17 +27,24 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
    
     override func viewDidLoad() {
         super.viewDidLoad()
-        helloWorld.text = "Did Load"
+        titleLabel.text = "Did Load"
         api = APIController(delegate: self)
-
+        titleLabel.userInteractionEnabled = true;
+        let tapGesture  = UITapGestureRecognizer(target: self, action: "handleTap:")
+        titleLabel.addGestureRecognizer(tapGesture)
         // Do any additional setup after loading the view from its nib.
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        helloWorld.text = "Did Appear"
+        titleLabel.text = "Did Appear"
         initLocationManager()
         
+    }
+    
+    func handleTap(recognizer: UITapGestureRecognizer) {
+        let url: NSURL = NSURL(string: "timeforcoffee://home")!
+        self.extensionContext?.openURL(url, completionHandler: nil);
     }
     
     func initLocationManager() {
@@ -70,7 +77,7 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
             var locationArray = locations as NSArray
             var locationObj = locationArray.lastObject as CLLocation
             var coord = locationObj.coordinate
-            helloWorld.text = "coordinate received"
+            titleLabel.text = "coordinate received"
             self.currentLocation = locationObj;
             self.api?.searchFor(coord)
             self.locationManager.stopUpdatingLocation()
@@ -138,13 +145,25 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
         dispatch_async(dispatch_get_main_queue(), {
             if (Station.isStations(results)) {
                 self.stations = Station.withJSON(results)
-                self.helloWorld.text = self.stations[0].name
+                self.titleLabel.text = self.stations[0].name
                 self.api?.getDepartures(self.stations[0].st_id)
             } else {
                 self.departures = Departure.withJSON(results)
                 self.appsTableView!.reloadData()
             }
         })
+    }
+    
+    func widgetMarginInsetsForProposedMarginInsets(defaultMarginInsets: UIEdgeInsets) -> UIEdgeInsets
+    {
+        var newMargins = defaultMarginInsets
+        newMargins.right = 0
+        newMargins.bottom = 5
+        return newMargins
+    }
+    
+    @IBAction func buttonPressed()  {
+        NSLog("Button Pressed")
     }
     
 }

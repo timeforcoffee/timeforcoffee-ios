@@ -4,6 +4,17 @@
 <dict>
 	<key>NSLocationUsageDescription</key>
 	<string>We need that</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>ch.liip.timeforcoffee</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>timeforcoffee</string>
+			</array>
+		</dict>
+	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>When in use</string>
 	<key>CFBundleDevelopmentRegion</key>

@@ -64,7 +64,7 @@
                     <size key="freeformSize" width="320" height="350"/>
                     <connections>
                         <outlet property="appsTableView" destination="5hh-Zj-fgy" id="f0J-ac-m4h"/>
-                        <outlet property="helloWorld" destination="GcN-lo-r42" id="Urz-6N-rPE"/>
+                        <outlet property="titleLabel" destination="GcN-lo-r42" id="VSW-84-JZL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vXp-U4-Rya" userLabel="First Responder" sceneMemberID="firstResponder"/>
