@@ -42,9 +42,23 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "EC6EDD111A9BA33B0098CAE0"
+               BlueprintIdentifier = "EC6EDD361A9BA36F0098CAE0"
                BuildableName = "timeforcoffeeKitTests.xctest"
                BlueprintName = "timeforcoffeeKitTests"
+               ReferencedContainer = "container:timeforcoffee.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "EC6EDD6F1A9BAB630098CAE0"
+               BuildableName = "testFWTests.xctest"
+               BlueprintName = "testFWTests"
                ReferencedContainer = "container:timeforcoffee.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -75,9 +89,19 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "EC6EDD111A9BA33B0098CAE0"
+               BlueprintIdentifier = "EC6EDD361A9BA36F0098CAE0"
                BuildableName = "timeforcoffeeKitTests.xctest"
                BlueprintName = "timeforcoffeeKitTests"
+               ReferencedContainer = "container:timeforcoffee.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "EC6EDD6F1A9BAB630098CAE0"
+               BuildableName = "testFWTests.xctest"
+               BlueprintName = "testFWTests"
                ReferencedContainer = "container:timeforcoffee.xcodeproj">
             </BuildableReference>
          </TestableReference>

@@ -21,7 +21,6 @@
 		EC6EDD4F1A9BA4820098CAE0 /* Station.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDD4D1A9BA4820098CAE0 /* Station.swift */; };
 		EC6EDD511A9BA5080098CAE0 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDD501A9BA5080098CAE0 /* SwiftyJSON.swift */; };
 		EC6EDD541A9BA79B0098CAE0 /* APIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDD531A9BA79B0098CAE0 /* APIController.swift */; };
-		EC6EDD601A9BAB1A0098CAE0 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EC6EDD5B1A9BA9C20098CAE0 /* Info.plist */; };
 		EC7A517919C427CA000F5E7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A517819C427CA000F5E7C /* AppDelegate.swift */; };
 		EC7A517B19C427CA000F5E7C /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A517A19C427CA000F5E7C /* SearchResultsViewController.swift */; };
 		EC7A517E19C427CA000F5E7C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC7A517C19C427CA000F5E7C /* Main.storyboard */; };
@@ -30,6 +29,7 @@
 		EC7A518F19C427CA000F5E7C /* nextMigrosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A518E19C427CA000F5E7C /* nextMigrosTests.swift */; };
 		EC7A519B19C43E0A000F5E7C /* Blank52.png in Resources */ = {isa = PBXBuildFile; fileRef = EC7A519A19C43E0A000F5E7C /* Blank52.png */; };
 		EC7A519F19C4432F000F5E7C /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A519E19C4432F000F5E7C /* DetailsViewController.swift */; };
+		ECD871951A9BAE18003CCCB3 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ECD871941A9BAE18003CCCB3 /* Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,7 +113,6 @@
 		EC6EDD4D1A9BA4820098CAE0 /* Station.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Station.swift; sourceTree = "<group>"; };
 		EC6EDD501A9BA5080098CAE0 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		EC6EDD531A9BA79B0098CAE0 /* APIController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIController.swift; sourceTree = "<group>"; };
-		EC6EDD5B1A9BA9C20098CAE0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; name = Info.plist; path = timeforcoffeeKit/Info.plist; sourceTree = "<group>"; };
 		EC7A517319C427CA000F5E7C /* timeforcoffee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = timeforcoffee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC7A517719C427CA000F5E7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC7A517819C427CA000F5E7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -126,6 +125,7 @@
 		EC7A518E19C427CA000F5E7C /* nextMigrosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = nextMigrosTests.swift; sourceTree = "<group>"; };
 		EC7A519A19C43E0A000F5E7C /* Blank52.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Blank52.png; sourceTree = "<group>"; };
 		EC7A519E19C4432F000F5E7C /* DetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
+		ECD871941A9BAE18003CCCB3 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,7 +213,7 @@
 		EC6EDD2F1A9BA36F0098CAE0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				EC6EDD5B1A9BA9C20098CAE0 /* Info.plist */,
+				ECD871941A9BAE18003CCCB3 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -492,7 +492,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC6EDD601A9BAB1A0098CAE0 /* Info.plist in Resources */,
+				ECD871951A9BAE18003CCCB3 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -883,6 +883,7 @@
 				EC6EDCFF1A9B9F390098CAE0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		EC6EDD461A9BA36F0098CAE0 /* Build configuration list for PBXNativeTarget "timeforcoffeeKit" */ = {
 			isa = XCConfigurationList;
@@ -891,6 +892,7 @@
 				EC6EDD481A9BA36F0098CAE0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		EC6EDD491A9BA36F0098CAE0 /* Build configuration list for PBXNativeTarget "timeforcoffeeKitTests" */ = {
 			isa = XCConfigurationList;
@@ -899,6 +901,7 @@
 				EC6EDD4B1A9BA36F0098CAE0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		EC7A516E19C427CA000F5E7C /* Build configuration list for PBXProject "timeforcoffee" */ = {
 			isa = XCConfigurationList;

@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>testFW.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
 		<key>timeforcoffee Widget.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -43,6 +48,16 @@
 			<true/>
 		</dict>
 		<key>EC6EDD361A9BA36F0098CAE0</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EC6EDD651A9BAB630098CAE0</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EC6EDD6F1A9BAB630098CAE0</key>
 		<dict>
 			<key>primary</key>
 			<true/>
