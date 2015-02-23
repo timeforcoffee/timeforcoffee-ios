@@ -21,11 +21,19 @@ class APIController {
         
   //      var urlPath = "http://filialen.migros.ch/store/near/%28\(coord.latitude),\(coord.longitude)%29?radius=5&storeTypes=M,MM,MMM,MIG&nowOpen=true";
         var urlPath = "http://transport.opendata.ch/v1/locations?x=\(coord.latitude)&y=\(coord.longitude)";
-        println(urlPath);
+       self.fetchUrl(urlPath)
+    }
+    
+    func getDepartures(id: String!) {
+        var urlPath = "http://www.timeforcoffee.ch/api/stationboard/\(id)"
+        self.fetchUrl(urlPath)
+        
+    }
+    
+    func fetchUrl(urlPath: String) {
         let url: NSURL = NSURL(string: urlPath)!
         let session = NSURLSession.sharedSession()
-        
-        println("Start fetching data")
+        println("Start fetching data \(urlPath)")
         let task = session.dataTaskWithURL(url, completionHandler: {data , response, error -> Void in
             println("Task completed")
             if(error != nil) {
@@ -34,18 +42,17 @@ class APIController {
             }
             var err: NSError?
             let jsonResult = JSONValue(data)
-            println(data);
-/*            var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &err) as NSArray
+            /*            var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &err) as NSArray
             if(err != nil) {
-                // If there is an error parsing JSON, print it to the console
-                println("JSON Error \(err!.localizedDescription)")
+            // If there is an error parsing JSON, print it to the console
+            println("JSON Error \(err!.localizedDescription)")
             }*/
             self.delegate.didReceiveAPIResults(jsonResult)
         })
-
+        
         
         task.resume()
-        
+
     }
 }
 

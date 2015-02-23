@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		EC6EDCE61A9B4DCE0098CAE0 /* Station.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDCE51A9B4DCE0098CAE0 /* Station.swift */; };
 		EC6EDCE81A9B6B680098CAE0 /* StationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDCE71A9B6B680098CAE0 /* StationViewController.swift */; };
+		EC6EDCEA1A9B73A20098CAE0 /* Departure.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDCE91A9B73A20098CAE0 /* Departure.swift */; };
 		EC7A517919C427CA000F5E7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A517819C427CA000F5E7C /* AppDelegate.swift */; };
 		EC7A517B19C427CA000F5E7C /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A517A19C427CA000F5E7C /* SearchResultsViewController.swift */; };
 		EC7A517E19C427CA000F5E7C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC7A517C19C427CA000F5E7C /* Main.storyboard */; };
@@ -34,6 +35,7 @@
 /* Begin PBXFileReference section */
 		EC6EDCE51A9B4DCE0098CAE0 /* Station.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Station.swift; sourceTree = "<group>"; };
 		EC6EDCE71A9B6B680098CAE0 /* StationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationViewController.swift; sourceTree = "<group>"; };
+		EC6EDCE91A9B73A20098CAE0 /* Departure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Departure.swift; sourceTree = "<group>"; };
 		EC7A517319C427CA000F5E7C /* timeforcoffee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = timeforcoffee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC7A517719C427CA000F5E7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC7A517819C427CA000F5E7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 				EC7A518119C427CA000F5E7C /* LaunchScreen.xib */,
 				EC7A517619C427CA000F5E7C /* Supporting Files */,
 				EC6EDCE51A9B4DCE0098CAE0 /* Station.swift */,
+				EC6EDCE91A9B73A20098CAE0 /* Departure.swift */,
 			);
 			path = timeforcoffee;
 			sourceTree = "<group>";
@@ -237,6 +240,7 @@
 				EC6EDCE81A9B6B680098CAE0 /* StationViewController.swift in Sources */,
 				ECAC3CD919C4805300D821B0 /* SwiftyJSON.swift in Sources */,
 				EC7A519F19C4432F000F5E7C /* DetailsViewController.swift in Sources */,
+				EC6EDCEA1A9B73A20098CAE0 /* Departure.swift in Sources */,
 				EC6EDCE61A9B4DCE0098CAE0 /* Station.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

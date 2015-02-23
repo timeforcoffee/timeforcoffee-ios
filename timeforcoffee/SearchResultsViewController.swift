@@ -28,7 +28,7 @@ class SearchResultsViewController: UIViewController, UITableViewDataSource, UITa
         api = APIController(delegate: self)
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         self.refreshControl = UIRefreshControl()
-        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refersh")
+        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.appsTableView?.addSubview(refreshControl)
         initLocationManager()
@@ -228,7 +228,7 @@ class SearchResultsViewController: UIViewController, UITableViewDataSource, UITa
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         self.refreshControl.endRefreshing()
         dispatch_async(dispatch_get_main_queue(), {
-            self.stations = Station.stationsWithJSON(results)
+            self.stations = Station.withJSON(results)
             self.appsTableView!.reloadData()
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         })
