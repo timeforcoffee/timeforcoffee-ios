@@ -37,11 +37,8 @@ class SearchResultsViewController: UIViewController, UITableViewDataSource, UITa
     func refresh(sender:AnyObject)
     {
         // Code to refresh table view
-        println("REFRESH")
         locationFixAchieved = false
         self.locationManager.startUpdatingLocation()
-
-
     }
     
     // Location Manager helper stuff
@@ -199,7 +196,7 @@ class SearchResultsViewController: UIViewController, UITableViewDataSource, UITa
                 
                 var time =  Int(round(route.expectedTravelTime / 60))
                 var meters = Int(route.distance);
-                cell.detailTextLabel?.text = "\(time) min, \(meters) m"
+                cell.detailTextLabel?.text = "\(time) min Fussweg, \(meters) m"
                 println(route.expectedTravelTime / 60)
             }
             else{

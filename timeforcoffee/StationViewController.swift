@@ -38,6 +38,14 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
 
     }
     
+    func refresh(sender:AnyObject)
+    {
+        // Code to refresh table view
+        self.api?.getDepartures(self.station?.st_id!)
+
+    }
+
+    
     func didReceiveAPIResults(results: JSONValue) {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         self.refreshControl.endRefreshing()
@@ -49,7 +57,6 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        println(self.departures.count)
         return self.departures.count
     }
     
@@ -61,7 +68,6 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
         let departure = self.departures[indexPath.row]
         cell.textLabel?.text = "\(departure.name) \(departure.to)"
 /*        cell.imageView?.image = UIImage(named: "Blank52")*/
-        println(departure.scheduled)
         var timeInterval: NSTimeInterval?
         var realtimeStr: String?
         var scheduledStr: String?
@@ -75,11 +81,14 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
         scheduledStr = self.getShortDate(departure.scheduled!)
         
         if (timeInterval != nil) {
-            let timediff  = Int(timeInterval! )
+            var timediff  = Int(ceil(timeInterval! / 60));
+            if (timediff < 0) {
+                timediff = 0;
+            }
             if (departure.realtime != nil && departure.realtime != departure.scheduled) {
-                cell.detailTextLabel?.text = "In \(timediff) seconds / \(realtimeStr!) / \(scheduledStr!)"
+                cell.detailTextLabel?.text = "In \(timediff) minutes / \(realtimeStr!) / \(scheduledStr!)"
             } else {
-                cell.detailTextLabel?.text = "In \(timediff) seconds / \(scheduledStr!)"
+                cell.detailTextLabel?.text = "In \(timediff) minutes / \(scheduledStr!)"
             }
         }
         
