@@ -12,7 +12,6 @@
 		EC6EDCF71A9B9F390098CAE0 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDCF61A9B9F390098CAE0 /* TodayViewController.swift */; };
 		EC6EDCF91A9B9F390098CAE0 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC6EDCF81A9B9F390098CAE0 /* MainInterface.storyboard */; };
 		EC6EDCFC1A9B9F390098CAE0 /* timeforcoffee Widget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EC6EDCEF1A9B9F390098CAE0 /* timeforcoffee Widget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		EC6EDD321A9BA36F0098CAE0 /* timeforcoffeeKit.h in Headers */ = {isa = PBXBuildFile; fileRef = EC6EDD311A9BA36F0098CAE0 /* timeforcoffeeKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EC6EDD381A9BA36F0098CAE0 /* timeforcoffeeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */; };
 		EC6EDD411A9BA36F0098CAE0 /* timeforcoffeeKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDD401A9BA36F0098CAE0 /* timeforcoffeeKitTests.swift */; };
 		EC6EDD441A9BA36F0098CAE0 /* timeforcoffeeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */; };
@@ -30,6 +29,7 @@
 		EC7A519B19C43E0A000F5E7C /* Blank52.png in Resources */ = {isa = PBXBuildFile; fileRef = EC7A519A19C43E0A000F5E7C /* Blank52.png */; };
 		EC7A519F19C4432F000F5E7C /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A519E19C4432F000F5E7C /* DetailsViewController.swift */; };
 		ECD871951A9BAE18003CCCB3 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ECD871941A9BAE18003CCCB3 /* Info.plist */; };
+		ECD871961A9BB2F7003CCCB3 /* timeforcoffeeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,7 +105,6 @@
 		EC6EDD011A9BA04D0098CAE0 /* timeforcoffee Widget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "timeforcoffee Widget.entitlements"; sourceTree = "<group>"; };
 		EC6EDD021A9BA07E0098CAE0 /* timeforcoffee.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = timeforcoffee.entitlements; sourceTree = "<group>"; };
 		EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = timeforcoffeeKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		EC6EDD311A9BA36F0098CAE0 /* timeforcoffeeKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = timeforcoffeeKit.h; sourceTree = "<group>"; };
 		EC6EDD371A9BA36F0098CAE0 /* timeforcoffeeKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = timeforcoffeeKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC6EDD3F1A9BA36F0098CAE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC6EDD401A9BA36F0098CAE0 /* timeforcoffeeKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = timeforcoffeeKitTests.swift; sourceTree = "<group>"; };
@@ -133,6 +132,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ECD871961A9BB2F7003CCCB3 /* timeforcoffeeKit.framework in Frameworks */,
 				EC6EDCF21A9B9F390098CAE0 /* NotificationCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -204,7 +204,6 @@
 				EC6EDD4C1A9BA4820098CAE0 /* Departure.swift */,
 				EC6EDD531A9BA79B0098CAE0 /* APIController.swift */,
 				EC6EDD4D1A9BA4820098CAE0 /* Station.swift */,
-				EC6EDD311A9BA36F0098CAE0 /* timeforcoffeeKit.h */,
 				EC6EDD2F1A9BA36F0098CAE0 /* Supporting Files */,
 			);
 			path = timeforcoffeeKit;
@@ -309,7 +308,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC6EDD321A9BA36F0098CAE0 /* timeforcoffeeKit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -423,7 +421,7 @@
 						DevelopmentTeam = QCDJ9EC736;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -440,7 +438,7 @@
 						DevelopmentTeam = QCDJ9EC736;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -616,7 +614,6 @@
 		EC6EDCFE1A9B9F390098CAE0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "timeforcoffee Widget/timeforcoffee Widget.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -635,7 +632,6 @@
 		EC6EDCFF1A9B9F390098CAE0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "timeforcoffee Widget/timeforcoffee Widget.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "timeforcoffee Widget/Info.plist";
@@ -650,6 +646,7 @@
 		EC6EDD471A9BA36F0098CAE0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
@@ -675,8 +672,9 @@
 		EC6EDD481A9BA36F0098CAE0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -787,7 +785,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -811,7 +809,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = timeforcoffee/timeforcoffee.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
@@ -827,7 +824,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = timeforcoffee/timeforcoffee.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;

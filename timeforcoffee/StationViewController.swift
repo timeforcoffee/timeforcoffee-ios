@@ -66,39 +66,10 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as UITableViewCell
         
-        let departure = self.departures[indexPath.row]
-        cell.textLabel?.text = "\(departure.name) \(departure.to)"
+        let departure: Departure = self.departures[indexPath.row]
+        cell.textLabel?.text = departure.getLineAndDestination()
 /*        cell.imageView?.image = UIImage(named: "Blank52")*/
-        var timeInterval: NSTimeInterval?
-        var realtimeStr: String?
-        var scheduledStr: String?
-        
-        if (departure.realtime != nil) {
-            timeInterval = departure.realtime?.timeIntervalSinceNow
-            realtimeStr = self.getShortDate(departure.realtime!)
-        } else {
-            timeInterval = departure.scheduled?.timeIntervalSinceNow
-        }
-        scheduledStr = self.getShortDate(departure.scheduled!)
-        
-        if (timeInterval != nil) {
-            var timediff  = Int(ceil(timeInterval! / 60));
-            if (timediff < 0) {
-                timediff = 0;
-            }
-            if (departure.realtime != nil && departure.realtime != departure.scheduled) {
-                cell.detailTextLabel?.text = "In \(timediff) minutes / \(realtimeStr!) / \(scheduledStr!)"
-            } else {
-                if (departure.realtime == nil) {
-                    cell.detailTextLabel?.text = "In \(timediff) minutes / \(scheduledStr!) (no real-time data)"
-                    
-                } else {
-                    cell.detailTextLabel?.text = "In \(timediff) minutes / \(scheduledStr!)"
-                }
-            }
-        }
-        
-        cell.detailTextLabel?.text
+        cell.detailTextLabel?.text = departure.getTimeString()
         
         
         // Get the formatted price string for display in the subtitle
@@ -150,13 +121,6 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
         return cell
         
     }
-    
-    func getShortDate(date:NSDate) -> String {
-        let format = "HH:mm"
-        var dateFmt = NSDateFormatter()
-        dateFmt.timeZone = NSTimeZone.defaultTimeZone()
-        dateFmt.dateFormat = format
-        return dateFmt.stringFromDate(date)
-    }
+
 
 }

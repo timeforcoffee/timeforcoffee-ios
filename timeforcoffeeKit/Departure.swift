@@ -64,12 +64,59 @@ public class Departure {
         }
         return departures
     }
+    
+    public func getLineAndDestination() -> String {
+        return "\(self.name) \(self.to)"
+    }
+    
+    public func getTimeString() -> String {
+        var timeInterval: NSTimeInterval?
+        var realtimeStr: String?
+        var scheduledStr: String?
+        var timestring = "";
+        if (self.realtime != nil) {
+            timeInterval = self.realtime?.timeIntervalSinceNow
+            realtimeStr = self.getShortDate(self.realtime!)
+        } else {
+            timeInterval = self.scheduled?.timeIntervalSinceNow
+        }
+        scheduledStr = self.getShortDate(self.scheduled!)
+        
+        if (timeInterval != nil) {
+            var timediff  = Int(ceil(timeInterval! / 60));
+            if (timediff < 0) {
+                timediff = 0;
+            }
+            if (self.realtime != nil && self.realtime != self.scheduled) {
+                timestring = "In \(timediff) minutes / \(realtimeStr!) / \(scheduledStr!)"
+            } else {
+                if (self.realtime == nil) {
+                    timestring = "In \(timediff) minutes / \(scheduledStr!) (no real-time data)"
+                    
+                } else {
+                    timestring = "In \(timediff) minutes / \(scheduledStr!)"
+                }
+            }
+        }
+        return timestring
+
+    }
+    
     class func parseDate(dateStr:String) -> NSDate? {
         let format = "yyyy-MM-dd'T'HH:mm:ss.'000'ZZZZZ"
         var dateFmt = NSDateFormatter()
         dateFmt.timeZone = NSTimeZone.defaultTimeZone()
         dateFmt.dateFormat = format
         return dateFmt.dateFromString(dateStr)
+    }
+    
+    
+    func getShortDate(date:NSDate) -> String {
+        let format = "HH:mm"
+        var dateFmt = NSDateFormatter()
+        dateFmt.timeZone = NSTimeZone.defaultTimeZone()
+        dateFmt.dateFormat = format
+        return dateFmt.stringFromDate(date)
     }
 }
 

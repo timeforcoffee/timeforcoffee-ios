@@ -21,7 +21,8 @@ public class APIController {
         
   //      var urlPath = "http://filialen.migros.ch/store/near/%28\(coord.latitude),\(coord.longitude)%29?radius=5&storeTypes=M,MM,MMM,MIG&nowOpen=true";
         var urlPath = "http://transport.opendata.ch/v1/locations?x=\(coord.latitude)&y=\(coord.longitude)";
-       self.fetchUrl(urlPath)
+        println(urlPath)
+        self.fetchUrl(urlPath)
     }
     
     public func getDepartures(id: String!) {

@@ -22,6 +22,13 @@ public class Station {
         self.coord = coord!
     }
     
+    public class func isStations(results: JSONValue) -> Bool {
+        if (results["stations"].array? != nil) {
+            return true
+        }
+        return false
+    }
+    
     public class func withJSON(allResults: JSONValue) -> [Station] {
         
         // Create an empty array of Albums to append to from this list
