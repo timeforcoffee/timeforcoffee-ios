@@ -20,9 +20,9 @@ class APIController {
     func searchFor(coord: CLLocationCoordinate2D) {
         
   //      var urlPath = "http://filialen.migros.ch/store/near/%28\(coord.latitude),\(coord.longitude)%29?radius=5&storeTypes=M,MM,MMM,MIG&nowOpen=true";
-        var urlPath = "http://filialen.migros.ch/store/near/%28\(coord.latitude),\(coord.longitude)%29?radius=5&storeTypes=M,MM,MMM,MIG,VOI&nowOpen=true";
-        
-        let url: NSURL = NSURL(string: urlPath)
+        var urlPath = "http://transport.opendata.ch/v1/locations?x=\(coord.latitude)&y=\(coord.longitude)";
+        println(urlPath);
+        let url: NSURL = NSURL(string: urlPath)!
         let session = NSURLSession.sharedSession()
         
         println("Start fetching data")
@@ -34,7 +34,7 @@ class APIController {
             }
             var err: NSError?
             let jsonResult = JSONValue(data)
-            
+            println(data);
 /*            var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &err) as NSArray
             if(err != nil) {
                 // If there is an error parsing JSON, print it to the console

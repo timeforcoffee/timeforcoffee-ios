@@ -12,7 +12,7 @@ import MapKit
 
 class SearchResultsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, CLLocationManagerDelegate {
     @IBOutlet var appsTableView : UITableView?
-    var filialen = [Filiale]()
+    var stations = [Station]()
     let kCellIdentifier: String = "SearchResultCell"
     var imageCache = [String : UIImage]()
     var api : APIController?
@@ -111,7 +111,7 @@ class SearchResultsViewController: UIViewController, UITableViewDataSource, UITa
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return filialen.count
+        return stations.count
     }
 
 
@@ -119,10 +119,10 @@ class SearchResultsViewController: UIViewController, UITableViewDataSource, UITa
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as UITableViewCell
         
-        let filiale = self.filialen[indexPath.row]
-        cell.textLabel?.text = filiale.name
+        let station = self.stations[indexPath.row]
+        cell.textLabel?.text = station.name
         cell.imageView?.image = UIImage(named: "Blank52")
-        var distance = Int(currentLocation?.distanceFromLocation(filiale.coord) as Double!)
+        var distance = Int(currentLocation?.distanceFromLocation(station.coord) as Double!)
         cell.detailTextLabel?.text = "\(distance) Meter"
         
         // Get the formatted price string for display in the subtitle
@@ -130,29 +130,16 @@ class SearchResultsViewController: UIViewController, UITableViewDataSource, UITa
         
         // Grab the artworkUrl60 key to get an image URL for the app's thumbnail
         var urlString: String?
-        switch filiale.type {
-        case "MIG":
-            urlString = "http://filialen.migros.ch/images/logos_2/de/migrolino.png"
-        case "MMM":
-            urlString = "http://filialen.migros.ch/images/migros/marker-mmm.png"
-        case "MM":
-            urlString = "http://filialen.migros.ch/images/migros/marker-mm.png"
-        case "M":
-            urlString = "http://filialen.migros.ch/images/migros/marker-m.png"
-        case "VOI":
-            urlString = "http://filialen.migros.ch/images/logos_2/de/voi.png"
-        default:
-            urlString = nil
-        }
+        urlString = nil
         if (urlString != nil) {
             // Check our image cache for the existing key. This is just a dictionary of UIImages
             //var image: UIImage? = self.imageCache.valueForKey(urlString) as? UIImage
             var image = self.imageCache[urlString!]
-            filiale.imageURL = urlString
+            station.imageURL = urlString
             
             if( image == nil ) {
                 // If the image does not exist, we need to download it
-                var imgURL: NSURL = NSURL(string: urlString!)
+                var imgURL: NSURL = NSURL(string: urlString!)!
                 
                 // Download an NSData representation of the image at the URL
                 let request: NSURLRequest = NSURLRequest(URL: imgURL)
@@ -188,7 +175,7 @@ class SearchResultsViewController: UIViewController, UITableViewDataSource, UITa
         let currentCoordinate = currentLocation?.coordinate
         var sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
         
-        var destinationPlacemark:MKPlacemark = MKPlacemark(coordinate: filiale.coord.coordinate, addressDictionary: nil)
+        var destinationPlacemark:MKPlacemark = MKPlacemark(coordinate: station.coord.coordinate, addressDictionary: nil)
         var source:MKMapItem = MKMapItem(placemark: sourcePlacemark)
         var destination:MKMapItem = MKMapItem(placemark: destinationPlacemark)
         var directionRequest:MKDirectionsRequest = MKDirectionsRequest()
@@ -240,9 +227,8 @@ class SearchResultsViewController: UIViewController, UITableViewDataSource, UITa
     func didReceiveAPIResults(results: JSONValue) {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         self.refreshControl.endRefreshing()
-
         dispatch_async(dispatch_get_main_queue(), {
-            self.filialen = Filiale.albumsWithJSON(results)
+            self.stations = Station.stationsWithJSON(results)
             self.appsTableView!.reloadData()
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         })
@@ -252,8 +238,8 @@ class SearchResultsViewController: UIViewController, UITableViewDataSource, UITa
         var detailsViewController: DetailsViewController = segue.destinationViewController as DetailsViewController
         var albumIndex = appsTableView?.indexPathForSelectedRow()?.row
 //        var albumIndex = appsTableView!.indexPathForSelectedRow().row
-        var selectedAlbum = self.filialen[albumIndex!]
-        detailsViewController.filiale = selectedAlbum
+        var selectedAlbum = self.stations[albumIndex!]
+        detailsViewController.station = selectedAlbum
     }
 
     

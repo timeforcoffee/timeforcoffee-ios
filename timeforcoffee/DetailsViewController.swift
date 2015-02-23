@@ -17,7 +17,7 @@ class DetailsViewController: UIViewController, MKMapViewDelegate {
     
     @IBOutlet weak var distanceLabel: UILabel!
     
-    var filiale: Filiale?
+    var station: Station?
     var sourceMapItem: MKMapItem?
     var destinationMapItem: MKMapItem?
     
@@ -28,9 +28,9 @@ class DetailsViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        titleLabel.text = self.filiale?.name
+        titleLabel.text = self.station?.name
         
-        var location = self.filiale?.coord.coordinate
+        var location = self.station?.coord.coordinate
         
         var region = MKCoordinateRegionMakeWithDistance(location!,1000,1000);
         
@@ -40,13 +40,13 @@ class DetailsViewController: UIViewController, MKMapViewDelegate {
         
         var annotation = MKPointAnnotation()
         annotation.setCoordinate(location!)
-        annotation.title = self.filiale?.name
-        annotation.subtitle = self.filiale?.type
+        annotation.title = self.station?.name
+//        annotation.subtitle = self.filiale?.type
         
         map.addAnnotation(annotation)
-        if (self.filiale!.imageURL != nil) {
-            albumCover.image = UIImage(data: NSData(contentsOfURL: NSURL(string: self.filiale!.imageURL!)))
-        }
+/*        if (self.station!.imageURL != nil) {
+            albumCover.image = UIImage(data: NSData(contentsOfURL: NSURL(string: self.filiale!.imageURL!)!)!)
+        }*/
         var singleTap = UITapGestureRecognizer(target: self, action: "imageTapped:")
         singleTap.numberOfTapsRequired = 1
         singleTap.numberOfTouchesRequired = 1

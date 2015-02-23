@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EC6EDCE61A9B4DCE0098CAE0 /* Station.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDCE51A9B4DCE0098CAE0 /* Station.swift */; };
 		EC7A517919C427CA000F5E7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A517819C427CA000F5E7C /* AppDelegate.swift */; };
 		EC7A517B19C427CA000F5E7C /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A517A19C427CA000F5E7C /* SearchResultsViewController.swift */; };
 		EC7A517E19C427CA000F5E7C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC7A517C19C427CA000F5E7C /* Main.storyboard */; };
@@ -15,7 +16,6 @@
 		EC7A518F19C427CA000F5E7C /* nextMigrosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A518E19C427CA000F5E7C /* nextMigrosTests.swift */; };
 		EC7A519919C42F9C000F5E7C /* APIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A519819C42F9C000F5E7C /* APIController.swift */; };
 		EC7A519B19C43E0A000F5E7C /* Blank52.png in Resources */ = {isa = PBXBuildFile; fileRef = EC7A519A19C43E0A000F5E7C /* Blank52.png */; };
-		EC7A519D19C43FED000F5E7C /* Filiale.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A519C19C43FED000F5E7C /* Filiale.swift */; };
 		EC7A519F19C4432F000F5E7C /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A519E19C4432F000F5E7C /* DetailsViewController.swift */; };
 		ECAC3CD919C4805300D821B0 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECAC3CD819C4805300D821B0 /* SwiftyJSON.swift */; };
 /* End PBXBuildFile section */
@@ -26,24 +26,24 @@
 			containerPortal = EC7A516B19C427CA000F5E7C /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = EC7A517219C427CA000F5E7C;
-			remoteInfo = nextMigros;
+			remoteInfo = timeforcoffee;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		EC7A517319C427CA000F5E7C /* nextMigros.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = nextMigros.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC6EDCE51A9B4DCE0098CAE0 /* Station.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Station.swift; sourceTree = "<group>"; };
+		EC7A517319C427CA000F5E7C /* timeforcoffee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = timeforcoffee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC7A517719C427CA000F5E7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC7A517819C427CA000F5E7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EC7A517A19C427CA000F5E7C /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
 		EC7A517D19C427CA000F5E7C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EC7A517F19C427CA000F5E7C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		EC7A518219C427CA000F5E7C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		EC7A518819C427CA000F5E7C /* nextMigrosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = nextMigrosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC7A518819C427CA000F5E7C /* timeforcoffeeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = timeforcoffeeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC7A518D19C427CA000F5E7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC7A518E19C427CA000F5E7C /* nextMigrosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = nextMigrosTests.swift; sourceTree = "<group>"; };
 		EC7A519819C42F9C000F5E7C /* APIController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIController.swift; sourceTree = "<group>"; };
 		EC7A519A19C43E0A000F5E7C /* Blank52.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Blank52.png; sourceTree = "<group>"; };
-		EC7A519C19C43FED000F5E7C /* Filiale.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Filiale.swift; sourceTree = "<group>"; };
 		EC7A519E19C4432F000F5E7C /* DetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		ECAC3CD819C4805300D821B0 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -69,8 +69,8 @@
 		EC7A516A19C427CA000F5E7C = {
 			isa = PBXGroup;
 			children = (
-				EC7A517519C427CA000F5E7C /* nextMigros */,
-				EC7A518B19C427CA000F5E7C /* nextMigrosTests */,
+				EC7A517519C427CA000F5E7C /* timeforcoffee */,
+				EC7A518B19C427CA000F5E7C /* timeforcoffeeTests */,
 				EC7A517419C427CA000F5E7C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -78,13 +78,13 @@
 		EC7A517419C427CA000F5E7C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				EC7A517319C427CA000F5E7C /* nextMigros.app */,
-				EC7A518819C427CA000F5E7C /* nextMigrosTests.xctest */,
+				EC7A517319C427CA000F5E7C /* timeforcoffee.app */,
+				EC7A518819C427CA000F5E7C /* timeforcoffeeTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		EC7A517519C427CA000F5E7C /* nextMigros */ = {
+		EC7A517519C427CA000F5E7C /* timeforcoffee */ = {
 			isa = PBXGroup;
 			children = (
 				EC7A519A19C43E0A000F5E7C /* Blank52.png */,
@@ -93,13 +93,13 @@
 				EC7A517C19C427CA000F5E7C /* Main.storyboard */,
 				EC7A519819C42F9C000F5E7C /* APIController.swift */,
 				ECAC3CD819C4805300D821B0 /* SwiftyJSON.swift */,
-				EC7A519C19C43FED000F5E7C /* Filiale.swift */,
 				EC7A519E19C4432F000F5E7C /* DetailsViewController.swift */,
 				EC7A517F19C427CA000F5E7C /* Images.xcassets */,
 				EC7A518119C427CA000F5E7C /* LaunchScreen.xib */,
 				EC7A517619C427CA000F5E7C /* Supporting Files */,
+				EC6EDCE51A9B4DCE0098CAE0 /* Station.swift */,
 			);
-			path = nextMigros;
+			path = timeforcoffee;
 			sourceTree = "<group>";
 		};
 		EC7A517619C427CA000F5E7C /* Supporting Files */ = {
@@ -110,13 +110,13 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		EC7A518B19C427CA000F5E7C /* nextMigrosTests */ = {
+		EC7A518B19C427CA000F5E7C /* timeforcoffeeTests */ = {
 			isa = PBXGroup;
 			children = (
 				EC7A518E19C427CA000F5E7C /* nextMigrosTests.swift */,
 				EC7A518C19C427CA000F5E7C /* Supporting Files */,
 			);
-			path = nextMigrosTests;
+			path = timeforcoffeeTests;
 			sourceTree = "<group>";
 		};
 		EC7A518C19C427CA000F5E7C /* Supporting Files */ = {
@@ -130,9 +130,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		EC7A517219C427CA000F5E7C /* nextMigros */ = {
+		EC7A517219C427CA000F5E7C /* timeforcoffee */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EC7A519219C427CA000F5E7C /* Build configuration list for PBXNativeTarget "nextMigros" */;
+			buildConfigurationList = EC7A519219C427CA000F5E7C /* Build configuration list for PBXNativeTarget "timeforcoffee" */;
 			buildPhases = (
 				EC7A516F19C427CA000F5E7C /* Sources */,
 				EC7A517019C427CA000F5E7C /* Frameworks */,
@@ -142,14 +142,14 @@
 			);
 			dependencies = (
 			);
-			name = nextMigros;
-			productName = nextMigros;
-			productReference = EC7A517319C427CA000F5E7C /* nextMigros.app */;
+			name = timeforcoffee;
+			productName = timeforcoffee;
+			productReference = EC7A517319C427CA000F5E7C /* timeforcoffee.app */;
 			productType = "com.apple.product-type.application";
 		};
-		EC7A518719C427CA000F5E7C /* nextMigrosTests */ = {
+		EC7A518719C427CA000F5E7C /* timeforcoffeeTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EC7A519519C427CA000F5E7C /* Build configuration list for PBXNativeTarget "nextMigrosTests" */;
+			buildConfigurationList = EC7A519519C427CA000F5E7C /* Build configuration list for PBXNativeTarget "timeforcoffeeTests" */;
 			buildPhases = (
 				EC7A518419C427CA000F5E7C /* Sources */,
 				EC7A518519C427CA000F5E7C /* Frameworks */,
@@ -160,9 +160,9 @@
 			dependencies = (
 				EC7A518A19C427CA000F5E7C /* PBXTargetDependency */,
 			);
-			name = nextMigrosTests;
-			productName = nextMigrosTests;
-			productReference = EC7A518819C427CA000F5E7C /* nextMigrosTests.xctest */;
+			name = timeforcoffeeTests;
+			productName = timeforcofeeTests;
+			productReference = EC7A518819C427CA000F5E7C /* timeforcoffeeTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -183,7 +183,7 @@
 					};
 				};
 			};
-			buildConfigurationList = EC7A516E19C427CA000F5E7C /* Build configuration list for PBXProject "nextMigros" */;
+			buildConfigurationList = EC7A516E19C427CA000F5E7C /* Build configuration list for PBXProject "timeforcoffee" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -196,8 +196,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				EC7A517219C427CA000F5E7C /* nextMigros */,
-				EC7A518719C427CA000F5E7C /* nextMigrosTests */,
+				EC7A517219C427CA000F5E7C /* timeforcoffee */,
+				EC7A518719C427CA000F5E7C /* timeforcoffeeTests */,
 			);
 		};
 /* End PBXProject section */
@@ -232,8 +232,8 @@
 				EC7A517919C427CA000F5E7C /* AppDelegate.swift in Sources */,
 				EC7A519919C42F9C000F5E7C /* APIController.swift in Sources */,
 				ECAC3CD919C4805300D821B0 /* SwiftyJSON.swift in Sources */,
-				EC7A519D19C43FED000F5E7C /* Filiale.swift in Sources */,
 				EC7A519F19C4432F000F5E7C /* DetailsViewController.swift in Sources */,
+				EC6EDCE61A9B4DCE0098CAE0 /* Station.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,7 +250,7 @@
 /* Begin PBXTargetDependency section */
 		EC7A518A19C427CA000F5E7C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = EC7A517219C427CA000F5E7C /* nextMigros */;
+			target = EC7A517219C427CA000F5E7C /* timeforcoffee */;
 			targetProxy = EC7A518919C427CA000F5E7C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -359,10 +359,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = nextMigros/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/timeforcoffee/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = timeforcoffee;
 			};
 			name = Debug;
 		};
@@ -370,10 +370,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = nextMigros/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/timeforcoffee/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = timeforcoffee;
 			};
 			name = Release;
 		};
@@ -389,10 +389,10 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = nextMigrosTests/Info.plist;
+				INFOPLIST_FILE = timeforcoffeeTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/nextMigros.app/nextMigros";
+				PRODUCT_NAME = timeforcoffeeTests;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/timeforcoffee.app/timeforcoffee";
 			};
 			name = Debug;
 		};
@@ -404,17 +404,17 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = nextMigrosTests/Info.plist;
+				INFOPLIST_FILE = timeforcoffeeTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/nextMigros.app/nextMigros";
+				PRODUCT_NAME = timeforcoffeeTests;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/timeforcoffee.app/timeforcoffee";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		EC7A516E19C427CA000F5E7C /* Build configuration list for PBXProject "nextMigros" */ = {
+		EC7A516E19C427CA000F5E7C /* Build configuration list for PBXProject "timeforcoffee" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				EC7A519019C427CA000F5E7C /* Debug */,
@@ -423,7 +423,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		EC7A519219C427CA000F5E7C /* Build configuration list for PBXNativeTarget "nextMigros" */ = {
+		EC7A519219C427CA000F5E7C /* Build configuration list for PBXNativeTarget "timeforcoffee" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				EC7A519319C427CA000F5E7C /* Debug */,
@@ -432,7 +432,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		EC7A519519C427CA000F5E7C /* Build configuration list for PBXNativeTarget "nextMigrosTests" */ = {
+		EC7A519519C427CA000F5E7C /* Build configuration list for PBXNativeTarget "timeforcoffeeTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				EC7A519619C427CA000F5E7C /* Debug */,

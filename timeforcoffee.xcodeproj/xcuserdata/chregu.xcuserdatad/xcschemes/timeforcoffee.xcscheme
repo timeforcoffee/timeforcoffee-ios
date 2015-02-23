@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "EC7A517219C427CA000F5E7C"
-               BuildableName = "nextMigros.app"
-               BlueprintName = "nextMigros"
-               ReferencedContainer = "container:nextMigros.xcodeproj">
+               BuildableName = "timeforcoffee.app"
+               BlueprintName = "timeforcoffee"
+               ReferencedContainer = "container:timeforcoffee.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "EC7A518719C427CA000F5E7C"
-               BuildableName = "nextMigrosTests.xctest"
-               BlueprintName = "nextMigrosTests"
-               ReferencedContainer = "container:nextMigros.xcodeproj">
+               BuildableName = "timeforcoffeeTests.xctest"
+               BlueprintName = "timeforcoffeeTests"
+               ReferencedContainer = "container:timeforcoffee.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,19 +47,24 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "EC7A518719C427CA000F5E7C"
-               BuildableName = "nextMigrosTests.xctest"
-               BlueprintName = "nextMigrosTests"
-               ReferencedContainer = "container:nextMigros.xcodeproj">
+               BuildableName = "timeforcoffeeTests.xctest"
+               BlueprintName = "timeforcoffeeTests"
+               ReferencedContainer = "container:timeforcoffee.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "nextMigrosTests">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "EC7A517219C427CA000F5E7C"
-            BuildableName = "nextMigros.app"
-            BlueprintName = "nextMigros"
-            ReferencedContainer = "container:nextMigros.xcodeproj">
+            BuildableName = "timeforcoffee.app"
+            BlueprintName = "timeforcoffee"
+            ReferencedContainer = "container:timeforcoffee.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -76,9 +81,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "EC7A517219C427CA000F5E7C"
-            BuildableName = "nextMigros.app"
-            BlueprintName = "nextMigros"
-            ReferencedContainer = "container:nextMigros.xcodeproj">
+            BuildableName = "timeforcoffee.app"
+            BlueprintName = "timeforcoffee"
+            ReferencedContainer = "container:timeforcoffee.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -94,9 +99,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "EC7A517219C427CA000F5E7C"
-            BuildableName = "nextMigros.app"
-            BlueprintName = "nextMigros"
-            ReferencedContainer = "container:nextMigros.xcodeproj">
+            BuildableName = "timeforcoffee.app"
+            BlueprintName = "timeforcoffee"
+            ReferencedContainer = "container:timeforcoffee.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
