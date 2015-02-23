@@ -235,7 +235,7 @@ class SearchResultsViewController: UIViewController, UITableViewDataSource, UITa
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        var detailsViewController: DetailsViewController = segue.destinationViewController as DetailsViewController
+        var detailsViewController: StationViewController = segue.destinationViewController as StationViewController
         var albumIndex = appsTableView?.indexPathForSelectedRow()?.row
 //        var albumIndex = appsTableView!.indexPathForSelectedRow().row
         var selectedAlbum = self.stations[albumIndex!]
