@@ -41,6 +41,8 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
         if (self.currentStationIndex >= self.stations.count) {
             self.currentStationIndex = 0
         }
+        self.departures = [Departure]();
+        self.appsTableView!.reloadData()
         self.titleLabel.text = self.stations[self.currentStationIndex].name
         self.api?.getDepartures(self.stations[self.currentStationIndex].st_id)
 
