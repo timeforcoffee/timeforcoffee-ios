@@ -24,6 +24,7 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
     var locationFixAchieved : Bool = false
     var locationStatus : NSString = "Not Started"
     var currentLocation: CLLocation?
+    var currentStationIndex = 0
    
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +35,16 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
         // Do any additional setup after loading the view from its nib.
     }
     
+    @IBAction func nextButtonTouchUp(sender: AnyObject) {
+        
+        self.currentStationIndex++
+        if (self.currentStationIndex >= self.stations.count) {
+            self.currentStationIndex = 0
+        }
+        self.titleLabel.text = self.stations[self.currentStationIndex].name
+        self.api?.getDepartures(self.stations[self.currentStationIndex].st_id)
+
+    }
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
     }
@@ -50,7 +61,7 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
         self.locationManager = CLLocationManager()
         self.locationManager.delegate = self
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        
+        self.currentStationIndex = 0
         self.locationManager.requestWhenInUseAuthorization()
         self.locationManager.startUpdatingLocation()
 
@@ -143,8 +154,8 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
         dispatch_async(dispatch_get_main_queue(), {
             if (Station.isStations(results)) {
                 self.stations = Station.withJSON(results)
-                self.titleLabel.text = self.stations[0].name
-                self.api?.getDepartures(self.stations[0].st_id)
+                self.titleLabel.text = self.stations[self.currentStationIndex].name
+                self.api?.getDepartures(self.stations[self.currentStationIndex].st_id)
             } else {
                 self.departures = Departure.withJSON(results)
                 self.appsTableView!.reloadData()
@@ -156,6 +167,7 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
     {
         var newMargins = defaultMarginInsets
         newMargins.right = 0
+        newMargins.left = 0
         newMargins.bottom = 5
         return newMargins
     }
