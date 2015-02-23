@@ -114,7 +114,6 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
         let departure: Departure = self.departures[indexPath.row]
         cell.textLabel?.text = departure.getLineAndDestination()
         cell.detailTextLabel?.text = departure.getTimeString()
-        println(departure.getLineAndDestination())
         return cell
         
     }
@@ -144,7 +143,6 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
             } else {
                 self.departures = Departure.withJSON(results)
                 self.appsTableView!.reloadData()
-                println("12")
             }
         })
     }
