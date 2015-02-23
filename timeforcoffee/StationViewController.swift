@@ -88,7 +88,12 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
             if (departure.realtime != nil && departure.realtime != departure.scheduled) {
                 cell.detailTextLabel?.text = "In \(timediff) minutes / \(realtimeStr!) / \(scheduledStr!)"
             } else {
-                cell.detailTextLabel?.text = "In \(timediff) minutes / \(scheduledStr!)"
+                if (departure.realtime == nil) {
+                    cell.detailTextLabel?.text = "In \(timediff) minutes / \(scheduledStr!) (no real-time data)"
+                    
+                } else {
+                    cell.detailTextLabel?.text = "In \(timediff) minutes / \(scheduledStr!)"
+                }
             }
         }
         
