@@ -27,7 +27,6 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
    
     override func viewDidLoad() {
         super.viewDidLoad()
-        titleLabel.text = "Did Load"
         api = APIController(delegate: self)
         titleLabel.userInteractionEnabled = true;
         let tapGesture  = UITapGestureRecognizer(target: self, action: "handleTap:")
@@ -37,9 +36,6 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        titleLabel.text = "Did Appear"
-        initLocationManager()
-        
     }
     
     func handleTap(recognizer: UITapGestureRecognizer) {
@@ -48,6 +44,7 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
     }
     
     func initLocationManager() {
+        titleLabel.text = "Looking for nearest station ..."
         seenError = false
         locationFixAchieved = false
         self.locationManager = CLLocationManager()
@@ -77,7 +74,6 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
             var locationArray = locations as NSArray
             var locationObj = locationArray.lastObject as CLLocation
             var coord = locationObj.coordinate
-            titleLabel.text = "coordinate received"
             self.currentLocation = locationObj;
             self.api?.searchFor(coord)
             self.locationManager.stopUpdatingLocation()
@@ -137,7 +133,9 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
         // If an error is encountered, use NCUpdateResult.Failed
         // If there's no update required, use NCUpdateResult.NoData
         // If there's an update, use NCUpdateResult.NewData
-
+        initLocationManager()
+        //this should only be called, after everything is updated. didReceiveAPIResults ;)
+        // see also https://stackoverflow.com/questions/25961513/ios-8-today-widget-stops-working-after-a-while
         completionHandler(NCUpdateResult.NewData)
     }
     
