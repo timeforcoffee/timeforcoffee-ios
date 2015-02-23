@@ -114,9 +114,41 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as UITableViewCell
         
+        let lineNumberLabel = cell.viewWithTag(100) as UILabel
+        let destinationLabel = cell.viewWithTag(200) as UILabel
+        let departureLabel = cell.viewWithTag(300) as UILabel
+        
+        
         let departure: Departure = self.departures[indexPath.row]
-        cell.textLabel?.text = departure.getLineAndDestination()
-        cell.detailTextLabel?.text = departure.getTimeString()
+        lineNumberLabel.text = departure.getLine()
+        destinationLabel.text = departure.getLineAndDestination()
+        departureLabel.text = departure.getTimeString()
+        
+        lineNumberLabel.layer.cornerRadius = 4.0
+        lineNumberLabel.layer.masksToBounds = true
+        
+        switch departure.getLine() {
+        case "7":
+            lineNumberLabel.backgroundColor = UIColor.blackColor()
+            lineNumberLabel.textColor = UIColor.whiteColor()
+        case "11":
+            lineNumberLabel.backgroundColor = UIColor(red: 0/255, green: 137/255, blue: 47/255, alpha: 1)
+            lineNumberLabel.textColor = UIColor.whiteColor()
+        case "14":
+            lineNumberLabel.backgroundColor = UIColor(red: 0/255, green: 141/255, blue: 197/255, alpha: 1)
+            lineNumberLabel.textColor = UIColor.whiteColor()
+        case "15":
+            lineNumberLabel.backgroundColor = UIColor(red: 226/255, green: 10/255, blue: 22/255, alpha: 1)
+            lineNumberLabel.textColor = UIColor.whiteColor()
+        case "33":
+            lineNumberLabel.backgroundColor = UIColor(red: 218/255, green: 214/255, blue: 156/255, alpha: 1)
+            lineNumberLabel.textColor = UIColor.blackColor()
+        default:
+            lineNumberLabel.textColor = UIColor.whiteColor()
+        }
+        
+   
+        
         return cell
         
     }

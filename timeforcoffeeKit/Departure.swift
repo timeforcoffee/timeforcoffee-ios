@@ -66,8 +66,13 @@ public class Departure {
     }
     
     public func getLineAndDestination() -> String {
-        return "\(self.name) \(self.to)"
+        return "\(self.to)"
     }
+    
+    public func getLine() -> String {
+        return "\(self.name)"
+    }
+    
     
     public func getTimeString() -> String {
         var timeInterval: NSTimeInterval?
