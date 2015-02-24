@@ -90,7 +90,11 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         cell.delegate = self
         cell.tag = indexPath.row
         let station = self.stations[indexPath.row]
-        cell.textLabel?.text = station.name
+        if (self.favoriteStations[station.st_id] != nil) {
+            cell.textLabel?.text = "\(station.name) *"
+        } else {
+            cell.textLabel?.text = station.name
+        }
         var distance = Int(currentLocation?.distanceFromLocation(station.coord) as Double!)
         if (distance > 5000) {
             let km = Int(round(Double(distance) / 1000))
@@ -143,7 +147,12 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
     func swipeTableCell(cell: MGSwipeTableCell!, swipeButtonsForDirection direction: MGSwipeDirection, swipeSettings: MGSwipeSettings!, expansionSettings: MGSwipeExpansionSettings!) -> [AnyObject]! {
         var buttons = []
         if (direction == MGSwipeDirection.LeftToRight) {
-            buttons = [MGSwipeButton( title:"Fav",  backgroundColor: UIColor.greenColor())]
+            let station: Station = self.stations[cell.tag]
+            if (favoriteStations[station.st_id] != nil) {
+                buttons = [MGSwipeButton( title:"Fav",  backgroundColor: UIColor.redColor())]
+            } else {
+                buttons = [MGSwipeButton( title:"Fav",  backgroundColor: UIColor.greenColor())]
+            }
         }
         expansionSettings.buttonIndex = 0
         expansionSettings.fillOnTrigger = true
@@ -153,13 +162,24 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
     func swipeTableCell(cell: MGSwipeTableCell!, tappedButtonAtIndex index: Int, direction: MGSwipeDirection, fromExpansion: Bool) -> Bool {
         var favoriteStationsDict = getFavoriteStationsDict()
         let station: Station = self.stations[cell.tag]
-        favoriteStationsDict[station.st_id] =  ["name": station.name,
-                                                "st_id": station.st_id,
-                                                "latitude": station.coord.coordinate.latitude.description,
-                                                "longitude": station.coord.coordinate.longitude.description
-                                                ]
-        
-        self.favoriteStations[station.st_id] = station
+        if (favoriteStations[station.st_id] != nil) {
+            favoriteStationsDict[station.st_id] = nil
+            favoriteStations[station.st_id] = nil
+            var button = cell.leftButtons[0] as MGSwipeButton
+            button.backgroundColor = UIColor.greenColor();
+            cell.textLabel?.text = "\(station.name)"
+        } else {
+            favoriteStationsDict[station.st_id] =  [
+                "name": station.name,
+                "st_id": station.st_id,
+                "latitude": station.coord.coordinate.latitude.description,
+                "longitude": station.coord.coordinate.longitude.description
+            ]
+            favoriteStations[station.st_id] = station
+            var button = cell.leftButtons[0] as MGSwipeButton
+            button.backgroundColor = UIColor.redColor();
+            cell.textLabel?.text = "\(station.name) *"
+        }
         var sharedDefaults = NSUserDefaults(suiteName: "group.ch.liip.timeforcoffee")
         sharedDefaults?.setObject(favoriteStationsDict, forKey: "favoriteStations")
         return true
