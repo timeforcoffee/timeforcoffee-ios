@@ -73,6 +73,9 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as UITableViewCell
         
+        cell.layoutMargins = UIEdgeInsetsZero
+        cell.preservesSuperviewLayoutMargins = false
+        
         let lineNumberLabel = cell.viewWithTag(100) as UILabel
         let destinationLabel = cell.viewWithTag(200) as UILabel
         let departureLabel = cell.viewWithTag(300) as UILabel
@@ -127,14 +130,6 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         })
     }
     
-    func widgetMarginInsetsForProposedMarginInsets(defaultMarginInsets: UIEdgeInsets) -> UIEdgeInsets
-    {
-        var newMargins = defaultMarginInsets
-        newMargins.right = 0
-        newMargins.left = 0
-        newMargins.bottom = 5
-        return newMargins
-    }
     
     @IBAction func buttonPressed()  {
         NSLog("Button Pressed")
