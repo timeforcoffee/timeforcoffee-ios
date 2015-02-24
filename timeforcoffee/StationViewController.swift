@@ -66,57 +66,25 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as UITableViewCell
         
+        let lineNumberLabel = cell.viewWithTag(100) as UILabel
+        let destinationLabel = cell.viewWithTag(200) as UILabel
+        let departureLabel = cell.viewWithTag(300) as UILabel
+        
+        
         let departure: Departure = self.departures[indexPath.row]
-        cell.textLabel?.text = departure.getLineAndDestination()
-/*        cell.imageView?.image = UIImage(named: "Blank52")*/
-        cell.detailTextLabel?.text = departure.getTimeString()
+        lineNumberLabel.text = departure.getLine()
+        destinationLabel.text = departure.getLineAndDestination()
+        departureLabel.text = departure.getTimeString()
         
+        lineNumberLabel.layer.cornerRadius = 4.0
+        lineNumberLabel.layer.masksToBounds = true
         
-        // Get the formatted price string for display in the subtitle
-        //        let formattedPrice = album.price
-        
-        // Grab the artworkUrl60 key to get an image URL for the app's thumbnail
-      /*  var urlString: String?
-        urlString = nil
-        if (urlString != nil) {
-            // Check our image cache for the existing key. This is just a dictionary of UIImages
-            var image = self.imageCache[urlString!]
-            departure.imageURL = urlString
-            
-            if( image == nil ) {
-                // If the image does not exist, we need to download it
-                var imgURL: NSURL = NSURL(string: urlString!)!
-                
-                // Download an NSData representation of the image at the URL
-                let request: NSURLRequest = NSURLRequest(URL: imgURL)
-                NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler: {(response: NSURLResponse!,data: NSData!,error: NSError!) -> Void in
-                    if error == nil {
-                        image = UIImage(data: data)
-                        
-                        // Store the image in to our cache
-                        self.imageCache[urlString!] = image
-                        if let cellToUpdate = tableView.cellForRowAtIndexPath(indexPath) {
-                            
-                            cellToUpdate.imageView?.image = image
-                            self.fixWidthImage(cellToUpdate)
-                        }
-                    }
-                    else {
-                        println("Error: \(error.localizedDescription)")
-                    }
-                })
-                
-            }
-            else {
-                dispatch_async(dispatch_get_main_queue(), {
-                    if let cellToUpdate = tableView.cellForRowAtIndexPath(indexPath) {
-                        cellToUpdate.imageView?.image = image
-                        self.fixWidthImage(cellToUpdate)
-                    }
-                })
-            }
+        if (departure.colorBg != nil) {
+            lineNumberLabel.backgroundColor = UIColor(netHexString:departure.colorBg!);
+            lineNumberLabel.textColor = UIColor(netHexString:departure.colorFg!);
+        } else {
+            lineNumberLabel.textColor = UIColor.whiteColor()
         }
-*/
         
         return cell
         
