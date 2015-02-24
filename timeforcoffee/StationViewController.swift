@@ -77,7 +77,9 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
             lineNumberLabel.backgroundColor = UIColor(netHexString:departure.colorBg!);
             lineNumberLabel.textColor = UIColor(netHexString:departure.colorFg!);
         } else {
-            lineNumberLabel.textColor = UIColor.whiteColor()
+            lineNumberLabel.textColor = UIColor.blackColor()
+            lineNumberLabel.backgroundColor = UIColor.whiteColor()
+
         }
         return cell
     }
