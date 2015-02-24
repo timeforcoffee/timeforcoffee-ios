@@ -15,7 +15,6 @@ class SearchResultsViewController: TFCBaseViewController, UITableViewDataSource,
     @IBOutlet var appsTableView : UITableView?
     var stations = [Station]()
     let kCellIdentifier: String = "SearchResultCell"
-    var imageCache = [String : UIImage]()
     var api : APIController?
     var refreshControl:UIRefreshControl!
     
@@ -61,56 +60,9 @@ class SearchResultsViewController: TFCBaseViewController, UITableViewDataSource,
         
         let station = self.stations[indexPath.row]
         cell.textLabel?.text = station.name
-        //cell.imageView?.image = UIImage(named: "Blank52")
         var distance = Int(currentLocation?.distanceFromLocation(station.coord) as Double!)
         cell.detailTextLabel?.text = "\(distance) Meter"
         
-        // Get the formatted price string for display in the subtitle
-//        let formattedPrice = album.price
-        
-        // Grab the artworkUrl60 key to get an image URL for the app's thumbnail
-        /*var urlString: String?
-        urlString = nil
-        if (urlString != nil) {
-            // Check our image cache for the existing key. This is just a dictionary of UIImages
-            //var image: UIImage? = self.imageCache.valueForKey(urlString) as? UIImage
-            var image = self.imageCache[urlString!]
-            station.imageURL = urlString
-            
-            if( image == nil ) {
-                // If the image does not exist, we need to download it
-                var imgURL: NSURL = NSURL(string: urlString!)!
-                
-                // Download an NSData representation of the image at the URL
-                let request: NSURLRequest = NSURLRequest(URL: imgURL)
-                NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler: {(response: NSURLResponse!,data: NSData!,error: NSError!) -> Void in
-                    if error == nil {
-                        image = UIImage(data: data)
-                        
-                        // Store the image in to our cache
-                        self.imageCache[urlString!] = image
-                        if let cellToUpdate = tableView.cellForRowAtIndexPath(indexPath) {
-                           
-                            cellToUpdate.imageView?.image = image
-                            self.fixWidthImage(cellToUpdate)
-                        }
-                    }
-                    else {
-                        println("Error: \(error.localizedDescription)")
-                    }
-                })
-                
-            }
-            else {
-                dispatch_async(dispatch_get_main_queue(), {
-                    if let cellToUpdate = tableView.cellForRowAtIndexPath(indexPath) {
-                        cellToUpdate.imageView?.image = image
-                        self.fixWidthImage(cellToUpdate)
-                    }
-                })
-            }
-        }
-        */
         // calculate exact distance
         let currentCoordinate = currentLocation?.coordinate
         var sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
@@ -131,8 +83,7 @@ class SearchResultsViewController: TFCBaseViewController, UITableViewDataSource,
             if error != nil{
                 println("Error")
             }
-            if response != nil{
-                println("number of routes = \(response.routes.count)")
+            if response != nil {
                 for r in response.routes { println("route = \(r)") }
                 var route: MKRoute = response.routes[0] as MKRoute;
                 
@@ -140,28 +91,13 @@ class SearchResultsViewController: TFCBaseViewController, UITableViewDataSource,
                 var time =  Int(round(route.expectedTravelTime / 60))
                 var meters = Int(route.distance);
                 cell.detailTextLabel?.text = "\(time) min Fussweg, \(meters) m"
-                println(route.expectedTravelTime / 60)
-            }
-            else{
+            }  else {
                 println("No response")
+                println(error?.description)
             }
-            println(error?.description)
+            
         })
-
-        
-//        cell.detailTextLabel?.text = formattedPrice
-
         return cell
-
-    }
-    
-    func fixWidthImage(cell: UITableViewCell) {
-        let itemSize = CGSizeMake(52, 52);
-        UIGraphicsBeginImageContextWithOptions(itemSize, false, UIScreen.mainScreen().scale);
-        let imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
-        cell.imageView?.image?.drawInRect(imageRect)
-        cell.imageView?.image = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
     }
     
     func didReceiveAPIResults(results: JSONValue) {
