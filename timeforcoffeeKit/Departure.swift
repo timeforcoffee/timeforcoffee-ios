@@ -15,14 +15,18 @@ public class Departure {
     public var to: String
     public var scheduled: NSDate?
     public var realtime: NSDate?
+    public var colorFg: String?
+    public var colorBg: String?
 
-    init(name: String, type: String, accessible: Bool?, to: String, scheduled: NSDate?, realtime: NSDate? ) {
+    init(name: String, type: String, accessible: Bool?, to: String, scheduled: NSDate?, realtime: NSDate?, colorFg: String?, colorBg: String? ) {
         self.name = name
         self.type = type
         self.accessible = accessible
         self.to = to
         self.scheduled = scheduled
         self.realtime = realtime
+        self.colorFg = colorFg
+        self.colorBg = colorBg
         
     }
     public class func withJSON(allResults: JSONValue) -> [Departure] {
@@ -41,6 +45,8 @@ public class Departure {
                     var to = result["to"].string
                     var scheduledStr = result["departure"]["scheduled"].string
                     var realtimeStr = result["departure"]["realtime"].string
+                    var colorFg = result["colors"]["fg"].string
+                    var colorBg = result["colors"]["bg"].string
                     var scheduled: NSDate?
                     var realtime: NSDate?
                     if (scheduledStr != nil) {
@@ -55,7 +61,7 @@ public class Departure {
                         realtime = nil
                     }
                     
-                    var newDeparture = Departure(name: name!, type: type!, accessible: accessible, to: to!, scheduled: scheduled, realtime: realtime)
+                    var newDeparture = Departure(name: name!, type: type!, accessible: accessible, to: to!, scheduled: scheduled, realtime: realtime, colorFg: colorFg, colorBg: colorBg)
                     departures.append(newDeparture)
                 }
             }
