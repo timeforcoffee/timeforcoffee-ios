@@ -54,10 +54,12 @@ class SearchResultsViewController: TFCBaseViewController, UITableViewDataSource,
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return stations.count
     }
-    
+
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as UITableViewCell
+        var cell:MGSwipeTableCell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as MGSwipeTableCell
         
+        cell.leftButtons = [MGSwipeButton( title:"Fav",  backgroundColor: UIColor.greenColor())]
+
         let station = self.stations[indexPath.row]
         cell.textLabel?.text = station.name
         var distance = Int(currentLocation?.distanceFromLocation(station.coord) as Double!)

@@ -147,7 +147,7 @@
                                 <rect key="frame" x="0.0" y="7" width="600" height="586"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SearchResultCell" textLabel="atf-fg-TgK" detailTextLabel="Lt7-NW-HPW" style="IBUITableViewCellStyleSubtitle" id="DsA-Wp-8pW">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SearchResultCell" textLabel="atf-fg-TgK" detailTextLabel="Lt7-NW-HPW" style="IBUITableViewCellStyleSubtitle" id="DsA-Wp-8pW" customClass="MGSwipeTableCell">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DsA-Wp-8pW" id="oB1-br-JCa">

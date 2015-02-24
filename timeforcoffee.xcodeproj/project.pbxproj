@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EC3252E61A9CE1320056AF11 /* MGSwipeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EC3252E31A9CE1320056AF11 /* MGSwipeButton.m */; };
+		EC3252E71A9CE1320056AF11 /* MGSwipeTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC3252E51A9CE1320056AF11 /* MGSwipeTableCell.m */; };
 		EC6EDCE81A9B6B680098CAE0 /* StationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDCE71A9B6B680098CAE0 /* StationViewController.swift */; };
 		EC6EDCF21A9B9F390098CAE0 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC6EDCF11A9B9F390098CAE0 /* NotificationCenter.framework */; };
 		EC6EDCF71A9B9F390098CAE0 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDCF61A9B9F390098CAE0 /* TodayViewController.swift */; };
@@ -98,6 +100,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		EC3252DF1A9CE0800056AF11 /* timeforcoffee-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "timeforcoffee-Bridging-Header.h"; sourceTree = "<group>"; };
+		EC3252E21A9CE1320056AF11 /* MGSwipeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSwipeButton.h; sourceTree = "<group>"; };
+		EC3252E31A9CE1320056AF11 /* MGSwipeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGSwipeButton.m; sourceTree = "<group>"; };
+		EC3252E41A9CE1320056AF11 /* MGSwipeTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSwipeTableCell.h; sourceTree = "<group>"; };
+		EC3252E51A9CE1320056AF11 /* MGSwipeTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGSwipeTableCell.m; sourceTree = "<group>"; };
 		EC6EDCE71A9B6B680098CAE0 /* StationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationViewController.swift; sourceTree = "<group>"; };
 		EC6EDCEF1A9B9F390098CAE0 /* timeforcoffee Widget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "timeforcoffee Widget.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC6EDCF11A9B9F390098CAE0 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
@@ -174,6 +181,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EC3252E91A9CE9DC0056AF11 /* MGSwipe */ = {
+			isa = PBXGroup;
+			children = (
+				EC3252E21A9CE1320056AF11 /* MGSwipeButton.h */,
+				EC3252E31A9CE1320056AF11 /* MGSwipeButton.m */,
+				EC3252E41A9CE1320056AF11 /* MGSwipeTableCell.h */,
+				EC3252E51A9CE1320056AF11 /* MGSwipeTableCell.m */,
+			);
+			name = MGSwipe;
+			sourceTree = "<group>";
+		};
 		EC6EDCF01A9B9F390098CAE0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -269,8 +287,10 @@
 			isa = PBXGroup;
 			children = (
 				EC6EDD021A9BA07E0098CAE0 /* timeforcoffee.entitlements */,
+				EC3252DF1A9CE0800056AF11 /* timeforcoffee-Bridging-Header.h */,
 				EC7A519A19C43E0A000F5E7C /* Blank52.png */,
 				EC7A517819C427CA000F5E7C /* AppDelegate.swift */,
+				EC3252E91A9CE9DC0056AF11 /* MGSwipe */,
 				EC7A517A19C427CA000F5E7C /* SearchResultsViewController.swift */,
 				EC7A517C19C427CA000F5E7C /* Main.storyboard */,
 				EC6EDCE71A9B6B680098CAE0 /* StationViewController.swift */,
@@ -555,7 +575,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC7A517B19C427CA000F5E7C /* SearchResultsViewController.swift in Sources */,
+				EC3252E71A9CE1320056AF11 /* MGSwipeTableCell.m in Sources */,
 				EC7A517919C427CA000F5E7C /* AppDelegate.swift in Sources */,
+				EC3252E61A9CE1320056AF11 /* MGSwipeButton.m in Sources */,
 				EC6EDCE81A9B6B680098CAE0 /* StationViewController.swift in Sources */,
 				EC7A519F19C4432F000F5E7C /* DetailsViewController.swift in Sources */,
 			);
@@ -826,6 +848,7 @@
 				PRODUCT_MODULE_NAME = timeforcoffee;
 				PRODUCT_NAME = "Time for Coffee!";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/timeforcoffee/timeforcoffee-Bridging-Header.h";
 			};
 			name = Debug;
 		};
@@ -842,6 +865,7 @@
 				PRODUCT_MODULE_NAME = timeforcoffee;
 				PRODUCT_NAME = "Time for Coffee!";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/timeforcoffee/timeforcoffee-Bridging-Header.h";
 			};
 			name = Release;
 		};
