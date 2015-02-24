@@ -112,7 +112,7 @@
 		EC6EDD4D1A9BA4820098CAE0 /* Station.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Station.swift; sourceTree = "<group>"; };
 		EC6EDD501A9BA5080098CAE0 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		EC6EDD531A9BA79B0098CAE0 /* APIController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIController.swift; sourceTree = "<group>"; };
-		EC7A517319C427CA000F5E7C /* timeforcoffee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = timeforcoffee.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC7A517319C427CA000F5E7C /* Time for Coffee!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Time for Coffee!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC7A517719C427CA000F5E7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC7A517819C427CA000F5E7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EC7A517A19C427CA000F5E7C /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
@@ -250,7 +250,7 @@
 		EC7A517419C427CA000F5E7C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				EC7A517319C427CA000F5E7C /* timeforcoffee.app */,
+				EC7A517319C427CA000F5E7C /* Time for Coffee!.app */,
 				EC7A518819C427CA000F5E7C /* timeforcoffeeTests.xctest */,
 				EC6EDCEF1A9B9F390098CAE0 /* timeforcoffee Widget.appex */,
 				EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */,
@@ -386,7 +386,7 @@
 			);
 			name = timeforcoffee;
 			productName = timeforcoffee;
-			productReference = EC7A517319C427CA000F5E7C /* timeforcoffee.app */;
+			productReference = EC7A517319C427CA000F5E7C /* Time for Coffee!.app */;
 			productType = "com.apple.product-type.application";
 		};
 		EC7A518719C427CA000F5E7C /* timeforcoffeeTests */ = {
@@ -815,7 +815,8 @@
 				INFOPLIST_FILE = "$(SRCROOT)/timeforcoffee/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = timeforcoffee;
+				PRODUCT_MODULE_NAME = timeforcoffee;
+				PRODUCT_NAME = "Time for Coffee!";
 				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
@@ -830,7 +831,8 @@
 				INFOPLIST_FILE = "$(SRCROOT)/timeforcoffee/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = timeforcoffee;
+				PRODUCT_MODULE_NAME = timeforcoffee;
+				PRODUCT_NAME = "Time for Coffee!";
 				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
