@@ -28,8 +28,6 @@ public extension UIColor {
         if (cString.hasPrefix("#")) {
             cString = cString.substringFromIndex(advance(cString.startIndex, 1))
         }
-        println(netHexString)
-        println(cString)
         var rgbValue:UInt32 = 0
         NSScanner(string: cString).scanHexInt(&rgbValue)
         
