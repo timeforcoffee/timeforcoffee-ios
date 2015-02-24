@@ -7,21 +7,16 @@
 //
 
 import UIKit
-import CoreLocation
 import MapKit
 import timeforcoffeeKit
+import CoreLocation
 
-class SearchResultsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, CLLocationManagerDelegate {
+class SearchResultsViewController: TFCBaseViewController, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, CLLocationManagerDelegate {
     @IBOutlet var appsTableView : UITableView?
     var stations = [Station]()
     let kCellIdentifier: String = "SearchResultCell"
     var imageCache = [String : UIImage]()
     var api : APIController?
-    var locationManager : CLLocationManager!
-    var seenError : Bool = false
-    var locationFixAchieved : Bool = false
-    var locationStatus : NSString = "Not Started"
-    var currentLocation: CLLocation?
     var refreshControl:UIRefreshControl!
     
     override func viewDidLoad() {
@@ -37,72 +32,21 @@ class SearchResultsViewController: UIViewController, UITableViewDataSource, UITa
     
     func refresh(sender:AnyObject)
     {
-        // Code to refresh table view
-        locationFixAchieved = false
-        self.locationManager.startUpdatingLocation()
+        refreshLocation()
     }
     
     // Location Manager helper stuff
-    func initLocationManager() {
-        seenError = false
-        locationFixAchieved = false
-        self.locationManager = CLLocationManager()
-        self.locationManager.delegate = self
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        
-        self.locationManager.requestWhenInUseAuthorization()
-        self.locationManager.startUpdatingLocation()
-
-
+    override func initLocationManager() {
+        super.initLocationManager()
     }
-    
-    func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
-        self.locationManager.stopUpdatingLocation()
-        if ((error) != nil) {
-            if (seenError == false) {
-                seenError = true
-                print(error)
-            }
-        }
-    }
-    
+
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        if (locationFixAchieved == false) {
-            locationFixAchieved = true
-            var locationArray = locations as NSArray
-            var locationObj = locationArray.lastObject as CLLocation
-            var coord = locationObj.coordinate
-            self.currentLocation = locationObj;
-            self.api?.searchFor(coord)
-            self.locationManager.stopUpdatingLocation()
+        var coord = locationManagerFix(manager,didUpdateLocations: locations);
+        if (coord != nil) {
+            self.api?.searchFor(coord!)
         }
     }
     
-    // authorization status
-    func locationManager(manager: CLLocationManager!,
-        didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-            var shouldIAllow = false
-            
-            switch status {
-            case CLAuthorizationStatus.Restricted:
-                locationStatus = "Restricted Access to location"
-            case CLAuthorizationStatus.Denied:
-                locationStatus = "User denied access to location"
-            case CLAuthorizationStatus.NotDetermined:
-                locationStatus = "Status not determined"
-            default:
-                locationStatus = "Allowed to location Access"
-                shouldIAllow = true
-            }
-            NSNotificationCenter.defaultCenter().postNotificationName("LabelHasbeenUpdated", object: nil)
-            if (shouldIAllow == true) {
-                NSLog("Location to Allowed")
-                // Start location services
-                locationManager.startUpdatingLocation()
-            } else {
-                NSLog("Denied access: \(locationStatus)")
-            }
-    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -111,8 +55,6 @@ class SearchResultsViewController: UIViewController, UITableViewDataSource, UITa
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return stations.count
     }
-
-
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as UITableViewCell

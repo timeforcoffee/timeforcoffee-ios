@@ -35,17 +35,13 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
         self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.appsTableView?.addSubview(refreshControl)
-
-
     }
     
     func refresh(sender:AnyObject)
     {
         // Code to refresh table view
         self.api?.getDepartures(self.station?.st_id!)
-
     }
-
     
     func didReceiveAPIResults(results: JSONValue) {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
@@ -60,8 +56,6 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.departures.count
     }
-    
-    
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as UITableViewCell
@@ -85,10 +79,6 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
         } else {
             lineNumberLabel.textColor = UIColor.whiteColor()
         }
-        
         return cell
-        
     }
-
-
 }
