@@ -10,13 +10,12 @@ import Foundation
 import CoreLocation
 
 public class Station {
-    public var name: String?
+    public var name: String
     public var coord: CLLocation
-    public var imageURL: String?
-    public var st_id: String?
+    public var st_id: String
     public var distance: CLLocationDistance?
 
-    init(name: String, id: String, coord: CLLocation?) {
+    public init(name: String, id: String, coord: CLLocation?) {
         self.name = name
         self.st_id = id
         self.coord = coord!
@@ -46,6 +45,7 @@ public class Station {
                     var Clocation = CLLocation(latitude: latitude!, longitude: longitude!)
                     var newStation = Station(name: name!, id: id!, coord: Clocation)
                     stations.append(newStation)
+                    
                 }
             }
             

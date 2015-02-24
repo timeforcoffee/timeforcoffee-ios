@@ -11,14 +11,14 @@ import MapKit
 import timeforcoffeeKit
 import CoreLocation
 
-class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, CLLocationManagerDelegate {
+class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, CLLocationManagerDelegate, MGSwipeTableCellDelegate {
     @IBOutlet var appsTableView : UITableView?
     var stations = [Station]()
     let kCellIdentifier: String = "SearchResultCell"
     var api : APIController?
     var refreshControl:UIRefreshControl!
-    var searchBar: UISearchBar?
     var searchController: UISearchController!
+    var favoriteStations: [String: Station] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +40,7 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         searchController.searchBar.delegate = self    // so we can monitor text changes + others
         
         definesPresentationContext = true
-        
+        populateFavoriteStations()
         initLocationManager()
     }
     
@@ -87,9 +87,8 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell:MGSwipeTableCell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as MGSwipeTableCell
         
-        cell.leftButtons = [MGSwipeButton( title:"Fav",  backgroundColor: UIColor.greenColor())]
-        cell.leftExpansion.buttonIndex = 0
-        cell.leftExpansion.fillOnTrigger = true
+        cell.delegate = self
+        cell.tag = indexPath.row
         let station = self.stations[indexPath.row]
         cell.textLabel?.text = station.name
         var distance = Int(currentLocation?.distanceFromLocation(station.coord) as Double!)
@@ -135,6 +134,56 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
             })
         }
         return cell
+    }
+    
+    func swipeTableCell(cell: MGSwipeTableCell!, canSwipe direction: MGSwipeDirection) -> Bool {
+        return true
+    }
+    
+    func swipeTableCell(cell: MGSwipeTableCell!, swipeButtonsForDirection direction: MGSwipeDirection, swipeSettings: MGSwipeSettings!, expansionSettings: MGSwipeExpansionSettings!) -> [AnyObject]! {
+        var buttons = []
+        if (direction == MGSwipeDirection.LeftToRight) {
+            buttons = [MGSwipeButton( title:"Fav",  backgroundColor: UIColor.greenColor())]
+        }
+        expansionSettings.buttonIndex = 0
+        expansionSettings.fillOnTrigger = true
+        return buttons
+    }
+    
+    func swipeTableCell(cell: MGSwipeTableCell!, tappedButtonAtIndex index: Int, direction: MGSwipeDirection, fromExpansion: Bool) -> Bool {
+        var favoriteStationsDict = getFavoriteStationsDict()
+        let station: Station = self.stations[cell.tag]
+        favoriteStationsDict[station.st_id] =  ["name": station.name,
+                                                "st_id": station.st_id,
+                                                "latitude": station.coord.coordinate.latitude.description,
+                                                "longitude": station.coord.coordinate.longitude.description
+                                                ]
+        
+        self.favoriteStations[station.st_id] = station
+        var sharedDefaults = NSUserDefaults(suiteName: "group.ch.liip.timeforcoffee")
+        sharedDefaults?.setObject(favoriteStationsDict, forKey: "favoriteStations")
+        return true
+    }
+    
+    func getFavoriteStationsDict() -> [String: [String: String]] {
+        var sharedDefaults = NSUserDefaults(suiteName: "group.ch.liip.timeforcoffee")
+        var favoriteStationsShared: [String: [String: String]]? = sharedDefaults?.objectForKey("favoriteStations") as [String: [String: String]]?
+        
+        if (favoriteStationsShared == nil) {
+            favoriteStationsShared = [:]
+        }
+        return favoriteStationsShared!
+    }
+    
+    func populateFavoriteStations() {
+        var favoriteStationsDict = getFavoriteStationsDict()
+        for (st_id, station) in favoriteStationsDict {
+            let lat = NSString(string:station["latitude"]!).doubleValue
+            let long = NSString(string:station["longitude"]!).doubleValue
+            var Clocation = CLLocation(latitude: lat, longitude: long)
+            let station: Station = Station(name: station["name"]!, id: station["st_id"]!, coord: Clocation)
+            self.favoriteStations[st_id] = station
+        }
     }
     
     func didReceiveAPIResults(results: JSONValue) {

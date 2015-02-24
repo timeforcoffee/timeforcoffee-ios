@@ -29,7 +29,7 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
         
         titleLabel.title = self.station?.name
         self.api = APIController(delegate: self)
-        self.api?.getDepartures(self.station?.st_id!)
+        self.api?.getDepartures(self.station?.st_id)
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         self.refreshControl = UIRefreshControl()
         self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
@@ -40,7 +40,7 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
     func refresh(sender:AnyObject)
     {
         // Code to refresh table view
-        self.api?.getDepartures(self.station?.st_id!)
+        self.api?.getDepartures(self.station?.st_id)
     }
     
     func didReceiveAPIResults(results: JSONValue) {
