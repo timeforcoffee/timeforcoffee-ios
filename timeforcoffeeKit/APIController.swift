@@ -12,15 +12,20 @@ import CoreLocation
 public class APIController {
     
     var delegate: APIControllerProtocol
+    var currentFetch: NSURLSessionDataTask?
     
     public init(delegate: APIControllerProtocol) {
         self.delegate = delegate
     }
     
     public func searchFor(coord: CLLocationCoordinate2D) {
-        
-  //      var urlPath = "http://filialen.migros.ch/store/near/%28\(coord.latitude),\(coord.longitude)%29?radius=5&storeTypes=M,MM,MMM,MIG&nowOpen=true";
-        var urlPath = "http://transport.opendata.ch/v1/locations?x=\(coord.latitude)&y=\(coord.longitude)";
+        var urlPath = "http://transport.opendata.ch/v1/locations?x=\(coord.latitude)&y=\(coord.longitude)&type=station";
+        println(urlPath)
+        self.fetchUrl(urlPath)
+    }
+
+    public func searchFor(location: String) {
+        var urlPath = "http://transport.opendata.ch/v1/locations?query=\(location)*&type=station";
         println(urlPath)
         self.fetchUrl(urlPath)
     }
@@ -35,24 +40,22 @@ public class APIController {
         let url: NSURL = NSURL(string: urlPath)!
         let session = NSURLSession.sharedSession()
         println("Start fetching data \(urlPath)")
-        let task = session.dataTaskWithURL(url, completionHandler: {data , response, error -> Void in
+        if (currentFetch != nil) {
+            currentFetch?.cancel()
+        }
+        currentFetch = session.dataTaskWithURL(url, completionHandler: {data , response, error -> Void in
             println("Task completed")
             if(error != nil) {
                 // If there is an error in the web request, print it to the console
                 println(error.localizedDescription)
             }
+            self.currentFetch = nil
             var err: NSError?
             let jsonResult = JSONValue(data)
-            /*            var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &err) as NSArray
-            if(err != nil) {
-            // If there is an error parsing JSON, print it to the console
-            println("JSON Error \(err!.localizedDescription)")
-            }*/
             self.delegate.didReceiveAPIResults(jsonResult)
         })
         
-        
-        task.resume()
+        currentFetch?.resume()
 
     }
 }
