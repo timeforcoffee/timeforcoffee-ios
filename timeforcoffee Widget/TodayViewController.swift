@@ -131,11 +131,5 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             }
         })
     }
-    
-    
-    @IBAction func buttonPressed()  {
-        NSLog("Button Pressed")
-    }
-    
 }
 
