@@ -10,6 +10,7 @@
 #define timeforcoffee_timeforcoffee_Bridging_Header_h
 #import "MGSwipeTableCell.h"
 #import "MGSwipeButton.h"
+#import <NewRelicAgent/NewRelic.h>
 
 
 #endif

@@ -11,6 +11,16 @@
 		EC2C312B1A9DECB900690397 /* office.gpx in Resources */ = {isa = PBXBuildFile; fileRef = EC2C31281A9DE92700690397 /* office.gpx */; };
 		EC2C312C1A9DECBA00690397 /* office.gpx in Resources */ = {isa = PBXBuildFile; fileRef = EC2C31281A9DE92700690397 /* office.gpx */; };
 		EC2C312D1A9DECBD00690397 /* home.gpx in Resources */ = {isa = PBXBuildFile; fileRef = EC2C31261A9DE8B000690397 /* home.gpx */; };
+		EC2C31691A9E1E9B00690397 /* NewRelicAgent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C31681A9E1E9B00690397 /* NewRelicAgent.framework */; };
+		EC2C316A1A9E1E9B00690397 /* NewRelicAgent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C31681A9E1E9B00690397 /* NewRelicAgent.framework */; };
+		EC2C31771A9E1F0A00690397 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C31731A9E1EE400690397 /* libc++.dylib */; };
+		EC2C31781A9E1F1000690397 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C31751A9E1EEB00690397 /* libz.dylib */; };
+		EC2C31791A9E1F1900690397 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C316B1A9E1EB800690397 /* CoreTelephony.framework */; };
+		EC2C317A1A9E1F2500690397 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C31711A9E1EDD00690397 /* SystemConfiguration.framework */; };
+		EC2C317B1A9E1F2D00690397 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C31711A9E1EDD00690397 /* SystemConfiguration.framework */; };
+		EC2C317C1A9E1F3300690397 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C316B1A9E1EB800690397 /* CoreTelephony.framework */; };
+		EC2C317D1A9E1F3D00690397 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C31731A9E1EE400690397 /* libc++.dylib */; };
+		EC2C317E1A9E1F4400690397 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C31751A9E1EEB00690397 /* libz.dylib */; };
 		EC3252E61A9CE1320056AF11 /* MGSwipeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EC3252E31A9CE1320056AF11 /* MGSwipeButton.m */; };
 		EC3252E71A9CE1320056AF11 /* MGSwipeTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC3252E51A9CE1320056AF11 /* MGSwipeTableCell.m */; };
 		EC6EDCE81A9B6B680098CAE0 /* StationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDCE71A9B6B680098CAE0 /* StationViewController.swift */; };
@@ -31,7 +41,6 @@
 		EC7A517E19C427CA000F5E7C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC7A517C19C427CA000F5E7C /* Main.storyboard */; };
 		EC7A518019C427CA000F5E7C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC7A517F19C427CA000F5E7C /* Images.xcassets */; };
 		EC7A518319C427CA000F5E7C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC7A518119C427CA000F5E7C /* LaunchScreen.xib */; };
-		EC7A518F19C427CA000F5E7C /* nextMigrosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A518E19C427CA000F5E7C /* nextMigrosTests.swift */; };
 		EC7A519B19C43E0A000F5E7C /* Blank52.png in Resources */ = {isa = PBXBuildFile; fileRef = EC7A519A19C43E0A000F5E7C /* Blank52.png */; };
 		EC7A519F19C4432F000F5E7C /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A519E19C4432F000F5E7C /* DetailsViewController.swift */; };
 		EC95714F1A9CACB70061F8B4 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC95714E1A9CACB70061F8B4 /* extensions.swift */; };
@@ -69,13 +78,6 @@
 			remoteGlobalIDString = EC6EDD2C1A9BA36F0098CAE0;
 			remoteInfo = timeforcoffeeKit;
 		};
-		EC7A518919C427CA000F5E7C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EC7A516B19C427CA000F5E7C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = EC7A517219C427CA000F5E7C;
-			remoteInfo = timeforcoffee;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -106,6 +108,13 @@
 /* Begin PBXFileReference section */
 		EC2C31261A9DE8B000690397 /* home.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = home.gpx; path = gpx/home.gpx; sourceTree = "<group>"; };
 		EC2C31281A9DE92700690397 /* office.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = office.gpx; path = gpx/office.gpx; sourceTree = "<group>"; };
+		EC2C31681A9E1E9B00690397 /* NewRelicAgent.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = NewRelicAgent.framework; sourceTree = "<group>"; };
+		EC2C316B1A9E1EB800690397 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		EC2C316D1A9E1EC000690397 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		EC2C316F1A9E1EC700690397 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		EC2C31711A9E1EDD00690397 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		EC2C31731A9E1EE400690397 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
+		EC2C31751A9E1EEB00690397 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		EC3252DF1A9CE0800056AF11 /* timeforcoffee-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "timeforcoffee-Bridging-Header.h"; sourceTree = "<group>"; };
 		EC3252E21A9CE1320056AF11 /* MGSwipeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSwipeButton.h; sourceTree = "<group>"; };
 		EC3252E31A9CE1320056AF11 /* MGSwipeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGSwipeButton.m; sourceTree = "<group>"; };
@@ -134,9 +143,6 @@
 		EC7A517D19C427CA000F5E7C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EC7A517F19C427CA000F5E7C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		EC7A518219C427CA000F5E7C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		EC7A518819C427CA000F5E7C /* timeforcoffeeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = timeforcoffeeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		EC7A518D19C427CA000F5E7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EC7A518E19C427CA000F5E7C /* nextMigrosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = nextMigrosTests.swift; sourceTree = "<group>"; };
 		EC7A519A19C43E0A000F5E7C /* Blank52.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Blank52.png; sourceTree = "<group>"; };
 		EC7A519E19C4432F000F5E7C /* DetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		EC95714E1A9CACB70061F8B4 /* extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
@@ -151,7 +157,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC2C317A1A9E1F2500690397 /* SystemConfiguration.framework in Frameworks */,
+				EC2C31791A9E1F1900690397 /* CoreTelephony.framework in Frameworks */,
+				EC2C31781A9E1F1000690397 /* libz.dylib in Frameworks */,
+				EC2C31771A9E1F0A00690397 /* libc++.dylib in Frameworks */,
 				ECD871961A9BB2F7003CCCB3 /* timeforcoffeeKit.framework in Frameworks */,
+				EC2C316A1A9E1E9B00690397 /* NewRelicAgent.framework in Frameworks */,
 				EC6EDCF21A9B9F390098CAE0 /* NotificationCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -175,14 +186,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC2C317E1A9E1F4400690397 /* libz.dylib in Frameworks */,
+				EC2C317D1A9E1F3D00690397 /* libc++.dylib in Frameworks */,
+				EC2C317C1A9E1F3300690397 /* CoreTelephony.framework in Frameworks */,
+				EC2C317B1A9E1F2D00690397 /* SystemConfiguration.framework in Frameworks */,
 				EC6EDD441A9BA36F0098CAE0 /* timeforcoffeeKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		EC7A518519C427CA000F5E7C /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				EC2C31691A9E1E9B00690397 /* NewRelicAgent.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -212,6 +221,13 @@
 		EC6EDCF01A9B9F390098CAE0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EC2C31751A9E1EEB00690397 /* libz.dylib */,
+				EC2C31731A9E1EE400690397 /* libc++.dylib */,
+				EC2C31711A9E1EDD00690397 /* SystemConfiguration.framework */,
+				EC2C316F1A9E1EC700690397 /* Foundation.framework */,
+				EC2C316D1A9E1EC000690397 /* UIKit.framework */,
+				EC2C316B1A9E1EB800690397 /* CoreTelephony.framework */,
+				EC2C31681A9E1E9B00690397 /* NewRelicAgent.framework */,
 				EC6EDCF11A9B9F390098CAE0 /* NotificationCenter.framework */,
 			);
 			name = Frameworks;
@@ -280,7 +296,6 @@
 			isa = PBXGroup;
 			children = (
 				EC7A517519C427CA000F5E7C /* timeforcoffee */,
-				EC7A518B19C427CA000F5E7C /* timeforcoffeeTests */,
 				EC6EDCF31A9B9F390098CAE0 /* timeforcoffee Widget */,
 				EC6EDD2E1A9BA36F0098CAE0 /* timeforcoffeeKit */,
 				EC6EDD3D1A9BA36F0098CAE0 /* timeforcoffeeKitTests */,
@@ -294,7 +309,6 @@
 			isa = PBXGroup;
 			children = (
 				EC7A517319C427CA000F5E7C /* Time for Coffee!.app */,
-				EC7A518819C427CA000F5E7C /* timeforcoffeeTests.xctest */,
 				EC6EDCEF1A9B9F390098CAE0 /* timeforcoffee Widget.appex */,
 				EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */,
 				EC6EDD371A9BA36F0098CAE0 /* timeforcoffeeKitTests.xctest */,
@@ -326,23 +340,6 @@
 			isa = PBXGroup;
 			children = (
 				EC7A517719C427CA000F5E7C /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		EC7A518B19C427CA000F5E7C /* timeforcoffeeTests */ = {
-			isa = PBXGroup;
-			children = (
-				EC7A518E19C427CA000F5E7C /* nextMigrosTests.swift */,
-				EC7A518C19C427CA000F5E7C /* Supporting Files */,
-			);
-			path = timeforcoffeeTests;
-			sourceTree = "<group>";
-		};
-		EC7A518C19C427CA000F5E7C /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				EC7A518D19C427CA000F5E7C /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -385,6 +382,7 @@
 				EC6EDD291A9BA36F0098CAE0 /* Frameworks */,
 				EC6EDD2A1A9BA36F0098CAE0 /* Headers */,
 				EC6EDD5F1A9BAB110098CAE0 /* Resources */,
+				EC2C31801A9E203300690397 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -423,6 +421,7 @@
 				EC7A517119C427CA000F5E7C /* Resources */,
 				EC6EDD001A9B9F390098CAE0 /* Embed App Extensions */,
 				EC6EDD241A9BA33C0098CAE0 /* Embed Frameworks */,
+				EC2C317F1A9E202500690397 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -434,24 +433,6 @@
 			productName = timeforcoffee;
 			productReference = EC7A517319C427CA000F5E7C /* Time for Coffee!.app */;
 			productType = "com.apple.product-type.application";
-		};
-		EC7A518719C427CA000F5E7C /* timeforcoffeeTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = EC7A519519C427CA000F5E7C /* Build configuration list for PBXNativeTarget "timeforcoffeeTests" */;
-			buildPhases = (
-				EC7A518419C427CA000F5E7C /* Sources */,
-				EC7A518519C427CA000F5E7C /* Frameworks */,
-				EC7A518619C427CA000F5E7C /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				EC7A518A19C427CA000F5E7C /* PBXTargetDependency */,
-			);
-			name = timeforcoffeeTests;
-			productName = timeforcofeeTests;
-			productReference = EC7A518819C427CA000F5E7C /* timeforcoffeeTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -488,10 +469,6 @@
 							};
 						};
 					};
-					EC7A518719C427CA000F5E7C = {
-						CreatedOnToolsVersion = 6.0;
-						TestTargetID = EC7A517219C427CA000F5E7C;
-					};
 				};
 			};
 			buildConfigurationList = EC7A516E19C427CA000F5E7C /* Build configuration list for PBXProject "timeforcoffee" */;
@@ -508,7 +485,6 @@
 			projectRoot = "";
 			targets = (
 				EC7A517219C427CA000F5E7C /* timeforcoffee */,
-				EC7A518719C427CA000F5E7C /* timeforcoffeeTests */,
 				EC6EDCEE1A9B9F390098CAE0 /* timeforcoffee Widget */,
 				EC6EDD2C1A9BA36F0098CAE0 /* timeforcoffeeKit */,
 				EC6EDD361A9BA36F0098CAE0 /* timeforcoffeeKitTests */,
@@ -554,14 +530,36 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		EC7A518619C427CA000F5E7C /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		EC2C317F1A9E202500690397 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
 			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "SCRIPT=`/usr/bin/find \"${SRCROOT}\" -name newrelic_postbuild.sh | head -n 1`\n\n/bin/sh \"${SCRIPT}\" \"AAe7c5942c67612bc82125c42d8b0b5c6a7df227b2\"";
 		};
-/* End PBXResourcesBuildPhase section */
+		EC2C31801A9E203300690397 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "SCRIPT=`/usr/bin/find \"${SRCROOT}\" -name newrelic_postbuild.sh | head -n 1`\n\n/bin/sh \"${SCRIPT}\" \"AAe7c5942c67612bc82125c42d8b0b5c6a7df227b2\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		EC6EDCEB1A9B9F390098CAE0 /* Sources */ = {
@@ -607,14 +605,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		EC7A518419C427CA000F5E7C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				EC7A518F19C427CA000F5E7C /* nextMigrosTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -637,11 +627,6 @@
 			isa = PBXTargetDependency;
 			target = EC6EDD2C1A9BA36F0098CAE0 /* timeforcoffeeKit */;
 			targetProxy = EC6EDD421A9BA36F0098CAE0 /* PBXContainerItemProxy */;
-		};
-		EC7A518A19C427CA000F5E7C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = EC7A517219C427CA000F5E7C /* timeforcoffee */;
-			targetProxy = EC7A518919C427CA000F5E7C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -671,6 +656,10 @@
 				CODE_SIGN_ENTITLEMENTS = "timeforcoffee Widget/timeforcoffee Widget.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -691,6 +680,10 @@
 				CODE_SIGN_ENTITLEMENTS = "timeforcoffee Widget/timeforcoffee Widget.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "timeforcoffee Widget/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
@@ -878,6 +871,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/timeforcoffee/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -897,6 +894,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/timeforcoffee/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -905,41 +906,6 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/timeforcoffee/timeforcoffee-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
-			};
-			name = Release;
-		};
-		EC7A519619C427CA000F5E7C /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = timeforcoffeeTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = timeforcoffeeTests;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/timeforcoffee.app/timeforcoffee";
-			};
-			name = Debug;
-		};
-		EC7A519719C427CA000F5E7C /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = timeforcoffeeTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = timeforcoffeeTests;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/timeforcoffee.app/timeforcoffee";
 			};
 			name = Release;
 		};
@@ -987,15 +953,6 @@
 			buildConfigurations = (
 				EC7A519319C427CA000F5E7C /* Debug */,
 				EC7A519419C427CA000F5E7C /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		EC7A519519C427CA000F5E7C /* Build configuration list for PBXNativeTarget "timeforcoffeeTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				EC7A519619C427CA000F5E7C /* Debug */,
-				EC7A519719C427CA000F5E7C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
