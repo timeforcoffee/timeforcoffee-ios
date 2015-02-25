@@ -12,11 +12,10 @@ import CoreLocation
 public class TFCStations {
     var stations:[TFCStation] = []
     var favoriteStations: [String: TFCStation] = [:]
-
+    var favoritesInStationsArray: [String: Bool] = [:]
 
     public init() {
         populateFavoriteStations()
-
     }
 
     public func count() -> Int {
@@ -24,19 +23,28 @@ public class TFCStations {
     }
     
     public func addWithJSON(allResults: JSONValue) {
-        stations = []
+        addWithJSON(allResults, append: false)
+    }
+    
+    public func addWithJSON(allResults: JSONValue, append: Bool) {
+        if (!append) {
+            stations = []
+            favoritesInStationsArray = [:]
+        }
         // Create an empty array of Albums to append to from this list
         // Store the results in our table data array
         if allResults["stations"].array?.count>0 {
             if let results = allResults["stations"].array {
                 for result in results {
-                    var name = result["name"].string
                     var id = result["id"].string
-                    var longitude = result["coordinate"]["y"].double
-                    var latitude = result["coordinate"]["x"].double
-                    var Clocation = CLLocation(latitude: latitude!, longitude: longitude!)
-                    var newStation = TFCStation(name: name!, id: id!, coord: Clocation)
-                    stations.append(newStation)
+                    if (favoritesInStationsArray[id!] == nil) {
+                        var name = result["name"].string
+                        var longitude = result["coordinate"]["y"].double
+                        var latitude = result["coordinate"]["x"].double
+                        var Clocation = CLLocation(latitude: latitude!, longitude: longitude!)
+                        var newStation = TFCStation(name: name!, id: id!, coord: Clocation)
+                        stations.append(newStation)
+                    }
                 }
             }
         }
@@ -48,6 +56,21 @@ public class TFCStations {
     
     public func isFavoriteStation(index: String) -> Bool {
         if (favoriteStations[index] != nil) {
+            return true
+        }
+        return false
+    }
+    
+    public func addNearbyFavorites(location: CLLocation) -> Bool {
+        for (st_id, station) in favoriteStations {
+            var distance = Int(location.distanceFromLocation(station.coord) as Double!)
+            if (distance < 1000) {
+                station.name = "\(station.name) *"
+                self.stations.append(station)
+                favoritesInStationsArray[station.st_id] = true
+            }
+        }
+        if (favoritesInStationsArray.count > 0) {
             return true
         }
         return false
@@ -79,6 +102,8 @@ public class TFCStations {
     
     func populateFavoriteStations() {
         var favoriteStationsDict = getFavoriteStationsDict()
+        println("populate")
+        println(favoriteStationsDict)
         for (st_id, station) in favoriteStationsDict {
             let lat = NSString(string:station["latitude"]!).doubleValue
             let long = NSString(string:station["longitude"]!).doubleValue

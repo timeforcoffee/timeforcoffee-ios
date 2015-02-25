@@ -61,6 +61,11 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
         var coord = locationManagerFix(manager,didUpdateLocations: locations);
         if (coord != nil) {
+            if (self.stations.addNearbyFavorites(currentLocation!)) {
+                self.titleLabel.text = self.stations.getStation(0).name
+                self.api?.getDepartures(self.stations.getStation(0).st_id)
+            }
+
             self.api?.searchFor(coord!)
         }
     }
@@ -109,11 +114,11 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     
     func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)!) {
         // Perform any setup necessary in order to update the view.
+        initLocationManager()
 
         // If an error is encountered, use NCUpdateResult.Failed
         // If there's no update required, use NCUpdateResult.NoData
         // If there's an update, use NCUpdateResult.NewData
-        initLocationManager()
         //this should only be called, after everything is updated. didReceiveAPIResults ;)
         // see also https://stackoverflow.com/questions/25961513/ios-8-today-widget-stops-working-after-a-while
         completionHandler(NCUpdateResult.NewData)
@@ -122,9 +127,12 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     func didReceiveAPIResults(results: JSONValue) {
         dispatch_async(dispatch_get_main_queue(), {
             if (TFCStation.isStations(results)) {
-                self.stations.addWithJSON(results)
+                let hasAlreadyFavouritesDisplayed = self.stations.count()
+                self.stations.addWithJSON(results, append: true)
                 self.titleLabel.text = self.stations.getStation(self.currentStationIndex).name
-                self.api?.getDepartures(self.stations.getStation(self.currentStationIndex).st_id)
+                if (hasAlreadyFavouritesDisplayed == 0) {
+                    self.api?.getDepartures(self.stations.getStation(self.currentStationIndex).st_id)
+                }
             } else {
                 self.departures = TFCDeparture.withJSON(results)
                 self.appsTableView!.reloadData()

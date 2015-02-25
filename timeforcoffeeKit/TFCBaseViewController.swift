@@ -45,7 +45,6 @@ public class TFCBaseViewController: UIViewController, CLLocationManagerDelegate 
             var coord = locationObj.coordinate
             currentLocation = locationObj;
             locationManager.stopUpdatingLocation()
-            println(currentLocation)
             return coord
         }
         return nil
