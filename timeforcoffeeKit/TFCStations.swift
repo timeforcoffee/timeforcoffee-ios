@@ -66,11 +66,13 @@ public class TFCStations {
             var distance = Int(location.distanceFromLocation(station.coord) as Double!)
             if (distance < 1000) {
                 station.name = "\(station.name) *"
+                station.calculatedDistance = distance
                 self.stations.append(station)
                 favoritesInStationsArray[station.st_id] = true
             }
         }
         if (favoritesInStationsArray.count > 0) {
+            self.stations.sort({ $0.calculatedDistance < $1.calculatedDistance })
             return true
         }
         return false

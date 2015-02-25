@@ -14,6 +14,7 @@ public class TFCStation {
     public var coord: CLLocation
     public var st_id: String
     public var distance: CLLocationDistance?
+    public var calculatedDistance: Int?
 
     public init(name: String, id: String, coord: CLLocation?) {
         self.name = name
