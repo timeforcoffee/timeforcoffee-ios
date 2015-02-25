@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EC2C31271A9DE8B000690397 /* home.gpx in Resources */ = {isa = PBXBuildFile; fileRef = EC2C31261A9DE8B000690397 /* home.gpx */; };
 		EC3252E61A9CE1320056AF11 /* MGSwipeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EC3252E31A9CE1320056AF11 /* MGSwipeButton.m */; };
 		EC3252E71A9CE1320056AF11 /* MGSwipeTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC3252E51A9CE1320056AF11 /* MGSwipeTableCell.m */; };
 		EC6EDCE81A9B6B680098CAE0 /* StationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDCE71A9B6B680098CAE0 /* StationViewController.swift */; };
@@ -100,6 +101,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		EC2C31261A9DE8B000690397 /* home.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = home.gpx; path = gpx/home.gpx; sourceTree = "<group>"; };
+		EC2C31281A9DE92700690397 /* office.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = office.gpx; path = gpx/office.gpx; sourceTree = "<group>"; };
 		EC3252DF1A9CE0800056AF11 /* timeforcoffee-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "timeforcoffee-Bridging-Header.h"; sourceTree = "<group>"; };
 		EC3252E21A9CE1320056AF11 /* MGSwipeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSwipeButton.h; sourceTree = "<group>"; };
 		EC3252E31A9CE1320056AF11 /* MGSwipeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGSwipeButton.m; sourceTree = "<group>"; };
@@ -183,6 +186,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EC2C312A1A9DEA1F00690397 /* gpx */ = {
+			isa = PBXGroup;
+			children = (
+				EC2C31281A9DE92700690397 /* office.gpx */,
+				EC2C31261A9DE8B000690397 /* home.gpx */,
+			);
+			name = gpx;
+			sourceTree = "<group>";
+		};
 		EC3252E91A9CE9DC0056AF11 /* MGSwipe */ = {
 			isa = PBXGroup;
 			children = (
@@ -269,6 +281,7 @@
 				EC6EDCF31A9B9F390098CAE0 /* timeforcoffee Widget */,
 				EC6EDD2E1A9BA36F0098CAE0 /* timeforcoffeeKit */,
 				EC6EDD3D1A9BA36F0098CAE0 /* timeforcoffeeKitTests */,
+				EC2C312A1A9DEA1F00690397 /* gpx */,
 				EC6EDCF01A9B9F390098CAE0 /* Frameworks */,
 				EC7A517419C427CA000F5E7C /* Products */,
 			);
@@ -529,6 +542,7 @@
 			files = (
 				EC7A517E19C427CA000F5E7C /* Main.storyboard in Resources */,
 				EC7A519B19C43E0A000F5E7C /* Blank52.png in Resources */,
+				EC2C31271A9DE8B000690397 /* home.gpx in Resources */,
 				EC7A518319C427CA000F5E7C /* LaunchScreen.xib in Resources */,
 				EC7A518019C427CA000F5E7C /* Images.xcassets in Resources */,
 			);
@@ -711,7 +725,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Liip AG (QCDJ9EC736)";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -751,6 +765,7 @@
 		EC6EDD4B1A9BA36F0098CAE0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Liip AG (QCDJ9EC736)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -906,6 +921,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
