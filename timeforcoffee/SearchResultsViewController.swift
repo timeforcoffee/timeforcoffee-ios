@@ -13,16 +13,16 @@ import CoreLocation
 
 class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, CLLocationManagerDelegate, MGSwipeTableCellDelegate {
     @IBOutlet var appsTableView : UITableView?
-    var stations = [TFCStation]()
+    var stations: TFCStations!
     let kCellIdentifier: String = "SearchResultCell"
     var api : APIController?
     var refreshControl:UIRefreshControl!
     var searchController: UISearchController!
-    var favoriteStations: [String: TFCStation] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         api = APIController(delegate: self)
+        stations = TFCStations()
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         self.refreshControl = UIRefreshControl()
         self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
@@ -40,7 +40,7 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         searchController.searchBar.delegate = self    // so we can monitor text changes + others
         
         definesPresentationContext = true
-        populateFavoriteStations()
+        
         initLocationManager()
     }
     
@@ -81,7 +81,10 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return stations.count
+        if (stations == nil) {
+            return 0
+        }
+        return stations.count()
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -89,8 +92,8 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         
         cell.delegate = self
         cell.tag = indexPath.row
-        let station = self.stations[indexPath.row]
-        if (self.favoriteStations[station.st_id] != nil) {
+        let station = self.stations.getStation(indexPath.row)
+        if (stations.isFavoriteStation(station.st_id)) {
             cell.textLabel?.text = "\(station.name) *"
         } else {
             cell.textLabel?.text = station.name
@@ -147,8 +150,8 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
     func swipeTableCell(cell: MGSwipeTableCell!, swipeButtonsForDirection direction: MGSwipeDirection, swipeSettings: MGSwipeSettings!, expansionSettings: MGSwipeExpansionSettings!) -> [AnyObject]! {
         var buttons = []
         if (direction == MGSwipeDirection.LeftToRight) {
-            let station: TFCStation = self.stations[cell.tag]
-            if (favoriteStations[station.st_id] != nil) {
+            let station: TFCStation = self.stations.getStation(cell.tag)
+            if (stations.isFavoriteStation(station.st_id)) {
                 buttons = [MGSwipeButton( title:"Fav",  backgroundColor: UIColor.redColor())]
             } else {
                 buttons = [MGSwipeButton( title:"Fav",  backgroundColor: UIColor.greenColor())]
@@ -160,57 +163,27 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
     }
     
     func swipeTableCell(cell: MGSwipeTableCell!, tappedButtonAtIndex index: Int, direction: MGSwipeDirection, fromExpansion: Bool) -> Bool {
-        var favoriteStationsDict = getFavoriteStationsDict()
-        let station: TFCStation = self.stations[cell.tag]
-        if (favoriteStations[station.st_id] != nil) {
-            favoriteStationsDict[station.st_id] = nil
-            favoriteStations[station.st_id] = nil
+        let station: TFCStation = self.stations.getStation(cell.tag)
+        if (stations.isFavoriteStation(station.st_id)) {
+            stations.unsetFavoriteStation(station.st_id)
             var button = cell.leftButtons[0] as MGSwipeButton
             button.backgroundColor = UIColor.greenColor();
             cell.textLabel?.text = "\(station.name)"
         } else {
-            favoriteStationsDict[station.st_id] =  [
-                "name": station.name,
-                "st_id": station.st_id,
-                "latitude": station.coord.coordinate.latitude.description,
-                "longitude": station.coord.coordinate.longitude.description
-            ]
-            favoriteStations[station.st_id] = station
+            stations.setFavoriteStation(station)
             var button = cell.leftButtons[0] as MGSwipeButton
             button.backgroundColor = UIColor.redColor();
             cell.textLabel?.text = "\(station.name) *"
         }
-        var sharedDefaults = NSUserDefaults(suiteName: "group.ch.liip.timeforcoffee")
-        sharedDefaults?.setObject(favoriteStationsDict, forKey: "favoriteStations")
         return true
     }
-    
-    func getFavoriteStationsDict() -> [String: [String: String]] {
-        var sharedDefaults = NSUserDefaults(suiteName: "group.ch.liip.timeforcoffee")
-        var favoriteStationsShared: [String: [String: String]]? = sharedDefaults?.objectForKey("favoriteStations") as [String: [String: String]]?
-        
-        if (favoriteStationsShared == nil) {
-            favoriteStationsShared = [:]
-        }
-        return favoriteStationsShared!
-    }
-    
-    func populateFavoriteStations() {
-        var favoriteStationsDict = getFavoriteStationsDict()
-        for (st_id, station) in favoriteStationsDict {
-            let lat = NSString(string:station["latitude"]!).doubleValue
-            let long = NSString(string:station["longitude"]!).doubleValue
-            var Clocation = CLLocation(latitude: lat, longitude: long)
-            let station: TFCStation = TFCStation(name: station["name"]!, id: station["st_id"]!, coord: Clocation)
-            self.favoriteStations[st_id] = station
-        }
-    }
+
     
     func didReceiveAPIResults(results: JSONValue) {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         self.refreshControl.endRefreshing()
         dispatch_async(dispatch_get_main_queue(), {
-            self.stations = TFCStation.withJSON(results)
+            self.stations.addWithJSON(results)
             self.appsTableView!.reloadData()
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         })
@@ -219,8 +192,7 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         var detailsViewController: StationViewController = segue.destinationViewController as StationViewController
         var albumIndex = appsTableView?.indexPathForSelectedRow()?.row
-//        var albumIndex = appsTableView!.indexPathForSelectedRow().row
-        var selectedAlbum = self.stations[albumIndex!]
+        var selectedAlbum = stations.getStation(albumIndex!)
         detailsViewController.station = selectedAlbum
     }
 

@@ -16,7 +16,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     @IBOutlet weak var appsTableView: UITableView!
     let kCellIdentifier: String = "SearchResultCellWidget"
 
-    var stations = [TFCStation]()
+    var stations: TFCStations!
     var departures = [TFCDeparture]()
     var api : APIController?
     var currentStationIndex = 0
@@ -24,6 +24,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         api = APIController(delegate: self)
+        stations = TFCStations()
         titleLabel.userInteractionEnabled = true;
         let tapGesture  = UITapGestureRecognizer(target: self, action: "handleTap:")
         titleLabel.addGestureRecognizer(tapGesture)
@@ -33,13 +34,13 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     @IBAction func nextButtonTouchUp(sender: AnyObject) {
         
         self.currentStationIndex++
-        if (self.currentStationIndex >= self.stations.count) {
+        if (self.currentStationIndex >= self.stations.count()) {
             self.currentStationIndex = 0
         }
         self.departures = [TFCDeparture]();
         self.appsTableView!.reloadData()
-        self.titleLabel.text = self.stations[self.currentStationIndex].name
-        self.api?.getDepartures(self.stations[self.currentStationIndex].st_id)
+        self.titleLabel.text = self.stations.getStation(self.currentStationIndex).name
+        self.api?.getDepartures(self.stations.getStation(self.currentStationIndex).st_id)
 
     }
     override func viewDidAppear(animated: Bool) {
@@ -121,9 +122,9 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     func didReceiveAPIResults(results: JSONValue) {
         dispatch_async(dispatch_get_main_queue(), {
             if (TFCStation.isStations(results)) {
-                self.stations = TFCStation.withJSON(results)
-                self.titleLabel.text = self.stations[self.currentStationIndex].name
-                self.api?.getDepartures(self.stations[self.currentStationIndex].st_id)
+                self.stations.addWithJSON(results)
+                self.titleLabel.text = self.stations.getStation(self.currentStationIndex).name
+                self.api?.getDepartures(self.stations.getStation(self.currentStationIndex).st_id)
             } else {
                 self.departures = TFCDeparture.withJSON(results)
                 self.appsTableView!.reloadData()
