@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		EC2C31271A9DE8B000690397 /* home.gpx in Resources */ = {isa = PBXBuildFile; fileRef = EC2C31261A9DE8B000690397 /* home.gpx */; };
+		EC2C312B1A9DECB900690397 /* office.gpx in Resources */ = {isa = PBXBuildFile; fileRef = EC2C31281A9DE92700690397 /* office.gpx */; };
+		EC2C312C1A9DECBA00690397 /* office.gpx in Resources */ = {isa = PBXBuildFile; fileRef = EC2C31281A9DE92700690397 /* office.gpx */; };
+		EC2C312D1A9DECBD00690397 /* home.gpx in Resources */ = {isa = PBXBuildFile; fileRef = EC2C31261A9DE8B000690397 /* home.gpx */; };
 		EC3252E61A9CE1320056AF11 /* MGSwipeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EC3252E31A9CE1320056AF11 /* MGSwipeButton.m */; };
 		EC3252E71A9CE1320056AF11 /* MGSwipeTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC3252E51A9CE1320056AF11 /* MGSwipeTableCell.m */; };
 		EC6EDCE81A9B6B680098CAE0 /* StationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDCE71A9B6B680098CAE0 /* StationViewController.swift */; };
@@ -519,6 +522,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC6EDCF91A9B9F390098CAE0 /* MainInterface.storyboard in Resources */,
+				EC2C312C1A9DECBA00690397 /* office.gpx in Resources */,
+				EC2C312D1A9DECBD00690397 /* home.gpx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -545,6 +550,7 @@
 				EC2C31271A9DE8B000690397 /* home.gpx in Resources */,
 				EC7A518319C427CA000F5E7C /* LaunchScreen.xib in Resources */,
 				EC7A518019C427CA000F5E7C /* Images.xcassets in Resources */,
+				EC2C312B1A9DECB900690397 /* office.gpx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -675,6 +681,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -690,6 +697,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -715,6 +723,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -738,6 +747,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
