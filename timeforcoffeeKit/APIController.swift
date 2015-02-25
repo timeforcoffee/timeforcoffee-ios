@@ -37,7 +37,8 @@ public class APIController {
     }
     
     public func fetchUrl(urlPath: String) {
-        let url: NSURL = NSURL(string: urlPath)!
+        let urlPathEsc = urlPath.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
+        let url: NSURL = NSURL(string: urlPathEsc)!
         let session = NSURLSession.sharedSession()
         println("Start fetching data \(urlPath)")
         if (currentFetch != nil) {
