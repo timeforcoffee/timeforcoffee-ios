@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class Departure {
+public class TFCDeparture {
     public var name: String
     public var type: String
     public var accessible: Bool?
@@ -29,10 +29,10 @@ public class Departure {
         self.colorBg = colorBg
         
     }
-    public class func withJSON(allResults: JSONValue) -> [Departure] {
+    public class func withJSON(allResults: JSONValue) -> [TFCDeparture] {
         
         // Create an empty array of Albums to append to from this list
-        var departures = [Departure]()
+        var departures = [TFCDeparture]()
         // Store the results in our table data array
         if allResults["departures"].array?.count>0 {
             
@@ -61,7 +61,7 @@ public class Departure {
                         realtime = nil
                     }
                     
-                    var newDeparture = Departure(name: name!, type: type!, accessible: accessible, to: to!, scheduled: scheduled, realtime: realtime, colorFg: colorFg, colorBg: colorBg)
+                    var newDeparture = TFCDeparture(name: name!, type: type!, accessible: accessible, to: to!, scheduled: scheduled, realtime: realtime, colorFg: colorFg, colorBg: colorBg)
                     departures.append(newDeparture)
                 }
             }

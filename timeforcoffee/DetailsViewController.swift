@@ -18,7 +18,7 @@ class DetailsViewController: UIViewController, MKMapViewDelegate {
     
     @IBOutlet weak var distanceLabel: UILabel!
     
-    var station: Station?
+    var station: TFCStation?
     var sourceMapItem: MKMapItem?
     var destinationMapItem: MKMapItem?
     

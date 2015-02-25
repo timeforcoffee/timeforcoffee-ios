@@ -16,8 +16,8 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     @IBOutlet weak var appsTableView: UITableView!
     let kCellIdentifier: String = "SearchResultCellWidget"
 
-    var stations = [Station]()
-    var departures = [Departure]()
+    var stations = [TFCStation]()
+    var departures = [TFCDeparture]()
     var api : APIController?
     var currentStationIndex = 0
    
@@ -36,7 +36,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         if (self.currentStationIndex >= self.stations.count) {
             self.currentStationIndex = 0
         }
-        self.departures = [Departure]();
+        self.departures = [TFCDeparture]();
         self.appsTableView!.reloadData()
         self.titleLabel.text = self.stations[self.currentStationIndex].name
         self.api?.getDepartures(self.stations[self.currentStationIndex].st_id)
@@ -81,7 +81,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         let departureLabel = cell.viewWithTag(300) as UILabel
         
         
-        let departure: Departure = self.departures[indexPath.row]
+        let departure: TFCDeparture = self.departures[indexPath.row]
         lineNumberLabel.text = departure.getLine()
         destinationLabel.text = departure.getLineAndDestination()
         departureLabel.text = departure.getTimeString()
@@ -120,12 +120,12 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     
     func didReceiveAPIResults(results: JSONValue) {
         dispatch_async(dispatch_get_main_queue(), {
-            if (Station.isStations(results)) {
-                self.stations = Station.withJSON(results)
+            if (TFCStation.isStations(results)) {
+                self.stations = TFCStation.withJSON(results)
                 self.titleLabel.text = self.stations[self.currentStationIndex].name
                 self.api?.getDepartures(self.stations[self.currentStationIndex].st_id)
             } else {
-                self.departures = Departure.withJSON(results)
+                self.departures = TFCDeparture.withJSON(results)
                 self.appsTableView!.reloadData()
             }
         })

@@ -18,8 +18,8 @@
 		EC6EDD411A9BA36F0098CAE0 /* timeforcoffeeKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDD401A9BA36F0098CAE0 /* timeforcoffeeKitTests.swift */; };
 		EC6EDD441A9BA36F0098CAE0 /* timeforcoffeeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */; };
 		EC6EDD451A9BA36F0098CAE0 /* timeforcoffeeKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		EC6EDD4E1A9BA4820098CAE0 /* Departure.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDD4C1A9BA4820098CAE0 /* Departure.swift */; };
-		EC6EDD4F1A9BA4820098CAE0 /* Station.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDD4D1A9BA4820098CAE0 /* Station.swift */; };
+		EC6EDD4E1A9BA4820098CAE0 /* TFCDeparture.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDD4C1A9BA4820098CAE0 /* TFCDeparture.swift */; };
+		EC6EDD4F1A9BA4820098CAE0 /* TFCStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDD4D1A9BA4820098CAE0 /* TFCStation.swift */; };
 		EC6EDD511A9BA5080098CAE0 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDD501A9BA5080098CAE0 /* SwiftyJSON.swift */; };
 		EC6EDD541A9BA79B0098CAE0 /* APIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDD531A9BA79B0098CAE0 /* APIController.swift */; };
 		EC7A517919C427CA000F5E7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A517819C427CA000F5E7C /* AppDelegate.swift */; };
@@ -117,8 +117,8 @@
 		EC6EDD371A9BA36F0098CAE0 /* timeforcoffeeKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = timeforcoffeeKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC6EDD3F1A9BA36F0098CAE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC6EDD401A9BA36F0098CAE0 /* timeforcoffeeKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = timeforcoffeeKitTests.swift; sourceTree = "<group>"; };
-		EC6EDD4C1A9BA4820098CAE0 /* Departure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Departure.swift; sourceTree = "<group>"; };
-		EC6EDD4D1A9BA4820098CAE0 /* Station.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Station.swift; sourceTree = "<group>"; };
+		EC6EDD4C1A9BA4820098CAE0 /* TFCDeparture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCDeparture.swift; sourceTree = "<group>"; };
+		EC6EDD4D1A9BA4820098CAE0 /* TFCStation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCStation.swift; sourceTree = "<group>"; };
 		EC6EDD501A9BA5080098CAE0 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		EC6EDD531A9BA79B0098CAE0 /* APIController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIController.swift; sourceTree = "<group>"; };
 		EC7A517319C427CA000F5E7C /* Time for Coffee!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Time for Coffee!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -223,9 +223,9 @@
 			isa = PBXGroup;
 			children = (
 				EC6EDD501A9BA5080098CAE0 /* SwiftyJSON.swift */,
-				EC6EDD4C1A9BA4820098CAE0 /* Departure.swift */,
+				EC6EDD4C1A9BA4820098CAE0 /* TFCDeparture.swift */,
+				EC6EDD4D1A9BA4820098CAE0 /* TFCStation.swift */,
 				EC6EDD531A9BA79B0098CAE0 /* APIController.swift */,
-				EC6EDD4D1A9BA4820098CAE0 /* Station.swift */,
 				EC6EDD2F1A9BA36F0098CAE0 /* Supporting Files */,
 				EC95714E1A9CACB70061F8B4 /* extensions.swift */,
 				EC9571501A9CCEC00061F8B4 /* TFCBaseViewController.swift */,
@@ -557,8 +557,8 @@
 				EC9571511A9CCEC00061F8B4 /* TFCBaseViewController.swift in Sources */,
 				EC6EDD541A9BA79B0098CAE0 /* APIController.swift in Sources */,
 				EC6EDD511A9BA5080098CAE0 /* SwiftyJSON.swift in Sources */,
-				EC6EDD4F1A9BA4820098CAE0 /* Station.swift in Sources */,
-				EC6EDD4E1A9BA4820098CAE0 /* Departure.swift in Sources */,
+				EC6EDD4F1A9BA4820098CAE0 /* TFCStation.swift in Sources */,
+				EC6EDD4E1A9BA4820098CAE0 /* TFCDeparture.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

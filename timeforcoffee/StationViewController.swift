@@ -15,8 +15,8 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
     @IBOutlet var appsTableView : UITableView?
     var api : APIController?
     var refreshControl:UIRefreshControl!
-    var departures = [Departure]()
-    var station: Station?
+    var departures = [TFCDeparture]()
+    var station: TFCStation?
     let kCellIdentifier: String = "DeparturesListCell"
 
     
@@ -47,7 +47,7 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         self.refreshControl.endRefreshing()
         dispatch_async(dispatch_get_main_queue(), {
-            self.departures = Departure.withJSON(results)
+            self.departures = TFCDeparture.withJSON(results)
             self.appsTableView!.reloadData()
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         })
@@ -65,7 +65,7 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
         let departureLabel = cell.viewWithTag(300) as UILabel
         
         
-        let departure: Departure = self.departures[indexPath.row]
+        let departure: TFCDeparture = self.departures[indexPath.row]
         lineNumberLabel.text = departure.getLine()
         destinationLabel.text = departure.getLineAndDestination()
         departureLabel.text = departure.getTimeString()

@@ -9,7 +9,7 @@
 import Foundation
 import CoreLocation
 
-public class Station {
+public class TFCStation {
     public var name: String
     public var coord: CLLocation
     public var st_id: String
@@ -28,10 +28,10 @@ public class Station {
         return false
     }
     
-    public class func withJSON(allResults: JSONValue) -> [Station] {
+    public class func withJSON(allResults: JSONValue) -> [TFCStation] {
         
         // Create an empty array of Albums to append to from this list
-        var stations = [Station]()
+        var stations = [TFCStation]()
         // Store the results in our table data array
         if allResults["stations"].array?.count>0 {
             
@@ -43,7 +43,7 @@ public class Station {
                     var longitude = result["coordinate"]["y"].double
                     var latitude = result["coordinate"]["x"].double
                     var Clocation = CLLocation(latitude: latitude!, longitude: longitude!)
-                    var newStation = Station(name: name!, id: id!, coord: Clocation)
+                    var newStation = TFCStation(name: name!, id: id!, coord: Clocation)
                     stations.append(newStation)
                     
                 }
