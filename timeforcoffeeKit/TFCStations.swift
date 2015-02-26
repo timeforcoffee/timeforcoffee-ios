@@ -36,13 +36,13 @@ public class TFCStations {
         if allResults["stations"].array?.count>0 {
             if let results = allResults["stations"].array {
                 for result in results {
-                    var id = result["id"].string
-                    if (favoritesInStationsArray[id!] == nil) {
+                    var id = String(result["id"].integer!)
+                    if (favoritesInStationsArray[id] == nil) {
                         var name = result["name"].string
                         var longitude = result["coordinate"]["y"].double
                         var latitude = result["coordinate"]["x"].double
                         var Clocation = CLLocation(latitude: latitude!, longitude: longitude!)
-                        var newStation = TFCStation(name: name!, id: id!, coord: Clocation)
+                        var newStation = TFCStation(name: name!, id: id, coord: Clocation)
                         stations.append(newStation)
                     }
                 }
@@ -115,7 +115,14 @@ public class TFCStations {
             let long = NSString(string:station["longitude"]!).doubleValue
             var Clocation = CLLocation(latitude: lat, longitude: long)
             let station: TFCStation = TFCStation(name: station["name"]!, id: station["st_id"]!, coord: Clocation)
-            self.favoriteStations[st_id] = station
+            
+            //FIXME: can be removed in a few days, st_id can start with 00 or not sometimes
+            //then back to just
+            // self.favoriteStations[st_id] = station
+
+            let st_id_fixed = String(st_id.toInt()!)
+            station.st_id = st_id_fixed
+            self.favoriteStations[st_id_fixed] = station
         }
     }
     
