@@ -36,29 +36,28 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
         self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.appsTableView?.addSubview(refreshControl)
         
-        var buttonContainer = UIView(frame: CGRectMake(0, 0, 200, 44))
-
-        buttonContainer.backgroundColor = UIColor.clearColor()
-        var button0: UIButton = UIButton.buttonWithType(UIButtonType.Custom) as UIButton
-        button0.frame = CGRectMake(160, 7 , 40,  30)
-       // if (station.isFavorite()) {
-            button0.setTitle("★", forState: UIControlState.Normal)
-        //} else {
-          //  button0.setTitle("☆", forState: UIControlState.Normal)
-            
+        var favButton = UIBarButtonItem(title: "☆", style: UIBarButtonItemStyle.Plain, target: self, action: "favoriteClicked:")
+        
+        // if (station.isFavorite()) {
+        //   favButton.title = "★";
         //}
-        button0.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
-    
-        button0.titleLabel?.font = UIFont(name: "Helvetica", size: 30)
         
-        //button0.addTarget(self, action: "star", forControlEvents: UIControlEvents.TouchUpInside)
-        button0.showsTouchWhenHighlighted = true
-        buttonContainer.addSubview(button0)
-        
-        self.navigationItem.titleView = buttonContainer;
-        
-        
+        self.navigationItem.rightBarButtonItem = favButton
+
     }
+    
+    @IBAction func favoriteClicked(sender: UIBarButtonItem) {
+        /*if (station.isFavorite()) {
+            stations.unsetFavoriteStation(station.st_id)
+            sender.title = "☆";
+        } else {
+            stations.setFavoriteStation(station)
+            sender.title = "★";
+        }*/
+        sender.title = "★";
+
+    }
+
     
     func refresh(sender:AnyObject)
     {
