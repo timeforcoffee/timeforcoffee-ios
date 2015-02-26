@@ -197,12 +197,13 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         var detailsViewController: StationViewController = segue.destinationViewController as StationViewController
-        var albumIndex = appsTableView?.indexPathForSelectedRow()?.row
-        var selectedAlbum = stations.getStation(albumIndex!)
-        detailsViewController.station = selectedAlbum
+        
+        var index = appsTableView?.indexPathForSelectedRow()?.row
+        if (index != nil) {
+            var station = stations.getStation(index!)
+            detailsViewController.station = station
+        }
     }
-
-    
 }
 
 

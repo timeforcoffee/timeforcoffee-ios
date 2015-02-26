@@ -44,15 +44,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
-        println(url.query);
         if (url.host == "station" && url.query != nil) {
-            var stations = TFCStations();
-            var station = stations.getStationById(url.query!)
-            // https://stackoverflow.com/questions/14096009/implementing-openurl-without-knowing-the-current-view-state
-            self.window?.rootViewController?.storyboard?.instantiateViewControllerWithIdentifier("stationViewController")
-         //   self.window?.rootViewController?.performSegueWithIdentifier("toStationView", sender: self)
-         //   detailsViewController.station = selectedAlbum
+            var station = TFCStations.getStationById(url.query!)
+            
+            var rootView = self.window?.rootViewController? as UINavigationController
+            var detailViewController = rootView.storyboard?.instantiateViewControllerWithIdentifier("stationViewController") as StationViewController
 
+            rootView.popToRootViewControllerAnimated(false)
+            detailViewController.station = station
+            rootView.pushViewController(detailViewController, animated: false)
         }
         return true
     }

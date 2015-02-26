@@ -48,6 +48,10 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
         self.refreshControl.endRefreshing()
         dispatch_async(dispatch_get_main_queue(), {
             self.departures = TFCDeparture.withJSON(results)
+            if (self.station?.name == "") {
+                self.station?.name = TFCDeparture.getStationNameFromJson(results)!;
+                self.titleLabel.title = self.station?.name
+            }
             self.appsTableView!.reloadData()
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         })

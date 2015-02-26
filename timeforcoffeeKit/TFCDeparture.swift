@@ -29,6 +29,11 @@ public class TFCDeparture {
         self.colorBg = colorBg
         
     }
+    
+    public class func getStationNameFromJson(result: JSONValue) -> String? {
+        return result["meta"]["station_name"].string
+    }
+    
     public class func withJSON(allResults: JSONValue) -> [TFCDeparture] {
         
         // Create an empty array of Albums to append to from this list

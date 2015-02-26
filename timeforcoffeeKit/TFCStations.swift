@@ -54,8 +54,8 @@ public class TFCStations {
         return stations[index]
     }
     
-    public func getStationById(st_id: String) -> TFCStation {
-        return TFCStation(name: "Foo", id: st_id, coord: nil)
+    public class func getStationById(st_id: String) -> TFCStation {
+        return TFCStation(name: "", id: st_id, coord: nil)
     }
     
     public func isFavoriteStation(index: String) -> Bool {
