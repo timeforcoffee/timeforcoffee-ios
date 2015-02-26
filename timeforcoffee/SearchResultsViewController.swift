@@ -18,7 +18,7 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
     var api : APIController?
     var refreshControl:UIRefreshControl!
     var searchController: UISearchController!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         api = APIController(delegate: self)
@@ -32,23 +32,23 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
         searchController?.searchBar.sizeToFit()
-        
+
         self.appsTableView?.tableHeaderView = searchController?.searchBar
-        
+
         searchController.delegate = self
         searchController.dimsBackgroundDuringPresentation = false // default is YES
         searchController.searchBar.delegate = self    // so we can monitor text changes + others
-        
+
         definesPresentationContext = true
-        
+
         initLocationManager()
     }
-    
+
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.appsTableView?.setContentOffset(CGPointMake(0, 44), animated: false)
     }
-    
+
     func updateSearchResultsForSearchController(searchController: UISearchController) {
         let whitespaceCharacterSet = NSCharacterSet.whitespaceCharacterSet()
         let strippedString = searchController.searchBar.text.stringByTrimmingCharactersInSet(whitespaceCharacterSet)
@@ -57,12 +57,12 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
             self.api?.searchFor(strippedString)
         }
     }
-    
+
     func refresh(sender:AnyObject)
     {
         refreshLocation()
     }
-    
+
     // Location Manager helper stuff
     override func initLocationManager() {
         super.initLocationManager()
@@ -74,12 +74,12 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
             self.api?.searchFor(coord!)
         }
     }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (stations == nil) {
             return 0
@@ -89,7 +89,7 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell:MGSwipeTableCell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as MGSwipeTableCell
-        
+
         cell.delegate = self
         cell.tag = indexPath.row
         let station = self.stations.getStation(indexPath.row)
@@ -98,33 +98,33 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         } else {
             cell.textLabel?.text = station.name
         }
-        
+
         if (currentLocation == nil) {
             cell.detailTextLabel?.text = ""
             return cell
         }
-        
+
         var distance = Int(currentLocation?.distanceFromLocation(station.coord) as Double!)
         if (distance > 5000) {
             let km = Int(round(Double(distance) / 1000))
             cell.detailTextLabel?.text = "\(km) Kilometer"
         } else {
             cell.detailTextLabel?.text = "\(distance) Meter"
-        
+
             // calculate exact distance
             let currentCoordinate = currentLocation?.coordinate
             var sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
-            
+
             var destinationPlacemark:MKPlacemark = MKPlacemark(coordinate: station.coord.coordinate, addressDictionary: nil)
             var source:MKMapItem = MKMapItem(placemark: sourcePlacemark)
             var destination:MKMapItem = MKMapItem(placemark: destinationPlacemark)
             var directionRequest:MKDirectionsRequest = MKDirectionsRequest()
-            
+
             directionRequest.setSource(source)
             directionRequest.setDestination(destination)
             directionRequest.transportType = MKDirectionsTransportType.Walking
             directionRequest.requestsAlternateRoutes = true
-            
+
             var directions:MKDirections = MKDirections(request: directionRequest)
             directions.calculateDirectionsWithCompletionHandler({
                 (response: MKDirectionsResponse!, error: NSError?) in
@@ -134,8 +134,8 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
                 if response != nil {
                     for r in response.routes { println("route = \(r)") }
                     var route: MKRoute = response.routes[0] as MKRoute;
-                    
-                    
+
+
                     var time =  Int(round(route.expectedTravelTime / 60))
                     var meters = Int(route.distance);
                     cell.detailTextLabel?.text = "\(time) min Fussweg, \(meters) m"
@@ -143,16 +143,16 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
                     println("No response")
                     println(error?.description)
                 }
-                
+
             })
         }
         return cell
     }
-    
+
     func swipeTableCell(cell: MGSwipeTableCell!, canSwipe direction: MGSwipeDirection) -> Bool {
         return true
     }
-    
+
     func swipeTableCell(cell: MGSwipeTableCell!, swipeButtonsForDirection direction: MGSwipeDirection, swipeSettings: MGSwipeSettings!, expansionSettings: MGSwipeExpansionSettings!) -> [AnyObject]! {
         var buttons = []
         if (direction == MGSwipeDirection.LeftToRight) {
@@ -167,7 +167,7 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         expansionSettings.fillOnTrigger = true
         return buttons
     }
-    
+
     func swipeTableCell(cell: MGSwipeTableCell!, tappedButtonAtIndex index: Int, direction: MGSwipeDirection, fromExpansion: Bool) -> Bool {
         let station: TFCStation = self.stations.getStation(cell.tag)
         if (stations.isFavoriteStation(station.st_id)) {
@@ -184,7 +184,7 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         return true
     }
 
-    
+
     func didReceiveAPIResults(results: JSONValue) {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         self.refreshControl.endRefreshing()
@@ -194,10 +194,10 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         })
     }
-    
+
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         var detailsViewController: StationViewController = segue.destinationViewController as StationViewController
-        
+
         var index = appsTableView?.indexPathForSelectedRow()?.row
         if (index != nil) {
             var station = stations.getStation(index!)

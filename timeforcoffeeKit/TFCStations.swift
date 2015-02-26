@@ -21,11 +21,11 @@ public class TFCStations {
     public func count() -> Int {
         return stations.count
     }
-    
+
     public func addWithJSON(allResults: JSONValue) {
         addWithJSON(allResults, append: false)
     }
-    
+
     public func addWithJSON(allResults: JSONValue, append: Bool) {
         if (!append) {
             stations = []
@@ -49,22 +49,22 @@ public class TFCStations {
             }
         }
     }
-    
+
     public func getStation(index: Int) -> TFCStation {
         return stations[index]
     }
-    
+
     public class func getStationById(st_id: String) -> TFCStation {
         return TFCStation(name: "", id: st_id, coord: nil)
     }
-    
+
     public func isFavoriteStation(index: String) -> Bool {
         if (favoriteStations[index] != nil) {
             return true
         }
         return false
     }
-    
+
     public func addNearbyFavorites(location: CLLocation) -> Bool {
         for (st_id, station) in favoriteStations {
             var distance = Int(location.distanceFromLocation(station.coord) as Double!)
@@ -81,14 +81,14 @@ public class TFCStations {
         }
         return false
     }
-    
+
     public func unsetFavoriteStation(st_id: String) {
         var favoriteStationsDict = getFavoriteStationsDict()
         favoriteStationsDict[st_id] = nil
         favoriteStations[st_id] = nil
         saveFavoriteStations(favoriteStationsDict)
     }
-    
+
     public func setFavoriteStation(station: TFCStation) {
         var favoriteStationsDict = getFavoriteStationsDict()
         favoriteStationsDict[station.st_id] =  [
@@ -100,12 +100,12 @@ public class TFCStations {
         favoriteStations[station.st_id] = station
         saveFavoriteStations(favoriteStationsDict)
     }
-    
+
     func saveFavoriteStations(favoriteStationsDict: [String: [String: String]]) {
         var sharedDefaults = NSUserDefaults(suiteName: "group.ch.liip.timeforcoffee")
         sharedDefaults?.setObject(favoriteStationsDict, forKey: "favoriteStations")
     }
-    
+
     func populateFavoriteStations() {
         var favoriteStationsDict = getFavoriteStationsDict()
         println("populate")
@@ -115,7 +115,7 @@ public class TFCStations {
             let long = NSString(string:station["longitude"]!).doubleValue
             var Clocation = CLLocation(latitude: lat, longitude: long)
             let station: TFCStation = TFCStation(name: station["name"]!, id: station["st_id"]!, coord: Clocation)
-            
+
             //FIXME: can be removed in a few days, st_id can start with 00 or not sometimes
             //then back to just
             // self.favoriteStations[st_id] = station
@@ -125,16 +125,16 @@ public class TFCStations {
             self.favoriteStations[st_id_fixed] = station
         }
     }
-    
-    
+
+
     func getFavoriteStationsDict() -> [String: [String: String]] {
         var sharedDefaults = NSUserDefaults(suiteName: "group.ch.liip.timeforcoffee")
         var favoriteStationsShared: [String: [String: String]]? = sharedDefaults?.objectForKey("favoriteStations") as [String: [String: String]]?
-        
+
         if (favoriteStationsShared == nil) {
             favoriteStationsShared = [:]
         }
         return favoriteStationsShared!
     }
-    
+
 }
