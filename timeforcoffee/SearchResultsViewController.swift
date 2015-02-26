@@ -93,7 +93,7 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         cell.delegate = self
         cell.tag = indexPath.row
         let station = self.stations.getStation(indexPath.row)
-        if (stations.isFavoriteStation(station.st_id)) {
+        if (TFCStations.isFavoriteStation(station.st_id)) {
             cell.textLabel?.text = "\(station.name) ★"
         } else {
             cell.textLabel?.text = station.name
@@ -157,7 +157,7 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         var buttons = []
         if (direction == MGSwipeDirection.LeftToRight) {
             let station: TFCStation = self.stations.getStation(cell.tag)
-            if (stations.isFavoriteStation(station.st_id)) {
+            if (TFCStations.isFavoriteStation(station.st_id)) {
                 buttons = [MGSwipeButton( title:"Fav",  backgroundColor: UIColor.redColor())]
             } else {
                 buttons = [MGSwipeButton( title:"Fav",  backgroundColor: UIColor.greenColor())]
@@ -170,13 +170,13 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
 
     func swipeTableCell(cell: MGSwipeTableCell!, tappedButtonAtIndex index: Int, direction: MGSwipeDirection, fromExpansion: Bool) -> Bool {
         let station: TFCStation = self.stations.getStation(cell.tag)
-        if (stations.isFavoriteStation(station.st_id)) {
-            stations.unsetFavoriteStation(station.st_id)
+        if (TFCStations.isFavoriteStation(station.st_id)) {
+            TFCStations.unsetFavoriteStation(station.st_id)
             var button = cell.leftButtons[0] as MGSwipeButton
             button.backgroundColor = UIColor.greenColor();
             cell.textLabel?.text = "\(station.name)"
         } else {
-            stations.setFavoriteStation(station)
+            TFCStations.setFavoriteStation(station)
             var button = cell.leftButtons[0] as MGSwipeButton
             button.backgroundColor = UIColor.redColor();
             cell.textLabel?.text = "\(station.name) ★"

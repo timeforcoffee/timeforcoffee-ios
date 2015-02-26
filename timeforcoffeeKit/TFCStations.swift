@@ -11,9 +11,12 @@ import CoreLocation
 
 public class TFCStations {
     var stations:[TFCStation] = []
-    var favoriteStations: [String: TFCStation] = [:]
-    var favoritesInStationsArray: [String: Bool] = [:]
 
+    //struct here, because "class var" is not yet supported
+    private struct favorites {
+            static var stations: [String: TFCStation] = [:]
+            static var inStationsArray: [String: Bool] = [:]
+    }
     public init() {
         populateFavoriteStations()
     }
@@ -29,7 +32,7 @@ public class TFCStations {
     public func addWithJSON(allResults: JSONValue, append: Bool) {
         if (!append) {
             stations = []
-            favoritesInStationsArray = [:]
+            favorites.inStationsArray = [:]
         }
         // Create an empty array of Albums to append to from this list
         // Store the results in our table data array
@@ -37,7 +40,7 @@ public class TFCStations {
             if let results = allResults["stations"].array {
                 for result in results {
                     var id = String(result["id"].integer!)
-                    if (favoritesInStationsArray[id] == nil) {
+                    if (favorites.inStationsArray[id] == nil) {
                         var name = result["name"].string
                         var longitude = result["coordinate"]["y"].double
                         var latitude = result["coordinate"]["x"].double
@@ -58,56 +61,60 @@ public class TFCStations {
         return TFCStation(name: "", id: st_id, coord: nil)
     }
 
-    public func isFavoriteStation(index: String) -> Bool {
-        if (favoriteStations[index] != nil) {
+    public class func isFavoriteStation(index: String) -> Bool {
+        if (favorites.stations[index] != nil) {
             return true
         }
         return false
     }
 
     public func addNearbyFavorites(location: CLLocation) -> Bool {
-        for (st_id, station) in favoriteStations {
+        for (st_id, station) in favorites.stations {
             var distance = Int(location.distanceFromLocation(station.coord) as Double!)
             if (distance < 1000) {
                 station.name = "\(station.name) ★"
                 station.calculatedDistance = distance
                 self.stations.append(station)
-                favoritesInStationsArray[station.st_id] = true
+                favorites.inStationsArray[station.st_id] = true
             }
         }
-        if (favoritesInStationsArray.count > 0) {
+        if (favorites.inStationsArray.count > 0) {
             self.stations.sort({ $0.calculatedDistance < $1.calculatedDistance })
             return true
         }
         return false
     }
 
-    public func unsetFavoriteStation(st_id: String) {
-        var favoriteStationsDict = getFavoriteStationsDict()
-        favoriteStationsDict[st_id] = nil
-        favoriteStations[st_id] = nil
-        saveFavoriteStations(favoriteStationsDict)
+    public class func unsetFavoriteStation(station: TFCStation) {
+        TFCStations.unsetFavoriteStation(station.st_id)
     }
 
-    public func setFavoriteStation(station: TFCStation) {
-        var favoriteStationsDict = getFavoriteStationsDict()
+    public class func unsetFavoriteStation(st_id: String) {
+        var favoriteStationsDict = TFCStations.getFavoriteStationsDict()
+        favoriteStationsDict[st_id] = nil
+        favorites.stations[st_id] = nil
+        TFCStations.saveFavoriteStations(favoriteStationsDict)
+    }
+
+    public class func setFavoriteStation(station: TFCStation) {
+        var favoriteStationsDict = TFCStations.getFavoriteStationsDict()
         favoriteStationsDict[station.st_id] =  [
         "name": station.name,
         "st_id": station.st_id,
         "latitude": station.coord.coordinate.latitude.description,
         "longitude": station.coord.coordinate.longitude.description
         ]
-        favoriteStations[station.st_id] = station
-        saveFavoriteStations(favoriteStationsDict)
+        favorites.stations[station.st_id] = station
+        TFCStations.saveFavoriteStations(favoriteStationsDict)
     }
 
-    func saveFavoriteStations(favoriteStationsDict: [String: [String: String]]) {
+    class func saveFavoriteStations(favoriteStationsDict: [String: [String: String]]) {
         var sharedDefaults = NSUserDefaults(suiteName: "group.ch.liip.timeforcoffee")
         sharedDefaults?.setObject(favoriteStationsDict, forKey: "favoriteStations")
     }
 
     func populateFavoriteStations() {
-        var favoriteStationsDict = getFavoriteStationsDict()
+        var favoriteStationsDict = TFCStations.getFavoriteStationsDict()
         println("populate")
         println(favoriteStationsDict)
         for (st_id, station) in favoriteStationsDict {
@@ -122,12 +129,12 @@ public class TFCStations {
 
             let st_id_fixed = String(st_id.toInt()!)
             station.st_id = st_id_fixed
-            self.favoriteStations[st_id_fixed] = station
+            favorites.stations[st_id_fixed] = station
         }
     }
 
 
-    func getFavoriteStationsDict() -> [String: [String: String]] {
+    class func getFavoriteStationsDict() -> [String: [String: String]] {
         var sharedDefaults = NSUserDefaults(suiteName: "group.ch.liip.timeforcoffee")
         var favoriteStationsShared: [String: [String: String]]? = sharedDefaults?.objectForKey("favoriteStations") as [String: [String: String]]?
 
