@@ -94,7 +94,7 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         cell.tag = indexPath.row
         let station = self.stations.getStation(indexPath.row)
         if (stations.isFavoriteStation(station.st_id)) {
-            cell.textLabel?.text = "\(station.name) *"
+            cell.textLabel?.text = "\(station.name) ★"
         } else {
             cell.textLabel?.text = station.name
         }
@@ -179,7 +179,7 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
             stations.setFavoriteStation(station)
             var button = cell.leftButtons[0] as MGSwipeButton
             button.backgroundColor = UIColor.redColor();
-            cell.textLabel?.text = "\(station.name) *"
+            cell.textLabel?.text = "\(station.name) ★"
         }
         return true
     }

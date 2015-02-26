@@ -69,7 +69,7 @@ public class TFCStations {
         for (st_id, station) in favoriteStations {
             var distance = Int(location.distanceFromLocation(station.coord) as Double!)
             if (distance < 1000) {
-                station.name = "\(station.name) *"
+                station.name = "\(station.name) ★"
                 station.calculatedDistance = distance
                 self.stations.append(station)
                 favoritesInStationsArray[station.st_id] = true
