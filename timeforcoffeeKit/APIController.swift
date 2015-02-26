@@ -31,7 +31,7 @@ public class APIController {
     }
     
     public func getDepartures(id: String!) {
-        var urlPath = "http://www.timeforcoffee.ch/api/stationboard/\(id)"
+        var urlPath = "http://www.timeforcoffee.ch/api/zvv/stationboard/\(id)"
         self.fetchUrl(urlPath, fetchId: 2)
         
     }
