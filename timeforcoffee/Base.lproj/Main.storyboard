@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Zf4-nR-Sej">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Zf4-nR-Sej">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -57,6 +57,11 @@
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="Zf4-nR-Sej" secondAttribute="centerX" id="0TF-48-MAf"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Zf4-nR-Sej" secondAttribute="trailing" constant="-16" id="TsY-i6-YZ2"/>
+                            <constraint firstItem="Zf4-nR-Sej" firstAttribute="leading" secondItem="x97-qt-OBE" secondAttribute="leadingMargin" constant="-16" id="gxj-Ku-DEe"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Time for Coffee" id="Jqp-rv-LzH" userLabel="Time for Coffee"/>
                     <connections>
