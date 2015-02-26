@@ -48,7 +48,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     }
     
     func handleTap(recognizer: UITapGestureRecognizer) {
-        let url: NSURL = NSURL(string: "timeforcoffee://home")!
+        let url: NSURL = NSURL(string: "timeforcoffee://station?\(self.stations.getStation(self.currentStationIndex).st_id)")!
         self.extensionContext?.openURL(url, completionHandler: nil);
     }
     

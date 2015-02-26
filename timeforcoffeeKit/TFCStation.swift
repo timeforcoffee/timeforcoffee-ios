@@ -17,9 +17,13 @@ public class TFCStation {
     public var calculatedDistance: Int?
 
     public init(name: String, id: String, coord: CLLocation?) {
+        var coord2 = coord
+        if (coord2 == nil) {
+            coord2 = CLLocation(latitude: 47, longitude: 8)
+        }
         self.name = name
         self.st_id = id
-        self.coord = coord!
+        self.coord = coord2!
     }
     
     public class func isStations(results: JSONValue) -> Bool {

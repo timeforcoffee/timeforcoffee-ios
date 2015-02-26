@@ -173,7 +173,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="COk-7g-JfJ" kind="show" id="qUo-O3-JFB"/>
+                                            <segue destination="COk-7g-JfJ" kind="show" identifier="toStationView" id="qUo-O3-JFB"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

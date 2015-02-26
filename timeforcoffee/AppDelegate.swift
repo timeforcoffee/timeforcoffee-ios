@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import timeforcoffeeKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -41,7 +42,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
+    
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+        
+        if (url.host == "station" && url.query != nil) {
+            var stations = TFCStations();
+            var station = stations.getStationById(url.query!)
+         //   self.window?.rootViewController?.performSegueWithIdentifier("toStationView", sender: self)
+         //   detailsViewController.station = selectedAlbum
 
+        }
+        return true
+    }
 
+    
 }
 
