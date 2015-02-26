@@ -49,7 +49,7 @@
 App by Christian @chregu Stocker  
 and Jan @dulnan Hug
 
-Support by Liip AG / @liip</string>
+Supported by Liip AG / @liip</string>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
