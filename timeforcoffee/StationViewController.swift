@@ -38,24 +38,22 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
         
         var favButton = UIBarButtonItem(title: "☆", style: UIBarButtonItemStyle.Plain, target: self, action: "favoriteClicked:")
         
-        // if (station.isFavorite()) {
-        //   favButton.title = "★";
-        //}
+        if (station!.isFavorite()) {
+           favButton.title = "★";
+        }
         
         self.navigationItem.rightBarButtonItem = favButton
 
     }
     
     @IBAction func favoriteClicked(sender: UIBarButtonItem) {
-        /*if (station.isFavorite()) {
-            stations.unsetFavoriteStation(station.st_id)
+        if (self.station!.isFavorite()) {
+            TFCStations.unsetFavoriteStation(self.station!)
             sender.title = "☆";
         } else {
-            stations.setFavoriteStation(station)
+            TFCStations.setFavoriteStation(self.station!)
             sender.title = "★";
-        }*/
-        sender.title = "★";
-
+        }
     }
 
     
