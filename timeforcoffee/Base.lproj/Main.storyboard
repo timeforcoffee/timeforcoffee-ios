@@ -8,7 +8,7 @@
         <!--Station View Controller-->
         <scene sceneID="ftz-1N-Mom">
             <objects>
-                <viewController id="COk-7g-JfJ" userLabel="Station View Controller" customClass="StationViewController" customModule="timeforcoffee" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="stationViewController" id="COk-7g-JfJ" userLabel="Station View Controller" customClass="StationViewController" customModule="timeforcoffee" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="BhT-B5-Rc9"/>
                         <viewControllerLayoutGuide type="bottom" id="7tq-Gm-E2S"/>
