@@ -32,5 +32,9 @@ public class TFCStation {
         }
         return false
     }
+    
+  /*  public func isFavorite() -> Bool {
+        return TFCStations.isFavoriteStation(self.st_id);
+    }*/
 }
 

@@ -40,10 +40,16 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
 
         buttonContainer.backgroundColor = UIColor.clearColor()
         var button0: UIButton = UIButton.buttonWithType(UIButtonType.Custom) as UIButton
-      //  button0.frame = CGRectMake(160, 7 , 40,  30)
-        button0.setTitle("Star", forState: UIControlState.Normal)
-        
-        button0.titleLabel?.font = UIFont(name: "Helvetica", size: 12)
+        button0.frame = CGRectMake(160, 7 , 40,  30)
+       // if (station.isFavorite()) {
+            button0.setTitle("★", forState: UIControlState.Normal)
+        //} else {
+          //  button0.setTitle("☆", forState: UIControlState.Normal)
+            
+        //}
+        button0.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+    
+        button0.titleLabel?.font = UIFont(name: "Helvetica", size: 30)
         
         //button0.addTarget(self, action: "star", forControlEvents: UIControlEvents.TouchUpInside)
         button0.showsTouchWhenHighlighted = true
