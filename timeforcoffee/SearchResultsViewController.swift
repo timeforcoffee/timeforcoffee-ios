@@ -98,6 +98,12 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         } else {
             cell.textLabel?.text = station.name
         }
+        
+        if (currentLocation == nil) {
+            cell.detailTextLabel?.text = ""
+            return cell
+        }
+        
         var distance = Int(currentLocation?.distanceFromLocation(station.coord) as Double!)
         if (distance > 5000) {
             let km = Int(round(Double(distance) / 1000))
