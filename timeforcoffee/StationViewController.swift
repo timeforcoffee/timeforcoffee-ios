@@ -35,6 +35,23 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
         self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.appsTableView?.addSubview(refreshControl)
+        
+        var buttonContainer = UIView(frame: CGRectMake(0, 0, 200, 44))
+
+        buttonContainer.backgroundColor = UIColor.clearColor()
+        var button0: UIButton = UIButton.buttonWithType(UIButtonType.Custom) as UIButton
+      //  button0.frame = CGRectMake(160, 7 , 40,  30)
+        button0.setTitle("Star", forState: UIControlState.Normal)
+        
+        button0.titleLabel?.font = UIFont(name: "Helvetica", size: 12)
+        
+        //button0.addTarget(self, action: "star", forControlEvents: UIControlEvents.TouchUpInside)
+        button0.showsTouchWhenHighlighted = true
+        buttonContainer.addSubview(button0)
+        
+        self.navigationItem.titleView = buttonContainer;
+        
+        
     }
     
     func refresh(sender:AnyObject)
