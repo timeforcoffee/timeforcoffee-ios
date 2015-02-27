@@ -8,6 +8,7 @@
 
 import UIKit
 import timeforcoffeeKit
+import CoreLocation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -45,8 +46,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
         if (url.host == "station" && url.query != nil) {
-            var station = TFCStations.getStationById(url.query!)
-            
+         
+            var queryStrings = [String: String]()
+            if let query = url.query {
+                for qs in query.componentsSeparatedByString("&") {
+                    // Get the parameter name
+                    let key = qs.componentsSeparatedByString("=")[0]
+                    // Get the parameter name
+                    var value = qs.componentsSeparatedByString("=")[1]
+                    value = value.stringByReplacingOccurrencesOfString("+", withString: " ")
+                    value = value.stringByReplacingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
+                    
+                    queryStrings[key] = value
+                }
+            }
+            var Clocation = CLLocation(latitude: NSString(string: queryStrings["lat"]!).doubleValue, longitude: NSString(string: queryStrings["long"]!).doubleValue)
+
+            var station = TFCStation(name: queryStrings["name"]!, id: queryStrings["id"]!, coord: Clocation)
+
             var rootView = self.window?.rootViewController? as UINavigationController
             var detailViewController = rootView.storyboard?.instantiateViewControllerWithIdentifier("stationViewController") as StationViewController
 

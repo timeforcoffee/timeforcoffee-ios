@@ -37,6 +37,14 @@ public class TFCStation {
         return TFCStations.isFavoriteStation(self.st_id);
     }
     
+    public func getLongitude() -> Double {
+        return coord.coordinate.longitude
+    }
+
+    public func getLatitude() -> Double {
+        return coord.coordinate.latitude
+    }
+    
     public func getNameWithStar() -> String {
         if self.isFavorite() {
             return "\(name) ★"
