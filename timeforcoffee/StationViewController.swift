@@ -9,7 +9,7 @@
 import UIKit
 import timeforcoffeeKit
 
-class StationViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol {
+class StationViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, MGSwipeTableCellDelegate {
     
     @IBOutlet weak var titleLabel: UINavigationItem!
     @IBOutlet var appsTableView : UITableView?
@@ -54,6 +54,8 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
             TFCStations.setFavoriteStation(self.station!)
             sender.title = "★";
         }
+        self.appsTableView?.reloadData()
+
     }
 
     
@@ -82,16 +84,26 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as UITableViewCell
+        var cell:MGSwipeTableCell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as MGSwipeTableCell
+        
+        cell.delegate = self
+        cell.tag = indexPath.row
+        
         
         let lineNumberLabel = cell.viewWithTag(100) as UILabel
         let destinationLabel = cell.viewWithTag(200) as UILabel
         let departureLabel = cell.viewWithTag(300) as UILabel
-        
+        let station2 = station!
         
         let departure: TFCDeparture = self.departures[indexPath.row]
         lineNumberLabel.text = departure.getLine()
-        destinationLabel.text = departure.getLineAndDestination()
+        destinationLabel.text = departure.getDestinationWithSign(self.station)
+        if (station2.isFiltered(departure)) {
+            destinationLabel.textColor = UIColor.grayColor()
+        } else {
+            destinationLabel.textColor = UIColor.blackColor()
+        }
+        
         departureLabel.text = departure.getTimeString()
         
         lineNumberLabel.layer.cornerRadius = 4.0
@@ -106,5 +118,46 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
 
         }
         return cell
+    }
+    
+    func swipeTableCell(cell: MGSwipeTableCell!, canSwipe direction: MGSwipeDirection) -> Bool {
+        let station2 = station!
+        if (station2.isFavorite()) {
+            return true
+        }
+        return false
+    }
+    
+    func swipeTableCell(cell: MGSwipeTableCell!, swipeButtonsForDirection direction: MGSwipeDirection, swipeSettings: MGSwipeSettings!, expansionSettings: MGSwipeExpansionSettings!) -> [AnyObject]! {
+        var buttons = []
+        let station2 = station!
+        if (direction == MGSwipeDirection.RightToLeft) {
+            let departure: TFCDeparture = self.departures[cell.tag]
+            if (station2.isFiltered(departure)) {
+                buttons = [MGSwipeButton( title:"Don't Filter",  backgroundColor: UIColor.redColor())]
+            } else {
+                buttons = [MGSwipeButton( title:"Filter",  backgroundColor: UIColor.greenColor())]
+            }
+        }
+        expansionSettings.buttonIndex = 0
+        expansionSettings.fillOnTrigger = true
+        return buttons
+    }
+    
+    func swipeTableCell(cell: MGSwipeTableCell!, tappedButtonAtIndex index: Int, direction: MGSwipeDirection, fromExpansion: Bool) -> Bool {
+        let departure: TFCDeparture = self.departures[cell.tag]
+        let station2 = station!
+        if (station2.isFiltered(departure)) {
+            station2.unsetFilter(departure);
+            var button = cell.rightButtons[0] as MGSwipeButton
+            button.backgroundColor = UIColor.greenColor();
+        } else {
+            station2.setFilter(departure);
+            var button = cell.rightButtons[0] as MGSwipeButton
+            button.backgroundColor = UIColor.redColor();
+        }
+        self.appsTableView?.reloadData()
+        
+        return true
     }
 }

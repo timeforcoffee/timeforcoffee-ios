@@ -63,7 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             var Clocation = CLLocation(latitude: NSString(string: queryStrings["lat"]!).doubleValue, longitude: NSString(string: queryStrings["long"]!).doubleValue)
 
             var station = TFCStation(name: queryStrings["name"]!, id: queryStrings["id"]!, coord: Clocation)
-
+            let stations = TFCStations()
             var rootView = self.window?.rootViewController? as UINavigationController
             var detailViewController = rootView.storyboard?.instantiateViewControllerWithIdentifier("stationViewController") as StationViewController
 

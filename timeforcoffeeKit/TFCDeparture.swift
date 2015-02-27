@@ -34,8 +34,7 @@ public class TFCDeparture {
         return result["meta"]["station_name"].string
     }
     
-    public class func withJSON(allResults: JSONValue) -> [TFCDeparture] {
-        
+    public class func withJSON(allResults: JSONValue, filterStation: TFCStation?) -> [TFCDeparture] {
         // Create an empty array of Albums to append to from this list
         var departures = [TFCDeparture]()
         // Store the results in our table data array
@@ -67,6 +66,12 @@ public class TFCDeparture {
                     }
                     
                     var newDeparture = TFCDeparture(name: name!, type: type!, accessible: accessible, to: to!, scheduled: scheduled, realtime: realtime, colorFg: colorFg, colorBg: colorBg)
+                    if (filterStation != nil) {
+                        let filterStation2 = filterStation!
+                        if (filterStation2.isFiltered(newDeparture)) {
+                            continue
+                        }
+                    }
                     departures.append(newDeparture)
                 }
             }
@@ -74,9 +79,14 @@ public class TFCDeparture {
             
         }
         return departures
+        
     }
     
-    public func getLineAndDestination() -> String {
+    public class func withJSON(allResults: JSONValue) -> [TFCDeparture] {
+        return withJSON(allResults, filterStation: nil)
+    }
+    
+    public func getDestination() -> String {
         return "\(self.to)"
     }
     
@@ -118,6 +128,16 @@ public class TFCDeparture {
 
     }
     
+    public func getDestinationWithSign(station: TFCStation?) -> String {
+        if (station != nil) {
+            let station2 = station!
+            if (station2.isFiltered(self)) {
+                return "\(getDestination()) ✗"
+            }
+        }
+        return getDestination()
+    }
+
     class func parseDate(dateStr:String) -> NSDate? {
         let format = "yyyy-MM-dd'T'HH:mm:ss.'000'ZZZZZ"
         var dateFmt = NSDateFormatter()

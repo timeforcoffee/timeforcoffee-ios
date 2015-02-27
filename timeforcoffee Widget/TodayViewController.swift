@@ -92,7 +92,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         
         let departure: TFCDeparture = self.departures[indexPath.row]
         lineNumberLabel.text = departure.getLine()
-        destinationLabel.text = departure.getLineAndDestination()
+        destinationLabel.text = departure.getDestination()
         departureLabel.text = departure.getTimeString()
         
         lineNumberLabel.layer.cornerRadius = 4.0
@@ -137,7 +137,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                     self.api?.getDepartures(self.stations.getStation(self.currentStationIndex).st_id)
                 }
             } else {
-                self.departures = TFCDeparture.withJSON(results)
+                self.departures = TFCDeparture.withJSON(results, filterStation: self.stations.getStation(self.currentStationIndex))
                 self.appsTableView!.reloadData()
             }
         })
