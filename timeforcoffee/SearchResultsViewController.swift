@@ -94,11 +94,7 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         cell.delegate = self
         cell.tag = indexPath.row
         let station = self.stations.getStation(indexPath.row)
-        if (TFCStations.isFavoriteStation(station.st_id)) {
-            cell.textLabel?.text = "\(station.name) ★"
-        } else {
-            cell.textLabel?.text = station.name
-        }
+        cell.textLabel?.text = station.getNameWithStar()
 
         if (currentLocation == nil) {
             cell.detailTextLabel?.text = ""
@@ -111,7 +107,6 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
             cell.detailTextLabel?.text = "\(km) Kilometer"
         } else {
             cell.detailTextLabel?.text = "\(distance) Meter"
-
             // calculate exact distance
             let currentCoordinate = currentLocation?.coordinate
             var sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
@@ -175,13 +170,13 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
             TFCStations.unsetFavoriteStation(station.st_id)
             var button = cell.leftButtons[0] as MGSwipeButton
             button.backgroundColor = UIColor.greenColor();
-            cell.textLabel?.text = "\(station.name)"
         } else {
             TFCStations.setFavoriteStation(station)
             var button = cell.leftButtons[0] as MGSwipeButton
             button.backgroundColor = UIColor.redColor();
-            cell.textLabel?.text = "\(station.name) ★"
         }
+        cell.textLabel?.text = station.getNameWithStar()
+
         return true
     }
 

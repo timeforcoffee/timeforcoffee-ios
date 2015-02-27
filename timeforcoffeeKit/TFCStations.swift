@@ -72,7 +72,6 @@ public class TFCStations {
         for (st_id, station) in favorites.stations {
             var distance = Int(location.distanceFromLocation(station.coord) as Double!)
             if (distance < 1000) {
-                station.name = "\(station.name) ★"
                 station.calculatedDistance = distance
                 self.stations.append(station)
                 favorites.inStationsArray[station.st_id] = true
@@ -104,6 +103,10 @@ public class TFCStations {
         "latitude": station.coord.coordinate.latitude.description,
         "longitude": station.coord.coordinate.longitude.description
         ]
+        
+        //FIXME: fix longitude/Latitude if not set yet (when directly called on detail screen)
+        // get it from http://transport.opendata.ch/v1/locations?query=8591341
+        
         favorites.stations[station.st_id] = station
         TFCStations.saveFavoriteStations(favoriteStationsDict)
     }

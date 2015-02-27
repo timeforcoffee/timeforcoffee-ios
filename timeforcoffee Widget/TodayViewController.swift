@@ -39,7 +39,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         }
         self.departures = [TFCDeparture]();
         self.appsTableView!.reloadData()
-        self.titleLabel.text = self.stations.getStation(self.currentStationIndex).name
+        self.titleLabel.text = self.stations.getStation(self.currentStationIndex).getNameWithStar()
         self.api?.getDepartures(self.stations.getStation(self.currentStationIndex).st_id)
 
     }
@@ -62,7 +62,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         var coord = locationManagerFix(manager,didUpdateLocations: locations);
         if (coord != nil) {
             if (self.stations.addNearbyFavorites(currentLocation!)) {
-                self.titleLabel.text = self.stations.getStation(0).name
+                self.titleLabel.text = self.stations.getStation(0).getNameWithStar()
                 self.api?.getDepartures(self.stations.getStation(0).st_id)
             }
 
@@ -129,7 +129,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             if (TFCStation.isStations(results)) {
                 let hasAlreadyFavouritesDisplayed = self.stations.count()
                 self.stations.addWithJSON(results, append: true)
-                self.titleLabel.text = self.stations.getStation(self.currentStationIndex).name
+                self.titleLabel.text = self.stations.getStation(self.currentStationIndex).getNameWithStar()
                 if (hasAlreadyFavouritesDisplayed == 0) {
                     self.api?.getDepartures(self.stations.getStation(self.currentStationIndex).st_id)
                 }

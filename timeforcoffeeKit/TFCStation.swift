@@ -19,7 +19,7 @@ public class TFCStation {
     public init(name: String, id: String, coord: CLLocation?) {
         var coord2 = coord
         if (coord2 == nil) {
-            coord2 = CLLocation(latitude: 47, longitude: 8)
+            coord2 = CLLocation(latitude: 0, longitude: 0)
         }
         self.name = name
         self.st_id = id
@@ -35,6 +35,13 @@ public class TFCStation {
     
     public func isFavorite() -> Bool {
         return TFCStations.isFavoriteStation(self.st_id);
+    }
+    
+    public func getNameWithStar() -> String {
+        if self.isFavorite() {
+            return "\(name) ★"
+        }
+        return name
     }
 }
 
