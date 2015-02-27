@@ -42,9 +42,9 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YNY-kn-DMw">
-                    <rect key="frame" x="104" y="261" width="240" height="156"/>
+                    <rect key="frame" x="104" y="261" width="299" height="156"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <string key="text">Idea by François @fterrier Terrrier 
+                    <string key="text">Idea and API by François @fterrier Terrrier 
 
 App by Christian @chregu Stocker  
 and Jan @dulnan Hug
