@@ -30,11 +30,11 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>4</string>
+	<string>5</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationUsageDescription</key>
-	<string>We need that</string>
+	<string>We need that for displaying the nearest station</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>When in use</string>
 	<key>UILaunchStoryboardName</key>
