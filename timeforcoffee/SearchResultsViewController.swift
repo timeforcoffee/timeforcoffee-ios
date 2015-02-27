@@ -151,7 +151,7 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
 
     func swipeTableCell(cell: MGSwipeTableCell!, swipeButtonsForDirection direction: MGSwipeDirection, swipeSettings: MGSwipeSettings!, expansionSettings: MGSwipeExpansionSettings!) -> [AnyObject]! {
         var buttons = []
-        if (direction == MGSwipeDirection.LeftToRight) {
+        if (direction == MGSwipeDirection.RightToLeft) {
             let station: TFCStation = self.stations.getStation(cell.tag)
             if (TFCStations.isFavoriteStation(station.st_id)) {
                 buttons = [MGSwipeButton( title:"Fav",  backgroundColor: UIColor.redColor())]
@@ -168,11 +168,11 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         let station: TFCStation = self.stations.getStation(cell.tag)
         if (TFCStations.isFavoriteStation(station.st_id)) {
             TFCStations.unsetFavoriteStation(station.st_id)
-            var button = cell.leftButtons[0] as MGSwipeButton
+            var button = cell.rightButtons[0] as MGSwipeButton
             button.backgroundColor = UIColor.greenColor();
         } else {
             TFCStations.setFavoriteStation(station)
-            var button = cell.leftButtons[0] as MGSwipeButton
+            var button = cell.rightButtons[0] as MGSwipeButton
             button.backgroundColor = UIColor.redColor();
         }
         cell.textLabel?.text = station.getNameWithStar()
