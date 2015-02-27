@@ -39,7 +39,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         }
         self.departures = [TFCDeparture]();
         self.appsTableView!.reloadData()
-        self.titleLabel.text = self.stations.getStation(self.currentStationIndex).getNameWithStar()
+        self.titleLabel.text = self.stations.getStation(self.currentStationIndex).getNameWithStarAndFilters()
         self.api?.getDepartures(self.stations.getStation(self.currentStationIndex).st_id)
 
     }
@@ -50,7 +50,12 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     func handleTap(recognizer: UITapGestureRecognizer) {
         var station = self.stations.getStation(self.currentStationIndex);
         var name = station.name.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
-        var urlstring = "timeforcoffee://station?id=\(station.st_id)&name=\(name)&long=\(station.getLongitude())&lat=\(station.getLatitude())";
+        let long = station.getLongitude()
+        let lat = station.getLatitude()
+        var urlstring = "timeforcoffee://station?id=\(station.st_id)&name=\(name)"
+        if (long != nil && lat != nil) {
+            urlstring = "\(urlstring)&long=\(long!)&lat=\(lat!)"
+        }
         let url: NSURL = NSURL(string: urlstring)!
         self.extensionContext?.openURL(url, completionHandler: nil);
     }
@@ -65,7 +70,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         var coord = locationManagerFix(manager,didUpdateLocations: locations);
         if (coord != nil) {
             if (self.stations.addNearbyFavorites(currentLocation!)) {
-                self.titleLabel.text = self.stations.getStation(0).getNameWithStar()
+                self.titleLabel.text = self.stations.getStation(0).getNameWithStarAndFilters()
                 self.api?.getDepartures(self.stations.getStation(0).st_id)
             }
 
@@ -132,7 +137,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             if (TFCStation.isStations(results)) {
                 let hasAlreadyFavouritesDisplayed = self.stations.count()
                 self.stations.addWithJSON(results, append: true)
-                self.titleLabel.text = self.stations.getStation(self.currentStationIndex).getNameWithStar()
+                self.titleLabel.text = self.stations.getStation(self.currentStationIndex).getNameWithStarAndFilters()
                 if (hasAlreadyFavouritesDisplayed == 0) {
                     self.api?.getDepartures(self.stations.getStation(self.currentStationIndex).st_id)
                 }

@@ -121,11 +121,7 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func swipeTableCell(cell: MGSwipeTableCell!, canSwipe direction: MGSwipeDirection) -> Bool {
-        let station2 = station!
-        if (station2.isFavorite()) {
-            return true
-        }
-        return false
+        return true
     }
     
     func swipeTableCell(cell: MGSwipeTableCell!, swipeButtonsForDirection direction: MGSwipeDirection, swipeSettings: MGSwipeSettings!, expansionSettings: MGSwipeExpansionSettings!) -> [AnyObject]! {

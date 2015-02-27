@@ -52,11 +52,18 @@ public class TFCStation {
         return name
     }
     
+    public func getNameWithStarAndFilters() -> String {
+        if self.hasFilters() {
+            return "\(getNameWithStar()) ✗"
+        }
+        return getNameWithStar()
+    }
+    
+    func hasFilters() -> Bool {
+        return (filteredLines.count > 0)
+    }
     
     public func isFiltered(departure: TFCDeparture) -> Bool {
-        if (!self.isFavorite()) {
-            return false
-        }
         if (filteredLines[departure.getLine()] != nil) {
             if (filteredLines[departure.getLine()]?[departure.getDestination()] != nil) {
                 return true
@@ -79,7 +86,6 @@ public class TFCStation {
         filteredLines[departure.getLine()]?[departure.getDestination()] = nil
         if((filteredLines[departure.getLine()] as [String: Bool]!).count == 0) {
             filteredLines[departure.getLine()] = nil
-            
         }
         saveFilteredLines()
 
