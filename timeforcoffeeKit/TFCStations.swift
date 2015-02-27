@@ -69,6 +69,7 @@ public class TFCStations {
     }
 
     public func addNearbyFavorites(location: CLLocation) -> Bool {
+        favorites.inStationsArray = [:]
         for (st_id, station) in favorites.stations {
             var distance = Int(location.distanceFromLocation(station.coord) as Double!)
             if (distance < 1000) {
@@ -120,6 +121,7 @@ public class TFCStations {
         var favoriteStationsDict = TFCStations.getFavoriteStationsDict()
         println("populate")
         println(favoriteStationsDict)
+        favorites.stations = [:]
         for (st_id, station) in favoriteStationsDict {
             let lat = NSString(string:station["latitude"]!).doubleValue
             let long = NSString(string:station["longitude"]!).doubleValue
