@@ -20,13 +20,17 @@ public class APIController {
     
     public func searchFor(coord: CLLocationCoordinate2D) {
         var urlPath = "http://transport.opendata.ch/v1/locations?x=\(coord.latitude)&y=\(coord.longitude)&type=station";
-        println(urlPath)
         self.fetchUrl(urlPath, fetchId: 1)
     }
 
     public func searchFor(location: String) {
-        var urlPath = "http://transport.opendata.ch/v1/locations?query=\(location)*&type=station";
-        println(urlPath)
+        let name = location.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
+        let urlPath = "http://transport.opendata.ch/v1/locations?query=\(name)*&type=station";
+        /*
+        ** once http://www.timeforcoffee.ch/api/zvv/stations/Quellenstrasse supports
+        ** coordinates, this can be enabled
+        let urlPath = "http://www.timeforcoffee.ch/api/zvv/stations/\(name)";
+        */
         self.fetchUrl(urlPath, fetchId: 1)
     }
     
