@@ -100,47 +100,53 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
             cell.detailTextLabel?.text = ""
             return cell
         }
-
-        var distance = Int(currentLocation?.distanceFromLocation(station.coord) as Double!)
-        if (distance > 5000) {
-            let km = Int(round(Double(distance) / 1000))
-            cell.detailTextLabel?.text = "\(km) Kilometer"
-        } else {
-            cell.detailTextLabel?.text = "\(distance) Meter"
-            // calculate exact distance
-            let currentCoordinate = currentLocation?.coordinate
-            var sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
-
-            var destinationPlacemark:MKPlacemark = MKPlacemark(coordinate: station.coord.coordinate, addressDictionary: nil)
-            var source:MKMapItem = MKMapItem(placemark: sourcePlacemark)
-            var destination:MKMapItem = MKMapItem(placemark: destinationPlacemark)
-            var directionRequest:MKDirectionsRequest = MKDirectionsRequest()
-
-            directionRequest.setSource(source)
-            directionRequest.setDestination(destination)
-            directionRequest.transportType = MKDirectionsTransportType.Walking
-            directionRequest.requestsAlternateRoutes = true
-
-            var directions:MKDirections = MKDirections(request: directionRequest)
-            directions.calculateDirectionsWithCompletionHandler({
-                (response: MKDirectionsResponse!, error: NSError?) in
-                if error != nil{
-                    println("Error")
-                }
-                if response != nil {
-                    for r in response.routes { println("route = \(r)") }
-                    var route: MKRoute = response.routes[0] as MKRoute;
-
-
-                    var time =  Int(round(route.expectedTravelTime / 60))
-                    var meters = Int(route.distance);
-                    cell.detailTextLabel?.text = "\(time) min Fussweg, \(meters) m"
-                }  else {
-                    println("No response")
-                    println(error?.description)
-                }
-
-            })
+        
+        if (station.coord != nil) {
+            var distance = Int(currentLocation?.distanceFromLocation(station.coord) as Double!)
+            if (distance > 5000) {
+                let km = Int(round(Double(distance) / 1000))
+                cell.detailTextLabel?.text = "\(km) Kilometer"
+            } else {
+                cell.detailTextLabel?.text = "\(distance) Meter"
+                // calculate exact distance
+                let currentCoordinate = currentLocation?.coordinate
+                var sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
+                
+                let coord = station.coord!
+                var destinationPlacemark:MKPlacemark = MKPlacemark(coordinate: coord.coordinate, addressDictionary: nil)
+                var source:MKMapItem = MKMapItem(placemark: sourcePlacemark)
+                var destination:MKMapItem = MKMapItem(placemark: destinationPlacemark)
+                var directionRequest:MKDirectionsRequest = MKDirectionsRequest()
+                
+                directionRequest.setSource(source)
+                directionRequest.setDestination(destination)
+                directionRequest.transportType = MKDirectionsTransportType.Walking
+                directionRequest.requestsAlternateRoutes = true
+                
+                var directions:MKDirections = MKDirections(request: directionRequest)
+                directions.calculateDirectionsWithCompletionHandler({
+                    (response: MKDirectionsResponse!, error: NSError?) in
+                    if error != nil{
+                        println("Error")
+                    }
+                    if response != nil {
+                        for r in response.routes { println("route = \(r)") }
+                        var route: MKRoute = response.routes[0] as MKRoute;
+                        
+                        
+                        var time =  Int(round(route.expectedTravelTime / 60))
+                        var meters = Int(route.distance);
+                        cell.detailTextLabel?.text = "\(time) min Fussweg, \(meters) m"
+                    }  else {
+                        println("No response")
+                        println(error?.description)
+                    }
+                    
+                })
+            }
+        }
+        else {
+            cell.detailTextLabel?.text = ""
         }
         return cell
     }

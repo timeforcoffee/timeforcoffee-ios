@@ -44,7 +44,10 @@ public class TFCStations {
                         var name = result["name"].string
                         var longitude = result["coordinate"]["y"].double
                         var latitude = result["coordinate"]["x"].double
-                        var Clocation = CLLocation(latitude: latitude!, longitude: longitude!)
+                        var Clocation: CLLocation?
+                        if (longitude != nil && latitude != nil) {
+                            Clocation = CLLocation(latitude: latitude!, longitude: longitude!)
+                        }
                         var newStation = TFCStation(name: name!, id: id, coord: Clocation)
                         stations.append(newStation)
                     }
@@ -98,18 +101,19 @@ public class TFCStations {
 
     public class func setFavoriteStation(station: TFCStation) {
         var favoriteStationsDict = TFCStations.getFavoriteStationsDict()
-        favoriteStationsDict[station.st_id] =  [
-        "name": station.name,
-        "st_id": station.st_id,
-        "latitude": station.coord.coordinate.latitude.description,
-        "longitude": station.coord.coordinate.longitude.description
-        ]
-        
-        //FIXME: fix longitude/Latitude if not set yet (when directly called on detail screen)
-        // get it from http://transport.opendata.ch/v1/locations?query=8591341
-        
-        favorites.stations[station.st_id] = station
-        TFCStations.saveFavoriteStations(favoriteStationsDict)
+        if (station.coord == nil) {
+            println("Coordinates not set for station, don't save it as fav")
+        } else {
+            favoriteStationsDict[station.st_id] =  [
+                "name": station.name,
+                "st_id": station.st_id,
+                "latitude": station.coord!.coordinate.latitude.description,
+                "longitude": station.coord!.coordinate.longitude.description
+            ]
+            
+            favorites.stations[station.st_id] = station
+            TFCStations.saveFavoriteStations(favoriteStationsDict)
+        }
     }
 
     class func saveFavoriteStations(favoriteStationsDict: [String: [String: String]]) {

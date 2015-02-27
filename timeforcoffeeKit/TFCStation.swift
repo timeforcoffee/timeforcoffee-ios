@@ -11,19 +11,15 @@ import CoreLocation
 
 public class TFCStation {
     public var name: String
-    public var coord: CLLocation
+    public var coord: CLLocation?
     public var st_id: String
     public var distance: CLLocationDistance?
     public var calculatedDistance: Int?
 
     public init(name: String, id: String, coord: CLLocation?) {
-        var coord2 = coord
-        if (coord2 == nil) {
-            coord2 = CLLocation(latitude: 0, longitude: 0)
-        }
         self.name = name
         self.st_id = id
-        self.coord = coord2!
+        self.coord = coord
     }
     
     public class func isStations(results: JSONValue) -> Bool {
@@ -37,12 +33,12 @@ public class TFCStation {
         return TFCStations.isFavoriteStation(self.st_id);
     }
     
-    public func getLongitude() -> Double {
-        return coord.coordinate.longitude
+    public func getLongitude() -> Double? {
+        return coord?.coordinate.longitude
     }
 
-    public func getLatitude() -> Double {
-        return coord.coordinate.latitude
+    public func getLatitude() -> Double? {
+        return coord?.coordinate.latitude
     }
     
     public func getNameWithStar() -> String {

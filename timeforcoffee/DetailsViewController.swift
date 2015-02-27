@@ -31,7 +31,7 @@ class DetailsViewController: UIViewController, MKMapViewDelegate {
         
         titleLabel.text = self.station?.name
         
-        var location = self.station?.coord.coordinate
+        var location = self.station?.coord?.coordinate
         
         var region = MKCoordinateRegionMakeWithDistance(location!,1000,1000);
         
