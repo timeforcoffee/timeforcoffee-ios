@@ -59,7 +59,7 @@ public class TFCStation {
         return getNameWithStar()
     }
     
-    func hasFilters() -> Bool {
+    public func hasFilters() -> Bool {
         return (filteredLines.count > 0)
     }
     

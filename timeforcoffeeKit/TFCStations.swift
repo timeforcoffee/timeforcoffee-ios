@@ -57,6 +57,10 @@ public class TFCStations {
     }
 
     public func getStation(index: Int) -> TFCStation {
+
+        if (index + 1 > stations.count) {
+            return TFCStation(name: "doesn't exist", id: "0000", coord: nil)
+        }
         return stations[index]
     }
 

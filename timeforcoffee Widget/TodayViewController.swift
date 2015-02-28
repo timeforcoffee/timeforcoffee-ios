@@ -20,6 +20,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     var departures = [TFCDeparture]()
     var api : APIController?
     var currentStationIndex = 0
+    var loading = true
    
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,6 +41,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         self.departures = [TFCDeparture]();
         self.appsTableView!.reloadData()
         self.titleLabel.text = self.stations.getStation(self.currentStationIndex).getNameWithStarAndFilters()
+        self.loading = true
         self.api?.getDepartures(self.stations.getStation(self.currentStationIndex).st_id)
 
     }
@@ -71,6 +73,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         if (coord != nil) {
             if (self.stations.addNearbyFavorites(currentLocation!)) {
                 self.titleLabel.text = self.stations.getStation(0).getNameWithStarAndFilters()
+                self.loading = true
                 self.api?.getDepartures(self.stations.getStation(0).st_id)
             }
 
@@ -80,6 +83,9 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
 
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if (self.departures.count == 0) {
+            return 1;
+        }
         return self.departures.count
     }
     
@@ -93,6 +99,24 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         let lineNumberLabel = cell.viewWithTag(100) as UILabel
         let destinationLabel = cell.viewWithTag(200) as UILabel
         let departureLabel = cell.viewWithTag(300) as UILabel
+
+        if (self.departures.count == 0) {
+            departureLabel.text = nil
+            lineNumberLabel.text = nil
+            lineNumberLabel.backgroundColor = UIColor.clearColor()
+            if (loading) {
+                destinationLabel.text = "Loading ..."
+            } else {
+                destinationLabel.text = "No departures found."
+                
+                if (self.stations.getStation(self.currentStationIndex).hasFilters()) {
+                    departureLabel.text = "Remove some filters"
+                }
+            }
+            return cell
+        }
+        
+        cell.textLabel!.text = nil
         
         
         let departure: TFCDeparture = self.departures[indexPath.row]
@@ -143,6 +167,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                 }
             } else {
                 self.departures = TFCDeparture.withJSON(results, filterStation: self.stations.getStation(self.currentStationIndex))
+                self.loading = false
                 self.appsTableView!.reloadData()
             }
         })
