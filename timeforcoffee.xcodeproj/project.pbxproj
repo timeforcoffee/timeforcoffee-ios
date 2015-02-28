@@ -237,8 +237,8 @@
 			isa = PBXGroup;
 			children = (
 				EC6EDD011A9BA04D0098CAE0 /* timeforcoffee Widget.entitlements */,
-				EC6EDCF61A9B9F390098CAE0 /* TodayViewController.swift */,
 				EC6EDCF81A9B9F390098CAE0 /* MainInterface.storyboard */,
+				EC6EDCF61A9B9F390098CAE0 /* TodayViewController.swift */,
 				EC6EDCF41A9B9F390098CAE0 /* Supporting Files */,
 			);
 			path = "timeforcoffee Widget";
@@ -325,8 +325,8 @@
 				EC7A519A19C43E0A000F5E7C /* Blank52.png */,
 				EC7A517819C427CA000F5E7C /* AppDelegate.swift */,
 				EC3252E91A9CE9DC0056AF11 /* MGSwipe */,
-				EC7A517A19C427CA000F5E7C /* SearchResultsViewController.swift */,
 				EC7A517C19C427CA000F5E7C /* Main.storyboard */,
+				EC7A517A19C427CA000F5E7C /* SearchResultsViewController.swift */,
 				EC6EDCE71A9B6B680098CAE0 /* StationViewController.swift */,
 				EC7A519E19C4432F000F5E7C /* DetailsViewController.swift */,
 				EC7A517F19C427CA000F5E7C /* Images.xcassets */,

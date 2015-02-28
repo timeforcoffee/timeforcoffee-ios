@@ -39,9 +39,9 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             self.currentStationIndex = 0
         }
         self.departures = [TFCDeparture]();
+        self.loading = true
         self.appsTableView!.reloadData()
         self.titleLabel.text = self.stations.getStation(self.currentStationIndex).getNameWithStarAndFilters()
-        self.loading = true
         self.api?.getDepartures(self.stations.getStation(self.currentStationIndex).st_id)
 
     }
