@@ -11,14 +11,14 @@ import Foundation
 public class TFCDeparture {
     public var name: String
     public var type: String
-    public var accessible: Bool?
+    public var accessible: Bool
     public var to: String
     public var scheduled: NSDate?
     public var realtime: NSDate?
     public var colorFg: String?
     public var colorBg: String?
 
-    init(name: String, type: String, accessible: Bool?, to: String, scheduled: NSDate?, realtime: NSDate?, colorFg: String?, colorBg: String? ) {
+    init(name: String, type: String, accessible: Bool, to: String, scheduled: NSDate?, realtime: NSDate?, colorFg: String?, colorBg: String? ) {
         // TODO: strip "Zurich, " from name
         self.name = name
         self.type = type
@@ -46,7 +46,11 @@ public class TFCDeparture {
                 for result in results {
                     var name = result["name"].string
                     var type = result["type"].string
-                    var accessible = result["accessible"].bool
+                    var accessibleOpt = result["accessible"].bool
+                    var accessible = true
+                    if (accessibleOpt == nil || accessibleOpt == false) {
+                        accessible = false
+                    }
                     var to = result["to"].string
                     var scheduledStr = result["departure"]["scheduled"].string
                     var realtimeStr = result["departure"]["realtime"].string
@@ -132,11 +136,13 @@ public class TFCDeparture {
         if (self.realtime != nil && self.realtime != self.scheduled) {
             timestring = "\(realtimeStr!) / \(scheduledStr!)"
         } else {
-            if (self.realtime == nil) {
-                timestring = "\(scheduledStr!) (no real-time data)"
-            } else {
-                timestring = "\(scheduledStr!)"
-            }
+            timestring = "\(scheduledStr!)"
+        }
+        if (accessible) {
+            timestring = "\(timestring) / ♿︎"
+        }
+        if (self.realtime == nil) {
+            timestring = "\(timestring) / (no real-time data)"
         }
         return timestring
     }
