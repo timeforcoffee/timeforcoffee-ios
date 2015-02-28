@@ -169,12 +169,23 @@ public class TFCDeparture {
     }
     
     public func getDestinationWithSign(station: TFCStation?) -> String {
+        return getDestinationWithSign(station, unabridged: false)
+    }
+    
+    public func getDestinationWithSign(station: TFCStation?, unabridged: Bool) -> String {
         if (station != nil) {
+            var destination: String = ""
             let station2 = station!
-            if (station2.isFiltered(self)) {
-                return "\(getDestination(station2)) ✗"
+
+            if (unabridged) {
+                destination = getDestination()
+            } else {
+                destination = getDestination(station2)
             }
-            return getDestination(station2)
+            if (station2.isFiltered(self)) {
+                return "\(destination) ✗"
+            }
+            return destination
         }
         return getDestination()
     }

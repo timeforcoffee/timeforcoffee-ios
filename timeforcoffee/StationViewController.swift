@@ -98,14 +98,20 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
         let departure: TFCDeparture = self.departures[indexPath.row]
 
         lineNumberLabel.text = departure.getLine()
-        destinationLabel.text = departure.getDestinationWithSign(station2)
+        var unabridged = false
+        if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+            unabridged = true
+        }
+        destinationLabel.text = departure.getDestinationWithSign(station, unabridged: unabridged)
+        
+        
         minutesLabel.text = departure.getMinutes()
         if (station2.isFiltered(departure)) {
             destinationLabel.textColor = UIColor.grayColor()
             minutesLabel.textColor = UIColor.grayColor()
         } else {
             destinationLabel.textColor = UIColor.blackColor()
-            minutesLabel.textColor = UIColor.blueColor()
+            minutesLabel.textColor = UIColor.blackColor()
         }
 
         departureLabel.text = departure.getDepartureTime()
