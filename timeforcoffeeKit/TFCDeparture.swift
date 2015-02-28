@@ -87,6 +87,19 @@ public class TFCDeparture {
         return withJSON(allResults, filterStation: nil)
     }
     
+    public func getDestination(station: TFCStation) -> String {
+        let fullName = self.to
+        if (fullName.match(", ") && station.name.match(", ")) {
+            let destinationStationName = fullName.replace(".*, ", template: "")
+            let destinationCityName = fullName.replace(", .*", template: "")
+            let stationCityName = station.name.replace(", .*", template: "")
+            if (stationCityName == destinationCityName) {
+                return destinationStationName
+            }
+        }
+        return fullName
+    }
+    
     public func getDestination() -> String {
         return "\(self.to)"
     }
@@ -153,8 +166,9 @@ public class TFCDeparture {
         if (station != nil) {
             let station2 = station!
             if (station2.isFiltered(self)) {
-                return "\(getDestination()) ✗"
+                return "\(getDestination(station2)) ✗"
             }
+            return getDestination(station2)
         }
         return getDestination()
     }

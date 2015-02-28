@@ -96,10 +96,14 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         cell.layoutMargins = UIEdgeInsetsZero
         cell.preservesSuperviewLayoutMargins = false
         
+        
+        
         let lineNumberLabel = cell.viewWithTag(100) as UILabel
         let destinationLabel = cell.viewWithTag(200) as UILabel
         let departureLabel = cell.viewWithTag(300) as UILabel
         let minutesLabel = cell.viewWithTag(400) as UILabel
+        let station = self.stations.getStation(self.currentStationIndex)
+        
         if (self.departures.count == 0) {
             departureLabel.text = nil
             lineNumberLabel.text = nil
@@ -110,7 +114,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             } else {
                 destinationLabel.text = "No departures found."
                 
-                if (self.stations.getStation(self.currentStationIndex).hasFilters()) {
+                if (station.hasFilters()) {
                     departureLabel.text = "Remove some filters"
                 }
             }
@@ -121,8 +125,9 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         
         
         let departure: TFCDeparture = self.departures[indexPath.row]
+    
         lineNumberLabel.text = departure.getLine()
-        destinationLabel.text = departure.getDestination()
+        destinationLabel.text = departure.getDestination(station)
         departureLabel.text = departure.getDepartureTime()
         minutesLabel.text = departure.getMinutes()
         
@@ -175,4 +180,5 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         })
     }
 }
+
 
