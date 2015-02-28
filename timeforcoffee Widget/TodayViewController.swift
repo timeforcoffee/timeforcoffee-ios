@@ -99,10 +99,11 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         let lineNumberLabel = cell.viewWithTag(100) as UILabel
         let destinationLabel = cell.viewWithTag(200) as UILabel
         let departureLabel = cell.viewWithTag(300) as UILabel
-
+        let minutesLabel = cell.viewWithTag(400) as UILabel
         if (self.departures.count == 0) {
             departureLabel.text = nil
             lineNumberLabel.text = nil
+            minutesLabel.text = nil
             lineNumberLabel.backgroundColor = UIColor.clearColor()
             if (loading) {
                 destinationLabel.text = "Loading ..."
@@ -122,7 +123,8 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         let departure: TFCDeparture = self.departures[indexPath.row]
         lineNumberLabel.text = departure.getLine()
         destinationLabel.text = departure.getDestination()
-        departureLabel.text = departure.getTimeString()
+        departureLabel.text = departure.getDepartureTime()
+        minutesLabel.text = departure.getMinutes()
         
         lineNumberLabel.layer.cornerRadius = 4.0
         lineNumberLabel.layer.masksToBounds = true
