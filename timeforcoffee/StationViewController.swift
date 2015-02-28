@@ -137,6 +137,8 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         expansionSettings.buttonIndex = 0
         expansionSettings.fillOnTrigger = true
+        expansionSettings.threshold = 3
+
         return buttons
     }
     
