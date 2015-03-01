@@ -163,6 +163,9 @@ public class TFCDeparture {
             if (timediff < 0) {
                 timediff = 0;
             }
+            if (timediff >= 60) {
+                return ">59'"
+            }
             return "\(timediff)'"
         }
         return nil
