@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EC0A30EC1AA344100043B8F8 /* launchicon.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30EB1AA344100043B8F8 /* launchicon.png */; };
 		EC2C31271A9DE8B000690397 /* home.gpx in Resources */ = {isa = PBXBuildFile; fileRef = EC2C31261A9DE8B000690397 /* home.gpx */; };
 		EC2C312B1A9DECB900690397 /* office.gpx in Resources */ = {isa = PBXBuildFile; fileRef = EC2C31281A9DE92700690397 /* office.gpx */; };
 		EC2C312C1A9DECBA00690397 /* office.gpx in Resources */ = {isa = PBXBuildFile; fileRef = EC2C31281A9DE92700690397 /* office.gpx */; };
@@ -107,6 +108,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		EC0A30EB1AA344100043B8F8 /* launchicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = launchicon.png; path = _assets/launchicon.png; sourceTree = "<group>"; };
 		EC2C31261A9DE8B000690397 /* home.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = home.gpx; path = gpx/home.gpx; sourceTree = "<group>"; };
 		EC2C31281A9DE92700690397 /* office.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = office.gpx; path = gpx/office.gpx; sourceTree = "<group>"; };
 		EC2C31681A9E1E9B00690397 /* NewRelicAgent.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = NewRelicAgent.framework; sourceTree = "<group>"; };
@@ -200,6 +202,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EC0A30E81AA33D990043B8F8 /* _assets */ = {
+			isa = PBXGroup;
+			children = (
+				EC0A30EB1AA344100043B8F8 /* launchicon.png */,
+			);
+			name = _assets;
+			sourceTree = "<group>";
+		};
 		EC2C312A1A9DEA1F00690397 /* gpx */ = {
 			isa = PBXGroup;
 			children = (
@@ -297,6 +307,7 @@
 		EC7A516A19C427CA000F5E7C = {
 			isa = PBXGroup;
 			children = (
+				EC0A30E81AA33D990043B8F8 /* _assets */,
 				EC7A517519C427CA000F5E7C /* timeforcoffee */,
 				EC6EDCF31A9B9F390098CAE0 /* timeforcoffee Widget */,
 				EC6EDD2E1A9BA36F0098CAE0 /* timeforcoffeeKit */,
@@ -528,6 +539,7 @@
 				EC7A519B19C43E0A000F5E7C /* Blank52.png in Resources */,
 				EC2C31271A9DE8B000690397 /* home.gpx in Resources */,
 				EC7A518319C427CA000F5E7C /* LaunchScreen.xib in Resources */,
+				EC0A30EC1AA344100043B8F8 /* launchicon.png in Resources */,
 				EC7A518019C427CA000F5E7C /* Images.xcassets in Resources */,
 				EC2C312B1A9DECB900690397 /* office.gpx in Resources */,
 			);
