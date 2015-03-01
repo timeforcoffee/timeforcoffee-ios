@@ -18,6 +18,7 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
     var api : APIController?
     var refreshControl:UIRefreshControl!
     var searchController: UISearchController!
+    var networkErrorMsg: String? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,10 +83,10 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if (stations == nil) {
-            return 0
+        if (stations.count() == nil || stations.count() == 0) {
+            return 1
         }
-        return stations.count()
+        return stations.count()!
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -93,11 +94,29 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
 
         cell.delegate = self
         cell.tag = indexPath.row
-        let station = self.stations.getStation(indexPath.row)
-        cell.textLabel?.text = station.getNameWithStar()
+        
+        let textLabel = cell.textLabel
+        let detailTextLabel = cell.detailTextLabel
+        
+        if (stations.count() == nil || stations.count() == 0) {
+            cell.userInteractionEnabled = false;
+            detailTextLabel?.text = nil
+            if (stations == nil) {
+                textLabel?.text = "Loading ..."
+            } else {
+                textLabel?.text = "No stations found."
+                if (self.networkErrorMsg != nil) {
+                    detailTextLabel?.text = self.networkErrorMsg
+                }
+            }
+            return cell
+        }
+        
+        let station = self.stations!.getStation(indexPath.row)
+        textLabel?.text = station.getNameWithStar()
 
         if (currentLocation == nil) {
-            cell.detailTextLabel?.text = ""
+            detailTextLabel?.text = ""
             return cell
         }
         
@@ -105,9 +124,9 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
             var distance = Int(currentLocation?.distanceFromLocation(station.coord) as Double!)
             if (distance > 5000) {
                 let km = Int(round(Double(distance) / 1000))
-                cell.detailTextLabel?.text = "\(km) Kilometer"
+                detailTextLabel?.text = "\(km) Kilometer"
             } else {
-                cell.detailTextLabel?.text = "\(distance) Meter"
+                detailTextLabel?.text = "\(distance) Meter"
                 // calculate exact distance
                 let currentCoordinate = currentLocation?.coordinate
                 var sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
@@ -136,7 +155,7 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
                         
                         var time =  Int(round(route.expectedTravelTime / 60))
                         var meters = Int(route.distance);
-                        cell.detailTextLabel?.text = "\(time) min Fussweg, \(meters) m"
+                        detailTextLabel?.text = "\(time) min Fussweg, \(meters) m"
                     }  else {
                         println("No response")
                         println(error?.description)
@@ -144,9 +163,8 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
                     
                 })
             }
-        }
-        else {
-            cell.detailTextLabel?.text = ""
+        } else {
+            detailTextLabel?.text = ""
         }
         return cell
     }
@@ -192,7 +210,12 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         self.refreshControl.endRefreshing()
         dispatch_async(dispatch_get_main_queue(), {
-            self.stations.addWithJSON(results)
+            if (error != nil) {
+                self.networkErrorMsg = "Network error. Please try again"
+            } else {
+                self.networkErrorMsg = nil
+            }
+            self.stations!.addWithJSON(results)
             self.appsTableView!.reloadData()
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         })

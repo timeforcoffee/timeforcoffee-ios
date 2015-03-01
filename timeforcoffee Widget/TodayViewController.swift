@@ -82,10 +82,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
 
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if (self.departures == nil) {
-            return 1
-        }
-        if (self.departures!.count == 0) {
+        if (self.departures == nil || self.departures!.count == 0) {
             return 1
         }
         return self.departures!.count
@@ -176,7 +173,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                 let hasAlreadyFavouritesDisplayed = self.stations.count()
                 self.stations.addWithJSON(results, append: true)
                 self.titleLabel.text = self.stations.getStation(self.currentStationIndex).getNameWithStarAndFilters()
-                if (hasAlreadyFavouritesDisplayed == 0) {
+                if (hasAlreadyFavouritesDisplayed == nil) {
                     self.api?.getDepartures(self.stations.getStation(self.currentStationIndex).st_id)
                 }
             } else {

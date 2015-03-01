@@ -10,7 +10,7 @@ import Foundation
 import CoreLocation
 
 public class TFCStations {
-    var stations:[TFCStation] = []
+    var stations:[TFCStation]?
 
     //struct here, because "class var" is not yet supported
     private struct favorites {
@@ -21,8 +21,11 @@ public class TFCStations {
         populateFavoriteStations()
     }
 
-    public func count() -> Int {
-        return stations.count
+    public func count() -> Int? {
+        if (stations == nil) {
+            return nil
+        }
+        return stations!.count
     }
 
     public func addWithJSON(allResults: JSONValue) {
@@ -30,7 +33,7 @@ public class TFCStations {
     }
 
     public func addWithJSON(allResults: JSONValue, append: Bool) {
-        if (!append) {
+        if (!append || stations == nil) {
             stations = []
             favorites.inStationsArray = [:]
         }
@@ -49,7 +52,7 @@ public class TFCStations {
                             Clocation = CLLocation(latitude: latitude!, longitude: longitude!)
                         }
                         var newStation = TFCStation(name: name!, id: id, coord: Clocation)
-                        stations.append(newStation)
+                        stations!.append(newStation)
                     }
                 }
             }
@@ -57,11 +60,10 @@ public class TFCStations {
     }
 
     public func getStation(index: Int) -> TFCStation {
-
-        if (index + 1 > stations.count) {
+        if (stations == nil || index + 1 > stations!.count) {
             return TFCStation(name: "doesn't exist", id: "0000", coord: nil)
         }
-        return stations[index]
+        return stations![index]
     }
 
     public class func getStationById(st_id: String) -> TFCStation {
@@ -81,12 +83,12 @@ public class TFCStations {
             var distance = Int(location.distanceFromLocation(station.coord) as Double!)
             if (distance < 1000) {
                 station.calculatedDistance = distance
-                self.stations.append(station)
+                self.stations!.append(station)
                 favorites.inStationsArray[station.st_id] = true
             }
         }
         if (favorites.inStationsArray.count > 0) {
-            self.stations.sort({ $0.calculatedDistance < $1.calculatedDistance })
+            self.stations!.sort({ $0.calculatedDistance < $1.calculatedDistance })
             return true
         }
         return false
