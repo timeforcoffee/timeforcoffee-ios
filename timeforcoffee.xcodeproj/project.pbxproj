@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		EC0A30EC1AA344100043B8F8 /* launchicon.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30EB1AA344100043B8F8 /* launchicon.png */; };
+		EC0A30EE1AA350B60043B8F8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30ED1AA350B60043B8F8 /* Localizable.strings */; };
+		EC0A30EF1AA350B60043B8F8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30ED1AA350B60043B8F8 /* Localizable.strings */; };
+		EC0A30F21AA353CA0043B8F8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30F41AA353CA0043B8F8 /* MainInterface.storyboard */; };
 		EC2C31271A9DE8B000690397 /* home.gpx in Resources */ = {isa = PBXBuildFile; fileRef = EC2C31261A9DE8B000690397 /* home.gpx */; };
 		EC2C312B1A9DECB900690397 /* office.gpx in Resources */ = {isa = PBXBuildFile; fileRef = EC2C31281A9DE92700690397 /* office.gpx */; };
 		EC2C312C1A9DECBA00690397 /* office.gpx in Resources */ = {isa = PBXBuildFile; fileRef = EC2C31281A9DE92700690397 /* office.gpx */; };
@@ -27,7 +30,6 @@
 		EC6EDCE81A9B6B680098CAE0 /* StationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDCE71A9B6B680098CAE0 /* StationViewController.swift */; };
 		EC6EDCF21A9B9F390098CAE0 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC6EDCF11A9B9F390098CAE0 /* NotificationCenter.framework */; };
 		EC6EDCF71A9B9F390098CAE0 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDCF61A9B9F390098CAE0 /* TodayViewController.swift */; };
-		EC6EDCF91A9B9F390098CAE0 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC6EDCF81A9B9F390098CAE0 /* MainInterface.storyboard */; };
 		EC6EDCFC1A9B9F390098CAE0 /* timeforcoffee Widget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EC6EDCEF1A9B9F390098CAE0 /* timeforcoffee Widget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		EC6EDD381A9BA36F0098CAE0 /* timeforcoffeeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */; };
 		EC6EDD411A9BA36F0098CAE0 /* timeforcoffeeKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDD401A9BA36F0098CAE0 /* timeforcoffeeKitTests.swift */; };
@@ -109,6 +111,10 @@
 
 /* Begin PBXFileReference section */
 		EC0A30EB1AA344100043B8F8 /* launchicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = launchicon.png; path = _assets/launchicon.png; sourceTree = "<group>"; };
+		EC0A30ED1AA350B60043B8F8 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		EC0A30F11AA352BD0043B8F8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		EC0A30F51AA353E40043B8F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		EC0A30F61AA354010043B8F8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MainInterface.strings; sourceTree = "<group>"; };
 		EC2C31261A9DE8B000690397 /* home.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = home.gpx; path = gpx/home.gpx; sourceTree = "<group>"; };
 		EC2C31281A9DE92700690397 /* office.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = office.gpx; path = gpx/office.gpx; sourceTree = "<group>"; };
 		EC2C31681A9E1E9B00690397 /* NewRelicAgent.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = NewRelicAgent.framework; sourceTree = "<group>"; };
@@ -128,7 +134,6 @@
 		EC6EDCF11A9B9F390098CAE0 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		EC6EDCF51A9B9F390098CAE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC6EDCF61A9B9F390098CAE0 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
-		EC6EDCF81A9B9F390098CAE0 /* MainInterface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
 		EC6EDD011A9BA04D0098CAE0 /* timeforcoffee Widget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "timeforcoffee Widget.entitlements"; sourceTree = "<group>"; };
 		EC6EDD021A9BA07E0098CAE0 /* timeforcoffee.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = timeforcoffee.entitlements; sourceTree = "<group>"; };
 		EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = timeforcoffeeKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -206,6 +211,7 @@
 			isa = PBXGroup;
 			children = (
 				EC0A30EB1AA344100043B8F8 /* launchicon.png */,
+				EC0A30ED1AA350B60043B8F8 /* Localizable.strings */,
 			);
 			name = _assets;
 			sourceTree = "<group>";
@@ -249,7 +255,7 @@
 			isa = PBXGroup;
 			children = (
 				EC6EDD011A9BA04D0098CAE0 /* timeforcoffee Widget.entitlements */,
-				EC6EDCF81A9B9F390098CAE0 /* MainInterface.storyboard */,
+				EC0A30F41AA353CA0043B8F8 /* MainInterface.storyboard */,
 				EC6EDCF61A9B9F390098CAE0 /* TodayViewController.swift */,
 				EC6EDCF41A9B9F390098CAE0 /* Supporting Files */,
 			);
@@ -511,7 +517,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC6EDCF91A9B9F390098CAE0 /* MainInterface.storyboard in Resources */,
+				EC0A30F21AA353CA0043B8F8 /* MainInterface.storyboard in Resources */,
+				EC0A30EF1AA350B60043B8F8 /* Localizable.strings in Resources */,
 				EC2C312C1A9DECBA00690397 /* office.gpx in Resources */,
 				EC2C312D1A9DECBD00690397 /* home.gpx in Resources */,
 			);
@@ -540,6 +547,7 @@
 				EC2C31271A9DE8B000690397 /* home.gpx in Resources */,
 				EC7A518319C427CA000F5E7C /* LaunchScreen.xib in Resources */,
 				EC0A30EC1AA344100043B8F8 /* launchicon.png in Resources */,
+				EC0A30EE1AA350B60043B8F8 /* Localizable.strings in Resources */,
 				EC7A518019C427CA000F5E7C /* Images.xcassets in Resources */,
 				EC2C312B1A9DECB900690397 /* office.gpx in Resources */,
 			);
@@ -647,6 +655,15 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		EC0A30F41AA353CA0043B8F8 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EC0A30F51AA353E40043B8F8 /* Base */,
+				EC0A30F61AA354010043B8F8 /* de */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
 		EC7A517C19C427CA000F5E7C /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -659,6 +676,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				EC7A518219C427CA000F5E7C /* Base */,
+				EC0A30F11AA352BD0043B8F8 /* de */,
 			);
 			name = LaunchScreen.xib;
 			sourceTree = "<group>";
