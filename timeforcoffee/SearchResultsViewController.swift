@@ -41,8 +41,23 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         searchController.searchBar.delegate = self    // so we can monitor text changes + others
 
         definesPresentationContext = true
+        var favButton = UIBarButtonItem(title: "☕︎", style: UIBarButtonItemStyle.Plain, target: self, action: "aboutClicked:")
+        favButton.tintColor = UIColor.blackColor()
+        
+        let font = UIFont.systemFontOfSize(30)
+        let buttonAttr = [NSFontAttributeName: font]
+        favButton.setTitleTextAttributes(buttonAttr, forState: UIControlState.Normal)
+        self.navigationItem.rightBarButtonItem = favButton
+
 
         initLocationManager()
+    }
+    
+    
+    @IBAction func aboutClicked(sender: UIBarButtonItem) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc: UIViewController! = storyboard.instantiateViewControllerWithIdentifier("AboutViewController") as UIViewController
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -89,7 +104,7 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if (stations.count() == nil || stations.count() == 0) {
+        if (stations == nil || stations.count() == nil || stations.count() == 0) {
             return 1
         }
         return stations.count()!
