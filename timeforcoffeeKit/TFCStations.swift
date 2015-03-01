@@ -79,6 +79,9 @@ public class TFCStations {
 
     public func addNearbyFavorites(location: CLLocation) -> Bool {
         favorites.inStationsArray = [:]
+        if (self.stations == nil) {
+            self.stations = []
+        }
         for (st_id, station) in favorites.stations {
             var distance = Int(location.distanceFromLocation(station.coord) as Double!)
             if (distance < 1000) {

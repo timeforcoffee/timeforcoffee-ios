@@ -103,10 +103,11 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         let textLabel = cell.textLabel
         let detailTextLabel = cell.detailTextLabel
         
-        if (stations.count() == nil || stations.count() == 0) {
+        let stationsCount = stations.count()
+        if (stationsCount == nil || stationsCount == 0) {
             cell.userInteractionEnabled = false;
             detailTextLabel?.text = nil
-            if (stations == nil) {
+            if (stationsCount == nil) {
                 textLabel?.text = "Loading ..."
             } else {
                 textLabel?.text = "No stations found."
@@ -116,6 +117,8 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
             }
             return cell
         }
+        cell.userInteractionEnabled = true;
+
         
         let station = self.stations!.getStation(indexPath.row)
         textLabel?.text = station.getNameWithStar()
