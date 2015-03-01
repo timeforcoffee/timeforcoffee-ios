@@ -51,9 +51,7 @@ Supported by Liip AG / @liip</string>
             </subviews>
             <color key="backgroundColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstAttribute="centerY" secondItem="YNY-kn-DMw" secondAttribute="centerY" id="3wI-kj-Wet"/>
                 <constraint firstItem="yzx-2e-uzD" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="5py-gz-avj"/>
-                <constraint firstAttribute="bottom" secondItem="YNY-kn-DMw" secondAttribute="bottom" constant="20" id="99B-ak-tMi"/>
                 <constraint firstAttribute="trailing" secondItem="tqk-z5-Hex" secondAttribute="trailing" id="D2D-6q-pMY"/>
                 <constraint firstItem="tqk-z5-Hex" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="40" id="NX4-8K-zob"/>
                 <constraint firstItem="kId-c2-rCX" firstAttribute="bottom" secondItem="yzx-2e-uzD" secondAttribute="top" id="OJh-pn-KyH"/>
@@ -68,12 +66,6 @@ Supported by Liip AG / @liip</string>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
-            <variation key="default">
-                <mask key="constraints">
-                    <exclude reference="3wI-kj-Wet"/>
-                    <exclude reference="99B-ak-tMi"/>
-                </mask>
-            </variation>
             <point key="canvasLocation" x="466.5" y="481.5"/>
         </view>
     </objects>
