@@ -1,0 +1,19 @@
+//
+//  TFCNavigationController.swift
+//  timeforcoffee
+//
+//  Created by Christian Stocker on 01.03.15.
+//  Copyright (c) 2015 Christian Stocker. All rights reserved.
+//
+
+import Foundation
+
+
+class TFCNavigationController: UINavigationController {
+    
+    override func supportedInterfaceOrientations() -> Int {
+        println("rotate")
+        return Int(UIInterfaceOrientationMask.All.rawValue)
+    }
+
+}

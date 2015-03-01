@@ -124,9 +124,14 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         cell.textLabel!.text = nil
 
         let departure: TFCDeparture = self.departures![indexPath.row]
+        var unabridged = false
+        if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+            unabridged = true
+        }
+        destinationLabel.text = departure.getDestinationWithSign(station, unabridged: unabridged)
 
+        
         lineNumberLabel.text = departure.getLine()
-        destinationLabel.text = departure.getDestination(station)
         departureLabel.text = departure.getDepartureTime()
         minutesLabel.text = departure.getMinutes()
         
@@ -183,6 +188,22 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             }
         })
     }
+    
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        
+        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+        
+        coordinator.animateAlongsideTransition(
+            {
+                (context) -> Void in
+            },
+            completion: {
+                (context) -> Void in
+                self.appsTableView?.reloadData()
+                return
+        })
+    }
+
 }
 
 

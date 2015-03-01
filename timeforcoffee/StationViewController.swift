@@ -194,4 +194,18 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
 
         return true
     }
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        
+        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+        
+        coordinator.animateAlongsideTransition(
+            {
+                (context) -> Void in
+            },
+            completion: {
+                (context) -> Void in
+                self.appsTableView?.reloadData()
+                return
+        })
+    }
 }

@@ -36,6 +36,7 @@
 		EC6EDD4F1A9BA4820098CAE0 /* TFCStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDD4D1A9BA4820098CAE0 /* TFCStation.swift */; };
 		EC6EDD511A9BA5080098CAE0 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDD501A9BA5080098CAE0 /* SwiftyJSON.swift */; };
 		EC6EDD541A9BA79B0098CAE0 /* APIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDD531A9BA79B0098CAE0 /* APIController.swift */; };
+		EC72FCC11AA336E900E9B275 /* TFCNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC72FCC01AA336E900E9B275 /* TFCNavigationController.swift */; };
 		EC7A517919C427CA000F5E7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A517819C427CA000F5E7C /* AppDelegate.swift */; };
 		EC7A517B19C427CA000F5E7C /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A517A19C427CA000F5E7C /* SearchResultsViewController.swift */; };
 		EC7A517E19C427CA000F5E7C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC7A517C19C427CA000F5E7C /* Main.storyboard */; };
@@ -136,6 +137,7 @@
 		EC6EDD4D1A9BA4820098CAE0 /* TFCStation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCStation.swift; sourceTree = "<group>"; };
 		EC6EDD501A9BA5080098CAE0 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		EC6EDD531A9BA79B0098CAE0 /* APIController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIController.swift; sourceTree = "<group>"; };
+		EC72FCC01AA336E900E9B275 /* TFCNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCNavigationController.swift; sourceTree = "<group>"; };
 		EC7A517319C427CA000F5E7C /* Time for Coffee!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Time for Coffee!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC7A517719C427CA000F5E7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC7A517819C427CA000F5E7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -324,6 +326,7 @@
 				EC3252DF1A9CE0800056AF11 /* timeforcoffee-Bridging-Header.h */,
 				EC7A519A19C43E0A000F5E7C /* Blank52.png */,
 				EC7A517819C427CA000F5E7C /* AppDelegate.swift */,
+				EC72FCC01AA336E900E9B275 /* TFCNavigationController.swift */,
 				EC3252E91A9CE9DC0056AF11 /* MGSwipe */,
 				EC7A517C19C427CA000F5E7C /* Main.storyboard */,
 				EC7A517A19C427CA000F5E7C /* SearchResultsViewController.swift */,
@@ -600,6 +603,7 @@
 				EC3252E71A9CE1320056AF11 /* MGSwipeTableCell.m in Sources */,
 				EC7A517919C427CA000F5E7C /* AppDelegate.swift in Sources */,
 				EC3252E61A9CE1320056AF11 /* MGSwipeButton.m in Sources */,
+				EC72FCC11AA336E900E9B275 /* TFCNavigationController.swift in Sources */,
 				EC6EDCE81A9B6B680098CAE0 /* StationViewController.swift in Sources */,
 				EC7A519F19C4432F000F5E7C /* DetailsViewController.swift in Sources */,
 			);

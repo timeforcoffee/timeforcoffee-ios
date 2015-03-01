@@ -222,7 +222,7 @@
         <!--Navigation Controller-->
         <scene sceneID="RY9-Sz-kEE">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="6Gx-yE-V2l" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="6Gx-yE-V2l" customClass="TFCNavigationController" customModule="timeforcoffee" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="INQ-e5-Pmu">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
