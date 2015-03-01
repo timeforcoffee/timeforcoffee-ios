@@ -178,7 +178,7 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         if (direction == MGSwipeDirection.RightToLeft) {
             let station: TFCStation = self.stations.getStation(cell.tag)
             if (station.isFavorite()) {
-                buttons = [MGSwipeButton( title:"Fav",  backgroundColor: UIColor.redColor())]
+                buttons = [MGSwipeButton( title:"Unfav",  backgroundColor: UIColor.redColor())]
             } else {
                 buttons = [MGSwipeButton( title:"Fav",  backgroundColor: UIColor.greenColor())]
             }

@@ -166,14 +166,14 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
         if (direction == MGSwipeDirection.RightToLeft) {
             let departure: TFCDeparture = self.departures![cell.tag]
             if (station2.isFiltered(departure)) {
-                buttons = [MGSwipeButton( title:"Don't Filter",  backgroundColor: UIColor.redColor())]
+                buttons = [MGSwipeButton( title:"Unfilter", backgroundColor: UIColor.redColor())]
             } else {
-                buttons = [MGSwipeButton( title:"Filter",  backgroundColor: UIColor.greenColor())]
+                buttons = [MGSwipeButton( title:"Filter", backgroundColor: UIColor.greenColor())]
             }
         }
         expansionSettings.buttonIndex = 0
         expansionSettings.fillOnTrigger = true
-        expansionSettings.threshold = 3
+        expansionSettings.threshold = 2.5
 
         return buttons
     }
