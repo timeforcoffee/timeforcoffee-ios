@@ -109,7 +109,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             minutesLabel.text = nil
             lineNumberLabel.backgroundColor = UIColor.clearColor()
             if (self.departures == nil) {
-                destinationLabel.text = "Loading ..."
+                destinationLabel.text = NSLocalizedString("Loading", comment: "Loading ..")
             } else {
                 destinationLabel.text = "No departures found."
                 if (self.networkErrorMsg != nil) {

@@ -8,9 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		EC0A30EC1AA344100043B8F8 /* launchicon.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30EB1AA344100043B8F8 /* launchicon.png */; };
-		EC0A30EE1AA350B60043B8F8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30ED1AA350B60043B8F8 /* Localizable.strings */; };
-		EC0A30EF1AA350B60043B8F8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30ED1AA350B60043B8F8 /* Localizable.strings */; };
 		EC0A30F21AA353CA0043B8F8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30F41AA353CA0043B8F8 /* MainInterface.storyboard */; };
+		EC2195EB1AA35B2D005E16EF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC2195ED1AA35B2D005E16EF /* Localizable.strings */; };
+		EC2195F31AA35CB4005E16EF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC2195ED1AA35B2D005E16EF /* Localizable.strings */; };
+		EC271DC41AA365BE00A7A75E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC271DC31AA365BE00A7A75E /* Main.storyboard */; };
 		EC2C31271A9DE8B000690397 /* home.gpx in Resources */ = {isa = PBXBuildFile; fileRef = EC2C31261A9DE8B000690397 /* home.gpx */; };
 		EC2C312B1A9DECB900690397 /* office.gpx in Resources */ = {isa = PBXBuildFile; fileRef = EC2C31281A9DE92700690397 /* office.gpx */; };
 		EC2C312C1A9DECBA00690397 /* office.gpx in Resources */ = {isa = PBXBuildFile; fileRef = EC2C31281A9DE92700690397 /* office.gpx */; };
@@ -42,7 +43,6 @@
 		EC72FCC11AA336E900E9B275 /* TFCNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC72FCC01AA336E900E9B275 /* TFCNavigationController.swift */; };
 		EC7A517919C427CA000F5E7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A517819C427CA000F5E7C /* AppDelegate.swift */; };
 		EC7A517B19C427CA000F5E7C /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A517A19C427CA000F5E7C /* SearchResultsViewController.swift */; };
-		EC7A517E19C427CA000F5E7C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC7A517C19C427CA000F5E7C /* Main.storyboard */; };
 		EC7A518019C427CA000F5E7C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC7A517F19C427CA000F5E7C /* Images.xcassets */; };
 		EC7A518319C427CA000F5E7C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC7A518119C427CA000F5E7C /* LaunchScreen.xib */; };
 		EC7A519B19C43E0A000F5E7C /* Blank52.png in Resources */ = {isa = PBXBuildFile; fileRef = EC7A519A19C43E0A000F5E7C /* Blank52.png */; };
@@ -111,10 +111,12 @@
 
 /* Begin PBXFileReference section */
 		EC0A30EB1AA344100043B8F8 /* launchicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = launchicon.png; path = _assets/launchicon.png; sourceTree = "<group>"; };
-		EC0A30ED1AA350B60043B8F8 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		EC0A30F11AA352BD0043B8F8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		EC0A30F51AA353E40043B8F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		EC0A30F61AA354010043B8F8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MainInterface.strings; sourceTree = "<group>"; };
+		EC2195EC1AA35B2D005E16EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		EC2195EF1AA35B4B005E16EF /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		EC271DC31AA365BE00A7A75E /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		EC2C31261A9DE8B000690397 /* home.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = home.gpx; path = gpx/home.gpx; sourceTree = "<group>"; };
 		EC2C31281A9DE92700690397 /* office.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = office.gpx; path = gpx/office.gpx; sourceTree = "<group>"; };
 		EC2C31681A9E1E9B00690397 /* NewRelicAgent.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = NewRelicAgent.framework; sourceTree = "<group>"; };
@@ -149,7 +151,6 @@
 		EC7A517719C427CA000F5E7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC7A517819C427CA000F5E7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EC7A517A19C427CA000F5E7C /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
-		EC7A517D19C427CA000F5E7C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EC7A517F19C427CA000F5E7C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		EC7A518219C427CA000F5E7C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		EC7A519A19C43E0A000F5E7C /* Blank52.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Blank52.png; sourceTree = "<group>"; };
@@ -210,8 +211,8 @@
 		EC0A30E81AA33D990043B8F8 /* _assets */ = {
 			isa = PBXGroup;
 			children = (
+				EC2195ED1AA35B2D005E16EF /* Localizable.strings */,
 				EC0A30EB1AA344100043B8F8 /* launchicon.png */,
-				EC0A30ED1AA350B60043B8F8 /* Localizable.strings */,
 			);
 			name = _assets;
 			sourceTree = "<group>";
@@ -338,6 +339,7 @@
 		EC7A517519C427CA000F5E7C /* timeforcoffee */ = {
 			isa = PBXGroup;
 			children = (
+				EC271DC31AA365BE00A7A75E /* Main.storyboard */,
 				ECF100AE1A9DBDAF00056510 /* Time for Coffee!.entitlements */,
 				EC6EDD021A9BA07E0098CAE0 /* timeforcoffee.entitlements */,
 				EC3252DF1A9CE0800056AF11 /* timeforcoffee-Bridging-Header.h */,
@@ -345,7 +347,6 @@
 				EC7A517819C427CA000F5E7C /* AppDelegate.swift */,
 				EC72FCC01AA336E900E9B275 /* TFCNavigationController.swift */,
 				EC3252E91A9CE9DC0056AF11 /* MGSwipe */,
-				EC7A517C19C427CA000F5E7C /* Main.storyboard */,
 				EC7A517A19C427CA000F5E7C /* SearchResultsViewController.swift */,
 				EC6EDCE71A9B6B680098CAE0 /* StationViewController.swift */,
 				EC7A519E19C4432F000F5E7C /* DetailsViewController.swift */,
@@ -496,8 +497,8 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
+				de,
 			);
 			mainGroup = EC7A516A19C427CA000F5E7C;
 			productRefGroup = EC7A517419C427CA000F5E7C /* Products */;
@@ -518,7 +519,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC0A30F21AA353CA0043B8F8 /* MainInterface.storyboard in Resources */,
-				EC0A30EF1AA350B60043B8F8 /* Localizable.strings in Resources */,
+				EC2195EB1AA35B2D005E16EF /* Localizable.strings in Resources */,
 				EC2C312C1A9DECBA00690397 /* office.gpx in Resources */,
 				EC2C312D1A9DECBD00690397 /* home.gpx in Resources */,
 			);
@@ -542,12 +543,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC7A517E19C427CA000F5E7C /* Main.storyboard in Resources */,
+				EC2195F31AA35CB4005E16EF /* Localizable.strings in Resources */,
 				EC7A519B19C43E0A000F5E7C /* Blank52.png in Resources */,
 				EC2C31271A9DE8B000690397 /* home.gpx in Resources */,
+				EC271DC41AA365BE00A7A75E /* Main.storyboard in Resources */,
 				EC7A518319C427CA000F5E7C /* LaunchScreen.xib in Resources */,
 				EC0A30EC1AA344100043B8F8 /* launchicon.png in Resources */,
-				EC0A30EE1AA350B60043B8F8 /* Localizable.strings in Resources */,
 				EC7A518019C427CA000F5E7C /* Images.xcassets in Resources */,
 				EC2C312B1A9DECB900690397 /* office.gpx in Resources */,
 			);
@@ -664,12 +665,13 @@
 			name = MainInterface.storyboard;
 			sourceTree = "<group>";
 		};
-		EC7A517C19C427CA000F5E7C /* Main.storyboard */ = {
+		EC2195ED1AA35B2D005E16EF /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				EC7A517D19C427CA000F5E7C /* Base */,
+				EC2195EC1AA35B2D005E16EF /* Base */,
+				EC2195EF1AA35B4B005E16EF /* de */,
 			);
-			name = Main.storyboard;
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 		EC7A518119C427CA000F5E7C /* LaunchScreen.xib */ = {

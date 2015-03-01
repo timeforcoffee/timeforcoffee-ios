@@ -112,9 +112,9 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
             minutesLabel.text = nil
             lineNumberLabel.backgroundColor = UIColor.clearColor()
             if (self.departures == nil) {
-                destinationLabel.text = "Loading ..."
+                destinationLabel.text = NSLocalizedString("Loading", comment: "Loading ..")
             } else {
-                destinationLabel.text = "No departures found."
+                destinationLabel.text = NSLocalizedString("No departures found", comment: "")
                 if (self.networkErrorMsg != nil) {
                     departureLabel.text = self.networkErrorMsg
                 }

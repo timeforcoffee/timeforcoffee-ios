@@ -108,7 +108,7 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
             cell.userInteractionEnabled = false;
             detailTextLabel?.text = nil
             if (stationsCount == nil) {
-                textLabel?.text = "Loading ..."
+                textLabel?.text = NSLocalizedString("Loading", comment: "Loading ..")
             } else {
                 textLabel?.text = "No stations found."
                 if (self.networkErrorMsg != nil) {
@@ -163,7 +163,8 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
                         
                         var time =  Int(round(route.expectedTravelTime / 60))
                         var meters = Int(route.distance);
-                        detailTextLabel?.text = "\(time) min walking, \(meters) m"
+                        let walking = NSLocalizedString("walking", comment: "Walking")
+                        detailTextLabel?.text = "\(time) min \(walking), \(meters) m"
                     }  else {
                         println("No response")
                         println(error?.description)
