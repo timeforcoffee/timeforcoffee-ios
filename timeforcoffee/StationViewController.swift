@@ -88,7 +88,7 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (self.departures == nil) {
-            return 0
+            return 1
         }
         if (self.departures!.count == 0) {
             return 1
