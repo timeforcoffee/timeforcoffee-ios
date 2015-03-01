@@ -183,7 +183,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                 }
             } else {
                 self.departures = TFCDeparture.withJSON(results, filterStation: self.stations.getStation(self.currentStationIndex))
-                println("RELOAD DATA")
+                
                 self.appsTableView!.reloadData()
             }
         })

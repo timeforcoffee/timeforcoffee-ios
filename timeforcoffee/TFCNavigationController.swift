@@ -12,7 +12,6 @@ import Foundation
 class TFCNavigationController: UINavigationController {
     
     override func supportedInterfaceOrientations() -> Int {
-        println("rotate")
         return Int(UIInterfaceOrientationMask.All.rawValue)
     }
 
