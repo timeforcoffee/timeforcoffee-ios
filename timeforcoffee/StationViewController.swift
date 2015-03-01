@@ -72,7 +72,7 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
         self.refreshControl.endRefreshing()
         dispatch_async(dispatch_get_main_queue(), {
             if (error != nil) {
-                self.networkErrorMsg = "Network error. Please try again"
+                self.networkErrorMsg = NSLocalizedString("Network error. Please try again", comment:"")
             } else {
                 self.networkErrorMsg = nil
             }
@@ -114,7 +114,7 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
             if (self.departures == nil) {
                 destinationLabel.text = NSLocalizedString("Loading", comment: "Loading ..")
             } else {
-                destinationLabel.text = NSLocalizedString("No departures found", comment: "")
+                destinationLabel.text = NSLocalizedString("No departures found.", comment: "")
                 if (self.networkErrorMsg != nil) {
                     departureLabel.text = self.networkErrorMsg
                 }

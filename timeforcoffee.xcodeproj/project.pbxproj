@@ -10,7 +10,6 @@
 		EC0A30EC1AA344100043B8F8 /* launchicon.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30EB1AA344100043B8F8 /* launchicon.png */; };
 		EC0A30F21AA353CA0043B8F8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30F41AA353CA0043B8F8 /* MainInterface.storyboard */; };
 		EC2195EB1AA35B2D005E16EF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC2195ED1AA35B2D005E16EF /* Localizable.strings */; };
-		EC2195F31AA35CB4005E16EF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC2195ED1AA35B2D005E16EF /* Localizable.strings */; };
 		EC271DC41AA365BE00A7A75E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC271DC31AA365BE00A7A75E /* Main.storyboard */; };
 		EC2C31271A9DE8B000690397 /* home.gpx in Resources */ = {isa = PBXBuildFile; fileRef = EC2C31261A9DE8B000690397 /* home.gpx */; };
 		EC2C312B1A9DECB900690397 /* office.gpx in Resources */ = {isa = PBXBuildFile; fileRef = EC2C31281A9DE92700690397 /* office.gpx */; };
@@ -49,6 +48,7 @@
 		EC7A519F19C4432F000F5E7C /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A519E19C4432F000F5E7C /* DetailsViewController.swift */; };
 		EC95714F1A9CACB70061F8B4 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC95714E1A9CACB70061F8B4 /* extensions.swift */; };
 		EC9571511A9CCEC00061F8B4 /* TFCBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9571501A9CCEC00061F8B4 /* TFCBaseViewController.swift */; };
+		ECC163D71AA36924006BC3E9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC2195ED1AA35B2D005E16EF /* Localizable.strings */; };
 		ECD871961A9BB2F7003CCCB3 /* timeforcoffeeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */; };
 		ECF100AD1A9D9BAE00056510 /* TFCStations.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF100AC1A9D9BAE00056510 /* TFCStations.swift */; };
 /* End PBXBuildFile section */
@@ -157,6 +157,9 @@
 		EC7A519E19C4432F000F5E7C /* DetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		EC95714E1A9CACB70061F8B4 /* extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
 		EC9571501A9CCEC00061F8B4 /* TFCBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCBaseViewController.swift; sourceTree = "<group>"; };
+		ECC163D81AA369ED006BC3E9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		ECC163D91AA369ED006BC3E9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		ECC163DB1AA36A35006BC3E9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MainInterface.strings; sourceTree = "<group>"; };
 		ECD871941A9BAE18003CCCB3 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ECF100AC1A9D9BAE00056510 /* TFCStations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCStations.swift; sourceTree = "<group>"; };
 		ECF100AE1A9DBDAF00056510 /* Time for Coffee!.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Time for Coffee!.entitlements"; sourceTree = "<group>"; };
@@ -499,6 +502,7 @@
 			knownRegions = (
 				Base,
 				de,
+				en,
 			);
 			mainGroup = EC7A516A19C427CA000F5E7C;
 			productRefGroup = EC7A517419C427CA000F5E7C /* Products */;
@@ -543,9 +547,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC2195F31AA35CB4005E16EF /* Localizable.strings in Resources */,
 				EC7A519B19C43E0A000F5E7C /* Blank52.png in Resources */,
 				EC2C31271A9DE8B000690397 /* home.gpx in Resources */,
+				ECC163D71AA36924006BC3E9 /* Localizable.strings in Resources */,
 				EC271DC41AA365BE00A7A75E /* Main.storyboard in Resources */,
 				EC7A518319C427CA000F5E7C /* LaunchScreen.xib in Resources */,
 				EC0A30EC1AA344100043B8F8 /* launchicon.png in Resources */,
@@ -661,6 +665,7 @@
 			children = (
 				EC0A30F51AA353E40043B8F8 /* Base */,
 				EC0A30F61AA354010043B8F8 /* de */,
+				ECC163DB1AA36A35006BC3E9 /* en */,
 			);
 			name = MainInterface.storyboard;
 			sourceTree = "<group>";
@@ -670,6 +675,7 @@
 			children = (
 				EC2195EC1AA35B2D005E16EF /* Base */,
 				EC2195EF1AA35B4B005E16EF /* de */,
+				ECC163D91AA369ED006BC3E9 /* en */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -679,6 +685,7 @@
 			children = (
 				EC7A518219C427CA000F5E7C /* Base */,
 				EC0A30F11AA352BD0043B8F8 /* de */,
+				ECC163D81AA369ED006BC3E9 /* en */,
 			);
 			name = LaunchScreen.xib;
 			sourceTree = "<group>";

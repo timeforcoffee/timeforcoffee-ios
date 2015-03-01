@@ -62,7 +62,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     }
     
     override func initLocationManager() {
-        titleLabel.text = "Looking for nearest station ..."
+        titleLabel.text = NSLocalizedString("Looking for nearest station ...", comment: "")
         self.currentStationIndex = 0
         super.initLocationManager()
     }
@@ -111,11 +111,11 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             if (self.departures == nil) {
                 destinationLabel.text = NSLocalizedString("Loading", comment: "Loading ..")
             } else {
-                destinationLabel.text = "No departures found."
+                destinationLabel.text = NSLocalizedString("No departures found.", comment: "")
                 if (self.networkErrorMsg != nil) {
                     departureLabel.text = self.networkErrorMsg
                 } else if (station.hasFilters()) {
-                    departureLabel.text = "Remove some filters"
+                    departureLabel.text = NSLocalizedString("Remove some filters.", comment: "")
                 }
             }
             return cell
@@ -170,7 +170,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     func didReceiveAPIResults(results: JSONValue, error: NSError?) {
         dispatch_async(dispatch_get_main_queue(), {
             if (error != nil && error?.code != -999) {
-                self.networkErrorMsg = "Network error. Please try again"
+                self.networkErrorMsg = NSLocalizedString("Network error. Please try again", comment: "")
             } else {
                 self.networkErrorMsg = nil
             }

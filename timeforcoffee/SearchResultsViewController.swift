@@ -110,7 +110,7 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
             if (stationsCount == nil) {
                 textLabel?.text = NSLocalizedString("Loading", comment: "Loading ..")
             } else {
-                textLabel?.text = "No stations found."
+                textLabel?.text = NSLocalizedString("No stations found.", comment: "")
                 if (self.networkErrorMsg != nil) {
                     detailTextLabel?.text = self.networkErrorMsg
                 }
