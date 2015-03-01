@@ -47,6 +47,12 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
         self.navigationItem.rightBarButtonItem = favButton
 
     }
+    
+    override func viewWillDisappear(animated: Bool) {
+        station = nil
+        api = nil
+        departures = nil
+    }
 
     @IBAction func favoriteClicked(sender: UIBarButtonItem) {
         if (self.station!.isFavorite()) {
