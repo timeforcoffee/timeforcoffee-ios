@@ -188,7 +188,7 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
     }
 
 
-    func didReceiveAPIResults(results: JSONValue) {
+    func didReceiveAPIResults(results: JSONValue, error: NSError?) {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         self.refreshControl.endRefreshing()
         dispatch_async(dispatch_get_main_queue(), {

@@ -57,7 +57,7 @@ public class APIController {
             self.currentFetch[fetchId] = nil
             var err: NSError?
             let jsonResult = JSONValue(data)
-            self.delegate.didReceiveAPIResults(jsonResult)
+            self.delegate.didReceiveAPIResults(jsonResult, error: error)
         })
         
         currentFetch[fetchId]?.resume()
@@ -66,5 +66,5 @@ public class APIController {
 }
 
 public protocol APIControllerProtocol {
-    func didReceiveAPIResults(results: JSONValue)
+    func didReceiveAPIResults(results: JSONValue, error: NSError?)
 }

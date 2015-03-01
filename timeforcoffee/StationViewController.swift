@@ -15,8 +15,9 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
     @IBOutlet var appsTableView : UITableView?
     var api : APIController?
     var refreshControl:UIRefreshControl!
-    var departures = [TFCDeparture]()
+    var departures: [TFCDeparture]?
     var station: TFCStation?
+    var networkErrorMsg: String?
     let kCellIdentifier: String = "DeparturesListCell"
 
 
@@ -29,8 +30,9 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
 
         titleLabel.title = self.station?.name
         self.api = APIController(delegate: self)
-        self.api?.getDepartures(self.station?.st_id)
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        self.departures = nil;
+        self.api?.getDepartures(self.station?.st_id)
         self.refreshControl = UIRefreshControl()
         self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
@@ -61,13 +63,19 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
     func refresh(sender:AnyObject)
     {
         // Code to refresh table view
+        self.departures = nil
         self.api?.getDepartures(self.station?.st_id)
     }
 
-    func didReceiveAPIResults(results: JSONValue) {
+    func didReceiveAPIResults(results: JSONValue, error: NSError?) {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         self.refreshControl.endRefreshing()
         dispatch_async(dispatch_get_main_queue(), {
+            if (error != nil) {
+                self.networkErrorMsg = "Network error. Please try again"
+            } else {
+                self.networkErrorMsg = nil
+            }
             self.departures = TFCDeparture.withJSON(results)
             if (self.station?.name == "") {
                 self.station?.name = TFCDeparture.getStationNameFromJson(results)!;
@@ -79,7 +87,13 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.departures.count
+        if (self.departures == nil) {
+            return 0
+        }
+        if (self.departures!.count == 0) {
+            return 1
+        }
+        return self.departures!.count
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -95,7 +109,23 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
         let minutesLabel = cell.viewWithTag(400) as UILabel
         let station2 = station!
 
-        let departure: TFCDeparture = self.departures[indexPath.row]
+        if (self.departures == nil || self.departures!.count == 0) {
+            departureLabel.text = nil
+            lineNumberLabel.text = nil
+            minutesLabel.text = nil
+            lineNumberLabel.backgroundColor = UIColor.clearColor()
+            if (self.departures == nil) {
+                destinationLabel.text = "Loading ..."
+            } else {
+                destinationLabel.text = "No departures found."
+                if (self.networkErrorMsg != nil) {
+                    departureLabel.text = self.networkErrorMsg
+                }
+            }
+            return cell
+        }
+        
+        let departure: TFCDeparture = self.departures![indexPath.row]
 
         lineNumberLabel.text = departure.getLine()
         var unabridged = false
@@ -137,7 +167,7 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
         var buttons = []
         let station2 = station!
         if (direction == MGSwipeDirection.RightToLeft) {
-            let departure: TFCDeparture = self.departures[cell.tag]
+            let departure: TFCDeparture = self.departures![cell.tag]
             if (station2.isFiltered(departure)) {
                 buttons = [MGSwipeButton( title:"Don't Filter",  backgroundColor: UIColor.redColor())]
             } else {
@@ -152,7 +182,7 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
     }
 
     func swipeTableCell(cell: MGSwipeTableCell!, tappedButtonAtIndex index: Int, direction: MGSwipeDirection, fromExpansion: Bool) -> Bool {
-        let departure: TFCDeparture = self.departures[cell.tag]
+        let departure: TFCDeparture = self.departures![cell.tag]
         let station2 = station!
         if (station2.isFiltered(departure)) {
             station2.unsetFilter(departure);

@@ -163,7 +163,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         completionHandler(NCUpdateResult.NewData)
     }
     
-    func didReceiveAPIResults(results: JSONValue) {
+    func didReceiveAPIResults(results: JSONValue, error: NSError?) {
         dispatch_async(dispatch_get_main_queue(), {
             if (TFCStation.isStations(results)) {
                 let hasAlreadyFavouritesDisplayed = self.stations.count()
