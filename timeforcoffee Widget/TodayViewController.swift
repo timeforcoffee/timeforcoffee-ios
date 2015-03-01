@@ -169,7 +169,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     
     func didReceiveAPIResults(results: JSONValue, error: NSError?) {
         dispatch_async(dispatch_get_main_queue(), {
-            if (error != nil) {
+            if (error != nil && error?.code != -999) {
                 self.networkErrorMsg = "Network error. Please try again"
             } else {
                 self.networkErrorMsg = nil

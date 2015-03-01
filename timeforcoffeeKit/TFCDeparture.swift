@@ -35,12 +35,13 @@ public class TFCDeparture {
         return result["meta"]["station_name"].string
     }
     
-    public class func withJSON(allResults: JSONValue, filterStation: TFCStation?) -> [TFCDeparture] {
+    public class func withJSON(allResults: JSONValue, filterStation: TFCStation?) -> [TFCDeparture]? {
         // Create an empty array of Albums to append to from this list
-        var departures = [TFCDeparture]()
         // Store the results in our table data array
+        var departures: [TFCDeparture]?
+
         if allResults["departures"].array?.count>0 {
-            
+            departures = [TFCDeparture]()
             if let results = allResults["departures"].array {
                 
                 for result in results {
@@ -77,17 +78,16 @@ public class TFCDeparture {
                             continue
                         }
                     }
-                    departures.append(newDeparture)
+                    departures?.append(newDeparture)
                 }
             }
             
             
         }
         return departures
-        
     }
     
-    public class func withJSON(allResults: JSONValue) -> [TFCDeparture] {
+    public class func withJSON(allResults: JSONValue) -> [TFCDeparture]? {
         return withJSON(allResults, filterStation: nil)
     }
     
