@@ -59,6 +59,11 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
             self.api?.searchFor(strippedString)
         }
     }
+    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        self.appsTableView?.setContentOffset(CGPointMake(0, 44), animated: false)
+         refreshLocation()
+    }
 
     func refresh(sender:AnyObject)
     {
