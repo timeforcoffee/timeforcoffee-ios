@@ -169,22 +169,24 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     
     func didReceiveAPIResults(results: JSONValue, error: NSError?) {
         dispatch_async(dispatch_get_main_queue(), {
-            if (error != nil && error?.code != -999) {
-                self.networkErrorMsg = NSLocalizedString("Network error. Please try again", comment: "")
-            } else {
-                self.networkErrorMsg = nil
-            }
-            if (TFCStation.isStations(results)) {
-                let hasAlreadyFavouritesDisplayed = self.stations.count()
-                self.stations.addWithJSON(results, append: true)
-                self.titleLabel.text = self.stations.getStation(self.currentStationIndex).getNameWithStarAndFilters()
-                if (hasAlreadyFavouritesDisplayed == nil || hasAlreadyFavouritesDisplayed == 0) {
-                    self.api?.getDepartures(self.stations.getStation(self.currentStationIndex).st_id)
+            if (error != nil) {
+                if (error?.code != -999) {
+                    self.networkErrorMsg = NSLocalizedString("Network error. Please try again", comment: "")
                 }
             } else {
-                self.departures = TFCDeparture.withJSON(results, filterStation: self.stations.getStation(self.currentStationIndex))
-                
-                self.appsTableView!.reloadData()
+                self.networkErrorMsg = nil
+                if (TFCStation.isStations(results)) {
+                    let hasAlreadyFavouritesDisplayed = self.stations.count()
+                    self.stations.addWithJSON(results, append: true)
+                    self.titleLabel.text = self.stations.getStation(self.currentStationIndex).getNameWithStarAndFilters()
+                    if (hasAlreadyFavouritesDisplayed == nil || hasAlreadyFavouritesDisplayed == 0) {
+                        self.api?.getDepartures(self.stations.getStation(self.currentStationIndex).st_id)
+                    }
+                } else {
+                    self.departures = TFCDeparture.withJSON(results, filterStation: self.stations.getStation(self.currentStationIndex))
+                    
+                    self.appsTableView!.reloadData()
+                }
             }
         })
     }
