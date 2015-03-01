@@ -169,12 +169,12 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     
     func didReceiveAPIResults(results: JSONValue, error: NSError?) {
         dispatch_async(dispatch_get_main_queue(), {
-            if (error != nil) {
-                if (error?.code != -999) {
+            if (!(error != nil && error?.code == -999)) {
+                if (error != nil) {
                     self.networkErrorMsg = NSLocalizedString("Network error. Please try again", comment: "")
+                } else {
+                    self.networkErrorMsg = nil
                 }
-            } else {
-                self.networkErrorMsg = nil
                 if (TFCStation.isStations(results)) {
                     let hasAlreadyFavouritesDisplayed = self.stations.count()
                     self.stations.addWithJSON(results, append: true)
@@ -185,8 +185,9 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                 } else {
                     self.departures = TFCDeparture.withJSON(results, filterStation: self.stations.getStation(self.currentStationIndex))
                     
-                    self.appsTableView!.reloadData()
                 }
+            
+            self.appsTableView!.reloadData()
             }
         })
     }

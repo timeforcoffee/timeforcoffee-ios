@@ -56,6 +56,7 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         let strippedString = searchController.searchBar.text.stringByTrimmingCharactersInSet(whitespaceCharacterSet)
 
         if (strippedString != "") {
+            stations?.clear()
             self.api?.searchFor(strippedString)
         }
     }
@@ -104,15 +105,19 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         let detailTextLabel = cell.detailTextLabel
         
         let stationsCount = stations.count()
+
         if (stationsCount == nil || stationsCount == 0) {
             cell.userInteractionEnabled = false;
-            detailTextLabel?.text = nil
             if (stationsCount == nil) {
                 textLabel?.text = NSLocalizedString("Loading", comment: "Loading ..")
+                detailTextLabel?.text = ""
             } else {
                 textLabel?.text = NSLocalizedString("No stations found.", comment: "")
+
                 if (self.networkErrorMsg != nil) {
                     detailTextLabel?.text = self.networkErrorMsg
+                } else {
+                    detailTextLabel?.text = ""
                 }
             }
             return cell
@@ -219,14 +224,13 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         self.refreshControl.endRefreshing()
         dispatch_async(dispatch_get_main_queue(), {
-            if (error != nil) {
+            if (error != nil && error?.code != -999) {
                 self.networkErrorMsg = "Network error. Please try again"
             } else {
                 self.networkErrorMsg = nil
             }
             self.stations!.addWithJSON(results)
             self.appsTableView!.reloadData()
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         })
     }
 

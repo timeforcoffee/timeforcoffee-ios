@@ -31,7 +31,9 @@ public class TFCStations {
     public func addWithJSON(allResults: JSONValue) {
         addWithJSON(allResults, append: false)
     }
-
+    public func clear () {
+        stations = nil
+    }
     public func addWithJSON(allResults: JSONValue, append: Bool) {
         if (!append || stations == nil) {
             stations = []
