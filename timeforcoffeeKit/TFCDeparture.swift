@@ -40,50 +40,47 @@ public class TFCDeparture {
         // Store the results in our table data array
         var departures: [TFCDeparture]?
 
-        if allResults["departures"].array?.count>0 {
-            departures = [TFCDeparture]()
-            if let results = allResults["departures"].array {
-                
-                for result in results {
-                    var name = result["name"].string
-                    var type = result["type"].string
-                    var accessibleOpt = result["accessible"].bool
-                    var accessible = true
-                    if (accessibleOpt == nil || accessibleOpt == false) {
-                        accessible = false
-                    }
-                    var to = result["to"].string
-                    var scheduledStr = result["departure"]["scheduled"].string
-                    var realtimeStr = result["departure"]["realtime"].string
-                    var colorFg = result["colors"]["fg"].string
-                    var colorBg = result["colors"]["bg"].string
-                    var scheduled: NSDate?
-                    var realtime: NSDate?
-                    if (scheduledStr != nil) {
-                        scheduled = self.parseDate(scheduledStr!);
-                    } else {
-                        scheduled = nil
-                    }
-                    
-                    if (realtimeStr != nil) {
-                        realtime = self.parseDate(realtimeStr!);
-                    } else {
-                        realtime = nil
-                    }
-                    
-                    var newDeparture = TFCDeparture(name: name!, type: type!, accessible: accessible, to: to!, scheduled: scheduled, realtime: realtime, colorFg: colorFg, colorBg: colorBg)
-                    if (filterStation != nil) {
-                        let filterStation2 = filterStation!
-                        if (filterStation2.isFiltered(newDeparture)) {
-                            continue
-                        }
-                    }
-                    departures?.append(newDeparture)
+        departures = [TFCDeparture]()
+        if let results = allResults["departures"].array {
+            
+            for result in results {
+                var name = result["name"].string
+                var type = result["type"].string
+                var accessibleOpt = result["accessible"].bool
+                var accessible = true
+                if (accessibleOpt == nil || accessibleOpt == false) {
+                    accessible = false
                 }
+                var to = result["to"].string
+                var scheduledStr = result["departure"]["scheduled"].string
+                var realtimeStr = result["departure"]["realtime"].string
+                var colorFg = result["colors"]["fg"].string
+                var colorBg = result["colors"]["bg"].string
+                var scheduled: NSDate?
+                var realtime: NSDate?
+                if (scheduledStr != nil) {
+                    scheduled = self.parseDate(scheduledStr!);
+                } else {
+                    scheduled = nil
+                }
+                
+                if (realtimeStr != nil) {
+                    realtime = self.parseDate(realtimeStr!);
+                } else {
+                    realtime = nil
+                }
+                
+                var newDeparture = TFCDeparture(name: name!, type: type!, accessible: accessible, to: to!, scheduled: scheduled, realtime: realtime, colorFg: colorFg, colorBg: colorBg)
+                if (filterStation != nil) {
+                    let filterStation2 = filterStation!
+                    if (filterStation2.isFiltered(newDeparture)) {
+                        continue
+                    }
+                }
+                departures?.append(newDeparture)
             }
-            
-            
         }
+        
         return departures
     }
     
