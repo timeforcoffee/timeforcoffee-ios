@@ -163,7 +163,7 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
                         
                         var time =  Int(round(route.expectedTravelTime / 60))
                         var meters = Int(route.distance);
-                        detailTextLabel?.text = "\(time) min Fussweg, \(meters) m"
+                        detailTextLabel?.text = "\(time) min walking, \(meters) m"
                     }  else {
                         println("No response")
                         println(error?.description)
