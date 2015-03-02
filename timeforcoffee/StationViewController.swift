@@ -36,6 +36,7 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
         self.refreshControl = UIRefreshControl()
         self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl.layer.zPosition = -1
         self.appsTableView?.addSubview(refreshControl)
 
         var favButton = UIBarButtonItem(title: "☆", style: UIBarButtonItemStyle.Plain, target: self, action: "favoriteClicked:")
