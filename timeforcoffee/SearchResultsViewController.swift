@@ -28,8 +28,8 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         self.refreshControl = UIRefreshControl()
         self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.appsTableView?.addSubview(refreshControl)
-        
-        
+        self.refreshControl.backgroundColor = UIColor(red: 242.0/255.0, green: 243.0/255.0, blue: 245.0/255.0, alpha: 1.0)
+        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
         searchController?.searchBar.sizeToFit()
