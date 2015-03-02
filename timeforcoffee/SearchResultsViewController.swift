@@ -25,11 +25,6 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         api = APIController(delegate: self)
         stations = TFCStations()
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-        self.refreshControl = UIRefreshControl()
-        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
-        self.appsTableView?.addSubview(refreshControl)
-
         searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
         searchController?.searchBar.sizeToFit()
@@ -40,6 +35,13 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         searchController.dimsBackgroundDuringPresentation = false // default is YES
         searchController.searchBar.delegate = self    // so we can monitor text changes + others
 
+        
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+        self.appsTableView?.addSubview(refreshControl)
+        
+        
         definesPresentationContext = true
         var favButton = UIBarButtonItem(title: "☕︎", style: UIBarButtonItemStyle.Plain, target: self, action: "aboutClicked:")
         favButton.tintColor = UIColor.blackColor()
@@ -48,11 +50,20 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         let buttonAttr = [NSFontAttributeName: font]
         favButton.setTitleTextAttributes(buttonAttr, forState: UIControlState.Normal)
         self.navigationItem.rightBarButtonItem = favButton
-
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeActive:", name: "UIApplicationDidBecomeActiveNotification", object: nil)
 
         initLocationManager()
     }
     
+    deinit {
+       NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
+    func applicationDidBecomeActive(notification: NSNotification) {
+        if (!(self.searchController?.searchBar.text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0)) {
+            refreshLocation()
+        }
+    }
     
     @IBAction func aboutClicked(sender: UIBarButtonItem) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)

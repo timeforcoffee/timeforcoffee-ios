@@ -45,13 +45,24 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
         }
 
         self.navigationItem.rightBarButtonItem = favButton
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeActive:", name: "UIApplicationDidBecomeActiveNotification", object: nil)
 
+    }
+    
+    func applicationDidBecomeActive(notification: NSNotification) {
+        self.departures = nil
+        self.api?.getDepartures(self.station?.st_id)
+    }
+
+    deinit {
+        println("deinit")
     }
     
     override func viewWillDisappear(animated: Bool) {
         station = nil
         api = nil
         departures = nil
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
     @IBAction func favoriteClicked(sender: UIBarButtonItem) {

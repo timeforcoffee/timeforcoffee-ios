@@ -24,7 +24,7 @@ public class TFCBaseViewController: UIViewController, CLLocationManagerDelegate 
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
+//        locationManager.startUpdatingLocation()
     }
 
     public func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
