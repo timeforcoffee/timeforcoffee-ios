@@ -136,54 +136,56 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
         let destinationLabel = cell.viewWithTag(200) as UILabel
         let departureLabel = cell.viewWithTag(300) as UILabel
         let minutesLabel = cell.viewWithTag(400) as UILabel
-        let station2 = station!
-
-        if (self.departures == nil || self.departures!.count == 0) {
-            departureLabel.text = nil
-            lineNumberLabel.text = nil
-            minutesLabel.text = nil
-            lineNumberLabel.backgroundColor = UIColor.clearColor()
-            if (self.departures == nil) {
-                destinationLabel.text = NSLocalizedString("Loading", comment: "Loading ..")
-            } else {
-                destinationLabel.text = NSLocalizedString("No departures found.", comment: "")
-                if (self.networkErrorMsg != nil) {
-                    departureLabel.text = self.networkErrorMsg
+        if (station != nil) {
+            let station2 = station!
+            
+            if (self.departures == nil || self.departures!.count == 0) {
+                departureLabel.text = nil
+                lineNumberLabel.text = nil
+                minutesLabel.text = nil
+                lineNumberLabel.backgroundColor = UIColor.clearColor()
+                if (self.departures == nil) {
+                    destinationLabel.text = NSLocalizedString("Loading", comment: "Loading ..")
+                } else {
+                    destinationLabel.text = NSLocalizedString("No departures found.", comment: "")
+                    if (self.networkErrorMsg != nil) {
+                        departureLabel.text = self.networkErrorMsg
+                    }
                 }
+                return cell
             }
-            return cell
-        }
-        
-        let departure: TFCDeparture = self.departures![indexPath.row]
-
-        lineNumberLabel.text = departure.getLine()
-        var unabridged = false
-        if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
-            unabridged = true
-        }
-        destinationLabel.text = departure.getDestinationWithSign(station, unabridged: unabridged)
-        
-        
-        minutesLabel.text = departure.getMinutes()
-        if (station2.isFiltered(departure)) {
-            destinationLabel.textColor = UIColor.grayColor()
-            minutesLabel.textColor = UIColor.grayColor()
-        } else {
-            destinationLabel.textColor = UIColor.blackColor()
-            minutesLabel.textColor = UIColor.blackColor()
-        }
-
-        departureLabel.text = departure.getDepartureTime()
-
-        lineNumberLabel.layer.cornerRadius = 4.0
-        lineNumberLabel.layer.masksToBounds = true
-
-        if (departure.colorBg != nil) {
-            lineNumberLabel.backgroundColor = UIColor(netHexString:departure.colorBg!);
-            lineNumberLabel.textColor = UIColor(netHexString:departure.colorFg!);
-        } else {
-            lineNumberLabel.textColor = UIColor.blackColor()
-            lineNumberLabel.backgroundColor = UIColor.whiteColor()
+            
+            let departure: TFCDeparture = self.departures![indexPath.row]
+            
+            lineNumberLabel.text = departure.getLine()
+            var unabridged = false
+            if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+                unabridged = true
+            }
+            destinationLabel.text = departure.getDestinationWithSign(station, unabridged: unabridged)
+            
+            
+            minutesLabel.text = departure.getMinutes()
+            if (station2.isFiltered(departure)) {
+                destinationLabel.textColor = UIColor.grayColor()
+                minutesLabel.textColor = UIColor.grayColor()
+            } else {
+                destinationLabel.textColor = UIColor.blackColor()
+                minutesLabel.textColor = UIColor.blackColor()
+            }
+            
+            departureLabel.text = departure.getDepartureTime()
+            
+            lineNumberLabel.layer.cornerRadius = 4.0
+            lineNumberLabel.layer.masksToBounds = true
+            
+            if (departure.colorBg != nil) {
+                lineNumberLabel.backgroundColor = UIColor(netHexString:departure.colorBg!);
+                lineNumberLabel.textColor = UIColor(netHexString:departure.colorFg!);
+            } else {
+                lineNumberLabel.textColor = UIColor.blackColor()
+                lineNumberLabel.backgroundColor = UIColor.whiteColor()
+            }
         }
         return cell
     }
