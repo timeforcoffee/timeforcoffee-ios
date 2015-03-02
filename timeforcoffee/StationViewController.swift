@@ -45,17 +45,27 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
         }
 
         self.navigationItem.rightBarButtonItem = favButton
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeInactive:", name: "UIApplicationDidEnterBackgroundNotification", object: nil)
+        UIApplicationDidEnterBackgroundNotification
+    }
+    
+    func applicationDidBecomeInactive(notification: NSNotification) {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeActive:", name: "UIApplicationDidBecomeActiveNotification", object: nil)
 
     }
     
     func applicationDidBecomeActive(notification: NSNotification) {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+          NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeInactive:", name: "UIApplicationDidEnterBackgroundNotification", object: nil)
         self.departures = nil
         self.api?.getDepartures(self.station?.st_id)
     }
 
     deinit {
         println("deinit")
+         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -82,6 +92,11 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
         // Code to refresh table view
         self.departures = nil
         self.api?.getDepartures(self.station?.st_id)
+    }
+    
+    internal func setStation(station: TFCStation) {
+        self.station = station
+        self.departures = nil
     }
 
     func didReceiveAPIResults(results: JSONValue, error: NSError?) {

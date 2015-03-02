@@ -266,7 +266,7 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         var index = appsTableView?.indexPathForSelectedRow()?.row
         if (index != nil) {
             var station = stations.getStation(index!)
-            detailsViewController.station = station
+            detailsViewController.setStation(station);
         }
     }
 }

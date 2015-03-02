@@ -67,7 +67,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             var detailViewController = rootView.storyboard?.instantiateViewControllerWithIdentifier("stationViewController") as StationViewController
 
             rootView.popToRootViewControllerAnimated(false)
-            detailViewController.station = station
+            detailViewController.setStation(station)
             rootView.pushViewController(detailViewController, animated: false)
         }
         return true

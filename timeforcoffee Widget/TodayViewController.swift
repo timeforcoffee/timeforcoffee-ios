@@ -34,14 +34,22 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     
     @IBAction func nextButtonTouchUp(sender: AnyObject) {
         
-        self.currentStationIndex++
-        if (self.currentStationIndex >= self.stations.count()) {
-            self.currentStationIndex = 0
+        
+        if (stations.count() != nil) {
+            self.currentStationIndex++
+            if (self.currentStationIndex >= self.stations.count()) {
+                self.currentStationIndex = 0
+            }
+            self.departures = nil;
+            let station = self.stations.getStation(self.currentStationIndex)
+            if (station.st_id != "0000") {
+                self.appsTableView!.reloadData()
+                self.titleLabel.text = self.stations.getStation(self.currentStationIndex).getNameWithStarAndFilters()
+                self.api?.getDepartures(self.stations.getStation(self.currentStationIndex).st_id)
+            } else {
+                self.currentStationIndex = 0
+            }
         }
-        self.departures = nil;
-        self.appsTableView!.reloadData()
-        self.titleLabel.text = self.stations.getStation(self.currentStationIndex).getNameWithStarAndFilters()
-        self.api?.getDepartures(self.stations.getStation(self.currentStationIndex).st_id)
 
     }
     override func viewDidAppear(animated: Bool) {
@@ -49,16 +57,19 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     }
     
     func handleTap(recognizer: UITapGestureRecognizer) {
+        
         var station = self.stations.getStation(self.currentStationIndex);
-        var name = station.name.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
-        let long = station.getLongitude()
-        let lat = station.getLatitude()
-        var urlstring = "timeforcoffee://station?id=\(station.st_id)&name=\(name)"
-        if (long != nil && lat != nil) {
-            urlstring = "\(urlstring)&long=\(long!)&lat=\(lat!)"
+        if (station.st_id != "0000") {
+            var name = station.name.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
+            let long = station.getLongitude()
+            let lat = station.getLatitude()
+            var urlstring = "timeforcoffee://station?id=\(station.st_id)&name=\(name)"
+            if (long != nil && lat != nil) {
+                urlstring = "\(urlstring)&long=\(long!)&lat=\(lat!)"
+            }
+            let url: NSURL = NSURL(string: urlstring)!
+            self.extensionContext?.openURL(url, completionHandler: nil);
         }
-        let url: NSURL = NSURL(string: urlstring)!
-        self.extensionContext?.openURL(url, completionHandler: nil);
     }
     
     override func initLocationManager() {
