@@ -76,9 +76,10 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         } else {
             showFavorites = false
             sender.title = "☆"
+            stations?.clear()
+            self.appsTableView?.reloadData()
         }
         refreshLocation()
-        
     }
     
     func aboutClicked(sender: UIBarButtonItem) {
