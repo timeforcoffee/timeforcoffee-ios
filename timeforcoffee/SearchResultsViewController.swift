@@ -231,10 +231,12 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
             TFCStations.unsetFavoriteStation(station.st_id)
             var button = cell.rightButtons[0] as MGSwipeButton
             button.backgroundColor = UIColor.greenColor();
+            button.titleLabel?.text = "Fav"
         } else {
             TFCStations.setFavoriteStation(station)
             var button = cell.rightButtons[0] as MGSwipeButton
             button.backgroundColor = UIColor.redColor();
+            button.titleLabel?.text = "Unfav"
         }
         cell.textLabel?.text = station.getNameWithStar()
 
