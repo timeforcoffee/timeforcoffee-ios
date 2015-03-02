@@ -25,6 +25,11 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         api = APIController(delegate: self)
         stations = TFCStations()
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+        self.appsTableView?.addSubview(refreshControl)
+        
+        
         searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
         searchController?.searchBar.sizeToFit()
@@ -35,13 +40,6 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         searchController.dimsBackgroundDuringPresentation = false // default is YES
         searchController.searchBar.delegate = self    // so we can monitor text changes + others
 
-        
-        self.refreshControl = UIRefreshControl()
-        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
-        self.appsTableView?.addSubview(refreshControl)
-        
-        
         definesPresentationContext = true
         var favButton = UIBarButtonItem(title: "☕︎", style: UIBarButtonItemStyle.Plain, target: self, action: "aboutClicked:")
         favButton.tintColor = UIColor.blackColor()
