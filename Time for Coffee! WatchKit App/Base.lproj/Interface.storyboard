@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="6750" systemVersion="14C109" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6735"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="3737"/>
+    </dependencies>
+    <scenes>
+        <!--Interface Controller-->
+        <scene sceneID="aou-V4-d1y">
+            <objects>
+                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="Time_for_Coffee__WatchKit_App" customModuleProvider="target">
+                    <items>
+                        <table alignment="left" id="EdC-ef-CWC">
+                            <items>
+                                <tableRow identifier="station" id="QtK-bn-CP9" customClass="StationRow" customModule="Time_for_Coffee__WatchKit_Extension">
+                                    <group key="rootItem" width="1" height="22.5" alignment="left" id="KXE-2F-IPC">
+                                        <items>
+                                            <label alignment="left" text="hello world" minimumScaleFactor="0.50000000000000011" id="7KK-M7-WbL" userLabel="DestinationLabel"/>
+                                        </items>
+                                        <connections>
+                                            <segue destination="3ez-Oj-rei" kind="push" id="YFY-hN-RwJ"/>
+                                        </connections>
+                                    </group>
+                                    <connections>
+                                        <outlet property="destinationLabel" destination="7KK-M7-WbL" id="hib-yx-dIk"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                    </items>
+                    <connections>
+                        <outlet property="stationsTable" destination="EdC-ef-CWC" id="4Ic-XX-vYX"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="260" y="208"/>
+        </scene>
+        <!--Interface Controller-->
+        <scene sceneID="LqG-bx-ytL">
+            <objects>
+                <controller id="3ez-Oj-rei">
+                    <items>
+                        <table alignment="left" id="J4B-MA-cdK">
+                            <items>
+                                <tableRow identifier="station2" id="Y4q-hS-mJZ">
+                                    <group key="rootItem" width="1" alignment="left" id="UGC-nv-9zx"/>
+                                </tableRow>
+                            </items>
+                        </table>
+                    </items>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="476" y="93"/>
+        </scene>
+        <!--Glance Interface Controller-->
+        <scene sceneID="rjY-Ar-IMT">
+            <objects>
+                <glanceController spacing="0.0" id="Sv0-Ai-Zie" customClass="GlanceController" customModule="Time_for_Coffee__WatchKit_App" customModuleProvider="target">
+                    <items>
+                        <group alignment="left" id="gv7-I2-MZq"/>
+                        <group alignment="left" id="eew-Gs-W6Y"/>
+                    </items>
+                    <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="14"/>
+                </glanceController>
+            </objects>
+            <point key="canvasLocation" x="164" y="514"/>
+        </scene>
+    </scenes>
+</document>
