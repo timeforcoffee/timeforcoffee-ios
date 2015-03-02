@@ -246,7 +246,6 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
 
     func didReceiveAPIResults(results: JSONValue, error: NSError?) {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-        self.refreshControl.endRefreshing()
         dispatch_async(dispatch_get_main_queue(), {
             if (error != nil && error?.code != -999) {
                 self.networkErrorMsg = "Network error. Please try again"
@@ -255,6 +254,8 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
             }
             self.stations!.addWithJSON(results)
             self.appsTableView!.reloadData()
+            self.refreshControl.endRefreshing()
+
         })
     }
 
