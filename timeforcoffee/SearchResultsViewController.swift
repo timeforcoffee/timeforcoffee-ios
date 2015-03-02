@@ -19,6 +19,7 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
     var refreshControl:UIRefreshControl!
     var searchController: UISearchController!
     var networkErrorMsg: String? = nil
+    var showFavorites: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +35,11 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         searchController.searchResultsUpdater = self
         searchController?.searchBar.sizeToFit()
 
+        var favButton = UIBarButtonItem(title: "☆", style: UIBarButtonItemStyle.Plain, target: self, action: "favButtonClicked:")
+        
+        self.navigationItem.leftBarButtonItem = favButton
+        favButton.tintColor = UIColor.blackColor()
+
         self.appsTableView?.tableHeaderView = searchController?.searchBar
 
         searchController.delegate = self
@@ -41,13 +47,13 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         searchController.searchBar.delegate = self    // so we can monitor text changes + others
 
         definesPresentationContext = true
-        var favButton = UIBarButtonItem(title: "☕︎", style: UIBarButtonItemStyle.Plain, target: self, action: "aboutClicked:")
-        favButton.tintColor = UIColor.blackColor()
+        var aboutButton = UIBarButtonItem(title: "☕︎", style: UIBarButtonItemStyle.Plain, target: self, action: "aboutClicked:")
+        aboutButton.tintColor = UIColor.blackColor()
         
         let font = UIFont.systemFontOfSize(30)
         let buttonAttr = [NSFontAttributeName: font]
-        favButton.setTitleTextAttributes(buttonAttr, forState: UIControlState.Normal)
-        self.navigationItem.rightBarButtonItem = favButton
+        aboutButton.setTitleTextAttributes(buttonAttr, forState: UIControlState.Normal)
+        self.navigationItem.rightBarButtonItem = aboutButton
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeActive:", name: "UIApplicationDidBecomeActiveNotification", object: nil)
 
         initLocationManager()
@@ -63,7 +69,19 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         }
     }
     
-    @IBAction func aboutClicked(sender: UIBarButtonItem) {
+    func favButtonClicked(sender: UIBarButtonItem) {
+        if (!showFavorites) {
+            showFavorites = true
+            sender.title = "★"
+        } else {
+            showFavorites = false
+            sender.title = "☆"
+        }
+        refreshLocation()
+        
+    }
+    
+    func aboutClicked(sender: UIBarButtonItem) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc: UIViewController! = storyboard.instantiateViewControllerWithIdentifier("AboutViewController") as UIViewController
         self.navigationController?.pushViewController(vc, animated: true)
@@ -71,6 +89,10 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        //if favorites are show reload them, since they could have changed
+        if (showFavorites) {
+            stations.loadFavorites(currentLocation)
+        }
         self.appsTableView?.reloadData()
     }
 
@@ -266,6 +288,15 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         if (index != nil) {
             var station = stations.getStation(index!)
             detailsViewController.setStation(station);
+        }
+    }
+    
+    override func refreshLocation() {
+        if (showFavorites) {
+            self.stations?.loadFavorites(self.currentLocation)
+            self.appsTableView?.reloadData()
+        } else {
+            super.refreshLocation()
         }
     }
 }

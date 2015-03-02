@@ -152,6 +152,21 @@ public class TFCStations {
             favorites.stations[st_id_fixed] = station
         }
     }
+    
+    public func loadFavorites(location: CLLocation?) {
+        self.stations = []
+        for (st_id,station) in favorites.stations {
+            println(station.name)
+            if (location != nil) {
+                let distance = Int(location?.distanceFromLocation(station.coord) as Double!)
+                station.calculatedDistance = distance
+            }
+            self.stations?.append(station)
+        }
+        if (location != nil) {
+            self.stations!.sort({ $0.calculatedDistance < $1.calculatedDistance })
+        }
+    }
 
 
     class func getFavoriteStationsDict() -> [String: [String: String]] {
