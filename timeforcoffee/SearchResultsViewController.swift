@@ -73,7 +73,6 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.appsTableView?.setContentOffset(CGPointMake(0, 44), animated: false)
         self.appsTableView?.reloadData()
     }
 
@@ -88,7 +87,6 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
     }
     
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-        self.appsTableView?.setContentOffset(CGPointMake(0, 44), animated: false)
          refreshLocation()
     }
 
