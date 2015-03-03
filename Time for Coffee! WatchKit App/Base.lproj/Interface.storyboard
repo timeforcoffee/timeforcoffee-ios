@@ -5,52 +5,43 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="3737"/>
     </dependencies>
     <scenes>
-        <!--Interface Controller-->
+        <!--Time for Coffee!-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="Time_for_Coffee__WatchKit_App" customModuleProvider="target">
+                <controller title="Time for Coffee!" id="AgC-eL-Hgc" userLabel="Time for Coffee!" customClass="InterfaceController" customModule="Time_for_Coffee__WatchKit_App" customModuleProvider="target">
                     <items>
-                        <table alignment="left" id="EdC-ef-CWC">
+                        <label height="19.5" alignment="left" text="Time for Coffee!" id="3Ny-uS-lSH"/>
+                    </items>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="313" y="208"/>
+        </scene>
+        <!--Time for Coffee!-->
+        <scene sceneID="LqG-bx-ytL">
+            <objects>
+                <controller identifier="StationPage" id="3ez-Oj-rei" userLabel="Time for Coffee!" customClass="StationViewController" customModule="Time_for_Coffee__WatchKit_Extension">
+                    <items>
+                        <table alignment="left" id="J4B-MA-cdK">
                             <items>
-                                <tableRow identifier="station" id="QtK-bn-CP9" customClass="StationRow" customModule="Time_for_Coffee__WatchKit_Extension">
-                                    <group key="rootItem" width="1" height="22.5" alignment="left" id="KXE-2F-IPC">
+                                <tableRow identifier="station" id="Y4q-hS-mJZ" customClass="StationRow" customModule="Time_for_Coffee__WatchKit_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="UGC-nv-9zx">
                                         <items>
-                                            <label alignment="left" text="hello world" minimumScaleFactor="0.50000000000000011" id="7KK-M7-WbL" userLabel="DestinationLabel"/>
+                                            <label alignment="left" text="Label" id="qmq-be-vci"/>
                                         </items>
-                                        <connections>
-                                            <segue destination="3ez-Oj-rei" kind="push" id="YFY-hN-RwJ"/>
-                                        </connections>
                                     </group>
                                     <connections>
-                                        <outlet property="destinationLabel" destination="7KK-M7-WbL" id="hib-yx-dIk"/>
+                                        <outlet property="destinationLabel" destination="qmq-be-vci" id="a0j-NK-KNu"/>
                                     </connections>
                                 </tableRow>
                             </items>
                         </table>
                     </items>
                     <connections>
-                        <outlet property="stationsTable" destination="EdC-ef-CWC" id="4Ic-XX-vYX"/>
+                        <outlet property="stationsTable" destination="J4B-MA-cdK" id="Ck5-NG-9w6"/>
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="260" y="208"/>
-        </scene>
-        <!--Interface Controller-->
-        <scene sceneID="LqG-bx-ytL">
-            <objects>
-                <controller id="3ez-Oj-rei">
-                    <items>
-                        <table alignment="left" id="J4B-MA-cdK">
-                            <items>
-                                <tableRow identifier="station2" id="Y4q-hS-mJZ">
-                                    <group key="rootItem" width="1" alignment="left" id="UGC-nv-9zx"/>
-                                </tableRow>
-                            </items>
-                        </table>
-                    </items>
-                </controller>
-            </objects>
-            <point key="canvasLocation" x="476" y="93"/>
+            <point key="canvasLocation" x="622" y="104"/>
         </scene>
         <!--Glance Interface Controller-->
         <scene sceneID="rjY-Ar-IMT">
@@ -66,4 +57,5 @@
             <point key="canvasLocation" x="164" y="514"/>
         </scene>
     </scenes>
+    <color key="tintColor" red="0.99607843139999996" green="0.76470588240000004" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
 </document>

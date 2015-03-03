@@ -10,38 +10,47 @@ import WatchKit
 import Foundation
 
 
-class InterfaceController: WKInterfaceController {
+class StationViewController: WKInterfaceController {
     @IBOutlet weak var stationsTable: WKInterfaceTable!
-   
+    var stationName: String = ""
+    var data2: Int = 1
+    var stationInfo: AnyObject?
+    
     override init () {
         super.init()
-        println("init")
+        println("init page")
         
     }
     override func awakeWithContext(context: AnyObject?) {
-        super.awakeWithContext(context)
+      super.awakeWithContext(context)
         
-        // Configure interface objects here.
+        if let contextDict:Dictionary = context as Dictionary<String,AnyObject>!
+        {
+            stationInfo = contextDict
+            
+            stationName = contextDict["name"] as String
+        }
     }
-
+    
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
+        println("willActivate")
+        self.setTitle(stationName)
         func handleReply(replyInfo: [NSObject : AnyObject]!, error: NSError!) {
-            var pages = [String]()
-            var pageContexts = [AnyObject]()
-            
+            var i = 0;
+            stationsTable.setNumberOfRows(replyInfo.count, withRowType: "station")
+            println(replyInfo);
             for (st_id, station) in replyInfo {
-
-                pages.append("StationPage");
-                pageContexts.append(station)
+                let sr = stationsTable.rowControllerAtIndex(i) as StationRow?
+                
+                println(station["name"])
+                let name = station["name"] as String
+                sr?.destinationLabel.setText(name)
+                i++
             }
-            WKInterfaceController.reloadRootControllersWithNames(pages, contexts: pageContexts)
-
         }
-        
         WKInterfaceController.openParentApplication(["Hello":"World"], handleReply)
-
     }
     
     override func didDeactivate() {
@@ -50,5 +59,5 @@ class InterfaceController: WKInterfaceController {
     }
     
     
-
+    
 }
