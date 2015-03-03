@@ -35,8 +35,12 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         searchController.searchResultsUpdater = self
         searchController?.searchBar.sizeToFit()
 
-        var favButton = UIBarButtonItem(title: "☆", style: UIBarButtonItemStyle.Plain, target: self, action: "favButtonClicked:")
+        var favButton = UIBarButtonItem(title: "Favs", style: UIBarButtonItemStyle.Plain, target: self, action: "favButtonClicked:")
         
+        let favFont = UIFont.systemFontOfSize(15)
+        let favButtonAttr = [NSFontAttributeName: favFont]
+        favButton.setTitleTextAttributes(favButtonAttr, forState: UIControlState.Normal)
+
         self.navigationItem.leftBarButtonItem = favButton
         favButton.tintColor = UIColor.blackColor()
 
@@ -70,15 +74,21 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
     }
     
     func favButtonClicked(sender: UIBarButtonItem) {
+        var font: UIFont
         if (!showFavorites) {
             showFavorites = true
-            sender.title = "★"
+            font = UIFont.boldSystemFontOfSize(15)
         } else {
             showFavorites = false
-            sender.title = "☆"
+            font = UIFont.systemFontOfSize(15)
             stations?.clear()
             self.appsTableView?.reloadData()
         }
+
+        let buttonAttr = [NSFontAttributeName: font]
+
+        sender.setTitleTextAttributes(buttonAttr, forState: UIControlState.Normal)
+        
         refreshLocation()
     }
     
