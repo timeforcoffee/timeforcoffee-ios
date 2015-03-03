@@ -26,7 +26,17 @@
                                 <tableRow identifier="station" id="Y4q-hS-mJZ" customClass="StationRow" customModule="Time_for_Coffee__WatchKit_Extension">
                                     <group key="rootItem" width="1" alignment="left" spacing="0.0" id="UGC-nv-9zx">
                                         <items>
-                                            <label alignment="left" text="Zürich, Röntgenstrasse" minimumScaleFactor="0.50000000000000011" id="qmq-be-vci"/>
+                                            <group width="22" height="26" alignment="left" radius="4" id="cBO-9q-LrM">
+                                                <items>
+                                                    <label alignment="left" text="11" id="dbP-Hm-64x"/>
+                                                </items>
+                                                <color key="backgroundColor" red="0.99607843139999996" green="0.76470588240000004" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
+                                            </group>
+                                            <group width="1" alignment="left" id="Cha-10-uSx">
+                                                <items>
+                                                    <label alignment="left" text="Zürich, Röntgenstrasse" minimumScaleFactor="0.50000000000000011" id="qmq-be-vci"/>
+                                                </items>
+                                            </group>
                                         </items>
                                     </group>
                                     <connections>
