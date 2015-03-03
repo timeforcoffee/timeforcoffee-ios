@@ -10,7 +10,7 @@
             <objects>
                 <controller title="Time for Coffee!" id="AgC-eL-Hgc" userLabel="Time for Coffee!" customClass="InterfaceController" customModule="Time_for_Coffee__WatchKit_App" customModuleProvider="target">
                     <items>
-                        <label height="19.5" alignment="left" text="Time for Coffee!" id="3Ny-uS-lSH"/>
+                        <imageView alignment="left" image="launchicon.png" id="aNd-iq-fZT"/>
                     </items>
                 </controller>
             </objects>
@@ -24,9 +24,9 @@
                         <table alignment="left" id="J4B-MA-cdK">
                             <items>
                                 <tableRow identifier="station" id="Y4q-hS-mJZ" customClass="StationRow" customModule="Time_for_Coffee__WatchKit_Extension">
-                                    <group key="rootItem" width="1" alignment="left" id="UGC-nv-9zx">
+                                    <group key="rootItem" width="1" alignment="left" spacing="0.0" id="UGC-nv-9zx">
                                         <items>
-                                            <label alignment="left" text="Label" id="qmq-be-vci"/>
+                                            <label alignment="left" text="Zürich, Röntgenstrasse" minimumScaleFactor="0.50000000000000011" id="qmq-be-vci"/>
                                         </items>
                                     </group>
                                     <connections>

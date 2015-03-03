@@ -60,6 +60,7 @@
 		EC9571511A9CCEC00061F8B4 /* TFCBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9571501A9CCEC00061F8B4 /* TFCBaseViewController.swift */; };
 		ECC163D71AA36924006BC3E9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC2195ED1AA35B2D005E16EF /* Localizable.strings */; };
 		ECD871961A9BB2F7003CCCB3 /* timeforcoffeeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */; };
+		ECEA097A1AA596EF007827AD /* launchicon.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30EB1AA344100043B8F8 /* launchicon.png */; };
 		ECF100AD1A9D9BAE00056510 /* TFCStations.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF100AC1A9D9BAE00056510 /* TFCStations.swift */; };
 /* End PBXBuildFile section */
 
@@ -663,6 +664,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC4344C31AA5080A009438C7 /* Interface.storyboard in Resources */,
+				ECEA097A1AA596EF007827AD /* launchicon.png in Resources */,
 				EC4344C51AA5080A009438C7 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
