@@ -10,9 +10,7 @@ François Terrrier / @fterrier
 
 App by
 Christian Stocker / @chregu
-and Jan Hug / @dulnan
-
-Supported by Liip AG / @liip";
+and Jan Hug / @dulnan";
 
 /* Class = "IBUILabel"; text = "Time for Coffee! - Beta"; ObjectID = "kId-c2-rCX"; */
 "kId-c2-rCX.text" = "Time for Coffee!";
