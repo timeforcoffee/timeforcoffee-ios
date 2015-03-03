@@ -47,6 +47,15 @@ class StationViewController: WKInterfaceController {
                 println(station["name"])
                 let name = station["name"] as String
                 sr?.destinationLabel.setText(name)
+                let helvetica = UIFont(name: "HelveticaNeue-Bold", size: 18.0)!
+                var fontAttrs = [NSFontAttributeName : helvetica]
+                var attrString = NSAttributedString(string: "12", attributes: fontAttrs)
+                
+                // Set the text on the label object
+            
+                sr?.numberLabel.setAttributedText(attrString)
+
+                
                 i++
             }
         }
