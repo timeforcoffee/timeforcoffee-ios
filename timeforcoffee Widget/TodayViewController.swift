@@ -178,7 +178,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         completionHandler(NCUpdateResult.NewData)
     }
     
-    func didReceiveAPIResults(results: JSONValue, error: NSError?) {
+    func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?) {
         dispatch_async(dispatch_get_main_queue(), {
             if (!(error != nil && error?.code == -999)) {
                 if (error != nil) {

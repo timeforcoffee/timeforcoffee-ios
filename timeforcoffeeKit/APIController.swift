@@ -33,14 +33,20 @@ public class APIController {
         */
         self.fetchUrl(urlPath, fetchId: 1)
     }
-    
     public func getDepartures(id: String!) {
-        var urlPath = "http://www.timeforcoffee.ch/api/zvv/stationboard/\(id)"
-        self.fetchUrl(urlPath, fetchId: 2)
-        
+        getDepartures(id, context: nil)
     }
     
-    public func fetchUrl(urlPath: String, fetchId: Int) {
+    public func getDepartures(id: String!, context: Any?) {
+        var urlPath = "http://www.timeforcoffee.ch/api/zvv/stationboard/\(id)"
+        self.fetchUrl(urlPath, fetchId: 2, context: context)
+    }
+    
+    func fetchUrl(urlPath: String, fetchId: Int) {
+        fetchUrl(urlPath, fetchId: fetchId, context: nil)
+    }
+
+    func fetchUrl(urlPath: String, fetchId: Int, context: Any?) {
         let urlPathEsc = urlPath.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
         let url: NSURL = NSURL(string: urlPathEsc)!
         let session = NSURLSession.sharedSession()
@@ -57,7 +63,7 @@ public class APIController {
             self.currentFetch[fetchId] = nil
             var err: NSError?
             let jsonResult = JSONValue(data)
-            self.delegate.didReceiveAPIResults(jsonResult, error: error)
+            self.delegate.didReceiveAPIResults(jsonResult, error: error, context: context)
         })
         
         currentFetch[fetchId]?.resume()
@@ -66,5 +72,5 @@ public class APIController {
 }
 
 public protocol APIControllerProtocol {
-    func didReceiveAPIResults(results: JSONValue, error: NSError?)
+    func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?)
 }
