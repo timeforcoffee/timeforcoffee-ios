@@ -14,6 +14,8 @@ import CoreLocation
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var watchData: TFCWatchData?
+
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -74,21 +76,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication!, handleWatchKitExtensionRequest userInfo: [NSString : NSString]!, reply: (([NSObject : AnyObject]!) -> Void)!) {
-        
+        if  (watchData == nil) {
+            watchData = TFCWatchData()
+        }
+
         if (userInfo["module"] == "favorites") {
             reply(TFCStations.getFavoriteStationsDict())
         } else if (userInfo["module"] == "departures") {
-            
-            var departures: [NSDictionary] = []
-            departures.append(["to": "Kalkbreite", "time": "15:55", "minutes": "1'", "accessible": false, "name": "9", "colorFg": "ffffff", "colorBg": "11296f"])
-            departures.append(["to": "Limmatplatz", "time": "15:56", "minutes": "2'", "accessible": false, "name": "14", "colorFg": "ffffff", "colorBg": "008dc5"])
-            
-            reply(["departures": departures])
+            watchData?.getDepartures(userInfo["st_id"] as String, reply: reply!)
         } else {
             reply(TFCStations.getFavoriteStationsDict())
         }
     }
 
-    
 }
 
