@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6Gx-yE-V2l">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6Gx-yE-V2l">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -172,7 +173,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Beta" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="a9n-AF-yrf">
-                                <rect key="frame" x="0.0" y="283" width="375" height="42.5"/>
+                                <rect key="frame" x="0.0" y="283" width="375" height="43"/>
                                 <color key="backgroundColor" red="0.99607843139999996" green="0.76470588240000004" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="36"/>
                                 <color key="textColor" red="0.31372549020000001" green="0.29411764709999999" blue="0.22352941179999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -263,8 +264,8 @@ and Jan Hug / @dulnan</string>
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleAspectFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="1sI-wO-cFy">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="586"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleAspectFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="1sI-wO-cFy">
+                                <rect key="frame" x="0.0" y="56" width="600" height="544"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SearchResultCell" textLabel="atf-fg-TgK" detailTextLabel="Lt7-NW-HPW" style="IBUITableViewCellStyleSubtitle" id="DsA-Wp-8pW" customClass="MGSwipeTableCell">
@@ -306,6 +307,8 @@ and Jan Hug / @dulnan</string>
                             <constraint firstAttribute="centerX" secondItem="1sI-wO-cFy" secondAttribute="centerX" id="KC5-kD-Mwq"/>
                             <constraint firstItem="1sI-wO-cFy" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="Pdw-5X-l8i"/>
                             <constraint firstAttribute="trailingMargin" secondItem="1sI-wO-cFy" secondAttribute="trailing" constant="-16" id="bdm-30-7ng"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="1sI-wO-cFy" secondAttribute="bottom" id="oLW-K6-WFS"/>
+                            <constraint firstItem="1sI-wO-cFy" firstAttribute="topMargin" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="pZq-PQ-Erx"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Time for Coffee!" id="QUA-Va-TaC"/>
