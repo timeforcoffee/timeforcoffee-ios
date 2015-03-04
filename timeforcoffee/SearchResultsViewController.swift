@@ -11,10 +11,10 @@ import MapKit
 import timeforcoffeeKit
 import CoreLocation
 
-class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, CLLocationManagerDelegate, MGSwipeTableCellDelegate {
+class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, CLLocationManagerDelegate {
     @IBOutlet var appsTableView : UITableView?
     var stations: TFCStations!
-    let kCellIdentifier: String = "SearchResultCell"
+    let cellIdentifier: String = "StationTableViewCell"
     var api : APIController?
     var refreshControl:UIRefreshControl!
     var searchController: UISearchController!
@@ -59,7 +59,9 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         aboutButton.setTitleTextAttributes(buttonAttr, forState: UIControlState.Normal)
         self.navigationItem.rightBarButtonItem = aboutButton
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeActive:", name: "UIApplicationDidBecomeActiveNotification", object: nil)
-
+        
+        appsTableView?.registerNib(UINib(nibName: "StationTableViewCell", bundle: nil), forCellReuseIdentifier: "StationTableViewCell")
+        
         initLocationManager()
     }
     
@@ -151,13 +153,13 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell:MGSwipeTableCell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as MGSwipeTableCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("StationTableViewCell", forIndexPath: indexPath) as StationTableViewCell
 
-        cell.delegate = self
+        //cell.delegate = self
         cell.tag = indexPath.row
         
-        let textLabel = cell.textLabel
-        let detailTextLabel = cell.detailTextLabel
+        let textLabel = cell.StationNameLabel
+        let detailTextLabel = cell.StationDescriptionLabel
         
         let stationsCount = stations.count()
 
@@ -237,45 +239,10 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         }
         return cell
     }
-
-    func swipeTableCell(cell: MGSwipeTableCell!, canSwipe direction: MGSwipeDirection) -> Bool {
-        return true
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.performSegueWithIdentifier("SegueToStationView", sender: tableView)
     }
-
-    func swipeTableCell(cell: MGSwipeTableCell!, swipeButtonsForDirection direction: MGSwipeDirection, swipeSettings: MGSwipeSettings!, expansionSettings: MGSwipeExpansionSettings!) -> [AnyObject]! {
-        var buttons = []
-        if (direction == MGSwipeDirection.RightToLeft) {
-            let station: TFCStation = self.stations.getStation(cell.tag)
-            if (station.isFavorite()) {
-                buttons = [MGSwipeButton( title:"Unfav",  backgroundColor: UIColor.redColor())]
-            } else {
-                buttons = [MGSwipeButton( title:"Fav",  backgroundColor: UIColor.greenColor())]
-            }
-        }
-        expansionSettings.buttonIndex = 0
-        expansionSettings.fillOnTrigger = true
-        expansionSettings.threshold = 3
-        return buttons
-    }
-
-    func swipeTableCell(cell: MGSwipeTableCell!, tappedButtonAtIndex index: Int, direction: MGSwipeDirection, fromExpansion: Bool) -> Bool {
-        let station: TFCStation = self.stations.getStation(cell.tag)
-        if (station.isFavorite()) {
-            TFCStations.unsetFavoriteStation(station.st_id)
-            var button = cell.rightButtons[0] as MGSwipeButton
-            button.backgroundColor = UIColor.greenColor();
-            button.titleLabel?.text = "Fav"
-        } else {
-            TFCStations.setFavoriteStation(station)
-            var button = cell.rightButtons[0] as MGSwipeButton
-            button.backgroundColor = UIColor.redColor();
-            button.titleLabel?.text = "Unfav"
-        }
-        cell.textLabel?.text = station.getNameWithStar()
-
-        return true
-    }
-
 
     func didReceiveAPIResults(results: JSONValue, error: NSError?) {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false

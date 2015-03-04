@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="StationTableViewCell" rowHeight="64" id="5Wq-JL-olH" customClass="StationTableViewCell" customModule="timeforcoffee" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="498" height="64"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5Wq-JL-olH" id="W6A-tM-KxB">
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lNC-Z9-tN5" userLabel="StationIcon">
+                        <rect key="frame" x="0.0" y="0.0" width="63" height="63"/>
+                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="lNC-Z9-tN5" secondAttribute="height" multiplier="1:1" id="h8r-my-I9G"/>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="StationName" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hNs-on-5Op">
+                        <rect key="frame" x="78" y="10" width="420" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="StationDescription" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VRg-vB-lAm" userLabel="StationDescription">
+                        <rect key="frame" x="78" y="32" width="420" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="VRg-vB-lAm" secondAttribute="trailing" id="0IB-oN-ez7"/>
+                    <constraint firstAttribute="bottom" secondItem="lNC-Z9-tN5" secondAttribute="bottom" id="I5o-jO-Udb"/>
+                    <constraint firstItem="lNC-Z9-tN5" firstAttribute="top" secondItem="W6A-tM-KxB" secondAttribute="top" id="Lxz-vG-7tj"/>
+                    <constraint firstAttribute="trailing" secondItem="hNs-on-5Op" secondAttribute="trailing" id="Ony-7d-oHz"/>
+                    <constraint firstItem="lNC-Z9-tN5" firstAttribute="bottom" secondItem="VRg-vB-lAm" secondAttribute="bottom" constant="10" id="QgP-6X-Ru7"/>
+                    <constraint firstItem="lNC-Z9-tN5" firstAttribute="leading" secondItem="W6A-tM-KxB" secondAttribute="leading" id="Xxg-cM-7DS"/>
+                    <constraint firstItem="hNs-on-5Op" firstAttribute="leading" secondItem="lNC-Z9-tN5" secondAttribute="trailing" constant="15" id="d8g-Mf-bPd"/>
+                    <constraint firstItem="VRg-vB-lAm" firstAttribute="leading" secondItem="lNC-Z9-tN5" secondAttribute="trailing" constant="15" id="nN1-eQ-wrQ"/>
+                    <constraint firstItem="hNs-on-5Op" firstAttribute="top" secondItem="lNC-Z9-tN5" secondAttribute="top" constant="10" id="rpl-hK-LeE"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="StationDescriptionLabel" destination="VRg-vB-lAm" id="hSI-mC-Ntn"/>
+                <outlet property="StationIconView" destination="lNC-Z9-tN5" id="jsx-bI-xAZ"/>
+                <outlet property="StationNameLabel" destination="hNs-on-5Op" id="q7M-Sr-71i"/>
+            </connections>
+            <point key="canvasLocation" x="381" y="377"/>
+        </tableViewCell>
+    </objects>
+</document>
