@@ -16,4 +16,5 @@ class StationRow: NSObject {
     @IBOutlet weak var numberLabel: WKInterfaceLabel!
     
     
+    @IBOutlet weak var numberGroup: WKInterfaceGroup!
 }

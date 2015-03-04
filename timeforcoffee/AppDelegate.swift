@@ -78,7 +78,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if (userInfo["module"] == "favorites") {
             reply(TFCStations.getFavoriteStationsDict())
         } else if (userInfo["module"] == "departures") {
-            reply(TFCStations.getFavoriteStationsDict())
+            
+            var departures: [NSDictionary] = []
+            departures.append(["to": "Kalkbreite", "time": "15:55", "minutes": "1'", "accessible": false, "name": "9", "colorFg": "ffffff", "colorBg": "11296f"])
+            departures.append(["to": "Limmatplatz", "time": "15:56", "minutes": "2'", "accessible": false, "name": "14", "colorFg": "ffffff", "colorBg": "008dc5"])
+            
+            reply(["departures": departures])
         } else {
             reply(TFCStations.getFavoriteStationsDict())
         }

@@ -8,6 +8,7 @@
 
 import WatchKit
 import Foundation
+import timeforcoffeeKit
 
 
 class StationViewController: WKInterfaceController {
@@ -16,7 +17,6 @@ class StationViewController: WKInterfaceController {
     var stationId: String = ""
     var data2: Int = 1
     var stationInfo: AnyObject?
-    var stationRows: [Int:StationRow] = [:]
     
     override init () {
         super.init()
@@ -41,23 +41,33 @@ class StationViewController: WKInterfaceController {
         self.setTitle(stationName)
         func handleReply(replyInfo: [NSObject : AnyObject]!, error: NSError!) {
             var i = 0;
-            stationsTable.setNumberOfRows(replyInfo.count, withRowType: "station")
+            /*if (stationsTable.numberOfRows != replyInfo.count) {
+                //not sure why this is even needed.... and it doesn't fix an issue I have with updating
+                if (stationsTable.numberOfRows > 0) {
+                    stationsTable.removeRowsAtIndexes(NSIndexSet(indexesInRange: NSMakeRange(0, stationsTable.numberOfRows - 1)))
+                }
+                stationsTable.setNumberOfRows(replyInfo.count, withRowType: "station")
+            } */
+            let departures:[NSDictionary] = replyInfo["departures"] as [NSDictionary]
+            stationsTable.setNumberOfRows(departures.count, withRowType: "station")
             println(replyInfo);
-                
-                // Set the text on the label object
-            for (st_id, station) in replyInfo {
+            for (station) in departures {
                 let sr = stationsTable.rowControllerAtIndex(i) as StationRow?
                 println(station["name"])
+                let to = station["to"] as String
                 let name = station["name"] as String
-                // doesn't work yet ;(
+                // doesn't work yet  with the font;(
                 let helvetica = UIFont(name: "HelveticaNeue-Bold", size: 18.0)!
                 var fontAttrs = [NSFontAttributeName : helvetica]
-                var attrString = NSAttributedString(string: "12", attributes: fontAttrs)
+                var attrString = NSAttributedString(string: name, attributes: fontAttrs)
                 sr?.numberLabel.setAttributedText(attrString)
+                sr?.destinationLabel.setText(to)
+                sr?.numberGroup.setBackgroundColor(UIColor(netHexString:(station["colorBg"] as String)))
+                sr?.numberLabel.setTextColor(UIColor(netHexString:(station["colorFg"] as String)))
                 i++
             }
         }
-        WKInterfaceController.openParentApplication(["module":"departues", "st_id": stationId], handleReply)
+        WKInterfaceController.openParentApplication(["module":"departures", "st_id": stationId], handleReply)
     }
     
     override func didDeactivate() {

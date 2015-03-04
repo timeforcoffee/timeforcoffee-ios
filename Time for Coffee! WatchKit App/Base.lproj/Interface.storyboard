@@ -46,6 +46,7 @@
                                     </group>
                                     <connections>
                                         <outlet property="destinationLabel" destination="qmq-be-vci" id="a0j-NK-KNu"/>
+                                        <outlet property="numberGroup" destination="cBO-9q-LrM" id="waI-z7-ZRB"/>
                                         <outlet property="numberLabel" destination="dbP-Hm-64x" id="Xdd-I9-Tny"/>
                                     </connections>
                                 </tableRow>
