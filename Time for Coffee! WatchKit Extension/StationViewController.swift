@@ -67,7 +67,7 @@ class StationViewController: WKInterfaceController {
                 i++
             }
         }
-        WKInterfaceController.openParentApplication(["module":"departures", "st_id": stationId], handleReply)
+        WKInterfaceController.openParentApplication(["module":"departures", "st_id": stationId, "st_name": stationName], handleReply)
     }
     
     override func didDeactivate() {

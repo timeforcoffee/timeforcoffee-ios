@@ -83,7 +83,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if (userInfo["module"] == "favorites") {
             reply(TFCStations.getFavoriteStationsDict())
         } else if (userInfo["module"] == "departures") {
-            watchData?.getDepartures(userInfo["st_id"] as String, reply: reply!)
+            watchData?.getDepartures(userInfo, reply: reply!)
         } else {
             reply(TFCStations.getFavoriteStationsDict())
         }

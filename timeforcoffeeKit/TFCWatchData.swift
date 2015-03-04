@@ -13,14 +13,27 @@ public class TFCWatchData: NSObject, APIControllerProtocol {
     var api : APIController?
     var stations: TFCStations!
 
+    enum contextData {
+        case ValString(String)
+        case ValReply(replyClosure?)
+    }
+    
+    
     public override init () {
         super.init()
         stations =  TFCStations()
         api = APIController(delegate: self)
     }
     
-    public func getDepartures(st_id: String, reply: (([NSObject : AnyObject]!) -> Void)?) {
-        self.api?.getDepartures(st_id, context: reply)
+  
+    
+    public func getDepartures(info: NSDictionary, reply: replyClosure?) {
+        let context: Dictionary<String, contextData> = [
+                "reply": .ValReply(reply),
+                "st_id": .ValString(info["st_id"] as String),
+                "st_name": .ValString(info["st_name"] as String)
+                    ]
+        self.api?.getDepartures(info["st_id"] as String, context: context)
     }
  
     public func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?) {
@@ -31,12 +44,25 @@ public class TFCWatchData: NSObject, APIControllerProtocol {
                 //   self.networkErrorMsg = nil
             }
             if (context != nil) {
-                let reply = context as (([NSObject : AnyObject]!) -> Void)
+                let contextInfo = context! as Dictionary<String, contextData>
+                var reply: replyClosure?
+                switch contextInfo["reply"]! {
+                    case .ValReply(let s):
+                        reply = s
+                default:
+                        reply = nil
+                }
+               
+                var stationName = self.getStringFromDict(contextInfo["st_name"])
+                var stationId = self.getStringFromDict(contextInfo["st_id"])
+                let station = TFCStation(name: stationName!, id: stationId!, coord: nil)
+                //let reply = contextData.ValReply(contextInfo["reply"]?)
                 let departuresObjects: [TFCDeparture]? = TFCDeparture.withJSON(results, filterStation: nil)
                 var departures: [NSDictionary] = []
-                    for departure in departuresObjects! as [TFCDeparture] {
+                for departure in departuresObjects! as [TFCDeparture] {
                         let d: TFCDeparture = departure
-                        var f: NSDictionary = [ "to": d.to,
+                        var f: NSDictionary = [
+                            "to": d.getDestination(station),
                             "name": d.getLine(),
                             "time": d.getTimeString(),
                             "minutes": d.getMinutes()!,
@@ -45,11 +71,25 @@ public class TFCWatchData: NSObject, APIControllerProtocol {
                             "colorBg": d.colorBg!
                         ]
                         departures.append(f)
-                    }
-                reply(["departures": departures])
+                }
+                reply!(["departures": departures])
             }
 
         })
+    }
+    
+    func getStringFromDict(input: contextData?) -> String? {
+        if (input == nil) {
+            return nil
+        }
+        var value: String?
+        switch input! {
+        case .ValString(let s):
+            value = s
+        default:
+            value = nil
+        }
+        return value
     }
 
 }
