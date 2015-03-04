@@ -12,7 +12,9 @@ import WatchKit
 class StationRow: NSObject {
     
     @IBOutlet weak var destinationLabel: WKInterfaceLabel!
-  
+    @IBOutlet weak var depatureLabel: WKInterfaceLabel!
+    @IBOutlet weak var minutesLabel: WKInterfaceLabel!
+    
     @IBOutlet weak var numberLabel: WKInterfaceLabel!
     
     

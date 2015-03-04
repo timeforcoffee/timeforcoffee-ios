@@ -62,6 +62,8 @@ class StationViewController: WKInterfaceController {
                 var attrString = NSAttributedString(string: name, attributes: fontAttrs)
                 sr?.numberLabel.setAttributedText(attrString)
                 sr?.destinationLabel.setText(to)
+                sr?.depatureLabel.setText(station["time"] as? String)
+                sr?.minutesLabel.setText(station["minutes"] as? String)
                 sr?.numberGroup.setBackgroundColor(UIColor(netHexString:(station["colorBg"] as String)))
                 sr?.numberLabel.setTextColor(UIColor(netHexString:(station["colorFg"] as String)))
                 i++

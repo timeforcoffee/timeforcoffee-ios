@@ -30,12 +30,13 @@ class InterfaceController: WKInterfaceController {
         func handleReply(replyInfo: [NSObject : AnyObject]!, error: NSError!) {
             var pages = [String]()
             var pageContexts = [AnyObject]()
-            
+            println("replyinfo \(replyInfo)")
             for (st_id, station) in replyInfo {
 
                 pages.append("StationPage");
                 pageContexts.append(station)
             }
+
             WKInterfaceController.reloadRootControllersWithNames(pages, contexts: pageContexts)
 
         }
