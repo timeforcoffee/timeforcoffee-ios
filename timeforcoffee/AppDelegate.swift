@@ -73,8 +73,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    func application(application: UIApplication!, handleWatchKitExtensionRequest userInfo: [NSObject : AnyObject]!, reply: (([NSObject : AnyObject]!) -> Void)!) {
-        reply(TFCStations.getFavoriteStationsDict())
+    func application(application: UIApplication!, handleWatchKitExtensionRequest userInfo: [NSString : NSString]!, reply: (([NSObject : AnyObject]!) -> Void)!) {
+        
+        if (userInfo["module"] == "favorites") {
+            reply(TFCStations.getFavoriteStationsDict())
+        } else if (userInfo["module"] == "departures") {
+            reply(TFCStations.getFavoriteStationsDict())
+        } else {
+            reply(TFCStations.getFavoriteStationsDict())
+        }
     }
 
     

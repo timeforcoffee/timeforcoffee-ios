@@ -13,8 +13,10 @@ import Foundation
 class StationViewController: WKInterfaceController {
     @IBOutlet weak var stationsTable: WKInterfaceTable!
     var stationName: String = ""
+    var stationId: String = ""
     var data2: Int = 1
     var stationInfo: AnyObject?
+    var stationRows: [Int:StationRow] = [:]
     
     override init () {
         super.init()
@@ -27,7 +29,7 @@ class StationViewController: WKInterfaceController {
         if let contextDict:Dictionary = context as Dictionary<String,AnyObject>!
         {
             stationInfo = contextDict
-            
+            stationId = contextDict["st_id"] as String
             stationName = contextDict["name"] as String
         }
     }
@@ -41,25 +43,21 @@ class StationViewController: WKInterfaceController {
             var i = 0;
             stationsTable.setNumberOfRows(replyInfo.count, withRowType: "station")
             println(replyInfo);
+                
+                // Set the text on the label object
             for (st_id, station) in replyInfo {
                 let sr = stationsTable.rowControllerAtIndex(i) as StationRow?
-                
                 println(station["name"])
                 let name = station["name"] as String
-                sr?.destinationLabel.setText(name)
+                // doesn't work yet ;(
                 let helvetica = UIFont(name: "HelveticaNeue-Bold", size: 18.0)!
                 var fontAttrs = [NSFontAttributeName : helvetica]
                 var attrString = NSAttributedString(string: "12", attributes: fontAttrs)
-                
-                // Set the text on the label object
-            
                 sr?.numberLabel.setAttributedText(attrString)
-
-                
                 i++
             }
         }
-        WKInterfaceController.openParentApplication(["Hello":"World"], handleReply)
+        WKInterfaceController.openParentApplication(["module":"departues", "st_id": stationId], handleReply)
     }
     
     override func didDeactivate() {

@@ -40,7 +40,7 @@ class InterfaceController: WKInterfaceController {
 
         }
         
-        WKInterfaceController.openParentApplication(["Hello":"World"], handleReply)
+        WKInterfaceController.openParentApplication(["module":"favorites"], handleReply)
 
     }
     
