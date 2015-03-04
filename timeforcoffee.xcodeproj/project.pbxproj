@@ -112,9 +112,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-<<<<<<< HEAD
 		EC046D621A9C563D00C2C1B3 /* TFCLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCLocationManager.swift; sourceTree = "<group>"; };
-=======
 		EC0A30EB1AA344100043B8F8 /* launchicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = launchicon.png; path = _assets/launchicon.png; sourceTree = "<group>"; };
 		EC0A30F11AA352BD0043B8F8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		EC0A30F51AA353E40043B8F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
@@ -137,7 +135,6 @@
 		EC3252E41A9CE1320056AF11 /* MGSwipeTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSwipeTableCell.h; sourceTree = "<group>"; };
 		EC3252E51A9CE1320056AF11 /* MGSwipeTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGSwipeTableCell.m; sourceTree = "<group>"; };
 		EC49D7851AA3B63F00DC2059 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
->>>>>>> master
 		EC6EDCE71A9B6B680098CAE0 /* StationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationViewController.swift; sourceTree = "<group>"; };
 		EC6EDCEF1A9B9F390098CAE0 /* timeforcoffee Widget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "timeforcoffee Widget.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC6EDCF11A9B9F390098CAE0 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
@@ -284,11 +281,11 @@
 		EC6EDD2E1A9BA36F0098CAE0 /* timeforcoffeeKit */ = {
 			isa = PBXGroup;
 			children = (
-				EC046D621A9C563D00C2C1B3 /* TFCLocationManager.swift */,
 				EC6EDD501A9BA5080098CAE0 /* SwiftyJSON.swift */,
 				EC6EDD4C1A9BA4820098CAE0 /* TFCDeparture.swift */,
 				EC6EDD4D1A9BA4820098CAE0 /* TFCStation.swift */,
 				ECF100AC1A9D9BAE00056510 /* TFCStations.swift */,
+				EC046D621A9C563D00C2C1B3 /* TFCLocationManager.swift */,
 				EC6EDD531A9BA79B0098CAE0 /* APIController.swift */,
 				EC6EDD2F1A9BA36F0098CAE0 /* Supporting Files */,
 				EC95714E1A9CACB70061F8B4 /* extensions.swift */,
@@ -616,14 +613,9 @@
 				EC9571511A9CCEC00061F8B4 /* TFCBaseViewController.swift in Sources */,
 				EC6EDD541A9BA79B0098CAE0 /* APIController.swift in Sources */,
 				EC6EDD511A9BA5080098CAE0 /* SwiftyJSON.swift in Sources */,
-<<<<<<< HEAD
 				EC046D631A9C563D00C2C1B3 /* TFCLocationManager.swift in Sources */,
-				EC6EDD4F1A9BA4820098CAE0 /* Station.swift in Sources */,
-				EC6EDD4E1A9BA4820098CAE0 /* Departure.swift in Sources */,
-=======
 				EC6EDD4F1A9BA4820098CAE0 /* TFCStation.swift in Sources */,
 				EC6EDD4E1A9BA4820098CAE0 /* TFCDeparture.swift in Sources */,
->>>>>>> master
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
