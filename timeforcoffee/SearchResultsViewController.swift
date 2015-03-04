@@ -7,240 +7,309 @@
 //
 
 import UIKit
-import CoreLocation
 import MapKit
 import timeforcoffeeKit
+import CoreLocation
 
-class SearchResultsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, CLLocationManagerDelegate {
+class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, CLLocationManagerDelegate, MGSwipeTableCellDelegate {
     @IBOutlet var appsTableView : UITableView?
-    var stations = [Station]()
+    var stations: TFCStations!
     let kCellIdentifier: String = "SearchResultCell"
-    var imageCache = [String : UIImage]()
     var api : APIController?
-    var locationManager : CLLocationManager!
-    var seenError : Bool = false
-    var locationFixAchieved : Bool = false
-    var locationStatus : NSString = "Not Started"
-    var currentLocation: CLLocation?
     var refreshControl:UIRefreshControl!
-    
+    var searchController: UISearchController!
+    var networkErrorMsg: String? = nil
+    var showFavorites: Bool = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
         api = APIController(delegate: self)
+        stations = TFCStations()
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         self.refreshControl = UIRefreshControl()
-        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.appsTableView?.addSubview(refreshControl)
+        self.refreshControl.backgroundColor = UIColor(red: 242.0/255.0, green: 243.0/255.0, blue: 245.0/255.0, alpha: 1.0)
+        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController?.searchBar.sizeToFit()
+
+        var favButton = UIBarButtonItem(title: "Favs", style: UIBarButtonItemStyle.Plain, target: self, action: "favButtonClicked:")
+        
+        let favFont = UIFont.systemFontOfSize(15)
+        let favButtonAttr = [NSFontAttributeName: favFont]
+        favButton.setTitleTextAttributes(favButtonAttr, forState: UIControlState.Normal)
+
+        self.navigationItem.leftBarButtonItem = favButton
+        favButton.tintColor = UIColor.blackColor()
+
+        self.appsTableView?.tableHeaderView = searchController?.searchBar
+
+        searchController.delegate = self
+        searchController.dimsBackgroundDuringPresentation = false // default is YES
+        searchController.searchBar.delegate = self    // so we can monitor text changes + others
+
+        definesPresentationContext = true
+        var aboutButton = UIBarButtonItem(title: "☕︎", style: UIBarButtonItemStyle.Plain, target: self, action: "aboutClicked:")
+        aboutButton.tintColor = UIColor.blackColor()
+        
+        let font = UIFont.systemFontOfSize(30)
+        let buttonAttr = [NSFontAttributeName: font]
+        aboutButton.setTitleTextAttributes(buttonAttr, forState: UIControlState.Normal)
+        self.navigationItem.rightBarButtonItem = aboutButton
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeActive:", name: "UIApplicationDidBecomeActiveNotification", object: nil)
+
         initLocationManager()
     }
     
+    deinit {
+       NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
+    func applicationDidBecomeActive(notification: NSNotification) {
+        if (!(self.searchController?.searchBar.text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0)) {
+            refreshLocation()
+        }
+    }
+    
+    func favButtonClicked(sender: UIBarButtonItem) {
+        var font: UIFont
+        if (!showFavorites) {
+            showFavorites = true
+            font = UIFont.boldSystemFontOfSize(15)
+        } else {
+            showFavorites = false
+            font = UIFont.systemFontOfSize(15)
+            stations?.clear()
+            self.appsTableView?.reloadData()
+        }
+
+        let buttonAttr = [NSFontAttributeName: font]
+
+        sender.setTitleTextAttributes(buttonAttr, forState: UIControlState.Normal)
+        
+        refreshLocation()
+    }
+    
+    func aboutClicked(sender: UIBarButtonItem) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc: UIViewController! = storyboard.instantiateViewControllerWithIdentifier("AboutViewController") as UIViewController
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        //if favorites are show reload them, since they could have changed
+        if (showFavorites) {
+            stations.loadFavorites(currentLocation)
+        }
+        self.appsTableView?.reloadData()
+    }
+
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+        let whitespaceCharacterSet = NSCharacterSet.whitespaceCharacterSet()
+        let strippedString = searchController.searchBar.text.stringByTrimmingCharactersInSet(whitespaceCharacterSet)
+
+        if (strippedString != "") {
+            stations?.clear()
+            self.api?.searchFor(strippedString)
+        }
+    }
+    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+         refreshLocation()
+    }
+
     func refresh(sender:AnyObject)
     {
-        // Code to refresh table view
-        locationFixAchieved = false
-        self.locationManager.startUpdatingLocation()
+        refreshLocation()
     }
-    
+
     // Location Manager helper stuff
-    func initLocationManager() {
-        seenError = false
-        locationFixAchieved = false
-        self.locationManager = CLLocationManager()
-        self.locationManager.delegate = self
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        
-        self.locationManager.requestWhenInUseAuthorization()
-        self.locationManager.startUpdatingLocation()
-
-
+    override func initLocationManager() {
+        super.initLocationManager()
     }
-    
-    func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
-        self.locationManager.stopUpdatingLocation()
-        if ((error) != nil) {
-            if (seenError == false) {
-                seenError = true
-                print(error)
-            }
-        }
-    }
-    
+
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        if (locationFixAchieved == false) {
-            locationFixAchieved = true
-            var locationArray = locations as NSArray
-            var locationObj = locationArray.lastObject as CLLocation
-            var coord = locationObj.coordinate
-            self.currentLocation = locationObj;
-            self.api?.searchFor(coord)
-            self.locationManager.stopUpdatingLocation()
+        var coord = locationManagerFix(manager,didUpdateLocations: locations);
+        if (coord != nil) {
+            self.api?.searchFor(coord!)
         }
     }
-    
-    // authorization status
-    func locationManager(manager: CLLocationManager!,
-        didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-            var shouldIAllow = false
-            
-            switch status {
-            case CLAuthorizationStatus.Restricted:
-                locationStatus = "Restricted Access to location"
-            case CLAuthorizationStatus.Denied:
-                locationStatus = "User denied access to location"
-            case CLAuthorizationStatus.NotDetermined:
-                locationStatus = "Status not determined"
-            default:
-                locationStatus = "Allowed to location Access"
-                shouldIAllow = true
-            }
-            NSNotificationCenter.defaultCenter().postNotificationName("LabelHasbeenUpdated", object: nil)
-            if (shouldIAllow == true) {
-                NSLog("Location to Allowed")
-                // Start location services
-                locationManager.startUpdatingLocation()
-            } else {
-                NSLog("Denied access: \(locationStatus)")
-            }
-    }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return stations.count
+        if (stations == nil || stations.count() == nil || stations.count() == 0) {
+            return 1
+        }
+        return stations.count()!
     }
 
-
-    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as UITableViewCell
+        var cell:MGSwipeTableCell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as MGSwipeTableCell
+
+        cell.delegate = self
+        cell.tag = indexPath.row
         
-        let station = self.stations[indexPath.row]
-        cell.textLabel?.text = station.name
-        //cell.imageView?.image = UIImage(named: "Blank52")
-        var distance = Int(currentLocation?.distanceFromLocation(station.coord) as Double!)
-        cell.detailTextLabel?.text = "\(distance) Meter"
+        let textLabel = cell.textLabel
+        let detailTextLabel = cell.detailTextLabel
         
-        // Get the formatted price string for display in the subtitle
-//        let formattedPrice = album.price
-        
-        // Grab the artworkUrl60 key to get an image URL for the app's thumbnail
-        /*var urlString: String?
-        urlString = nil
-        if (urlString != nil) {
-            // Check our image cache for the existing key. This is just a dictionary of UIImages
-            //var image: UIImage? = self.imageCache.valueForKey(urlString) as? UIImage
-            var image = self.imageCache[urlString!]
-            station.imageURL = urlString
-            
-            if( image == nil ) {
-                // If the image does not exist, we need to download it
-                var imgURL: NSURL = NSURL(string: urlString!)!
-                
-                // Download an NSData representation of the image at the URL
-                let request: NSURLRequest = NSURLRequest(URL: imgURL)
-                NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler: {(response: NSURLResponse!,data: NSData!,error: NSError!) -> Void in
-                    if error == nil {
-                        image = UIImage(data: data)
-                        
-                        // Store the image in to our cache
-                        self.imageCache[urlString!] = image
-                        if let cellToUpdate = tableView.cellForRowAtIndexPath(indexPath) {
-                           
-                            cellToUpdate.imageView?.image = image
-                            self.fixWidthImage(cellToUpdate)
-                        }
-                    }
-                    else {
-                        println("Error: \(error.localizedDescription)")
-                    }
-                })
-                
+        let stationsCount = stations.count()
+
+        if (stationsCount == nil || stationsCount == 0) {
+            cell.userInteractionEnabled = false;
+            if (stationsCount == nil) {
+                textLabel?.text = NSLocalizedString("Loading", comment: "Loading ..")
+                detailTextLabel?.text = ""
+            } else {
+                textLabel?.text = NSLocalizedString("No stations found.", comment: "")
+
+                if (self.networkErrorMsg != nil) {
+                    detailTextLabel?.text = self.networkErrorMsg
+                } else {
+                    detailTextLabel?.text = ""
+                }
             }
-            else {
-                dispatch_async(dispatch_get_main_queue(), {
-                    if let cellToUpdate = tableView.cellForRowAtIndexPath(indexPath) {
-                        cellToUpdate.imageView?.image = image
-                        self.fixWidthImage(cellToUpdate)
+            return cell
+        }
+        cell.userInteractionEnabled = true;
+
+        
+        let station = self.stations!.getStation(indexPath.row)
+        textLabel?.text = station.getNameWithStar()
+
+        if (currentLocation == nil) {
+            detailTextLabel?.text = ""
+            return cell
+        }
+        
+        if (station.coord != nil) {
+            var distance = Int(currentLocation?.distanceFromLocation(station.coord) as Double!)
+            if (distance > 5000) {
+                let km = Int(round(Double(distance) / 1000))
+                detailTextLabel?.text = "\(km) Kilometer"
+            } else {
+                detailTextLabel?.text = "\(distance) Meter"
+                // calculate exact distance
+                let currentCoordinate = currentLocation?.coordinate
+                var sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
+                
+                let coord = station.coord!
+                var destinationPlacemark:MKPlacemark = MKPlacemark(coordinate: coord.coordinate, addressDictionary: nil)
+                var source:MKMapItem = MKMapItem(placemark: sourcePlacemark)
+                var destination:MKMapItem = MKMapItem(placemark: destinationPlacemark)
+                var directionRequest:MKDirectionsRequest = MKDirectionsRequest()
+                
+                directionRequest.setSource(source)
+                directionRequest.setDestination(destination)
+                directionRequest.transportType = MKDirectionsTransportType.Walking
+                directionRequest.requestsAlternateRoutes = true
+                
+                var directions:MKDirections = MKDirections(request: directionRequest)
+                directions.calculateDirectionsWithCompletionHandler({
+                    (response: MKDirectionsResponse!, error: NSError?) in
+                    if error != nil{
+                        println("Error")
                     }
+                    if response != nil {
+                        for r in response.routes { println("route = \(r)") }
+                        var route: MKRoute = response.routes[0] as MKRoute;
+                        
+                        
+                        var time =  Int(round(route.expectedTravelTime / 60))
+                        var meters = Int(route.distance);
+                        let walking = NSLocalizedString("walking", comment: "Walking")
+                        detailTextLabel?.text = "\(time) min \(walking), \(meters) m"
+                    }  else {
+                        println("No response")
+                        println(error?.description)
+                    }
+                    
                 })
+            }
+        } else {
+            detailTextLabel?.text = ""
+        }
+        return cell
+    }
+
+    func swipeTableCell(cell: MGSwipeTableCell!, canSwipe direction: MGSwipeDirection) -> Bool {
+        return true
+    }
+
+    func swipeTableCell(cell: MGSwipeTableCell!, swipeButtonsForDirection direction: MGSwipeDirection, swipeSettings: MGSwipeSettings!, expansionSettings: MGSwipeExpansionSettings!) -> [AnyObject]! {
+        var buttons = []
+        if (direction == MGSwipeDirection.RightToLeft) {
+            let station: TFCStation = self.stations.getStation(cell.tag)
+            if (station.isFavorite()) {
+                buttons = [MGSwipeButton( title:"Unfav",  backgroundColor: UIColor.redColor())]
+            } else {
+                buttons = [MGSwipeButton( title:"Fav",  backgroundColor: UIColor.greenColor())]
             }
         }
-        */
-        // calculate exact distance
-        let currentCoordinate = currentLocation?.coordinate
-        var sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
-        
-        var destinationPlacemark:MKPlacemark = MKPlacemark(coordinate: station.coord.coordinate, addressDictionary: nil)
-        var source:MKMapItem = MKMapItem(placemark: sourcePlacemark)
-        var destination:MKMapItem = MKMapItem(placemark: destinationPlacemark)
-        var directionRequest:MKDirectionsRequest = MKDirectionsRequest()
-        
-        directionRequest.setSource(source)
-        directionRequest.setDestination(destination)
-        directionRequest.transportType = MKDirectionsTransportType.Walking
-        directionRequest.requestsAlternateRoutes = true
-        
-        var directions:MKDirections = MKDirections(request: directionRequest)
-        directions.calculateDirectionsWithCompletionHandler({
-            (response: MKDirectionsResponse!, error: NSError?) in
-            if error != nil{
-                println("Error")
-            }
-            if response != nil{
-                println("number of routes = \(response.routes.count)")
-                for r in response.routes { println("route = \(r)") }
-                var route: MKRoute = response.routes[0] as MKRoute;
-                
-                
-                var time =  Int(round(route.expectedTravelTime / 60))
-                var meters = Int(route.distance);
-                cell.detailTextLabel?.text = "\(time) min Fussweg, \(meters) m"
-                println(route.expectedTravelTime / 60)
-            }
-            else{
-                println("No response")
-            }
-            println(error?.description)
-        })
-
-        
-//        cell.detailTextLabel?.text = formattedPrice
-
-        return cell
-
+        expansionSettings.buttonIndex = 0
+        expansionSettings.fillOnTrigger = true
+        expansionSettings.threshold = 3
+        return buttons
     }
-    
-    func fixWidthImage(cell: UITableViewCell) {
-        let itemSize = CGSizeMake(52, 52);
-        UIGraphicsBeginImageContextWithOptions(itemSize, false, UIScreen.mainScreen().scale);
-        let imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
-        cell.imageView?.image?.drawInRect(imageRect)
-        cell.imageView?.image = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
+
+    func swipeTableCell(cell: MGSwipeTableCell!, tappedButtonAtIndex index: Int, direction: MGSwipeDirection, fromExpansion: Bool) -> Bool {
+        let station: TFCStation = self.stations.getStation(cell.tag)
+        if (station.isFavorite()) {
+            TFCStations.unsetFavoriteStation(station.st_id)
+            var button = cell.rightButtons[0] as MGSwipeButton
+            button.backgroundColor = UIColor.greenColor();
+            button.titleLabel?.text = "Fav"
+        } else {
+            TFCStations.setFavoriteStation(station)
+            var button = cell.rightButtons[0] as MGSwipeButton
+            button.backgroundColor = UIColor.redColor();
+            button.titleLabel?.text = "Unfav"
+        }
+        cell.textLabel?.text = station.getNameWithStar()
+
+        return true
     }
-    
-    func didReceiveAPIResults(results: JSONValue) {
+
+
+    func didReceiveAPIResults(results: JSONValue, error: NSError?) {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-        self.refreshControl.endRefreshing()
         dispatch_async(dispatch_get_main_queue(), {
-            self.stations = Station.withJSON(results)
+            if (error != nil && error?.code != -999) {
+                self.networkErrorMsg = "Network error. Please try again"
+            } else {
+                self.networkErrorMsg = nil
+            }
+            self.stations!.addWithJSON(results)
             self.appsTableView!.reloadData()
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            self.refreshControl.endRefreshing()
+
         })
     }
-    
+
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         var detailsViewController: StationViewController = segue.destinationViewController as StationViewController
-        var albumIndex = appsTableView?.indexPathForSelectedRow()?.row
-//        var albumIndex = appsTableView!.indexPathForSelectedRow().row
-        var selectedAlbum = self.stations[albumIndex!]
-        detailsViewController.station = selectedAlbum
-    }
 
+        var index = appsTableView?.indexPathForSelectedRow()?.row
+        if (index != nil) {
+            var station = stations.getStation(index!)
+            detailsViewController.setStation(station);
+        }
+    }
     
+    override func refreshLocation() {
+        if (showFavorites) {
+            self.stations?.loadFavorites(self.currentLocation)
+            self.appsTableView?.reloadData()
+        } else {
+            super.refreshLocation()
+        }
+    }
 }
 
 

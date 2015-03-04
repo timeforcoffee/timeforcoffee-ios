@@ -11,24 +11,21 @@ import NotificationCenter
 import CoreLocation
 import timeforcoffeeKit
 
-class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManagerDelegate,  UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, UIGestureRecognizerDelegate {
+class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, UIGestureRecognizerDelegate {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var appsTableView: UITableView!
     let kCellIdentifier: String = "SearchResultCellWidget"
 
-    var stations = [Station]()
-    var departures = [Departure]()
+    var stations: TFCStations!
+    var departures: [TFCDeparture]?
+    var networkErrorMsg: String?
     var api : APIController?
-    var locationManager : CLLocationManager!
-    var seenError : Bool = false
-    var locationFixAchieved : Bool = false
-    var locationStatus : NSString = "Not Started"
-    var currentLocation: CLLocation?
     var currentStationIndex = 0
    
     override func viewDidLoad() {
         super.viewDidLoad()
         api = APIController(delegate: self)
+        stations = TFCStations()
         titleLabel.userInteractionEnabled = true;
         let tapGesture  = UITapGestureRecognizer(target: self, action: "handleTap:")
         titleLabel.addGestureRecognizer(tapGesture)
@@ -37,14 +34,22 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
     
     @IBAction func nextButtonTouchUp(sender: AnyObject) {
         
-        self.currentStationIndex++
-        if (self.currentStationIndex >= self.stations.count) {
-            self.currentStationIndex = 0
+        
+        if (stations.count() != nil) {
+            self.currentStationIndex++
+            if (self.currentStationIndex >= self.stations.count()) {
+                self.currentStationIndex = 0
+            }
+            self.departures = nil;
+            let station = self.stations.getStation(self.currentStationIndex)
+            if (station.st_id != "0000") {
+                self.appsTableView!.reloadData()
+                self.titleLabel.text = self.stations.getStation(self.currentStationIndex).getNameWithStarAndFilters()
+                self.api?.getDepartures(self.stations.getStation(self.currentStationIndex).st_id)
+            } else {
+                self.currentStationIndex = 0
+            }
         }
-        self.departures = [Departure]();
-        self.appsTableView!.reloadData()
-        self.titleLabel.text = self.stations[self.currentStationIndex].name
-        self.api?.getDepartures(self.stations[self.currentStationIndex].st_id)
 
     }
     override func viewDidAppear(animated: Bool) {
@@ -52,90 +57,94 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
     }
     
     func handleTap(recognizer: UITapGestureRecognizer) {
-        let url: NSURL = NSURL(string: "timeforcoffee://home")!
-        self.extensionContext?.openURL(url, completionHandler: nil);
+        
+        var station = self.stations.getStation(self.currentStationIndex);
+        if (station.st_id != "0000") {
+            var name = station.name.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
+            let long = station.getLongitude()
+            let lat = station.getLatitude()
+            var urlstring = "timeforcoffee://station?id=\(station.st_id)&name=\(name)"
+            if (long != nil && lat != nil) {
+                urlstring = "\(urlstring)&long=\(long!)&lat=\(lat!)"
+            }
+            let url: NSURL = NSURL(string: urlstring)!
+            self.extensionContext?.openURL(url, completionHandler: nil);
+        }
     }
     
-    func initLocationManager() {
-        titleLabel.text = "Looking for nearest station ..."
-        seenError = false
-        locationFixAchieved = false
-        self.locationManager = CLLocationManager()
-        self.locationManager.delegate = self
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+    override func initLocationManager() {
+        titleLabel.text = NSLocalizedString("Looking for nearest station ...", comment: "")
         self.currentStationIndex = 0
-        self.locationManager.requestWhenInUseAuthorization()
-        self.locationManager.startUpdatingLocation()
-
-        
-    }
-
-    func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
-        self.locationManager.stopUpdatingLocation()
-        if ((error) != nil) {
-            if (seenError == false) {
-                seenError = true
-                print(error)
-            }
-        }
+        super.initLocationManager()
     }
     
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+        var coord = locationManagerFix(manager,didUpdateLocations: locations);
+        if (coord != nil) {
+            if (self.stations.addNearbyFavorites(currentLocation!)) {
+                self.titleLabel.text = self.stations.getStation(0).getNameWithStarAndFilters()
+                self.departures = nil
+                self.api?.getDepartures(self.stations.getStation(0).st_id)
+            }
 
-        if (locationFixAchieved == false) {
-            locationFixAchieved = true
-            var locationArray = locations as NSArray
-            var locationObj = locationArray.lastObject as CLLocation
-            var coord = locationObj.coordinate
-            self.currentLocation = locationObj;
-            self.api?.searchFor(coord)
-            self.locationManager.stopUpdatingLocation()
+            self.api?.searchFor(coord!)
         }
     }
-    
-    // authorization status
-    func locationManager(manager: CLLocationManager!,
-        didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-            var shouldIAllow = false
-            switch status {
-            case CLAuthorizationStatus.Restricted:
-                locationStatus = "Restricted Access to location"
-            case CLAuthorizationStatus.Denied:
-                locationStatus = "User denied access to location"
-            case CLAuthorizationStatus.NotDetermined:
-                locationStatus = "Status not determined"
-            default:
-                locationStatus = "Allowed to location Access"
-                shouldIAllow = true
-            }
-            NSNotificationCenter.defaultCenter().postNotificationName("LabelHasbeenUpdated", object: nil)
-            if (shouldIAllow == true) {
-                NSLog("Location to Allowed")
-                // Start location services
-                locationManager.startUpdatingLocation()
-            } else {
-                NSLog("Denied access: \(locationStatus)")
-            }
-    }
-    
+
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.departures.count
+        if (self.departures == nil || self.departures!.count == 0) {
+            return 1
+        }
+        return self.departures!.count
     }
     
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as UITableViewCell
         
+        cell.layoutMargins = UIEdgeInsetsZero
+        cell.preservesSuperviewLayoutMargins = false
+        
+        
+        
         let lineNumberLabel = cell.viewWithTag(100) as UILabel
         let destinationLabel = cell.viewWithTag(200) as UILabel
         let departureLabel = cell.viewWithTag(300) as UILabel
+        let minutesLabel = cell.viewWithTag(400) as UILabel
+        let station = self.stations.getStation(self.currentStationIndex)
+
+        if (self.departures == nil || self.departures!.count == 0) {
+            departureLabel.text = nil
+            lineNumberLabel.text = nil
+            minutesLabel.text = nil
+            lineNumberLabel.backgroundColor = UIColor.clearColor()
+            if (self.departures == nil) {
+                destinationLabel.text = NSLocalizedString("Loading", comment: "Loading ..")
+            } else {
+                destinationLabel.text = NSLocalizedString("No departures found.", comment: "")
+                if (self.networkErrorMsg != nil) {
+                    departureLabel.text = self.networkErrorMsg
+                } else if (station.hasFilters()) {
+                    departureLabel.text = NSLocalizedString("Remove some filters.", comment: "")
+                }
+            }
+            return cell
+        }
         
+        cell.textLabel!.text = nil
+
+        let departure: TFCDeparture = self.departures![indexPath.row]
+        var unabridged = false
+        if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+            unabridged = true
+        }
+        destinationLabel.text = departure.getDestinationWithSign(station, unabridged: unabridged)
+
         
-        let departure: Departure = self.departures[indexPath.row]
         lineNumberLabel.text = departure.getLine()
-        destinationLabel.text = departure.getLineAndDestination()
-        departureLabel.text = departure.getTimeString()
+        departureLabel.text = departure.getDepartureTime()
+        minutesLabel.text = departure.getMinutes()
         
         lineNumberLabel.layer.cornerRadius = 4.0
         lineNumberLabel.layer.masksToBounds = true
@@ -144,11 +153,11 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
             lineNumberLabel.backgroundColor = UIColor(netHexString:departure.colorBg!);
             lineNumberLabel.textColor = UIColor(netHexString:departure.colorFg!);
         } else {
-            lineNumberLabel.textColor = UIColor.whiteColor()
+            lineNumberLabel.textColor = UIColor.blackColor()
+            lineNumberLabel.backgroundColor = UIColor.whiteColor()
         }
         
         return cell
-        
     }
 
 
@@ -159,41 +168,56 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
     
     func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)!) {
         // Perform any setup necessary in order to update the view.
+        initLocationManager()
 
         // If an error is encountered, use NCUpdateResult.Failed
         // If there's no update required, use NCUpdateResult.NoData
         // If there's an update, use NCUpdateResult.NewData
-        initLocationManager()
         //this should only be called, after everything is updated. didReceiveAPIResults ;)
         // see also https://stackoverflow.com/questions/25961513/ios-8-today-widget-stops-working-after-a-while
         completionHandler(NCUpdateResult.NewData)
     }
     
-    func didReceiveAPIResults(results: JSONValue) {
+    func didReceiveAPIResults(results: JSONValue, error: NSError?) {
         dispatch_async(dispatch_get_main_queue(), {
-            if (Station.isStations(results)) {
-                self.stations = Station.withJSON(results)
-                self.titleLabel.text = self.stations[self.currentStationIndex].name
-                self.api?.getDepartures(self.stations[self.currentStationIndex].st_id)
-            } else {
-                self.departures = Departure.withJSON(results)
-                self.appsTableView!.reloadData()
+            if (!(error != nil && error?.code == -999)) {
+                if (error != nil) {
+                    self.networkErrorMsg = NSLocalizedString("Network error. Please try again", comment: "")
+                } else {
+                    self.networkErrorMsg = nil
+                }
+                if (TFCStation.isStations(results)) {
+                    let hasAlreadyFavouritesDisplayed = self.stations.count()
+                    self.stations.addWithJSON(results, append: true)
+                    self.titleLabel.text = self.stations.getStation(self.currentStationIndex).getNameWithStarAndFilters()
+                    if (hasAlreadyFavouritesDisplayed == nil || hasAlreadyFavouritesDisplayed == 0) {
+                        self.api?.getDepartures(self.stations.getStation(self.currentStationIndex).st_id)
+                    }
+                } else {
+                    self.departures = TFCDeparture.withJSON(results, filterStation: self.stations.getStation(self.currentStationIndex))
+                    
+                }
+            
+            self.appsTableView!.reloadData()
             }
         })
     }
     
-    func widgetMarginInsetsForProposedMarginInsets(defaultMarginInsets: UIEdgeInsets) -> UIEdgeInsets
-    {
-        var newMargins = defaultMarginInsets
-        newMargins.right = 0
-        newMargins.left = 0
-        newMargins.bottom = 5
-        return newMargins
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        
+        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+        
+        coordinator.animateAlongsideTransition(
+            {
+                (context) -> Void in
+            },
+            completion: {
+                (context) -> Void in
+                self.appsTableView?.reloadData()
+                return
+        })
     }
-    
-    @IBAction func buttonPressed()  {
-        NSLog("Button Pressed")
-    }
-    
+
 }
+
 

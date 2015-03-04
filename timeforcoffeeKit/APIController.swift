@@ -12,51 +12,59 @@ import CoreLocation
 public class APIController {
     
     var delegate: APIControllerProtocol
+    var currentFetch: [Int: NSURLSessionDataTask] = [:]
     
     public init(delegate: APIControllerProtocol) {
         self.delegate = delegate
     }
     
     public func searchFor(coord: CLLocationCoordinate2D) {
-        
-  //      var urlPath = "http://filialen.migros.ch/store/near/%28\(coord.latitude),\(coord.longitude)%29?radius=5&storeTypes=M,MM,MMM,MIG&nowOpen=true";
-        var urlPath = "http://transport.opendata.ch/v1/locations?x=\(coord.latitude)&y=\(coord.longitude)";
-        println(urlPath)
-        self.fetchUrl(urlPath)
+        var urlPath = "http://transport.opendata.ch/v1/locations?x=\(coord.latitude)&y=\(coord.longitude)&type=station";
+        self.fetchUrl(urlPath, fetchId: 1)
+    }
+
+    public func searchFor(location: String) {
+        let name = location.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
+        let urlPath = "http://transport.opendata.ch/v1/locations?query=\(name)*&type=station";
+        /*
+        ** once http://www.timeforcoffee.ch/api/zvv/stations/Quellenstrasse supports
+        ** coordinates, this can be enabled
+        let urlPath = "http://www.timeforcoffee.ch/api/zvv/stations/\(name)";
+        */
+        self.fetchUrl(urlPath, fetchId: 1)
     }
     
     public func getDepartures(id: String!) {
-        var urlPath = "http://www.timeforcoffee.ch/api/stationboard/\(id)"
-        self.fetchUrl(urlPath)
+        var urlPath = "http://www.timeforcoffee.ch/api/zvv/stationboard/\(id)"
+        self.fetchUrl(urlPath, fetchId: 2)
         
     }
     
-    public func fetchUrl(urlPath: String) {
-        let url: NSURL = NSURL(string: urlPath)!
+    public func fetchUrl(urlPath: String, fetchId: Int) {
+        let urlPathEsc = urlPath.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
+        let url: NSURL = NSURL(string: urlPathEsc)!
         let session = NSURLSession.sharedSession()
         println("Start fetching data \(urlPath)")
-        let task = session.dataTaskWithURL(url, completionHandler: {data , response, error -> Void in
+        if (currentFetch[fetchId] != nil) {
+            currentFetch[fetchId]?.cancel()
+        }
+        currentFetch[fetchId] = session.dataTaskWithURL(url, completionHandler: {data , response, error -> Void in
             println("Task completed")
             if(error != nil) {
                 // If there is an error in the web request, print it to the console
                 println(error.localizedDescription)
             }
+            self.currentFetch[fetchId] = nil
             var err: NSError?
             let jsonResult = JSONValue(data)
-            /*            var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &err) as NSArray
-            if(err != nil) {
-            // If there is an error parsing JSON, print it to the console
-            println("JSON Error \(err!.localizedDescription)")
-            }*/
-            self.delegate.didReceiveAPIResults(jsonResult)
+            self.delegate.didReceiveAPIResults(jsonResult, error: error)
         })
         
-        
-        task.resume()
+        currentFetch[fetchId]?.resume()
 
     }
 }
 
 public protocol APIControllerProtocol {
-    func didReceiveAPIResults(results: JSONValue)
+    func didReceiveAPIResults(results: JSONValue, error: NSError?)
 }

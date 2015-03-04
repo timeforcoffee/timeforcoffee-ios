@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import timeforcoffeeKit
+import CoreLocation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+        NewRelicAgent.startWithApplicationToken("AAe7c5942c67612bc82125c42d8b0b5c6a7df227b2")
         return true
     }
 
@@ -40,7 +42,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
+    
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+        if (url.host == "station" && url.query != nil) {
+         
+            var queryStrings = [String: String]()
+            if let query = url.query {
+                for qs in query.componentsSeparatedByString("&") {
+                    // Get the parameter name
+                    let key = qs.componentsSeparatedByString("=")[0]
+                    // Get the parameter name
+                    var value = qs.componentsSeparatedByString("=")[1]
+                    value = value.stringByReplacingOccurrencesOfString("+", withString: " ")
+                    value = value.stringByReplacingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
+                    
+                    queryStrings[key] = value
+                }
+            }
+            var Clocation = CLLocation(latitude: NSString(string: queryStrings["lat"]!).doubleValue, longitude: NSString(string: queryStrings["long"]!).doubleValue)
 
+            var station = TFCStation(name: queryStrings["name"]!, id: queryStrings["id"]!, coord: Clocation)
+            let stations = TFCStations()
+            var rootView = self.window?.rootViewController? as UINavigationController
+            var detailViewController = rootView.storyboard?.instantiateViewControllerWithIdentifier("stationViewController") as StationViewController
 
+            rootView.popToRootViewControllerAnimated(false)
+            detailViewController.setStation(station)
+            rootView.pushViewController(detailViewController, animated: false)
+        }
+        return true
+    }
+
+    
 }
 

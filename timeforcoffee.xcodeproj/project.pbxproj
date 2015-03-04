@@ -8,30 +8,51 @@
 
 /* Begin PBXBuildFile section */
 		EC046D631A9C563D00C2C1B3 /* TFCLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC046D621A9C563D00C2C1B3 /* TFCLocationManager.swift */; };
+		EC0A30EC1AA344100043B8F8 /* launchicon.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30EB1AA344100043B8F8 /* launchicon.png */; };
+		EC0A30F21AA353CA0043B8F8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30F41AA353CA0043B8F8 /* MainInterface.storyboard */; };
+		EC2195EB1AA35B2D005E16EF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC2195ED1AA35B2D005E16EF /* Localizable.strings */; };
+		EC271DC41AA365BE00A7A75E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC271DC31AA365BE00A7A75E /* Main.storyboard */; };
+		EC2C31271A9DE8B000690397 /* home.gpx in Resources */ = {isa = PBXBuildFile; fileRef = EC2C31261A9DE8B000690397 /* home.gpx */; };
+		EC2C312B1A9DECB900690397 /* office.gpx in Resources */ = {isa = PBXBuildFile; fileRef = EC2C31281A9DE92700690397 /* office.gpx */; };
+		EC2C312C1A9DECBA00690397 /* office.gpx in Resources */ = {isa = PBXBuildFile; fileRef = EC2C31281A9DE92700690397 /* office.gpx */; };
+		EC2C312D1A9DECBD00690397 /* home.gpx in Resources */ = {isa = PBXBuildFile; fileRef = EC2C31261A9DE8B000690397 /* home.gpx */; };
+		EC2C31691A9E1E9B00690397 /* NewRelicAgent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C31681A9E1E9B00690397 /* NewRelicAgent.framework */; };
+		EC2C316A1A9E1E9B00690397 /* NewRelicAgent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C31681A9E1E9B00690397 /* NewRelicAgent.framework */; };
+		EC2C31771A9E1F0A00690397 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C31731A9E1EE400690397 /* libc++.dylib */; };
+		EC2C31781A9E1F1000690397 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C31751A9E1EEB00690397 /* libz.dylib */; };
+		EC2C31791A9E1F1900690397 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C316B1A9E1EB800690397 /* CoreTelephony.framework */; };
+		EC2C317A1A9E1F2500690397 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C31711A9E1EDD00690397 /* SystemConfiguration.framework */; };
+		EC2C317B1A9E1F2D00690397 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C31711A9E1EDD00690397 /* SystemConfiguration.framework */; };
+		EC2C317C1A9E1F3300690397 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C316B1A9E1EB800690397 /* CoreTelephony.framework */; };
+		EC2C317D1A9E1F3D00690397 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C31731A9E1EE400690397 /* libc++.dylib */; };
+		EC2C317E1A9E1F4400690397 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C31751A9E1EEB00690397 /* libz.dylib */; };
+		EC3252E61A9CE1320056AF11 /* MGSwipeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EC3252E31A9CE1320056AF11 /* MGSwipeButton.m */; };
+		EC3252E71A9CE1320056AF11 /* MGSwipeTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC3252E51A9CE1320056AF11 /* MGSwipeTableCell.m */; };
+		EC49D7861AA3B63F00DC2059 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC49D7851AA3B63F00DC2059 /* AboutViewController.swift */; };
 		EC6EDCE81A9B6B680098CAE0 /* StationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDCE71A9B6B680098CAE0 /* StationViewController.swift */; };
 		EC6EDCF21A9B9F390098CAE0 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC6EDCF11A9B9F390098CAE0 /* NotificationCenter.framework */; };
 		EC6EDCF71A9B9F390098CAE0 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDCF61A9B9F390098CAE0 /* TodayViewController.swift */; };
-		EC6EDCF91A9B9F390098CAE0 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC6EDCF81A9B9F390098CAE0 /* MainInterface.storyboard */; };
 		EC6EDCFC1A9B9F390098CAE0 /* timeforcoffee Widget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EC6EDCEF1A9B9F390098CAE0 /* timeforcoffee Widget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		EC6EDD381A9BA36F0098CAE0 /* timeforcoffeeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */; };
 		EC6EDD411A9BA36F0098CAE0 /* timeforcoffeeKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDD401A9BA36F0098CAE0 /* timeforcoffeeKitTests.swift */; };
 		EC6EDD441A9BA36F0098CAE0 /* timeforcoffeeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */; };
 		EC6EDD451A9BA36F0098CAE0 /* timeforcoffeeKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		EC6EDD4E1A9BA4820098CAE0 /* Departure.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDD4C1A9BA4820098CAE0 /* Departure.swift */; };
-		EC6EDD4F1A9BA4820098CAE0 /* Station.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDD4D1A9BA4820098CAE0 /* Station.swift */; };
+		EC6EDD4E1A9BA4820098CAE0 /* TFCDeparture.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDD4C1A9BA4820098CAE0 /* TFCDeparture.swift */; };
+		EC6EDD4F1A9BA4820098CAE0 /* TFCStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDD4D1A9BA4820098CAE0 /* TFCStation.swift */; };
 		EC6EDD511A9BA5080098CAE0 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDD501A9BA5080098CAE0 /* SwiftyJSON.swift */; };
 		EC6EDD541A9BA79B0098CAE0 /* APIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDD531A9BA79B0098CAE0 /* APIController.swift */; };
+		EC72FCC11AA336E900E9B275 /* TFCNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC72FCC01AA336E900E9B275 /* TFCNavigationController.swift */; };
 		EC7A517919C427CA000F5E7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A517819C427CA000F5E7C /* AppDelegate.swift */; };
 		EC7A517B19C427CA000F5E7C /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A517A19C427CA000F5E7C /* SearchResultsViewController.swift */; };
-		EC7A517E19C427CA000F5E7C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC7A517C19C427CA000F5E7C /* Main.storyboard */; };
 		EC7A518019C427CA000F5E7C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC7A517F19C427CA000F5E7C /* Images.xcassets */; };
 		EC7A518319C427CA000F5E7C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC7A518119C427CA000F5E7C /* LaunchScreen.xib */; };
-		EC7A518F19C427CA000F5E7C /* nextMigrosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A518E19C427CA000F5E7C /* nextMigrosTests.swift */; };
 		EC7A519B19C43E0A000F5E7C /* Blank52.png in Resources */ = {isa = PBXBuildFile; fileRef = EC7A519A19C43E0A000F5E7C /* Blank52.png */; };
 		EC7A519F19C4432F000F5E7C /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A519E19C4432F000F5E7C /* DetailsViewController.swift */; };
 		EC95714F1A9CACB70061F8B4 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC95714E1A9CACB70061F8B4 /* extensions.swift */; };
-		ECD871951A9BAE18003CCCB3 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ECD871941A9BAE18003CCCB3 /* Info.plist */; };
+		EC9571511A9CCEC00061F8B4 /* TFCBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9571501A9CCEC00061F8B4 /* TFCBaseViewController.swift */; };
+		ECC163D71AA36924006BC3E9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC2195ED1AA35B2D005E16EF /* Localizable.strings */; };
 		ECD871961A9BB2F7003CCCB3 /* timeforcoffeeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */; };
+		ECF100AD1A9D9BAE00056510 /* TFCStations.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF100AC1A9D9BAE00056510 /* TFCStations.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,13 +84,6 @@
 			remoteGlobalIDString = EC6EDD2C1A9BA36F0098CAE0;
 			remoteInfo = timeforcoffeeKit;
 		};
-		EC7A518919C427CA000F5E7C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EC7A516B19C427CA000F5E7C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = EC7A517219C427CA000F5E7C;
-			remoteInfo = timeforcoffee;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -98,37 +112,64 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+<<<<<<< HEAD
 		EC046D621A9C563D00C2C1B3 /* TFCLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCLocationManager.swift; sourceTree = "<group>"; };
+=======
+		EC0A30EB1AA344100043B8F8 /* launchicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = launchicon.png; path = _assets/launchicon.png; sourceTree = "<group>"; };
+		EC0A30F11AA352BD0043B8F8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		EC0A30F51AA353E40043B8F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		EC0A30F61AA354010043B8F8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MainInterface.strings; sourceTree = "<group>"; };
+		EC2195EC1AA35B2D005E16EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		EC2195EF1AA35B4B005E16EF /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		EC271DC31AA365BE00A7A75E /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		EC2C31261A9DE8B000690397 /* home.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = home.gpx; path = gpx/home.gpx; sourceTree = "<group>"; };
+		EC2C31281A9DE92700690397 /* office.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = office.gpx; path = gpx/office.gpx; sourceTree = "<group>"; };
+		EC2C31681A9E1E9B00690397 /* NewRelicAgent.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = NewRelicAgent.framework; sourceTree = "<group>"; };
+		EC2C316B1A9E1EB800690397 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		EC2C316D1A9E1EC000690397 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		EC2C316F1A9E1EC700690397 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		EC2C31711A9E1EDD00690397 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		EC2C31731A9E1EE400690397 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
+		EC2C31751A9E1EEB00690397 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		EC3252DF1A9CE0800056AF11 /* timeforcoffee-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "timeforcoffee-Bridging-Header.h"; sourceTree = "<group>"; };
+		EC3252E21A9CE1320056AF11 /* MGSwipeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSwipeButton.h; sourceTree = "<group>"; };
+		EC3252E31A9CE1320056AF11 /* MGSwipeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGSwipeButton.m; sourceTree = "<group>"; };
+		EC3252E41A9CE1320056AF11 /* MGSwipeTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSwipeTableCell.h; sourceTree = "<group>"; };
+		EC3252E51A9CE1320056AF11 /* MGSwipeTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGSwipeTableCell.m; sourceTree = "<group>"; };
+		EC49D7851AA3B63F00DC2059 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+>>>>>>> master
 		EC6EDCE71A9B6B680098CAE0 /* StationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationViewController.swift; sourceTree = "<group>"; };
 		EC6EDCEF1A9B9F390098CAE0 /* timeforcoffee Widget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "timeforcoffee Widget.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC6EDCF11A9B9F390098CAE0 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		EC6EDCF51A9B9F390098CAE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC6EDCF61A9B9F390098CAE0 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
-		EC6EDCF81A9B9F390098CAE0 /* MainInterface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
 		EC6EDD011A9BA04D0098CAE0 /* timeforcoffee Widget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "timeforcoffee Widget.entitlements"; sourceTree = "<group>"; };
 		EC6EDD021A9BA07E0098CAE0 /* timeforcoffee.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = timeforcoffee.entitlements; sourceTree = "<group>"; };
 		EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = timeforcoffeeKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC6EDD371A9BA36F0098CAE0 /* timeforcoffeeKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = timeforcoffeeKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC6EDD3F1A9BA36F0098CAE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC6EDD401A9BA36F0098CAE0 /* timeforcoffeeKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = timeforcoffeeKitTests.swift; sourceTree = "<group>"; };
-		EC6EDD4C1A9BA4820098CAE0 /* Departure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Departure.swift; sourceTree = "<group>"; };
-		EC6EDD4D1A9BA4820098CAE0 /* Station.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Station.swift; sourceTree = "<group>"; };
+		EC6EDD4C1A9BA4820098CAE0 /* TFCDeparture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCDeparture.swift; sourceTree = "<group>"; };
+		EC6EDD4D1A9BA4820098CAE0 /* TFCStation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCStation.swift; sourceTree = "<group>"; };
 		EC6EDD501A9BA5080098CAE0 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		EC6EDD531A9BA79B0098CAE0 /* APIController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIController.swift; sourceTree = "<group>"; };
+		EC72FCC01AA336E900E9B275 /* TFCNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCNavigationController.swift; sourceTree = "<group>"; };
 		EC7A517319C427CA000F5E7C /* Time for Coffee!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Time for Coffee!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC7A517719C427CA000F5E7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC7A517819C427CA000F5E7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EC7A517A19C427CA000F5E7C /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
-		EC7A517D19C427CA000F5E7C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EC7A517F19C427CA000F5E7C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		EC7A518219C427CA000F5E7C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		EC7A518819C427CA000F5E7C /* timeforcoffeeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = timeforcoffeeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		EC7A518D19C427CA000F5E7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EC7A518E19C427CA000F5E7C /* nextMigrosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = nextMigrosTests.swift; sourceTree = "<group>"; };
 		EC7A519A19C43E0A000F5E7C /* Blank52.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Blank52.png; sourceTree = "<group>"; };
 		EC7A519E19C4432F000F5E7C /* DetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		EC95714E1A9CACB70061F8B4 /* extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
+		EC9571501A9CCEC00061F8B4 /* TFCBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCBaseViewController.swift; sourceTree = "<group>"; };
+		ECC163D81AA369ED006BC3E9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		ECC163D91AA369ED006BC3E9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		ECC163DB1AA36A35006BC3E9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MainInterface.strings; sourceTree = "<group>"; };
 		ECD871941A9BAE18003CCCB3 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ECF100AC1A9D9BAE00056510 /* TFCStations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCStations.swift; sourceTree = "<group>"; };
+		ECF100AE1A9DBDAF00056510 /* Time for Coffee!.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Time for Coffee!.entitlements"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,7 +177,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC2C317A1A9E1F2500690397 /* SystemConfiguration.framework in Frameworks */,
+				EC2C31791A9E1F1900690397 /* CoreTelephony.framework in Frameworks */,
+				EC2C31781A9E1F1000690397 /* libz.dylib in Frameworks */,
+				EC2C31771A9E1F0A00690397 /* libc++.dylib in Frameworks */,
 				ECD871961A9BB2F7003CCCB3 /* timeforcoffeeKit.framework in Frameworks */,
+				EC2C316A1A9E1E9B00690397 /* NewRelicAgent.framework in Frameworks */,
 				EC6EDCF21A9B9F390098CAE0 /* NotificationCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -160,23 +206,57 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC2C317E1A9E1F4400690397 /* libz.dylib in Frameworks */,
+				EC2C317D1A9E1F3D00690397 /* libc++.dylib in Frameworks */,
+				EC2C317C1A9E1F3300690397 /* CoreTelephony.framework in Frameworks */,
+				EC2C317B1A9E1F2D00690397 /* SystemConfiguration.framework in Frameworks */,
 				EC6EDD441A9BA36F0098CAE0 /* timeforcoffeeKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		EC7A518519C427CA000F5E7C /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				EC2C31691A9E1E9B00690397 /* NewRelicAgent.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EC0A30E81AA33D990043B8F8 /* _assets */ = {
+			isa = PBXGroup;
+			children = (
+				EC2195ED1AA35B2D005E16EF /* Localizable.strings */,
+				EC0A30EB1AA344100043B8F8 /* launchicon.png */,
+			);
+			name = _assets;
+			sourceTree = "<group>";
+		};
+		EC2C312A1A9DEA1F00690397 /* gpx */ = {
+			isa = PBXGroup;
+			children = (
+				EC2C31281A9DE92700690397 /* office.gpx */,
+				EC2C31261A9DE8B000690397 /* home.gpx */,
+			);
+			name = gpx;
+			sourceTree = "<group>";
+		};
+		EC3252E91A9CE9DC0056AF11 /* MGSwipe */ = {
+			isa = PBXGroup;
+			children = (
+				EC3252E21A9CE1320056AF11 /* MGSwipeButton.h */,
+				EC3252E31A9CE1320056AF11 /* MGSwipeButton.m */,
+				EC3252E41A9CE1320056AF11 /* MGSwipeTableCell.h */,
+				EC3252E51A9CE1320056AF11 /* MGSwipeTableCell.m */,
+			);
+			name = MGSwipe;
+			sourceTree = "<group>";
+		};
 		EC6EDCF01A9B9F390098CAE0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EC2C31751A9E1EEB00690397 /* libz.dylib */,
+				EC2C31731A9E1EE400690397 /* libc++.dylib */,
+				EC2C31711A9E1EDD00690397 /* SystemConfiguration.framework */,
+				EC2C316F1A9E1EC700690397 /* Foundation.framework */,
+				EC2C316D1A9E1EC000690397 /* UIKit.framework */,
+				EC2C316B1A9E1EB800690397 /* CoreTelephony.framework */,
+				EC2C31681A9E1E9B00690397 /* NewRelicAgent.framework */,
 				EC6EDCF11A9B9F390098CAE0 /* NotificationCenter.framework */,
 			);
 			name = Frameworks;
@@ -186,8 +266,8 @@
 			isa = PBXGroup;
 			children = (
 				EC6EDD011A9BA04D0098CAE0 /* timeforcoffee Widget.entitlements */,
+				EC0A30F41AA353CA0043B8F8 /* MainInterface.storyboard */,
 				EC6EDCF61A9B9F390098CAE0 /* TodayViewController.swift */,
-				EC6EDCF81A9B9F390098CAE0 /* MainInterface.storyboard */,
 				EC6EDCF41A9B9F390098CAE0 /* Supporting Files */,
 			);
 			path = "timeforcoffee Widget";
@@ -206,11 +286,13 @@
 			children = (
 				EC046D621A9C563D00C2C1B3 /* TFCLocationManager.swift */,
 				EC6EDD501A9BA5080098CAE0 /* SwiftyJSON.swift */,
-				EC6EDD4C1A9BA4820098CAE0 /* Departure.swift */,
+				EC6EDD4C1A9BA4820098CAE0 /* TFCDeparture.swift */,
+				EC6EDD4D1A9BA4820098CAE0 /* TFCStation.swift */,
+				ECF100AC1A9D9BAE00056510 /* TFCStations.swift */,
 				EC6EDD531A9BA79B0098CAE0 /* APIController.swift */,
-				EC6EDD4D1A9BA4820098CAE0 /* Station.swift */,
 				EC6EDD2F1A9BA36F0098CAE0 /* Supporting Files */,
 				EC95714E1A9CACB70061F8B4 /* extensions.swift */,
+				EC9571501A9CCEC00061F8B4 /* TFCBaseViewController.swift */,
 			);
 			path = timeforcoffeeKit;
 			sourceTree = "<group>";
@@ -243,11 +325,12 @@
 		EC7A516A19C427CA000F5E7C = {
 			isa = PBXGroup;
 			children = (
+				EC0A30E81AA33D990043B8F8 /* _assets */,
 				EC7A517519C427CA000F5E7C /* timeforcoffee */,
-				EC7A518B19C427CA000F5E7C /* timeforcoffeeTests */,
 				EC6EDCF31A9B9F390098CAE0 /* timeforcoffee Widget */,
 				EC6EDD2E1A9BA36F0098CAE0 /* timeforcoffeeKit */,
 				EC6EDD3D1A9BA36F0098CAE0 /* timeforcoffeeKitTests */,
+				EC2C312A1A9DEA1F00690397 /* gpx */,
 				EC6EDCF01A9B9F390098CAE0 /* Frameworks */,
 				EC7A517419C427CA000F5E7C /* Products */,
 			);
@@ -257,7 +340,6 @@
 			isa = PBXGroup;
 			children = (
 				EC7A517319C427CA000F5E7C /* Time for Coffee!.app */,
-				EC7A518819C427CA000F5E7C /* timeforcoffeeTests.xctest */,
 				EC6EDCEF1A9B9F390098CAE0 /* timeforcoffee Widget.appex */,
 				EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */,
 				EC6EDD371A9BA36F0098CAE0 /* timeforcoffeeKitTests.xctest */,
@@ -268,12 +350,17 @@
 		EC7A517519C427CA000F5E7C /* timeforcoffee */ = {
 			isa = PBXGroup;
 			children = (
+				EC271DC31AA365BE00A7A75E /* Main.storyboard */,
+				ECF100AE1A9DBDAF00056510 /* Time for Coffee!.entitlements */,
 				EC6EDD021A9BA07E0098CAE0 /* timeforcoffee.entitlements */,
+				EC3252DF1A9CE0800056AF11 /* timeforcoffee-Bridging-Header.h */,
 				EC7A519A19C43E0A000F5E7C /* Blank52.png */,
 				EC7A517819C427CA000F5E7C /* AppDelegate.swift */,
+				EC72FCC01AA336E900E9B275 /* TFCNavigationController.swift */,
+				EC3252E91A9CE9DC0056AF11 /* MGSwipe */,
 				EC7A517A19C427CA000F5E7C /* SearchResultsViewController.swift */,
-				EC7A517C19C427CA000F5E7C /* Main.storyboard */,
 				EC6EDCE71A9B6B680098CAE0 /* StationViewController.swift */,
+				EC49D7851AA3B63F00DC2059 /* AboutViewController.swift */,
 				EC7A519E19C4432F000F5E7C /* DetailsViewController.swift */,
 				EC7A517F19C427CA000F5E7C /* Images.xcassets */,
 				EC7A518119C427CA000F5E7C /* LaunchScreen.xib */,
@@ -286,23 +373,6 @@
 			isa = PBXGroup;
 			children = (
 				EC7A517719C427CA000F5E7C /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		EC7A518B19C427CA000F5E7C /* timeforcoffeeTests */ = {
-			isa = PBXGroup;
-			children = (
-				EC7A518E19C427CA000F5E7C /* nextMigrosTests.swift */,
-				EC7A518C19C427CA000F5E7C /* Supporting Files */,
-			);
-			path = timeforcoffeeTests;
-			sourceTree = "<group>";
-		};
-		EC7A518C19C427CA000F5E7C /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				EC7A518D19C427CA000F5E7C /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -345,6 +415,7 @@
 				EC6EDD291A9BA36F0098CAE0 /* Frameworks */,
 				EC6EDD2A1A9BA36F0098CAE0 /* Headers */,
 				EC6EDD5F1A9BAB110098CAE0 /* Resources */,
+				EC2C31801A9E203300690397 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -383,6 +454,7 @@
 				EC7A517119C427CA000F5E7C /* Resources */,
 				EC6EDD001A9B9F390098CAE0 /* Embed App Extensions */,
 				EC6EDD241A9BA33C0098CAE0 /* Embed Frameworks */,
+				EC2C317F1A9E202500690397 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -395,31 +467,13 @@
 			productReference = EC7A517319C427CA000F5E7C /* Time for Coffee!.app */;
 			productType = "com.apple.product-type.application";
 		};
-		EC7A518719C427CA000F5E7C /* timeforcoffeeTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = EC7A519519C427CA000F5E7C /* Build configuration list for PBXNativeTarget "timeforcoffeeTests" */;
-			buildPhases = (
-				EC7A518419C427CA000F5E7C /* Sources */,
-				EC7A518519C427CA000F5E7C /* Frameworks */,
-				EC7A518619C427CA000F5E7C /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				EC7A518A19C427CA000F5E7C /* PBXTargetDependency */,
-			);
-			name = timeforcoffeeTests;
-			productName = timeforcofeeTests;
-			productReference = EC7A518819C427CA000F5E7C /* timeforcoffeeTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		EC7A516B19C427CA000F5E7C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0600;
+				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = "Christian Stocker";
 				TargetAttributes = {
 					EC6EDCEE1A9B9F390098CAE0 = {
@@ -427,7 +481,7 @@
 						DevelopmentTeam = QCDJ9EC736;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
@@ -444,13 +498,9 @@
 						DevelopmentTeam = QCDJ9EC736;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
-					};
-					EC7A518719C427CA000F5E7C = {
-						CreatedOnToolsVersion = 6.0;
-						TestTargetID = EC7A517219C427CA000F5E7C;
 					};
 				};
 			};
@@ -459,8 +509,9 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
+				de,
+				en,
 			);
 			mainGroup = EC7A516A19C427CA000F5E7C;
 			productRefGroup = EC7A517419C427CA000F5E7C /* Products */;
@@ -468,7 +519,6 @@
 			projectRoot = "";
 			targets = (
 				EC7A517219C427CA000F5E7C /* timeforcoffee */,
-				EC7A518719C427CA000F5E7C /* timeforcoffeeTests */,
 				EC6EDCEE1A9B9F390098CAE0 /* timeforcoffee Widget */,
 				EC6EDD2C1A9BA36F0098CAE0 /* timeforcoffeeKit */,
 				EC6EDD361A9BA36F0098CAE0 /* timeforcoffeeKitTests */,
@@ -481,7 +531,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC6EDCF91A9B9F390098CAE0 /* MainInterface.storyboard in Resources */,
+				EC0A30F21AA353CA0043B8F8 /* MainInterface.storyboard in Resources */,
+				EC2195EB1AA35B2D005E16EF /* Localizable.strings in Resources */,
+				EC2C312C1A9DECBA00690397 /* office.gpx in Resources */,
+				EC2C312D1A9DECBD00690397 /* home.gpx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -496,7 +549,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ECD871951A9BAE18003CCCB3 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -504,21 +556,47 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC7A517E19C427CA000F5E7C /* Main.storyboard in Resources */,
 				EC7A519B19C43E0A000F5E7C /* Blank52.png in Resources */,
+				EC2C31271A9DE8B000690397 /* home.gpx in Resources */,
+				ECC163D71AA36924006BC3E9 /* Localizable.strings in Resources */,
+				EC271DC41AA365BE00A7A75E /* Main.storyboard in Resources */,
 				EC7A518319C427CA000F5E7C /* LaunchScreen.xib in Resources */,
+				EC0A30EC1AA344100043B8F8 /* launchicon.png in Resources */,
 				EC7A518019C427CA000F5E7C /* Images.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		EC7A518619C427CA000F5E7C /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				EC2C312B1A9DECB900690397 /* office.gpx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		EC2C317F1A9E202500690397 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "SCRIPT=`/usr/bin/find \"${SRCROOT}\" -name newrelic_postbuild.sh | head -n 1`\n\n/bin/sh \"${SCRIPT}\" \"AAe7c5942c67612bc82125c42d8b0b5c6a7df227b2\"";
+		};
+		EC2C31801A9E203300690397 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "SCRIPT=`/usr/bin/find \"${SRCROOT}\" -name newrelic_postbuild.sh | head -n 1`\n\n/bin/sh \"${SCRIPT}\" \"AAe7c5942c67612bc82125c42d8b0b5c6a7df227b2\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		EC6EDCEB1A9B9F390098CAE0 /* Sources */ = {
@@ -534,11 +612,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC95714F1A9CACB70061F8B4 /* extensions.swift in Sources */,
+				ECF100AD1A9D9BAE00056510 /* TFCStations.swift in Sources */,
+				EC9571511A9CCEC00061F8B4 /* TFCBaseViewController.swift in Sources */,
 				EC6EDD541A9BA79B0098CAE0 /* APIController.swift in Sources */,
 				EC6EDD511A9BA5080098CAE0 /* SwiftyJSON.swift in Sources */,
+<<<<<<< HEAD
 				EC046D631A9C563D00C2C1B3 /* TFCLocationManager.swift in Sources */,
 				EC6EDD4F1A9BA4820098CAE0 /* Station.swift in Sources */,
 				EC6EDD4E1A9BA4820098CAE0 /* Departure.swift in Sources */,
+=======
+				EC6EDD4F1A9BA4820098CAE0 /* TFCStation.swift in Sources */,
+				EC6EDD4E1A9BA4820098CAE0 /* TFCDeparture.swift in Sources */,
+>>>>>>> master
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -555,17 +640,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC7A517B19C427CA000F5E7C /* SearchResultsViewController.swift in Sources */,
+				EC3252E71A9CE1320056AF11 /* MGSwipeTableCell.m in Sources */,
 				EC7A517919C427CA000F5E7C /* AppDelegate.swift in Sources */,
+				EC3252E61A9CE1320056AF11 /* MGSwipeButton.m in Sources */,
+				EC72FCC11AA336E900E9B275 /* TFCNavigationController.swift in Sources */,
 				EC6EDCE81A9B6B680098CAE0 /* StationViewController.swift in Sources */,
+				EC49D7861AA3B63F00DC2059 /* AboutViewController.swift in Sources */,
 				EC7A519F19C4432F000F5E7C /* DetailsViewController.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		EC7A518419C427CA000F5E7C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				EC7A518F19C427CA000F5E7C /* nextMigrosTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -592,26 +673,35 @@
 			target = EC6EDD2C1A9BA36F0098CAE0 /* timeforcoffeeKit */;
 			targetProxy = EC6EDD421A9BA36F0098CAE0 /* PBXContainerItemProxy */;
 		};
-		EC7A518A19C427CA000F5E7C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = EC7A517219C427CA000F5E7C /* timeforcoffee */;
-			targetProxy = EC7A518919C427CA000F5E7C /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		EC7A517C19C427CA000F5E7C /* Main.storyboard */ = {
+		EC0A30F41AA353CA0043B8F8 /* MainInterface.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				EC7A517D19C427CA000F5E7C /* Base */,
+				EC0A30F51AA353E40043B8F8 /* Base */,
+				EC0A30F61AA354010043B8F8 /* de */,
+				ECC163DB1AA36A35006BC3E9 /* en */,
 			);
-			name = Main.storyboard;
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
+		EC2195ED1AA35B2D005E16EF /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EC2195EC1AA35B2D005E16EF /* Base */,
+				EC2195EF1AA35B4B005E16EF /* de */,
+				ECC163D91AA369ED006BC3E9 /* en */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 		EC7A518119C427CA000F5E7C /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				EC7A518219C427CA000F5E7C /* Base */,
+				EC0A30F11AA352BD0043B8F8 /* de */,
+				ECC163D81AA369ED006BC3E9 /* en */,
 			);
 			name = LaunchScreen.xib;
 			sourceTree = "<group>";
@@ -622,32 +712,46 @@
 		EC6EDCFE1A9B9F390098CAE0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "timeforcoffee Widget/timeforcoffee Widget.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "timeforcoffee Widget/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		EC6EDCFF1A9B9F390098CAE0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "timeforcoffee Widget/timeforcoffee Widget.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "timeforcoffee Widget/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -670,8 +774,11 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -682,7 +789,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Liip AG (QCDJ9EC736)";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -692,8 +799,11 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -721,6 +831,7 @@
 		EC6EDD4B1A9BA36F0098CAE0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Liip AG (QCDJ9EC736)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -770,6 +881,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -793,7 +905,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Liip AG (QCDJ9EC736)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -807,6 +919,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -817,15 +930,23 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "timeforcoffee/Time for Coffee!.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/timeforcoffee/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_MODULE_NAME = timeforcoffee;
 				PRODUCT_NAME = "Time for Coffee!";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/timeforcoffee/timeforcoffee-Bridging-Header.h";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -833,49 +954,23 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "timeforcoffee/Time for Coffee!.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/timeforcoffee/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_MODULE_NAME = timeforcoffee;
 				PRODUCT_NAME = "Time for Coffee!";
 				PROVISIONING_PROFILE = "";
-			};
-			name = Release;
-		};
-		EC7A519619C427CA000F5E7C /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = timeforcoffeeTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = timeforcoffeeTests;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/timeforcoffee.app/timeforcoffee";
-			};
-			name = Debug;
-		};
-		EC7A519719C427CA000F5E7C /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = timeforcoffeeTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = timeforcoffeeTests;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/timeforcoffee.app/timeforcoffee";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/timeforcoffee/timeforcoffee-Bridging-Header.h";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -923,15 +1018,6 @@
 			buildConfigurations = (
 				EC7A519319C427CA000F5E7C /* Debug */,
 				EC7A519419C427CA000F5E7C /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		EC7A519519C427CA000F5E7C /* Build configuration list for PBXNativeTarget "timeforcoffeeTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				EC7A519619C427CA000F5E7C /* Debug */,
-				EC7A519719C427CA000F5E7C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
