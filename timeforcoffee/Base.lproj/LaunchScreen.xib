@@ -10,7 +10,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YNY-kn-DMw">
+                <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" misplaced="YES" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YNY-kn-DMw">
                     <rect key="frame" x="0.0" y="455" width="375" height="189"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="260" id="EyO-oR-iaW"/>
@@ -18,12 +18,10 @@
                     <string key="text">http://timeforcoffee.ch
 @time4coffeeApp
 
-Idea and API by  François Terrrier / @fterrier
+Idea, Website and API by  François Terrrier / @fterrier
 
 App by  Christian Stocker / @chregu
-and Jan Hug / @dulnan
-
-Supported by Liip AG / @liip</string>
+and Jan Hug / @dulnan</string>
                     <color key="textColor" red="0.73725490196078436" green="0.58823529411764708" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>

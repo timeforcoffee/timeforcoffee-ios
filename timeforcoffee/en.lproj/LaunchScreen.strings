@@ -5,14 +5,12 @@ Christian Stocker / @chregu\nand Jan Hug / @dulnan\n\nSupported by Liip AG / @li
 "YNY-kn-DMw.text" = "http://timeforcoffee.ch
 @time4coffeeApp
 
-Idea and API by
+Idea, Website and API by
 François Terrrier / @fterrier
 
 App by
 Christian Stocker / @chregu
-and Jan Hug / @dulnan
-
-Supported by Liip AG / @liip";
+and Jan Hug / @dulnan";
 
 /* Class = "IBUILabel"; text = "Time for Coffee! - Beta"; ObjectID = "kId-c2-rCX"; */
 "kId-c2-rCX.text" = "Time for Coffee!";

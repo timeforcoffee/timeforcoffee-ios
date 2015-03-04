@@ -202,12 +202,10 @@
                                 <string key="text">http://timeforcoffee.ch
 @time4coffeeApp
 
-Idea and API by  François Terrrier / @fterrier
+Idea, Website and API by  François Terrrier / @fterrier
 
 App by  Christian Stocker / @chregu
-and Jan Hug / @dulnan
-
-Supported by Liip AG / @liip</string>
+and Jan Hug / @dulnan</string>
                                 <color key="textColor" red="0.73725490199999999" green="0.58823529409999997" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
