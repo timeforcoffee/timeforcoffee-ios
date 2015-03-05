@@ -59,7 +59,20 @@ public class TFCWatchData: NSObject, APIControllerProtocol, TFCLocationManagerDe
         // this is a not so nice way to get the reply Closure to later when we actually have
         // the data from the API... (in locationFixed)
         self.replyNearby = reply
+        self.stations?.clear()
         locManager.refreshLocation()
+    }
+    
+    public func getFavorites(reply: replyClosure?) {
+        // Location is missing, they are not sorted yet
+        if (reply != nil) {
+            stations.loadFavorites(nil)
+            var stationsReply: [NSDictionary] = []
+            for station in self.stations.stations! {
+                stationsReply.append(station.getAsDict())
+            }
+            reply!(["stations": stationsReply])
+        }
     }
     
  
@@ -72,34 +85,15 @@ public class TFCWatchData: NSObject, APIControllerProtocol, TFCLocationManagerDe
             }
 
             if (TFCStation.isStations(results)) {
-                let hasAlreadyFavouritesDisplayed = self.stations.count()
+                self.stations.loadFavorites(self.locManager.currentLocation)
                 self.stations.addWithJSON(results, append: true)
 
                 if (self.replyNearby != nil) {
-                    println("send nearby reply")
-
                     var stationsReply: [NSDictionary] = []
-                    var stationDict: [String: [String: AnyObject]] = [:]
-                    var i = 0
                     for station in self.stations.stations! {
-                        
-                        // Hier dann station info ins gleiche Format wie
-                        // getFavoriteStationsDict bringen
-                        // (evt grad in TFCStation reintun)
-                        // und dann noch favorites wie in TodayView an den Anfang
-                        
-                        let stationReply: [String: AnyObject] =  [
-                            "name": station.name,
-                            "st_id": station.st_id,
-                            "latitude": station.coord!.coordinate.latitude.description,
-                            "longitude": station.coord!.coordinate.longitude.description
-                        ]
-                        
-                        stationDict[station.st_id] = stationReply;
-                        stationsReply.append(stationDict[station.st_id]!)
+                        stationsReply.append(station.getAsDict())
                     }
-                    
-                    self.replyNearby!(["stations":stationsReply])
+                    self.replyNearby!(["stations": stationsReply])
                 }
             } else {
                 if (context != nil) {

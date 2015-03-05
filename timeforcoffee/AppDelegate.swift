@@ -81,14 +81,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         if (userInfo["module"] == "favorites") {
-            reply(TFCStations.getFavoriteStationsDict())
+            watchData?.getFavorites(reply)
         } else if (userInfo["module"] == "departures") {
             watchData?.getDepartures(userInfo, reply: reply!)
         } else if (userInfo["module"] == "nearby") {
             println("get nearby module")
             watchData?.getNearbyStations(reply)
         } else {
-            reply(TFCStations.getFavoriteStationsDict())
+            watchData?.getFavorites(reply)
         }
     }
 

@@ -30,14 +30,13 @@ class InterfaceController: WKInterfaceController {
         println("willactivate")
         func handleReply(replyInfo: [NSObject : AnyObject]!, error: NSError!) {
             println("replyinfo \(replyInfo)")
-            if (replyInfo != nil) {
+            let stationsDict:  [NSDictionary]? = replyInfo["stations"] as  [NSDictionary]?
+            if (stationsDict != nil) {
                 var pages = [String]()
                 var pageContexts = [AnyObject]()
-                for (st_id, stations) in replyInfo {
-                    for station in stations as NSArray {
-                        pages.append("StationPage")
-                        pageContexts.append(station)
-                    }
+                for station in stationsDict! as NSArray {
+                    pages.append("StationPage")
+                    pageContexts.append(station)
                 }
                 
                 WKInterfaceController.reloadRootControllersWithNames(pages, contexts: pageContexts)
