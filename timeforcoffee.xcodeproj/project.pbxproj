@@ -119,6 +119,7 @@
 		EC0A30F61AA354010043B8F8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MainInterface.strings; sourceTree = "<group>"; };
 		EC2195EC1AA35B2D005E16EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EC2195EF1AA35B4B005E16EF /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		EC250B0C1AA8684F00F8B3C4 /* timeforcoffee Widget-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "timeforcoffee Widget-Bridging-Header.h"; sourceTree = "<group>"; };
 		EC271DC31AA365BE00A7A75E /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		EC2C31261A9DE8B000690397 /* home.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = home.gpx; path = gpx/home.gpx; sourceTree = "<group>"; };
 		EC2C31281A9DE92700690397 /* office.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = office.gpx; path = gpx/office.gpx; sourceTree = "<group>"; };
@@ -266,6 +267,7 @@
 				EC0A30F41AA353CA0043B8F8 /* MainInterface.storyboard */,
 				EC6EDCF61A9B9F390098CAE0 /* TodayViewController.swift */,
 				EC6EDCF41A9B9F390098CAE0 /* Supporting Files */,
+				EC250B0C1AA8684F00F8B3C4 /* timeforcoffee Widget-Bridging-Header.h */,
 			);
 			path = "timeforcoffee Widget";
 			sourceTree = "<group>";
@@ -704,6 +706,7 @@
 		EC6EDCFE1A9B9F390098CAE0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "timeforcoffee Widget/timeforcoffee Widget.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -722,6 +725,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "timeforcoffee Widget/timeforcoffee Widget-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -729,6 +734,7 @@
 		EC6EDCFF1A9B9F390098CAE0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "timeforcoffee Widget/timeforcoffee Widget.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -743,6 +749,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "timeforcoffee Widget/timeforcoffee Widget-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

@@ -100,7 +100,7 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
         self.departures = nil
     }
 
-    func didReceiveAPIResults(results: JSONValue, error: NSError?) {
+    func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?) {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         self.refreshControl.endRefreshing()
         dispatch_async(dispatch_get_main_queue(), {

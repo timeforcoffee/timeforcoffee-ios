@@ -23,6 +23,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     var currentStationIndex = 0
    
     override func viewDidLoad() {
+        NewRelicAgent.startWithApplicationToken("AAe7c5942c67612bc82125c42d8b0b5c6a7df227b2")
         super.viewDidLoad()
         api = APIController(delegate: self)
         stations = TFCStations()
@@ -178,7 +179,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         completionHandler(NCUpdateResult.NewData)
     }
     
-    func didReceiveAPIResults(results: JSONValue, error: NSError?) {
+    func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?) {
         dispatch_async(dispatch_get_main_queue(), {
             if (!(error != nil && error?.code == -999)) {
                 if (error != nil) {
