@@ -41,19 +41,10 @@ class StationViewController: WKInterfaceController {
         super.willActivate()
         println("willActivate")
         self.setTitle(station?.getName(true))
-            /*if (stationsTable.numberOfRows != replyInfo.count) {
-                //not sure why this is even needed.... and it doesn't fix an issue I have with updating
-                if (stationsTable.numberOfRows > 0) {
-                    stationsTable.removeRowsAtIndexes(NSIndexSet(indexesInRange: NSMakeRange(0, stationsTable.numberOfRows - 1)))
-                }
-                stationsTable.setNumberOfRows(replyInfo.count, withRowType: "station")
-            } */
         func handleReply(replyInfo: [NSObject : AnyObject]!, error: NSError!) {
             var i = 0;
-            println(replyInfo);
             let departures:[NSDictionary] = replyInfo["departures"] as [NSDictionary]
             stationsTable.setNumberOfRows(departures.count, withRowType: "station")
-                println(station["name"])
             for (station) in departures {
                 let sr = stationsTable.rowControllerAtIndex(i) as StationRow?
                 let to = station["to"] as String
