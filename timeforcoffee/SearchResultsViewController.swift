@@ -11,7 +11,7 @@ import MapKit
 import timeforcoffeeKit
 import CoreLocation
 
-class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, CLLocationManagerDelegate, MGSwipeTableCellDelegate {
+class SearchResultsViewController: TFCBaseViewController, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, MGSwipeTableCellDelegate, TFCLocationManagerDelegate {
     @IBOutlet var appsTableView : UITableView?
     var stations: TFCStations!
     let kCellIdentifier: String = "SearchResultCell"
@@ -60,7 +60,6 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         self.navigationItem.rightBarButtonItem = aboutButton
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeActive:", name: "UIApplicationDidBecomeActiveNotification", object: nil)
 
-        initLocationManager()
     }
     
     deinit {
@@ -102,7 +101,7 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         super.viewWillAppear(animated)
         //if favorites are show reload them, since they could have changed
         if (showFavorites) {
-            stations.loadFavorites(currentLocation)
+            stations.loadFavorites(locManager.currentLocation)
         }
         self.appsTableView?.reloadData()
     }
@@ -126,13 +125,8 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         refreshLocation()
     }
 
-    // Location Manager helper stuff
-    override func initLocationManager() {
-        super.initLocationManager()
-    }
-
-    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        var coord = locationManagerFix(manager,didUpdateLocations: locations);
+    override func locationFixed(coord: CLLocationCoordinate2D?) {
+        println("locationFixed")
         if (coord != nil) {
             self.api?.searchFor(coord!)
         }
@@ -183,20 +177,20 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         let station = self.stations!.getStation(indexPath.row)
         textLabel?.text = station.getNameWithStar()
 
-        if (currentLocation == nil) {
+        if (locManager.currentLocation == nil) {
             detailTextLabel?.text = ""
             return cell
         }
         
         if (station.coord != nil) {
-            var distance = Int(currentLocation?.distanceFromLocation(station.coord) as Double!)
+            var distance = Int(locManager.currentLocation?.distanceFromLocation(station.coord) as Double!)
             if (distance > 5000) {
                 let km = Int(round(Double(distance) / 1000))
                 detailTextLabel?.text = "\(km) Kilometer"
             } else {
                 detailTextLabel?.text = "\(distance) Meter"
                 // calculate exact distance
-                let currentCoordinate = currentLocation?.coordinate
+                let currentCoordinate = locManager.currentLocation?.coordinate
                 var sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
                 
                 let coord = station.coord!
@@ -302,12 +296,12 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         }
     }
     
-    override func refreshLocation() {
+    func refreshLocation() {
         if (showFavorites) {
-            self.stations?.loadFavorites(self.currentLocation)
+            self.stations?.loadFavorites(locManager.currentLocation)
             self.appsTableView?.reloadData()
         } else {
-            super.refreshLocation()
+            super.locManager.refreshLocation()
         }
     }
 }

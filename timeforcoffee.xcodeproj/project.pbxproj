@@ -287,11 +287,11 @@
 				EC6EDD4C1A9BA4820098CAE0 /* TFCDeparture.swift */,
 				EC6EDD4D1A9BA4820098CAE0 /* TFCStation.swift */,
 				ECF100AC1A9D9BAE00056510 /* TFCStations.swift */,
-				EC046D621A9C563D00C2C1B3 /* TFCLocationManager.swift */,
 				EC6EDD531A9BA79B0098CAE0 /* APIController.swift */,
 				EC6EDD2F1A9BA36F0098CAE0 /* Supporting Files */,
 				EC95714E1A9CACB70061F8B4 /* extensions.swift */,
 				EC9571501A9CCEC00061F8B4 /* TFCBaseViewController.swift */,
+				EC046D621A9C563D00C2C1B3 /* TFCLocationManager.swift */,
 			);
 			path = timeforcoffeeKit;
 			sourceTree = "<group>";

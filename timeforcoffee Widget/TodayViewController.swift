@@ -73,25 +73,24 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         }
     }
     
-    override func initLocationManager() {
+    override func lazyInitLocationManager() -> TFCLocationManager {
         titleLabel.text = NSLocalizedString("Looking for nearest station ...", comment: "")
         self.currentStationIndex = 0
-        super.initLocationManager()
+        return super.lazyInitLocationManager()
     }
     
-    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        var coord = locationManagerFix(manager,didUpdateLocations: locations);
+    override func locationFixed(coord: CLLocationCoordinate2D?) {
+        println("locationFixed")
         if (coord != nil) {
-            if (self.stations.addNearbyFavorites(currentLocation!)) {
+            if (self.stations.addNearbyFavorites(locManager.currentLocation!)) {
                 self.titleLabel.text = self.stations.getStation(0).getNameWithStarAndFilters()
                 self.departures = nil
                 self.api?.getDepartures(self.stations.getStation(0).st_id)
             }
-
             self.api?.searchFor(coord!)
         }
-    }
 
+    }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (self.departures == nil || self.departures!.count == 0) {
@@ -169,13 +168,12 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     
     func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)!) {
         // Perform any setup necessary in order to update the view.
-        initLocationManager()
-
         // If an error is encountered, use NCUpdateResult.Failed
         // If there's no update required, use NCUpdateResult.NoData
         // If there's an update, use NCUpdateResult.NewData
         //this should only be called, after everything is updated. didReceiveAPIResults ;)
         // see also https://stackoverflow.com/questions/25961513/ios-8-today-widget-stops-working-after-a-while
+        locManager.refreshLocation()
         completionHandler(NCUpdateResult.NewData)
     }
     
