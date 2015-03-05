@@ -17,6 +17,7 @@ class StationViewController: WKInterfaceController {
     var stationId: String = ""
     var data2: Int = 1
     var stationInfo: AnyObject?
+    var station: TFCStation?
     
     override init () {
         super.init()
@@ -31,6 +32,7 @@ class StationViewController: WKInterfaceController {
             stationInfo = contextDict
             stationId = contextDict["st_id"] as String
             stationName = contextDict["name"] as String
+            station = TFCStation(name: stationName, id: stationId, coord: nil);
         }
     }
     
@@ -38,9 +40,7 @@ class StationViewController: WKInterfaceController {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
         println("willActivate")
-        self.setTitle(stationName)
-        func handleReply(replyInfo: [NSObject : AnyObject]!, error: NSError!) {
-            var i = 0;
+        self.setTitle(station?.getName(true))
             /*if (stationsTable.numberOfRows != replyInfo.count) {
                 //not sure why this is even needed.... and it doesn't fix an issue I have with updating
                 if (stationsTable.numberOfRows > 0) {
@@ -48,12 +48,14 @@ class StationViewController: WKInterfaceController {
                 }
                 stationsTable.setNumberOfRows(replyInfo.count, withRowType: "station")
             } */
+        func handleReply(replyInfo: [NSObject : AnyObject]!, error: NSError!) {
+            var i = 0;
+            println(replyInfo);
             let departures:[NSDictionary] = replyInfo["departures"] as [NSDictionary]
             stationsTable.setNumberOfRows(departures.count, withRowType: "station")
-            println(replyInfo);
+                println(station["name"])
             for (station) in departures {
                 let sr = stationsTable.rowControllerAtIndex(i) as StationRow?
-                println(station["name"])
                 let to = station["to"] as String
                 let name = station["name"] as String
                 // doesn't work yet  with the font;(

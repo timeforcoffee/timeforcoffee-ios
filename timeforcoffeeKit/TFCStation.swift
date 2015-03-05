@@ -129,7 +129,7 @@ public class TFCStation {
     
     func getAsDict() -> [String: AnyObject] {
         return [
-            "name": getName(true),
+            "name": getName(false),
             "st_id": st_id,
             "latitude": coord!.coordinate.latitude.description,
             "longitude": coord!.coordinate.longitude.description
