@@ -23,6 +23,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     var currentStationIndex = 0
    
     override func viewDidLoad() {
+        NewRelicAgent.startWithApplicationToken("AAe7c5942c67612bc82125c42d8b0b5c6a7df227b2")
         super.viewDidLoad()
         api = APIController(delegate: self)
         stations = TFCStations()
