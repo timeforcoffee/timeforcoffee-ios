@@ -210,5 +210,20 @@ public class TFCDeparture {
         dateFmt.dateFormat = format
         return dateFmt.stringFromDate(date)
     }
+    
+    public func getAsDict(station: TFCStation) -> [String: AnyObject] {
+        
+        return [
+            "to":         getDestination(station),
+            "name":       getLine(),
+            "time":       getDepartureTime()!,
+            "minutes":    getMinutes()!,
+            "accessible": accessible,
+            "colorFg":    colorFg!,
+            "colorBg":    colorBg!,
+        ]
+
+        
+    }
 }
 
