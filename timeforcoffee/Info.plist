@@ -30,15 +30,19 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>13</string>
+	<string>14</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationUsageDescription</key>
-	<string>We need that for displaying the nearest station</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>This is needed for the Apple Watch, we don&apos;t run in background otherwise</string>
+	<string>We need &quot;Always&quot; for use with a future apple device (but we will only use it, when requested). For only the iPhone App and Today View &quot;While Using&quot; is enough.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need that for displaying the nearest station</string>
+	<string>We need the location to show you nearby locations. If you want to use it with a future Apple device, please enable &quot;Always&quot;</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>We need &quot;Always&quot; for use with a future apple device (but we will only use it, when requested). For only the iPhone App and Today View &quot;While Using&quot; is enough.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
