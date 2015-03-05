@@ -74,19 +74,27 @@ public class TFCWatchData: NSObject, APIControllerProtocol, TFCLocationManagerDe
                 let hasAlreadyFavouritesDisplayed = self.stations.count()
                 self.stations.addWithJSON(results, append: true)
                 if (self.replyNearby != nil) {
-                    NSLog("send nearby reply")
-                    self.replyNearby!(TFCStations.getFavoriteStationsDict())
+                    println("send nearby reply")
+
                     var stationsReply: [NSDictionary] = []
+                    var stationDict: [String: [String: AnyObject]] = [:]
                     for station in self.stations.stations! {
-                        var stationDict: NSDictionary = [:]
+                        
                         // Hier dann station info ins gleiche Format wie
                         // getFavoriteStationsDict bringen
                         // (evt grad in TFCStation reintun)
                         // und dann noch favorites wie in TodayView an den Anfang
-                        stationsReply.append(stationDict)
+                        
+                        let stationReply: [String: AnyObject] =  [
+                            "name": station.name,
+                            "st_id": station.st_id,
+                            "latitude": station.coord!.coordinate.latitude.description,
+                            "longitude": station.coord!.coordinate.longitude.description
+                        ]
+                        
+                        stationDict[station.st_id] = stationReply;
                     }
-                    //self.replyNearby!(stationsReply)
-                    self.replyNearby!( TFCStations.getFavoriteStationsDict())
+                    self.replyNearby!(stationDict)
                 }
             } else {
                 if (context != nil) {
