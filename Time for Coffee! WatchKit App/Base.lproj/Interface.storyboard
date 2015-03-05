@@ -75,10 +75,45 @@
             <objects>
                 <glanceController spacing="0.0" id="Sv0-Ai-Zie" customClass="GlanceController" customModule="Time_for_Coffee__WatchKit_App" customModuleProvider="target">
                     <items>
-                        <group alignment="left" id="gv7-I2-MZq"/>
-                        <group alignment="left" id="eew-Gs-W6Y"/>
+                        <group alignment="left" id="gv7-I2-MZq">
+                            <items>
+                                <group width="26" height="26" alignment="left" verticalAlignment="center" radius="4" id="dUM-0r-Zst">
+                                    <items>
+                                        <label width="26" height="26" alignment="left" verticalAlignment="center" text="12" textAlignment="center" minimumScaleFactor="0.5" id="hE4-i0-wwk">
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <fontDescription key="font" type="system" pointSize="18"/>
+                                        </label>
+                                    </items>
+                                    <color key="backgroundColor" red="0.99607843139999996" green="0.76470588240000004" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
+                                </group>
+                                <group width="1" height="26" alignment="left" verticalAlignment="center" id="a8H-Pf-vgm">
+                                    <items>
+                                        <label alignment="left" text="Zürich, Röntgenstrasse" id="Tuk-w4-2jI"/>
+                                    </items>
+                                </group>
+                            </items>
+                        </group>
+                        <group alignment="left" layout="vertical" id="eew-Gs-W6Y">
+                            <items>
+                                <group width="1" alignment="left" layout="vertical" id="X9s-ax-gfx">
+                                    <items>
+                                        <label width="1" alignment="center" verticalAlignment="center" text="5'" textAlignment="center" id="o1H-2i-5C8">
+                                            <fontDescription key="font" type="system" pointSize="46"/>
+                                        </label>
+                                    </items>
+                                </group>
+                                <group alignment="center" verticalAlignment="bottom" id="Kes-ck-dmS">
+                                    <items>
+                                        <label alignment="left" text="in 0' / 17:30" textAlignment="center" id="HuI-Vy-Yul"/>
+                                    </items>
+                                </group>
+                            </items>
+                        </group>
                     </items>
                     <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="14"/>
+                    <connections>
+                        <outlet property="minutesLabel" destination="o1H-2i-5C8" id="LI3-Xf-6m4"/>
+                    </connections>
                 </glanceController>
             </objects>
             <point key="canvasLocation" x="164" y="514"/>
