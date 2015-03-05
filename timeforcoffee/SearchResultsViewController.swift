@@ -102,6 +102,10 @@ class SearchResultsViewController: TFCBaseViewController, UISearchBarDelegate, U
         //if favorites are show reload them, since they could have changed
         if (showFavorites) {
             stations.loadFavorites(locManager.currentLocation)
+        } else {
+            if (self.stations.count() == nil) {
+                refreshLocation()
+            }
         }
         self.appsTableView?.reloadData()
     }
