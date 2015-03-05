@@ -55,7 +55,11 @@ public class TFCDeparture {
                 var scheduledStr = result["departure"]["scheduled"].string
                 var realtimeStr = result["departure"]["realtime"].string
                 var colorFg = result["colors"]["fg"].string
+                colorFg = colorFg == nil ? "#000000" : colorFg
+
                 var colorBg = result["colors"]["bg"].string
+                colorBg = colorBg == nil ? "#ffffff" : colorBg
+                
                 var scheduled: NSDate?
                 var realtime: NSDate?
                 if (scheduledStr != nil) {
