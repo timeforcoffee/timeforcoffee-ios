@@ -36,6 +36,7 @@ public class TFCWatchData: NSObject, APIControllerProtocol, TFCLocationManagerDe
     public func locationFixed(coord: CLLocationCoordinate2D?) {
         //do nothing here, you have to overwrite that
         if (coord != nil) {
+            self.stations.addNearbyFavorites(locManager.currentLocation!)
             self.api?.searchFor(coord!)
         } else {
             if (replyNearby != nil) {
@@ -73,6 +74,7 @@ public class TFCWatchData: NSObject, APIControllerProtocol, TFCLocationManagerDe
             if (TFCStation.isStations(results)) {
                 let hasAlreadyFavouritesDisplayed = self.stations.count()
                 self.stations.addWithJSON(results, append: true)
+
                 if (self.replyNearby != nil) {
                     println("send nearby reply")
 
