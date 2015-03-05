@@ -33,10 +33,11 @@ class InterfaceController: WKInterfaceController {
             if (replyInfo != nil) {
                 var pages = [String]()
                 var pageContexts = [AnyObject]()
-                for (st_id, station) in replyInfo {
-                    
-                    pages.append("StationPage");
-                    pageContexts.append(station[0])
+                for (st_id, stations) in replyInfo {
+                    for station in stations as NSArray {
+                        pages.append("StationPage")
+                        pageContexts.append(station)
+                    }
                 }
                 
                 WKInterfaceController.reloadRootControllersWithNames(pages, contexts: pageContexts)
