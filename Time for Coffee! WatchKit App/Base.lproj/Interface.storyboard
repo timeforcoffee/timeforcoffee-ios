@@ -38,8 +38,10 @@
                                             </group>
                                             <group width="90" height="28" alignment="left" layout="vertical" spacing="0.0" id="Cha-10-uSx">
                                                 <items>
-                                                    <label width="1" height="14" alignment="left" text="Zürich, Röntgenstrasse" minimumScaleFactor="0.5" id="qmq-be-vci"/>
-                                                    <label width="1" height="14" alignment="left" text="Timerfdgdfgdfg" minimumScaleFactor="0.50000000000000011" id="Kdx-go-JUj">
+                                                    <label width="1" height="14" alignment="left" text="Zürich, Röntgenstrasse" minimumScaleFactor="0.5" id="qmq-be-vci">
+                                                        <fontDescription key="font" type="system" pointSize="13"/>
+                                                    </label>
+                                                    <label width="1" height="14" alignment="left" verticalAlignment="bottom" text="Timerfdgdfgdfg" minimumScaleFactor="0.50000000000000011" id="Kdx-go-JUj">
                                                         <fontDescription key="font" type="system" pointSize="10"/>
                                                     </label>
                                                 </items>
