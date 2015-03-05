@@ -47,8 +47,15 @@ public class TFCStations {
                     var id = String(result["id"].integer!)
                     if (favorites.inStationsArray[id] == nil) {
                         var name = result["name"].string
-                        var longitude = result["coordinate"]["y"].double
-                        var latitude = result["coordinate"]["x"].double
+                        var longitude: Double? = nil
+                        var latitude: Double? = nil
+                        if (result["coordinate"]["y"].double != nil) {
+                            longitude = result["coordinate"]["y"].double
+                            latitude = result["coordinate"]["x"].double
+                        } else {
+                            longitude = result["location"]["lng"].double
+                            latitude = result["location"]["lat"].double
+                        }
                         var Clocation: CLLocation?
                         if (longitude != nil && latitude != nil) {
                             Clocation = CLLocation(latitude: latitude!, longitude: longitude!)

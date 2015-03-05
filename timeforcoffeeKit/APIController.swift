@@ -25,12 +25,8 @@ public class APIController {
 
     public func searchFor(location: String) {
         let name = location.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
-        let urlPath = "http://transport.opendata.ch/v1/locations?query=\(name)*&type=station";
-        /*
-        ** once http://www.timeforcoffee.ch/api/zvv/stations/Quellenstrasse supports
-        ** coordinates, this can be enabled
-        let urlPath = "http://www.timeforcoffee.ch/api/zvv/stations/\(name)";
-        */
+        let urlPath = "http://www.timeforcoffee.ch/api/zvv/stations/\(name)*";
+
         self.fetchUrl(urlPath, fetchId: 1)
     }
     public func getDepartures(id: String!) {
