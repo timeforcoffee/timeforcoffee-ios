@@ -64,7 +64,7 @@ public class TFCWatchData: NSObject, APIControllerProtocol {
                         var f: NSDictionary = [
                             "to": d.getDestination(station),
                             "name": d.getLine(),
-                            "time": d.getTimeString(),
+                            "time": d.getDepartureTime()!,
                             "minutes": d.getMinutes()!,
                             "accessible": d.accessible,
                             "colorFg": d.colorFg!,
