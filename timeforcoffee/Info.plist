@@ -35,8 +35,10 @@
 	<true/>
 	<key>NSLocationUsageDescription</key>
 	<string>We need that for displaying the nearest station</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This is needed for the Apple Watch, we don&apos;t run in background otherwise</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>When in use</string>
+	<string>We need that for displaying the nearest station</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

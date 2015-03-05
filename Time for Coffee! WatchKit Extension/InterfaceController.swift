@@ -27,21 +27,23 @@ class InterfaceController: WKInterfaceController {
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
+        println("willactivate")
         func handleReply(replyInfo: [NSObject : AnyObject]!, error: NSError!) {
-            var pages = [String]()
-            var pageContexts = [AnyObject]()
             println("replyinfo \(replyInfo)")
-            for (st_id, station) in replyInfo {
-
-                pages.append("StationPage");
-                pageContexts.append(station)
+            if (replyInfo != nil) {
+                var pages = [String]()
+                var pageContexts = [AnyObject]()
+                for (st_id, station) in replyInfo {
+                    
+                    pages.append("StationPage");
+                    pageContexts.append(station)
+                }
+                
+                WKInterfaceController.reloadRootControllersWithNames(pages, contexts: pageContexts)
             }
-
-            WKInterfaceController.reloadRootControllersWithNames(pages, contexts: pageContexts)
-
         }
         
-        WKInterfaceController.openParentApplication(["module":"favorites"], handleReply)
+        WKInterfaceController.openParentApplication(["module":"nearby"], handleReply)
 
     }
     

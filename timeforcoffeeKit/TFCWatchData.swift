@@ -7,11 +7,15 @@
 //
 
 import Foundation
+import CoreLocation
 
-public class TFCWatchData: NSObject, APIControllerProtocol {
+public class TFCWatchData: NSObject, APIControllerProtocol, TFCLocationManagerDelegate {
 
     var api : APIController?
     var stations: TFCStations!
+    var replyNearby: replyClosure?
+    
+    lazy var locManager: TFCLocationManager = self.lazyInitLocationManager()
 
     enum contextData {
         case ValString(String)
@@ -25,6 +29,20 @@ public class TFCWatchData: NSObject, APIControllerProtocol {
         api = APIController(delegate: self)
     }
     
+    func lazyInitLocationManager() -> TFCLocationManager {
+        return TFCLocationManager(delegate: self)
+    }
+    
+    public func locationFixed(coord: CLLocationCoordinate2D?) {
+        //do nothing here, you have to overwrite that
+        if (coord != nil) {
+            self.api?.searchFor(coord!)
+        } else {
+            if (replyNearby != nil) {
+                replyNearby!(["error" : "no coordinates delivered"]);
+            }
+        }
+    }
   
     
     public func getDepartures(info: NSDictionary, reply: replyClosure?) {
@@ -35,6 +53,14 @@ public class TFCWatchData: NSObject, APIControllerProtocol {
                     ]
         self.api?.getDepartures(info["st_id"] as String, context: context)
     }
+    
+    public func getNearbyStations(reply: replyClosure?)  {
+        // this is a not so nice way to get the reply Closure to later when we actually have
+        // the data from the API... (in locationFixed)
+        self.replyNearby = reply
+        locManager.refreshLocation()
+    }
+    
  
     public func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?) {
         dispatch_async(dispatch_get_main_queue(), {
@@ -43,23 +69,43 @@ public class TFCWatchData: NSObject, APIControllerProtocol {
             } else {
                 //   self.networkErrorMsg = nil
             }
-            if (context != nil) {
-                let contextInfo = context! as Dictionary<String, contextData>
-                var reply: replyClosure?
-                switch contextInfo["reply"]! {
+
+            if (TFCStation.isStations(results)) {
+                let hasAlreadyFavouritesDisplayed = self.stations.count()
+                self.stations.addWithJSON(results, append: true)
+                if (self.replyNearby != nil) {
+                    NSLog("send nearby reply")
+                    self.replyNearby!(TFCStations.getFavoriteStationsDict())
+                    var stationsReply: [NSDictionary] = []
+                    for station in self.stations.stations! {
+                        var stationDict: NSDictionary = [:]
+                        // Hier dann station info ins gleiche Format wie
+                        // getFavoriteStationsDict bringen
+                        // (evt grad in TFCStation reintun)
+                        // und dann noch favorites wie in TodayView an den Anfang
+                        stationsReply.append(stationDict)
+                    }
+                    //self.replyNearby!(stationsReply)
+                    self.replyNearby!( TFCStations.getFavoriteStationsDict())
+                }
+            } else {
+                if (context != nil) {
+                    let contextInfo = context! as Dictionary<String, contextData>
+                    var reply: replyClosure?
+                    switch contextInfo["reply"]! {
                     case .ValReply(let s):
                         reply = s
-                default:
+                    default:
                         reply = nil
-                }
-               
-                var stationName = self.getStringFromDict(contextInfo["st_name"])
-                var stationId = self.getStringFromDict(contextInfo["st_id"])
-                let station = TFCStation(name: stationName!, id: stationId!, coord: nil)
-                //let reply = contextData.ValReply(contextInfo["reply"]?)
-                let departuresObjects: [TFCDeparture]? = TFCDeparture.withJSON(results, filterStation: nil)
-                var departures: [NSDictionary] = []
-                for departure in departuresObjects! as [TFCDeparture] {
+                    }
+                    
+                    var stationName = self.getStringFromDict(contextInfo["st_name"])
+                    var stationId = self.getStringFromDict(contextInfo["st_id"])
+                    let station = TFCStation(name: stationName!, id: stationId!, coord: nil)
+                    //let reply = contextData.ValReply(contextInfo["reply"]?)
+                    let departuresObjects: [TFCDeparture]? = TFCDeparture.withJSON(results, filterStation: nil)
+                    var departures: [NSDictionary] = []
+                    for departure in departuresObjects! as [TFCDeparture] {
                         let d: TFCDeparture = departure
                         var f: NSDictionary = [
                             "to": d.getDestination(station),
@@ -71,8 +117,9 @@ public class TFCWatchData: NSObject, APIControllerProtocol {
                             "colorBg": d.colorBg!
                         ]
                         departures.append(f)
+                    }
+                    reply!(["departures": departures])
                 }
-                reply!(["departures": departures])
             }
 
         })
