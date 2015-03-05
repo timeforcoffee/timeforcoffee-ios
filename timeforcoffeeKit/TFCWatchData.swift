@@ -80,6 +80,7 @@ public class TFCWatchData: NSObject, APIControllerProtocol, TFCLocationManagerDe
 
                     var stationsReply: [NSDictionary] = []
                     var stationDict: [String: [String: AnyObject]] = [:]
+                    var i = 0
                     for station in self.stations.stations! {
                         
                         // Hier dann station info ins gleiche Format wie
@@ -95,8 +96,10 @@ public class TFCWatchData: NSObject, APIControllerProtocol, TFCLocationManagerDe
                         ]
                         
                         stationDict[station.st_id] = stationReply;
+                        stationsReply.append(stationDict[station.st_id]!)
                     }
-                    self.replyNearby!(stationDict)
+                    
+                    self.replyNearby!(["stations":stationsReply])
                 }
             } else {
                 if (context != nil) {

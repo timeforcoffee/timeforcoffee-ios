@@ -1,4 +1,4 @@
-//
+      //
 //  InterfaceController.swift
 //  Time for Coffee! WatchKit Extension
 //
@@ -36,7 +36,7 @@ class InterfaceController: WKInterfaceController {
                 for (st_id, station) in replyInfo {
                     
                     pages.append("StationPage");
-                    pageContexts.append(station)
+                    pageContexts.append(station[0])
                 }
                 
                 WKInterfaceController.reloadRootControllersWithNames(pages, contexts: pageContexts)
