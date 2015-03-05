@@ -45,18 +45,35 @@ public class TFCStation {
         return coord?.coordinate.latitude
     }
     
-    public func getNameWithStar() -> String {
-        if self.isFavorite() {
-            return "\(name) ★"
+    public func getName(cityAfter: Bool) -> String {
+        if (cityAfter && name.match(", ")) {
+            let stationName = name.replace(".*, ", template: "")
+            let cityName = name.replace(", .*", template: "")
+            return "\(stationName) (\(cityName))"
         }
         return name
     }
     
-    public func getNameWithStarAndFilters() -> String {
-        if self.hasFilters() {
-            return "\(getNameWithStar()) ✗"
+    public func getNameWithStar() -> String {
+        return getNameWithStar(false)
+    }
+    
+    public func getNameWithStar(cityAfter: Bool) -> String {
+        if self.isFavorite() {
+            return "\(getName(cityAfter)) ★"
         }
-        return getNameWithStar()
+        return getName(cityAfter)
+    }
+    
+    public func getNameWithStarAndFilters() -> String {
+        return getNameWithStar(false)
+    }
+    
+    public func getNameWithStarAndFilters(cityAfter: Bool) -> String {
+        if self.hasFilters() {
+            return "\(getNameWithStar(cityAfter)) ✗"
+        }
+        return getNameWithStar(cityAfter)
     }
     
     public func hasFilters() -> Bool {
