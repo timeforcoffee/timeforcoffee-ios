@@ -30,15 +30,15 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>14</string>
+	<string>15</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationUsageDescription</key>
-	<string>We need &quot;Always&quot; for use with a future apple device (but we will only use it, when requested). For only the iPhone App and Today View &quot;While Using&quot; is enough.</string>
+	<string>We need &quot;Always&quot; for use with a future apple device (but we will only use it, when the app is in use there, no constant tracking). For only the iPhone App and Today View &quot;While Using&quot; is enough.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We need the location to show you nearby locations. If you want to use it with a future Apple device, please enable &quot;Always&quot;</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>We need &quot;Always&quot; for use with a future apple device (but we will only use it, when requested). For only the iPhone App and Today View &quot;While Using&quot; is enough.</string>
+	<string>We need &quot;Always&quot; for use with a future apple device (but we will only use it, when the app is in use there, no constant tracking). For only the iPhone App and Today View &quot;While Using&quot; is enough.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>location</string>
