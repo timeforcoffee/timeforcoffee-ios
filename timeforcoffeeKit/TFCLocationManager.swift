@@ -27,7 +27,7 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
         var lm = CLLocationManager()
         lm.delegate = self
         lm.desiredAccuracy = kCLLocationAccuracyBest
-        lm.requestWhenInUseAuthorization()
+        lm.requestAlwaysAuthorization()
         return lm
     }
 
@@ -50,8 +50,8 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
             var locationObj = locationArray.lastObject as CLLocation
             coord = locationObj.coordinate
             currentLocation = locationObj;
-            locationManager.stopUpdatingLocation()
         }
+        locationManager.stopUpdatingLocation()
         self.delegate.locationFixed(coord)
 
     }
