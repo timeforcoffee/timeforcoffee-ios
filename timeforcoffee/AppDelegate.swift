@@ -64,7 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             var station = TFCStation(name: queryStrings["name"]!, id: queryStrings["id"]!, coord: Clocation)
             let stations = TFCStations()
             var rootView = self.window?.rootViewController? as UINavigationController
-            var detailViewController = rootView.storyboard?.instantiateViewControllerWithIdentifier("stationViewController") as StationViewController
+            var detailViewController = rootView.storyboard?.instantiateViewControllerWithIdentifier("DeparturesViewController") as DeparturesViewController
 
             rootView.popToRootViewControllerAnimated(false)
             detailViewController.setStation(station)

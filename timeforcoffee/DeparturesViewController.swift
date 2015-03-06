@@ -9,7 +9,7 @@
 import UIKit
 import timeforcoffeeKit
 
-class StationViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, MGSwipeTableCellDelegate {
+class DeparturesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, MGSwipeTableCellDelegate {
 
     @IBOutlet weak var titleLabel: UINavigationItem!
     @IBOutlet var appsTableView : UITableView?
