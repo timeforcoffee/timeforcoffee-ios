@@ -11,7 +11,7 @@ import MapKit
 import timeforcoffeeKit
 import CoreLocation
 
-class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, CLLocationManagerDelegate {
+class SearchResultsViewController: TFCBaseViewController, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, TFCLocationManagerDelegate {
     @IBOutlet var appsTableView : UITableView?
     var stations: TFCStations!
     let cellIdentifier: String = "StationTableViewCell"
@@ -36,7 +36,7 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         searchController?.searchBar.sizeToFit()
 
         var favButton = UIBarButtonItem(title: "Favs", style: UIBarButtonItemStyle.Plain, target: self, action: "favButtonClicked:")
-        
+
         let favFont = UIFont.systemFontOfSize(15)
         let favButtonAttr = [NSFontAttributeName: favFont]
         favButton.setTitleTextAttributes(favButtonAttr, forState: UIControlState.Normal)
@@ -53,18 +53,17 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         definesPresentationContext = true
         var aboutButton = UIBarButtonItem(title: "☕︎", style: UIBarButtonItemStyle.Plain, target: self, action: "aboutClicked:")
         aboutButton.tintColor = UIColor.blackColor()
-        
+
         let font = UIFont.systemFontOfSize(30)
         let buttonAttr = [NSFontAttributeName: font]
         aboutButton.setTitleTextAttributes(buttonAttr, forState: UIControlState.Normal)
         self.navigationItem.rightBarButtonItem = aboutButton
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeActive:", name: "UIApplicationDidBecomeActiveNotification", object: nil)
-        
+
         appsTableView?.registerNib(UINib(nibName: "StationTableViewCell", bundle: nil), forCellReuseIdentifier: "StationTableViewCell")
-        
-        initLocationManager()
+
     }
-    
+
     deinit {
        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
@@ -74,7 +73,7 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
             refreshLocation()
         }
     }
-    
+
     func favButtonClicked(sender: UIBarButtonItem) {
         var font: UIFont
         if (!showFavorites) {
@@ -90,10 +89,10 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         let buttonAttr = [NSFontAttributeName: font]
 
         sender.setTitleTextAttributes(buttonAttr, forState: UIControlState.Normal)
-        
+
         refreshLocation()
     }
-    
+
     func aboutClicked(sender: UIBarButtonItem) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc: UIViewController! = storyboard.instantiateViewControllerWithIdentifier("AboutViewController") as UIViewController
@@ -104,7 +103,11 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         super.viewWillAppear(animated)
         //if favorites are show reload them, since they could have changed
         if (showFavorites) {
-            stations.loadFavorites(currentLocation)
+            stations.loadFavorites(locManager.currentLocation)
+        } else {
+            if (self.stations.count() == nil) {
+                refreshLocation()
+            }
         }
         self.appsTableView?.reloadData()
     }
@@ -118,7 +121,7 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
             self.api?.searchFor(strippedString)
         }
     }
-    
+
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
          refreshLocation()
     }
@@ -128,13 +131,8 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         refreshLocation()
     }
 
-    // Location Manager helper stuff
-    override func initLocationManager() {
-        super.initLocationManager()
-    }
-
-    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        var coord = locationManagerFix(manager,didUpdateLocations: locations);
+    override func locationFixed(coord: CLLocationCoordinate2D?) {
+        println("locationFixed")
         if (coord != nil) {
             self.api?.searchFor(coord!)
         }
@@ -157,10 +155,10 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
 
         //cell.delegate = self
         cell.tag = indexPath.row
-        
+
         let textLabel = cell.StationNameLabel
         let detailTextLabel = cell.StationDescriptionLabel
-        
+
         let stationsCount = stations.count()
 
         if (stationsCount == nil || stationsCount == 0) {
@@ -181,37 +179,37 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         }
         cell.userInteractionEnabled = true;
 
-        
+
         let station = self.stations!.getStation(indexPath.row)
         textLabel?.text = station.getNameWithStar()
 
-        if (currentLocation == nil) {
+        if (locManager.currentLocation == nil) {
             detailTextLabel?.text = ""
             return cell
         }
-        
+
         if (station.coord != nil) {
-            var distance = Int(currentLocation?.distanceFromLocation(station.coord) as Double!)
+            var distance = Int(locManager.currentLocation?.distanceFromLocation(station.coord) as Double!)
             if (distance > 5000) {
                 let km = Int(round(Double(distance) / 1000))
                 detailTextLabel?.text = "\(km) Kilometer"
             } else {
                 detailTextLabel?.text = "\(distance) Meter"
                 // calculate exact distance
-                let currentCoordinate = currentLocation?.coordinate
+                let currentCoordinate = locManager.currentLocation?.coordinate
                 var sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
-                
+
                 let coord = station.coord!
                 var destinationPlacemark:MKPlacemark = MKPlacemark(coordinate: coord.coordinate, addressDictionary: nil)
                 var source:MKMapItem = MKMapItem(placemark: sourcePlacemark)
                 var destination:MKMapItem = MKMapItem(placemark: destinationPlacemark)
                 var directionRequest:MKDirectionsRequest = MKDirectionsRequest()
-                
+
                 directionRequest.setSource(source)
                 directionRequest.setDestination(destination)
                 directionRequest.transportType = MKDirectionsTransportType.Walking
                 directionRequest.requestsAlternateRoutes = true
-                
+
                 var directions:MKDirections = MKDirections(request: directionRequest)
                 directions.calculateDirectionsWithCompletionHandler({
                     (response: MKDirectionsResponse!, error: NSError?) in
@@ -221,8 +219,8 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
                     if response != nil {
                         for r in response.routes { println("route = \(r)") }
                         var route: MKRoute = response.routes[0] as MKRoute;
-                        
-                        
+
+
                         var time =  Int(round(route.expectedTravelTime / 60))
                         var meters = Int(route.distance);
                         let walking = NSLocalizedString("walking", comment: "Walking")
@@ -231,7 +229,7 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
                         println("No response")
                         println(error?.description)
                     }
-                    
+
                 })
             }
         } else {
@@ -239,12 +237,13 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
         }
         return cell
     }
-    
+
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.performSegueWithIdentifier("SegueToStationView", sender: tableView)
     }
 
-    func didReceiveAPIResults(results: JSONValue, error: NSError?) {
+
+    func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?) {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         dispatch_async(dispatch_get_main_queue(), {
             if (error != nil && error?.code != -999) {
@@ -268,13 +267,13 @@ class SearchResultsViewController: TFCBaseViewController,  UISearchBarDelegate, 
             detailsViewController.setStation(station);
         }
     }
-    
-    override func refreshLocation() {
+
+    func refreshLocation() {
         if (showFavorites) {
-            self.stations?.loadFavorites(self.currentLocation)
+            self.stations?.loadFavorites(locManager.currentLocation)
             self.appsTableView?.reloadData()
         } else {
-            super.refreshLocation()
+            super.locManager.refreshLocation()
         }
     }
 }

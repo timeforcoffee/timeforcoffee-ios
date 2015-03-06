@@ -58,7 +58,7 @@ class DetailsViewController: UIViewController, MKMapViewDelegate {
         var numberOfViewControllers = self.navigationController?.viewControllers.count
         var beforeController: SearchResultsViewController? = self.navigationController?.viewControllers[(numberOfViewControllers!-2) ] as? SearchResultsViewController
         
-        var currentCoordinate = beforeController?.currentLocation?.coordinate
+        var currentCoordinate = beforeController?.locManager.currentLocation?.coordinate
         
         var sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
         
