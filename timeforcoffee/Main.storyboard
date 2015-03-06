@@ -7,10 +7,10 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Station View Controller-->
+        <!--Departures View Controller-->
         <scene sceneID="ftz-1N-Mom">
             <objects>
-                <viewController storyboardIdentifier="DeparturesViewController" id="COk-7g-JfJ" userLabel="Station View Controller" customClass="DeparturesViewController" customModule="timeforcoffee" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DeparturesViewController" id="COk-7g-JfJ" userLabel="Departures View Controller" customClass="DeparturesViewController" customModule="timeforcoffee" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="BhT-B5-Rc9"/>
                         <viewControllerLayoutGuide type="bottom" id="7tq-Gm-E2S"/>

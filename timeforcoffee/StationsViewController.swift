@@ -11,13 +11,11 @@ import MapKit
 import timeforcoffeeKit
 import CoreLocation
 
-class StationsViewController: TFCBaseViewController, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, TFCLocationManagerDelegate {
-    @IBOutlet var appsTableView : UITableView?
-    var stations: TFCStations!
+class StationsViewController: TFCBaseViewController, TFCLocationManagerDelegate {
+    @IBOutlet var appsTableView : StationTableView?
+    //var stations: TFCStations!
     let cellIdentifier: String = "StationTableViewCell"
     var api : APIController?
-    var refreshControl:UIRefreshControl!
-    var searchController: UISearchController!
     var networkErrorMsg: String? = nil
     var showFavorites: Bool = false
     var pageIndex: Int?
@@ -25,73 +23,16 @@ class StationsViewController: TFCBaseViewController, UISearchBarDelegate, UISear
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        api = APIController(delegate: self)
-        stations = TFCStations()
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-        searchController = UISearchController(searchResultsController: nil)
-        searchController.searchResultsUpdater = self
-        searchController?.searchBar.sizeToFit()
-
-
-        self.appsTableView?.tableHeaderView = searchController?.searchBar
-
-        searchController.delegate = self
-        searchController.dimsBackgroundDuringPresentation = false // default is YES
-        searchController.searchBar.delegate = self    // so we can monitor text changes + others
-
         definesPresentationContext = true
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeActive:", name: "UIApplicationDidBecomeActiveNotification", object: nil)
+        appsTableView?.delegate = appsTableView
+        appsTableView?.dataSource = appsTableView
+        appsTableView?.showFavorites = showFavorites
+        appsTableView?.stationsViewController = self
         appsTableView?.registerNib(UINib(nibName: "StationTableViewCell", bundle: nil), forCellReuseIdentifier: "StationTableViewCell")
-
-    }
-
-    deinit {
-       NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-
-    func applicationDidBecomeActive(notification: NSNotification) {
-        if (!(self.searchController?.searchBar.text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0)) {
-            refreshLocation()
-        }
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        //if favorites are show reload them, since they could have changed
-        if (showFavorites) {
-            stations.loadFavorites(locManager.currentLocation)
-        } else {
-            if (self.stations.count() == nil) {
-                refreshLocation()
-            }
-        }
-        self.appsTableView?.reloadData()
-    }
-
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
-        let whitespaceCharacterSet = NSCharacterSet.whitespaceCharacterSet()
-        let strippedString = searchController.searchBar.text.stringByTrimmingCharactersInSet(whitespaceCharacterSet)
-
-        if (strippedString != "") {
-            stations?.clear()
-            self.api?.searchFor(strippedString)
-        }
-    }
-
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-         refreshLocation()
-    }
-
-    func refresh(sender:AnyObject)
-    {
-        refreshLocation()
-    }
-
-    override func locationFixed(coord: CLLocationCoordinate2D?) {
-        println("locationFixed")
-        if (coord != nil) {
-            self.api?.searchFor(coord!)
-        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -99,138 +40,16 @@ class StationsViewController: TFCBaseViewController, UISearchBarDelegate, UISear
         // Dispose of any resources that can be recreated.
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if (stations == nil || stations.count() == nil || stations.count() == 0) {
-            return 1
-        }
-        return stations.count()!
-    }
-
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("StationTableViewCell", forIndexPath: indexPath) as StationTableViewCell
-
-        //cell.delegate = self
-        cell.tag = indexPath.row
-
-        let textLabel = cell.StationNameLabel
-        let detailTextLabel = cell.StationDescriptionLabel
-
-        let stationsCount = stations.count()
-
-        if (stationsCount == nil || stationsCount == 0) {
-            cell.userInteractionEnabled = false;
-            if (stationsCount == nil) {
-                textLabel?.text = NSLocalizedString("Loading", comment: "Loading ..")
-                detailTextLabel?.text = ""
-            } else {
-                textLabel?.text = NSLocalizedString("No stations found.", comment: "")
-
-                if (self.networkErrorMsg != nil) {
-                    detailTextLabel?.text = self.networkErrorMsg
-                } else {
-                    detailTextLabel?.text = ""
-                }
-            }
-            return cell
-        }
-        cell.userInteractionEnabled = true;
-
-
-        let station = self.stations!.getStation(indexPath.row)
-        textLabel?.text = station.getNameWithStar()
-
-        if (locManager.currentLocation == nil) {
-            detailTextLabel?.text = ""
-            return cell
-        }
-
-        if (station.coord != nil) {
-            var distance = Int(locManager.currentLocation?.distanceFromLocation(station.coord) as Double!)
-            if (distance > 5000) {
-                let km = Int(round(Double(distance) / 1000))
-                detailTextLabel?.text = "\(km) Kilometer"
-            } else {
-                detailTextLabel?.text = "\(distance) Meter"
-                // calculate exact distance
-                let currentCoordinate = locManager.currentLocation?.coordinate
-                var sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
-
-                let coord = station.coord!
-                var destinationPlacemark:MKPlacemark = MKPlacemark(coordinate: coord.coordinate, addressDictionary: nil)
-                var source:MKMapItem = MKMapItem(placemark: sourcePlacemark)
-                var destination:MKMapItem = MKMapItem(placemark: destinationPlacemark)
-                var directionRequest:MKDirectionsRequest = MKDirectionsRequest()
-
-                directionRequest.setSource(source)
-                directionRequest.setDestination(destination)
-                directionRequest.transportType = MKDirectionsTransportType.Walking
-                directionRequest.requestsAlternateRoutes = true
-
-                var directions:MKDirections = MKDirections(request: directionRequest)
-                directions.calculateDirectionsWithCompletionHandler({
-                    (response: MKDirectionsResponse!, error: NSError?) in
-                    if error != nil{
-                        println("Error")
-                    }
-                    if response != nil {
-                        for r in response.routes { println("route = \(r)") }
-                        var route: MKRoute = response.routes[0] as MKRoute;
-
-
-                        var time =  Int(round(route.expectedTravelTime / 60))
-                        var meters = Int(route.distance);
-                        let walking = NSLocalizedString("walking", comment: "Walking")
-                        detailTextLabel?.text = "\(time) min \(walking), \(meters) m"
-                    }  else {
-                        println("No response")
-                        println(error?.description)
-                    }
-
-                })
-            }
-        } else {
-            detailTextLabel?.text = ""
-        }
-        return cell
-    }
-
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.performSegueWithIdentifier("SegueToStationView", sender: tableView)
-    }
-
-
-    func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?) {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-        dispatch_async(dispatch_get_main_queue(), {
-            if (error != nil && error?.code != -999) {
-                self.networkErrorMsg = "Network error. Please try again"
-            } else {
-                self.networkErrorMsg = nil
-            }
-            self.stations!.addWithJSON(results)
-            self.appsTableView?.reloadData()
-
-        })
-    }
-
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         var detailsViewController: DeparturesViewController = segue.destinationViewController as DeparturesViewController
 
         var index = appsTableView?.indexPathForSelectedRow()?.row
         if (index != nil) {
-            var station = stations.getStation(index!)
-            detailsViewController.setStation(station);
+            var station = appsTableView?.stations.getStation(index!)
+            detailsViewController.setStation(station!);
         }
     }
 
-    func refreshLocation() {
-        if (showFavorites) {
-            self.stations?.loadFavorites(locManager.currentLocation)
-            self.appsTableView?.reloadData()
-        } else {
-            super.locManager.refreshLocation()
-        }
-    }
 }
 
 
