@@ -11,7 +11,7 @@ import MapKit
 import timeforcoffeeKit
 import CoreLocation
 
-class StationTableView: UITableView, UITableViewDelegate, CLLocationManagerDelegate, APIControllerProtocol, TFCLocationManagerDelegate {
+class StationTableView: UITableView, UITableViewDelegate, APIControllerProtocol, TFCLocationManagerDelegate {
     
     var refreshControl:UIRefreshControl!
     var stations: TFCStations!
