@@ -34,11 +34,11 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationUsageDescription</key>
-	<string>We need &quot;Always&quot; for use with a future apple device (but we will only use it, when the app is in use there, no constant tracking). For only the iPhone App and Today View &quot;While Using&quot; is enough.</string>
+	<string>We need the location to show you nearby locations.  &quot;Always&quot; is needed for use with an Apple Watch (But only when requested, no constant tracking). If you don&apos;t have an Apple Watch, you may change it to &quot;While using the App&quot; in Settings.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We need the location to show you nearby locations. If you want to use it with a future Apple device, please enable &quot;Always&quot;</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>We need &quot;Always&quot; for use with a future apple device (but we will only use it, when the app is in use there, no constant tracking). For only the iPhone App and Today View &quot;While Using&quot; is enough.</string>
+	<string>We need the location to show you nearby locations.  &quot;Always&quot; is needed for use with an Apple Watch (But only when requested, no constant tracking). If you don&apos;t have an Apple Watch, you may change it to &quot;While using the App&quot; in Settings.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>location</string>
