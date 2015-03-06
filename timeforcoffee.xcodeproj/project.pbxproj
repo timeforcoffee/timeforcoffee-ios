@@ -47,7 +47,7 @@
 		EC6EDD541A9BA79B0098CAE0 /* APIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDD531A9BA79B0098CAE0 /* APIController.swift */; };
 		EC72FCC11AA336E900E9B275 /* TFCNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC72FCC01AA336E900E9B275 /* TFCNavigationController.swift */; };
 		EC7A517919C427CA000F5E7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A517819C427CA000F5E7C /* AppDelegate.swift */; };
-		EC7A517B19C427CA000F5E7C /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A517A19C427CA000F5E7C /* SearchResultsViewController.swift */; };
+		EC7A517B19C427CA000F5E7C /* StationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A517A19C427CA000F5E7C /* StationsViewController.swift */; };
 		EC7A518019C427CA000F5E7C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC7A517F19C427CA000F5E7C /* Images.xcassets */; };
 		EC7A518319C427CA000F5E7C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC7A518119C427CA000F5E7C /* LaunchScreen.xib */; };
 		EC7A519B19C43E0A000F5E7C /* Blank52.png in Resources */ = {isa = PBXBuildFile; fileRef = EC7A519A19C43E0A000F5E7C /* Blank52.png */; };
@@ -164,7 +164,7 @@
 		EC7A517319C427CA000F5E7C /* Time for Coffee!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Time for Coffee!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC7A517719C427CA000F5E7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC7A517819C427CA000F5E7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		EC7A517A19C427CA000F5E7C /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
+		EC7A517A19C427CA000F5E7C /* StationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationsViewController.swift; sourceTree = "<group>"; };
 		EC7A517F19C427CA000F5E7C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		EC7A518219C427CA000F5E7C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		EC7A519A19C43E0A000F5E7C /* Blank52.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Blank52.png; sourceTree = "<group>"; };
@@ -371,7 +371,7 @@
 				EC7A517819C427CA000F5E7C /* AppDelegate.swift */,
 				EC72FCC01AA336E900E9B275 /* TFCNavigationController.swift */,
 				EC3252E91A9CE9DC0056AF11 /* MGSwipe */,
-				EC7A517A19C427CA000F5E7C /* SearchResultsViewController.swift */,
+				EC7A517A19C427CA000F5E7C /* StationsViewController.swift */,
 				ECDAB3A51AAA42A300EB352B /* PagedStationsViewController.swift */,
 				EC6EDCE71A9B6B680098CAE0 /* StationViewController.swift */,
 				EC49D7851AA3B63F00DC2059 /* AboutViewController.swift */,
@@ -654,7 +654,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				314AFBD61AA778F400C176FE /* StationTableView.swift in Sources */,
-				EC7A517B19C427CA000F5E7C /* SearchResultsViewController.swift in Sources */,
+				EC7A517B19C427CA000F5E7C /* StationsViewController.swift in Sources */,
 				EC3252E71A9CE1320056AF11 /* MGSwipeTableCell.m in Sources */,
 				EC7A517919C427CA000F5E7C /* AppDelegate.swift in Sources */,
 				EC3252E61A9CE1320056AF11 /* MGSwipeButton.m in Sources */,

@@ -11,7 +11,7 @@ import MapKit
 import timeforcoffeeKit
 import CoreLocation
 
-class SearchResultsViewController: TFCBaseViewController, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, TFCLocationManagerDelegate {
+class StationsViewController: TFCBaseViewController, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, TFCLocationManagerDelegate {
     @IBOutlet var appsTableView : UITableView?
     var stations: TFCStations!
     let cellIdentifier: String = "StationTableViewCell"

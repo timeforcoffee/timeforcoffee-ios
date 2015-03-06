@@ -265,7 +265,7 @@ and Jan Hug / @dulnan</string>
         <!--Time for Coffee!-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="StationsView" id="BYZ-38-t0r" customClass="SearchResultsViewController" customModule="timeforcoffee" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="StationsView" id="BYZ-38-t0r" customClass="StationsViewController" customModule="timeforcoffee" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>

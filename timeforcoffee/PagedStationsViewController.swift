@@ -23,7 +23,7 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
     override func viewDidLoad() {
         super.viewDidLoad()
         self.dataSource = self
-        var startingViewController = self.storyboard?.instantiateViewControllerWithIdentifier("StationsView") as SearchResultsViewController
+        var startingViewController = self.storyboard?.instantiateViewControllerWithIdentifier("StationsView") as StationsViewController
         startingViewController.showFavorites = false
         startingViewController.pageIndex = 0
         self.setViewControllers([startingViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
@@ -44,22 +44,22 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
 
     func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
 
-        let vc:SearchResultsViewController = viewController as SearchResultsViewController
+        let vc:StationsViewController = viewController as StationsViewController
         if (vc.pageIndex == 1) {
             return nil;
         }
-        var newVc: SearchResultsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("StationsView") as SearchResultsViewController
+        var newVc: StationsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("StationsView") as StationsViewController
         newVc.pageIndex = 1
         newVc.showFavorites = true
         return newVc
     }
 
     func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
-        let vc:SearchResultsViewController = viewController as SearchResultsViewController
+        let vc:StationsViewController = viewController as StationsViewController
         if (vc.pageIndex == 0) {
             return nil;
         }
-        var newVc: SearchResultsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("StationsView") as SearchResultsViewController
+        var newVc: StationsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("StationsView") as StationsViewController
         newVc.pageIndex = 0
         newVc.showFavorites = false
         return newVc

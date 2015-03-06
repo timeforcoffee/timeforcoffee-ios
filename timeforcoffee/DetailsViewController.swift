@@ -56,7 +56,7 @@ class DetailsViewController: UIViewController, MKMapViewDelegate {
         
         
         var numberOfViewControllers = self.navigationController?.viewControllers.count
-        var beforeController: SearchResultsViewController? = self.navigationController?.viewControllers[(numberOfViewControllers!-2) ] as? SearchResultsViewController
+        var beforeController: StationsViewController? = self.navigationController?.viewControllers[(numberOfViewControllers!-2) ] as? StationsViewController
         
         var currentCoordinate = beforeController?.locManager.currentLocation?.coordinate
         
