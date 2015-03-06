@@ -11,11 +11,14 @@ import MapKit
 import timeforcoffeeKit
 import CoreLocation
 
-class StationTableView: UITableView, UITableViewDelegate, CLLocationManagerDelegate {
+class StationTableView: UITableView, UITableViewDelegate, CLLocationManagerDelegate, APIControllerProtocol, TFCLocationManagerDelegate {
     
     var refreshControl:UIRefreshControl!
     var stations: TFCStations!
-    
+    lazy var locManager: TFCLocationManager = self.lazyInitLocationManager()
+    lazy var api : APIController = { return APIController(delegate: self)}()
+    var networkErrorMsg: String?
+
     override func awakeFromNib() {
         super.awakeFromNib()
         /* Adding the refresh controls */
@@ -28,12 +31,54 @@ class StationTableView: UITableView, UITableViewDelegate, CLLocationManagerDeleg
         self.registerNib(UINib(nibName: "StationTableViewCell", bundle: nil), forCellReuseIdentifier: "StationTableViewCell")
         
     }
-    
+
     func pushData(stations: TFCStations) {
         self.stations = stations
         self.reloadData()
     }
-    
-    
-    
+
+
+    func refresh(sender:AnyObject)
+    {
+        refreshLocation()
+    }
+
+    func refreshLocation() {
+        /*if (showFavorites) {
+            self.stations?.loadFavorites(locManager.currentLocation)
+            self.reloadData()
+        } else {*/
+            self.locManager.refreshLocation()
+//        }
+    }
+
+    internal func lazyInitLocationManager() -> TFCLocationManager {
+        return TFCLocationManager(delegate: self)
+    }
+
+    internal func locationFixed(coord: CLLocationCoordinate2D?) {
+        if (coord != nil) {
+            self.api.searchFor(coord!)
+        }
+    }
+
+    func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?) {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        dispatch_async(dispatch_get_main_queue(), {
+            if (error != nil && error?.code != -999) {
+                self.networkErrorMsg = "Network error. Please try again"
+            } else {
+                self.networkErrorMsg = nil
+            }
+            if (self.stations == nil) {
+                self.stations = TFCStations()
+            }
+            self.stations!.addWithJSON(results)
+            self.reloadData()
+            self.refreshControl.endRefreshing()
+
+        })
+    }
+
+
 }

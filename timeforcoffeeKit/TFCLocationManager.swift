@@ -17,7 +17,7 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
     var seenError : Bool = false
     var delegate: TFCLocationManagerDelegate
 
-    init(delegate: TFCLocationManagerDelegate) {
+    public init(delegate: TFCLocationManagerDelegate) {
         self.delegate = delegate
     }
     
