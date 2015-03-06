@@ -20,6 +20,8 @@ class SearchResultsViewController: TFCBaseViewController, UISearchBarDelegate, U
     var searchController: UISearchController!
     var networkErrorMsg: String? = nil
     var showFavorites: Bool = false
+    var pageIndex: Int?
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,15 +53,7 @@ class SearchResultsViewController: TFCBaseViewController, UISearchBarDelegate, U
         searchController.searchBar.delegate = self    // so we can monitor text changes + others
 
         definesPresentationContext = true
-        var aboutButton = UIBarButtonItem(title: "☕︎", style: UIBarButtonItemStyle.Plain, target: self, action: "aboutClicked:")
-        aboutButton.tintColor = UIColor.blackColor()
-
-        let font = UIFont.systemFontOfSize(30)
-        let buttonAttr = [NSFontAttributeName: font]
-        aboutButton.setTitleTextAttributes(buttonAttr, forState: UIControlState.Normal)
-        self.navigationItem.rightBarButtonItem = aboutButton
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeActive:", name: "UIApplicationDidBecomeActiveNotification", object: nil)
-
         appsTableView?.registerNib(UINib(nibName: "StationTableViewCell", bundle: nil), forCellReuseIdentifier: "StationTableViewCell")
 
     }
@@ -91,12 +85,6 @@ class SearchResultsViewController: TFCBaseViewController, UISearchBarDelegate, U
         sender.setTitleTextAttributes(buttonAttr, forState: UIControlState.Normal)
 
         refreshLocation()
-    }
-
-    func aboutClicked(sender: UIBarButtonItem) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc: UIViewController! = storyboard.instantiateViewControllerWithIdentifier("AboutViewController") as UIViewController
-        self.navigationController?.pushViewController(vc, animated: true)
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -252,7 +240,7 @@ class SearchResultsViewController: TFCBaseViewController, UISearchBarDelegate, U
                 self.networkErrorMsg = nil
             }
             self.stations!.addWithJSON(results)
-            self.appsTableView!.reloadData()
+            self.appsTableView?.reloadData()
             self.refreshControl.endRefreshing()
 
         })

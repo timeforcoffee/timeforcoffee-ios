@@ -56,6 +56,7 @@
 		EC9571511A9CCEC00061F8B4 /* TFCBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9571501A9CCEC00061F8B4 /* TFCBaseViewController.swift */; };
 		ECC163D71AA36924006BC3E9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC2195ED1AA35B2D005E16EF /* Localizable.strings */; };
 		ECD871961A9BB2F7003CCCB3 /* timeforcoffeeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */; };
+		ECDAB3A61AAA42A300EB352B /* PagedStationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDAB3A51AAA42A300EB352B /* PagedStationsViewController.swift */; };
 		ECF100AD1A9D9BAE00056510 /* TFCStations.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF100AC1A9D9BAE00056510 /* TFCStations.swift */; };
 /* End PBXBuildFile section */
 
@@ -174,6 +175,7 @@
 		ECC163D91AA369ED006BC3E9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		ECC163DB1AA36A35006BC3E9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MainInterface.strings; sourceTree = "<group>"; };
 		ECD871941A9BAE18003CCCB3 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ECDAB3A51AAA42A300EB352B /* PagedStationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagedStationsViewController.swift; sourceTree = "<group>"; };
 		ECF100AC1A9D9BAE00056510 /* TFCStations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCStations.swift; sourceTree = "<group>"; };
 		ECF100AE1A9DBDAF00056510 /* Time for Coffee!.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Time for Coffee!.entitlements"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -370,6 +372,7 @@
 				EC72FCC01AA336E900E9B275 /* TFCNavigationController.swift */,
 				EC3252E91A9CE9DC0056AF11 /* MGSwipe */,
 				EC7A517A19C427CA000F5E7C /* SearchResultsViewController.swift */,
+				ECDAB3A51AAA42A300EB352B /* PagedStationsViewController.swift */,
 				EC6EDCE71A9B6B680098CAE0 /* StationViewController.swift */,
 				EC49D7851AA3B63F00DC2059 /* AboutViewController.swift */,
 				EC7A519E19C4432F000F5E7C /* DetailsViewController.swift */,
@@ -660,6 +663,7 @@
 				EC6EDCE81A9B6B680098CAE0 /* StationViewController.swift in Sources */,
 				EC49D7861AA3B63F00DC2059 /* AboutViewController.swift in Sources */,
 				EC7A519F19C4432F000F5E7C /* DetailsViewController.swift in Sources */,
+				ECDAB3A61AAA42A300EB352B /* PagedStationsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
