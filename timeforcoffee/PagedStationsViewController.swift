@@ -39,7 +39,7 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         let pageControl = UIPageControl.appearance()
         pageControl.backgroundColor = UIColor.whiteColor()
         pageControl.pageIndicatorTintColor = UIColor.lightGrayColor()
-       pageControl.currentPageIndicatorTintColor = UIColor.blackColor()
+        pageControl.currentPageIndicatorTintColor = UIColor.blackColor()
     }
 
     func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {

@@ -28,23 +28,10 @@ class StationsViewController: TFCBaseViewController, UISearchBarDelegate, UISear
         api = APIController(delegate: self)
         stations = TFCStations()
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-        self.refreshControl = UIRefreshControl()
-        self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
-        self.appsTableView?.addSubview(refreshControl)
-        self.refreshControl.backgroundColor = UIColor(red: 242.0/255.0, green: 243.0/255.0, blue: 245.0/255.0, alpha: 1.0)
-        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
         searchController?.searchBar.sizeToFit()
 
-        var favButton = UIBarButtonItem(title: "Favs", style: UIBarButtonItemStyle.Plain, target: self, action: "favButtonClicked:")
-
-        let favFont = UIFont.systemFontOfSize(15)
-        let favButtonAttr = [NSFontAttributeName: favFont]
-        favButton.setTitleTextAttributes(favButtonAttr, forState: UIControlState.Normal)
-
-        self.navigationItem.leftBarButtonItem = favButton
-        favButton.tintColor = UIColor.blackColor()
 
         self.appsTableView?.tableHeaderView = searchController?.searchBar
 
@@ -66,25 +53,6 @@ class StationsViewController: TFCBaseViewController, UISearchBarDelegate, UISear
         if (!(self.searchController?.searchBar.text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0)) {
             refreshLocation()
         }
-    }
-
-    func favButtonClicked(sender: UIBarButtonItem) {
-        var font: UIFont
-        if (!showFavorites) {
-            showFavorites = true
-            font = UIFont.boldSystemFontOfSize(15)
-        } else {
-            showFavorites = false
-            font = UIFont.systemFontOfSize(15)
-            stations?.clear()
-            self.appsTableView?.reloadData()
-        }
-
-        let buttonAttr = [NSFontAttributeName: font]
-
-        sender.setTitleTextAttributes(buttonAttr, forState: UIControlState.Normal)
-
-        refreshLocation()
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -241,7 +209,6 @@ class StationsViewController: TFCBaseViewController, UISearchBarDelegate, UISear
             }
             self.stations!.addWithJSON(results)
             self.appsTableView?.reloadData()
-            self.refreshControl.endRefreshing()
 
         })
     }
