@@ -16,6 +16,7 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
     @IBOutlet var pageIndicator: UIPageControl!
     var pageViewController: PagedStationsViewController?
     var currentPageIndex: Int?
+    var scrollViewOffset: CGFloat? = 0
 
 
     required init(coder aDecoder: NSCoder) {
@@ -41,19 +42,18 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         self.navigationItem.rightBarButtonItem = aboutButton
         
 
-        var titleView = UIView(frame: CGRect(x: 0, y: 0, width: 250, height: 30))
-        titleView.clipsToBounds = true
+        var titleView = UIView(frame: CGRect(x: 0, y: 0, width: 160, height: 30))
         titleView.backgroundColor = UIColor.redColor()
         
-        var labelContainer = UIView(frame: CGRect(x: 0, y: 0, width: 500, height: 30))
+        var labelContainer = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 30))
         labelContainer.tag = 100
         
-        var pageLabel1 = UILabel(frame: CGRect(x: 0, y: 0, width: 250, height: 30))
+        var pageLabel1 = UILabel(frame: CGRect(x: 0, y: 0, width: 160, height: 30))
         pageLabel1.text = "Nearest Stations"
         pageLabel1.textAlignment = NSTextAlignment.Center
         pageLabel1.backgroundColor = UIColor.blueColor()
         
-        var pageLabel2 = UILabel(frame: CGRect(x: 250, y: 0, width: 250, height: 30))
+        var pageLabel2 = UILabel(frame: CGRect(x: 160, y: 0, width: 160, height: 30))
         pageLabel2.text = "Favorites"
         pageLabel2.textAlignment = NSTextAlignment.Center
         pageLabel2.backgroundColor = UIColor.greenColor()
@@ -64,6 +64,9 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         titleView.addSubview(labelContainer)
         
         self.navigationItem.titleView = titleView
+        
+        self.navigationItem.titleView?.layer.frame = CGRect(x: 0, y: 0, width: 160, height: 30)
+        self.navigationItem.titleView?.clipsToBounds = true
     
         
         let pageControl = UIPageControl.appearance()
@@ -82,16 +85,13 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        
-        var realOffset = scrollView.contentOffset.x - scrollView.frame.width
-        
-        //self.navigationItem.titleView?.layer.position.x = scrollView.contentOffset.x
-        var xPosition = self.navigationItem.titleView?.viewWithTag(100)?.layer.position.x
-        self.navigationItem.titleView?.viewWithTag(100)?.layer.position.x = -(scrollView.contentOffset.x + (CGFloat(currentPageIndex!) * scrollView.frame.width))
+        if (currentPageIndex == 0) {
+            scrollViewOffset = scrollView.contentOffset.x - scrollView.frame.width
+        } else {
+            scrollViewOffset = scrollView.contentOffset.x
+        }
+        self.navigationItem.titleView?.viewWithTag(100)?.layer.position.x = (-scrollViewOffset! / 2) + 160
     }
-    
-    
-
 
     func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
         let vc:StationsViewController = viewController as StationsViewController
@@ -116,16 +116,17 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
     }
     
     func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [AnyObject], transitionCompleted completed: Bool) {
-        if (completed) {
+        
+        if (completed && finished) {
             if (currentPageIndex == 0) {
                 currentPageIndex = 1
             } else {
                 currentPageIndex = 0
             }
         }
-        println(completed)
-        println(currentPageIndex)
     }
+    
+    
     
 
     func aboutClicked(sender: UIBarButtonItem) {
