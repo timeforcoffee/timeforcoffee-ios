@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6Gx-yE-V2l">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6Gx-yE-V2l">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
@@ -29,7 +29,7 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wiA-6x-b70" id="WfY-wA-WRl">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="100" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="13" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C41-YZ-tq0">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="100" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="13" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C41-YZ-tq0">
                                                     <rect key="frame" x="13" y="10" width="40" height="40"/>
                                                     <color key="backgroundColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
@@ -252,11 +252,15 @@ and Jan Hug / @dulnan</string>
             </objects>
             <point key="canvasLocation" x="961.5" y="-1444.5"/>
         </scene>
-        <!--Time for Coffee!-->
+        <!--Paged Stations View Controller-->
         <scene sceneID="rXH-fF-JWm">
             <objects>
-                <pageViewController storyboardIdentifier="PageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="KiB-sC-VsM" customClass="PagedStationsViewController" customModule="timeforcoffee" customModuleProvider="target" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" title="Time for Coffee!" id="RSb-wJ-pvc"/>
+                <pageViewController storyboardIdentifier="PageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" pageSpacing="20" navigationOrientation="horizontal" spineLocation="mid" doubleSided="YES" id="KiB-sC-VsM" customClass="PagedStationsViewController" customModule="timeforcoffee" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="RSb-wJ-pvc"/>
+                    <connections>
+                        <outlet property="navigationItem" destination="RSb-wJ-pvc" id="idr-i2-f4d"/>
+                        <outlet property="test" destination="RSb-wJ-pvc" id="zCK-iT-5G3"/>
+                    </connections>
                 </pageViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zcj-mR-3E9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -275,7 +279,7 @@ and Jan Hug / @dulnan</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleAspectFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="64" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="1sI-wO-cFy" customClass="StationTableView" customModule="timeforcoffee" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="56" width="600" height="544"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
                                     <rect key="frame" x="0.0" y="0.0" width="400" height="586"/>
@@ -303,7 +307,7 @@ and Jan Hug / @dulnan</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1359" y="-249.75"/>
+            <point key="canvasLocation" x="1359" y="-250"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="RY9-Sz-kEE">
