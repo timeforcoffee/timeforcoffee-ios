@@ -136,7 +136,11 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
     }
     
     func searchClicked(sender: UIBarButtonItem) {
-        let sc: UISearchController = UISearchController(searchResultsController: nil)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+
+        let vc: StationsViewController! = storyboard.instantiateViewControllerWithIdentifier("StationsView") as StationsViewController
+
+        let sc: UISearchController = UISearchController(searchResultsController: vc)
         let searchBarFrame: CGRect = sc.searchBar.frame
         var newframe = CGRectMake(searchBarFrame.origin.x,
             searchBarFrame.origin.y,
@@ -146,7 +150,7 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
 
         self.searchController = sc
         self.searchController?.hidesNavigationBarDuringPresentation = false;
-        self.searchController?.dimsBackgroundDuringPresentation = false;
+        self.searchController?.dimsBackgroundDuringPresentation = true;
         self.definesPresentationContext = true;
         let searchBar = self.searchController?.searchBar
         self.navigationItem.rightBarButtonItem = nil;
@@ -165,6 +169,7 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
                 return
         })
         self.presentViewController(self.searchController!, animated: true, completion: nil)
+        sc.searchResultsUpdater = vc.appsTableView
     }
 
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {

@@ -11,7 +11,7 @@ import MapKit
 import timeforcoffeeKit
 import CoreLocation
 
-class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource,APIControllerProtocol, TFCLocationManagerDelegate, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating {
+class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource,APIControllerProtocol, TFCLocationManagerDelegate, UISearchResultsUpdating {
     
     var refreshControl:UIRefreshControl!
     lazy var stations: TFCStations = {return TFCStations();}()
@@ -31,27 +31,15 @@ class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource,
         /* Adding the refresh controls */
         self.dataSource = self
 
+
         self.refreshControl = UIRefreshControl()
         self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.refreshControl.backgroundColor = UIColor(red: 242.0/255.0, green: 243.0/255.0, blue: 245.0/255.0, alpha: 1.0)
         self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.addSubview(refreshControl)
 
-
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-        searchController = UISearchController(searchResultsController: nil)
-        searchController.searchResultsUpdater = self
-
-        searchController.delegate = self
-        searchController.dimsBackgroundDuringPresentation = false // default is YES
-        searchController.searchBar.delegate = self    // so we can monitor text changes + others
-        self.tableHeaderView = searchController?.searchBar
-
-        self.registerNib(UINib(nibName: "StationTableViewCell", bundle: nil), forCellReuseIdentifier: "StationTableViewCell")
-
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeActive:", name: "UIApplicationDidBecomeActiveNotification", object: nil)
     }
-
 
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
@@ -59,6 +47,7 @@ class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource,
 
     func applicationDidBecomeActive(notification: NSNotification) {
         if (!(self.searchController?.searchBar.text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0)) {
+        self.registerNib(UINib(nibName: "StationTableViewCell", bundle: nil), forCellReuseIdentifier: "StationTableViewCell")
             refreshLocation()
         }
     }
@@ -91,7 +80,8 @@ class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource,
     func updateSearchResultsForSearchController(searchController: UISearchController) {
         let whitespaceCharacterSet = NSCharacterSet.whitespaceCharacterSet()
         let strippedString = searchController.searchBar.text.stringByTrimmingCharactersInSet(whitespaceCharacterSet)
-
+println("here")
+        println(strippedString)
         if (strippedString != "") {
             stations.clear()
             self.api.searchFor(strippedString)
@@ -154,6 +144,7 @@ class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource,
     func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?) {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         dispatch_async(dispatch_get_main_queue(), {
+
             if (error != nil && error?.code != -999) {
                 self.networkErrorMsg = "Network error. Please try again"
             } else {
