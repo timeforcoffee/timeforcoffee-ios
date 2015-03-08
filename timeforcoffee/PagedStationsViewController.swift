@@ -116,12 +116,11 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
     }
     
     func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [AnyObject], transitionCompleted completed: Bool) {
-        
-        if (completed && finished) {
-            if (currentPageIndex == 0) {
-                currentPageIndex = 1
-            } else {
-                currentPageIndex = 0
+        if (completed == true && finished == true) {
+            if let currentViewController = pageViewController.viewControllers?.first as? StationsViewController {
+                if (currentViewController.pageIndex != currentPageIndex) {
+                    currentPageIndex = currentViewController.pageIndex
+                }
             }
         }
     }
