@@ -13,11 +13,23 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
     lazy var locationManager : CLLocationManager = self.lazyInitLocationManager()
     var locationFixAchieved : Bool = false
     var locationStatus : NSString = "Not Started"
-    public var currentLocation: CLLocation?
     var seenError : Bool = false
     var delegate: TFCLocationManagerDelegate
 
-    init(delegate: TFCLocationManagerDelegate) {
+    public var currentLocation: CLLocation? {
+        get {
+            return classvar.currentLocation
+        }
+        set (location) {
+            classvar.currentLocation = location
+        }
+    }
+
+    private struct classvar {
+        static var currentLocation: CLLocation?
+    }
+
+    public init(delegate: TFCLocationManagerDelegate) {
         self.delegate = delegate
     }
     
