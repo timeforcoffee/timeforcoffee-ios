@@ -10,7 +10,6 @@
 		314AFBD21AA7633D00C176FE /* StationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 314AFBD11AA7633D00C176FE /* StationTableViewCell.xib */; };
 		314AFBD41AA766DC00C176FE /* StationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314AFBD31AA766DC00C176FE /* StationTableViewCell.swift */; };
 		314AFBD61AA778F400C176FE /* StationTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314AFBD51AA778F400C176FE /* StationTableView.swift */; };
-		314AFBD81AA7796900C176FE /* StationTableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 314AFBD71AA7796900C176FE /* StationTableView.xib */; };
 		EC046D631A9C563D00C2C1B3 /* TFCLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC046D621A9C563D00C2C1B3 /* TFCLocationManager.swift */; };
 		EC0A30EC1AA344100043B8F8 /* launchicon.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30EB1AA344100043B8F8 /* launchicon.png */; };
 		EC0A30F21AA353CA0043B8F8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30F41AA353CA0043B8F8 /* MainInterface.storyboard */; };
@@ -120,7 +119,6 @@
 		314AFBD11AA7633D00C176FE /* StationTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = StationTableViewCell.xib; path = ../StationTableViewCell.xib; sourceTree = "<group>"; };
 		314AFBD31AA766DC00C176FE /* StationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationTableViewCell.swift; sourceTree = "<group>"; };
 		314AFBD51AA778F400C176FE /* StationTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationTableView.swift; sourceTree = "<group>"; };
-		314AFBD71AA7796900C176FE /* StationTableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StationTableView.xib; sourceTree = "<group>"; };
 		EC046D621A9C563D00C2C1B3 /* TFCLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCLocationManager.swift; sourceTree = "<group>"; };
 		EC0A30EB1AA344100043B8F8 /* launchicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = launchicon.png; path = _assets/launchicon.png; sourceTree = "<group>"; };
 		EC0A30F11AA352BD0043B8F8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -360,7 +358,6 @@
 			isa = PBXGroup;
 			children = (
 				EC271DC31AA365BE00A7A75E /* Main.storyboard */,
-				314AFBD71AA7796900C176FE /* StationTableView.xib */,
 				314AFBD51AA778F400C176FE /* StationTableView.swift */,
 				314AFBD11AA7633D00C176FE /* StationTableViewCell.xib */,
 				314AFBD31AA766DC00C176FE /* StationTableViewCell.swift */,
@@ -581,7 +578,6 @@
 				EC7A518319C427CA000F5E7C /* LaunchScreen.xib in Resources */,
 				EC0A30EC1AA344100043B8F8 /* launchicon.png in Resources */,
 				EC7A518019C427CA000F5E7C /* Images.xcassets in Resources */,
-				314AFBD81AA7796900C176FE /* StationTableView.xib in Resources */,
 				EC2C312B1A9DECB900690397 /* office.gpx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
