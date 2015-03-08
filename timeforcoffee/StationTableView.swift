@@ -35,20 +35,6 @@ class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource,
         self.refreshControl.backgroundColor = UIColor(red: 242.0/255.0, green: 243.0/255.0, blue: 245.0/255.0, alpha: 1.0)
         self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.addSubview(refreshControl)
-
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeActive:", name: "UIApplicationDidBecomeActiveNotification", object: nil)
-    }
-
-    deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-
-    func applicationDidBecomeActive(notification: NSNotification) {
-        //FIXME does update now, since searchController is somewhere else
-       // if (!(self.searchController?.searchBar.text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0)) {
-        self.registerNib(UINib(nibName: "StationTableViewCell", bundle: nil), forCellReuseIdentifier: "StationTableViewCell")
-            refreshLocation()
-        //}
     }
 
     internal func refresh(sender:AnyObject)

@@ -14,7 +14,6 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
     @IBOutlet weak var test: UINavigationItem!
 
     //@IBOutlet var pageIndicator: UIPageControl!
-    var pageViewController: PagedStationsViewController?
     var currentPageIndex: Int?
     var scrollViewOffset: CGFloat? = 0
     var scrollViewWidth: CGFloat?
@@ -51,7 +50,16 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
                 (v as UIScrollView).delegate = self
             }
         }
-        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeActive:", name: "UIApplicationDidBecomeActiveNotification", object: nil)
+
+    }
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
+    func applicationDidBecomeActive(notification: NSNotification) {
+        let currentView: StationsViewController  = self.viewControllers[0] as StationsViewController
+        currentView.appsTableView?.refreshLocation()
     }
 
     func setTitleView () {
