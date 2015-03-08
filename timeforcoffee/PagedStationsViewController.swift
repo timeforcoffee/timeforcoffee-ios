@@ -43,7 +43,6 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         
 
         var titleView = UIView(frame: CGRect(x: 0, y: 0, width: 160, height: 30))
-        titleView.backgroundColor = UIColor.redColor()
         
         var labelContainer = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 30))
         labelContainer.tag = 100
@@ -51,12 +50,12 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         var pageLabel1 = UILabel(frame: CGRect(x: 0, y: 0, width: 160, height: 30))
         pageLabel1.text = "Nearest Stations"
         pageLabel1.textAlignment = NSTextAlignment.Center
-        pageLabel1.backgroundColor = UIColor.blueColor()
+        pageLabel1.tag = 1
         
         var pageLabel2 = UILabel(frame: CGRect(x: 160, y: 0, width: 160, height: 30))
         pageLabel2.text = "Favorites"
         pageLabel2.textAlignment = NSTextAlignment.Center
-        pageLabel2.backgroundColor = UIColor.greenColor()
+        pageLabel2.tag = 2
         
         labelContainer.addSubview(pageLabel1)
         labelContainer.addSubview(pageLabel2)
@@ -66,7 +65,7 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         self.navigationItem.titleView = titleView
         
         self.navigationItem.titleView?.layer.frame = CGRect(x: 0, y: 0, width: 160, height: 30)
-        self.navigationItem.titleView?.clipsToBounds = true
+        self.navigationItem.titleView?.clipsToBounds = false
     
         
         let pageControl = UIPageControl.appearance()
