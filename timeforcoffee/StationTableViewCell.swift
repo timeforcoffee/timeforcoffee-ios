@@ -21,6 +21,9 @@ class StationTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        StationIconView.layer.cornerRadius = StationIconView.layer.bounds.width / 2
+        StationIconView.clipsToBounds = true
+        
         StationFavoriteButton.addTarget(self, action: "favoriteButtonTouched:", forControlEvents: UIControlEvents.TouchUpInside)
     }
 
@@ -102,9 +105,9 @@ class StationTableViewCell: UITableViewCell {
 
     func drawFavoriteIcon() {
         if (station.isFavorite() == true) {
-            StationIconView.backgroundColor = UIColor.greenColor()
+            StationIconView.backgroundColor = UIColor(red: 249, green: 205, blue: 70)
         } else {
-            StationIconView.backgroundColor = UIColor.redColor()
+            StationIconView.backgroundColor = UIColor(red: 197, green: 197, blue: 197)
         }
     }
 
