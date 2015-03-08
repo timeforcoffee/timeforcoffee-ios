@@ -86,8 +86,12 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if (currentPageIndex == 0) {
             scrollViewOffset = scrollView.contentOffset.x - scrollView.frame.width
+            self.navigationItem.titleView?.viewWithTag(1)?.layer.opacity = 1 - Float(((scrollView.contentOffset.x - 320) / 320))
+            self.navigationItem.titleView?.viewWithTag(2)?.layer.opacity = Float(((scrollView.contentOffset.x - 320) / 320))
         } else {
             scrollViewOffset = scrollView.contentOffset.x
+            self.navigationItem.titleView?.viewWithTag(1)?.layer.opacity = -Float(((scrollView.contentOffset.x - 320) / 320))
+            self.navigationItem.titleView?.viewWithTag(2)?.layer.opacity = 1 + Float(((scrollView.contentOffset.x - 320) / 320))
         }
         self.navigationItem.titleView?.viewWithTag(100)?.layer.position.x = (-scrollViewOffset! / 2) + 160
     }
