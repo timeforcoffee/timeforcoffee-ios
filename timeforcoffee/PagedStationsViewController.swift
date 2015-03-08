@@ -17,6 +17,7 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
     var pageViewController: PagedStationsViewController?
     var currentPageIndex: Int?
     var scrollViewOffset: CGFloat? = 0
+    var scrollViewWidth: CGFloat?
     var searchController: UISearchController?
 
 
@@ -61,17 +62,19 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
     }
 
     func setTitleView () {
-        var titleView = UIView(frame: CGRect(x: 0, y: 0, width: 160, height: 30))
+        scrollViewWidth = UIScreen.mainScreen().bounds.size.width
+        
+        var titleView = UIView(frame: CGRect(x: 0, y: 0, width: scrollViewWidth! / 2, height: 30))
 
-        var labelContainer = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 30))
+        var labelContainer = UIView(frame: CGRect(x: 0, y: 0, width: scrollViewWidth!, height: 30))
         labelContainer.tag = 100
 
-        var pageLabel1 = UILabel(frame: CGRect(x: 0, y: 0, width: 160, height: 30))
+        var pageLabel1 = UILabel(frame: CGRect(x: 0, y: 0, width: scrollViewWidth! / 2, height: 30))
         pageLabel1.text = "Nearest Stations"
         pageLabel1.textAlignment = NSTextAlignment.Center
         pageLabel1.tag = 1
 
-        var pageLabel2 = UILabel(frame: CGRect(x: 160, y: 0, width: 160, height: 30))
+        var pageLabel2 = UILabel(frame: CGRect(x: scrollViewWidth! / 2, y: 0, width: scrollViewWidth! / 2, height: 30))
         pageLabel2.text = "Favorites"
         pageLabel2.textAlignment = NSTextAlignment.Center
         pageLabel2.tag = 2
@@ -83,21 +86,21 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
 
         self.navigationItem.titleView = titleView
 
-        self.navigationItem.titleView?.layer.frame = CGRect(x: 0, y: 0, width: 160, height: 30)
+        self.navigationItem.titleView?.layer.frame = CGRect(x: 0, y: 0, width: scrollViewWidth! / 2, height: 30)
         self.navigationItem.titleView?.clipsToBounds = false
     }
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if (currentPageIndex == 0) {
             scrollViewOffset = scrollView.contentOffset.x - scrollView.frame.width
-            self.navigationItem.titleView?.viewWithTag(1)?.layer.opacity = 1 - Float(((scrollView.contentOffset.x - 320) / 320))
-            self.navigationItem.titleView?.viewWithTag(2)?.layer.opacity = Float(((scrollView.contentOffset.x - 320) / 320))
+            self.navigationItem.titleView?.viewWithTag(1)?.layer.opacity = 1 - Float(((scrollView.contentOffset.x - scrollViewWidth!) / scrollViewWidth!))
+            self.navigationItem.titleView?.viewWithTag(2)?.layer.opacity = Float(((scrollView.contentOffset.x - scrollViewWidth!) / scrollViewWidth!))
         } else {
             scrollViewOffset = scrollView.contentOffset.x
-            self.navigationItem.titleView?.viewWithTag(1)?.layer.opacity = -Float(((scrollView.contentOffset.x - 320) / 320))
-            self.navigationItem.titleView?.viewWithTag(2)?.layer.opacity = 1 + Float(((scrollView.contentOffset.x - 320) / 320))
+            self.navigationItem.titleView?.viewWithTag(1)?.layer.opacity = -Float(((scrollView.contentOffset.x - scrollViewWidth!) / scrollViewWidth!))
+            self.navigationItem.titleView?.viewWithTag(2)?.layer.opacity = 1 + Float(((scrollView.contentOffset.x - scrollViewWidth!) / scrollViewWidth!))
         }
-        self.navigationItem.titleView?.viewWithTag(100)?.layer.position.x = (-scrollViewOffset! / 2) + 160
+        self.navigationItem.titleView?.viewWithTag(100)?.layer.position.x = (-scrollViewOffset! / 2) + scrollViewWidth! / 2
     }
 
     func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
