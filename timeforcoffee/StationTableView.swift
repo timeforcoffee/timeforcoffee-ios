@@ -63,7 +63,7 @@ class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource,
         }
     }
 
-    func refresh(sender:AnyObject)
+    internal func refresh(sender:AnyObject)
     {
         refreshLocation()
     }
