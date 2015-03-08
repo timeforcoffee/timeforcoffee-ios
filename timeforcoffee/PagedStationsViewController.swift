@@ -123,6 +123,8 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
             } else {
                 currentPageIndex = 0
             }
+            let currentView: StationsViewController  = pageViewController.viewControllers[0] as StationsViewController
+            currentView.appsTableView?.refreshLocation()
         }
     }
     
@@ -134,9 +136,11 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         let vc: UIViewController! = storyboard.instantiateViewControllerWithIdentifier("AboutViewController") as UIViewController
         self.navigationController?.pushViewController(vc, animated: true)
     }
+
     func presentationCountForPageViewController(pageViewController: UIPageViewController) -> Int {
         return 2
     }
+    
     func presentationIndexForPageViewController(pageViewController: UIPageViewController) -> Int {
         return 0
     }
