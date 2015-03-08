@@ -9,7 +9,7 @@
 
 import Foundation
 
-class PagedStationsViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, UIScrollViewDelegate {
+class PagedStationsViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, UIScrollViewDelegate, UISearchBarDelegate {
 
     @IBOutlet weak var test: UINavigationItem!
 
@@ -17,6 +17,7 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
     var pageViewController: PagedStationsViewController?
     var currentPageIndex: Int?
     var scrollViewOffset: CGFloat? = 0
+    var searchController: UISearchController?
 
 
     required init(coder aDecoder: NSCoder) {
@@ -39,35 +40,11 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         let font = UIFont.systemFontOfSize(30)
         let buttonAttr = [NSFontAttributeName: font]
         aboutButton.setTitleTextAttributes(buttonAttr, forState: UIControlState.Normal)
-        self.navigationItem.rightBarButtonItem = aboutButton
-        
+        self.navigationItem.leftBarButtonItem = aboutButton
 
-        var titleView = UIView(frame: CGRect(x: 0, y: 0, width: 160, height: 30))
-        
-        var labelContainer = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 30))
-        labelContainer.tag = 100
-        
-        var pageLabel1 = UILabel(frame: CGRect(x: 0, y: 0, width: 160, height: 30))
-        pageLabel1.text = "Nearest Stations"
-        pageLabel1.textAlignment = NSTextAlignment.Center
-        pageLabel1.tag = 1
-        
-        var pageLabel2 = UILabel(frame: CGRect(x: 160, y: 0, width: 160, height: 30))
-        pageLabel2.text = "Favorites"
-        pageLabel2.textAlignment = NSTextAlignment.Center
-        pageLabel2.tag = 2
-        
-        labelContainer.addSubview(pageLabel1)
-        labelContainer.addSubview(pageLabel2)
-        
-        titleView.addSubview(labelContainer)
-        
-        self.navigationItem.titleView = titleView
-        
-        self.navigationItem.titleView?.layer.frame = CGRect(x: 0, y: 0, width: 160, height: 30)
-        self.navigationItem.titleView?.clipsToBounds = false
-    
-        
+        setSearchButton()
+        setTitleView()
+
         let pageControl = UIPageControl.appearance()
         pageControl.backgroundColor = UIColor.redColor()
         pageControl.pageIndicatorTintColor = UIColor.lightGrayColor()
@@ -82,7 +59,34 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         }
         
     }
-    
+
+    func setTitleView () {
+        var titleView = UIView(frame: CGRect(x: 0, y: 0, width: 160, height: 30))
+
+        var labelContainer = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 30))
+        labelContainer.tag = 100
+
+        var pageLabel1 = UILabel(frame: CGRect(x: 0, y: 0, width: 160, height: 30))
+        pageLabel1.text = "Nearest Stations"
+        pageLabel1.textAlignment = NSTextAlignment.Center
+        pageLabel1.tag = 1
+
+        var pageLabel2 = UILabel(frame: CGRect(x: 160, y: 0, width: 160, height: 30))
+        pageLabel2.text = "Favorites"
+        pageLabel2.textAlignment = NSTextAlignment.Center
+        pageLabel2.tag = 2
+
+        labelContainer.addSubview(pageLabel1)
+        labelContainer.addSubview(pageLabel2)
+
+        titleView.addSubview(labelContainer)
+
+        self.navigationItem.titleView = titleView
+
+        self.navigationItem.titleView?.layer.frame = CGRect(x: 0, y: 0, width: 160, height: 30)
+        self.navigationItem.titleView?.clipsToBounds = false
+    }
+
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if (currentPageIndex == 0) {
             scrollViewOffset = scrollView.contentOffset.x - scrollView.frame.width
@@ -129,9 +133,62 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
             currentView.appsTableView?.refreshLocation()
         }
     }
+
+    func setSearchButton() {
+        var searchButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Search, target: self, action: "searchClicked:")
+        self.navigationItem.rightBarButtonItem = searchButton
+    }
     
-    
-    
+    func searchClicked(sender: UIBarButtonItem) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+
+        let vc: StationsViewController! = storyboard.instantiateViewControllerWithIdentifier("StationsView") as StationsViewController
+
+        let sc: UISearchController = UISearchController(searchResultsController: vc)
+        let searchBarFrame: CGRect = sc.searchBar.frame
+        var newframe = CGRectMake(searchBarFrame.origin.x,
+            searchBarFrame.origin.y,
+            searchBarFrame.size.width,
+            55);
+        sc.searchBar.frame = newframe
+
+        self.searchController = sc
+        self.searchController?.hidesNavigationBarDuringPresentation = false;
+        self.searchController?.dimsBackgroundDuringPresentation = true;
+        self.definesPresentationContext = true;
+        let searchBar = self.searchController?.searchBar
+        self.navigationItem.rightBarButtonItem = nil;
+
+        self.navigationItem.titleView = searchBar
+        searchBar?.alpha = 0.0;
+        searchBar?.delegate = self
+        var delay: NSTimeInterval = 0.5
+        UIView.animateWithDuration(delay,
+            animations: {
+                //searchBar?.alpha = CGFloat(1.0)
+                searchBar?.alpha = 1.0
+                return
+            }, completion: { (finished:Bool) in
+                searchBar?.becomeFirstResponder()
+                return
+        })
+        self.presentViewController(self.searchController!, animated: true, completion: nil)
+        sc.searchResultsUpdater = vc.appsTableView
+    }
+
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        var searchBar = self.searchController?.searchBar
+        UIView.animateWithDuration(NSTimeInterval(0.5), animations: {
+                searchBar?.alpha = 0.0
+                return
+            }, completion: { (finished:Bool) in
+                self.navigationItem.titleView = nil;
+                self.navigationItem.rightBarButtonItem = nil;
+                self.setTitleView()
+                self.setSearchButton()
+                return
+        })
+    }
 
     func aboutClicked(sender: UIBarButtonItem) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)

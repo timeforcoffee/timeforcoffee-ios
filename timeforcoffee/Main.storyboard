@@ -257,10 +257,6 @@ and Jan Hug / @dulnan</string>
             <objects>
                 <pageViewController storyboardIdentifier="PageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="mid" doubleSided="YES" id="KiB-sC-VsM" customClass="PagedStationsViewController" customModule="timeforcoffee" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="RSb-wJ-pvc"/>
-                    <connections>
-                        <outlet property="navigationItem" destination="RSb-wJ-pvc" id="idr-i2-f4d"/>
-                        <outlet property="test" destination="RSb-wJ-pvc" id="zCK-iT-5G3"/>
-                    </connections>
                 </pageViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zcj-mR-3E9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -326,6 +322,49 @@ and Jan Hug / @dulnan</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iZx-iG-Gxv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-889.5" y="-249.75"/>
+        </scene>
+        <!--Station Search View Controller-->
+        <scene sceneID="iUZ-7f-zLg">
+            <objects>
+                <viewController storyboardIdentifier="StationsSearchView" id="qTQ-3n-7VT" userLabel="Station Search View Controller" customClass="StationsViewController" customModule="timeforcoffee" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="0FD-BO-Wdp"/>
+                        <viewControllerLayoutGuide type="bottom" id="QAB-sh-l4P"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="9Je-MT-xdX">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="HmU-A9-UId" userLabel="Station Search Table View" customClass="StationTableView" customModule="timeforcoffee" customModuleProvider="target">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="LTu-cN-KwV">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LTu-cN-KwV" id="w0X-CJ-Pwt">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="-2" y="2" width="400" height="800"/>
+                                </variation>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="HmU-A9-UId"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="HmU-A9-UId"/>
+                            </mask>
+                        </variation>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZLR-o1-ZeX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-70.5" y="609"/>
         </scene>
     </scenes>
     <resources>
