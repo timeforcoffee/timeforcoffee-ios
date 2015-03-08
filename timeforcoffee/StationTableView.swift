@@ -18,7 +18,6 @@ class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource,
     lazy var locManager: TFCLocationManager = self.lazyInitLocationManager()
     lazy var api : APIController = { return APIController(delegate: self)}()
     var networkErrorMsg: String?
-    var searchController: UISearchController!
     var showFavorites: Bool?
     var stationsViewController: StationsViewController?
 
@@ -30,7 +29,6 @@ class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource,
         super.awakeFromNib()
         /* Adding the refresh controls */
         self.dataSource = self
-
 
         self.refreshControl = UIRefreshControl()
         self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
@@ -46,10 +44,11 @@ class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource,
     }
 
     func applicationDidBecomeActive(notification: NSNotification) {
-        if (!(self.searchController?.searchBar.text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0)) {
+        //FIXME does update now, since searchController is somewhere else
+       // if (!(self.searchController?.searchBar.text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0)) {
         self.registerNib(UINib(nibName: "StationTableViewCell", bundle: nil), forCellReuseIdentifier: "StationTableViewCell")
             refreshLocation()
-        }
+        //}
     }
 
     internal func refresh(sender:AnyObject)
@@ -80,18 +79,11 @@ class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource,
     func updateSearchResultsForSearchController(searchController: UISearchController) {
         let whitespaceCharacterSet = NSCharacterSet.whitespaceCharacterSet()
         let strippedString = searchController.searchBar.text.stringByTrimmingCharactersInSet(whitespaceCharacterSet)
-println("here")
-        println(strippedString)
         if (strippedString != "") {
             stations.clear()
             self.api.searchFor(strippedString)
         }
     }
-
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-        refreshLocation()
-    }
-
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (stations.count() == nil || stations.count() == 0) {

@@ -168,7 +168,6 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         var delay: NSTimeInterval = 0.5
         UIView.animateWithDuration(delay,
             animations: {
-                //searchBar?.alpha = CGFloat(1.0)
                 searchBar?.alpha = 1.0
                 return
             }, completion: { (finished:Bool) in
@@ -189,6 +188,7 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
                 self.navigationItem.rightBarButtonItem = nil;
                 self.setTitleView()
                 self.setSearchButton()
+                self.searchController = nil
                 return
         })
     }
