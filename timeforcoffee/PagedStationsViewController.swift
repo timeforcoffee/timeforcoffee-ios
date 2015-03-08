@@ -13,7 +13,7 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
 
     @IBOutlet weak var test: UINavigationItem!
 
-    @IBOutlet var pageIndicator: UIPageControl!
+    //@IBOutlet var pageIndicator: UIPageControl!
     var pageViewController: PagedStationsViewController?
     var currentPageIndex: Int?
     var scrollViewOffset: CGFloat? = 0
@@ -45,13 +45,6 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
 
         setSearchButton()
         setTitleView()
-
-        let pageControl = UIPageControl.appearance()
-        pageControl.backgroundColor = UIColor.redColor()
-        pageControl.pageIndicatorTintColor = UIColor.lightGrayColor()
-        pageControl.currentPageIndicatorTintColor = UIColor.blackColor()
-        
-       
         
         for v in self.view.subviews {
             if v.isKindOfClass(UIScrollView){
@@ -66,16 +59,21 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         
         var titleView = UIView(frame: CGRect(x: 0, y: 0, width: scrollViewWidth! / 2, height: 30))
 
-        var labelContainer = UIView(frame: CGRect(x: 0, y: 0, width: scrollViewWidth!, height: 30))
+        var labelContainer = UIView(frame: CGRect(x: 0, y: 0, width: scrollViewWidth!, height: 20))
         labelContainer.tag = 100
+        
+        let labelFont = UIFont(name: "HelveticaNeue-Medium", size: 12.0)
 
-        var pageLabel1 = UILabel(frame: CGRect(x: 0, y: 0, width: scrollViewWidth! / 2, height: 30))
-        pageLabel1.text = "Nearest Stations"
+        var pageLabel1 = UILabel(frame: CGRect(x: 0, y: 0, width: scrollViewWidth! / 2, height: 20))
+        pageLabel1.text = "NEAREST STATIONS"
+        pageLabel1.font = labelFont
         pageLabel1.textAlignment = NSTextAlignment.Center
+        
         pageLabel1.tag = 1
 
-        var pageLabel2 = UILabel(frame: CGRect(x: scrollViewWidth! / 2, y: 0, width: scrollViewWidth! / 2, height: 30))
-        pageLabel2.text = "Favorites"
+        var pageLabel2 = UILabel(frame: CGRect(x: scrollViewWidth! / 2, y: 0, width: scrollViewWidth! / 2, height: 20))
+        pageLabel2.text = "FAVORITES"
+        pageLabel2.font = labelFont
         pageLabel2.textAlignment = NSTextAlignment.Center
         pageLabel2.tag = 2
 
@@ -83,6 +81,17 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         labelContainer.addSubview(pageLabel2)
 
         titleView.addSubview(labelContainer)
+        
+        
+        var titlePageControl = UIPageControl(frame: CGRect(x: 0, y: 20, width: scrollViewWidth! / 2, height: 10))
+        titlePageControl.tag = 50
+        titlePageControl.numberOfPages = 2
+        titlePageControl.currentPage = 0
+        titlePageControl.currentPageIndicatorTintColor = UIColor.blackColor()
+        titlePageControl.pageIndicatorTintColor = UIColor.grayColor()
+        
+        titleView.addSubview(titlePageControl)
+        
 
         self.navigationItem.titleView = titleView
 
@@ -130,6 +139,7 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
             if let currentViewController = pageViewController.viewControllers?.first as? StationsViewController {
                 if (currentViewController.pageIndex != currentPageIndex) {
                     currentPageIndex = currentViewController.pageIndex
+                    (self.navigationItem.titleView?.viewWithTag(50) as UIPageControl).currentPage = currentPageIndex!
                 }
             }
             let currentView: StationsViewController  = pageViewController.viewControllers[0] as StationsViewController
@@ -198,15 +208,4 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         let vc: UIViewController! = storyboard.instantiateViewControllerWithIdentifier("AboutViewController") as UIViewController
         self.navigationController?.pushViewController(vc, animated: true)
     }
-
-    func presentationCountForPageViewController(pageViewController: UIPageViewController) -> Int {
-        return 2
-    }
-    
-    func presentationIndexForPageViewController(pageViewController: UIPageViewController) -> Int {
-        return 0
-    }
-    
-    
-
 }
