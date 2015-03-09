@@ -157,14 +157,9 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
 
         let vc: StationsViewController! = storyboard.instantiateViewControllerWithIdentifier("StationsView") as StationsViewController
 
-        let sc: UISearchController = UISearchController(searchResultsController: vc)
-        let searchBarFrame: CGRect = sc.searchBar.frame
-        var newframe = CGRectMake(searchBarFrame.origin.x,
-            searchBarFrame.origin.y,
-            searchBarFrame.size.width,
-            55);
-        sc.searchBar.frame = newframe
 
+        let sc: UISearchController = UISearchController(searchResultsController: vc)
+     
         self.searchController = sc
         self.searchController?.hidesNavigationBarDuringPresentation = false;
         self.searchController?.dimsBackgroundDuringPresentation = true;
