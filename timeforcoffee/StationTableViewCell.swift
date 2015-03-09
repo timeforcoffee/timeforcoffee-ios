@@ -47,7 +47,7 @@ class StationTableViewCell: UITableViewCell {
         drawFavoriteIcon()
         let parent = self.superview?.superview as StationTableView
         let locManager = parent.locManager
-        StationNameLabel?.text = station.getNameWithStar()
+        StationNameLabel?.text = station.getName(false)
 
         if (locManager.currentLocation == nil) {
             StationDescriptionLabel.text = ""
