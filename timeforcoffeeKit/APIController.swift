@@ -26,37 +26,36 @@ public class APIController {
     }
     
     public func searchFor(coord: CLLocationCoordinate2D) {
-        var urlPath: String = String(format: "http://transport.opendata.ch/v1/locations?x=%.4f&y=%.4f", coord.latitude, coord.longitude)
-        if (cache.objectForKey(urlPath) != nil) {
-            let result = JSONValue(cache.objectForKey(urlPath) as NSData!);
-            self.delegate.didReceiveAPIResults(result, error: nil, context: nil)
-        } else {
-            self.fetchUrl(urlPath, fetchId: 1, cacheRequest: true)
-        }
+        let cacheKey: String = String(format: "locations?x=%.3f&y=%.3f", coord.latitude, coord.longitude)
+        let urlPath: String = "http://transport.opendata.ch/v1/locations?x=\(coord.latitude)&y=\(coord.longitude)"
+
+        self.fetchUrl(urlPath, fetchId: 1, cacheKey: cacheKey)
     }
 
     public func searchFor(location: String) {
         let name = location.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
+        let cacheKey = "stations/\(name)"
         let urlPath = "http://www.timeforcoffee.ch/api/zvv/stations/\(name)*";
 
-        self.fetchUrl(urlPath, fetchId: 1, cacheRequest: true)
+        self.fetchUrl(urlPath, fetchId: 1, cacheKey: cacheKey)
     }
+
     public func getDepartures(id: String!) {
         getDepartures(id, context: nil)
     }
     
     public func getDepartures(id: String!, context: Any?) {
         var urlPath = "http://www.timeforcoffee.ch/api/zvv/stationboard/\(id)"
-        self.fetchUrl(urlPath, fetchId: 2, context: context, cacheRequest: false)
+        self.fetchUrl(urlPath, fetchId: 2, context: context, cacheKey: nil)
     }
     
-    func fetchUrl(urlPath: String, fetchId: Int, cacheRequest: Bool) {
-        fetchUrl(urlPath, fetchId: fetchId, context: nil, cacheRequest: cacheRequest)
+    func fetchUrl(urlPath: String, fetchId: Int, cacheKey: String?) {
+        fetchUrl(urlPath, fetchId: fetchId, context: nil, cacheKey: cacheKey)
     }
 
-    func fetchUrl(urlPath: String, fetchId: Int, context: Any?, cacheRequest: Bool) {
-        if (cacheRequest && cache.objectForKey(urlPath) != nil) {
-            let result = JSONValue(cache.objectForKey(urlPath) as NSData!);
+    func fetchUrl(urlPath: String, fetchId: Int, context: Any?, cacheKey: String?) {
+        if (cacheKey != nil && cache.objectForKey(cacheKey!) != nil) {
+            let result = JSONValue(cache.objectForKey(cacheKey!) as NSData!);
             self.delegate.didReceiveAPIResults(result, error: nil, context: context)
         } else {
             let urlPathEsc = urlPath.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
@@ -79,12 +78,8 @@ public class APIController {
                 self.currentFetch[fetchId] = nil
                 var err: NSError?
                 let jsonResult = JSONValue(data)
-                if (error == nil && cacheRequest) {
-                    let HTTPResponse: NSHTTPURLResponse = response as NSHTTPURLResponse
-                    let url: String? = HTTPResponse.URL?.absoluteString
-                    if (url != nil) {
-                        self.cache.setObject(data, forKey: url!)
-                    }
+                if (error == nil && cacheKey != nil) {
+                    self.cache.setObject(data, forKey: cacheKey!)
                 }
                 self.delegate.didReceiveAPIResults(jsonResult, error: error, context: context)
             })
