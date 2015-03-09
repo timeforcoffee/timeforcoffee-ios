@@ -176,7 +176,7 @@ public class TFCStations {
     }
 
 
-    class func getFavoriteStationsDict() -> [String: [String: String]] {
+    public class func getFavoriteStationsDict() -> [String: [String: String]] {
         var sharedDefaults = NSUserDefaults(suiteName: "group.ch.liip.timeforcoffee")
         var favoriteStationsShared: [String: [String: String]]? = sharedDefaults?.objectForKey("favoriteStations") as [String: [String: String]]?
 

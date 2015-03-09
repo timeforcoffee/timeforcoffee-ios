@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="6750" systemVersion="14D72i" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6735"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="3737"/>
+    </dependencies>
+    <scenes>
+        <!--Time for Coffee!-->
+        <scene sceneID="aou-V4-d1y">
+            <objects>
+                <controller title="Time for Coffee!" id="AgC-eL-Hgc" userLabel="Time for Coffee!" customClass="InterfaceController" customModule="Time_for_Coffee__WatchKit_App" customModuleProvider="target">
+                    <items>
+                        <imageView alignment="left" image="launchicon.png" id="aNd-iq-fZT"/>
+                    </items>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="313" y="208"/>
+        </scene>
+        <!--Time for Coffee!-->
+        <scene sceneID="LqG-bx-ytL">
+            <objects>
+                <controller identifier="StationPage" id="3ez-Oj-rei" userLabel="Time for Coffee!" customClass="StationViewController" customModule="Time_for_Coffee__WatchKit_Extension">
+                    <items>
+                        <table alignment="left" id="J4B-MA-cdK">
+                            <items>
+                                <tableRow identifier="station" id="Y4q-hS-mJZ" customClass="StationRow" customModule="Time_for_Coffee__WatchKit_Extension">
+                                    <group key="rootItem" width="1" height="28.5" alignment="left" id="UGC-nv-9zx">
+                                        <items>
+                                            <group width="26" height="26" alignment="left" verticalAlignment="center" radius="4" id="cBO-9q-LrM">
+                                                <items>
+                                                    <label width="26" height="26" alignment="left" verticalAlignment="center" text="12" textAlignment="center" minimumScaleFactor="0.50000000000000011" id="dbP-Hm-64x">
+                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <fontDescription key="font" type="system" pointSize="18"/>
+                                                    </label>
+                                                </items>
+                                                <color key="backgroundColor" red="0.99607843139999996" green="0.76470588240000004" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
+                                            </group>
+                                            <group width="90" height="28" alignment="left" layout="vertical" spacing="0.0" id="Cha-10-uSx">
+                                                <items>
+                                                    <label width="1" height="14" alignment="left" text="Zürich, Röntgenstrasse" minimumScaleFactor="0.79999999999999993" id="qmq-be-vci">
+                                                        <fontDescription key="font" type="system" pointSize="13"/>
+                                                    </label>
+                                                    <label width="1" height="14" alignment="left" verticalAlignment="bottom" text="Timerfdgdfgdfg" minimumScaleFactor="0.50000000000000011" id="Kdx-go-JUj">
+                                                        <fontDescription key="font" type="system" pointSize="10"/>
+                                                    </label>
+                                                </items>
+                                            </group>
+                                            <group height="1" alignment="right" id="aG3-Za-dwg">
+                                                <items>
+                                                    <label height="1" alignment="left" text="3" id="wVu-EU-Rtc"/>
+                                                </items>
+                                            </group>
+                                        </items>
+                                        <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
+                                    </group>
+                                    <connections>
+                                        <outlet property="depatureLabel" destination="Kdx-go-JUj" id="ojO-qI-bXS"/>
+                                        <outlet property="destinationLabel" destination="qmq-be-vci" id="a0j-NK-KNu"/>
+                                        <outlet property="minutesLabel" destination="wVu-EU-Rtc" id="ONZ-sL-4T8"/>
+                                        <outlet property="numberGroup" destination="cBO-9q-LrM" id="waI-z7-ZRB"/>
+                                        <outlet property="numberLabel" destination="dbP-Hm-64x" id="Xdd-I9-Tny"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                    </items>
+                    <connections>
+                        <outlet property="stationsTable" destination="J4B-MA-cdK" id="Ck5-NG-9w6"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="622" y="104"/>
+        </scene>
+        <!--Glance Interface Controller-->
+        <scene sceneID="rjY-Ar-IMT">
+            <objects>
+                <glanceController spacing="0.0" id="Sv0-Ai-Zie" customClass="GlanceController" customModule="Time_for_Coffee__WatchKit_App" customModuleProvider="target">
+                    <items>
+                        <group alignment="left" id="gv7-I2-MZq">
+                            <items>
+                                <group width="26" height="26" alignment="left" verticalAlignment="center" radius="4" id="dUM-0r-Zst">
+                                    <items>
+                                        <label width="26" height="26" alignment="left" verticalAlignment="center" text="12" textAlignment="center" minimumScaleFactor="0.5" id="hE4-i0-wwk">
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <fontDescription key="font" type="system" pointSize="18"/>
+                                        </label>
+                                    </items>
+                                    <color key="backgroundColor" red="0.99607843139999996" green="0.76470588240000004" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
+                                </group>
+                                <group width="1" height="26" alignment="left" verticalAlignment="center" id="a8H-Pf-vgm">
+                                    <items>
+                                        <label alignment="left" text="Zürich, Röntgenstrasse" id="Tuk-w4-2jI"/>
+                                    </items>
+                                </group>
+                            </items>
+                        </group>
+                        <group alignment="left" layout="vertical" id="eew-Gs-W6Y">
+                            <items>
+                                <group width="1" alignment="left" layout="vertical" id="X9s-ax-gfx">
+                                    <items>
+                                        <label width="1" alignment="center" verticalAlignment="center" text="5'" textAlignment="center" id="o1H-2i-5C8">
+                                            <fontDescription key="font" type="system" pointSize="46"/>
+                                        </label>
+                                    </items>
+                                </group>
+                                <group alignment="center" verticalAlignment="bottom" id="Kes-ck-dmS">
+                                    <items>
+                                        <label alignment="left" text="in 0' / 17:30" textAlignment="center" id="HuI-Vy-Yul"/>
+                                    </items>
+                                </group>
+                            </items>
+                        </group>
+                    </items>
+                    <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="14"/>
+                    <connections>
+                        <outlet property="minutesLabel" destination="o1H-2i-5C8" id="LI3-Xf-6m4"/>
+                    </connections>
+                </glanceController>
+            </objects>
+            <point key="canvasLocation" x="164" y="514"/>
+        </scene>
+    </scenes>
+    <color key="tintColor" red="0.99607843139999996" green="0.76470588240000004" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
+</document>

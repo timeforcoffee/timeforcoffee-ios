@@ -14,6 +14,8 @@ import CoreLocation
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var watchData: TFCWatchData?
+
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -72,7 +74,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         return true
     }
-
     
+    func application(application: UIApplication!, handleWatchKitExtensionRequest userInfo: [NSString : NSString]!, reply: (([NSObject : AnyObject]!) -> Void)!) {
+        if  (watchData == nil) {
+            watchData = TFCWatchData()
+        }
+
+        if (userInfo["module"] == "favorites") {
+            watchData?.getFavorites(reply)
+        } else if (userInfo["module"] == "departures") {
+            watchData?.getDepartures(userInfo, reply: reply!)
+        } else if (userInfo["module"] == "nearby") {
+            println("get nearby module")
+            watchData?.getNearbyStations(reply)
+        } else {
+            watchData?.getFavorites(reply)
+        }
+    }
+
 }
 

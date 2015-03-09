@@ -144,6 +144,15 @@ public class TFCStation {
         }
         return filteredDestinationsShared!
     }
+    
+    func getAsDict() -> [String: AnyObject] {
+        return [
+            "name": getName(false),
+            "st_id": st_id,
+            "latitude": coord!.coordinate.latitude.description,
+            "longitude": coord!.coordinate.longitude.description
+        ]
+    }
 
 }
 
