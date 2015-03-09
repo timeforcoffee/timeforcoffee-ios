@@ -155,6 +155,10 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         }
     }
 
+    func getCurrentView() -> StationsViewController {
+        return self.viewControllers[0] as StationsViewController
+    }
+
     func setSearchButton() {
         var searchButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Search, target: self, action: "searchClicked:")
         self.navigationItem.rightBarButtonItem = searchButton
@@ -163,14 +167,11 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
     func searchClicked(sender: UIBarButtonItem) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
 
-        let vc: StationsViewController! = storyboard.instantiateViewControllerWithIdentifier("StationsView") as StationsViewController
-
-
-        let sc: UISearchController = UISearchController(searchResultsController: vc)
+        let sc: UISearchController = UISearchController(searchResultsController: nil)
      
         self.searchController = sc
         self.searchController?.hidesNavigationBarDuringPresentation = false;
-        self.searchController?.dimsBackgroundDuringPresentation = true;
+        self.searchController?.dimsBackgroundDuringPresentation = false;
         self.definesPresentationContext = true;
         let searchBar = self.searchController?.searchBar
         self.navigationItem.rightBarButtonItem = nil;
@@ -188,7 +189,9 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
                 return
         })
         self.presentViewController(self.searchController!, animated: true, completion: nil)
-        sc.searchResultsUpdater = vc.appsTableView
+        let appsTableView = getCurrentView().appsTableView?
+
+        sc.searchResultsUpdater = appsTableView
     }
 
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
@@ -204,6 +207,9 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
                 self.searchController = nil
                 return
         })
+        let appsTableView = getCurrentView().appsTableView?
+        appsTableView?.stations.clear()
+        appsTableView?.refreshLocation()
     }
 
     func aboutClicked(sender: UIBarButtonItem) {
