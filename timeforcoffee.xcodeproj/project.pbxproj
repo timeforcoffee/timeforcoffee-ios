@@ -30,6 +30,7 @@
 		EC2C317D1A9E1F3D00690397 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C31731A9E1EE400690397 /* libc++.dylib */; };
 		EC2C317E1A9E1F4400690397 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C31751A9E1EEB00690397 /* libz.dylib */; };
 		EC31F5481AAE3AED00771585 /* DeparturesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC31F5471AAE3AED00771585 /* DeparturesViewController.swift */; };
+		EC31F54A1AAE3DC000771585 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC31F5491AAE3DC000771585 /* AboutViewController.swift */; };
 		EC3252E61A9CE1320056AF11 /* MGSwipeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EC3252E31A9CE1320056AF11 /* MGSwipeButton.m */; };
 		EC3252E71A9CE1320056AF11 /* MGSwipeTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC3252E51A9CE1320056AF11 /* MGSwipeTableCell.m */; };
 		EC4344B31AA5080A009438C7 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4344B21AA5080A009438C7 /* InterfaceController.swift */; };
@@ -41,7 +42,6 @@
 		EC4344C81AA5080A009438C7 /* Time for Coffee! WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EC4344AE1AA5080A009438C7 /* Time for Coffee! WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		EC4344D01AA508FF009438C7 /* StationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4344CF1AA508FF009438C7 /* StationRow.swift */; };
 		EC4344D21AA5890F009438C7 /* StationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4344D11AA5890F009438C7 /* StationViewController.swift */; };
-		EC49D7861AA3B63F00DC2059 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC49D7851AA3B63F00DC2059 /* AboutViewController.swift */; };
 		EC522E751AA611A40011A992 /* HelveticaNeueBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EC522E741AA611A40011A992 /* HelveticaNeueBold.ttf */; };
 		EC522E761AA611A40011A992 /* HelveticaNeueBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EC522E741AA611A40011A992 /* HelveticaNeueBold.ttf */; };
 		EC6EDCF21A9B9F390098CAE0 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC6EDCF11A9B9F390098CAE0 /* NotificationCenter.framework */; };
@@ -166,6 +166,7 @@
 		EC2C31731A9E1EE400690397 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		EC2C31751A9E1EEB00690397 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		EC31F5471AAE3AED00771585 /* DeparturesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeparturesViewController.swift; sourceTree = "<group>"; };
+		EC31F5491AAE3DC000771585 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		EC3252DF1A9CE0800056AF11 /* timeforcoffee-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "timeforcoffee-Bridging-Header.h"; sourceTree = "<group>"; };
 		EC3252E21A9CE1320056AF11 /* MGSwipeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSwipeButton.h; sourceTree = "<group>"; };
 		EC3252E31A9CE1320056AF11 /* MGSwipeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGSwipeButton.m; sourceTree = "<group>"; };
@@ -182,7 +183,6 @@
 		EC4344C41AA5080A009438C7 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		EC4344CF1AA508FF009438C7 /* StationRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationRow.swift; sourceTree = "<group>"; };
 		EC4344D11AA5890F009438C7 /* StationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationViewController.swift; sourceTree = "<group>"; };
-		EC49D7851AA3B63F00DC2059 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		EC522E741AA611A40011A992 /* HelveticaNeueBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HelveticaNeueBold.ttf; sourceTree = "<group>"; };
 		EC6EDCEF1A9B9F390098CAE0 /* timeforcoffee Widget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "timeforcoffee Widget.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC6EDCF11A9B9F390098CAE0 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
@@ -472,8 +472,8 @@
 				EC7A517A19C427CA000F5E7C /* StationsViewController.swift */,
 				ECDAB3A51AAA42A300EB352B /* PagedStationsViewController.swift */,
 				EC31F5471AAE3AED00771585 /* DeparturesViewController.swift */,
-				EC49D7851AA3B63F00DC2059 /* AboutViewController.swift */,
 				EC7A519E19C4432F000F5E7C /* DetailsViewController.swift */,
+				EC31F5491AAE3DC000771585 /* AboutViewController.swift */,
 				EC7A517F19C427CA000F5E7C /* Images.xcassets */,
 				EC7A518119C427CA000F5E7C /* LaunchScreen.xib */,
 				EC7A517619C427CA000F5E7C /* Supporting Files */,
@@ -829,12 +829,12 @@
 			files = (
 				314AFBD61AA778F400C176FE /* StationTableView.swift in Sources */,
 				EC7A517B19C427CA000F5E7C /* StationsViewController.swift in Sources */,
+				EC31F54A1AAE3DC000771585 /* AboutViewController.swift in Sources */,
 				EC3252E71A9CE1320056AF11 /* MGSwipeTableCell.m in Sources */,
 				EC7A517919C427CA000F5E7C /* AppDelegate.swift in Sources */,
 				EC3252E61A9CE1320056AF11 /* MGSwipeButton.m in Sources */,
 				EC72FCC11AA336E900E9B275 /* TFCNavigationController.swift in Sources */,
 				314AFBD41AA766DC00C176FE /* StationTableViewCell.swift in Sources */,
-				EC49D7861AA3B63F00DC2059 /* AboutViewController.swift in Sources */,
 				EC7A519F19C4432F000F5E7C /* DetailsViewController.swift in Sources */,
 				ECDAB3A61AAA42A300EB352B /* PagedStationsViewController.swift in Sources */,
 				EC31F5481AAE3AED00771585 /* DeparturesViewController.swift in Sources */,

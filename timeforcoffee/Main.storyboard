@@ -160,7 +160,7 @@
             </objects>
             <point key="canvasLocation" x="1762" y="520"/>
         </scene>
-        <!--About-->
+        <!--About View Controller-->
         <scene sceneID="hYJ-tC-ElX">
             <objects>
                 <viewController storyboardIdentifier="AboutViewController" id="uOM-Zh-2bU" customClass="AboutViewController" customModule="timeforcoffee" customModuleProvider="target" sceneMemberID="viewController">
@@ -168,7 +168,7 @@
                         <viewControllerLayoutGuide type="top" id="VZv-ag-Rmb"/>
                         <viewControllerLayoutGuide type="bottom" id="4g4-K4-s3T"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" restorationIdentifier="LaunchScreen" id="YGJ-Wo-cLS">
+                    <view key="view" contentMode="scaleToFill" restorationIdentifier="LaunchScreen" id="YGJ-Wo-cLS" customClass="About">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -219,6 +219,16 @@ and Jan Hug / @dulnan</string>
                                     <rect key="frame" x="100" y="590" width="200" height="190"/>
                                 </variation>
                             </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SzX-a4-nhG">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <state key="normal" title="Close">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="CloseClicked:" destination="uOM-Zh-2bU" eventType="touchUpInside" id="cWf-3H-1Wk"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -227,26 +237,37 @@ and Jan Hug / @dulnan</string>
                             <constraint firstAttribute="trailing" secondItem="a9n-AF-yrf" secondAttribute="trailing" id="JAC-a1-j3F"/>
                             <constraint firstAttribute="trailing" secondItem="WUH-1o-DDL" secondAttribute="trailing" id="LUQ-nc-28A"/>
                             <constraint firstItem="a9n-AF-yrf" firstAttribute="leading" secondItem="YGJ-Wo-cLS" secondAttribute="leading" id="Ln0-Fl-9T9"/>
+                            <constraint firstItem="SzX-a4-nhG" firstAttribute="top" secondItem="VZv-ag-Rmb" secondAttribute="bottom" constant="8" id="OAh-Ih-ePH"/>
                             <constraint firstItem="WUH-1o-DDL" firstAttribute="bottom" secondItem="a9n-AF-yrf" secondAttribute="top" id="W6O-c0-p8l"/>
                             <constraint firstAttribute="trailing" secondItem="h2A-iR-B1B" secondAttribute="trailing" id="cLj-fS-4G5"/>
                             <constraint firstAttribute="trailing" secondItem="8Aw-oj-4Cz" secondAttribute="trailing" id="oCd-rY-LfS"/>
                             <constraint firstItem="8Aw-oj-4Cz" firstAttribute="bottom" secondItem="WUH-1o-DDL" secondAttribute="top" id="sCe-18-Am7"/>
+                            <constraint firstItem="SzX-a4-nhG" firstAttribute="leading" secondItem="YGJ-Wo-cLS" secondAttribute="leadingMargin" constant="-8" id="t2z-2U-gsV"/>
                             <constraint firstItem="8Aw-oj-4Cz" firstAttribute="leading" secondItem="YGJ-Wo-cLS" secondAttribute="leading" id="vru-Dm-Yz5"/>
                             <constraint firstItem="h2A-iR-B1B" firstAttribute="leading" secondItem="YGJ-Wo-cLS" secondAttribute="leading" id="xBv-Fo-8mQ"/>
                             <constraint firstItem="WUH-1o-DDL" firstAttribute="leading" secondItem="YGJ-Wo-cLS" secondAttribute="leading" id="yVf-oL-a8D"/>
                         </constraints>
                         <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="SzX-a4-nhG"/>
+                            </mask>
                             <mask key="constraints">
+                                <exclude reference="OAh-Ih-ePH"/>
+                                <exclude reference="t2z-2U-gsV"/>
                                 <exclude reference="3xX-g2-vHH"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="SzX-a4-nhG"/>
+                            </mask>
                             <mask key="constraints">
+                                <include reference="OAh-Ih-ePH"/>
+                                <include reference="t2z-2U-gsV"/>
                                 <include reference="3xX-g2-vHH"/>
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" title="About" id="ekJ-X8-zwb"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c9a-mX-pPc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -11,4 +11,8 @@ import Foundation
 class AboutViewController: UIViewController {
     
     
+    @IBAction func CloseClicked(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+
+    }
 }
