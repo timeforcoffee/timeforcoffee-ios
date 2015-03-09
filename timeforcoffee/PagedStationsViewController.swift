@@ -25,6 +25,7 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
     }
 
     override func viewDidLoad() {
+        self.automaticallyAdjustsScrollViewInsets = false
         super.viewDidLoad()
         self.dataSource = self
         self.delegate = self
@@ -50,6 +51,9 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
                 scrollView = (v as UIScrollView)
                 scrollView?.delegate = self
             }
+        }
+        if (scrollView != nil) {
+            scrollViewDidScroll(scrollView!)
         }
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeActive:", name: "UIApplicationDidBecomeActiveNotification", object: nil)
 
