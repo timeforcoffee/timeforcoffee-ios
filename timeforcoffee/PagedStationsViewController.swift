@@ -18,7 +18,7 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
     var scrollViewOffset: CGFloat? = 0
     var scrollViewWidth: CGFloat?
     var searchController: UISearchController?
-
+    var scrollView: UIScrollView?
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -47,7 +47,8 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         
         for v in self.view.subviews {
             if v.isKindOfClass(UIScrollView){
-                (v as UIScrollView).delegate = self
+                scrollView = (v as UIScrollView)
+                scrollView?.delegate = self
             }
         }
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeActive:", name: "UIApplicationDidBecomeActiveNotification", object: nil)
@@ -148,13 +149,19 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         if (completed == true && finished == true) {
             if let currentViewController = pageViewController.viewControllers?.first as? StationsViewController {
                 if (currentViewController.pageIndex != currentPageIndex) {
-                    currentPageIndex = currentViewController.pageIndex
-                    (self.navigationItem.titleView?.viewWithTag(50) as UIPageControl).currentPage = currentPageIndex!
+                    setPageControlDot()
                 }
             }
             let currentView: StationsViewController  = pageViewController.viewControllers[0] as StationsViewController
             currentView.appsTableView?.refreshLocation()
         }
+    }
+
+    func setPageControlDot() {
+        let currentViewController = getCurrentView()
+        currentPageIndex = currentViewController.pageIndex
+        (self.navigationItem.titleView?.viewWithTag(50) as UIPageControl).currentPage = currentPageIndex!
+
     }
 
     func getCurrentView() -> StationsViewController {
@@ -205,6 +212,10 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
                 self.navigationItem.titleView = nil;
                 self.navigationItem.rightBarButtonItem = nil;
                 self.setTitleView()
+                if (self.scrollView != nil) {
+                    self.scrollViewDidScroll(self.scrollView!)
+                }
+                self.setPageControlDot()
                 self.setSearchButton()
                 self.searchController = nil
                 return
