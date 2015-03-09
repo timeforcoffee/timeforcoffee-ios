@@ -58,8 +58,10 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
     }
 
     func applicationDidBecomeActive(notification: NSNotification) {
-        let currentView: StationsViewController  = self.viewControllers[0] as StationsViewController
-        currentView.appsTableView?.refreshLocation()
+        if (self.searchController == nil) {
+            let currentView: StationsViewController  = self.viewControllers[0] as StationsViewController
+            currentView.appsTableView?.refreshLocation()
+        }
     }
 
     func setTitleView () {
@@ -210,6 +212,7 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         let appsTableView = getCurrentView().appsTableView?
         appsTableView?.stations.clear()
         appsTableView?.refreshLocation()
+        self.searchController = nil
     }
 
     func aboutClicked(sender: UIBarButtonItem) {
