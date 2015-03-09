@@ -68,8 +68,8 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
         println("deinit")
          NSNotificationCenter.defaultCenter().removeObserver(self)
     }
-    
-    override func viewWillDisappear(animated: Bool) {
+
+    override func viewDidDisappear(animated: Bool) {
         station = nil
         api = nil
         departures = nil
@@ -192,24 +192,29 @@ class StationViewController: UIViewController, UITableViewDataSource, UITableVie
     }
 
     func swipeTableCell(cell: MGSwipeTableCell!, canSwipe direction: MGSwipeDirection) -> Bool {
-        return true
+        if (direction == MGSwipeDirection.RightToLeft) {
+            return true
+        }
+        return false
     }
 
     func swipeTableCell(cell: MGSwipeTableCell!, swipeButtonsForDirection direction: MGSwipeDirection, swipeSettings: MGSwipeSettings!, expansionSettings: MGSwipeExpansionSettings!) -> [AnyObject]! {
         var buttons = []
-        let station2 = station!
-        if (self.departures != nil) {
-        if (direction == MGSwipeDirection.RightToLeft) {
-            let departure: TFCDeparture = self.departures![cell.tag]
-            if (station2.isFiltered(departure)) {
-                buttons = [MGSwipeButton( title:"Unfilter", backgroundColor: UIColor.redColor())]
-            } else {
-                buttons = [MGSwipeButton( title:"Filter", backgroundColor: UIColor.greenColor())]
+        if (station != nil) {
+            let station2 = station!
+            if (self.departures != nil) {
+                if (direction == MGSwipeDirection.RightToLeft) {
+                    let departure: TFCDeparture = self.departures![cell.tag]
+                    if (station2.isFiltered(departure)) {
+                        buttons = [MGSwipeButton( title:"Unfilter", backgroundColor: UIColor.redColor())]
+                    } else {
+                        buttons = [MGSwipeButton( title:"Filter", backgroundColor: UIColor.greenColor())]
+                    }
+                }
+                expansionSettings.buttonIndex = 0
+                expansionSettings.fillOnTrigger = true
+                expansionSettings.threshold = 2.5
             }
-            }
-            expansionSettings.buttonIndex = 0
-            expansionSettings.fillOnTrigger = true
-            expansionSettings.threshold = 2.5
         }
         return buttons
     }
