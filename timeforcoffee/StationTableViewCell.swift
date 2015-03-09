@@ -44,6 +44,7 @@ class StationTableViewCell: UITableViewCell {
     }
 
     func drawCell() {
+        self.selectionStyle = UITableViewCellSelectionStyle.None;
         drawFavoriteIcon()
         let parent = self.superview?.superview as StationTableView
         let locManager = parent.locManager
