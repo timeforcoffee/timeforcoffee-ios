@@ -42,6 +42,7 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         let buttonAttr = [NSFontAttributeName: font]
         aboutButton.setTitleTextAttributes(buttonAttr, forState: UIControlState.Normal)
         self.navigationItem.leftBarButtonItem = aboutButton
+        self.edgesForExtendedLayout = UIRectEdge.None;
 
         setSearchButton()
         setTitleView()
