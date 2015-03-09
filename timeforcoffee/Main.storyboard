@@ -278,7 +278,7 @@ and Jan Hug / @dulnan</string>
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="0.0" y="0.0" width="400" height="586"/>
+                                    <rect key="frame" x="0.0" y="20" width="400" height="586"/>
                                 </variation>
                                 <connections>
                                     <outlet property="dataSource" destination="BYZ-38-t0r" id="vpc-8Z-0BW"/>
@@ -288,7 +288,7 @@ and Jan Hug / @dulnan</string>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="1sI-wO-cFy" firstAttribute="topMargin" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="0IH-JI-Uca"/>
+                            <constraint firstItem="1sI-wO-cFy" firstAttribute="topMargin" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="0IH-JI-Uca"/>
                             <constraint firstAttribute="centerX" secondItem="1sI-wO-cFy" secondAttribute="centerX" id="KC5-kD-Mwq"/>
                             <constraint firstItem="1sI-wO-cFy" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="Pdw-5X-l8i"/>
                             <constraint firstAttribute="trailingMargin" secondItem="1sI-wO-cFy" secondAttribute="trailing" constant="-16" id="bdm-30-7ng"/>

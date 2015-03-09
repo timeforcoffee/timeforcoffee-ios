@@ -18,7 +18,6 @@ public class APIController {
     }()
 
     lazy var cache:NSCache = {
-        println("new cache")
         return NSCache()
     }()
 
@@ -83,7 +82,6 @@ public class APIController {
                 if (error == nil && cacheRequest) {
                     let HTTPResponse: NSHTTPURLResponse = response as NSHTTPURLResponse
                     let url: String? = HTTPResponse.URL?.absoluteString
-                    println("CACHE")
                     if (url != nil) {
                         self.cache.setObject(data, forKey: url!)
                     }
