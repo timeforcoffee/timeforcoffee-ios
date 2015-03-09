@@ -23,9 +23,11 @@ public class TFCStation {
         self.st_id = id
         self.coord = coord
     }
-    
-    
-    
+
+    public convenience init() {
+        self.init(name: "doesn't exist", id: "0000", coord: nil)
+    }
+
     public class func isStations(results: JSONValue) -> Bool {
         if (results["stations"].array? != nil) {
             return true
@@ -36,7 +38,23 @@ public class TFCStation {
     public func isFavorite() -> Bool {
         return TFCStations.isFavoriteStation(self.st_id);
     }
-    
+
+    public func toggleFavorite() {
+        if (self.isFavorite() == true) {
+            self.unsetFavorite()
+        } else {
+            self.setFavorite()
+        }
+    }
+
+    public func setFavorite() {
+        TFCStations.setFavoriteStation(self)
+    }
+
+    public func unsetFavorite() {
+        TFCStations.unsetFavoriteStation(self)
+    }
+
     public func getLongitude() -> Double? {
         return coord?.coordinate.longitude
     }
