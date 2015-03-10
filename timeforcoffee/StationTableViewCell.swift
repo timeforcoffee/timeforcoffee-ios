@@ -60,7 +60,7 @@ class StationTableViewCell: UITableViewCell {
                 let km = Int(round(Double(distance!) / 1000))
                 StationDescriptionLabel.text = "\(km) Kilometer"
             } else {
-                detailTextLabel?.text = "\(distance) Meter"
+                StationDescriptionLabel.text = "\(distance!) Meter"
                 // calculate exact distance
                 station.getWalkingDistance(locManager.currentLocation, completion: {
                     text in
