@@ -208,6 +208,7 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
                 }
                 return
         })
+        self.presentViewController(self.searchController!, animated: true, completion: nil)
         let appsTableView = getCurrentView().appsTableView?
         sc.searchResultsUpdater = appsTableView
     }
