@@ -14,6 +14,7 @@
 		EC0A30EC1AA344100043B8F8 /* launchicon.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30EB1AA344100043B8F8 /* launchicon.png */; };
 		EC0A30F21AA353CA0043B8F8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30F41AA353CA0043B8F8 /* MainInterface.storyboard */; };
 		EC0DD8CF1AAEC7CB0089A207 /* TFCCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0DD8CE1AAEC7CB0089A207 /* TFCCache.swift */; };
+		EC0DD8D11AAF1B5F0089A207 /* StationsSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0DD8D01AAF1B5F0089A207 /* StationsSearchViewController.swift */; };
 		EC2195EB1AA35B2D005E16EF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC2195ED1AA35B2D005E16EF /* Localizable.strings */; };
 		EC271DC41AA365BE00A7A75E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC271DC31AA365BE00A7A75E /* Main.storyboard */; };
 		EC2C31271A9DE8B000690397 /* home.gpx in Resources */ = {isa = PBXBuildFile; fileRef = EC2C31261A9DE8B000690397 /* home.gpx */; };
@@ -154,6 +155,7 @@
 		EC0A30F51AA353E40043B8F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		EC0A30F61AA354010043B8F8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MainInterface.strings; sourceTree = "<group>"; };
 		EC0DD8CE1AAEC7CB0089A207 /* TFCCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCCache.swift; sourceTree = "<group>"; };
+		EC0DD8D01AAF1B5F0089A207 /* StationsSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationsSearchViewController.swift; sourceTree = "<group>"; };
 		EC2195EC1AA35B2D005E16EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EC2195EF1AA35B4B005E16EF /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EC250B0C1AA8684F00F8B3C4 /* timeforcoffee Widget-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "timeforcoffee Widget-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -473,6 +475,7 @@
 				EC72FCC01AA336E900E9B275 /* TFCNavigationController.swift */,
 				EC3252E91A9CE9DC0056AF11 /* MGSwipe */,
 				EC7A517A19C427CA000F5E7C /* StationsViewController.swift */,
+				EC0DD8D01AAF1B5F0089A207 /* StationsSearchViewController.swift */,
 				ECDAB3A51AAA42A300EB352B /* PagedStationsViewController.swift */,
 				EC31F5471AAE3AED00771585 /* DeparturesViewController.swift */,
 				EC7A519E19C4432F000F5E7C /* DetailsViewController.swift */,
@@ -834,6 +837,7 @@
 				314AFBD61AA778F400C176FE /* StationTableView.swift in Sources */,
 				EC7A517B19C427CA000F5E7C /* StationsViewController.swift in Sources */,
 				EC31F54A1AAE3DC000771585 /* AboutViewController.swift in Sources */,
+				EC0DD8D11AAF1B5F0089A207 /* StationsSearchViewController.swift in Sources */,
 				EC3252E71A9CE1320056AF11 /* MGSwipeTableCell.m in Sources */,
 				EC7A517919C427CA000F5E7C /* AppDelegate.swift in Sources */,
 				EC3252E61A9CE1320056AF11 /* MGSwipeButton.m in Sources */,

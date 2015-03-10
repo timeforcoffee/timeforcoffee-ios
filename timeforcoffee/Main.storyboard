@@ -158,7 +158,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ygl-ex-4h7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1762" y="520"/>
+            <point key="canvasLocation" x="2433" y="-926.25"/>
         </scene>
         <!--About View Controller-->
         <scene sceneID="hYJ-tC-ElX">
@@ -286,6 +286,7 @@ and Jan Hug / @dulnan</string>
         <!--Station View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="StationsView" id="BYZ-38-t0r" userLabel="Station View Controller" customClass="StationsViewController" customModule="timeforcoffee" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
@@ -322,7 +323,6 @@ and Jan Hug / @dulnan</string>
                         <segue destination="COk-7g-JfJ" kind="show" identifier="SegueToStationView" id="c6x-LU-7Kq"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1359" y="-250"/>
         </scene>
@@ -347,8 +347,55 @@ and Jan Hug / @dulnan</string>
             </objects>
             <point key="canvasLocation" x="-889.5" y="-249.75"/>
         </scene>
+        <!--Stations Search View Controller-->
+        <scene sceneID="rvl-tL-awa">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nTL-cg-7Nw" sceneMemberID="firstResponder"/>
+                <viewController storyboardIdentifier="StationsSearchView" id="az0-vD-KZC" userLabel="Stations Search View Controller" customClass="StationsSearchViewController" customModule="timeforcoffee" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="5X1-Ar-Tca"/>
+                        <viewControllerLayoutGuide type="bottom" id="Ers-fm-Dbg"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="LaC-9y-Uhc">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleAspectFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="oHe-UY-ssv" customClass="StationTableView" customModule="timeforcoffee" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="0.0" y="20" width="400" height="586"/>
+                                </variation>
+                                <connections>
+                                    <outlet property="dataSource" destination="az0-vD-KZC" id="xSI-rx-1qt"/>
+                                    <outlet property="delegate" destination="az0-vD-KZC" id="2N9-TP-Tgr"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="oHe-UY-ssv" secondAttribute="trailing" constant="-16" id="VYw-Ll-WgZ"/>
+                            <constraint firstItem="oHe-UY-ssv" firstAttribute="leading" secondItem="LaC-9y-Uhc" secondAttribute="leadingMargin" constant="-16" id="ePy-gz-Ej4"/>
+                            <constraint firstItem="oHe-UY-ssv" firstAttribute="topMargin" secondItem="5X1-Ar-Tca" secondAttribute="bottom" constant="8" id="jmY-0m-LMw"/>
+                            <constraint firstAttribute="centerX" secondItem="oHe-UY-ssv" secondAttribute="centerX" id="wA5-Dl-khH"/>
+                            <constraint firstItem="Ers-fm-Dbg" firstAttribute="top" secondItem="oHe-UY-ssv" secondAttribute="bottom" id="ySN-Iz-0ZE"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Time for Coffee!" id="DoY-VV-6lS"/>
+                    <connections>
+                        <outlet property="appsTableView" destination="oHe-UY-ssv" id="agj-JU-Wkq"/>
+                        <outlet property="appsTableView2" destination="oHe-UY-ssv" id="R5p-Nr-Jtf"/>
+                        <segue destination="COk-7g-JfJ" kind="show" identifier="SegueToStationView" id="EbB-bB-eGx"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="1335" y="456"/>
+        </scene>
     </scenes>
     <resources>
         <image name="launchicon.png" width="1024" height="1024"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="EbB-bB-eGx"/>
+    </inferredMetricsTieBreakers>
 </document>

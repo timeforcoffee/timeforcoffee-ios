@@ -9,7 +9,7 @@
 
 import Foundation
 
-class PagedStationsViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, UIScrollViewDelegate, UISearchBarDelegate {
+class PagedStationsViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, UIScrollViewDelegate {
 
     @IBOutlet weak var test: UINavigationItem!
 
@@ -185,55 +185,9 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
     
     func searchClicked(sender: UIBarButtonItem) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let ssv: StationsSearchViewController = storyboard.instantiateViewControllerWithIdentifier("StationsSearchView") as StationsSearchViewController;
 
-        let sc: UISearchController = UISearchController(searchResultsController: nil)
-     
-        self.searchController = sc
-        self.searchController?.hidesNavigationBarDuringPresentation = false;
-        self.searchController?.dimsBackgroundDuringPresentation = false;
-        let searchBar = self.searchController?.searchBar
-        self.navigationItem.rightBarButtonItem = nil;
-        self.navigationItem.titleView = searchBar
-
-        searchBar?.alpha = 0.0;
-        searchBar?.delegate = self
-        var delay: NSTimeInterval = 0.5
-        UIView.animateWithDuration(delay,
-            animations: {
-                searchBar?.alpha = 1.0
-                return
-            }, completion: { (finished:Bool) in
-                if (finished) {
-                   searchBar?.becomeFirstResponder()
-                }
-                return
-        })
-        self.presentViewController(self.searchController!, animated: true, completion: nil)
-        let appsTableView = getCurrentView().appsTableView?
-        sc.searchResultsUpdater = appsTableView
-    }
-
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-        var searchBar = self.searchController?.searchBar
-        UIView.animateWithDuration(NSTimeInterval(0.5), animations: {
-                searchBar?.alpha = 0.0
-                return
-            }, completion: { (finished:Bool) in
-                self.navigationItem.titleView = nil;
-                self.navigationItem.rightBarButtonItem = nil;
-                self.setTitleView()
-                if (self.scrollView != nil) {
-                    self.scrollViewDidScroll(self.scrollView!)
-                }
-                self.setPageControlDot()
-                self.setSearchButton()
-                self.searchController = nil
-                return
-        })
-        let appsTableView = getCurrentView().appsTableView?
-        appsTableView?.stations.clear()
-        appsTableView?.refreshLocation()
-        self.searchController = nil
+        self.navigationController?.pushViewController(ssv, animated: false)
     }
 
     func aboutClicked(sender: UIBarButtonItem) {
