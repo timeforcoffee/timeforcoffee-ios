@@ -27,6 +27,8 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.edgesForExtendedLayout = UIRectEdge.None;
 
         titleLabel.title = self.station?.name
         self.api = APIController(delegate: self)

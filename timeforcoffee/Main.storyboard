@@ -19,9 +19,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Zf4-nR-Sej">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Zf4-nR-Sej">
+                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="separatorColor" red="0.8666666666666667" green="0.8666666666666667" blue="0.8666666666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="DeparturesListCell" rowHeight="60" id="wiA-6x-b70" customClass="MGSwipeTableCell">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
@@ -30,45 +31,56 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="100" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="13" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C41-YZ-tq0">
-                                                    <rect key="frame" x="13" y="10" width="40" height="40"/>
+                                                    <rect key="frame" x="15" y="13" width="33" height="33"/>
                                                     <color key="backgroundColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="C41-YZ-tq0" secondAttribute="height" multiplier="1:1" id="WdW-f1-pvu"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="20"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="19"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="300" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zof-A8-cQg">
-                                                    <rect key="frame" x="61" y="29" width="477" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="300" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zof-A8-cQg">
+                                                    <rect key="frame" x="58" y="34" width="534" height="14"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="14" id="LlG-KP-kiK"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
+                                                    <color key="textColor" red="0.53333333333333333" green="0.53333333333333333" blue="0.53333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="200" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sln-mq-zsw">
-                                                    <rect key="frame" x="61" y="9" width="477" height="21"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="200" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sln-mq-zsw">
+                                                    <rect key="frame" x="58" y="11" width="494" height="19"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="19" id="glW-Fx-ykd"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="16"/>
+                                                    <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="400" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="13" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1jx-HP-fcA" userLabel="MinutesLabel">
-                                                    <rect key="frame" x="543" y="10" width="40" height="40"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="20"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="400" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="13" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1jx-HP-fcA" userLabel="MinutesLabel">
+                                                    <rect key="frame" x="564" y="8" width="23" height="43"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
+                                                    <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailingMargin" secondItem="Sln-mq-zsw" secondAttribute="trailing" constant="40" id="Hc1-Sj-bqJ"/>
+                                                <constraint firstItem="Sln-mq-zsw" firstAttribute="top" secondItem="C41-YZ-tq0" secondAttribute="top" constant="-2" id="WlZ-hh-QS8"/>
                                                 <constraint firstItem="Sln-mq-zsw" firstAttribute="leading" secondItem="C41-YZ-tq0" secondAttribute="trailing" constant="10" id="WtB-NS-WNw"/>
-                                                <constraint firstItem="C41-YZ-tq0" firstAttribute="leading" secondItem="WfY-wA-WRl" secondAttribute="leadingMargin" constant="5" id="fgj-6O-vj5"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="1jx-HP-fcA" secondAttribute="bottom" id="ZG8-50-40x"/>
+                                                <constraint firstItem="C41-YZ-tq0" firstAttribute="leading" secondItem="WfY-wA-WRl" secondAttribute="leadingMargin" constant="7" id="fgj-6O-vj5"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="zof-A8-cQg" secondAttribute="trailing" id="fw4-7Z-Cyp"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="C41-YZ-tq0" secondAttribute="bottom" constant="2" id="gig-Zs-ve1"/>
-                                                <constraint firstItem="C41-YZ-tq0" firstAttribute="top" secondItem="WfY-wA-WRl" secondAttribute="topMargin" constant="2" id="mL8-Tg-hy7"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="C41-YZ-tq0" secondAttribute="bottom" constant="5" id="gig-Zs-ve1"/>
+                                                <constraint firstItem="C41-YZ-tq0" firstAttribute="top" secondItem="WfY-wA-WRl" secondAttribute="topMargin" constant="5" id="mL8-Tg-hy7"/>
                                                 <constraint firstItem="zof-A8-cQg" firstAttribute="leading" secondItem="C41-YZ-tq0" secondAttribute="trailing" constant="10" id="wS9-D9-ACZ"/>
                                                 <constraint firstItem="1jx-HP-fcA" firstAttribute="trailing" secondItem="WfY-wA-WRl" secondAttribute="trailingMargin" constant="-5" id="xBP-pA-SgK"/>
+                                                <constraint firstItem="zof-A8-cQg" firstAttribute="bottom" secondItem="C41-YZ-tq0" secondAttribute="bottom" constant="2" id="y9W-DL-486"/>
+                                                <constraint firstItem="1jx-HP-fcA" firstAttribute="top" secondItem="WfY-wA-WRl" secondAttribute="topMargin" id="zJz-gN-d2d"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <inset key="separatorInset" minX="61" minY="0.0" maxX="0.0" maxY="0.0"/>
                                     </tableViewCell>
                                 </prototypes>
                                 <variation key="heightClass=regular-widthClass=compact" ambiguous="YES" misplaced="YES">
@@ -82,9 +94,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="centerX" secondItem="Zf4-nR-Sej" secondAttribute="centerX" id="0TF-48-MAf"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Zf4-nR-Sej" secondAttribute="trailing" constant="-16" id="TsY-i6-YZ2"/>
-                            <constraint firstItem="Zf4-nR-Sej" firstAttribute="leading" secondItem="x97-qt-OBE" secondAttribute="leadingMargin" constant="-16" id="gxj-Ku-DEe"/>
+                            <constraint firstItem="Zf4-nR-Sej" firstAttribute="top" secondItem="BhT-B5-Rc9" secondAttribute="bottom" id="4MP-b5-QIv"/>
+                            <constraint firstItem="7tq-Gm-E2S" firstAttribute="top" secondItem="Zf4-nR-Sej" secondAttribute="bottom" id="bqm-vh-uzc"/>
+                            <constraint firstItem="Zf4-nR-Sej" firstAttribute="leading" secondItem="x97-qt-OBE" secondAttribute="leading" id="c0s-8X-ccL"/>
+                            <constraint firstAttribute="trailing" secondItem="Zf4-nR-Sej" secondAttribute="trailing" id="lCG-WP-slf"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Time for Coffee" id="Jqp-rv-LzH" userLabel="Time for Coffee"/>
@@ -95,7 +108,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Zs-jf-d0B" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2475" y="-249.75"/>
+            <point key="canvasLocation" x="2475" y="-252"/>
         </scene>
         <!--Details View Controller-->
         <scene sceneID="a9d-jN-xSu">
@@ -286,7 +299,6 @@ and Jan Hug / @dulnan</string>
         <!--Station View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="StationsView" id="BYZ-38-t0r" userLabel="Station View Controller" customClass="StationsViewController" customModule="timeforcoffee" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
@@ -299,6 +311,7 @@ and Jan Hug / @dulnan</string>
                             <tableView clipsSubviews="YES" contentMode="scaleAspectFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="1sI-wO-cFy" customClass="StationTableView" customModule="timeforcoffee" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="separatorColor" red="0.86666666670000003" green="0.86666666670000003" blue="0.86666666670000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
                                     <rect key="frame" x="0.0" y="20" width="400" height="586"/>
                                 </variation>
@@ -323,6 +336,7 @@ and Jan Hug / @dulnan</string>
                         <segue destination="COk-7g-JfJ" kind="show" identifier="SegueToStationView" id="c6x-LU-7Kq"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1359" y="-250"/>
         </scene>
@@ -350,7 +364,6 @@ and Jan Hug / @dulnan</string>
         <!--Stations Search View Controller-->
         <scene sceneID="rvl-tL-awa">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="nTL-cg-7Nw" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="StationsSearchView" id="az0-vD-KZC" userLabel="Stations Search View Controller" customClass="StationsSearchViewController" customModule="timeforcoffee" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="5X1-Ar-Tca"/>
@@ -388,6 +401,7 @@ and Jan Hug / @dulnan</string>
                         <segue destination="COk-7g-JfJ" kind="show" identifier="SegueToStationView" id="EbB-bB-eGx"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nTL-cg-7Nw" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1335" y="456"/>
         </scene>
@@ -396,6 +410,6 @@ and Jan Hug / @dulnan</string>
         <image name="launchicon.png" width="1024" height="1024"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="EbB-bB-eGx"/>
+        <segue reference="c6x-LU-7Kq"/>
     </inferredMetricsTieBreakers>
 </document>
