@@ -13,6 +13,7 @@
 		EC046D631A9C563D00C2C1B3 /* TFCLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC046D621A9C563D00C2C1B3 /* TFCLocationManager.swift */; };
 		EC0A30EC1AA344100043B8F8 /* launchicon.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30EB1AA344100043B8F8 /* launchicon.png */; };
 		EC0A30F21AA353CA0043B8F8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30F41AA353CA0043B8F8 /* MainInterface.storyboard */; };
+		EC0DD8CF1AAEC7CB0089A207 /* TFCCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0DD8CE1AAEC7CB0089A207 /* TFCCache.swift */; };
 		EC2195EB1AA35B2D005E16EF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC2195ED1AA35B2D005E16EF /* Localizable.strings */; };
 		EC271DC41AA365BE00A7A75E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC271DC31AA365BE00A7A75E /* Main.storyboard */; };
 		EC2C31271A9DE8B000690397 /* home.gpx in Resources */ = {isa = PBXBuildFile; fileRef = EC2C31261A9DE8B000690397 /* home.gpx */; };
@@ -392,6 +393,7 @@
 				EC6EDD4C1A9BA4820098CAE0 /* TFCDeparture.swift */,
 				EC6EDD4D1A9BA4820098CAE0 /* TFCStation.swift */,
 				ECF100AC1A9D9BAE00056510 /* TFCStations.swift */,
+				EC0DD8CE1AAEC7CB0089A207 /* TFCCache.swift */,
 				EC6EDD531A9BA79B0098CAE0 /* APIController.swift */,
 				EC6EDD2F1A9BA36F0098CAE0 /* Supporting Files */,
 				EC9571501A9CCEC00061F8B4 /* TFCBaseViewController.swift */,
@@ -812,6 +814,7 @@
 				EC6EDD511A9BA5080098CAE0 /* SwiftyJSON.swift in Sources */,
 				EC046D631A9C563D00C2C1B3 /* TFCLocationManager.swift in Sources */,
 				EC6EDD4F1A9BA4820098CAE0 /* TFCStation.swift in Sources */,
+				EC0DD8CF1AAEC7CB0089A207 /* TFCCache.swift in Sources */,
 				EC6EDD4E1A9BA4820098CAE0 /* TFCDeparture.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

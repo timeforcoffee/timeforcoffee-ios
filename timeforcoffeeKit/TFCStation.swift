@@ -16,6 +16,8 @@ public class TFCStation {
     public var st_id: String
     public var distance: CLLocationDistance?
     public var calculatedDistance: Int?
+    var walkingDistanceString: String?
+    var walkingDistanceLastCoord: CLLocation?
 
     lazy var filteredLines:[String: [String: Bool]] = self.getFilteredLines()
 
@@ -170,6 +172,15 @@ public class TFCStation {
     }
 
     public func getWalkingDistance(location: CLLocation?, completion: (String?) -> Void ) {
+        if (walkingDistanceLastCoord != nil && walkingDistanceString != nil) {
+
+            let distanceToLast = location?.distanceFromLocation(walkingDistanceLastCoord)
+            if (distanceToLast < 50) {
+                completion(walkingDistanceString)
+                return
+            }
+        }
+
         let currentCoordinate = location?.coordinate
         var sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
 
@@ -198,8 +209,12 @@ public class TFCStation {
                 var time =  Int(round(route.expectedTravelTime / 60))
                 var meters = Int(route.distance);
                 let walking = NSLocalizedString("walking", comment: "Walking")
-                completion("\(time) min \(walking), \(meters) m")
+                self.walkingDistanceString = "\(time) min \(walking), \(meters) m"
+                self.walkingDistanceLastCoord = location
+                completion(self.walkingDistanceString)
             }  else {
+                self.walkingDistanceLastCoord = nil
+                self.walkingDistanceString = nil
                 println("No response")
                 completion(nil)
                 println(error?.description)
