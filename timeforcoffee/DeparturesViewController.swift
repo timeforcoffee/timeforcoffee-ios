@@ -60,7 +60,6 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
 
         }
         station!.getMapImage(showMapInBar)
-
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeInactive:", name: "UIApplicationDidEnterBackgroundNotification", object: nil)
         /*self.navigationItem.rightBarButtonItem?.setBackButtonBackgroundImage(station!.getMapImage(), forState: UIControlState.Normal, barMetrics: UIBarMetrics.Default)
         self.navigationController?.navigationBar.setBackgroundImage(station!.getMapImage(), forBarMetrics: UIBarMetrics.DefaultPrompt)*/
@@ -72,16 +71,17 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     }
 
     func fadeInBackground() {
-        let maxAlpha = 0.51
-        let stepTime = 0.05
-        let totalTime = 0.3
-        let stepAlpha = 0.5 / (totalTime / stepTime)
+        let maxAlpha = 0.7
+        let stepTime = 0.2
+        let totalTime = 1.5
+        let stepAlpha = maxAlpha / (totalTime / stepTime)
 
         let image = self.backgroundImage?.imageByApplyingAlpha(CGFloat(backgroundAlpha))
         self.navigationController?.navigationBar.setBackgroundImage(image, forBarMetrics: UIBarMetrics.Default)
         backgroundAlpha += stepAlpha
         if (backgroundAlpha < maxAlpha) {
-            NSTimer.scheduledTimerWithTimeInterval(0.05, target: self, selector: Selector("fadeInBackground"), userInfo: nil, repeats: false)
+            println(backgroundAlpha)
+            NSTimer.scheduledTimerWithTimeInterval(stepTime, target: self, selector: Selector("fadeInBackground"), userInfo: nil, repeats: false)
         }
 
     }
