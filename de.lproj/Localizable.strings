@@ -6,8 +6,6 @@
   Copyright (c) 2015 Christian Stocker. All rights reserved.
 */
 
-walking = "Fussweg";
-
 Loading = "Wird geladen ...";
 
 "Network error. Please try again" = "Network Fehler. Bitte nochmals versuchen";

@@ -208,8 +208,7 @@ public class TFCStation {
 
                 var time =  Int(round(route.expectedTravelTime / 60))
                 var meters = Int(route.distance);
-                let walking = NSLocalizedString("walking", comment: "Walking")
-                self.walkingDistanceString = "\(time) min \(walking), \(meters) m"
+                self.walkingDistanceString = "\(meters) m, \(time) min "
                 self.walkingDistanceLastCoord = location
                 completion(self.walkingDistanceString)
             }  else {
