@@ -19,7 +19,8 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     var station: TFCStation?
     var networkErrorMsg: String?
     let kCellIdentifier: String = "DeparturesListCell"
-
+    var backgroundAlpha = 0.0
+    var backgroundImage: UIImage?
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -49,10 +50,42 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
 
         self.navigationItem.rightBarButtonItem = favButton
 
+        func showMapInBar(image: UIImage) {
+            self.backgroundImage = image
+            self.navigationController?.navigationBar.translucent = true
+            self.navigationController?.navigationBar.setBackgroundImage(image.imageByApplyingAlpha(0.1), forBarMetrics: UIBarMetrics.Default)
+            backgroundAlpha = 0.05
+            fadeInBackground()
+
+
+        }
+        station!.getMapImage(showMapInBar)
+
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeInactive:", name: "UIApplicationDidEnterBackgroundNotification", object: nil)
-        UIApplicationDidEnterBackgroundNotification
+        /*self.navigationItem.rightBarButtonItem?.setBackButtonBackgroundImage(station!.getMapImage(), forState: UIControlState.Normal, barMetrics: UIBarMetrics.Default)
+        self.navigationController?.navigationBar.setBackgroundImage(station!.getMapImage(), forBarMetrics: UIBarMetrics.DefaultPrompt)*/
+
     }
-    
+    override func viewWillDisappear(animated: Bool) {
+        self.navigationController?.navigationBar.setBackgroundImage(nil, forBarMetrics: UIBarMetrics.Default)
+
+    }
+
+    func fadeInBackground() {
+        let maxAlpha = 0.51
+        let stepTime = 0.05
+        let totalTime = 0.3
+        let stepAlpha = 0.5 / (totalTime / stepTime)
+
+        let image = self.backgroundImage?.imageByApplyingAlpha(CGFloat(backgroundAlpha))
+        self.navigationController?.navigationBar.setBackgroundImage(image, forBarMetrics: UIBarMetrics.Default)
+        backgroundAlpha += stepAlpha
+        if (backgroundAlpha < maxAlpha) {
+            NSTimer.scheduledTimerWithTimeInterval(0.05, target: self, selector: Selector("fadeInBackground"), userInfo: nil, repeats: false)
+        }
+
+    }
+
     func applicationDidBecomeInactive(notification: NSNotification) {
         NSNotificationCenter.defaultCenter().removeObserver(self)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeActive:", name: "UIApplicationDidBecomeActiveNotification", object: nil)
@@ -237,6 +270,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
 
         return true
     }
+
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         
         super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)

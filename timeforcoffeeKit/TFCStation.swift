@@ -222,6 +222,27 @@ public class TFCStation {
         })
     }
 
+    public func getMapImage(completion: (UIImage) -> Void?) {
+        var map: MKMapView = MKMapView()
+        map.bounds.size = CGSize(width: 320,height: 66)
+        let location = self.coord?.coordinate
+        var region = MKCoordinateRegionMakeWithDistance(location!,200,200);
+        map.setRegion(region, animated: false)
+
+        let options = MKMapSnapshotOptions()
+        options.region = map.region
+        options.scale = UIScreen.mainScreen().scale
+        options.size = map.frame.size
+
+        let snapshotter = MKMapSnapshotter(options: options)
+        snapshotter.startWithCompletionHandler({
+            snapshot, error in
+            let image = snapshot.image
+            completion(image)
+        })
+    }
+
+
     func getAsDict() -> [String: AnyObject] {
         return [
             "name": getName(false),
