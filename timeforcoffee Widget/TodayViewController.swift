@@ -143,7 +143,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
 
         
         lineNumberLabel.text = departure.getLine()
-        departureLabel.text = departure.getDepartureTime()
+        departureLabel.attributedText = departure.getDepartureTime()
         minutesLabel.text = departure.getMinutes()
         
         lineNumberLabel.layer.cornerRadius = 4.0

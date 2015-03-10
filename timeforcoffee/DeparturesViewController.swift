@@ -177,7 +177,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
                 minutesLabel.textColor = UIColor.blackColor()
             }
             
-            departureLabel.text = departure.getDepartureTime()
+            departureLabel.attributedText = departure.getDepartureTime()
             
             lineNumberLabel.layer.cornerRadius = 4.0
             lineNumberLabel.layer.masksToBounds = true

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 public class TFCDeparture {
     public var name: String
@@ -125,25 +126,48 @@ public class TFCDeparture {
 
     }
     
-    public func getDepartureTime() -> String? {
+    public func getDepartureTime() -> NSMutableAttributedString? {
         var realtimeStr: String?
         var scheduledStr: String?
-        var timestring = "";
+        let attributesNoStrike = [
+            NSStrikethroughStyleAttributeName: 0,
+        ]
+        let attributesStrike = [
+            NSStrikethroughStyleAttributeName: 1,
+            NSForegroundColorAttributeName: UIColor.grayColor()
+        ]
+
+        // if you want bold and italic, do this, but the accessibility icon isn't available in italic :)
+        /*let fontDescriptor = UIFontDescriptor.preferredFontDescriptorWithTextStyle(UIFontTextStyleBody)
+        let bi = UIFontDescriptorSymbolicTraits.TraitItalic | UIFontDescriptorSymbolicTraits.TraitBold
+         let fda = fontDescriptor.fontDescriptorWithSymbolicTraits(bi).fontAttributes()
+        let fontName = fda["NSFontNameAttribute"] as String
+        */
+        let attributesBoldItalic = [
+            NSFontAttributeName: UIFont(name: "HelveticaNeue-Bold", size: 13.0)!
+        ]
+
+        var timestring: NSMutableAttributedString = NSMutableAttributedString(string: "")
         if (self.realtime != nil) {
             realtimeStr = self.getShortDate(self.realtime!)
         }
         scheduledStr = self.getShortDate(self.scheduled!)
         
         if (self.realtime != nil && self.realtime != self.scheduled) {
-            timestring = "\(realtimeStr!) / \(scheduledStr!)"
+            //the nostrike is needed due to an apple bug...
+            // https://stackoverflow.com/questions/25956183/nsmutableattributedstrings-attribute-nsstrikethroughstyleattributename-doesnt
+            timestring.appendAttributedString(NSAttributedString(string: "\(realtimeStr!) ", attributes: attributesNoStrike))
+
+            timestring.appendAttributedString(NSAttributedString(string: "\(scheduledStr!)", attributes: attributesStrike))
+
         } else {
-            timestring = "\(scheduledStr!)"
+            timestring.appendAttributedString(NSAttributedString(string: "\(scheduledStr!)") )
         }
         if (accessible) {
-            timestring = "\(timestring) / ♿︎"
+            timestring.appendAttributedString(NSAttributedString(string: " ♿︎", attributes: attributesBoldItalic))
         }
         if (self.realtime == nil) {
-            timestring = "\(timestring) / (no real-time data)"
+            timestring.appendAttributedString(NSAttributedString(string: " (no real-time data)"))
         }
         return timestring
     }
