@@ -28,23 +28,38 @@ class StationsSearchViewController: StationsViewController, UISearchBarDelegate 
         let appsTableView = self.appsTableView2?
         sc.searchResultsUpdater = appsTableView
         definesPresentationContext = false
+        self.view.alpha = 0.0
+        self.searchController?.searchBar.alpha = 0.0
 
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.edgesForExtendedLayout = UIRectEdge.None;
+
     }
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-
         if (!(self.searchController?.isViewLoaded() == true && self.searchController?.view.window != nil)) {
-        self.presentViewController(self.searchController!, animated: true, completion: {
-            self.searchController?.searchBar.becomeFirstResponder()
-            return
+            self.presentViewController(self.searchController!, animated: true, completion: {
+                self.searchController?.searchBar.becomeFirstResponder()
+                return
+            })
+        }
+
+        var duration: NSTimeInterval = 0.5
+        UIView.animateWithDuration(duration,
+            animations: {
+                self.view.alpha = 1.0
+                self.searchController?.searchBar.alpha = 1.0
+                return
+            }, completion: { (finished:Bool) in
+                return
         })
-       }
+
+
+
     }
 
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
