@@ -60,7 +60,7 @@ public class TFCStations {
                         if (longitude != nil && latitude != nil) {
                             Clocation = CLLocation(latitude: latitude!, longitude: longitude!)
                         }
-                        var newStation = TFCStation(name: name!, id: id, coord: Clocation)
+                        var newStation = TFCStation.initWithCache(name!, id: id, coord: Clocation)
                         stations!.append(newStation)
                     }
                 }
@@ -148,7 +148,7 @@ public class TFCStations {
             let lat = NSString(string:station["latitude"]!).doubleValue
             let long = NSString(string:station["longitude"]!).doubleValue
             var Clocation = CLLocation(latitude: lat, longitude: long)
-            let station: TFCStation = TFCStation(name: station["name"]!, id: station["st_id"]!, coord: Clocation)
+            let station: TFCStation = TFCStation.initWithCache(station["name"]!, id: station["st_id"]!, coord: Clocation)
 
             //FIXME: can be removed in a few days, st_id can start with 00 or not sometimes
             //then back to just

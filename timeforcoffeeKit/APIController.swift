@@ -13,13 +13,14 @@ public class APIController {
     
     var delegate: APIControllerProtocol
     var currentFetch: [Int: NSURLSessionDataTask] = [:]
+
     lazy var session:NSURLSession = {
         return NSURLSession.sharedSession()
     }()
 
     lazy var cache:NSCache = {
-        return NSCache()
-    }()
+        return TFCCache.objects.apicalls
+     }()
 
     public init(delegate: APIControllerProtocol) {
         self.delegate = delegate

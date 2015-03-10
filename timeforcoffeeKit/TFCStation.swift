@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreLocation
+import MapKit
 
 public class TFCStation {
     public var name: String
@@ -17,15 +18,34 @@ public class TFCStation {
     public var calculatedDistance: Int?
 
     lazy var filteredLines:[String: [String: Bool]] = self.getFilteredLines()
-    
+
+    lazy var stationCache:NSCache = {
+        return TFCCache.objects.stations
+        }()
+
     public init(name: String, id: String, coord: CLLocation?) {
         self.name = name
         self.st_id = id
         self.coord = coord
+        println("init station")
+    }
+
+    deinit {
+        println("deinit station")
     }
 
     public convenience init() {
         self.init(name: "doesn't exist", id: "0000", coord: nil)
+    }
+
+    public class func initWithCache(name: String, id: String, coord: CLLocation?) -> TFCStation {
+        let cache: NSCache = TFCCache.objects.stations
+        var newStation: TFCStation? = cache.objectForKey(id) as TFCStation?
+        if (newStation == nil) {
+            newStation = TFCStation(name: name, id: id, coord: coord)
+            cache.setObject(newStation!, forKey: id)
+        }
+        return newStation!
     }
 
     public class func isStations(results: JSONValue) -> Bool {
@@ -144,7 +164,50 @@ public class TFCStation {
         }
         return filteredDestinationsShared!
     }
-    
+
+    public func getDistanceInMeter(location: CLLocation?) -> Int? {
+        return Int(location?.distanceFromLocation(coord) as Double!)
+    }
+
+    public func getWalkingDistance(location: CLLocation?, completion: (String?) -> Void ) {
+        let currentCoordinate = location?.coordinate
+        var sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
+
+        let coord = self.coord!
+        var destinationPlacemark:MKPlacemark = MKPlacemark(coordinate: coord.coordinate, addressDictionary: nil)
+        var source:MKMapItem = MKMapItem(placemark: sourcePlacemark)
+        var destination:MKMapItem = MKMapItem(placemark: destinationPlacemark)
+        var directionRequest:MKDirectionsRequest = MKDirectionsRequest()
+
+        directionRequest.setSource(source)
+        directionRequest.setDestination(destination)
+        directionRequest.transportType = MKDirectionsTransportType.Walking
+        directionRequest.requestsAlternateRoutes = true
+
+        var directions:MKDirections = MKDirections(request: directionRequest)
+        directions.calculateDirectionsWithCompletionHandler({
+            (response: MKDirectionsResponse!, error: NSError?) in
+            if error != nil{
+                println("Error")
+            }
+            if response != nil {
+                for r in response.routes { println("route = \(r)") }
+                var route: MKRoute = response.routes[0] as MKRoute;
+
+
+                var time =  Int(round(route.expectedTravelTime / 60))
+                var meters = Int(route.distance);
+                let walking = NSLocalizedString("walking", comment: "Walking")
+                completion("\(time) min \(walking), \(meters) m")
+            }  else {
+                println("No response")
+                completion(nil)
+                println(error?.description)
+            }
+
+        })
+    }
+
     func getAsDict() -> [String: AnyObject] {
         return [
             "name": getName(false),

@@ -8,7 +8,6 @@
 
 import UIKit
 import timeforcoffeeKit
-import MapKit
 
 class StationTableViewCell: UITableViewCell {
     @IBOutlet weak var StationIconView: UIView!
@@ -56,47 +55,18 @@ class StationTableViewCell: UITableViewCell {
         }
 
         if (station.coord != nil) {
-            var distance = Int(locManager.currentLocation?.distanceFromLocation(station.coord) as Double!)
+            var distance = station.getDistanceInMeter(locManager.currentLocation)
             if (distance > 5000) {
-                let km = Int(round(Double(distance) / 1000))
+                let km = Int(round(Double(distance!) / 1000))
                 StationDescriptionLabel.text = "\(km) Kilometer"
             } else {
                 detailTextLabel?.text = "\(distance) Meter"
                 // calculate exact distance
-                let currentCoordinate = locManager.currentLocation?.coordinate
-                var sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
-
-                let coord = station.coord!
-                var destinationPlacemark:MKPlacemark = MKPlacemark(coordinate: coord.coordinate, addressDictionary: nil)
-                var source:MKMapItem = MKMapItem(placemark: sourcePlacemark)
-                var destination:MKMapItem = MKMapItem(placemark: destinationPlacemark)
-                var directionRequest:MKDirectionsRequest = MKDirectionsRequest()
-
-                directionRequest.setSource(source)
-                directionRequest.setDestination(destination)
-                directionRequest.transportType = MKDirectionsTransportType.Walking
-                directionRequest.requestsAlternateRoutes = true
-
-                var directions:MKDirections = MKDirections(request: directionRequest)
-                directions.calculateDirectionsWithCompletionHandler({
-                    (response: MKDirectionsResponse!, error: NSError?) in
-                    if error != nil{
-                        println("Error")
+                station.getWalkingDistance(locManager.currentLocation, completion: {
+                    text in
+                    if (text != nil) {
+                        self.StationDescriptionLabel.text = text
                     }
-                    if response != nil {
-                        for r in response.routes { println("route = \(r)") }
-                        var route: MKRoute = response.routes[0] as MKRoute;
-
-
-                        var time =  Int(round(route.expectedTravelTime / 60))
-                        var meters = Int(route.distance);
-                        let walking = NSLocalizedString("walking", comment: "Walking")
-                        self.StationDescriptionLabel.text = "\(time) min \(walking), \(meters) m"
-                    }  else {
-                        println("No response")
-                        println(error?.description)
-                    }
-
                 })
             }
         } else {
