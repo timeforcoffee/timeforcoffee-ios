@@ -43,6 +43,10 @@ class StationsViewController: TFCBaseViewController, TFCLocationManagerDelegate 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         var detailsViewController: DeparturesViewController = segue.destinationViewController as DeparturesViewController
 
+        let pvc: PagedStationsViewController = self.parentViewController as PagedStationsViewController
+        if (pvc.searchController != nil) {
+            pvc.searchController?.searchBar.resignFirstResponder()
+        }
         var index = appsTableView?.indexPathForSelectedRow()?.row
         if (index != nil) {
             var station = appsTableView?.stations.getStation(index!)
