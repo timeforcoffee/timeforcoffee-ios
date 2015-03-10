@@ -37,9 +37,39 @@ class StationTableViewCell: UITableViewCell {
     }
 
     func favoriteButtonTouched(sender: UIButton) {
-        println(station.isFavorite())
-        station.toggleFavorite()
-        drawFavoriteIcon()
+        var newImage: UIImage?
+
+        if (station.isFavorite() == true) {
+            newImage = getNormalIcon()
+        } else {
+            newImage = getFavoriteIcon()
+        }
+
+        StationFavoriteButton.imageView?.alpha = 1.0
+        StationIconView.transform = CGAffineTransformMakeScale(1, 1);
+
+        self.station.toggleFavorite()
+
+        UIView.animateWithDuration(0.2,
+            delay: 0.0,
+            options: UIViewAnimationOptions.CurveLinear,
+            animations: {
+                self.StationIconView.transform = CGAffineTransformMakeScale(0.1, 0.1);
+                self.StationIconView.alpha = 0.0
+                return
+            }, completion: { (finished:Bool) in
+                self.StationFavoriteButton.imageView?.image = newImage
+                UIView.animateWithDuration(0.2,
+                    animations: {
+                        self.StationIconView.transform = CGAffineTransformMakeScale(1, 1);
+                        self.StationIconView.alpha = 1.0
+                        return
+                    }, completion: { (finished:Bool) in
+                        self.drawFavoriteIcon()
+                        return
+                })
+        })
+
     }
 
     func drawCell() {
@@ -76,10 +106,22 @@ class StationTableViewCell: UITableViewCell {
 
     func drawFavoriteIcon() {
         if (station.isFavorite() == true) {
-            StationIconView.backgroundColor = UIColor(red: 249, green: 205, blue: 70)
+            StationFavoriteButton.setImage(getFavoriteIcon(), forState: UIControlState.Normal)
         } else {
-            StationIconView.backgroundColor = UIColor(red: 197, green: 197, blue: 197)
+            StationFavoriteButton.setImage(getNormalIcon(), forState: UIControlState.Normal)
         }
+        StationIconView.transform = CGAffineTransformMakeScale(1, 1);
+        StationIconView.alpha = 1.0
+
+    }
+
+    func getFavoriteIcon() -> UIImage {
+        return UIImage(named: "favorite_icon.png")!
+    }
+
+    func getNormalIcon() -> UIImage {
+        return UIImage(named: "station_icon.png")!
+
     }
 
 }

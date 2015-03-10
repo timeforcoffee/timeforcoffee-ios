@@ -180,6 +180,8 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
 
     func setSearchButton() {
         var searchButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Search, target: self, action: "searchClicked:")
+        searchButton.tintColor = UIColor.blackColor()
+
         self.navigationItem.rightBarButtonItem = searchButton
     }
     

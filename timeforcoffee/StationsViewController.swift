@@ -29,6 +29,7 @@ class StationsViewController: TFCBaseViewController, TFCLocationManagerDelegate 
         appsTableView?.showFavorites = showFavorites
         appsTableView?.stationsViewController = self
         appsTableView?.registerNib(UINib(nibName: "StationTableViewCell", bundle: nil), forCellReuseIdentifier: "StationTableViewCell")
+        appsTableView?.rowHeight = 60
     }
 
     override func didReceiveMemoryWarning() {
