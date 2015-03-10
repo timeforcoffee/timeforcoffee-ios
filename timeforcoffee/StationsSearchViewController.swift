@@ -30,7 +30,6 @@ class StationsSearchViewController: StationsViewController, UISearchBarDelegate 
         definesPresentationContext = false
         self.view.alpha = 0.0
         self.searchController?.searchBar.alpha = 0.0
-
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -57,9 +56,6 @@ class StationsSearchViewController: StationsViewController, UISearchBarDelegate 
             }, completion: { (finished:Bool) in
                 return
         })
-
-
-
     }
 
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {

@@ -20,6 +20,7 @@ class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource,
     var networkErrorMsg: String?
     var showFavorites: Bool?
     var stationsViewController: StationsViewController?
+    var loading: Bool = false
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -48,6 +49,8 @@ class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource,
             self.reloadData()
             self.refreshControl.endRefreshing()
         } else {
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+            loading = true
             self.locManager.refreshLocation()
         }
     }
@@ -67,12 +70,16 @@ class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource,
         let strippedString = searchController.searchBar.text.stringByTrimmingCharactersInSet(whitespaceCharacterSet)
         if (strippedString != "") {
             stations.clear()
+            loading = true
             self.api.searchFor(strippedString)
         }
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (stations.count() == nil || stations.count() == 0) {
+            if (!loading) {
+                return 0
+            }
             return 1
         }
         return stations.count()!
@@ -131,6 +138,7 @@ class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource,
             self.stations.addWithJSON(results)
             self.reloadData()
             self.refreshControl.endRefreshing()
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
 
         })
     }
