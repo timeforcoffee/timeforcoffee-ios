@@ -15,4 +15,8 @@ class TFCNavigationController: UINavigationController {
         return Int(UIInterfaceOrientationMask.All.rawValue)
     }
 
+    override func viewDidLoad() {
+        self.view.backgroundColor = UIColor.whiteColor()
+
+    }
 }
