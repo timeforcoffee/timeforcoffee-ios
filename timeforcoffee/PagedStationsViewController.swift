@@ -25,7 +25,6 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
     }
 
     override func viewDidLoad() {
-        self.automaticallyAdjustsScrollViewInsets = false
         super.viewDidLoad()
         self.dataSource = self
         self.delegate = self
@@ -158,8 +157,12 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
                 }
             }
             let currentView: StationsViewController  = pageViewController.viewControllers[0] as StationsViewController
-            currentView.appsTableView?.refreshLocation()
         }
+    }
+
+    func pageViewController(pageViewController: UIPageViewController, willTransitionToViewControllers pendingViewControllers: [AnyObject]) {
+        let currentView: StationsViewController  = pendingViewControllers[0] as StationsViewController
+        currentView.appsTableView?.refreshLocation()
     }
 
     func setPageControlDot() {
@@ -205,9 +208,7 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
                 }
                 return
         })
-        self.presentViewController(self.searchController!, animated: true, completion: nil)
         let appsTableView = getCurrentView().appsTableView?
-
         sc.searchResultsUpdater = appsTableView
     }
 
