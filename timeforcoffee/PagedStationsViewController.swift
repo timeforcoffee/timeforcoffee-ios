@@ -165,8 +165,10 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
     func setPageControlDot() {
         let currentViewController = getCurrentView()
         currentPageIndex = currentViewController.pageIndex
-        (self.navigationItem.titleView?.viewWithTag(50) as UIPageControl).currentPage = currentPageIndex!
-
+        let pc: UIPageControl? = self.navigationItem.titleView?.viewWithTag(50) as UIPageControl?
+        if (pc != nil) {
+            pc?.currentPage = currentPageIndex!
+        }
     }
 
     func getCurrentView() -> StationsViewController {
@@ -186,11 +188,10 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         self.searchController = sc
         self.searchController?.hidesNavigationBarDuringPresentation = false;
         self.searchController?.dimsBackgroundDuringPresentation = false;
-        self.definesPresentationContext = true;
         let searchBar = self.searchController?.searchBar
         self.navigationItem.rightBarButtonItem = nil;
-
         self.navigationItem.titleView = searchBar
+
         searchBar?.alpha = 0.0;
         searchBar?.delegate = self
         var delay: NSTimeInterval = 0.5
@@ -199,7 +200,9 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
                 searchBar?.alpha = 1.0
                 return
             }, completion: { (finished:Bool) in
-                searchBar?.becomeFirstResponder()
+                if (finished) {
+                   searchBar?.becomeFirstResponder()
+                }
                 return
         })
         self.presentViewController(self.searchController!, animated: true, completion: nil)
