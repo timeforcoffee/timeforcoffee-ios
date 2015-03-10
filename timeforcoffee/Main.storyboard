@@ -168,7 +168,7 @@
                         <viewControllerLayoutGuide type="top" id="VZv-ag-Rmb"/>
                         <viewControllerLayoutGuide type="bottom" id="4g4-K4-s3T"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" restorationIdentifier="LaunchScreen" id="YGJ-Wo-cLS" customClass="About">
+                    <view key="view" contentMode="scaleToFill" restorationIdentifier="LaunchScreen" id="YGJ-Wo-cLS">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
