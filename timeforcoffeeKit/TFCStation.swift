@@ -224,7 +224,7 @@ public class TFCStation {
 
     public func getMapImage(completion: (UIImage) -> Void?) {
         var map: MKMapView = MKMapView()
-        map.bounds.size = CGSize(width: 320,height: 66)
+        map.bounds.size = CGSize(width: 320,height: 150)
         let location = self.coord?.coordinate
         var region = MKCoordinateRegionMakeWithDistance(location!,200,200);
         map.setRegion(region, animated: false)

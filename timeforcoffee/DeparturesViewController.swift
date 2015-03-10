@@ -21,17 +21,28 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     let kCellIdentifier: String = "DeparturesListCell"
     var backgroundAlpha = 0.0
     var backgroundImage: UIImage?
+    var gestureRecognizer: UIGestureRecognizerDelegate?
 
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var TopBar: UIView!
+    @IBOutlet weak var BackButton: UIButton!
+
+    @IBAction func BackButtonClicked(sender: UIButton) {
+        println("foo")
+        self.navigationController?.popViewControllerAnimated(true)
+    }
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        gestureRecognizer = self.navigationController?.interactivePopGestureRecognizer.delegate
+        self.navigationController?.interactivePopGestureRecognizer.delegate = nil
         self.edgesForExtendedLayout = UIRectEdge.None;
 
-        titleLabel.title = self.station?.name
+        nameLabel.text = self.station?.name
         self.api = APIController(delegate: self)
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         self.departures = nil;
@@ -55,6 +66,8 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
             self.navigationController?.navigationBar.translucent = true
             self.navigationController?.navigationBar.setBackgroundImage(image.imageByApplyingAlpha(0.1), forBarMetrics: UIBarMetrics.Default)
             backgroundAlpha = 0.05
+
+
             fadeInBackground()
 
 
@@ -67,17 +80,20 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     }
     override func viewWillDisappear(animated: Bool) {
         self.navigationController?.navigationBar.setBackgroundImage(nil, forBarMetrics: UIBarMetrics.Default)
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+        self.navigationController?.interactivePopGestureRecognizer.delegate = gestureRecognizer
 
     }
 
     func fadeInBackground() {
-        let maxAlpha = 0.7
-        let stepTime = 0.2
-        let totalTime = 1.5
+        let maxAlpha = 0.6
+        let stepTime = 0.1
+        let totalTime = 1.0
         let stepAlpha = maxAlpha / (totalTime / stepTime)
 
         let image = self.backgroundImage?.imageByApplyingAlpha(CGFloat(backgroundAlpha))
-        self.navigationController?.navigationBar.setBackgroundImage(image, forBarMetrics: UIBarMetrics.Default)
+        self.TopBar.backgroundColor = UIColor(patternImage: image!)
+
         backgroundAlpha += stepAlpha
         if (backgroundAlpha < maxAlpha) {
             println(backgroundAlpha)
