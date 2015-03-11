@@ -165,7 +165,6 @@
                     <navigationItem key="navigationItem" title="Time for Coffee" id="Jqp-rv-LzH" userLabel="Time for Coffee"/>
                     <connections>
                         <outlet property="BackButton" destination="o3U-mY-SIS" id="FfU-GE-MpO"/>
-                        <outlet property="TopBar" destination="zie-iz-ziP" id="67I-gp-dSM"/>
                         <outlet property="appsTableView" destination="Zf4-nR-Sej" id="B5y-P1-y1e"/>
                         <outlet property="gradientView" destination="XMt-hg-wAD" id="o01-c8-G0D"/>
                         <outlet property="mapView" destination="hky-rH-Stc" id="zlz-ZI-Fe4"/>
