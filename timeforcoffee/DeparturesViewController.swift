@@ -20,19 +20,74 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     var station: TFCStation?
     var networkErrorMsg: String?
     let kCellIdentifier: String = "DeparturesListCell"
-    var backgroundAlpha = 0.0
-    var backgroundImage: UIImage?
     var gestureRecognizer: UIGestureRecognizerDelegate?
 
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var BackButton: UIButton!
 
+    @IBOutlet weak var topView: UIView!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var gradientView: UIImageView!
+
+    @IBOutlet weak var navBarImage: UIImageView!
+
+    @IBOutlet weak var navBarView: UIView!
+
+    @IBOutlet weak var releaseToViewLabel: UILabel!
 
     @IBAction func BackButtonClicked(sender: UIButton) {
         self.navigationController?.popViewControllerAnimated(true)
     }
+
+    @IBOutlet weak var topBarHeight: NSLayoutConstraint!
+
+
+    @IBAction func tapOnTopView(sender: UIPanGestureRecognizer) {
+
+        println("tab")
+    }
+    @IBOutlet weak var mapHeight: NSLayoutConstraint!
+
+    @IBAction func panOnTopView(sender: UIPanGestureRecognizer) {
+        let location = sender.locationInView(self.topView)
+        let releasePoint = CGFloat(200.0)
+        let startHeight = CGFloat(104.0)
+        var topBarCalculatedHeight = startHeight + (location.y - startHeight) / 2
+
+        if (topBarCalculatedHeight < startHeight) {
+            topBarCalculatedHeight = 104.0
+        }
+
+        if (sender.state == UIGestureRecognizerState.Ended) {
+            if (topBarCalculatedHeight > releasePoint) {
+                topBarCalculatedHeight = UIScreen.mainScreen().bounds.size.height
+                self.releaseToViewLabel.hidden = true
+
+            } else {
+                topBarCalculatedHeight = startHeight
+            }
+            
+        }
+
+
+        topBarHeight.constant = topBarCalculatedHeight
+
+
+        if (topBarCalculatedHeight < releasePoint) {
+            self.mapView?.alpha = 0.5 +  ((topBarCalculatedHeight - startHeight) / (releasePoint - startHeight)) * 0.5
+            self.gradientView.alpha = 1.0 - ((topBarCalculatedHeight - startHeight) / (releasePoint - startHeight))
+            self.navBarImage.alpha =  0.0 +  ((topBarCalculatedHeight - startHeight) / (releasePoint - startHeight)) * 1.0
+            self.releaseToViewLabel.hidden = true
+
+        } else {
+            self.releaseToViewLabel.hidden = false
+        }
+
+        if (topBarCalculatedHeight > mapHeight.constant) {
+            mapHeight.constant = topBarCalculatedHeight + 200
+        }
+    }
+
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -86,7 +141,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
             delay: 0.0,
             options: UIViewAnimationOptions.CurveLinear,
             animations: {
-                self.mapView?.alpha = 1.0
+                self.mapView?.alpha = 0.5
                 return
             }, completion: { (finished:Bool) in
             }
