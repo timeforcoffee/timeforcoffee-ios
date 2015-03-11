@@ -21,7 +21,9 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     var networkErrorMsg: String?
     let kCellIdentifier: String = "DeparturesListCell"
     var gestureRecognizer: UIGestureRecognizerDelegate?
-
+    var mapSwipeUpStart: CGFloat?
+    var destinationPlacemark: MKPlacemark?
+    
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var BackButton: UIButton!
 
@@ -41,50 +43,98 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
 
     @IBOutlet weak var topBarHeight: NSLayoutConstraint!
 
-
-    @IBAction func tapOnTopView(sender: UIPanGestureRecognizer) {
-
-        println("tab")
-    }
     @IBOutlet weak var mapHeight: NSLayoutConstraint!
 
     @IBAction func panOnTopView(sender: UIPanGestureRecognizer) {
         let location = sender.locationInView(self.topView)
-        let releasePoint = CGFloat(200.0)
+        let releasePoint = CGFloat(150.0)
         let startHeight = CGFloat(104.0)
         var topBarCalculatedHeight = startHeight + (location.y - startHeight) / 2
+
+        if (mapSwipeUpStart != nil) {
+            topBarCalculatedHeight = location.y + mapSwipeUpStart!
+        }
 
         if (topBarCalculatedHeight < startHeight) {
             topBarCalculatedHeight = 104.0
         }
-
-        if (sender.state == UIGestureRecognizerState.Ended) {
-            if (topBarCalculatedHeight > releasePoint) {
-                topBarCalculatedHeight = UIScreen.mainScreen().bounds.size.height
-                self.releaseToViewLabel.hidden = true
-
+        if (sender.state == UIGestureRecognizerState.Began) {
+            if (topBarHeight.constant >= UIScreen.mainScreen().bounds.size.height) {
+                self.mapSwipeUpStart = UIScreen.mainScreen().bounds.size.height - location.y
             } else {
-                topBarCalculatedHeight = startHeight
+                self.mapSwipeUpStart = nil
             }
-            
         }
+        if (sender.state == UIGestureRecognizerState.Ended) {
+            if (mapSwipeUpStart != nil) {
+                if ((UIScreen.mainScreen().bounds.size.height - topBarCalculatedHeight)  > 40) {
+                    moveMapViewUp()
+                } else {
+                    moveMapViewDown()
+                }
+            } else if (topBarCalculatedHeight > releasePoint) {
+                moveMapViewDown()
+            } else {
+                moveMapViewUp()
 
-
+            }
+            return
+        }
         topBarHeight.constant = topBarCalculatedHeight
-
-
         if (topBarCalculatedHeight < releasePoint) {
             self.mapView?.alpha = 0.5 +  ((topBarCalculatedHeight - startHeight) / (releasePoint - startHeight)) * 0.5
             self.gradientView.alpha = 1.0 - ((topBarCalculatedHeight - startHeight) / (releasePoint - startHeight))
             self.navBarImage.alpha =  0.0 +  ((topBarCalculatedHeight - startHeight) / (releasePoint - startHeight)) * 1.0
             self.releaseToViewLabel.hidden = true
-
         } else {
-            self.releaseToViewLabel.hidden = false
+            if (mapSwipeUpStart == nil) {
+                self.releaseToViewLabel.hidden = false
+                self.destinationPlacemark = MKPlacemark(coordinate: (station?.coord?.coordinate)!, addressDictionary: nil)
+                self.mapView.addAnnotation(destinationPlacemark)
+            }
         }
 
         if (topBarCalculatedHeight > mapHeight.constant) {
             mapHeight.constant = topBarCalculatedHeight + 200
+        }
+    }
+
+    func moveMapViewDown() {
+        let height = UIScreen.mainScreen().bounds.size.height
+        self.releaseToViewLabel.hidden = true
+        self.mapView.userInteractionEnabled = true
+        if (self.mapHeight.constant < height + 200) {
+            self.mapHeight.constant = height + 200
+        }
+        self.topBarHeight.constant = height
+        UIView.animateWithDuration(0.5,
+            animations: {
+                self.view.layoutIfNeeded()
+                return
+            }, completion: { (finished:Bool) in
+            }
+        )
+    }
+
+    func moveMapViewUp() {
+        let height = CGFloat(104)
+
+        self.mapView.userInteractionEnabled = false
+        self.topBarHeight.constant = height
+        UIView.animateWithDuration(0.5,
+            animations: {
+                self.mapView?.alpha = 0.5
+                self.gradientView?.alpha = 1.0
+                self.navBarImage.alpha = 0.0
+                self.topView.layoutIfNeeded()
+                return
+            }, completion: { (finished:Bool) in
+                return
+            }
+        )
+
+        if (self.destinationPlacemark != nil) {
+            self.mapView.removeAnnotation(self.destinationPlacemark)
         }
     }
 
@@ -137,15 +187,17 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     }
 
     func mapViewDidFinishRenderingMap(mapView: MKMapView!, fullyRendered: Bool) {
-        UIView.animateWithDuration(0.8,
-            delay: 0.0,
-            options: UIViewAnimationOptions.CurveLinear,
-            animations: {
-                self.mapView?.alpha = 0.5
-                return
-            }, completion: { (finished:Bool) in
-            }
-        )
+        if(self.mapView.alpha <= 0.6) {
+            UIView.animateWithDuration(0.8,
+                delay: 0.0,
+                options: UIViewAnimationOptions.CurveLinear,
+                animations: {
+                    self.mapView?.alpha = 0.5
+                    return
+                }, completion: { (finished:Bool) in
+                }
+            )
+        }
     }
 
     func applicationDidBecomeInactive(notification: NSNotification) {

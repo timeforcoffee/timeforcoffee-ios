@@ -109,14 +109,14 @@
                                             <rect key="frame" x="0.0" y="0.0" width="400" height="104"/>
                                         </variation>
                                     </imageView>
-                                    <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="elb-MS-l3n" userLabel="Nav Bar View">
-                                        <rect key="frame" x="0.0" y="66" width="600" height="40"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="elb-MS-l3n" userLabel="Nav Bar View">
+                                        <rect key="frame" x="0.0" y="44" width="600" height="60"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Gf-nk-f44">
-                                                <rect key="frame" x="0.0" y="0.0" width="600" height="40"/>
+                                            <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Gf-nk-f44">
+                                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="37z-MA-FFU">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="37z-MA-FFU">
                                                 <rect key="frame" x="35" y="9" width="542" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -125,8 +125,10 @@
                                         </subviews>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="37z-MA-FFU" secondAttribute="width" id="Bwe-NZ-4kT"/>
-                                            <constraint firstAttribute="height" constant="30" id="Sqn-hC-6jc"/>
+                                            <constraint firstAttribute="height" constant="60" id="Sqn-hC-6jc"/>
                                             <constraint firstItem="37z-MA-FFU" firstAttribute="top" secondItem="elb-MS-l3n" secondAttribute="top" constant="9" id="Ufm-GS-sWA"/>
+                                            <constraint firstItem="6Gf-nk-f44" firstAttribute="width" secondItem="elb-MS-l3n" secondAttribute="width" id="Z13-bO-Sx6"/>
+                                            <constraint firstItem="6Gf-nk-f44" firstAttribute="height" secondItem="elb-MS-l3n" secondAttribute="height" id="teq-y8-biJ"/>
                                             <constraint firstAttribute="centerX" secondItem="37z-MA-FFU" secondAttribute="centerX" constant="-6" id="x5p-Yd-s4q"/>
                                         </constraints>
                                     </view>
@@ -151,8 +153,8 @@
                                 <color key="backgroundColor" white="0.96379267850000006" alpha="1" colorSpace="calibratedWhite"/>
                                 <gestureRecognizers/>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="elb-MS-l3n" secondAttribute="bottom" id="3gj-cW-ClK"/>
                                     <constraint firstAttribute="centerX" secondItem="cgy-fE-O9r" secondAttribute="centerX" constant="11.5" id="5bH-6z-ezA"/>
+                                    <constraint firstItem="elb-MS-l3n" firstAttribute="leading" secondItem="zie-iz-ziP" secondAttribute="leading" id="Faw-tm-5yo"/>
                                     <constraint firstItem="o3U-mY-SIS" firstAttribute="leading" secondItem="zie-iz-ziP" secondAttribute="leading" id="Fxm-cf-eqT"/>
                                     <constraint firstItem="hky-rH-Stc" firstAttribute="width" secondItem="zie-iz-ziP" secondAttribute="width" id="IGt-Vo-num"/>
                                     <constraint firstAttribute="centerX" secondItem="XMt-hg-wAD" secondAttribute="centerX" id="MUJ-kA-RFV"/>
@@ -164,6 +166,7 @@
                                     <constraint firstItem="XMt-hg-wAD" firstAttribute="top" secondItem="zie-iz-ziP" secondAttribute="top" id="e4f-ED-9pt"/>
                                     <constraint firstItem="cgy-fE-O9r" firstAttribute="top" secondItem="zie-iz-ziP" secondAttribute="top" constant="23" id="e61-Oq-yO6"/>
                                     <constraint firstItem="elb-MS-l3n" firstAttribute="width" secondItem="zie-iz-ziP" secondAttribute="width" id="hLb-Ce-K3o"/>
+                                    <constraint firstAttribute="bottom" secondItem="elb-MS-l3n" secondAttribute="bottom" id="t5h-fV-IQ3"/>
                                     <constraint firstItem="XMt-hg-wAD" firstAttribute="height" secondItem="zie-iz-ziP" secondAttribute="height" id="z6R-qT-iWV"/>
                                 </constraints>
                                 <variation key="heightClass=regular-widthClass=compact" ambiguous="YES" misplaced="YES">
@@ -208,11 +211,7 @@
                         <action selector="panOnTopView:" destination="COk-7g-JfJ" id="86j-8m-VgW"/>
                     </connections>
                 </panGestureRecognizer>
-                <tapGestureRecognizer id="NtJ-3L-cTD">
-                    <connections>
-                        <action selector="tapOnTopView:" destination="COk-7g-JfJ" id="9sA-1N-oNO"/>
-                    </connections>
-                </tapGestureRecognizer>
+                <tapGestureRecognizer id="NtJ-3L-cTD"/>
             </objects>
             <point key="canvasLocation" x="2542" y="-250"/>
         </scene>
