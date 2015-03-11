@@ -22,13 +22,25 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zie-iz-ziP">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
+                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="hky-rH-Stc">
+                                        <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                        <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                            <rect key="frame" x="0.0" y="0.0" width="400" height="104"/>
+                                        </variation>
+                                    </mapView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XMt-hg-wAD" userLabel="Gradient Image View">
+                                        <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                        <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                            <rect key="frame" x="0.0" y="0.0" width="400" height="104"/>
+                                        </variation>
+                                    </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o3U-mY-SIS">
                                         <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                         <state key="normal" title="Back">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                            <rect key="frame" x="29" y="82" width="35" height="30"/>
+                                            <rect key="frame" x="19" y="74" width="35" height="30"/>
                                         </variation>
                                         <connections>
                                             <action selector="BackButtonClicked:" destination="COk-7g-JfJ" eventType="touchUpInside" id="Pt6-iI-gcS"/>
@@ -40,20 +52,24 @@
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                         <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                            <rect key="frame" x="86" y="86" width="246" height="21"/>
+                                            <rect key="frame" x="86" y="78" width="246" height="21"/>
                                         </variation>
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" white="0.96379267850000006" alpha="1" colorSpace="calibratedWhite"/>
                                 <variation key="default">
                                     <mask key="subviews">
+                                        <exclude reference="hky-rH-Stc"/>
+                                        <exclude reference="XMt-hg-wAD"/>
                                         <exclude reference="o3U-mY-SIS"/>
                                         <exclude reference="37z-MA-FFU"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="0.0" y="0.0" width="400" height="120"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="400" height="104"/>
                                     <mask key="subviews">
+                                        <include reference="hky-rH-Stc"/>
+                                        <include reference="XMt-hg-wAD"/>
                                         <include reference="o3U-mY-SIS"/>
                                         <include reference="37z-MA-FFU"/>
                                     </mask>
@@ -124,7 +140,7 @@
                                     </tableViewCell>
                                 </prototypes>
                                 <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="0.0" y="120" width="400" height="684"/>
+                                    <rect key="frame" x="0.0" y="104" width="400" height="684"/>
                                 </variation>
                                 <connections>
                                     <outlet property="dataSource" destination="COk-7g-JfJ" id="LCa-2T-AlO"/>
@@ -151,6 +167,8 @@
                         <outlet property="BackButton" destination="o3U-mY-SIS" id="FfU-GE-MpO"/>
                         <outlet property="TopBar" destination="zie-iz-ziP" id="67I-gp-dSM"/>
                         <outlet property="appsTableView" destination="Zf4-nR-Sej" id="B5y-P1-y1e"/>
+                        <outlet property="gradientView" destination="XMt-hg-wAD" id="o01-c8-G0D"/>
+                        <outlet property="mapView" destination="hky-rH-Stc" id="zlz-ZI-Fe4"/>
                         <outlet property="nameLabel" destination="37z-MA-FFU" id="xUR-d8-Yac"/>
                         <outlet property="titleLabel" destination="Jqp-rv-LzH" id="KBN-fd-J3X"/>
                     </connections>

@@ -8,8 +8,9 @@
 
 import UIKit
 import timeforcoffeeKit
+import MapKit
 
-class DeparturesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, MGSwipeTableCellDelegate {
+class DeparturesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, MGSwipeTableCellDelegate, MKMapViewDelegate {
 
     @IBOutlet weak var titleLabel: UINavigationItem!
     @IBOutlet var appsTableView : UITableView?
@@ -24,8 +25,10 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     var gestureRecognizer: UIGestureRecognizerDelegate?
 
     @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var TopBar: UIView!
     @IBOutlet weak var BackButton: UIButton!
+
+    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var gradientView: UIImageView!
 
     @IBAction func BackButtonClicked(sender: UIButton) {
         println("foo")
@@ -60,24 +63,18 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         }
 
         self.navigationItem.rightBarButtonItem = favButton
+        self.gradientView.image = UIImage(named: "gradient.png")
+        self.mapView?.alpha = 0.0
+        self.mapView?.userInteractionEnabled = false;
 
-        func showMapInBar(image: UIImage) {
-            self.backgroundImage = image
-            self.navigationController?.navigationBar.translucent = true
-            self.navigationController?.navigationBar.setBackgroundImage(image.imageByApplyingAlpha(0.1), forBarMetrics: UIBarMetrics.Default)
-            backgroundAlpha = 0.05
+        var region = MKCoordinateRegionMakeWithDistance((station?.coord?.coordinate)! ,300,300);
+        self.mapView.setRegion(region, animated: false)
+        self.mapView.showsUserLocation = true
+        self.mapView.delegate = self
 
-
-            fadeInBackground()
-
-
-        }
-        station!.getMapImage(showMapInBar)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeInactive:", name: "UIApplicationDidEnterBackgroundNotification", object: nil)
-        /*self.navigationItem.rightBarButtonItem?.setBackButtonBackgroundImage(station!.getMapImage(), forState: UIControlState.Normal, barMetrics: UIBarMetrics.Default)
-        self.navigationController?.navigationBar.setBackgroundImage(station!.getMapImage(), forBarMetrics: UIBarMetrics.DefaultPrompt)*/
-
     }
+
     override func viewWillDisappear(animated: Bool) {
         self.navigationController?.navigationBar.setBackgroundImage(nil, forBarMetrics: UIBarMetrics.Default)
         self.navigationController?.setNavigationBarHidden(false, animated: false)
@@ -85,21 +82,16 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
 
     }
 
-    func fadeInBackground() {
-        let maxAlpha = 0.6
-        let stepTime = 0.1
-        let totalTime = 1.0
-        let stepAlpha = maxAlpha / (totalTime / stepTime)
-
-        let image = self.backgroundImage?.imageByApplyingAlpha(CGFloat(backgroundAlpha))
-        self.TopBar.backgroundColor = UIColor(patternImage: image!)
-
-        backgroundAlpha += stepAlpha
-        if (backgroundAlpha < maxAlpha) {
-            println(backgroundAlpha)
-            NSTimer.scheduledTimerWithTimeInterval(stepTime, target: self, selector: Selector("fadeInBackground"), userInfo: nil, repeats: false)
-        }
-
+    func mapViewDidFinishRenderingMap(mapView: MKMapView!, fullyRendered: Bool) {
+        UIView.animateWithDuration(0.8,
+            delay: 0.0,
+            options: UIViewAnimationOptions.CurveLinear,
+            animations: {
+                self.mapView?.alpha = 0.8
+                return
+            }, completion: { (finished:Bool) in
+            }
+        )
     }
 
     func applicationDidBecomeInactive(notification: NSNotification) {

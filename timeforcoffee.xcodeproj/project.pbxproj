@@ -11,6 +11,7 @@
 		314AFBD41AA766DC00C176FE /* StationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314AFBD31AA766DC00C176FE /* StationTableViewCell.swift */; };
 		314AFBD61AA778F400C176FE /* StationTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314AFBD51AA778F400C176FE /* StationTableView.swift */; };
 		EC046D631A9C563D00C2C1B3 /* TFCLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC046D621A9C563D00C2C1B3 /* TFCLocationManager.swift */; };
+		EC0530871AB01153008439E9 /* gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0530861AB01153008439E9 /* gradient.png */; };
 		EC0A30EC1AA344100043B8F8 /* launchicon.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30EB1AA344100043B8F8 /* launchicon.png */; };
 		EC0A30F21AA353CA0043B8F8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30F41AA353CA0043B8F8 /* MainInterface.storyboard */; };
 		EC0DD8CF1AAEC7CB0089A207 /* TFCCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0DD8CE1AAEC7CB0089A207 /* TFCCache.swift */; };
@@ -152,6 +153,7 @@
 		314AFBD31AA766DC00C176FE /* StationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationTableViewCell.swift; sourceTree = "<group>"; };
 		314AFBD51AA778F400C176FE /* StationTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationTableView.swift; sourceTree = "<group>"; };
 		EC046D621A9C563D00C2C1B3 /* TFCLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCLocationManager.swift; sourceTree = "<group>"; };
+		EC0530861AB01153008439E9 /* gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gradient.png; path = _assets/gradient.png; sourceTree = "<group>"; };
 		EC0A30EB1AA344100043B8F8 /* launchicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = launchicon.png; path = _assets/launchicon.png; sourceTree = "<group>"; };
 		EC0A30F11AA352BD0043B8F8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		EC0A30F51AA353E40043B8F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
@@ -285,6 +287,7 @@
 			children = (
 				EC2195ED1AA35B2D005E16EF /* Localizable.strings */,
 				EC0DD8D41AAF421D0089A207 /* favorite_icon.png */,
+				EC0530861AB01153008439E9 /* gradient.png */,
 				EC0DD8D61AAF42B90089A207 /* station_icon.png */,
 				EC0A30EB1AA344100043B8F8 /* launchicon.png */,
 			);
@@ -749,6 +752,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC7A519B19C43E0A000F5E7C /* Blank52.png in Resources */,
+				EC0530871AB01153008439E9 /* gradient.png in Resources */,
 				314AFBD21AA7633D00C176FE /* StationTableViewCell.xib in Resources */,
 				EC0DD8D51AAF421D0089A207 /* favorite_icon.png in Resources */,
 				EC2C31271A9DE8B000690397 /* home.gpx in Resources */,
