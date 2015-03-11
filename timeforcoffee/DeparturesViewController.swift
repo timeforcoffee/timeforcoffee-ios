@@ -89,8 +89,10 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         } else {
             if (mapSwipeUpStart == nil) {
                 self.releaseToViewLabel.hidden = false
-                self.destinationPlacemark = MKPlacemark(coordinate: (station?.coord?.coordinate)!, addressDictionary: nil)
-                self.mapView.addAnnotation(destinationPlacemark)
+                if (self.destinationPlacemark == nil) {
+                    self.destinationPlacemark = MKPlacemark(coordinate: (station?.coord?.coordinate)!, addressDictionary: nil)
+                    self.mapView.addAnnotation(destinationPlacemark)
+                }
             }
         }
 
@@ -129,13 +131,13 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
                 self.topView.layoutIfNeeded()
                 return
             }, completion: { (finished:Bool) in
+                if (self.destinationPlacemark != nil) {
+                    self.mapView.removeAnnotation(self.destinationPlacemark)
+                    self.destinationPlacemark = nil
+                }
                 return
             }
         )
-
-        if (self.destinationPlacemark != nil) {
-            self.mapView.removeAnnotation(self.destinationPlacemark)
-        }
     }
 
     required init(coder aDecoder: NSCoder) {
