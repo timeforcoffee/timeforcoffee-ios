@@ -31,7 +31,6 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     @IBOutlet weak var gradientView: UIImageView!
 
     @IBAction func BackButtonClicked(sender: UIButton) {
-        println("foo")
         self.navigationController?.popViewControllerAnimated(true)
     }
     required init(coder aDecoder: NSCoder) {
@@ -87,7 +86,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
             delay: 0.0,
             options: UIViewAnimationOptions.CurveLinear,
             animations: {
-                self.mapView?.alpha = 0.8
+                self.mapView?.alpha = 1.0
                 return
             }, completion: { (finished:Bool) in
             }
