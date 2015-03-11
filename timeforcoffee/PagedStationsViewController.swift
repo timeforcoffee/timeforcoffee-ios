@@ -72,45 +72,45 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
     func setTitleView () {
         scrollViewWidth = UIScreen.mainScreen().bounds.size.width
         
-        var titleView = UIView(frame: CGRect(x: 0, y: 0, width: scrollViewWidth! / 2, height: 30))
+        var titleView = UIView(frame: CGRect(x: 0, y: 0, width: scrollViewWidth! / 3, height: 30))
 
-        var labelContainer = UIView(frame: CGRect(x: 0, y: 0, width: scrollViewWidth!, height: 20))
+        var labelContainer = UIView(frame: CGRect(x: 0, y: 0, width: (scrollViewWidth! / 3) * 2, height: 20))
         labelContainer.tag = 100
         
-        let labelFont = UIFont(name: "HelveticaNeue-Medium", size: 12.0)
+        
+        let labelFont = UIFont(name: "HelveticaNeue-Bold", size: 14.0)
 
-        var pageLabel1 = UILabel(frame: CGRect(x: 0, y: 0, width: scrollViewWidth! / 2, height: 20))
-        pageLabel1.text = "NEAREST STATIONS"
+        var pageLabel1 = UILabel(frame: CGRect(x: 0, y: 0, width: scrollViewWidth! / 3, height: 20))
+        pageLabel1.text = "Nearby Stations"
         pageLabel1.font = labelFont
         pageLabel1.textAlignment = NSTextAlignment.Center
-        
         pageLabel1.tag = 1
 
-        var pageLabel2 = UILabel(frame: CGRect(x: scrollViewWidth! / 2, y: 0, width: scrollViewWidth! / 2, height: 20))
-        pageLabel2.text = "FAVORITES"
+        var pageLabel2 = UILabel(frame: CGRect(x: scrollViewWidth! / 3, y: 0, width: scrollViewWidth! / 3, height: 20))
+        pageLabel2.text = "Favorites"
         pageLabel2.font = labelFont
         pageLabel2.textAlignment = NSTextAlignment.Center
         pageLabel2.tag = 2
+        
 
         labelContainer.addSubview(pageLabel1)
         labelContainer.addSubview(pageLabel2)
 
         titleView.addSubview(labelContainer)
-        
-        
-        var titlePageControl = UIPageControl(frame: CGRect(x: 0, y: 20, width: scrollViewWidth! / 2, height: 10))
+        var titlePageControl = UIPageControl(frame: CGRect(x: 0, y: 20, width: scrollViewWidth! / 3, height: 10))
         titlePageControl.tag = 50
         titlePageControl.numberOfPages = 2
         titlePageControl.currentPage = 0
         titlePageControl.currentPageIndicatorTintColor = UIColor.blackColor()
         titlePageControl.pageIndicatorTintColor = UIColor.grayColor()
+        titlePageControl.transform = CGAffineTransformScale(titlePageControl.transform, 0.75, 0.75)
         
         titleView.addSubview(titlePageControl)
         
 
         self.navigationItem.titleView = titleView
 
-        self.navigationItem.titleView?.layer.frame = CGRect(x: 0, y: 0, width: scrollViewWidth! / 2, height: 30)
+        self.navigationItem.titleView?.layer.frame = CGRect(x: 0, y: 0, width: scrollViewWidth! / 3, height: 30)
         self.navigationItem.titleView?.clipsToBounds = false
     }
 
@@ -124,7 +124,7 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
             self.navigationItem.titleView?.viewWithTag(1)?.layer.opacity = -Float(((scrollView.contentOffset.x - scrollViewWidth!) / scrollViewWidth!))
             self.navigationItem.titleView?.viewWithTag(2)?.layer.opacity = 1 + Float(((scrollView.contentOffset.x - scrollViewWidth!) / scrollViewWidth!))
         }
-        self.navigationItem.titleView?.viewWithTag(100)?.layer.position.x = (-scrollViewOffset! / 2) + scrollViewWidth! / 2
+        self.navigationItem.titleView?.viewWithTag(100)?.layer.position.x = (-scrollViewOffset! / 3) + scrollViewWidth! / 3
     }
 
     func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
