@@ -10,7 +10,7 @@ import UIKit
 import timeforcoffeeKit
 import MapKit
 
-class DeparturesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, MGSwipeTableCellDelegate, MKMapViewDelegate {
+class DeparturesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, APIControllerProtocol, MGSwipeTableCellDelegate, MKMapViewDelegate {
 
     @IBOutlet weak var titleLabel: UINavigationItem!
     @IBOutlet var appsTableView : UITableView?
@@ -23,13 +23,16 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     var gestureRecognizer: UIGestureRecognizerDelegate?
     var mapSwipeUpStart: CGFloat?
     var destinationPlacemark: MKPlacemark?
+    var startHeight: CGFloat!
     
+    @IBOutlet weak var stationIconView: UIView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var BackButton: UIButton!
 
     @IBOutlet weak var topView: UIView!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var gradientView: UIImageView!
+    @IBOutlet weak var borderBottomView: UIView!
 
     @IBOutlet weak var navBarImage: UIImageView!
 
@@ -47,16 +50,15 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
 
     @IBAction func panOnTopView(sender: UIPanGestureRecognizer) {
         let location = sender.locationInView(self.topView)
-        let releasePoint = CGFloat(150.0)
-        let startHeight = CGFloat(104.0)
-        var topBarCalculatedHeight = startHeight + (location.y - startHeight) / 2
+        let releasePoint = CGFloat(200.0)
+        var topBarCalculatedHeight = startHeight + (location.y - startHeight) / 3
 
         if (mapSwipeUpStart != nil) {
             topBarCalculatedHeight = location.y + mapSwipeUpStart!
         }
 
         if (topBarCalculatedHeight < startHeight) {
-            topBarCalculatedHeight = 104.0
+            topBarCalculatedHeight = 150.0
         }
         if (sender.state == UIGestureRecognizerState.Began) {
             if (topBarHeight.constant >= UIScreen.mainScreen().bounds.size.height) {
@@ -84,7 +86,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         if (topBarCalculatedHeight < releasePoint) {
             self.mapView?.alpha = 0.5 +  ((topBarCalculatedHeight - startHeight) / (releasePoint - startHeight)) * 0.5
             self.gradientView.alpha = 1.0 - ((topBarCalculatedHeight - startHeight) / (releasePoint - startHeight))
-            self.navBarImage.alpha =  0.0 +  ((topBarCalculatedHeight - startHeight) / (releasePoint - startHeight)) * 1.0
+            self.navBarImage.alpha = 0.0 + ((topBarCalculatedHeight - startHeight) / (releasePoint - startHeight)) * 1.0
             self.releaseToViewLabel.hidden = true
         } else {
             if (mapSwipeUpStart == nil) {
@@ -119,7 +121,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     }
 
     func moveMapViewUp() {
-        let height = CGFloat(104)
+        let height = CGFloat(startHeight)
 
         self.mapView.userInteractionEnabled = false
         self.topBarHeight.constant = height
@@ -138,6 +140,18 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
                 return
             }
         )
+    }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        let offset = scrollView.contentOffset.y + startHeight
+        if (offset > 0) {
+            if (startHeight - offset >= 44 + 20) {
+                topBarHeight.constant = startHeight - offset
+                borderBottomView.alpha = offset / 80
+                mapView?.alpha = min(1 - (offset / 80), 0.5)
+                stationIconView.alpha = 1 - (offset / 80)
+            }
+        }
     }
 
     required init(coder aDecoder: NSCoder) {
@@ -161,13 +175,18 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         self.refreshControl.backgroundColor = UIColor(red: 242.0/255.0, green: 243.0/255.0, blue: 245.0/255.0, alpha: 1.0)
         self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.appsTableView?.addSubview(refreshControl)
+        
+        startHeight = topBarHeight.constant
+        self.appsTableView?.contentInset = UIEdgeInsets(top: startHeight, left: 0, bottom: 0, right: 0)
 
         var favButton = UIBarButtonItem(title: "☆", style: UIBarButtonItemStyle.Plain, target: self, action: "favoriteClicked:")
 
         if (station!.isFavorite()) {
            favButton.title = "★";
         }
-
+        
+        self.stationIconView.layer.cornerRadius = self.stationIconView.frame.width / 2
+        
         self.navigationItem.rightBarButtonItem = favButton
         self.gradientView.image = UIImage(named: "gradient.png")
         self.mapView?.alpha = 0.0
