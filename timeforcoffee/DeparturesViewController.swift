@@ -144,7 +144,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         let offset = scrollView.contentOffset.y + startHeight
-        if (offset > 0) {
+        if (offset >= 0) {
             if (startHeight - offset >= 44 + 20) {
                 topBarHeight.constant = startHeight - offset
                 borderBottomView.alpha = offset / 80
