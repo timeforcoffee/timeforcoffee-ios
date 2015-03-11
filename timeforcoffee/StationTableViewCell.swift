@@ -116,11 +116,15 @@ class StationTableViewCell: UITableViewCell {
     }
 
     func getFavoriteIcon() -> UIImage {
-        return UIImage(named: "favorite_icon.png")!
+        if (station.st_id == "8591306") {
+            return UIImage(named: "stationicon-liip")!
+        } else {
+            return UIImage(named: "stationicon-star")!
+        }
     }
 
     func getNormalIcon() -> UIImage {
-        return UIImage(named: "station_icon.png")!
+        return UIImage(named: "stationicon-pin")!
 
     }
 
