@@ -15,8 +15,6 @@
 		EC0A30F21AA353CA0043B8F8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30F41AA353CA0043B8F8 /* MainInterface.storyboard */; };
 		EC0DD8CF1AAEC7CB0089A207 /* TFCCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0DD8CE1AAEC7CB0089A207 /* TFCCache.swift */; };
 		EC0DD8D11AAF1B5F0089A207 /* StationsSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0DD8D01AAF1B5F0089A207 /* StationsSearchViewController.swift */; };
-		EC0DD8D51AAF421D0089A207 /* favorite_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0DD8D41AAF421D0089A207 /* favorite_icon.png */; };
-		EC0DD8D71AAF42B90089A207 /* station_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0DD8D61AAF42B90089A207 /* station_icon.png */; };
 		EC2195EB1AA35B2D005E16EF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC2195ED1AA35B2D005E16EF /* Localizable.strings */; };
 		EC271DC41AA365BE00A7A75E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC271DC31AA365BE00A7A75E /* Main.storyboard */; };
 		EC2C31271A9DE8B000690397 /* home.gpx in Resources */ = {isa = PBXBuildFile; fileRef = EC2C31261A9DE8B000690397 /* home.gpx */; };
@@ -158,8 +156,6 @@
 		EC0A30F61AA354010043B8F8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MainInterface.strings; sourceTree = "<group>"; };
 		EC0DD8CE1AAEC7CB0089A207 /* TFCCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCCache.swift; sourceTree = "<group>"; };
 		EC0DD8D01AAF1B5F0089A207 /* StationsSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationsSearchViewController.swift; sourceTree = "<group>"; };
-		EC0DD8D41AAF421D0089A207 /* favorite_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = favorite_icon.png; path = _assets/favorite_icon.png; sourceTree = "<group>"; };
-		EC0DD8D61AAF42B90089A207 /* station_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = station_icon.png; path = _assets/station_icon.png; sourceTree = "<group>"; };
 		EC2195EC1AA35B2D005E16EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EC2195EF1AA35B4B005E16EF /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EC250B0C1AA8684F00F8B3C4 /* timeforcoffee Widget-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "timeforcoffee Widget-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -284,8 +280,6 @@
 			isa = PBXGroup;
 			children = (
 				EC2195ED1AA35B2D005E16EF /* Localizable.strings */,
-				EC0DD8D41AAF421D0089A207 /* favorite_icon.png */,
-				EC0DD8D61AAF42B90089A207 /* station_icon.png */,
 				EC0A30EB1AA344100043B8F8 /* launchicon.png */,
 			);
 			name = _assets;
@@ -750,11 +744,9 @@
 			files = (
 				EC7A519B19C43E0A000F5E7C /* Blank52.png in Resources */,
 				314AFBD21AA7633D00C176FE /* StationTableViewCell.xib in Resources */,
-				EC0DD8D51AAF421D0089A207 /* favorite_icon.png in Resources */,
 				EC2C31271A9DE8B000690397 /* home.gpx in Resources */,
 				ECC163D71AA36924006BC3E9 /* Localizable.strings in Resources */,
 				EC271DC41AA365BE00A7A75E /* Main.storyboard in Resources */,
-				EC0DD8D71AAF42B90089A207 /* station_icon.png in Resources */,
 				EC7A518319C427CA000F5E7C /* LaunchScreen.xib in Resources */,
 				EC0A30EC1AA344100043B8F8 /* launchicon.png in Resources */,
 				EC7A518019C427CA000F5E7C /* Images.xcassets in Resources */,
