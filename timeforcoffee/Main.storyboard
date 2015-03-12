@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6Gx-yE-V2l">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6Gx-yE-V2l">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
@@ -112,8 +112,8 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="elb-MS-l3n" userLabel="Nav Bar View">
                                         <rect key="frame" x="0.0" y="70" width="600" height="80"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Gf-nk-f44">
-                                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                            <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Gf-nk-f44">
+                                                <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Zürich, Schaffhauserplatz" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="37z-MA-FFU">
@@ -147,6 +147,7 @@
                                             <constraint firstAttribute="height" constant="80" id="Sqn-hC-6jc"/>
                                             <constraint firstItem="37z-MA-FFU" firstAttribute="bottom" secondItem="elb-MS-l3n" secondAttribute="bottom" constant="-14" id="Ufm-GS-sWA"/>
                                             <constraint firstItem="6Gf-nk-f44" firstAttribute="width" secondItem="elb-MS-l3n" secondAttribute="width" id="Z13-bO-Sx6"/>
+                                            <constraint firstAttribute="bottom" secondItem="6Gf-nk-f44" secondAttribute="bottom" id="eNb-0Q-Iqy"/>
                                             <constraint firstItem="6Gf-nk-f44" firstAttribute="height" secondItem="elb-MS-l3n" secondAttribute="height" id="teq-y8-biJ"/>
                                             <constraint firstAttribute="centerX" secondItem="37z-MA-FFU" secondAttribute="centerX" id="x5p-Yd-s4q"/>
                                         </constraints>
@@ -168,7 +169,7 @@
                                             <action selector="BackButtonClicked:" destination="COk-7g-JfJ" eventType="touchUpInside" id="Pt6-iI-gcS"/>
                                         </connections>
                                     </button>
-                                    <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rkJ-yM-Lpj" userLabel="BorderBottom">
+                                    <view alpha="0.0" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rkJ-yM-Lpj" userLabel="BorderBottom">
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="0.5" id="I8X-DJ-poy"/>
