@@ -90,18 +90,22 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
             self.mapView?.alpha = 0.5 +  ((topBarCalculatedHeight - startHeight) / (releasePoint - startHeight)) * 0.5
             self.gradientView.alpha = 1.0 - ((topBarCalculatedHeight - startHeight) / (releasePoint - startHeight))
             self.navBarImage.alpha = 0.0 + ((topBarCalculatedHeight - startHeight) / (releasePoint - startHeight)) * 1.0
+            self.stationIconView.alpha = 1.0 - ((topBarCalculatedHeight - startHeight) / (releasePoint - startHeight))
             self.releaseToViewLabel.hidden = true
-        } else {
-            self.mapView?.alpha = 1.0
-            self.gradientView.alpha = 0.0
-            self.navBarImage.alpha = 1.0
             if (mapSwipeUpStart == nil) {
-                self.releaseToViewLabel.hidden = false
                 if (self.destinationPlacemark == nil) {
                     self.destinationPlacemark = MKPlacemark(coordinate: (station?.coord?.coordinate)!, addressDictionary: nil)
                     self.mapView.addAnnotation(destinationPlacemark)
                 }
             }
+        } else {
+            if (mapSwipeUpStart == nil) {
+                self.releaseToViewLabel.hidden = false
+            }
+            self.mapView?.alpha = 1.0
+            self.gradientView.alpha = 0.0
+            self.navBarImage.alpha = 1.0
+            self.stationIconView.alpha = 0.0
         }
 
         if (topBarCalculatedHeight > mapHeight.constant) {

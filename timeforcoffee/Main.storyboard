@@ -143,7 +143,6 @@
                                         <constraints>
                                             <constraint firstAttribute="centerX" secondItem="guG-BC-z0w" secondAttribute="centerX" id="9cR-vg-hdv"/>
                                             <constraint firstAttribute="width" secondItem="37z-MA-FFU" secondAttribute="width" id="Bwe-NZ-4kT"/>
-                                            <constraint firstItem="37z-MA-FFU" firstAttribute="top" secondItem="guG-BC-z0w" secondAttribute="bottom" constant="10" id="Qut-DS-ZG8"/>
                                             <constraint firstAttribute="height" constant="80" id="Sqn-hC-6jc"/>
                                             <constraint firstItem="37z-MA-FFU" firstAttribute="bottom" secondItem="elb-MS-l3n" secondAttribute="bottom" constant="-14" id="Ufm-GS-sWA"/>
                                             <constraint firstItem="6Gf-nk-f44" firstAttribute="width" secondItem="elb-MS-l3n" secondAttribute="width" id="Z13-bO-Sx6"/>
@@ -190,6 +189,7 @@
                                     <constraint firstItem="XMt-hg-wAD" firstAttribute="width" secondItem="zie-iz-ziP" secondAttribute="width" id="NEV-LT-bAi"/>
                                     <constraint firstAttribute="centerY" secondItem="hky-rH-Stc" secondAttribute="centerY" id="Or3-fa-h4t"/>
                                     <constraint firstAttribute="centerX" secondItem="hky-rH-Stc" secondAttribute="centerX" id="Sxc-4Y-Kag"/>
+                                    <constraint firstItem="guG-BC-z0w" firstAttribute="centerY" secondItem="hky-rH-Stc" secondAttribute="centerY" constant="-21" id="ZfZ-fm-YwB"/>
                                     <constraint firstAttribute="height" constant="150" id="ba8-rc-KPo"/>
                                     <constraint firstItem="o3U-mY-SIS" firstAttribute="top" secondItem="zie-iz-ziP" secondAttribute="top" constant="15" id="cFi-cw-sLV"/>
                                     <constraint firstItem="XMt-hg-wAD" firstAttribute="top" secondItem="zie-iz-ziP" secondAttribute="top" id="e4f-ED-9pt"/>
