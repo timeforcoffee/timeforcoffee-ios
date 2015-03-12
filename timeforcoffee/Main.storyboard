@@ -199,11 +199,6 @@
                                     <constraint firstAttribute="bottom" secondItem="elb-MS-l3n" secondAttribute="bottom" id="t5h-fV-IQ3"/>
                                     <constraint firstItem="XMt-hg-wAD" firstAttribute="height" secondItem="zie-iz-ziP" secondAttribute="height" id="z6R-qT-iWV"/>
                                 </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="MNG-b8-EEL"/>
-                                    </mask>
-                                </variation>
                                 <variation key="heightClass=regular-widthClass=compact" ambiguous="YES" misplaced="YES">
                                     <rect key="frame" x="0.0" y="0.0" width="400" height="104"/>
                                 </variation>
@@ -245,9 +240,8 @@
                         <outlet property="stationIconImage" destination="4xW-km-IVK" id="1xO-Y8-3mf"/>
                         <outlet property="stationIconView" destination="guG-BC-z0w" id="ykk-ny-e5U"/>
                         <outlet property="titleLabel" destination="Jqp-rv-LzH" id="KBN-fd-J3X"/>
-                        <outlet property="topBarBottomSpace" destination="DlI-mM-KzW" id="fNG-k2-VuI"/>
+                        <outlet property="topBarBottomSpace" destination="DlI-mM-KzW" id="lMS-pz-wuk"/>
                         <outlet property="topBarHeight" destination="ba8-rc-KPo" id="WcF-xi-dJm"/>
-                        <outlet property="topBarTopSpace" destination="CXa-8K-G8l" id="mkI-op-rRh"/>
                         <outlet property="topView" destination="zie-iz-ziP" id="9DL-gY-H8h"/>
                     </connections>
                 </viewController>

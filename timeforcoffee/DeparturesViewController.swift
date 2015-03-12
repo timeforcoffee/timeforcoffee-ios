@@ -45,13 +45,13 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         self.navigationController?.popViewControllerAnimated(true)
     }
 
-    @IBOutlet weak var topBarHeight: NSLayoutConstraint!
+    @IBOutlet var topBarHeight: NSLayoutConstraint!
 
     @IBOutlet weak var mapHeight: NSLayoutConstraint!
 
-    @IBOutlet weak var topBarBottomSpace: NSLayoutConstraint!
+    @IBOutlet var topBarBottomSpace: NSLayoutConstraint!
 
-    @IBOutlet weak var topBarTopSpace: NSLayoutConstraint!
+    var mapOnBottom: Bool = false
 
     @IBAction func panOnTopView(sender: UIPanGestureRecognizer) {
         let location = sender.locationInView(self.topView)
@@ -60,8 +60,6 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
 
         if (mapSwipeUpStart != nil) {
             topBarCalculatedHeight = location.y + mapSwipeUpStart!
-//            NSLayoutConstraint.activateConstraints([self.topBarHeight])
-//            NSLayoutConstraint.deactivateConstraints([self.topBarBottomSpace])
 
         }
 
@@ -69,11 +67,13 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
             topBarCalculatedHeight = 150.0
         }
         if (sender.state == UIGestureRecognizerState.Began) {
-            if (topBarHeight.constant >= UIScreen.mainScreen().bounds.size.height - 20 ) {
+            if (self.mapOnBottom == true ) {
                 self.mapSwipeUpStart = UIScreen.mainScreen().bounds.size.height - location.y
                 self.mapView.userInteractionEnabled = false
-                self.topBarHeight.active = true
-                self.topBarBottomSpace.active = false
+                NSLayoutConstraint.deactivateConstraints([self.topBarBottomSpace])
+                NSLayoutConstraint.activateConstraints([self.topBarHeight])
+                self.mapOnBottom = false
+                self.view.layoutIfNeeded()
             } else {
                 self.mapSwipeUpStart = nil
             }
@@ -93,7 +93,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
             }
             return
         }
-        topBarHeight.constant = topBarCalculatedHeight
+        topBarHeight?.constant = topBarCalculatedHeight
         if (topBarCalculatedHeight < releasePoint) {
             self.mapView?.alpha = 0.5 +  ((topBarCalculatedHeight - startHeight) / (releasePoint - startHeight)) * 0.5
             self.gradientView.alpha = 1.0 - ((topBarCalculatedHeight - startHeight) / (releasePoint - startHeight))
@@ -132,21 +132,20 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         if (duration > 0.5) {
             duration = 0.5
         }
-        self.topBarHeight.active = false
-        self.topBarBottomSpace.active = true
-//        NSLayoutConstraint.activateConstraints([self.topBarBottomSpace])
-//        NSLayoutConstraint.deactivateConstraints([self.topBarHeight])
-//        self.topBarHeight.constant = height
+        NSLayoutConstraint.deactivateConstraints([self.topBarHeight])
+        NSLayoutConstraint.activateConstraints([self.topBarBottomSpace])
+        self.topBarBottomSpace?.constant = 0
 
-        self.topBarBottomSpace.constant = 0
         UIView.animateWithDuration(duration,
             animations: {
-                self.stationIconView.alpha = 0.0
                 self.view.layoutIfNeeded()
+                self.stationIconView.alpha = 0.0
                 return
             }, completion: { (finished:Bool) in
-                println(self.topView.frame.height)
-                 self.topBarHeight.constant = self.topView.frame.height
+                if (finished) {
+                    self.mapOnBottom = true
+                    self.topBarHeight?.constant = self.topView.frame.height
+                }
             }
         )
     }
@@ -168,6 +167,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
                 self.navBarImage.alpha = 0.0
                  self.stationIconView.alpha = 1.0
                 self.topView.layoutIfNeeded()
+                self.mapOnBottom = false
                 return
             }, completion: { (finished:Bool) in
                 if (self.destinationPlacemark != nil) {
@@ -193,6 +193,16 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if (self.mapOnBottom && self.topBarBottomSpace.active == false) {
+            //needed for example on ration
+            NSLayoutConstraint.deactivateConstraints([self.topBarHeight])
+            NSLayoutConstraint.activateConstraints([self.topBarBottomSpace])
+            self.view.layoutIfNeeded()
+        }
     }
 
     override func viewDidLoad() {
@@ -221,7 +231,6 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         if (station!.isFavorite()) {
            favButton.title = "★";
         }
-        
         self.stationIconView.layer.cornerRadius = self.stationIconView.frame.width / 2
         self.stationIconImage.image = station?.getIcon()
 
