@@ -25,6 +25,8 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     var destinationPlacemark: MKPlacemark?
     var startHeight: CGFloat!
     
+    let linesWithSymbol = ["ICN", "EN", "ICN", "TGV", "RX", "EC", "IC", "SC", "CNL", "ICE", "IR"]
+    
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var BackButton: UIButton!
 
@@ -380,8 +382,14 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
                 lineNumberLabel.backgroundColor = UIColor(netHexString:departure.colorBg!);
                 lineNumberLabel.textColor = UIColor(netHexString:departure.colorFg!);
             } else {
-                lineNumberLabel.textColor = UIColor.blackColor()
-                lineNumberLabel.backgroundColor = UIColor.whiteColor()
+                if (departure.getType() == "train" && contains(linesWithSymbol, departure.getLine()) == true) {
+                    lineNumberLabel.font = UIFont(name: "trainsymbol", size: 15)
+                    lineNumberLabel.textColor = UIColor.whiteColor()
+                    lineNumberLabel.backgroundColor = UIColor.redColor()
+                } else {
+                    lineNumberLabel.textColor = UIColor.blackColor()
+                    lineNumberLabel.backgroundColor = UIColor(netHexString: "#e8e8e8")
+                }
             }
         }
         return cell

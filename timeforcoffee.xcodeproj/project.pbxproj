@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3117221B1AB2374F00C176FE /* trainsymbol.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3117221A1AB2374F00C176FE /* trainsymbol.otf */; };
+		3117221C1AB2374F00C176FE /* trainsymbol.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3117221A1AB2374F00C176FE /* trainsymbol.otf */; };
 		314AFBD21AA7633D00C176FE /* StationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 314AFBD11AA7633D00C176FE /* StationTableViewCell.xib */; };
 		314AFBD41AA766DC00C176FE /* StationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314AFBD31AA766DC00C176FE /* StationTableViewCell.swift */; };
 		314AFBD61AA778F400C176FE /* StationTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314AFBD51AA778F400C176FE /* StationTableView.swift */; };
@@ -104,6 +106,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3117221A1AB2374F00C176FE /* trainsymbol.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = trainsymbol.otf; sourceTree = "<group>"; };
 		314AFBD11AA7633D00C176FE /* StationTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = StationTableViewCell.xib; path = ../StationTableViewCell.xib; sourceTree = "<group>"; };
 		314AFBD31AA766DC00C176FE /* StationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationTableViewCell.swift; sourceTree = "<group>"; };
 		314AFBD51AA778F400C176FE /* StationTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationTableView.swift; sourceTree = "<group>"; };
@@ -221,6 +224,7 @@
 			isa = PBXGroup;
 			children = (
 				EC2195ED1AA35B2D005E16EF /* Localizable.strings */,
+				3117221A1AB2374F00C176FE /* trainsymbol.otf */,
 				EC0530861AB01153008439E9 /* gradient.png */,
 				EC0A30EB1AA344100043B8F8 /* launchicon.png */,
 			);
@@ -571,6 +575,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC0A30F21AA353CA0043B8F8 /* MainInterface.storyboard in Resources */,
+				3117221C1AB2374F00C176FE /* trainsymbol.otf in Resources */,
 				EC2195EB1AA35B2D005E16EF /* Localizable.strings in Resources */,
 				EC2C312C1A9DECBA00690397 /* office.gpx in Resources */,
 				EC2C312D1A9DECBD00690397 /* home.gpx in Resources */,
@@ -590,6 +595,7 @@
 			files = (
 				EC7A519B19C43E0A000F5E7C /* Blank52.png in Resources */,
 				EC0530871AB01153008439E9 /* gradient.png in Resources */,
+				3117221B1AB2374F00C176FE /* trainsymbol.otf in Resources */,
 				314AFBD21AA7633D00C176FE /* StationTableViewCell.xib in Resources */,
 				EC2C31271A9DE8B000690397 /* home.gpx in Resources */,
 				ECC163D71AA36924006BC3E9 /* Localizable.strings in Resources */,
