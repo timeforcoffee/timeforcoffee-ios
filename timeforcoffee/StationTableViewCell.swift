@@ -39,16 +39,12 @@ class StationTableViewCell: UITableViewCell {
     func favoriteButtonTouched(sender: UIButton) {
         var newImage: UIImage?
 
-        if (station.isFavorite() == true) {
-            newImage = getNormalIcon()
-        } else {
-            newImage = getFavoriteIcon()
-        }
+        self.station.toggleFavorite()
+
+        newImage = station.getIcon()
 
         StationFavoriteButton.imageView?.alpha = 1.0
         StationIconView.transform = CGAffineTransformMakeScale(1, 1);
-
-        self.station.toggleFavorite()
 
         UIView.animateWithDuration(0.2,
             delay: 0.0,
@@ -105,26 +101,9 @@ class StationTableViewCell: UITableViewCell {
     }
 
     func drawFavoriteIcon() {
-        if (station.isFavorite() == true) {
-            StationFavoriteButton.setImage(getFavoriteIcon(), forState: UIControlState.Normal)
-        } else {
-            StationFavoriteButton.setImage(getNormalIcon(), forState: UIControlState.Normal)
-        }
+        StationFavoriteButton.setImage(station.getIcon(), forState: UIControlState.Normal)
         StationIconView.transform = CGAffineTransformMakeScale(1, 1);
         StationIconView.alpha = 1.0
-
-    }
-
-    func getFavoriteIcon() -> UIImage {
-        if (station.st_id == "8591306") {
-            return UIImage(named: "stationicon-liip")!
-        } else {
-            return UIImage(named: "stationicon-star")!
-        }
-    }
-
-    func getNormalIcon() -> UIImage {
-        return UIImage(named: "stationicon-pin")!
 
     }
 

@@ -94,7 +94,7 @@
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zie-iz-ziP" userLabel="Top Bar View">
                                 <rect key="frame" x="0.0" y="20" width="600" height="150"/>
                                 <subviews>
-                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="hky-rH-Stc">
+                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="hky-rH-Stc">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="200" id="8Up-NC-GXu"/>
@@ -236,7 +236,8 @@
                         <outlet property="navBarImage" destination="6Gf-nk-f44" id="CZx-0a-02c"/>
                         <outlet property="navBarView" destination="elb-MS-l3n" id="WyB-WQ-1n4"/>
                         <outlet property="releaseToViewLabel" destination="cgy-fE-O9r" id="0Vu-ds-qyA"/>
-                        <outlet property="stationIconView" destination="guG-BC-z0w" id="TUM-tf-tyD"/>
+                        <outlet property="stationIconImage" destination="4xW-km-IVK" id="1xO-Y8-3mf"/>
+                        <outlet property="stationIconView" destination="guG-BC-z0w" id="ykk-ny-e5U"/>
                         <outlet property="titleLabel" destination="Jqp-rv-LzH" id="KBN-fd-J3X"/>
                         <outlet property="topBarHeight" destination="ba8-rc-KPo" id="WcF-xi-dJm"/>
                         <outlet property="topView" destination="zie-iz-ziP" id="9DL-gY-H8h"/>

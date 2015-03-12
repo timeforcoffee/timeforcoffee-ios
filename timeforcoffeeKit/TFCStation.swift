@@ -252,5 +252,24 @@ public class TFCStation {
         ]
     }
 
+    public func getIcon() -> UIImage {
+        if (isFavorite()) {
+            return getFavoriteIcon()
+        }
+        return getNormalIcon()
+    }
+
+    func getFavoriteIcon() -> UIImage {
+        if (st_id == "8591306") {
+            return UIImage(named: "stationicon-liip")!
+        }
+        return UIImage(named: "stationicon-star")!
+    }
+
+    func getNormalIcon() -> UIImage {
+        return UIImage(named: "stationicon-pin")!
+    }
+
+
 }
 

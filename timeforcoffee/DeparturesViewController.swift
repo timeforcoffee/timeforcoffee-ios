@@ -25,7 +25,6 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     var destinationPlacemark: MKPlacemark?
     var startHeight: CGFloat!
     
-    @IBOutlet weak var stationIconView: UIView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var BackButton: UIButton!
 
@@ -36,6 +35,8 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
 
     @IBOutlet weak var navBarImage: UIImageView!
 
+    @IBOutlet weak var stationIconImage: UIImageView!
+    @IBOutlet weak var stationIconView: UIView!
     @IBOutlet weak var navBarView: UIView!
 
     @IBOutlet weak var releaseToViewLabel: UILabel!
@@ -63,21 +64,23 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         if (sender.state == UIGestureRecognizerState.Began) {
             if (topBarHeight.constant >= UIScreen.mainScreen().bounds.size.height) {
                 self.mapSwipeUpStart = UIScreen.mainScreen().bounds.size.height - location.y
+                self.mapView.userInteractionEnabled = false
             } else {
                 self.mapSwipeUpStart = nil
             }
         }
         if (sender.state == UIGestureRecognizerState.Ended) {
+            println(sender.velocityInView(self.appsTableView))
             if (mapSwipeUpStart != nil) {
                 if ((UIScreen.mainScreen().bounds.size.height - topBarCalculatedHeight)  > 40) {
-                    moveMapViewUp()
+                    moveMapViewUp(sender.velocityInView(self.appsTableView))
                 } else {
-                    moveMapViewDown()
+                    moveMapViewDown(sender.velocityInView(self.appsTableView))
                 }
             } else if (topBarCalculatedHeight > releasePoint) {
-                moveMapViewDown()
+                moveMapViewDown(sender.velocityInView(self.appsTableView))
             } else {
-                moveMapViewUp()
+                moveMapViewUp(sender.velocityInView(self.appsTableView))
 
             }
             return
@@ -89,6 +92,9 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
             self.navBarImage.alpha = 0.0 + ((topBarCalculatedHeight - startHeight) / (releasePoint - startHeight)) * 1.0
             self.releaseToViewLabel.hidden = true
         } else {
+            self.mapView?.alpha = 1.0
+            self.gradientView.alpha = 0.0
+            self.navBarImage.alpha = 1.0
             if (mapSwipeUpStart == nil) {
                 self.releaseToViewLabel.hidden = false
                 if (self.destinationPlacemark == nil) {
@@ -103,7 +109,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         }
     }
 
-    func moveMapViewDown() {
+    func moveMapViewDown(velocity: CGPoint?) {
         let height = UIScreen.mainScreen().bounds.size.height
         self.releaseToViewLabel.hidden = true
         self.mapView.userInteractionEnabled = true
@@ -111,8 +117,15 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
             self.mapHeight.constant = height + 200
         }
         self.topBarHeight.constant = height
-        UIView.animateWithDuration(0.5,
+        var duration: NSTimeInterval = Double(600.0) / Double(abs((velocity?.y)!))
+        if (duration > 0.5) {
+            duration = 0.5
+        }
+        println(duration)
+
+        UIView.animateWithDuration(duration,
             animations: {
+                self.stationIconView.alpha = 0.0
                 self.view.layoutIfNeeded()
                 return
             }, completion: { (finished:Bool) in
@@ -120,16 +133,23 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         )
     }
 
-    func moveMapViewUp() {
+    func moveMapViewUp(velocity: CGPoint?) {
         let height = CGFloat(startHeight)
 
         self.mapView.userInteractionEnabled = false
         self.topBarHeight.constant = height
-        UIView.animateWithDuration(0.5,
+        var duration: NSTimeInterval = Double(600.0) / Double(abs((velocity?.y)!))
+        if (duration > 0.5) {
+            duration = 0.5
+        }
+        println(duration)
+
+        UIView.animateWithDuration(duration,
             animations: {
                 self.mapView?.alpha = 0.5
                 self.gradientView?.alpha = 1.0
                 self.navBarImage.alpha = 0.0
+                 self.stationIconView.alpha = 1.0
                 self.topView.layoutIfNeeded()
                 return
             }, completion: { (finished:Bool) in
@@ -186,12 +206,14 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         }
         
         self.stationIconView.layer.cornerRadius = self.stationIconView.frame.width / 2
+        self.stationIconImage.image = station?.getIcon()
+
+
         
         self.navigationItem.rightBarButtonItem = favButton
         self.gradientView.image = UIImage(named: "gradient.png")
         self.mapView?.alpha = 0.0
         self.mapView?.userInteractionEnabled = false;
-
         var region = MKCoordinateRegionMakeWithDistance((station?.coord?.coordinate)! ,300,300);
         self.mapView.setRegion(region, animated: false)
         self.mapView.showsUserLocation = true
