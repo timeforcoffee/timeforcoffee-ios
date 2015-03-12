@@ -217,12 +217,18 @@
                         <constraints>
                             <constraint firstAttribute="width" secondItem="Zf4-nR-Sej" secondAttribute="width" id="A1q-s6-0x8"/>
                             <constraint firstItem="zie-iz-ziP" firstAttribute="top" secondItem="BhT-B5-Rc9" secondAttribute="top" id="CXa-8K-G8l"/>
+                            <constraint firstItem="7tq-Gm-E2S" firstAttribute="top" secondItem="zie-iz-ziP" secondAttribute="bottom" constant="430" id="DlI-mM-KzW"/>
                             <constraint firstAttribute="width" secondItem="zie-iz-ziP" secondAttribute="width" id="Es0-Xj-ZF2"/>
                             <constraint firstAttribute="centerX" secondItem="zie-iz-ziP" secondAttribute="centerX" id="Its-78-mMU"/>
                             <constraint firstItem="7tq-Gm-E2S" firstAttribute="top" secondItem="Zf4-nR-Sej" secondAttribute="bottom" id="Nqk-1f-4Qq"/>
                             <constraint firstItem="Zf4-nR-Sej" firstAttribute="top" secondItem="BhT-B5-Rc9" secondAttribute="top" id="eSU-9L-ubN"/>
                             <constraint firstItem="cgy-fE-O9r" firstAttribute="width" secondItem="x97-qt-OBE" secondAttribute="width" id="sM0-0q-F6t"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="DlI-mM-KzW"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Time for Coffee" id="Jqp-rv-LzH" userLabel="Time for Coffee"/>
                     <connections>
@@ -239,7 +245,9 @@
                         <outlet property="stationIconImage" destination="4xW-km-IVK" id="1xO-Y8-3mf"/>
                         <outlet property="stationIconView" destination="guG-BC-z0w" id="ykk-ny-e5U"/>
                         <outlet property="titleLabel" destination="Jqp-rv-LzH" id="KBN-fd-J3X"/>
+                        <outlet property="topBarBottomSpace" destination="DlI-mM-KzW" id="fNG-k2-VuI"/>
                         <outlet property="topBarHeight" destination="ba8-rc-KPo" id="WcF-xi-dJm"/>
+                        <outlet property="topBarTopSpace" destination="CXa-8K-G8l" id="mkI-op-rRh"/>
                         <outlet property="topView" destination="zie-iz-ziP" id="9DL-gY-H8h"/>
                     </connections>
                 </viewController>
