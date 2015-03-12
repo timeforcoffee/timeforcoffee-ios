@@ -222,6 +222,27 @@ public class TFCStation {
         })
     }
 
+    public func getMapImage(completion: (UIImage) -> Void?) {
+        var map: MKMapView = MKMapView()
+        map.bounds.size = CGSize(width: 320,height: 150)
+        let location = self.coord?.coordinate
+        var region = MKCoordinateRegionMakeWithDistance(location!,200,200);
+        map.setRegion(region, animated: false)
+
+        let options = MKMapSnapshotOptions()
+        options.region = map.region
+        options.scale = UIScreen.mainScreen().scale
+        options.size = map.frame.size
+
+        let snapshotter = MKMapSnapshotter(options: options)
+        snapshotter.startWithCompletionHandler({
+            snapshot, error in
+            let image = snapshot.image
+            completion(image)
+        })
+    }
+
+
     func getAsDict() -> [String: AnyObject] {
         return [
             "name": getName(false),
@@ -230,6 +251,25 @@ public class TFCStation {
             "longitude": coord!.coordinate.longitude.description
         ]
     }
+
+    public func getIcon() -> UIImage {
+        if (isFavorite()) {
+            return getFavoriteIcon()
+        }
+        return getNormalIcon()
+    }
+
+    func getFavoriteIcon() -> UIImage {
+        if (st_id == "8591306") {
+            return UIImage(named: "stationicon-liip")!
+        }
+        return UIImage(named: "stationicon-star")!
+    }
+
+    func getNormalIcon() -> UIImage {
+        return UIImage(named: "stationicon-pin")!
+    }
+
 
 }
 

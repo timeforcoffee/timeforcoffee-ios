@@ -8,8 +8,9 @@
 
 import UIKit
 import timeforcoffeeKit
+import MapKit
 
-class DeparturesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, MGSwipeTableCellDelegate {
+class DeparturesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, APIControllerProtocol, MGSwipeTableCellDelegate, MKMapViewDelegate {
 
     @IBOutlet weak var titleLabel: UINavigationItem!
     @IBOutlet var appsTableView : UITableView?
@@ -19,7 +20,159 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     var station: TFCStation?
     var networkErrorMsg: String?
     let kCellIdentifier: String = "DeparturesListCell"
+    var gestureRecognizer: UIGestureRecognizerDelegate?
+    var mapSwipeUpStart: CGFloat?
+    var destinationPlacemark: MKPlacemark?
+    var startHeight: CGFloat!
+    
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var BackButton: UIButton!
 
+    @IBOutlet weak var topView: UIView!
+    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var gradientView: UIImageView!
+    @IBOutlet weak var borderBottomView: UIView!
+
+    @IBOutlet weak var navBarImage: UIImageView!
+
+    @IBOutlet weak var stationIconImage: UIImageView!
+    @IBOutlet weak var stationIconView: UIView!
+    @IBOutlet weak var navBarView: UIView!
+
+    @IBOutlet weak var releaseToViewLabel: UILabel!
+
+    @IBAction func BackButtonClicked(sender: UIButton) {
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+
+    @IBOutlet weak var topBarHeight: NSLayoutConstraint!
+
+    @IBOutlet weak var mapHeight: NSLayoutConstraint!
+
+    @IBAction func panOnTopView(sender: UIPanGestureRecognizer) {
+        let location = sender.locationInView(self.topView)
+        let releasePoint = CGFloat(200.0)
+        var topBarCalculatedHeight = startHeight + (location.y - startHeight) / 3
+
+        if (mapSwipeUpStart != nil) {
+            topBarCalculatedHeight = location.y + mapSwipeUpStart!
+        }
+
+        if (topBarCalculatedHeight < startHeight) {
+            topBarCalculatedHeight = 150.0
+        }
+        if (sender.state == UIGestureRecognizerState.Began) {
+            if (topBarHeight.constant >= UIScreen.mainScreen().bounds.size.height) {
+                self.mapSwipeUpStart = UIScreen.mainScreen().bounds.size.height - location.y
+                self.mapView.userInteractionEnabled = false
+            } else {
+                self.mapSwipeUpStart = nil
+            }
+        }
+        if (sender.state == UIGestureRecognizerState.Ended) {
+            println(sender.velocityInView(self.appsTableView))
+            if (mapSwipeUpStart != nil) {
+                if ((UIScreen.mainScreen().bounds.size.height - topBarCalculatedHeight)  > 40) {
+                    moveMapViewUp(sender.velocityInView(self.appsTableView))
+                } else {
+                    moveMapViewDown(sender.velocityInView(self.appsTableView))
+                }
+            } else if (topBarCalculatedHeight > releasePoint) {
+                moveMapViewDown(sender.velocityInView(self.appsTableView))
+            } else {
+                moveMapViewUp(sender.velocityInView(self.appsTableView))
+
+            }
+            return
+        }
+        topBarHeight.constant = topBarCalculatedHeight
+        if (topBarCalculatedHeight < releasePoint) {
+            self.mapView?.alpha = 0.5 +  ((topBarCalculatedHeight - startHeight) / (releasePoint - startHeight)) * 0.5
+            self.gradientView.alpha = 1.0 - ((topBarCalculatedHeight - startHeight) / (releasePoint - startHeight))
+            self.navBarImage.alpha = 0.0 + ((topBarCalculatedHeight - startHeight) / (releasePoint - startHeight)) * 1.0
+            self.releaseToViewLabel.hidden = true
+        } else {
+            self.mapView?.alpha = 1.0
+            self.gradientView.alpha = 0.0
+            self.navBarImage.alpha = 1.0
+            if (mapSwipeUpStart == nil) {
+                self.releaseToViewLabel.hidden = false
+                if (self.destinationPlacemark == nil) {
+                    self.destinationPlacemark = MKPlacemark(coordinate: (station?.coord?.coordinate)!, addressDictionary: nil)
+                    self.mapView.addAnnotation(destinationPlacemark)
+                }
+            }
+        }
+
+        if (topBarCalculatedHeight > mapHeight.constant) {
+            mapHeight.constant = topBarCalculatedHeight + 200
+        }
+    }
+
+    func moveMapViewDown(velocity: CGPoint?) {
+        let height = UIScreen.mainScreen().bounds.size.height
+        self.releaseToViewLabel.hidden = true
+        self.mapView.userInteractionEnabled = true
+        if (self.mapHeight.constant < height + 200) {
+            self.mapHeight.constant = height + 200
+        }
+        self.topBarHeight.constant = height
+        var duration: NSTimeInterval = Double(600.0) / Double(abs((velocity?.y)!))
+        if (duration > 0.5) {
+            duration = 0.5
+        }
+        println(duration)
+
+        UIView.animateWithDuration(duration,
+            animations: {
+                self.stationIconView.alpha = 0.0
+                self.view.layoutIfNeeded()
+                return
+            }, completion: { (finished:Bool) in
+            }
+        )
+    }
+
+    func moveMapViewUp(velocity: CGPoint?) {
+        let height = CGFloat(startHeight)
+
+        self.mapView.userInteractionEnabled = false
+        self.topBarHeight.constant = height
+        var duration: NSTimeInterval = Double(600.0) / Double(abs((velocity?.y)!))
+        if (duration > 0.5) {
+            duration = 0.5
+        }
+        println(duration)
+
+        UIView.animateWithDuration(duration,
+            animations: {
+                self.mapView?.alpha = 0.5
+                self.gradientView?.alpha = 1.0
+                self.navBarImage.alpha = 0.0
+                 self.stationIconView.alpha = 1.0
+                self.topView.layoutIfNeeded()
+                return
+            }, completion: { (finished:Bool) in
+                if (self.destinationPlacemark != nil) {
+                    self.mapView.removeAnnotation(self.destinationPlacemark)
+                    self.destinationPlacemark = nil
+                }
+                return
+            }
+        )
+    }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        let offset = scrollView.contentOffset.y + startHeight
+        if (offset >= 0) {
+            if (startHeight - offset >= 44 + 20) {
+                topBarHeight.constant = startHeight - offset
+                borderBottomView.alpha = offset / 80
+                mapView?.alpha = min(1 - (offset / 80), 0.5)
+                stationIconView.alpha = 1 - (offset / 80)
+            }
+        }
+    }
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -27,10 +180,12 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        gestureRecognizer = self.navigationController?.interactivePopGestureRecognizer.delegate
+        self.navigationController?.interactivePopGestureRecognizer.delegate = nil
         self.edgesForExtendedLayout = UIRectEdge.None;
 
-        titleLabel.title = self.station?.name
+        nameLabel.text = self.station?.name
         self.api = APIController(delegate: self)
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         self.departures = nil;
@@ -40,19 +195,54 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         self.refreshControl.backgroundColor = UIColor(red: 242.0/255.0, green: 243.0/255.0, blue: 245.0/255.0, alpha: 1.0)
         self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.appsTableView?.addSubview(refreshControl)
+        
+        startHeight = topBarHeight.constant
+        self.appsTableView?.contentInset = UIEdgeInsets(top: startHeight, left: 0, bottom: 0, right: 0)
 
         var favButton = UIBarButtonItem(title: "☆", style: UIBarButtonItemStyle.Plain, target: self, action: "favoriteClicked:")
 
         if (station!.isFavorite()) {
            favButton.title = "★";
         }
+        
+        self.stationIconView.layer.cornerRadius = self.stationIconView.frame.width / 2
+        self.stationIconImage.image = station?.getIcon()
 
+
+        
         self.navigationItem.rightBarButtonItem = favButton
+        self.gradientView.image = UIImage(named: "gradient.png")
+        self.mapView?.alpha = 0.0
+        self.mapView?.userInteractionEnabled = false;
+        var region = MKCoordinateRegionMakeWithDistance((station?.coord?.coordinate)! ,300,300);
+        self.mapView.setRegion(region, animated: false)
+        self.mapView.showsUserLocation = true
+        self.mapView.delegate = self
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeInactive:", name: "UIApplicationDidEnterBackgroundNotification", object: nil)
-        UIApplicationDidEnterBackgroundNotification
     }
-    
+
+    override func viewWillDisappear(animated: Bool) {
+        self.navigationController?.navigationBar.setBackgroundImage(nil, forBarMetrics: UIBarMetrics.Default)
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+        self.navigationController?.interactivePopGestureRecognizer.delegate = gestureRecognizer
+
+    }
+
+    func mapViewDidFinishRenderingMap(mapView: MKMapView!, fullyRendered: Bool) {
+        if(self.mapView.alpha <= 0.6) {
+            UIView.animateWithDuration(0.8,
+                delay: 0.0,
+                options: UIViewAnimationOptions.CurveLinear,
+                animations: {
+                    self.mapView?.alpha = 0.5
+                    return
+                }, completion: { (finished:Bool) in
+                }
+            )
+        }
+    }
+
     func applicationDidBecomeInactive(notification: NSNotification) {
         NSNotificationCenter.defaultCenter().removeObserver(self)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeActive:", name: "UIApplicationDidBecomeActiveNotification", object: nil)
@@ -237,6 +427,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
 
         return true
     }
+
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         
         super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
