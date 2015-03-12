@@ -106,7 +106,7 @@ public class TFCStation {
     }
     
     public func getNameWithStarAndFilters() -> String {
-        return getNameWithStar(false)
+        return getNameWithStarAndFilters(false)
     }
     
     public func getNameWithStarAndFilters(cityAfter: Bool) -> String {
