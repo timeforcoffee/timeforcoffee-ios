@@ -117,8 +117,14 @@
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Zürich, Schaffhauserplatz" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="37z-MA-FFU">
-                                                <rect key="frame" x="0.0" y="49" width="600" height="17"/>
+                                                <rect key="frame" x="0.0" y="35" width="600" height="17"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="534 m / 5 min" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G4Z-yb-SMS" userLabel="534 m / 5 min">
+                                                <rect key="frame" x="0.0" y="56" width="600" height="17"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -141,12 +147,15 @@
                                             </view>
                                         </subviews>
                                         <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="G4Z-yb-SMS" secondAttribute="bottom" constant="7" id="62D-eF-J7h"/>
                                             <constraint firstAttribute="centerX" secondItem="guG-BC-z0w" secondAttribute="centerX" id="9cR-vg-hdv"/>
                                             <constraint firstAttribute="width" secondItem="37z-MA-FFU" secondAttribute="width" id="Bwe-NZ-4kT"/>
                                             <constraint firstAttribute="height" constant="80" id="Sqn-hC-6jc"/>
-                                            <constraint firstItem="37z-MA-FFU" firstAttribute="bottom" secondItem="elb-MS-l3n" secondAttribute="bottom" constant="-14" id="Ufm-GS-sWA"/>
+                                            <constraint firstItem="37z-MA-FFU" firstAttribute="bottom" secondItem="elb-MS-l3n" secondAttribute="bottom" constant="-28" id="Ufm-GS-sWA"/>
                                             <constraint firstItem="6Gf-nk-f44" firstAttribute="width" secondItem="elb-MS-l3n" secondAttribute="width" id="Z13-bO-Sx6"/>
                                             <constraint firstAttribute="bottom" secondItem="6Gf-nk-f44" secondAttribute="bottom" id="eNb-0Q-Iqy"/>
+                                            <constraint firstAttribute="centerX" secondItem="G4Z-yb-SMS" secondAttribute="centerX" id="lpr-No-OnK"/>
+                                            <constraint firstAttribute="width" secondItem="G4Z-yb-SMS" secondAttribute="width" id="nMD-pZ-rVT"/>
                                             <constraint firstItem="6Gf-nk-f44" firstAttribute="height" secondItem="elb-MS-l3n" secondAttribute="height" id="teq-y8-biJ"/>
                                             <constraint firstAttribute="centerX" secondItem="37z-MA-FFU" secondAttribute="centerX" id="x5p-Yd-s4q"/>
                                         </constraints>
@@ -230,6 +239,7 @@
                         <outlet property="BackButton" destination="o3U-mY-SIS" id="FfU-GE-MpO"/>
                         <outlet property="appsTableView" destination="Zf4-nR-Sej" id="B5y-P1-y1e"/>
                         <outlet property="borderBottomView" destination="rkJ-yM-Lpj" id="Mug-0P-aBD"/>
+                        <outlet property="distanceLabel" destination="G4Z-yb-SMS" id="KVu-Hh-IfI"/>
                         <outlet property="gradientView" destination="XMt-hg-wAD" id="o01-c8-G0D"/>
                         <outlet property="mapHeight" destination="8Up-NC-GXu" id="Nrf-Ud-TgH"/>
                         <outlet property="mapView" destination="hky-rH-Stc" id="zlz-ZI-Fe4"/>

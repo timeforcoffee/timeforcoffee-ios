@@ -23,10 +23,13 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     var gestureRecognizer: UIGestureRecognizerDelegate?
     var mapSwipeUpStart: CGFloat?
     var destinationPlacemark: MKPlacemark?
+    var mapDirectionOverlay: MKOverlay?
     var startHeight: CGFloat!
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var BackButton: UIButton!
+
+    @IBOutlet weak var distanceLabel: UILabel!
 
     @IBOutlet weak var topView: UIView!
     @IBOutlet weak var mapView: MKMapView!
@@ -102,8 +105,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
             self.releaseToViewLabel.hidden = true
             if (mapSwipeUpStart == nil) {
                 if (self.destinationPlacemark == nil) {
-                    self.destinationPlacemark = MKPlacemark(coordinate: (station?.coord?.coordinate)!, addressDictionary: nil)
-                    self.mapView.addAnnotation(destinationPlacemark)
+                    drawStationAndWay()
                 }
             }
         } else {
@@ -119,6 +121,64 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         if (topBarCalculatedHeight > mapHeight.constant) {
             mapHeight.constant = topBarCalculatedHeight + 200
         }
+    }
+
+    func drawStationAndWay() {
+        self.destinationPlacemark = MKPlacemark(coordinate: (station?.coord?.coordinate)!, addressDictionary: nil)
+        self.mapView.addAnnotation(destinationPlacemark)
+
+        let currentLocation = TFCLocationManager.getCurrentLocation()?
+        let currentCoordinate = currentLocation?.coordinate
+
+        if (currentCoordinate == nil || station?.getDistanceInMeter(currentLocation) >= 5000) {
+            return
+        }
+        var sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
+
+        var sourceMapItem = MKMapItem(placemark: sourcePlacemark)
+        var destinationMapItem = MKMapItem(placemark: destinationPlacemark)
+        var directionRequest:MKDirectionsRequest = MKDirectionsRequest()
+
+        directionRequest.setSource(sourceMapItem)
+        directionRequest.setDestination(destinationMapItem)
+        directionRequest.transportType = MKDirectionsTransportType.Walking
+        directionRequest.requestsAlternateRoutes = false
+
+        var directions:MKDirections = MKDirections(request: directionRequest)
+        directions.calculateDirectionsWithCompletionHandler({
+            (response: MKDirectionsResponse!, error: NSError?) in
+            if error != nil{
+                println("Error")
+            }
+            if response != nil{
+                for r in response.routes { println("route = \(r)") }
+                var route: MKRoute = response.routes[0] as MKRoute;
+                self.mapDirectionOverlay = route.polyline
+                self.mapView.addOverlay(self.mapDirectionOverlay)
+
+               // self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, edgePadding: UIEdgeInsets(top: 30.0, left: 30.0, bottom: 30.0, right: 30.0), animated: true)
+
+
+               // var time =  Int(round(route.expectedTravelTime / 60))
+               // var meters = Int(route.distance);
+               // self.distanceLabel.text = "\(time) min, \(meters) m"
+                //println(route.expectedTravelTime / 60)
+            }
+            else{
+                println("No response")
+            }
+            println(error?.description)
+        })
+    }
+
+    func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
+        if overlay is MKPolyline {
+            var polylineRenderer = MKPolylineRenderer(overlay: overlay)
+            polylineRenderer.strokeColor = UIColor.blueColor()
+            polylineRenderer.lineWidth = 1
+            return polylineRenderer
+        }
+        return nil
     }
 
     func moveMapViewDown(velocity: CGPoint?) {
@@ -172,6 +232,8 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
             }, completion: { (finished:Bool) in
                 if (self.destinationPlacemark != nil) {
                     self.mapView.removeAnnotation(self.destinationPlacemark)
+                    self.mapView.removeOverlay(self.mapDirectionOverlay)
+
                     self.destinationPlacemark = nil
                 }
                 return
@@ -213,6 +275,14 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         self.edgesForExtendedLayout = UIRectEdge.None;
 
         nameLabel.text = self.station?.name
+        let currentLocation = TFCLocationManager.getCurrentLocation()
+        self.distanceLabel.text = self.station?.getDistanceForDisplay(currentLocation, completion: {
+            text in
+            if (text != nil) {
+                self.distanceLabel.text = text
+            }
+        })
+
         self.api = APIController(delegate: self)
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         self.departures = nil;

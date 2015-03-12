@@ -80,24 +80,13 @@ class StationTableViewCell: UITableViewCell {
             return
         }
 
-        if (station.coord != nil) {
-            var distance = station.getDistanceInMeter(locManager.currentLocation)
-            if (distance > 5000) {
-                let km = Int(round(Double(distance!) / 1000))
-                StationDescriptionLabel.text = "\(km) Kilometer"
-            } else {
-                StationDescriptionLabel.text = "\(distance!) Meter"
-                // calculate exact distance
-                station.getWalkingDistance(locManager.currentLocation, completion: {
-                    text in
-                    if (text != nil) {
-                        self.StationDescriptionLabel.text = text
-                    }
-                })
+        StationDescriptionLabel.text = station.getDistanceForDisplay(locManager.currentLocation, completion: {
+            text in
+            if (text != nil) {
+                println("completion: \(text)")
+                self.StationDescriptionLabel.text = text
             }
-        } else {
-            StationDescriptionLabel.text = ""
-        }
+        })
     }
 
     func drawFavoriteIcon() {
