@@ -12,6 +12,9 @@
 		314AFBD21AA7633D00C176FE /* StationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 314AFBD11AA7633D00C176FE /* StationTableViewCell.xib */; };
 		314AFBD41AA766DC00C176FE /* StationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314AFBD31AA766DC00C176FE /* StationTableViewCell.swift */; };
 		314AFBD61AA778F400C176FE /* StationTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314AFBD51AA778F400C176FE /* StationTableView.swift */; };
+		319CDB821AB384A900242B38 /* DepartureLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319CDB811AB384A900242B38 /* DepartureLineView.swift */; };
+		319CDB831AB384A900242B38 /* DepartureLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319CDB811AB384A900242B38 /* DepartureLineView.swift */; };
+		319CDB841AB384A900242B38 /* DepartureLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319CDB811AB384A900242B38 /* DepartureLineView.swift */; };
 		EC046D631A9C563D00C2C1B3 /* TFCLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC046D621A9C563D00C2C1B3 /* TFCLocationManager.swift */; };
 		EC0530871AB01153008439E9 /* gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0530861AB01153008439E9 /* gradient.png */; };
 		EC0A30EC1AA344100043B8F8 /* launchicon.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30EB1AA344100043B8F8 /* launchicon.png */; };
@@ -110,6 +113,7 @@
 		314AFBD11AA7633D00C176FE /* StationTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = StationTableViewCell.xib; path = ../StationTableViewCell.xib; sourceTree = "<group>"; };
 		314AFBD31AA766DC00C176FE /* StationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationTableViewCell.swift; sourceTree = "<group>"; };
 		314AFBD51AA778F400C176FE /* StationTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationTableView.swift; sourceTree = "<group>"; };
+		319CDB811AB384A900242B38 /* DepartureLineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DepartureLineView.swift; path = timeforcoffeeKit/DepartureLineView.swift; sourceTree = SOURCE_ROOT; };
 		EC046D621A9C563D00C2C1B3 /* TFCLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCLocationManager.swift; sourceTree = "<group>"; };
 		EC0530861AB01153008439E9 /* gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gradient.png; path = _assets/gradient.png; sourceTree = "<group>"; };
 		EC0A30EB1AA344100043B8F8 /* launchicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = launchicon.png; path = _assets/launchicon.png; sourceTree = "<group>"; };
@@ -407,6 +411,7 @@
 			isa = PBXGroup;
 			children = (
 				EC271DC31AA365BE00A7A75E /* Main.storyboard */,
+				319CDB811AB384A900242B38 /* DepartureLineView.swift */,
 				314AFBD51AA778F400C176FE /* StationTableView.swift */,
 				314AFBD11AA7633D00C176FE /* StationTableViewCell.xib */,
 				314AFBD31AA766DC00C176FE /* StationTableViewCell.swift */,
@@ -644,6 +649,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC6EDCF71A9B9F390098CAE0 /* TodayViewController.swift in Sources */,
+				319CDB831AB384A900242B38 /* DepartureLineView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -653,6 +659,7 @@
 			files = (
 				EC95714F1A9CACB70061F8B4 /* extensions.swift in Sources */,
 				ECF100AD1A9D9BAE00056510 /* TFCStations.swift in Sources */,
+				319CDB841AB384A900242B38 /* DepartureLineView.swift in Sources */,
 				EC9571511A9CCEC00061F8B4 /* TFCBaseViewController.swift in Sources */,
 				EC9010A11AA73A9E00F328E9 /* TFCWatchData.swift in Sources */,
 				EC6EDD541A9BA79B0098CAE0 /* APIController.swift in Sources */,
@@ -674,6 +681,7 @@
 				EC0DD8D11AAF1B5F0089A207 /* StationsSearchViewController.swift in Sources */,
 				EC3252E71A9CE1320056AF11 /* MGSwipeTableCell.m in Sources */,
 				EC7A517919C427CA000F5E7C /* AppDelegate.swift in Sources */,
+				319CDB821AB384A900242B38 /* DepartureLineView.swift in Sources */,
 				EC3252E61A9CE1320056AF11 /* MGSwipeButton.m in Sources */,
 				EC72FCC11AA336E900E9B275 /* TFCNavigationController.swift in Sources */,
 				314AFBD41AA766DC00C176FE /* StationTableViewCell.swift in Sources */,
