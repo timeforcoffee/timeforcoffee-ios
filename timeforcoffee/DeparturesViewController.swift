@@ -377,19 +377,21 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
             
             lineNumberLabel.layer.cornerRadius = 4.0
             lineNumberLabel.layer.masksToBounds = true
+            lineNumberLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 18)
+            
             
             if (departure.colorBg != nil) {
-                lineNumberLabel.backgroundColor = UIColor(netHexString:departure.colorBg!);
-                lineNumberLabel.textColor = UIColor(netHexString:departure.colorFg!);
-            } else {
-                if (departure.getType() == "train" && contains(linesWithSymbol, departure.getLine()) == true) {
-                    lineNumberLabel.font = UIFont(name: "trainsymbol", size: 15)
-                    lineNumberLabel.textColor = UIColor.whiteColor()
-                    lineNumberLabel.backgroundColor = UIColor.redColor()
-                } else {
-                    lineNumberLabel.textColor = UIColor.blackColor()
-                    lineNumberLabel.backgroundColor = UIColor(netHexString: "#e8e8e8")
+                if (departure.colorBg == "#ffffff") {
+                    lineNumberLabel.layer.borderWidth = 0.5
+                    lineNumberLabel.layer.borderColor = UIColor(netHexString: "#e8e8e8").CGColor
                 }
+                lineNumberLabel.backgroundColor = UIColor(netHexString: departure.colorBg!)
+                lineNumberLabel.textColor = UIColor(netHexString: departure.colorFg!)
+            }
+            if (departure.getType() == "train" && contains(linesWithSymbol, departure.getLine()) == true) {
+                lineNumberLabel.font = UIFont(name: "trainsymbol", size: 15)
+                lineNumberLabel.textColor = UIColor.whiteColor()
+                lineNumberLabel.backgroundColor = UIColor.redColor()
             }
         }
         return cell
