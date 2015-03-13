@@ -66,10 +66,10 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     @IBAction func panOnTopView(sender: UIPanGestureRecognizer) {
         let location = sender.locationInView(self.topView)
         let releasePoint = CGFloat(200.0)
-        var topBarCalculatedHeight = startHeight + (location.y - startHeight) / 3
+        var topBarCalculatedHeight = floor(startHeight + (location.y - startHeight) / 3)
 
         if (mapSwipeUpStart != nil) {
-            topBarCalculatedHeight = location.y + mapSwipeUpStart!
+            topBarCalculatedHeight = floor(location.y + mapSwipeUpStart!)
 
         }
 
