@@ -87,6 +87,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
             } else {
                 self.mapSwipeUpStart = nil
             }
+            return
         }
         if (sender.state == UIGestureRecognizerState.Ended) {
             if (mapSwipeUpStart != nil) {
