@@ -65,6 +65,97 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         println("iconTouchUp")
         favoriteClicked(nil)
     }
+
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+
+    deinit {
+        println("deinit")
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        if (self.mapOnBottom) {
+            self.mapView.showsUserLocation = true
+        }
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        gestureRecognizer = self.navigationController?.interactivePopGestureRecognizer.delegate
+        self.navigationController?.interactivePopGestureRecognizer.delegate = nil
+        self.edgesForExtendedLayout = UIRectEdge.None;
+
+        nameLabel.text = self.station?.name
+        let currentLocation = TFCLocationManager.getCurrentLocation()
+        self.distanceLabel.text = self.station?.getDistanceForDisplay(currentLocation, completion: {
+            text in
+            if (text != nil) {
+                self.distanceLabel.text = text
+            }
+        })
+
+        self.api = APIController(delegate: self)
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        self.departures = nil;
+        self.api?.getDepartures(self.station?.st_id)
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl.backgroundColor = UIColor(red: 242.0/255.0, green: 243.0/255.0, blue: 245.0/255.0, alpha: 1.0)
+        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        self.appsTableView?.addSubview(refreshControl)
+
+        startHeight = topBarHeight.constant
+        self.appsTableView?.contentInset = UIEdgeInsets(top: startHeight, left: 0, bottom: 0, right: 0)
+
+        favButton.addTarget(self, action: "favoriteClicked:", forControlEvents: UIControlEvents.TouchUpInside)
+        stationIconButton.addTarget(self, action: "favoriteClicked:", forControlEvents: UIControlEvents.TouchUpInside)
+
+        if (station!.isFavorite()) {
+            favButton.setTitle("★", forState: UIControlState.Normal)
+        }
+        self.stationIconView.layer.cornerRadius = self.stationIconView.frame.width / 2
+        //        self.stationIconImage.image = station?.getIcon()
+        self.stationIconButton.setImage(station?.getIcon(), forState: UIControlState.Normal)
+
+        self.gradientView.image = UIImage(named: "gradient.png")
+        self.mapView?.alpha = 0.0
+        self.mapView?.userInteractionEnabled = false;
+        var region = MKCoordinateRegionMakeWithDistance((station?.coord?.coordinate)! ,300,300);
+        self.mapView.setRegion(region, animated: false)
+        // put it to true when within a few hundred meters
+        self.mapView.showsUserLocation = false
+        self.mapView.delegate = self
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeInactive:", name: "UIApplicationDidEnterBackgroundNotification", object: nil)
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if (self.mapOnBottom && self.topBarBottomSpace.active == false) {
+            //needed for example on ration
+            NSLayoutConstraint.deactivateConstraints([self.topBarHeight])
+            NSLayoutConstraint.activateConstraints([self.topBarBottomSpace])
+            self.view.layoutIfNeeded()
+        }
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        self.navigationController?.navigationBar.setBackgroundImage(nil, forBarMetrics: UIBarMetrics.Default)
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+        self.navigationController?.interactivePopGestureRecognizer.delegate = gestureRecognizer
+        self.mapView.showsUserLocation = false
+    }
+
+    override func viewDidDisappear(animated: Bool) {
+        station = nil
+        api = nil
+        departures = nil
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
     @IBAction func panOnTopView(sender: UIPanGestureRecognizer) {
         let location = sender.locationInView(self.topView)
         let releasePoint = CGFloat(200.0)
@@ -89,6 +180,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
             } else {
                 self.mapSwipeUpStart = nil
             }
+            return
         }
         if (sender.state == UIGestureRecognizerState.Ended) {
             if (mapSwipeUpStart != nil) {
@@ -263,77 +355,6 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         self.stationIconView.alpha = 1 - (offset / 80)
     }
     
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        if (self.mapOnBottom && self.topBarBottomSpace.active == false) {
-            //needed for example on ration
-            NSLayoutConstraint.deactivateConstraints([self.topBarHeight])
-            NSLayoutConstraint.activateConstraints([self.topBarBottomSpace])
-            self.view.layoutIfNeeded()
-        }
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
-        gestureRecognizer = self.navigationController?.interactivePopGestureRecognizer.delegate
-        self.navigationController?.interactivePopGestureRecognizer.delegate = nil
-        self.edgesForExtendedLayout = UIRectEdge.None;
-
-        nameLabel.text = self.station?.name
-        let currentLocation = TFCLocationManager.getCurrentLocation()
-        self.distanceLabel.text = self.station?.getDistanceForDisplay(currentLocation, completion: {
-            text in
-            if (text != nil) {
-                self.distanceLabel.text = text
-            }
-        })
-
-        self.api = APIController(delegate: self)
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-        self.departures = nil;
-        self.api?.getDepartures(self.station?.st_id)
-        self.refreshControl = UIRefreshControl()
-        self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
-        self.refreshControl.backgroundColor = UIColor(red: 242.0/255.0, green: 243.0/255.0, blue: 245.0/255.0, alpha: 1.0)
-        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        self.appsTableView?.addSubview(refreshControl)
-        
-        startHeight = topBarHeight.constant
-        self.appsTableView?.contentInset = UIEdgeInsets(top: startHeight, left: 0, bottom: 0, right: 0)
-
-        favButton.addTarget(self, action: "favoriteClicked:", forControlEvents: UIControlEvents.TouchUpInside)
-        stationIconButton.addTarget(self, action: "favoriteClicked:", forControlEvents: UIControlEvents.TouchUpInside)
-
-        if (station!.isFavorite()) {
-           favButton.setTitle("★", forState: UIControlState.Normal)
-        }
-        self.stationIconView.layer.cornerRadius = self.stationIconView.frame.width / 2
-//        self.stationIconImage.image = station?.getIcon()
-        self.stationIconButton.setImage(station?.getIcon(), forState: UIControlState.Normal)
-
-        self.gradientView.image = UIImage(named: "gradient.png")
-        self.mapView?.alpha = 0.0
-        self.mapView?.userInteractionEnabled = false;
-        var region = MKCoordinateRegionMakeWithDistance((station?.coord?.coordinate)! ,300,300);
-        self.mapView.setRegion(region, animated: false)
-        self.mapView.showsUserLocation = true
-        self.mapView.delegate = self
-
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeInactive:", name: "UIApplicationDidEnterBackgroundNotification", object: nil)
-    }
-
-    override func viewWillDisappear(animated: Bool) {
-        self.navigationController?.navigationBar.setBackgroundImage(nil, forBarMetrics: UIBarMetrics.Default)
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
-        self.navigationController?.interactivePopGestureRecognizer.delegate = gestureRecognizer
-
-    }
-
     func mapViewDidFinishRenderingMap(mapView: MKMapView!, fullyRendered: Bool) {
         if(self.mapView.alpha <= 0.6) {
             UIView.animateWithDuration(0.8,
@@ -359,18 +380,6 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
           NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeInactive:", name: "UIApplicationDidEnterBackgroundNotification", object: nil)
         self.departures = nil
         self.api?.getDepartures(self.station?.st_id)
-    }
-
-    deinit {
-        println("deinit")
-         NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-
-    override func viewDidDisappear(animated: Bool) {
-        station = nil
-        api = nil
-        departures = nil
-        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
     func favoriteClicked(sender: UIBarButtonItem?) {
