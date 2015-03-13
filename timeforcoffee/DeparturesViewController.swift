@@ -98,10 +98,13 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         }
         topBarHeight?.constant = topBarCalculatedHeight
         if (topBarCalculatedHeight < releasePoint) {
-            self.mapView?.alpha = 0.5 +  ((topBarCalculatedHeight - startHeight) / (releasePoint - startHeight)) * 0.5
-            self.gradientView.alpha = 1.0 - ((topBarCalculatedHeight - startHeight) / (releasePoint - startHeight))
-            self.navBarImage.alpha = 0.0 + ((topBarCalculatedHeight - startHeight) / (releasePoint - startHeight)) * 1.0
-            self.stationIconView.alpha = 1.0 - ((topBarCalculatedHeight - startHeight) / (releasePoint - startHeight))
+            let offsetForAnimation: CGFloat = ((topBarCalculatedHeight - startHeight) / (releasePoint - startHeight))
+            self.mapView?.alpha = 0.5 + offsetForAnimation * 0.5
+            self.gradientView.alpha = 1.0 - offsetForAnimation
+            self.navBarImage.alpha = 0.0 + offsetForAnimation * 1.0
+            self.stationIconView.alpha = 1.0 - offsetForAnimation
+            self.stationIconView.transform = CGAffineTransformMakeScale(1 - offsetForAnimation, 1 - offsetForAnimation)
+            self.borderBottomView.alpha = offsetForAnimation
             self.releaseToViewLabel.hidden = true
             if (mapSwipeUpStart == nil) {
                 if (self.destinationPlacemark == nil) {
@@ -225,7 +228,9 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
                 self.mapView?.alpha = 0.5
                 self.gradientView?.alpha = 1.0
                 self.navBarImage.alpha = 0.0
-                 self.stationIconView.alpha = 1.0
+                self.stationIconView.alpha = 1.0
+                self.stationIconView.transform = CGAffineTransformMakeScale(1, 1)
+                self.borderBottomView.alpha = 0
                 self.topView.layoutIfNeeded()
                 self.mapOnBottom = false
                 return
@@ -243,16 +248,12 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         let offset = scrollView.contentOffset.y + startHeight
-        if (offset >= 0) {
-            if (startHeight - offset >= 44 + 20) {
-                topBarHeight.constant = startHeight - offset
-                borderBottomView.alpha = offset / 80
-                mapView?.alpha = min(1 - (offset / 80), 0.5)
-                stationIconView.alpha = 1 - (offset / 80)
-            }
-        }
+        self.topBarHeight.constant = max(min(self.startHeight - offset, self.startHeight), 64)
+        self.borderBottomView.alpha = offset / 80
+        self.mapView?.alpha = min(1 - (offset / 80), 0.5)
+        self.stationIconView.alpha = 1 - (offset / 80)
     }
-
+    
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
