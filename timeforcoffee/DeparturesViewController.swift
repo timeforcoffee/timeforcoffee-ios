@@ -12,7 +12,6 @@ import MapKit
 
 class DeparturesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, APIControllerProtocol, MGSwipeTableCellDelegate, MKMapViewDelegate {
 
-    @IBOutlet weak var titleLabel: UINavigationItem!
     @IBOutlet var appsTableView : UITableView?
     var api : APIController?
     var refreshControl:UIRefreshControl!
@@ -28,6 +27,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var BackButton: UIButton!
+    @IBOutlet weak var favButton: UIButton!
 
     @IBOutlet weak var distanceLabel: UILabel!
 
@@ -297,17 +297,15 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         startHeight = topBarHeight.constant
         self.appsTableView?.contentInset = UIEdgeInsets(top: startHeight, left: 0, bottom: 0, right: 0)
 
-        var favButton = UIBarButtonItem(title: "☆", style: UIBarButtonItemStyle.Plain, target: self, action: "favoriteClicked:")
+        favButton.addTarget(self, action: "favoriteClicked:", forControlEvents: UIControlEvents.TouchUpInside)
+
 
         if (station!.isFavorite()) {
-           favButton.title = "★";
+           favButton.setTitle("★", forState: UIControlState.Normal)
         }
         self.stationIconView.layer.cornerRadius = self.stationIconView.frame.width / 2
         self.stationIconImage.image = station?.getIcon()
 
-
-
-        self.navigationItem.rightBarButtonItem = favButton
         self.gradientView.image = UIImage(named: "gradient.png")
         self.mapView?.alpha = 0.0
         self.mapView?.userInteractionEnabled = false;
@@ -368,10 +366,12 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     @IBAction func favoriteClicked(sender: UIBarButtonItem) {
         if (self.station!.isFavorite()) {
             TFCStations.unsetFavoriteStation(self.station!)
-            sender.title = "☆";
+            favButton.setTitle("☆", forState: UIControlState.Normal)
+
         } else {
             TFCStations.setFavoriteStation(self.station!)
-            sender.title = "★";
+            favButton.setTitle("★", forState: UIControlState.Normal)
+
         }
         self.appsTableView?.reloadData()
     }
@@ -401,7 +401,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
             self.departures = TFCDeparture.withJSON(results)
             if (self.station?.name == "") {
                 self.station?.name = TFCDeparture.getStationNameFromJson(results)!;
-                self.titleLabel.title = self.station?.name
+                self.nameLabel.text = self.station?.name
             }
             self.appsTableView!.reloadData()
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false

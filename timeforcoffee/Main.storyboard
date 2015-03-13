@@ -183,6 +183,14 @@
                                             <constraint firstAttribute="height" constant="0.5" id="I8X-DJ-poy"/>
                                         </constraints>
                                     </view>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nm9-vv-oCK">
+                                        <rect key="frame" x="562" y="20" width="30" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <state key="normal" title="☆">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <gestureRecognizers/>
@@ -195,6 +203,7 @@
                                     <constraint firstAttribute="trailing" secondItem="rkJ-yM-Lpj" secondAttribute="trailing" id="MAi-WM-qUs"/>
                                     <constraint firstItem="rkJ-yM-Lpj" firstAttribute="width" secondItem="zie-iz-ziP" secondAttribute="width" id="MNG-b8-EEL"/>
                                     <constraint firstAttribute="centerX" secondItem="XMt-hg-wAD" secondAttribute="centerX" id="MUJ-kA-RFV"/>
+                                    <constraint firstItem="nm9-vv-oCK" firstAttribute="top" secondItem="zie-iz-ziP" secondAttribute="top" constant="20" id="Mjz-MP-kfB"/>
                                     <constraint firstItem="XMt-hg-wAD" firstAttribute="width" secondItem="zie-iz-ziP" secondAttribute="width" id="NEV-LT-bAi"/>
                                     <constraint firstAttribute="centerY" secondItem="hky-rH-Stc" secondAttribute="centerY" id="Or3-fa-h4t"/>
                                     <constraint firstAttribute="centerX" secondItem="hky-rH-Stc" secondAttribute="centerX" id="Sxc-4Y-Kag"/>
@@ -205,6 +214,7 @@
                                     <constraint firstItem="cgy-fE-O9r" firstAttribute="top" secondItem="zie-iz-ziP" secondAttribute="top" constant="23" id="e61-Oq-yO6"/>
                                     <constraint firstItem="elb-MS-l3n" firstAttribute="width" secondItem="zie-iz-ziP" secondAttribute="width" id="hLb-Ce-K3o"/>
                                     <constraint firstAttribute="bottom" secondItem="rkJ-yM-Lpj" secondAttribute="bottom" id="hbL-Qh-F8V"/>
+                                    <constraint firstAttribute="trailing" secondItem="nm9-vv-oCK" secondAttribute="trailing" constant="8" id="p0q-Sg-mW8"/>
                                     <constraint firstAttribute="bottom" secondItem="elb-MS-l3n" secondAttribute="bottom" id="t5h-fV-IQ3"/>
                                     <constraint firstItem="XMt-hg-wAD" firstAttribute="height" secondItem="zie-iz-ziP" secondAttribute="height" id="z6R-qT-iWV"/>
                                 </constraints>
@@ -240,6 +250,7 @@
                         <outlet property="appsTableView" destination="Zf4-nR-Sej" id="B5y-P1-y1e"/>
                         <outlet property="borderBottomView" destination="rkJ-yM-Lpj" id="Mug-0P-aBD"/>
                         <outlet property="distanceLabel" destination="G4Z-yb-SMS" id="KVu-Hh-IfI"/>
+                        <outlet property="favButton" destination="nm9-vv-oCK" id="1Mp-fp-aLE"/>
                         <outlet property="gradientView" destination="XMt-hg-wAD" id="o01-c8-G0D"/>
                         <outlet property="mapHeight" destination="8Up-NC-GXu" id="Nrf-Ud-TgH"/>
                         <outlet property="mapView" destination="hky-rH-Stc" id="zlz-ZI-Fe4"/>
@@ -249,7 +260,6 @@
                         <outlet property="releaseToViewLabel" destination="cgy-fE-O9r" id="0Vu-ds-qyA"/>
                         <outlet property="stationIconImage" destination="4xW-km-IVK" id="1xO-Y8-3mf"/>
                         <outlet property="stationIconView" destination="guG-BC-z0w" id="ykk-ny-e5U"/>
-                        <outlet property="titleLabel" destination="Jqp-rv-LzH" id="KBN-fd-J3X"/>
                         <outlet property="topBarBottomSpace" destination="DlI-mM-KzW" id="lMS-pz-wuk"/>
                         <outlet property="topBarHeight" destination="ba8-rc-KPo" id="WcF-xi-dJm"/>
                         <outlet property="topView" destination="zie-iz-ziP" id="9DL-gY-H8h"/>
