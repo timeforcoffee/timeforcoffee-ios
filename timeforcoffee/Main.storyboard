@@ -109,40 +109,44 @@
                                             <rect key="frame" x="0.0" y="0.0" width="400" height="104"/>
                                         </variation>
                                     </imageView>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="elb-MS-l3n" userLabel="Nav Bar View">
-                                        <rect key="frame" x="0.0" y="70" width="600" height="80"/>
+                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="elb-MS-l3n" userLabel="Nav Bar View">
+                                        <rect key="frame" x="0.0" y="50" width="600" height="100"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Gf-nk-f44">
-                                                <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
+                                            <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Gf-nk-f44">
+                                                <rect key="frame" x="0.0" y="0.0" width="600" height="100"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Zürich, Schaffhauserplatz" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="37z-MA-FFU">
-                                                <rect key="frame" x="0.0" y="35" width="600" height="17"/>
+                                                <rect key="frame" x="0.0" y="56" width="600" height="17"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="534 m / 5 min" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G4Z-yb-SMS" userLabel="534 m / 5 min">
-                                                <rect key="frame" x="0.0" y="56" width="600" height="17"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="534 m / 5 min" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G4Z-yb-SMS" userLabel="534 m / 5 min">
+                                                <rect key="frame" x="0.0" y="77" width="600" height="17"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="guG-BC-z0w" userLabel="StationIcon">
-                                                <rect key="frame" x="270" y="-21" width="60" height="60"/>
+                                                <rect key="frame" x="270" y="0.0" width="60" height="60"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stationicon-star" translatesAutoresizingMaskIntoConstraints="NO" id="4xW-km-IVK">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EyP-xR-Nab">
                                                         <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
-                                                    </imageView>
+                                                        <state key="normal" image="stationicon-pin">
+                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                    </button>
                                                 </subviews>
                                                 <color key="backgroundColor" red="0.96078431372549022" green="0.81960784313725488" blue="0.38823529411764707" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" secondItem="4xW-km-IVK" secondAttribute="width" id="8kC-BX-Nga"/>
-                                                    <constraint firstAttribute="height" secondItem="4xW-km-IVK" secondAttribute="height" id="9pD-Qa-YOz"/>
-                                                    <constraint firstAttribute="centerY" secondItem="4xW-km-IVK" secondAttribute="centerY" id="GKt-zZ-5FH"/>
-                                                    <constraint firstAttribute="centerX" secondItem="4xW-km-IVK" secondAttribute="centerX" id="PPa-SV-DV5"/>
+                                                    <constraint firstAttribute="height" secondItem="EyP-xR-Nab" secondAttribute="height" id="8mR-bD-uDk"/>
+                                                    <constraint firstAttribute="height" secondItem="EyP-xR-Nab" secondAttribute="height" id="TEp-Wq-lag"/>
                                                     <constraint firstAttribute="height" constant="60" id="U5x-Qu-pJl"/>
+                                                    <constraint firstAttribute="width" secondItem="EyP-xR-Nab" secondAttribute="width" id="UUL-Pd-wGa"/>
+                                                    <constraint firstAttribute="centerY" secondItem="EyP-xR-Nab" secondAttribute="centerY" id="Ujh-rS-oTY"/>
                                                     <constraint firstAttribute="width" constant="60" id="e3K-Jq-fbi"/>
+                                                    <constraint firstAttribute="centerX" secondItem="EyP-xR-Nab" secondAttribute="centerX" id="fN8-Ub-Jwc"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
@@ -258,7 +262,7 @@
                         <outlet property="navBarImage" destination="6Gf-nk-f44" id="CZx-0a-02c"/>
                         <outlet property="navBarView" destination="elb-MS-l3n" id="WyB-WQ-1n4"/>
                         <outlet property="releaseToViewLabel" destination="cgy-fE-O9r" id="0Vu-ds-qyA"/>
-                        <outlet property="stationIconImage" destination="4xW-km-IVK" id="1xO-Y8-3mf"/>
+                        <outlet property="stationIconButton" destination="EyP-xR-Nab" id="Kj2-tF-F4A"/>
                         <outlet property="stationIconView" destination="guG-BC-z0w" id="ykk-ny-e5U"/>
                         <outlet property="topBarBottomSpace" destination="DlI-mM-KzW" id="lMS-pz-wuk"/>
                         <outlet property="topBarHeight" destination="ba8-rc-KPo" id="WcF-xi-dJm"/>
@@ -573,7 +577,7 @@ and Jan Hug / @dulnan</string>
     </scenes>
     <resources>
         <image name="launchicon.png" width="1024" height="1024"/>
-        <image name="stationicon-star" width="30" height="30"/>
+        <image name="stationicon-pin" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="c6x-LU-7Kq"/>

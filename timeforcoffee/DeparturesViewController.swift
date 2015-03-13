@@ -38,8 +38,11 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
 
     @IBOutlet weak var navBarImage: UIImageView!
 
-    @IBOutlet weak var stationIconImage: UIImageView!
+//    @IBOutlet weak var stationIconImage: UIImageView!
+
+    @IBOutlet weak var stationIconButton: UIButton!
     @IBOutlet weak var stationIconView: UIView!
+
     @IBOutlet weak var navBarView: UIView!
 
     @IBOutlet weak var releaseToViewLabel: UILabel!
@@ -56,6 +59,10 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
 
     var mapOnBottom: Bool = false
 
+    @IBAction func iconTouchUp(sender: UIButton) {
+        println("iconTouchUp")
+        favoriteClicked(nil)
+    }
     @IBAction func panOnTopView(sender: UIPanGestureRecognizer) {
         let location = sender.locationInView(self.topView)
         let releasePoint = CGFloat(200.0)
@@ -298,13 +305,14 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         self.appsTableView?.contentInset = UIEdgeInsets(top: startHeight, left: 0, bottom: 0, right: 0)
 
         favButton.addTarget(self, action: "favoriteClicked:", forControlEvents: UIControlEvents.TouchUpInside)
-
+        stationIconButton.addTarget(self, action: "favoriteClicked:", forControlEvents: UIControlEvents.TouchUpInside)
 
         if (station!.isFavorite()) {
            favButton.setTitle("★", forState: UIControlState.Normal)
         }
         self.stationIconView.layer.cornerRadius = self.stationIconView.frame.width / 2
-        self.stationIconImage.image = station?.getIcon()
+//        self.stationIconImage.image = station?.getIcon()
+        self.stationIconButton.setImage(station?.getIcon(), forState: UIControlState.Normal)
 
         self.gradientView.image = UIImage(named: "gradient.png")
         self.mapView?.alpha = 0.0
@@ -363,15 +371,16 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
-    @IBAction func favoriteClicked(sender: UIBarButtonItem) {
+    func favoriteClicked(sender: UIBarButtonItem?) {
+        func completion() {
+        }
+
+        println("favoriteClicked")
+        self.station!.toggleIcon(stationIconButton, icon: stationIconView, completion: completion)
         if (self.station!.isFavorite()) {
-            TFCStations.unsetFavoriteStation(self.station!)
-            favButton.setTitle("☆", forState: UIControlState.Normal)
-
-        } else {
-            TFCStations.setFavoriteStation(self.station!)
             favButton.setTitle("★", forState: UIControlState.Normal)
-
+        } else {
+            favButton.setTitle("☆", forState: UIControlState.Normal)
         }
         self.appsTableView?.reloadData()
     }
