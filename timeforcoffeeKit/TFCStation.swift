@@ -303,6 +303,41 @@ public class TFCStation {
         return UIImage(named: "stationicon-pin")!
     }
 
+    public func toggleIcon(button: UIButton, icon: UIView, completion: () -> Void?) {
+        var newImage: UIImage?
+
+        self.toggleFavorite()
+
+        newImage = self.getIcon()
+
+        /*StationFavoriteButton.imageView?.alpha = 1.0
+        StationIconView.transform = CGAffineTransformMakeScale(1, 1);
+*/
+        button.imageView?.alpha = 1.0
+        icon.transform = CGAffineTransformMakeScale(1, 1);
+
+        UIView.animateWithDuration(0.2,
+            delay: 0.0,
+            options: UIViewAnimationOptions.CurveLinear,
+            animations: {
+                icon.transform = CGAffineTransformMakeScale(0.1, 0.1);
+                icon.alpha = 0.0
+                return
+            }, completion: { (finished:Bool) in
+                button.imageView?.image = newImage
+                UIView.animateWithDuration(0.2,
+                    animations: {
+                        icon.transform = CGAffineTransformMakeScale(1, 1);
+                        icon.alpha = 1.0
+                        return
+                    }, completion: { (finished:Bool) in
+                        completion()
+                        return
+                })
+        })
+
+    }
+
 
 }
 
