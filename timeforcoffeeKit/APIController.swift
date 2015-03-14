@@ -87,8 +87,6 @@ public class APIController {
                 if (error == nil && cacheKey != nil) {
                     self.cache.setObject(data, forKey: cacheKey!)
                 }
-                println("HHHH")
-                println(error)
                 self.delegate.didReceiveAPIResults(jsonResult, error: error, context: context)
             })
             
