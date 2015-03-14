@@ -79,13 +79,13 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         if (self.mapOnBottom) {
             self.mapView.showsUserLocation = true
         }
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        gestureRecognizer = self.navigationController?.interactivePopGestureRecognizer.delegate
+        self.navigationController?.interactivePopGestureRecognizer.delegate = nil
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
-        gestureRecognizer = self.navigationController?.interactivePopGestureRecognizer.delegate
-        self.navigationController?.interactivePopGestureRecognizer.delegate = nil
         self.edgesForExtendedLayout = UIRectEdge.None;
 
         nameLabel.text = self.station?.name
@@ -143,16 +143,15 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     }
 
     override func viewWillDisappear(animated: Bool) {
-        self.navigationController?.navigationBar.setBackgroundImage(nil, forBarMetrics: UIBarMetrics.Default)
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
-        self.navigationController?.interactivePopGestureRecognizer.delegate = gestureRecognizer
         self.mapView.showsUserLocation = false
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
     override func viewDidDisappear(animated: Bool) {
         station = nil
         api = nil
         departures = nil
+        self.navigationController?.interactivePopGestureRecognizer.delegate = gestureRecognizer
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
