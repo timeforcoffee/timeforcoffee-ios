@@ -66,7 +66,7 @@ public class APIController {
                 currentFetch[fetchId]?.cancel()
             }
             let session2 = self.session
-            let request = NSURLRequest(URL: url, cachePolicy: NSURLRequestCachePolicy.ReturnCacheDataElseLoad, timeoutInterval: 10.0)
+            let request = NSURLRequest(URL: url, cachePolicy: NSURLRequestCachePolicy.UseProtocolCachePolicy, timeoutInterval: 10.0)
 
 
             currentFetch[fetchId] = session2.dataTaskWithRequest(request, completionHandler: {data , response, error -> Void in
@@ -82,6 +82,8 @@ public class APIController {
                 if (error == nil && cacheKey != nil) {
                     self.cache.setObject(data, forKey: cacheKey!)
                 }
+                println("HHHH")
+                println(error)
                 self.delegate.didReceiveAPIResults(jsonResult, error: error, context: context)
             })
             
