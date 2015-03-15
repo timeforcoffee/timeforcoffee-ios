@@ -560,10 +560,16 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
 
     func getIconViewAsImage(view: UIView) -> UIImage {
         view.opaque = false
+        //in case we want a different backgroundColor
+        //let oldBG = view.backgroundColor
+        //view.backgroundColor = UIColor.blueColor();
+
         UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.opaque, 0.0);
         view.layer.renderInContext(UIGraphicsGetCurrentContext())
         let img = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
+        //view.backgroundColor = oldBG
+
         return img;
     }
 
