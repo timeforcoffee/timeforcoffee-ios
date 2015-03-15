@@ -98,6 +98,10 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
         locationManager.startUpdatingLocation()
     }
 
+    public class func getCurrentLocation() -> CLLocation? {
+        return classvar.currentLocation
+    }
+
 }
 
 public protocol TFCLocationManagerDelegate {

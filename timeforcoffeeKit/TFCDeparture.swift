@@ -186,7 +186,9 @@ public class TFCDeparture {
         if (timeInterval != nil) {
             var timediff  = Int(ceil(timeInterval! / 60));
             if (timediff < 0) {
-                timediff = 0;
+                if (timediff > -2) {
+                    timediff = 0;
+                }
             }
             if (timediff >= 60) {
                 return ">59'"

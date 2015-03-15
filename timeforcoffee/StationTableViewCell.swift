@@ -37,40 +37,18 @@ class StationTableViewCell: UITableViewCell {
     }
 
     func favoriteButtonTouched(sender: UIButton) {
-        var newImage: UIImage?
 
-        self.station.toggleFavorite()
+        func completion() -> Void {
+            self.drawIcon()
+        }
 
-        newImage = station.getIcon()
-
-        StationFavoriteButton.imageView?.alpha = 1.0
-        StationIconView.transform = CGAffineTransformMakeScale(1, 1);
-
-        UIView.animateWithDuration(0.2,
-            delay: 0.0,
-            options: UIViewAnimationOptions.CurveLinear,
-            animations: {
-                self.StationIconView.transform = CGAffineTransformMakeScale(0.1, 0.1);
-                self.StationIconView.alpha = 0.0
-                return
-            }, completion: { (finished:Bool) in
-                self.StationFavoriteButton.imageView?.image = newImage
-                UIView.animateWithDuration(0.2,
-                    animations: {
-                        self.StationIconView.transform = CGAffineTransformMakeScale(1, 1);
-                        self.StationIconView.alpha = 1.0
-                        return
-                    }, completion: { (finished:Bool) in
-                        self.drawFavoriteIcon()
-                        return
-                })
-        })
+        self.station.toggleIcon(self.StationFavoriteButton!, icon: StationIconView, completion: completion)
 
     }
 
     func drawCell() {
         self.selectionStyle = UITableViewCellSelectionStyle.None;
-        drawFavoriteIcon()
+        drawIcon()
         let parent = self.superview?.superview as StationTableView
         let locManager = parent.locManager
         StationNameLabel?.text = station.getName(false)
@@ -80,27 +58,16 @@ class StationTableViewCell: UITableViewCell {
             return
         }
 
-        if (station.coord != nil) {
-            var distance = station.getDistanceInMeter(locManager.currentLocation)
-            if (distance > 5000) {
-                let km = Int(round(Double(distance!) / 1000))
-                StationDescriptionLabel.text = "\(km) Kilometer"
-            } else {
-                StationDescriptionLabel.text = "\(distance!) Meter"
-                // calculate exact distance
-                station.getWalkingDistance(locManager.currentLocation, completion: {
-                    text in
-                    if (text != nil) {
-                        self.StationDescriptionLabel.text = text
-                    }
-                })
+        StationDescriptionLabel.text = station.getDistanceForDisplay(locManager.currentLocation, completion: {
+            text in
+            if (text != nil) {
+                println("completion: \(text)")
+                self.StationDescriptionLabel.text = text
             }
-        } else {
-            StationDescriptionLabel.text = ""
-        }
+        })
     }
 
-    func drawFavoriteIcon() {
+    func drawIcon() {
         StationFavoriteButton.setImage(station.getIcon(), forState: UIControlState.Normal)
         StationIconView.transform = CGAffineTransformMakeScale(1, 1);
         StationIconView.alpha = 1.0
