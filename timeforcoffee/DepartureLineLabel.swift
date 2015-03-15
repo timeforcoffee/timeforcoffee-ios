@@ -40,15 +40,23 @@ class DepartureLineLabel: UILabel, UITableViewDelegate {
             self.backgroundColor = UIColor.redColor()
         } else {
             self.font = UIFont(name: "HelveticaNeue-Bold", size: 18)
-            self.textColor = UIColor(netHexString: departure.colorFg!)
+            if (departure.getLine() == "RE") {
+                self.textColor = UIColor.redColor()
+            } else {
+                self.textColor = UIColor(netHexString: departure.colorFg!)
+            }
             
             if (departure.colorBg != "#ffffff") {
                 self.backgroundColor = UIColor(netHexString: departure.colorBg!)
             } else {
-                self.backgroundColor = UIColor.whiteColor()
-                if (style == "normal") {
-                    self.layer.borderColor = UIColor.lightGrayColor().CGColor
-                    self.layer.borderWidth = 0.5
+                if (departure.type == "train") {
+                    self.backgroundColor = UIColor.whiteColor()
+                    if (style == "normal") {
+                        self.layer.borderColor = UIColor.lightGrayColor().CGColor
+                        self.layer.borderWidth = 0.5
+                    }
+                } else {
+                    self.backgroundColor = UIColor(netHexString: "#eeeeee")
                 }
             }
         }
