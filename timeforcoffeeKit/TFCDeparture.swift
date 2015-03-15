@@ -59,7 +59,7 @@ public class TFCDeparture {
                 colorFg = colorFg == nil ? "#000000" : colorFg
 
                 var colorBg = result["colors"]["bg"].string
-                //colorBg = colorBg == nil ? "#ffffff" : colorBg
+                colorBg = colorBg == nil ? "#ffffff" : colorBg
                 
                 var scheduled: NSDate?
                 var realtime: NSDate?

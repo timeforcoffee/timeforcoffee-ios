@@ -25,8 +25,6 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     var mapDirectionOverlay: MKOverlay?
     var startHeight: CGFloat!
     
-    let linesWithSymbol = ["ICN", "EN", "ICN", "TGV", "RX", "EC", "IC", "SC", "CNL", "ICE", "IR"]
-    
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var BackButton: UIButton!
     @IBOutlet weak var favButton: UIButton!
@@ -441,7 +439,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         cell.tag = indexPath.row
 
 
-        let lineNumberLabel = cell.viewWithTag(100) as UILabel
+        let lineNumberLabel = cell.viewWithTag(100) as DepartureLineLabel
         let destinationLabel = cell.viewWithTag(200) as UILabel
         let departureLabel = cell.viewWithTag(300) as UILabel
         let minutesLabel = cell.viewWithTag(400) as UILabel
@@ -450,9 +448,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
             
             if (self.departures == nil || self.departures!.count == 0) {
                 departureLabel.text = nil
-                lineNumberLabel.text = nil
                 minutesLabel.text = nil
-                lineNumberLabel.backgroundColor = UIColor.clearColor()
                 if (self.departures == nil) {
                     destinationLabel.text = NSLocalizedString("Loading", comment: "Loading ..")
                 } else {
@@ -466,7 +462,6 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
             
             let departure: TFCDeparture = self.departures![indexPath.row]
             
-            lineNumberLabel.text = departure.getLine()
             var unabridged = false
             if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
                 unabridged = true
@@ -485,24 +480,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
             
             departureLabel.attributedText = departure.getDepartureTime()
             
-            lineNumberLabel.layer.cornerRadius = 4.0
-            lineNumberLabel.layer.masksToBounds = true
-            lineNumberLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 18)
-            
-            
-            if (departure.colorBg != nil) {
-                if (departure.colorBg == "#ffffff") {
-                    lineNumberLabel.layer.borderWidth = 0.5
-                    lineNumberLabel.layer.borderColor = UIColor(netHexString: "#e8e8e8").CGColor
-                }
-                lineNumberLabel.backgroundColor = UIColor(netHexString: departure.colorBg!)
-                lineNumberLabel.textColor = UIColor(netHexString: departure.colorFg!)
-            }
-            if (departure.getType() == "train" && contains(linesWithSymbol, departure.getLine()) == true) {
-                lineNumberLabel.font = UIFont(name: "trainsymbol", size: 15)
-                lineNumberLabel.textColor = UIColor.whiteColor()
-                lineNumberLabel.backgroundColor = UIColor.redColor()
-            }
+            lineNumberLabel.setStyle(departure.getType(), text: departure.getLine(), bg: departure.colorBg!, fg: departure.colorFg!)
         }
         return cell
     }
