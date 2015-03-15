@@ -121,7 +121,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         self.gradientView.image = UIImage(named: "gradient.png")
         self.mapView?.alpha = 0.0
         self.mapView?.userInteractionEnabled = false;
-        var region = MKCoordinateRegionMakeWithDistance((station?.coord?.coordinate)! ,300,300);
+        var region = MKCoordinateRegionMakeWithDistance((station?.coord?.coordinate)! ,450,450);
         self.mapView.setRegion(region, animated: false)
         // put it to true when within a few hundred meters
         self.mapView.showsUserLocation = false
@@ -220,7 +220,8 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         }
 
         if (topBarCalculatedHeight > mapHeight.constant) {
-            mapHeight.constant = topBarCalculatedHeight + 200
+            mapHeight.constant = topBarCalculatedHeight + 300
+            self.view.layoutIfNeeded()
         }
     }
 
@@ -256,14 +257,6 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
                 var route: MKRoute = response.routes[0] as MKRoute;
                 self.mapDirectionOverlay = route.polyline
                 self.mapView.addOverlay(self.mapDirectionOverlay)
-
-               // self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, edgePadding: UIEdgeInsets(top: 30.0, left: 30.0, bottom: 30.0, right: 30.0), animated: true)
-
-
-               // var time =  Int(round(route.expectedTravelTime / 60))
-               // var meters = Int(route.distance);
-               // self.distanceLabel.text = "\(time) min, \(meters) m"
-                //println(route.expectedTravelTime / 60)
             }
             else{
                 println("No response")
@@ -282,6 +275,28 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         return nil
     }
 
+    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
+
+        if (annotation.isKindOfClass(MKUserLocation)) {
+            return nil
+        }
+
+        let annotationIdentifier = "CustomViewAnnotation"
+        var annotationView = self.mapView.dequeueReusableAnnotationViewWithIdentifier(annotationIdentifier)
+
+        if (annotationView == nil) {
+            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
+        }
+
+        annotationView.image = getIconViewAsImage(self.stationIconView)
+        annotationView.opaque = false
+        annotationView.alpha = 1.0
+        annotationView.frame.size.height = 30
+        annotationView.frame.size.width = 30
+
+        return annotationView;
+
+    }
     func moveMapViewDown(velocity: CGPoint?) {
         let height = UIScreen.mainScreen().bounds.size.height
         self.releaseToViewLabel.hidden = true
@@ -541,6 +556,17 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
 
         return true
     }
+
+
+    func getIconViewAsImage(view: UIView) -> UIImage {
+        view.opaque = false
+        UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.opaque, 0.0);
+        view.layer.renderInContext(UIGraphicsGetCurrentContext())
+        let img = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return img;
+    }
+
 
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         
