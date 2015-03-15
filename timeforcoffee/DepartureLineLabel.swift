@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import timeforcoffeeKit
 
 class DepartureLineLabel: UILabel, UITableViewDelegate {
     
@@ -29,24 +30,26 @@ class DepartureLineLabel: UILabel, UITableViewDelegate {
         return super.drawTextInRect(UIEdgeInsetsInsetRect(rect, UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)))
     }
     
-    func setStyle(type: String, text: String, bg: String, fg: String) {
-        self.text = text
+    func setStyle(style: String, departure: TFCDeparture) {
+        self.text = departure.getLine()
         self.layer.borderWidth = 0
         
-        if (contains(linesWithSymbol, text) == true) {
+        if (contains(linesWithSymbol, departure.getLine()) == true) {
             self.font = UIFont(name: "trainsymbol", size: 20)
             self.textColor = UIColor.whiteColor()
             self.backgroundColor = UIColor.redColor()
         } else {
             self.font = UIFont(name: "HelveticaNeue-Bold", size: 18)
-            self.textColor = UIColor(netHexString: fg)
+            self.textColor = UIColor(netHexString: departure.colorFg!)
             
-            if (bg != "#ffffff") {
-                self.backgroundColor = UIColor(netHexString: bg)
+            if (departure.colorBg != "#ffffff") {
+                self.backgroundColor = UIColor(netHexString: departure.colorBg!)
             } else {
                 self.backgroundColor = UIColor.whiteColor()
-                self.layer.borderColor = UIColor.lightGrayColor().CGColor
-                self.layer.borderWidth = 0.5
+                if (style == "normal") {
+                    self.layer.borderColor = UIColor.lightGrayColor().CGColor
+                    self.layer.borderWidth = 0.5
+                }
             }
         }
     }

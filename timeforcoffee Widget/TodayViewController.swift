@@ -108,7 +108,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         
         
         
-        let lineNumberLabel = cell.viewWithTag(100) as UILabel
+        let lineNumberLabel = cell.viewWithTag(100) as DepartureLineLabel
         let destinationLabel = cell.viewWithTag(200) as UILabel
         let departureLabel = cell.viewWithTag(300) as UILabel
         let minutesLabel = cell.viewWithTag(400) as UILabel
@@ -116,9 +116,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
 
         if (self.departures == nil || self.departures!.count == 0) {
             departureLabel.text = nil
-            lineNumberLabel.text = nil
             minutesLabel.text = nil
-            lineNumberLabel.backgroundColor = UIColor.clearColor()
             if (self.departures == nil) {
                 destinationLabel.text = NSLocalizedString("Loading", comment: "Loading ..")
             } else {
@@ -140,22 +138,10 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             unabridged = true
         }
         destinationLabel.text = departure.getDestinationWithSign(station, unabridged: unabridged)
-
-        
-        lineNumberLabel.text = departure.getLine()
         departureLabel.attributedText = departure.getDepartureTime()
         minutesLabel.text = departure.getMinutes()
         
-        lineNumberLabel.layer.cornerRadius = 4.0
-        lineNumberLabel.layer.masksToBounds = true
-        
-        if (departure.colorBg != nil) {
-            lineNumberLabel.backgroundColor = UIColor(netHexString:departure.colorBg!);
-            lineNumberLabel.textColor = UIColor(netHexString:departure.colorFg!);
-        } else {
-            lineNumberLabel.textColor = UIColor.blackColor()
-            lineNumberLabel.backgroundColor = UIColor.whiteColor()
-        }
+        lineNumberLabel.setStyle("dark", departure: departure)
         
         return cell
     }

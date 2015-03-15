@@ -480,7 +480,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
             
             departureLabel.attributedText = departure.getDepartureTime()
             
-            lineNumberLabel.setStyle(departure.getType(), text: departure.getLine(), bg: departure.colorBg!, fg: departure.colorFg!)
+            lineNumberLabel.setStyle("normal", departure: departure)
         }
         return cell
     }
