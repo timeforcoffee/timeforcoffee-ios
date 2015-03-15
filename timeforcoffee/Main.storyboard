@@ -95,9 +95,9 @@
                                 <rect key="frame" x="0.0" y="20" width="600" height="150"/>
                                 <subviews>
                                     <mapView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="hky-rH-Stc">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="300"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="200" id="8Up-NC-GXu"/>
+                                            <constraint firstAttribute="height" constant="300" id="8Up-NC-GXu"/>
                                         </constraints>
                                         <variation key="heightClass=regular-widthClass=compact" ambiguous="YES" misplaced="YES">
                                             <rect key="frame" x="0.0" y="0.0" width="400" height="104"/>
@@ -200,7 +200,7 @@
                                     <constraint firstAttribute="centerX" secondItem="cgy-fE-O9r" secondAttribute="centerX" constant="11.5" id="5bH-6z-ezA"/>
                                     <constraint firstItem="elb-MS-l3n" firstAttribute="leading" secondItem="zie-iz-ziP" secondAttribute="leading" id="Faw-tm-5yo"/>
                                     <constraint firstItem="o3U-mY-SIS" firstAttribute="leading" secondItem="zie-iz-ziP" secondAttribute="leading" id="Fxm-cf-eqT"/>
-                                    <constraint firstItem="EyP-xR-Nab" firstAttribute="centerY" secondItem="hky-rH-Stc" secondAttribute="centerY" constant="-20" id="GD2-Eg-gCd"/>
+                                    <constraint firstItem="EyP-xR-Nab" firstAttribute="centerY" secondItem="hky-rH-Stc" secondAttribute="centerY" id="GD2-Eg-gCd"/>
                                     <constraint firstItem="hky-rH-Stc" firstAttribute="width" secondItem="zie-iz-ziP" secondAttribute="width" id="IGt-Vo-num"/>
                                     <constraint firstItem="rkJ-yM-Lpj" firstAttribute="leading" secondItem="zie-iz-ziP" secondAttribute="leading" id="K7f-lH-OJ7"/>
                                     <constraint firstAttribute="trailing" secondItem="rkJ-yM-Lpj" secondAttribute="trailing" id="MAi-WM-qUs"/>
@@ -208,7 +208,7 @@
                                     <constraint firstAttribute="centerX" secondItem="XMt-hg-wAD" secondAttribute="centerX" id="MUJ-kA-RFV"/>
                                     <constraint firstItem="nm9-vv-oCK" firstAttribute="top" secondItem="zie-iz-ziP" secondAttribute="top" constant="20" id="Mjz-MP-kfB"/>
                                     <constraint firstItem="XMt-hg-wAD" firstAttribute="width" secondItem="zie-iz-ziP" secondAttribute="width" id="NEV-LT-bAi"/>
-                                    <constraint firstAttribute="centerY" secondItem="hky-rH-Stc" secondAttribute="centerY" id="Or3-fa-h4t"/>
+                                    <constraint firstAttribute="centerY" secondItem="hky-rH-Stc" secondAttribute="centerY" constant="10" id="Or3-fa-h4t"/>
                                     <constraint firstAttribute="centerX" secondItem="hky-rH-Stc" secondAttribute="centerX" id="Sxc-4Y-Kag"/>
                                     <constraint firstAttribute="centerX" secondItem="guG-BC-z0w" secondAttribute="centerX" id="TMb-Nt-yyb"/>
                                     <constraint firstAttribute="height" constant="150" id="ba8-rc-KPo"/>
