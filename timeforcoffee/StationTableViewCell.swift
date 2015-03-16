@@ -53,12 +53,12 @@ class StationTableViewCell: UITableViewCell {
         let locManager = parent.locManager
         StationNameLabel?.text = station.getName(false)
 
-        if (locManager.currentLocation == nil) {
+        if (locManager?.currentLocation == nil) {
             StationDescriptionLabel.text = ""
             return
         }
 
-        StationDescriptionLabel.text = station.getDistanceForDisplay(locManager.currentLocation, completion: {
+        StationDescriptionLabel.text = station.getDistanceForDisplay(locManager?.currentLocation, completion: {
             text in
             if (text != nil) {
                 self.StationDescriptionLabel.text = text

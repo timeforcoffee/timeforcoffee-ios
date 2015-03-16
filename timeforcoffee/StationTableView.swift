@@ -15,7 +15,7 @@ class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource,
     
     var refreshControl:UIRefreshControl!
     lazy var stations: TFCStations = {return TFCStations();}()
-    lazy var locManager: TFCLocationManager = self.lazyInitLocationManager()
+    lazy var locManager: TFCLocationManager? = self.lazyInitLocationManager()
     lazy var api : APIController = { return APIController(delegate: self)}()
     var networkErrorMsg: String?
     var showFavorites: Bool?
@@ -45,17 +45,17 @@ class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource,
 
     func refreshLocation() {
         if ((showFavorites) == true) {
-            self.stations.loadFavorites(locManager.currentLocation)
+            self.stations.loadFavorites(locManager?.currentLocation)
             self.reloadData()
             self.refreshControl.endRefreshing()
         } else {
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true
             loading = true
-            self.locManager.refreshLocation()
+            self.locManager?.refreshLocation()
         }
     }
 
-    internal func lazyInitLocationManager() -> TFCLocationManager {
+    internal func lazyInitLocationManager() -> TFCLocationManager? {
         return TFCLocationManager(delegate: self)
     }
 
