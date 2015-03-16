@@ -10,14 +10,23 @@ import Foundation
 import CoreLocation
 import MapKit
 
-public class TFCStation {
+public class TFCStation: NSObject,  APIControllerProtocol {
     public var name: String
     public var coord: CLLocation?
     public var st_id: String
     public var distance: CLLocationDistance?
     public var calculatedDistance: Int?
+    var departures: [TFCDeparture]?
     var walkingDistanceString: String?
     var walkingDistanceLastCoord: CLLocation?
+
+    lazy var api : APIController = {
+        return APIController(delegate: self)
+    }()
+
+    enum contextData {
+        case ValCompletionDelegate(TFCDeparturesUpdatedProtocol?)
+    }
 
     lazy var filteredLines:[String: [String: Bool]] = self.getFilteredLines()
 
@@ -36,7 +45,7 @@ public class TFCStation {
         println("deinit station")
     }
 
-    public convenience init() {
+    override public convenience init() {
         self.init(name: "doesn't exist", id: "0000", coord: nil)
     }
 
@@ -165,6 +174,83 @@ public class TFCStation {
             filteredDestinationsShared = [:]
         }
         return filteredDestinationsShared!
+    }
+
+    public func addDepartures(departures: [TFCDeparture]?) {
+        self.departures = departures
+    }
+
+    public func getDepartures() -> [TFCDeparture]? {
+        return self.departures
+    }
+
+    public func updateDepartures(completionDelegate: TFCDeparturesUpdatedProtocol?) {
+        let context: Dictionary<String, contextData> = [
+            "completionDelegate": .ValCompletionDelegate(completionDelegate)
+        ]
+        self.api.getDepartures(self.st_id, context: context)
+    }
+
+    public func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?) {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+    //    self.refreshControl.endRefreshing()
+        dispatch_async(dispatch_get_main_queue(), {
+            if (error != nil) {
+      //          self.networkErrorMsg = NSLocalizedString("Network error. Please try again", comment:"")
+            } else {
+      //          self.networkErrorMsg = nil
+            }
+            self.addDepartures(TFCDeparture.withJSON(results))
+            if (self.name == "") {
+                self.name = TFCDeparture.getStationNameFromJson(results)!;
+            }
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+
+            let contextInfo = context! as Dictionary<String, contextData>
+            var completionDelegate: TFCDeparturesUpdatedProtocol?
+            switch contextInfo["completionDelegate"]! {
+            case .ValCompletionDelegate(let s):
+                completionDelegate = s
+            default:
+                completionDelegate = nil
+            }
+
+            completionDelegate?.departuresUpdated(error, context: context, forStation: self)
+        })
+    }
+
+    func clearDepartures() {
+        self.departures = nil
+    }
+
+    public func filterDepartures() {
+        println("FILTER DEPARTURES")
+        var i = 0
+        if (self.departures != nil) {
+            for (departure) in self.departures! {
+                if (self.isFiltered(departure)) {
+                    println(departure)
+                    departures?.removeAtIndex(i)
+                } else {
+                    i++
+                }
+            }
+        }
+    }
+
+    public func removeObseleteDepartures() {
+        if (self.departures == nil) {
+            return
+        }
+        var i = 0;
+        for (departure: TFCDeparture) in self.departures! {
+            if (departure.getMinutesAsInt() < 0) {
+                println(departure)
+                departures?.removeAtIndex(i)
+            } else {
+                i++
+            }
+        }
     }
 
     public func getDistanceForDisplay(location: CLLocation?, completion: (String?) -> Void) -> String {
@@ -340,4 +426,9 @@ public class TFCStation {
 
 
 }
+
+public protocol TFCDeparturesUpdatedProtocol {
+    func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?)
+}
+
 

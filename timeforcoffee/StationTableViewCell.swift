@@ -61,7 +61,6 @@ class StationTableViewCell: UITableViewCell {
         StationDescriptionLabel.text = station.getDistanceForDisplay(locManager.currentLocation, completion: {
             text in
             if (text != nil) {
-                println("completion: \(text)")
                 self.StationDescriptionLabel.text = text
             }
         })

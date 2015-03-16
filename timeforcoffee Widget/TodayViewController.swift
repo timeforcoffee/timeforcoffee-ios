@@ -11,13 +11,12 @@ import NotificationCenter
 import CoreLocation
 import timeforcoffeeKit
 
-class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, UIGestureRecognizerDelegate {
+class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, UIGestureRecognizerDelegate,  TFCDeparturesUpdatedProtocol {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var appsTableView: UITableView!
     let kCellIdentifier: String = "SearchResultCellWidget"
-
+    var currentStation: TFCStation?
     var stations: TFCStations!
-    var departures: [TFCDeparture]?
     var networkErrorMsg: String?
     var api : APIController?
     var currentStationIndex = 0
@@ -41,12 +40,13 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             if (self.currentStationIndex >= self.stations.count()) {
                 self.currentStationIndex = 0
             }
-            self.departures = nil;
-            let station = self.stations.getStation(self.currentStationIndex)
-            if (station.st_id != "0000") {
-                self.appsTableView!.reloadData()
-                self.titleLabel.text = self.stations.getStation(self.currentStationIndex).getNameWithStarAndFilters()
-                self.api?.getDepartures(self.stations.getStation(self.currentStationIndex).st_id)
+            currentStation = self.stations.getStation(self.currentStationIndex)
+            //FIXME, don't clear departures here
+          //  currentStation?.clearDepartures()
+            if (currentStation?.st_id != "0000") {
+                self.titleLabel.text = currentStation?.getNameWithStarAndFilters()
+                displayDepartures()
+//                self.api?.getDepartures(currentStation?.st_id)
             } else {
                 self.currentStationIndex = 0
             }
@@ -83,20 +83,29 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         println("locationFixed")
         if (coord != nil) {
             if (self.stations.addNearbyFavorites(locManager.currentLocation!)) {
-                self.titleLabel.text = self.stations.getStation(0).getNameWithStarAndFilters()
-                self.departures = nil
-                self.api?.getDepartures(self.stations.getStation(0).st_id)
+                currentStation = self.stations.getStation(0)
+                self.titleLabel.text = currentStation?.getNameWithStarAndFilters()
+                displayDepartures()
             }
             self.api?.searchFor(coord!)
         }
 
     }
+
+
+    func displayDepartures() {
+        currentStation?.removeObseleteDepartures()
+        currentStation?.filterDepartures()
+        self.appsTableView?.reloadData()
+        currentStation?.updateDepartures(self)
+    }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if (self.departures == nil || self.departures!.count == 0) {
+        let departures = self.currentStation?.getDepartures()
+        if (departures == nil || departures!.count == 0) {
             return 1
         }
-        return self.departures!.count
+        return departures!.count
     }
     
     
@@ -113,13 +122,13 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         let departureLabel = cell.viewWithTag(300) as UILabel
         let minutesLabel = cell.viewWithTag(400) as UILabel
         let station = self.stations.getStation(self.currentStationIndex)
-
-        if (self.departures == nil || self.departures!.count == 0) {
+        let departures = currentStation?.getDepartures()
+        if (departures == nil || departures!.count == 0) {
             departureLabel.text = nil
             lineNumberLabel.text = nil
             minutesLabel.text = nil
             lineNumberLabel.backgroundColor = UIColor.clearColor()
-            if (self.departures == nil) {
+            if (departures == nil) {
                 destinationLabel.text = NSLocalizedString("Loading", comment: "Loading ..")
             } else {
                 destinationLabel.text = NSLocalizedString("No departures found.", comment: "")
@@ -133,8 +142,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         }
         
         cell.textLabel!.text = nil
-
-        let departure: TFCDeparture = self.departures![indexPath.row]
+        let departure: TFCDeparture = departures![indexPath.row]
         var unabridged = false
         if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
             unabridged = true
@@ -176,7 +184,19 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         locManager.refreshLocation()
         completionHandler(NCUpdateResult.NewData)
     }
-    
+
+    func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?) {
+        if (forStation?.st_id == currentStation?.st_id) {
+            if (error != nil) {
+                self.networkErrorMsg = NSLocalizedString("Network error. Please try again", comment:"")
+            } else {
+                self.networkErrorMsg = nil
+            }
+            currentStation?.filterDepartures()
+            self.appsTableView!.reloadData()
+        }
+    }
+
     func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?) {
         dispatch_async(dispatch_get_main_queue(), {
             if (!(error != nil && error?.code == -999)) {
@@ -190,11 +210,11 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                     self.stations.addWithJSON(results, append: true)
                     self.titleLabel.text = self.stations.getStation(self.currentStationIndex).getNameWithStarAndFilters()
                     if (hasAlreadyFavouritesDisplayed == nil || hasAlreadyFavouritesDisplayed == 0) {
-                        self.api?.getDepartures(self.stations.getStation(self.currentStationIndex).st_id)
+                        self.displayDepartures()
+                       // self.api?.getDepartures(self.stations.getStation(self.currentStationIndex).st_id)
                     }
                 } else {
-                    self.departures = TFCDeparture.withJSON(results, filterStation: self.stations.getStation(self.currentStationIndex))
-                    
+                    //self.currentStation?.addDepartures(TFCDeparture.withJSON(results, filterStation: self.stations.getStation(self.currentStationIndex)))
                 }
             
             self.appsTableView!.reloadData()

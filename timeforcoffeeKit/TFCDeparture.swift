@@ -172,32 +172,38 @@ public class TFCDeparture {
         return timestring
     }
     
-    public func getMinutes() -> String? {
+    public func getMinutesAsInt() -> Int? {
         var timeInterval: NSTimeInterval?
         var realtimeStr: String?
         var scheduledStr: String?
-        var timestring = "";
-        
         if (self.realtime != nil) {
             timeInterval = self.realtime?.timeIntervalSinceNow
         } else {
             timeInterval = self.scheduled?.timeIntervalSinceNow
         }
         if (timeInterval != nil) {
-            var timediff  = Int(ceil(timeInterval! / 60));
-            if (timediff < 0) {
-                if (timediff > -2) {
-                    timediff = 0;
-                }
-            }
-            if (timediff >= 60) {
-                return ">59'"
-            }
-            return "\(timediff)'"
+            return Int(ceil(timeInterval! / 60));
         }
         return nil
     }
-    
+
+    public func getMinutes() -> String? {
+        var timestring = "";
+        var timeInterval = getMinutesAsInt()
+        if (timeInterval != nil) {
+            if (timeInterval < 0) {
+                if (timeInterval > -1) {
+                    timeInterval = 0;
+                }
+            }
+            if (timeInterval >= 60) {
+                return ">59'"
+            }
+            return "\(timeInterval!)'"
+        }
+        return nil
+    }
+
     public func getDestinationWithSign(station: TFCStation?) -> String {
         return getDestinationWithSign(station, unabridged: false)
     }
