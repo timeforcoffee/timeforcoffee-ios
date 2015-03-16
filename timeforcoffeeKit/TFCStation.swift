@@ -151,17 +151,15 @@ public class TFCStation {
     }
         
     public func saveFilteredLines() {
-        var sharedDefaults = NSUserDefaults(suiteName: "group.ch.liip.timeforcoffee")
         if (filteredLines.count > 0) {
-            sharedDefaults?.setObject(filteredLines, forKey: "filtered\(st_id)")
+            TFCStations.getUserDefaults()?.setObject(filteredLines, forKey: "filtered\(st_id)")
         } else {
-            sharedDefaults?.removeObjectForKey("filtered\(st_id)")
+            TFCStations.getUserDefaults()?.removeObjectForKey("filtered\(st_id)")
         }
     }
     
     func getFilteredLines() -> [String: [String: Bool]] {
-        var sharedDefaults = NSUserDefaults(suiteName: "group.ch.liip.timeforcoffee")
-        var filteredDestinationsShared: [String: [String: Bool]]? = sharedDefaults?.objectForKey("filtered\(st_id)") as [String: [String: Bool]]?
+        var filteredDestinationsShared: [String: [String: Bool]]? = TFCStations.getUserDefaults()?.objectForKey("filtered\(st_id)")?.mutableCopy() as [String: [String: Bool]]?
         
         if (filteredDestinationsShared == nil) {
             filteredDestinationsShared = [:]
