@@ -218,7 +218,9 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                 if (TFCStation.isStations(results)) {
                     let hasAlreadyFavouritesDisplayed = self.stations?.count()
                     self.stations?.addWithJSON(results, append: true)
-                    self.titleLabel.text = self.stations?.getStation(self.currentStationIndex).getNameWithStarAndFilters()
+                    self.currentStation = self.stations?.getStation(self.currentStationIndex)
+
+                    self.titleLabel.text = self.currentStation?.getNameWithStarAndFilters()
                     if (hasAlreadyFavouritesDisplayed == nil || hasAlreadyFavouritesDisplayed == 0) {
                         self.displayDepartures()
                        // self.api?.getDepartures(self.stations.getStation(self.currentStationIndex).st_id)
