@@ -30,8 +30,13 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         let tapGesture  = UITapGestureRecognizer(target: self, action: "handleTap:")
         titleLabel.addGestureRecognizer(tapGesture)
         // Do any additional setup after loading the view from its nib.
+        println("viewDidLoad")
     }
-    
+
+    override func viewDidDisappear(animated: Bool) {
+        println("diddissapear")
+    }
+
     @IBAction func nextButtonTouchUp(sender: AnyObject) {
         
         
@@ -41,12 +46,9 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                 self.currentStationIndex = 0
             }
             currentStation = self.stations.getStation(self.currentStationIndex)
-            //FIXME, don't clear departures here
-          //  currentStation?.clearDepartures()
             if (currentStation?.st_id != "0000") {
                 self.titleLabel.text = currentStation?.getNameWithStarAndFilters()
                 displayDepartures()
-//                self.api?.getDepartures(currentStation?.st_id)
             } else {
                 self.currentStationIndex = 0
             }
