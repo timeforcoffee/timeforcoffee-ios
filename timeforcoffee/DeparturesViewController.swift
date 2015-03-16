@@ -34,9 +34,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     @IBOutlet weak var gradientView: UIImageView!
     @IBOutlet weak var borderBottomView: UIView!
 
-    @IBOutlet weak var navBarImage: UIImageView!
-
-//    @IBOutlet weak var stationIconImage: UIImageView!
+    @IBOutlet weak var navBarBackgroundView: UIView!
 
     @IBOutlet weak var stationIconButton: UIButton!
     @IBOutlet weak var stationIconView: UIView!
@@ -113,7 +111,8 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         self.stationIconButton.setImage(station?.getIcon(), forState: UIControlState.Normal)
 
         self.gradientView.image = UIImage(named: "gradient.png")
-        self.mapView?.alpha = 0.0
+
+        topViewProperties(0.0)
         self.mapView?.userInteractionEnabled = false;
         var region = MKCoordinateRegionMakeWithDistance((station?.coord?.coordinate)! ,450,450);
         self.mapView.setRegion(region, animated: false)
@@ -154,7 +153,6 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
 
         if (mapSwipeUpStart != nil) {
             topBarCalculatedHeight = floor(location.y + mapSwipeUpStart!)
-
         }
 
         if (topBarCalculatedHeight < startHeight) {
@@ -191,12 +189,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         topBarHeight?.constant = topBarCalculatedHeight
         if (topBarCalculatedHeight < releasePoint) {
             let offsetForAnimation: CGFloat = ((topBarCalculatedHeight - startHeight) / (releasePoint - startHeight))
-            self.mapView?.alpha = 0.5 + offsetForAnimation * 0.5
-            self.gradientView.alpha = 1.0 - offsetForAnimation
-            self.navBarImage.alpha = 0.0 + offsetForAnimation * 1.0
-            self.stationIconView.alpha = 1.0 - offsetForAnimation
-            self.stationIconView.transform = CGAffineTransformMakeScale(1 - offsetForAnimation, 1 - offsetForAnimation)
-            self.borderBottomView.alpha = offsetForAnimation
+            topViewProperties(offsetForAnimation)
             self.releaseToViewLabel.hidden = true
             if (mapSwipeUpStart == nil) {
                 if (self.destinationPlacemark == nil) {
@@ -207,10 +200,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
             if (mapSwipeUpStart == nil) {
                 self.releaseToViewLabel.hidden = false
             }
-            self.mapView?.alpha = 1.0
-            self.gradientView.alpha = 0.0
-            self.navBarImage.alpha = 1.0
-            self.stationIconView.alpha = 0.0
+            topViewProperties(1.0)
         }
 
         if (topBarCalculatedHeight > mapHeight.constant) {
@@ -309,7 +299,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         UIView.animateWithDuration(duration,
             animations: {
                 self.view.layoutIfNeeded()
-                self.stationIconView.alpha = 0.0
+                self.topViewProperties(1.0)
                 return
             }, completion: { (finished:Bool) in
                 if (finished) {
@@ -321,23 +311,23 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     }
 
     func moveMapViewUp(velocity: CGPoint?) {
+
         let height = CGFloat(startHeight)
 
         self.mapView.userInteractionEnabled = false
         self.topBarHeight.constant = height
-        var duration: NSTimeInterval = Double(600.0) / Double(abs((velocity?.y)!))
-        if (duration > 0.5) {
-            duration = 0.5
+        let maxDuration = 0.5
+        var duration: NSTimeInterval  = maxDuration
+        if (velocity != nil) {
+            duration = min(maxDuration, Double(600.0) / Double(abs((velocity?.y)!)))
         }
+        self.mapView.userInteractionEnabled = false
+        NSLayoutConstraint.deactivateConstraints([self.topBarBottomSpace])
+        NSLayoutConstraint.activateConstraints([self.topBarHeight])
 
         UIView.animateWithDuration(duration,
             animations: {
-                self.mapView?.alpha = 0.5
-                self.gradientView?.alpha = 1.0
-                self.navBarImage.alpha = 0.0
-                self.stationIconView.alpha = 1.0
-                self.stationIconView.transform = CGAffineTransformMakeScale(1, 1)
-                self.borderBottomView.alpha = 0
+                self.topViewProperties(0.0)
                 self.topView.layoutIfNeeded()
                 self.mapOnBottom = false
                 return
@@ -352,7 +342,22 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
             }
         )
     }
-    
+
+
+    func topViewProperties(offsetForAnimation: CGFloat) {
+
+        self.mapView?.alpha        = 0.5 + offsetForAnimation * 0.5
+        self.gradientView.alpha    = 1.0 - offsetForAnimation
+        self.navBarBackgroundView.alpha     = 0.0 + offsetForAnimation
+        self.stationIconView.alpha = 1.0 - offsetForAnimation
+        self.stationIconView.transform = CGAffineTransformMakeScale(1 - offsetForAnimation, 1 - offsetForAnimation)
+        self.borderBottomView.alpha = 0.0 + offsetForAnimation
+    }
+
+    @IBAction func mapUpAction(sender: AnyObject) {
+        moveMapViewUp(nil)
+    }
+
     func scrollViewDidScroll(scrollView: UIScrollView) {
         let offset = scrollView.contentOffset.y + startHeight
         self.topBarHeight.constant = max(min(self.startHeight - offset, self.startHeight), 64)

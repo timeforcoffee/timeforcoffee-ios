@@ -55,6 +55,8 @@ public class TFCStation: NSObject,  APIControllerProtocol {
         if (newStation == nil) {
             newStation = TFCStation(name: name, id: id, coord: coord)
             cache.setObject(newStation!, forKey: id)
+        } else {
+            newStation!.filteredLines = newStation!.getFilteredLines()
         }
         return newStation!
     }
