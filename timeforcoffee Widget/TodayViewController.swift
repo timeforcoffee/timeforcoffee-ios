@@ -16,37 +16,45 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     @IBOutlet weak var appsTableView: UITableView!
     let kCellIdentifier: String = "SearchResultCellWidget"
 
-    var stations: TFCStations!
+    lazy var stations: TFCStations? =  {return TFCStations()}()
+
     var departures: [TFCDeparture]?
     var networkErrorMsg: String?
-    var api : APIController?
+    lazy var api : APIController? = {return APIController(delegate: self)}()
     var currentStationIndex = 0
    
     override func viewDidLoad() {
         NewRelicAgent.startWithApplicationToken("AAe7c5942c67612bc82125c42d8b0b5c6a7df227b2")
         super.viewDidLoad()
-        api = APIController(delegate: self)
-        stations = TFCStations()
         titleLabel.userInteractionEnabled = true;
         let tapGesture  = UITapGestureRecognizer(target: self, action: "handleTap:")
         titleLabel.addGestureRecognizer(tapGesture)
         // Do any additional setup after loading the view from its nib.
     }
     
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        // maybe these should just be weak/unownend vars, but I was not able to 
+        // combine those with lazy...
+        stations = nil
+        api = nil
+        locManager = nil
+    }
+
     @IBAction func nextButtonTouchUp(sender: AnyObject) {
         
         
-        if (stations.count() != nil) {
+        if (stations?.count() != nil) {
             self.currentStationIndex++
-            if (self.currentStationIndex >= self.stations.count()) {
+            if (self.currentStationIndex >= self.stations?.count()) {
                 self.currentStationIndex = 0
             }
             self.departures = nil;
-            let station = self.stations.getStation(self.currentStationIndex)
+            let station = (self.stations?.getStation(self.currentStationIndex))!
             if (station.st_id != "0000") {
                 self.appsTableView!.reloadData()
-                self.titleLabel.text = self.stations.getStation(self.currentStationIndex).getNameWithStarAndFilters()
-                self.api?.getDepartures(self.stations.getStation(self.currentStationIndex).st_id)
+                self.titleLabel.text = self.stations?.getStation(self.currentStationIndex).getNameWithStarAndFilters()
+                self.api?.getDepartures(self.stations?.getStation(self.currentStationIndex).st_id)
             } else {
                 self.currentStationIndex = 0
             }
@@ -59,7 +67,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     
     func handleTap(recognizer: UITapGestureRecognizer) {
         
-        var station = self.stations.getStation(self.currentStationIndex);
+        var station = (self.stations?.getStation(self.currentStationIndex))!;
         if (station.st_id != "0000") {
             var name = station.name.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
             let long = station.getLongitude()
@@ -73,7 +81,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         }
     }
     
-    override func lazyInitLocationManager() -> TFCLocationManager {
+    override func lazyInitLocationManager() -> TFCLocationManager? {
         titleLabel.text = NSLocalizedString("Looking for nearest station ...", comment: "")
         self.currentStationIndex = 0
         return super.lazyInitLocationManager()
@@ -82,10 +90,10 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     override func locationFixed(coord: CLLocationCoordinate2D?) {
         println("locationFixed")
         if (coord != nil) {
-            if (self.stations.addNearbyFavorites(locManager.currentLocation!)) {
-                self.titleLabel.text = self.stations.getStation(0).getNameWithStarAndFilters()
+            if (self.stations?.addNearbyFavorites((locManager?.currentLocation)!) != nil) {
+                self.titleLabel.text = self.stations?.getStation(0).getNameWithStarAndFilters()
                 self.departures = nil
-                self.api?.getDepartures(self.stations.getStation(0).st_id)
+                self.api?.getDepartures(self.stations?.getStation(0).st_id)
             }
             self.api?.searchFor(coord!)
         }
@@ -112,7 +120,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         let destinationLabel = cell.viewWithTag(200) as UILabel
         let departureLabel = cell.viewWithTag(300) as UILabel
         let minutesLabel = cell.viewWithTag(400) as UILabel
-        let station = self.stations.getStation(self.currentStationIndex)
+        let station = (self.stations?.getStation(self.currentStationIndex))!
 
         if (self.departures == nil || self.departures!.count == 0) {
             departureLabel.text = nil
@@ -173,7 +181,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         // If there's an update, use NCUpdateResult.NewData
         //this should only be called, after everything is updated. didReceiveAPIResults ;)
         // see also https://stackoverflow.com/questions/25961513/ios-8-today-widget-stops-working-after-a-while
-        locManager.refreshLocation()
+        locManager?.refreshLocation()
         completionHandler(NCUpdateResult.NewData)
     }
     
@@ -186,14 +194,14 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                     self.networkErrorMsg = nil
                 }
                 if (TFCStation.isStations(results)) {
-                    let hasAlreadyFavouritesDisplayed = self.stations.count()
-                    self.stations.addWithJSON(results, append: true)
-                    self.titleLabel.text = self.stations.getStation(self.currentStationIndex).getNameWithStarAndFilters()
+                    let hasAlreadyFavouritesDisplayed = self.stations?.count()
+                    self.stations?.addWithJSON(results, append: true)
+                    self.titleLabel.text = self.stations?.getStation(self.currentStationIndex).getNameWithStarAndFilters()
                     if (hasAlreadyFavouritesDisplayed == nil || hasAlreadyFavouritesDisplayed == 0) {
-                        self.api?.getDepartures(self.stations.getStation(self.currentStationIndex).st_id)
+                        self.api?.getDepartures(self.stations?.getStation(self.currentStationIndex).st_id)
                     }
                 } else {
-                    self.departures = TFCDeparture.withJSON(results, filterStation: self.stations.getStation(self.currentStationIndex))
+                    self.departures = TFCDeparture.withJSON(results, filterStation: self.stations?.getStation(self.currentStationIndex))
                     
                 }
             
