@@ -38,11 +38,6 @@ public class TFCStation: NSObject,  APIControllerProtocol {
         self.name = name
         self.st_id = id
         self.coord = coord
-        println("init station")
-    }
-
-    deinit {
-        println("deinit station")
     }
 
     override public convenience init() {
@@ -224,12 +219,10 @@ public class TFCStation: NSObject,  APIControllerProtocol {
     }
 
     public func filterDepartures() {
-        println("FILTER DEPARTURES")
         var i = 0
         if (self.departures != nil) {
             for (departure) in self.departures! {
                 if (self.isFiltered(departure)) {
-                    println(departure)
                     departures?.removeAtIndex(i)
                 } else {
                     i++
@@ -245,7 +238,6 @@ public class TFCStation: NSObject,  APIControllerProtocol {
         var i = 0;
         for (departure: TFCDeparture) in self.departures! {
             if (departure.getMinutesAsInt() < 0) {
-                println(departure)
                 departures?.removeAtIndex(i)
             } else {
                 i++
@@ -268,10 +260,8 @@ public class TFCStation: NSObject,  APIControllerProtocol {
             // calculate exact distance
             //check if one is in the cache
             distanceString = getLastValidWalkingDistanceValid(location)
-            println(distanceString)
             if (distanceString == nil) {
                 distanceString = "\(directDistance!) Meter"
-                println(distanceString)
                 self.getWalkingDistance(location, completion)
             } else {
                 completion(distanceString)
@@ -323,7 +313,6 @@ public class TFCStation: NSObject,  APIControllerProtocol {
                 println("Error")
             }
             if response != nil {
-                for r in response.routes { println("route = \(r)") }
                 var route: MKRoute = response.routes[0] as MKRoute;
                 var time =  Int(round(route.expectedTravelTime / 60))
                 var meters = Int(route.distance);
