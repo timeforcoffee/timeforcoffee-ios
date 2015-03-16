@@ -115,10 +115,41 @@
                                     <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="elb-MS-l3n" userLabel="Nav Bar View">
                                         <rect key="frame" x="0.0" y="50" width="600" height="100"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Gf-nk-f44">
+                                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tiy-IY-zxF" userLabel="White Background View">
                                                 <rect key="frame" x="0.0" y="0.0" width="600" height="100"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Gf-nk-f44">
+                                                        <rect key="frame" x="0.0" y="0.0" width="600" height="100"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </imageView>
+                                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3J6-WH-M4V">
+                                                        <rect key="frame" x="0.0" y="70" width="30" height="30"/>
+                                                        <state key="normal" title="^">
+                                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="mapUpAction:" destination="COk-7g-JfJ" eventType="touchUpInside" id="bEC-br-XsA"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2ey-js-9pA">
+                                                        <rect key="frame" x="550" y="70" width="49" height="22"/>
+                                                        <state key="normal" title="map">
+                                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                    </button>
+                                                </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            </imageView>
+                                                <constraints>
+                                                    <constraint firstItem="3J6-WH-M4V" firstAttribute="leading" secondItem="tiy-IY-zxF" secondAttribute="leading" id="5lv-DH-JCa"/>
+                                                    <constraint firstAttribute="width" secondItem="6Gf-nk-f44" secondAttribute="width" id="Lcv-GK-g8n"/>
+                                                    <constraint firstAttribute="bottom" secondItem="6Gf-nk-f44" secondAttribute="bottom" id="T77-HK-mhC"/>
+                                                    <constraint firstAttribute="trailing" secondItem="2ey-js-9pA" secondAttribute="trailing" constant="1" id="TH5-ZP-ziQ"/>
+                                                    <constraint firstAttribute="height" secondItem="6Gf-nk-f44" secondAttribute="height" id="U9Q-VP-7Af"/>
+                                                    <constraint firstAttribute="bottom" secondItem="3J6-WH-M4V" secondAttribute="bottom" id="eFl-gl-zq2"/>
+                                                    <constraint firstAttribute="bottom" secondItem="2ey-js-9pA" secondAttribute="bottom" constant="8" id="hT3-Tq-0gh"/>
+                                                </constraints>
+                                            </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Zürich, Schaffhauserplatz" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="37z-MA-FFU">
                                                 <rect key="frame" x="0.0" y="56" width="600" height="17"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
@@ -126,22 +157,22 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="534 m / 5 min" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G4Z-yb-SMS" userLabel="534 m / 5 min">
-                                                <rect key="frame" x="0.0" y="77" width="600" height="17"/>
+                                                <rect key="frame" x="0.0" y="76" width="600" height="17"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstAttribute="bottom" secondItem="G4Z-yb-SMS" secondAttribute="bottom" constant="7" id="62D-eF-J7h"/>
+                                            <constraint firstAttribute="bottom" secondItem="tiy-IY-zxF" secondAttribute="bottom" id="4uK-d9-7ww"/>
+                                            <constraint firstAttribute="height" secondItem="tiy-IY-zxF" secondAttribute="height" id="9CR-pA-3bX"/>
                                             <constraint firstAttribute="width" secondItem="37z-MA-FFU" secondAttribute="width" id="Bwe-NZ-4kT"/>
+                                            <constraint firstAttribute="width" secondItem="G4Z-yb-SMS" secondAttribute="width" id="HF6-LF-XeS"/>
                                             <constraint firstAttribute="height" constant="80" id="Sqn-hC-6jc"/>
+                                            <constraint firstAttribute="width" secondItem="tiy-IY-zxF" secondAttribute="width" id="TLj-np-q9m"/>
                                             <constraint firstItem="37z-MA-FFU" firstAttribute="bottom" secondItem="elb-MS-l3n" secondAttribute="bottom" constant="-28" id="Ufm-GS-sWA"/>
-                                            <constraint firstItem="6Gf-nk-f44" firstAttribute="width" secondItem="elb-MS-l3n" secondAttribute="width" id="Z13-bO-Sx6"/>
-                                            <constraint firstAttribute="bottom" secondItem="6Gf-nk-f44" secondAttribute="bottom" id="eNb-0Q-Iqy"/>
-                                            <constraint firstAttribute="centerX" secondItem="G4Z-yb-SMS" secondAttribute="centerX" id="lpr-No-OnK"/>
-                                            <constraint firstAttribute="width" secondItem="G4Z-yb-SMS" secondAttribute="width" id="nMD-pZ-rVT"/>
-                                            <constraint firstItem="6Gf-nk-f44" firstAttribute="height" secondItem="elb-MS-l3n" secondAttribute="height" id="teq-y8-biJ"/>
+                                            <constraint firstAttribute="centerX" secondItem="G4Z-yb-SMS" secondAttribute="centerX" id="ndo-hd-liE"/>
+                                            <constraint firstItem="G4Z-yb-SMS" firstAttribute="top" secondItem="37z-MA-FFU" secondAttribute="bottom" constant="3" id="tLp-XH-eCc"/>
                                             <constraint firstAttribute="centerX" secondItem="37z-MA-FFU" secondAttribute="centerX" id="x5p-Yd-s4q"/>
                                         </constraints>
                                     </view>
@@ -261,7 +292,7 @@
                         <outlet property="mapHeight" destination="8Up-NC-GXu" id="Nrf-Ud-TgH"/>
                         <outlet property="mapView" destination="hky-rH-Stc" id="zlz-ZI-Fe4"/>
                         <outlet property="nameLabel" destination="37z-MA-FFU" id="xUR-d8-Yac"/>
-                        <outlet property="navBarImage" destination="6Gf-nk-f44" id="CZx-0a-02c"/>
+                        <outlet property="navBarBackgroundView" destination="tiy-IY-zxF" id="NiI-nL-qLh"/>
                         <outlet property="navBarView" destination="elb-MS-l3n" id="WyB-WQ-1n4"/>
                         <outlet property="releaseToViewLabel" destination="cgy-fE-O9r" id="0Vu-ds-qyA"/>
                         <outlet property="stationIconButton" destination="EyP-xR-Nab" id="Kj2-tF-F4A"/>
