@@ -14,6 +14,7 @@ import timeforcoffeeKit
 class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, UIGestureRecognizerDelegate,  TFCDeparturesUpdatedProtocol {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var appsTableView: UITableView!
+    @IBOutlet weak var actionLabel: UIButton!
     let kCellIdentifier: String = "SearchResultCellWidget"
 
     lazy var stations: TFCStations? =  {return TFCStations()}()
@@ -23,6 +24,16 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     var networkErrorMsg: String?
     lazy var api : APIController? = {return APIController(delegate: self)}()
     var currentStationIndex = 0
+
+    var showStations: Bool = false {
+        didSet {
+            if (showStations == true) {
+                actionLabel.setTitle("Back", forState: UIControlState.Normal)
+            } else {
+                actionLabel.setTitle("All", forState: UIControlState.Normal)
+            }
+        }
+    }
    
     override func viewDidLoad() {
         NewRelicAgent.startWithApplicationToken("AAe7c5942c67612bc82125c42d8b0b5c6a7df227b2")
@@ -38,31 +49,23 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     }
 
     @IBAction func nextButtonTouchUp(sender: AnyObject) {
-        
-        
-        if (stations?.count() != nil) {
-            self.currentStationIndex++
-            if (self.currentStationIndex >= self.stations?.count()) {
-                self.currentStationIndex = 0
-            }
-            currentStation = self.stations?.getStation(self.currentStationIndex)
-            if (currentStation?.st_id != "0000") {
-                self.titleLabel.text = currentStation?.getNameWithStarAndFilters()
-                displayDepartures()
-            } else {
-                self.currentStationIndex = 0
-            }
+        if (showStations == true) {
+            showStations = false
+            titleLabel.text = currentStation?.getNameWithStarAndFilters()
+            self.appsTableView.reloadData()
+        } else if (stations?.count() > 0) {
+            showStations = true
+            titleLabel.text = "Nearby Stations"
+            self.appsTableView.reloadData()
         }
-
     }
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
     }
     
     func handleTap(recognizer: UITapGestureRecognizer) {
-        
-        var station = (self.stations?.getStation(self.currentStationIndex))!;
-        if (station.st_id != "0000") {
+        if (currentStation != nil && currentStation?.st_id != "0000") {
+            let station = currentStation!
             var name = station.name.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
             let long = station.getLongitude()
             let lat = station.getLatitude()
@@ -105,6 +108,12 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if (showStations) {
+            if (stations?.count() != nil) {
+                return (self.stations?.count())!
+            }
+            return 1
+        }
         let departures = self.currentStation?.getDepartures()
         if (departures == nil || departures!.count == 0) {
             return 1
@@ -114,8 +123,12 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as UITableViewCell
-        
+        var cell: UITableViewCell
+        if (showStations) {
+            cell = tableView.dequeueReusableCellWithIdentifier("NearbyStationsCell") as UITableViewCell
+        } else {
+            cell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as UITableViewCell
+        }
         cell.layoutMargins = UIEdgeInsetsZero
         cell.preservesSuperviewLayoutMargins = false
         
@@ -125,7 +138,35 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         let destinationLabel = cell.viewWithTag(200) as UILabel
         let departureLabel = cell.viewWithTag(300) as UILabel
         let minutesLabel = cell.viewWithTag(400) as UILabel
-        let station = self.stations?.getStation(self.currentStationIndex)
+
+        if (showStations) {
+            let station = self.stations?.getStation(indexPath.row)
+            station?.removeObseleteDepartures()
+            station?.filterDepartures()
+            let firstDeparture = station?.getDepartures()?.first
+            let iconLabel = cell.viewWithTag(500) as UIImageView
+            iconLabel.layer.cornerRadius = iconLabel.layer.bounds.width / 2
+            iconLabel.clipsToBounds = true
+            iconLabel.image = station?.getIcon()
+            iconLabel.hidden = false
+            lineNumberLabel.hidden = false
+            destinationLabel.text = station?.getName(false)
+
+            if (firstDeparture != nil) {
+                lineNumberLabel.setStyle("dark", departure: firstDeparture!)
+                minutesLabel.text = firstDeparture!.getMinutes()
+                departureLabel.text = firstDeparture!.getDestinationWithSign(station, unabridged: false)
+            } else {
+                lineNumberLabel.hidden = true
+                departureLabel.text = nil
+                minutesLabel.text = nil
+                station?.updateDepartures(self)
+
+            }
+            cell.userInteractionEnabled = true
+            return cell
+        }
+        let station = currentStation
         let departures = currentStation?.getDepartures()
         if (departures == nil || departures!.count == 0) {
             lineNumberLabel.hidden = true
@@ -158,6 +199,17 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         return cell
     }
 
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if (showStations) {
+            showStations = false
+            currentStation = self.stations?.getStation(indexPath.row)
+            currentStationIndex = indexPath.row
+            if (currentStation?.st_id != "0000") {
+                self.titleLabel.text = currentStation?.getNameWithStarAndFilters()
+                displayDepartures()
+            }
+        }
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -177,6 +229,9 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
 
     func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?) {
       //  UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        if (showStations) {
+            self.appsTableView!.reloadData()
+        } else {
         if (forStation?.st_id == currentStation?.st_id) {
             if (error != nil) {
                 self.networkErrorMsg = NSLocalizedString("Network error. Please try again", comment:"")
@@ -185,6 +240,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             }
             currentStation?.filterDepartures()
             self.appsTableView!.reloadData()
+        }
         }
     }
 
@@ -202,9 +258,8 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                     self.currentStation = self.stations?.getStation(self.currentStationIndex)
 
                     self.titleLabel.text = self.currentStation?.getNameWithStarAndFilters()
-                    if (hasAlreadyFavouritesDisplayed == nil || hasAlreadyFavouritesDisplayed == 0) {
+                    if (self.showStations == false && hasAlreadyFavouritesDisplayed == nil || hasAlreadyFavouritesDisplayed == 0) {
                         self.displayDepartures()
-                       // self.api?.getDepartures(self.stations.getStation(self.currentStationIndex).st_id)
                     }
                 } else {
                     //self.currentStation?.addDepartures(TFCDeparture.withJSON(results, filterStation: self.stations.getStation(self.currentStationIndex)))
