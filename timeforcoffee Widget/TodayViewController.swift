@@ -158,11 +158,10 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                 departureLabel.text = firstDeparture!.getDestinationWithSign(station, unabridged: false)
             } else {
                 lineNumberLabel.hidden = true
-                departureLabel.text = nil
                 minutesLabel.text = nil
-                station?.updateDepartures(self)
-
+                departureLabel.text = nil
             }
+            station?.updateDepartures(self)
             cell.userInteractionEnabled = true
             return cell
         }
@@ -228,19 +227,19 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     }
 
     func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?) {
-      //  UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        //  UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         if (showStations) {
             self.appsTableView!.reloadData()
         } else {
-        if (forStation?.st_id == currentStation?.st_id) {
-            if (error != nil) {
-                self.networkErrorMsg = NSLocalizedString("Network error. Please try again", comment:"")
-            } else {
-                self.networkErrorMsg = nil
+            if (forStation?.st_id == currentStation?.st_id) {
+                if (error != nil) {
+                    self.networkErrorMsg = NSLocalizedString("Network error. Please try again", comment:"")
+                } else {
+                    self.networkErrorMsg = nil
+                }
+                currentStation?.filterDepartures()
+                self.appsTableView!.reloadData()
             }
-            currentStation?.filterDepartures()
-            self.appsTableView!.reloadData()
-        }
         }
     }
 

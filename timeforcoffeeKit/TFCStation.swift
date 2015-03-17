@@ -19,6 +19,7 @@ public class TFCStation: NSObject,  APIControllerProtocol {
     var departures: [TFCDeparture]?
     var walkingDistanceString: String?
     var walkingDistanceLastCoord: CLLocation?
+    var lastDepartureUpdate: NSDate?
 
     lazy var api : APIController = {
         return APIController(delegate: self)
@@ -48,9 +49,11 @@ public class TFCStation: NSObject,  APIControllerProtocol {
         let cache: NSCache = TFCCache.objects.stations
         var newStation: TFCStation? = cache.objectForKey(id) as TFCStation?
         if (newStation == nil) {
+            println("station NOT From Cache")
             newStation = TFCStation(name: name, id: id, coord: coord)
             cache.setObject(newStation!, forKey: id)
         } else {
+            println("station From Cache")
             newStation!.filteredLines = newStation!.getFilteredLines()
         }
         return newStation!
@@ -183,7 +186,10 @@ public class TFCStation: NSObject,  APIControllerProtocol {
         let context: Dictionary<String, contextData> = [
             "completionDelegate": .ValCompletionDelegate(completionDelegate)
         ]
-        self.api.getDepartures(self.st_id, context: context)
+        if (lastDepartureUpdate == nil || lastDepartureUpdate?.timeIntervalSinceNow < -20) {
+            self.api.getDepartures(self.st_id, context: context)
+            lastDepartureUpdate = NSDate()
+        }
     }
 
     public func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?) {
