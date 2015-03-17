@@ -18,6 +18,7 @@ public class TFCDeparture {
     public var realtime: NSDate?
     public var colorFg: String?
     public var colorBg: String?
+    public var outdated: Bool = false
 
     init(name: String, type: String, accessible: Bool, to: String, scheduled: NSDate?, realtime: NSDate?, colorFg: String?, colorBg: String? ) {
         // TODO: strip "Zurich, " from name
@@ -168,6 +169,8 @@ public class TFCDeparture {
         }
         if (self.realtime == nil) {
             timestring.appendAttributedString(NSAttributedString(string: " (no real-time data)"))
+        } else if (self.outdated) {
+            timestring.appendAttributedString(NSAttributedString(string: " (not updated)"))
         }
         return timestring
     }

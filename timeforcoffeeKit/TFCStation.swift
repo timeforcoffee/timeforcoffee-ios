@@ -190,12 +190,11 @@ public class TFCStation: NSObject,  APIControllerProtocol {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
     //    self.refreshControl.endRefreshing()
         dispatch_async(dispatch_get_main_queue(), {
-            if (error != nil) {
-      //          self.networkErrorMsg = NSLocalizedString("Network error. Please try again", comment:"")
+            if (error != nil && self.departures != nil && self.departures?.count > 0) {
+                self.setDeparturesAsOutdated()
             } else {
-      //          self.networkErrorMsg = nil
+                self.addDepartures(TFCDeparture.withJSON(results))
             }
-            self.addDepartures(TFCDeparture.withJSON(results))
             if (self.name == "") {
                 self.name = TFCDeparture.getStationNameFromJson(results)!;
             }
@@ -212,6 +211,14 @@ public class TFCStation: NSObject,  APIControllerProtocol {
 
             completionDelegate?.departuresUpdated(error, context: context, forStation: self)
         })
+    }
+
+    func setDeparturesAsOutdated() {
+        if (self.departures != nil) {
+            for (departure) in self.departures! {
+                departure.outdated = true
+            }
+        }
     }
 
     func clearDepartures() {
