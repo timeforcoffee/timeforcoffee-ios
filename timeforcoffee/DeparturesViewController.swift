@@ -465,6 +465,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
             if (departures == nil || departures!.count == 0) {
                 departureLabel.text = nil
                 minutesLabel.text = nil
+                lineNumberLabel.hidden = true
                 if (departures == nil) {
                     destinationLabel.text = NSLocalizedString("Loading", comment: "Loading ..")
                 } else {
@@ -475,7 +476,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
                 }
                 return cell
             }
-            
+            lineNumberLabel.hidden = false
             let departure: TFCDeparture = station2.getDepartures()![indexPath.row]
             
             var unabridged = false

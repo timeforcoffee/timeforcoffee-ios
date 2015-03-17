@@ -128,6 +128,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         let station = self.stations?.getStation(self.currentStationIndex)
         let departures = currentStation?.getDepartures()
         if (departures == nil || departures!.count == 0) {
+            lineNumberLabel.hidden = true
             departureLabel.text = nil
             minutesLabel.text = nil
             if (departures == nil) {
@@ -142,7 +143,6 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             }
             return cell
         }
-        
         cell.textLabel!.text = nil
         let departure: TFCDeparture = departures![indexPath.row]
         var unabridged = false
@@ -152,7 +152,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         destinationLabel.text = departure.getDestinationWithSign(station, unabridged: unabridged)
         departureLabel.attributedText = departure.getDepartureTime()
         minutesLabel.text = departure.getMinutes()
-        
+        lineNumberLabel.hidden = false
         lineNumberLabel.setStyle("dark", departure: departure)
         
         return cell
