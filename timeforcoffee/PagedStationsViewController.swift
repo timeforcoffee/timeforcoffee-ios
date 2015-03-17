@@ -104,7 +104,7 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         titlePageControl.currentPageIndicatorTintColor = UIColor.blackColor()
         titlePageControl.pageIndicatorTintColor = UIColor.grayColor()
         titlePageControl.transform = CGAffineTransformScale(titlePageControl.transform, 0.75, 0.75)
-        
+        titlePageControl.userInteractionEnabled = false
         titleView.addSubview(titlePageControl)
         
 
