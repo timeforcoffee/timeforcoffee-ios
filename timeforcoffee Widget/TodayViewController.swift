@@ -32,16 +32,10 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         let tapGesture  = UITapGestureRecognizer(target: self, action: "handleTap:")
         titleLabel.addGestureRecognizer(tapGesture)
         // Do any additional setup after loading the view from its nib.
-        println("viewDidLoad")
     }
     
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        // maybe these should just be weak/unownend vars, but I was not able to 
-        // combine those with lazy...
-        stations = nil
-        api = nil
-        locManager = nil
+    deinit {
+        println("deinit widget")
     }
 
     @IBAction func nextButtonTouchUp(sender: AnyObject) {
@@ -107,6 +101,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         currentStation?.removeObseleteDepartures()
         currentStation?.filterDepartures()
         self.appsTableView?.reloadData()
+        //UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         currentStation?.updateDepartures(self)
     }
     
@@ -196,6 +191,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     }
 
     func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?) {
+      //  UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         if (forStation?.st_id == currentStation?.st_id) {
             if (error != nil) {
                 self.networkErrorMsg = NSLocalizedString("Network error. Please try again", comment:"")
