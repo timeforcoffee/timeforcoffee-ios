@@ -174,16 +174,23 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
             return
         }
         if (sender.state == UIGestureRecognizerState.Ended) {
-            if (mapSwipeUpStart != nil) {
+            let velocity = sender.velocityInView(self.appsTableView)
+            let yVelocity = Double(velocity.y)
+
+            if (yVelocity < -100) {
+                moveMapViewUp(yVelocity)
+            } else if (yVelocity > 100) {
+                moveMapViewDown(yVelocity)
+            } else if (mapSwipeUpStart != nil) {
                 if ((UIScreen.mainScreen().bounds.size.height - topBarCalculatedHeight)  > 40) {
-                    moveMapViewUp(sender.velocityInView(self.appsTableView))
+                    moveMapViewUp(yVelocity)
                 } else {
-                    moveMapViewDown(sender.velocityInView(self.appsTableView))
+                    moveMapViewDown(yVelocity)
                 }
             } else if (topBarCalculatedHeight > releasePoint) {
-                moveMapViewDown(sender.velocityInView(self.appsTableView))
+                moveMapViewDown(yVelocity)
             } else {
-                moveMapViewUp(sender.velocityInView(self.appsTableView))
+                moveMapViewUp(yVelocity)
 
             }
             return
@@ -284,16 +291,17 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         return annotationView;
 
     }
-    func moveMapViewDown(velocity: CGPoint?) {
+    func moveMapViewDown(velocity: Double?) {
         let height = UIScreen.mainScreen().bounds.size.height
         self.releaseToViewLabel.hidden = true
         self.mapView.userInteractionEnabled = true
         if (self.mapHeight.constant < height + 200) {
             self.mapHeight.constant = height + 200
         }
-        var duration: NSTimeInterval = Double(600.0) / Double(abs((velocity?.y)!))
-        if (duration > 0.5) {
-            duration = 0.5
+        let maxDuration = 0.5
+        var duration: NSTimeInterval = maxDuration
+        if (velocity != nil) {
+            duration = min(maxDuration, 600.0 / abs(velocity!))
         }
         NSLayoutConstraint.deactivateConstraints([self.topBarHeight])
         NSLayoutConstraint.activateConstraints([self.topBarBottomSpace])
@@ -313,21 +321,21 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         )
     }
 
-    func moveMapViewUp(velocity: CGPoint?) {
+    func moveMapViewUp(velocity: Double?) {
 
         let height = CGFloat(startHeight)
 
         self.mapView.userInteractionEnabled = false
         self.topBarHeight.constant = height
         let maxDuration = 0.5
-        var duration: NSTimeInterval  = maxDuration
+        var duration: NSTimeInterval = maxDuration
         if (velocity != nil) {
-            duration = min(maxDuration, Double(600.0) / Double(abs((velocity?.y)!)))
+            duration = min(maxDuration, 600.0 / abs(velocity!))
         }
         self.mapView.userInteractionEnabled = false
         NSLayoutConstraint.deactivateConstraints([self.topBarBottomSpace])
         NSLayoutConstraint.activateConstraints([self.topBarHeight])
-
+        self.releaseToViewLabel.hidden = false
         UIView.animateWithDuration(duration,
             animations: {
                 self.topViewProperties(0.0)
@@ -339,7 +347,6 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
                     self.mapView.removeAnnotation(self.destinationPlacemark)
                     self.mapView.removeOverlay(self.mapDirectionOverlay)
                     self.mapView.showsUserLocation = false
-
                     self.destinationPlacemark = nil
                 }
                 return
