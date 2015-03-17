@@ -218,6 +218,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     func drawStationAndWay() {
         self.destinationPlacemark = MKPlacemark(coordinate: (station?.coord?.coordinate)!, addressDictionary: nil)
         self.mapView.addAnnotation(destinationPlacemark)
+        self.mapView.showsUserLocation = true
 
         let currentLocation = TFCLocationManager.getCurrentLocation()?
         let currentCoordinate = currentLocation?.coordinate
@@ -341,6 +342,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
                 if (self.destinationPlacemark != nil) {
                     self.mapView.removeAnnotation(self.destinationPlacemark)
                     self.mapView.removeOverlay(self.mapDirectionOverlay)
+                    self.mapView.showsUserLocation = false
 
                     self.destinationPlacemark = nil
                 }
