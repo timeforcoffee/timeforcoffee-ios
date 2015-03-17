@@ -25,7 +25,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="389" height="32"/>
                                         <subviews>
                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time for Coffee!" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GcN-lo-r42">
-                                                <rect key="frame" x="0.0" y="0.0" width="329" height="32"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="353" height="32"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
@@ -46,8 +46,8 @@
                                             <constraint firstItem="GcN-lo-r42" firstAttribute="leading" secondItem="ZqN-ss-Y5x" secondAttribute="leading" id="1Mx-Bs-7w2"/>
                                             <constraint firstItem="zf4-3t-t8S" firstAttribute="top" secondItem="ZqN-ss-Y5x" secondAttribute="top" id="5LR-M7-rq3"/>
                                             <constraint firstItem="zf4-3t-t8S" firstAttribute="height" secondItem="ZqN-ss-Y5x" secondAttribute="height" id="72b-YJ-ARW"/>
-                                            <constraint firstAttribute="trailing" secondItem="GcN-lo-r42" secondAttribute="trailing" constant="60" id="7zh-EX-ra9"/>
-                                            <constraint firstItem="zf4-3t-t8S" firstAttribute="leading" secondItem="GcN-lo-r42" secondAttribute="trailing" id="NbX-0o-i0f"/>
+                                            <constraint firstAttribute="trailing" secondItem="GcN-lo-r42" secondAttribute="trailing" constant="36" id="7zh-EX-ra9"/>
+                                            <constraint firstItem="zf4-3t-t8S" firstAttribute="leading" secondItem="GcN-lo-r42" secondAttribute="trailing" constant="-24" id="NbX-0o-i0f"/>
                                             <constraint firstAttribute="trailing" secondItem="zf4-3t-t8S" secondAttribute="trailing" id="SJX-No-ZGR"/>
                                             <constraint firstItem="GcN-lo-r42" firstAttribute="top" secondItem="ZqN-ss-Y5x" secondAttribute="top" id="T14-Uw-jLz"/>
                                             <constraint firstItem="GcN-lo-r42" firstAttribute="height" secondItem="ZqN-ss-Y5x" secondAttribute="height" id="dTf-CG-hZ1"/>
@@ -70,7 +70,7 @@
                                                             <color key="textColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" tag="100" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="13" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="none" minimumFontSize="8" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jpy-Ce-zrf" userLabel="LineNumberLabel">
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="100" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="13" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="none" minimumFontSize="8" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jpy-Ce-zrf" userLabel="LineNumberLabel" customClass="DepartureLineLabel" customModule="timeforcoffee_Widget" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="10" width="32" height="32"/>
                                                             <color key="backgroundColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <constraints>
@@ -80,7 +80,7 @@
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" tag="200" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Zürich" lineBreakMode="tailTruncation" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0fo-iq-xUL" userLabel="LineNameLabel">
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="200" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Zürich" lineBreakMode="tailTruncation" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0fo-iq-xUL" userLabel="LineNameLabel">
                                                             <rect key="frame" x="41" y="9" width="315" height="20"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="16"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

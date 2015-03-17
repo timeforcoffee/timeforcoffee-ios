@@ -11,7 +11,7 @@ import CoreLocation
 
 public class APIController {
     
-    var delegate: APIControllerProtocol
+    unowned var delegate: APIControllerProtocol
     var currentFetch: [Int: NSURLSessionDataTask] = [:]
 
     lazy var session:NSURLSession = {
@@ -95,6 +95,6 @@ public class APIController {
     }
 }
 
-public protocol APIControllerProtocol {
+public protocol APIControllerProtocol: class {
     func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?)
 }

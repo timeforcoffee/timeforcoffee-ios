@@ -18,6 +18,7 @@ public class TFCDeparture {
     public var realtime: NSDate?
     public var colorFg: String?
     public var colorBg: String?
+    public var outdated: Bool = false
 
     init(name: String, type: String, accessible: Bool, to: String, scheduled: NSDate?, realtime: NSDate?, colorFg: String?, colorBg: String? ) {
         // TODO: strip "Zurich, " from name
@@ -114,6 +115,10 @@ public class TFCDeparture {
         return "\(self.name)"
     }
     
+    public func getType() -> String {
+        return "\(self.type)"
+    }
+    
     
     public func getTimeString() -> String {
         var timestring = "";
@@ -168,36 +173,44 @@ public class TFCDeparture {
         }
         if (self.realtime == nil) {
             timestring.appendAttributedString(NSAttributedString(string: " (no real-time data)"))
+        } else if (self.outdated) {
+            timestring.appendAttributedString(NSAttributedString(string: " (not updated)"))
         }
         return timestring
     }
     
-    public func getMinutes() -> String? {
+    public func getMinutesAsInt() -> Int? {
         var timeInterval: NSTimeInterval?
         var realtimeStr: String?
         var scheduledStr: String?
-        var timestring = "";
-        
         if (self.realtime != nil) {
             timeInterval = self.realtime?.timeIntervalSinceNow
         } else {
             timeInterval = self.scheduled?.timeIntervalSinceNow
         }
         if (timeInterval != nil) {
-            var timediff  = Int(ceil(timeInterval! / 60));
-            if (timediff < 0) {
-                if (timediff > -2) {
-                    timediff = 0;
-                }
-            }
-            if (timediff >= 60) {
-                return ">59'"
-            }
-            return "\(timediff)'"
+            return Int(ceil(timeInterval! / 60));
         }
         return nil
     }
-    
+
+    public func getMinutes() -> String? {
+        var timestring = "";
+        var timeInterval = getMinutesAsInt()
+        if (timeInterval != nil) {
+            if (timeInterval < 0) {
+                if (timeInterval > -1) {
+                    timeInterval = 0;
+                }
+            }
+            if (timeInterval >= 60) {
+                return ">59'"
+            }
+            return "\(timeInterval!)'"
+        }
+        return nil
+    }
+
     public func getDestinationWithSign(station: TFCStation?) -> String {
         return getDestinationWithSign(station, unabridged: false)
     }

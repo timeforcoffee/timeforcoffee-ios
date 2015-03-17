@@ -14,7 +14,7 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
     var locationFixAchieved : Bool = false
     var locationStatus : NSString = "Not Started"
     var seenError : Bool = false
-    var delegate: TFCLocationManagerDelegate
+    unowned var delegate: TFCLocationManagerDelegate
 
     public var currentLocation: CLLocation? {
         get {
@@ -104,6 +104,6 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
 
 }
 
-public protocol TFCLocationManagerDelegate {
+public protocol TFCLocationManagerDelegate: class {
     func locationFixed(coord: CLLocationCoordinate2D?)
 }

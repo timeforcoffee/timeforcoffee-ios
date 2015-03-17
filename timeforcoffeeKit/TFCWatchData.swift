@@ -15,7 +15,7 @@ public class TFCWatchData: NSObject, APIControllerProtocol, TFCLocationManagerDe
     var stations: TFCStations!
     var replyNearby: replyClosure?
     
-    lazy var locManager: TFCLocationManager = self.lazyInitLocationManager()
+    lazy var locManager: TFCLocationManager? = self.lazyInitLocationManager()
 
     enum contextData {
         case ValString(String)
@@ -29,14 +29,14 @@ public class TFCWatchData: NSObject, APIControllerProtocol, TFCLocationManagerDe
         api = APIController(delegate: self)
     }
     
-    func lazyInitLocationManager() -> TFCLocationManager {
+    func lazyInitLocationManager() -> TFCLocationManager? {
         return TFCLocationManager(delegate: self)
     }
     
     public func locationFixed(coord: CLLocationCoordinate2D?) {
         //do nothing here, you have to overwrite that
         if (coord != nil) {
-            self.stations.addNearbyFavorites(locManager.currentLocation!)
+            self.stations.addNearbyFavorites((locManager?.currentLocation)!)
             self.api?.searchFor(coord!)
         } else {
             if (replyNearby != nil) {
@@ -60,7 +60,7 @@ public class TFCWatchData: NSObject, APIControllerProtocol, TFCLocationManagerDe
         // the data from the API... (in locationFixed)
         self.replyNearby = reply
         self.stations?.clear()
-        locManager.refreshLocation()
+        locManager?.refreshLocation()
     }
     
     public func getFavorites(reply: replyClosure?) {
@@ -86,7 +86,7 @@ public class TFCWatchData: NSObject, APIControllerProtocol, TFCLocationManagerDe
             }
 
             if (TFCStation.isStations(results)) {
-                self.stations.loadFavorites(self.locManager.currentLocation)
+                self.stations.loadFavorites(self.locManager?.currentLocation)
                 self.stations.addWithJSON(results, append: true)
 
                 if (self.replyNearby != nil) {

@@ -10,12 +10,10 @@ import UIKit
 import timeforcoffeeKit
 import MapKit
 
-class DeparturesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, APIControllerProtocol, MGSwipeTableCellDelegate, MKMapViewDelegate {
+class DeparturesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, MGSwipeTableCellDelegate, MKMapViewDelegate, TFCDeparturesUpdatedProtocol {
 
     @IBOutlet var appsTableView : UITableView?
-    var api : APIController?
     var refreshControl:UIRefreshControl!
-    var departures: [TFCDeparture]?
     var station: TFCStation?
     var networkErrorMsg: String?
     let kCellIdentifier: String = "DeparturesListCell"
@@ -36,9 +34,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     @IBOutlet weak var gradientView: UIImageView!
     @IBOutlet weak var borderBottomView: UIView!
 
-    @IBOutlet weak var navBarImage: UIImageView!
-
-//    @IBOutlet weak var stationIconImage: UIImageView!
+    @IBOutlet weak var navBarBackgroundView: UIView!
 
     @IBOutlet weak var stationIconButton: UIButton!
     @IBOutlet weak var stationIconView: UIView!
@@ -57,10 +53,11 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
 
     @IBOutlet var topBarBottomSpace: NSLayoutConstraint!
 
+    @IBOutlet weak var stationNameBottomSpace: NSLayoutConstraint!
+
     var mapOnBottom: Bool = false
 
     @IBAction func iconTouchUp(sender: UIButton) {
-        println("iconTouchUp")
         favoriteClicked(nil)
     }
 
@@ -95,10 +92,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
             }
         })
 
-        self.api = APIController(delegate: self)
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-        self.departures = nil;
-        self.api?.getDepartures(self.station?.st_id)
         self.refreshControl = UIRefreshControl()
         self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.refreshControl.backgroundColor = UIColor(red: 242.0/255.0, green: 243.0/255.0, blue: 245.0/255.0, alpha: 1.0)
@@ -119,14 +113,15 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         self.stationIconButton.setImage(station?.getIcon(), forState: UIControlState.Normal)
 
         self.gradientView.image = UIImage(named: "gradient.png")
-        self.mapView?.alpha = 0.0
+
+        topViewProperties(0.0)
         self.mapView?.userInteractionEnabled = false;
-        var region = MKCoordinateRegionMakeWithDistance((station?.coord?.coordinate)! ,300,300);
+        var region = MKCoordinateRegionMakeWithDistance((station?.coord?.coordinate)! ,450,450);
         self.mapView.setRegion(region, animated: false)
         // put it to true when within a few hundred meters
         self.mapView.showsUserLocation = false
         self.mapView.delegate = self
-
+        displayDepartures()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeInactive:", name: "UIApplicationDidEnterBackgroundNotification", object: nil)
     }
 
@@ -146,9 +141,9 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     }
 
     override func viewDidDisappear(animated: Bool) {
+        //fixme, station should stay in NSCache, and especially departures
+//        station?.clearDepartures ()
         station = nil
-        api = nil
-        departures = nil
         self.navigationController?.interactivePopGestureRecognizer.delegate = gestureRecognizer
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
@@ -160,7 +155,6 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
 
         if (mapSwipeUpStart != nil) {
             topBarCalculatedHeight = floor(location.y + mapSwipeUpStart!)
-
         }
 
         if (topBarCalculatedHeight < startHeight) {
@@ -197,12 +191,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         topBarHeight?.constant = topBarCalculatedHeight
         if (topBarCalculatedHeight < releasePoint) {
             let offsetForAnimation: CGFloat = ((topBarCalculatedHeight - startHeight) / (releasePoint - startHeight))
-            self.mapView?.alpha = 0.5 + offsetForAnimation * 0.5
-            self.gradientView.alpha = 1.0 - offsetForAnimation
-            self.navBarImage.alpha = 0.0 + offsetForAnimation * 1.0
-            self.stationIconView.alpha = 1.0 - offsetForAnimation
-            self.stationIconView.transform = CGAffineTransformMakeScale(1 - offsetForAnimation, 1 - offsetForAnimation)
-            self.borderBottomView.alpha = offsetForAnimation
+            topViewProperties(offsetForAnimation)
             self.releaseToViewLabel.hidden = true
             if (mapSwipeUpStart == nil) {
                 if (self.destinationPlacemark == nil) {
@@ -213,20 +202,19 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
             if (mapSwipeUpStart == nil) {
                 self.releaseToViewLabel.hidden = false
             }
-            self.mapView?.alpha = 1.0
-            self.gradientView.alpha = 0.0
-            self.navBarImage.alpha = 1.0
-            self.stationIconView.alpha = 0.0
+            topViewProperties(1.0)
         }
 
         if (topBarCalculatedHeight > mapHeight.constant) {
-            mapHeight.constant = topBarCalculatedHeight + 200
+            mapHeight.constant = topBarCalculatedHeight + 300
+            self.view.layoutIfNeeded()
         }
     }
 
     func drawStationAndWay() {
         self.destinationPlacemark = MKPlacemark(coordinate: (station?.coord?.coordinate)!, addressDictionary: nil)
         self.mapView.addAnnotation(destinationPlacemark)
+        self.mapView.showsUserLocation = true
 
         let currentLocation = TFCLocationManager.getCurrentLocation()?
         let currentCoordinate = currentLocation?.coordinate
@@ -252,18 +240,10 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
                 println("Error")
             }
             if response != nil{
-                for r in response.routes { println("route = \(r)") }
+//                for r in response.routes { println("route = \(r)") }
                 var route: MKRoute = response.routes[0] as MKRoute;
                 self.mapDirectionOverlay = route.polyline
                 self.mapView.addOverlay(self.mapDirectionOverlay)
-
-               // self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, edgePadding: UIEdgeInsets(top: 30.0, left: 30.0, bottom: 30.0, right: 30.0), animated: true)
-
-
-               // var time =  Int(round(route.expectedTravelTime / 60))
-               // var meters = Int(route.distance);
-               // self.distanceLabel.text = "\(time) min, \(meters) m"
-                //println(route.expectedTravelTime / 60)
             }
             else{
                 println("No response")
@@ -282,6 +262,28 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         return nil
     }
 
+    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
+
+        if (annotation.isKindOfClass(MKUserLocation)) {
+            return nil
+        }
+
+        let annotationIdentifier = "CustomViewAnnotation"
+        var annotationView = self.mapView.dequeueReusableAnnotationViewWithIdentifier(annotationIdentifier)
+
+        if (annotationView == nil) {
+            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
+        }
+
+        annotationView.image = getIconViewAsImage(self.stationIconView)
+        annotationView.opaque = false
+        annotationView.alpha = 1.0
+        annotationView.frame.size.height = 30
+        annotationView.frame.size.width = 30
+
+        return annotationView;
+
+    }
     func moveMapViewDown(velocity: CGPoint?) {
         let height = UIScreen.mainScreen().bounds.size.height
         self.releaseToViewLabel.hidden = true
@@ -300,7 +302,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         UIView.animateWithDuration(duration,
             animations: {
                 self.view.layoutIfNeeded()
-                self.stationIconView.alpha = 0.0
+                self.topViewProperties(1.0)
                 return
             }, completion: { (finished:Bool) in
                 if (finished) {
@@ -312,23 +314,23 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     }
 
     func moveMapViewUp(velocity: CGPoint?) {
+
         let height = CGFloat(startHeight)
 
         self.mapView.userInteractionEnabled = false
         self.topBarHeight.constant = height
-        var duration: NSTimeInterval = Double(600.0) / Double(abs((velocity?.y)!))
-        if (duration > 0.5) {
-            duration = 0.5
+        let maxDuration = 0.5
+        var duration: NSTimeInterval  = maxDuration
+        if (velocity != nil) {
+            duration = min(maxDuration, Double(600.0) / Double(abs((velocity?.y)!)))
         }
+        self.mapView.userInteractionEnabled = false
+        NSLayoutConstraint.deactivateConstraints([self.topBarBottomSpace])
+        NSLayoutConstraint.activateConstraints([self.topBarHeight])
 
         UIView.animateWithDuration(duration,
             animations: {
-                self.mapView?.alpha = 0.5
-                self.gradientView?.alpha = 1.0
-                self.navBarImage.alpha = 0.0
-                self.stationIconView.alpha = 1.0
-                self.stationIconView.transform = CGAffineTransformMakeScale(1, 1)
-                self.borderBottomView.alpha = 0
+                self.topViewProperties(0.0)
                 self.topView.layoutIfNeeded()
                 self.mapOnBottom = false
                 return
@@ -336,6 +338,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
                 if (self.destinationPlacemark != nil) {
                     self.mapView.removeAnnotation(self.destinationPlacemark)
                     self.mapView.removeOverlay(self.mapDirectionOverlay)
+                    self.mapView.showsUserLocation = false
 
                     self.destinationPlacemark = nil
                 }
@@ -343,7 +346,23 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
             }
         )
     }
-    
+
+
+    func topViewProperties(offsetForAnimation: CGFloat) {
+
+        self.mapView?.alpha        = 0.5 + offsetForAnimation * 0.5
+        self.gradientView.alpha    = 1.0 - offsetForAnimation
+        self.navBarBackgroundView.alpha     = 0.0 + offsetForAnimation
+        self.stationIconView.alpha = 1.0 - offsetForAnimation
+        self.stationIconView.transform = CGAffineTransformMakeScale(1 - offsetForAnimation, 1 - offsetForAnimation)
+        self.borderBottomView.alpha = 0.0 + offsetForAnimation
+        self.stationNameBottomSpace.constant = -28.0 - offsetForAnimation * 11.0
+    }
+
+    @IBAction func mapUpAction(sender: AnyObject) {
+        moveMapViewUp(nil)
+    }
+
     func scrollViewDidScroll(scrollView: UIScrollView) {
         let offset = scrollView.contentOffset.y + startHeight
         self.topBarHeight.constant = max(min(self.startHeight - offset, self.startHeight), 64)
@@ -375,15 +394,12 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     func applicationDidBecomeActive(notification: NSNotification) {
         NSNotificationCenter.defaultCenter().removeObserver(self)
           NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeInactive:", name: "UIApplicationDidEnterBackgroundNotification", object: nil)
-        self.departures = nil
-        self.api?.getDepartures(self.station?.st_id)
+        displayDepartures()
     }
 
     func favoriteClicked(sender: UIBarButtonItem?) {
         func completion() {
         }
-
-        println("favoriteClicked")
         self.station!.toggleIcon(stationIconButton, icon: stationIconView, completion: completion)
         if (self.station!.isFavorite()) {
             favButton.setTitle("★", forState: UIControlState.Normal)
@@ -397,39 +413,42 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     func refresh(sender:AnyObject)
     {
         // Code to refresh table view
-        self.departures = nil
-        self.api?.getDepartures(self.station?.st_id)
-    }
-    
-    internal func setStation(station: TFCStation) {
-        self.station = station
-        self.departures = nil
+       // self.station?.clearDepartures()
+        self.station?.updateDepartures(self)
     }
 
-    func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?) {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+    func displayDepartures() {
+        station!.removeObseleteDepartures()
+        self.appsTableView?.reloadData()
+        self.station?.updateDepartures(self)
+    }
+
+    internal func setStation(station: TFCStation) {
+        self.station = station
+       // self.station?.clearDepartures()
+    }
+
+    func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?) {
         self.refreshControl.endRefreshing()
-        dispatch_async(dispatch_get_main_queue(), {
+        if (forStation?.st_id == station?.st_id) {
             if (error != nil) {
                 self.networkErrorMsg = NSLocalizedString("Network error. Please try again", comment:"")
             } else {
                 self.networkErrorMsg = nil
             }
-            self.departures = TFCDeparture.withJSON(results)
-            if (self.station?.name == "") {
-                self.station?.name = TFCDeparture.getStationNameFromJson(results)!;
+            if (self.nameLabel.text == "") {
                 self.nameLabel.text = self.station?.name
             }
             self.appsTableView!.reloadData()
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-        })
+        }
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if (self.departures == nil || self.departures!.count == 0) {
+        let departures = station?.getDepartures()
+        if (departures == nil || departures!.count == 0) {
             return 1
         }
-        return self.departures!.count
+        return departures!.count
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -439,19 +458,18 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         cell.tag = indexPath.row
 
 
-        let lineNumberLabel = cell.viewWithTag(100) as UILabel
+        let lineNumberLabel = cell.viewWithTag(100) as DepartureLineLabel
         let destinationLabel = cell.viewWithTag(200) as UILabel
         let departureLabel = cell.viewWithTag(300) as UILabel
         let minutesLabel = cell.viewWithTag(400) as UILabel
         if (station != nil) {
             let station2 = station!
-            
-            if (self.departures == nil || self.departures!.count == 0) {
+            let departures = station2.getDepartures()
+            if (departures == nil || departures!.count == 0) {
                 departureLabel.text = nil
-                lineNumberLabel.text = nil
                 minutesLabel.text = nil
-                lineNumberLabel.backgroundColor = UIColor.clearColor()
-                if (self.departures == nil) {
+                lineNumberLabel.hidden = true
+                if (departures == nil) {
                     destinationLabel.text = NSLocalizedString("Loading", comment: "Loading ..")
                 } else {
                     destinationLabel.text = NSLocalizedString("No departures found.", comment: "")
@@ -461,10 +479,9 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
                 }
                 return cell
             }
+            lineNumberLabel.hidden = false
+            let departure: TFCDeparture = station2.getDepartures()![indexPath.row]
             
-            let departure: TFCDeparture = self.departures![indexPath.row]
-            
-            lineNumberLabel.text = departure.getLine()
             var unabridged = false
             if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
                 unabridged = true
@@ -483,16 +500,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
             
             departureLabel.attributedText = departure.getDepartureTime()
             
-            lineNumberLabel.layer.cornerRadius = 4.0
-            lineNumberLabel.layer.masksToBounds = true
-            
-            if (departure.colorBg != nil) {
-                lineNumberLabel.backgroundColor = UIColor(netHexString:departure.colorBg!);
-                lineNumberLabel.textColor = UIColor(netHexString:departure.colorFg!);
-            } else {
-                lineNumberLabel.textColor = UIColor.blackColor()
-                lineNumberLabel.backgroundColor = UIColor.whiteColor()
-            }
+            lineNumberLabel.setStyle("normal", departure: departure)
         }
         return cell
     }
@@ -508,9 +516,10 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         var buttons = []
         if (station != nil) {
             let station2 = station!
-            if (self.departures != nil) {
+            let departures = station2.getDepartures()
+            if (departures != nil) {
                 if (direction == MGSwipeDirection.RightToLeft) {
-                    let departure: TFCDeparture = self.departures![cell.tag]
+                    let departure: TFCDeparture = departures![cell.tag]
                     if (station2.isFiltered(departure)) {
                         buttons = [MGSwipeButton( title:"Unfilter", backgroundColor: UIColor.redColor())]
                     } else {
@@ -526,8 +535,9 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     }
 
     func swipeTableCell(cell: MGSwipeTableCell!, tappedButtonAtIndex index: Int, direction: MGSwipeDirection, fromExpansion: Bool) -> Bool {
-        let departure: TFCDeparture = self.departures![cell.tag]
         let station2 = station!
+        let departures: [TFCDeparture] = station2.getDepartures()!
+        let departure: TFCDeparture = departures[cell.tag]
         if (station2.isFiltered(departure)) {
             station2.unsetFilter(departure);
             var button = cell.rightButtons[0] as MGSwipeButton
@@ -541,6 +551,23 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
 
         return true
     }
+
+
+    func getIconViewAsImage(view: UIView) -> UIImage {
+        view.opaque = false
+        //in case we want a different backgroundColor
+        //let oldBG = view.backgroundColor
+        //view.backgroundColor = UIColor.blueColor();
+
+        UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.opaque, 0.0);
+        view.layer.renderInContext(UIGraphicsGetCurrentContext())
+        let img = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        //view.backgroundColor = oldBG
+
+        return img;
+    }
+
 
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         
