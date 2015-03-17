@@ -53,6 +53,8 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
 
     @IBOutlet var topBarBottomSpace: NSLayoutConstraint!
 
+    @IBOutlet weak var stationNameBottomSpace: NSLayoutConstraint!
+
     var mapOnBottom: Bool = false
 
     @IBAction func iconTouchUp(sender: UIButton) {
@@ -354,6 +356,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         self.stationIconView.alpha = 1.0 - offsetForAnimation
         self.stationIconView.transform = CGAffineTransformMakeScale(1 - offsetForAnimation, 1 - offsetForAnimation)
         self.borderBottomView.alpha = 0.0 + offsetForAnimation
+        self.stationNameBottomSpace.constant = -28.0 - offsetForAnimation * 11.0
     }
 
     @IBAction func mapUpAction(sender: AnyObject) {
