@@ -335,7 +335,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         self.mapView.userInteractionEnabled = false
         NSLayoutConstraint.deactivateConstraints([self.topBarBottomSpace])
         NSLayoutConstraint.activateConstraints([self.topBarHeight])
-        self.releaseToViewLabel.hidden = false
+        self.releaseToViewLabel.hidden = true
         UIView.animateWithDuration(duration,
             animations: {
                 self.topViewProperties(0.0)
