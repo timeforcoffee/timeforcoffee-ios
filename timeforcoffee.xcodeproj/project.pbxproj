@@ -14,7 +14,6 @@
 		314AFBD61AA778F400C176FE /* StationTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314AFBD51AA778F400C176FE /* StationTableView.swift */; };
 		31979D751AB5BC7B00525165 /* DepartureLineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31979D741AB5BC7B00525165 /* DepartureLineLabel.swift */; };
 		31979D761AB5BC7B00525165 /* DepartureLineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31979D741AB5BC7B00525165 /* DepartureLineLabel.swift */; };
-		31979D771AB5BC7B00525165 /* DepartureLineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31979D741AB5BC7B00525165 /* DepartureLineLabel.swift */; };
 		EC046D631A9C563D00C2C1B3 /* TFCLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC046D621A9C563D00C2C1B3 /* TFCLocationManager.swift */; };
 		EC0530871AB01153008439E9 /* gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0530861AB01153008439E9 /* gradient.png */; };
 		EC0A30EC1AA344100043B8F8 /* launchicon.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30EB1AA344100043B8F8 /* launchicon.png */; };
@@ -67,6 +66,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		EC3B78761AB830BE006043C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EC7A516B19C427CA000F5E7C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EC6EDD2C1A9BA36F0098CAE0;
+			remoteInfo = timeforcoffeeKit;
+		};
 		EC6EDCFA1A9B9F390098CAE0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = EC7A516B19C427CA000F5E7C /* Project object */;
@@ -467,6 +473,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				EC3B78771AB830BE006043C5 /* PBXTargetDependency */,
 			);
 			name = "timeforcoffee Widget";
 			productName = "timeforcoffee Widget";
@@ -661,7 +668,6 @@
 				ECF100AD1A9D9BAE00056510 /* TFCStations.swift in Sources */,
 				EC9571511A9CCEC00061F8B4 /* TFCBaseViewController.swift in Sources */,
 				EC9010A11AA73A9E00F328E9 /* TFCWatchData.swift in Sources */,
-				31979D771AB5BC7B00525165 /* DepartureLineLabel.swift in Sources */,
 				EC6EDD541A9BA79B0098CAE0 /* APIController.swift in Sources */,
 				EC6EDD511A9BA5080098CAE0 /* SwiftyJSON.swift in Sources */,
 				EC046D631A9C563D00C2C1B3 /* TFCLocationManager.swift in Sources */,
@@ -694,6 +700,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		EC3B78771AB830BE006043C5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EC6EDD2C1A9BA36F0098CAE0 /* timeforcoffeeKit */;
+			targetProxy = EC3B78761AB830BE006043C5 /* PBXContainerItemProxy */;
+		};
 		EC6EDCFB1A9B9F390098CAE0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = EC6EDCEE1A9B9F390098CAE0 /* timeforcoffee Widget */;
