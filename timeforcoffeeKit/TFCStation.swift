@@ -10,14 +10,23 @@ import Foundation
 import CoreLocation
 import MapKit
 
-public class TFCStation {
+public class TFCStation: NSObject,  APIControllerProtocol {
     public var name: String
     public var coord: CLLocation?
     public var st_id: String
     public var distance: CLLocationDistance?
     public var calculatedDistance: Int?
+    var departures: [TFCDeparture]?
     var walkingDistanceString: String?
     var walkingDistanceLastCoord: CLLocation?
+
+    lazy var api : APIController = {
+        return APIController(delegate: self)
+    }()
+
+    enum contextData {
+        case ValCompletionDelegate(TFCDeparturesUpdatedProtocol?)
+    }
 
     lazy var filteredLines:[String: [String: Bool]] = self.getFilteredLines()
 
@@ -29,14 +38,9 @@ public class TFCStation {
         self.name = name
         self.st_id = id
         self.coord = coord
-        println("init station")
     }
 
-    deinit {
-        println("deinit station")
-    }
-
-    public convenience init() {
+    override public convenience init() {
         self.init(name: "doesn't exist", id: "0000", coord: nil)
     }
 
@@ -46,6 +50,8 @@ public class TFCStation {
         if (newStation == nil) {
             newStation = TFCStation(name: name, id: id, coord: coord)
             cache.setObject(newStation!, forKey: id)
+        } else {
+            newStation!.filteredLines = newStation!.getFilteredLines()
         }
         return newStation!
     }
@@ -149,22 +155,101 @@ public class TFCStation {
     }
         
     public func saveFilteredLines() {
-        var sharedDefaults = NSUserDefaults(suiteName: "group.ch.liip.timeforcoffee")
         if (filteredLines.count > 0) {
-            sharedDefaults?.setObject(filteredLines, forKey: "filtered\(st_id)")
+            TFCStations.getUserDefaults()?.setObject(filteredLines, forKey: "filtered\(st_id)")
         } else {
-            sharedDefaults?.removeObjectForKey("filtered\(st_id)")
+            TFCStations.getUserDefaults()?.removeObjectForKey("filtered\(st_id)")
         }
     }
     
     func getFilteredLines() -> [String: [String: Bool]] {
-        var sharedDefaults = NSUserDefaults(suiteName: "group.ch.liip.timeforcoffee")
-        var filteredDestinationsShared: [String: [String: Bool]]? = sharedDefaults?.objectForKey("filtered\(st_id)") as [String: [String: Bool]]?
+        var filteredDestinationsShared: [String: [String: Bool]]? = TFCStations.getUserDefaults()?.objectForKey("filtered\(st_id)")?.mutableCopy() as [String: [String: Bool]]?
         
         if (filteredDestinationsShared == nil) {
             filteredDestinationsShared = [:]
         }
         return filteredDestinationsShared!
+    }
+
+    public func addDepartures(departures: [TFCDeparture]?) {
+        self.departures = departures
+    }
+
+    public func getDepartures() -> [TFCDeparture]? {
+        return self.departures
+    }
+
+    public func updateDepartures(completionDelegate: TFCDeparturesUpdatedProtocol?) {
+        let context: Dictionary<String, contextData> = [
+            "completionDelegate": .ValCompletionDelegate(completionDelegate)
+        ]
+        self.api.getDepartures(self.st_id, context: context)
+    }
+
+    public func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?) {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+    //    self.refreshControl.endRefreshing()
+        dispatch_async(dispatch_get_main_queue(), {
+            if (error != nil && self.departures != nil && self.departures?.count > 0) {
+                self.setDeparturesAsOutdated()
+            } else {
+                self.addDepartures(TFCDeparture.withJSON(results))
+            }
+            if (self.name == "") {
+                self.name = TFCDeparture.getStationNameFromJson(results)!;
+            }
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+
+            let contextInfo = context! as Dictionary<String, contextData>
+            var completionDelegate: TFCDeparturesUpdatedProtocol?
+            switch contextInfo["completionDelegate"]! {
+            case .ValCompletionDelegate(let s):
+                completionDelegate = s
+            default:
+                completionDelegate = nil
+            }
+
+            completionDelegate?.departuresUpdated(error, context: context, forStation: self)
+        })
+    }
+
+    func setDeparturesAsOutdated() {
+        if (self.departures != nil) {
+            for (departure) in self.departures! {
+                departure.outdated = true
+            }
+        }
+    }
+
+    func clearDepartures() {
+        self.departures = nil
+    }
+
+    public func filterDepartures() {
+        var i = 0
+        if (self.departures != nil) {
+            for (departure) in self.departures! {
+                if (self.isFiltered(departure)) {
+                    departures?.removeAtIndex(i)
+                } else {
+                    i++
+                }
+            }
+        }
+    }
+
+    public func removeObseleteDepartures() {
+        if (self.departures == nil) {
+            return
+        }
+        var i = 0;
+        for (departure: TFCDeparture) in self.departures! {
+            if (departure.getMinutesAsInt() < 0) {
+                departures?.removeAtIndex(i)
+            } else {
+                i++
+            }
+        }
     }
 
     public func getDistanceForDisplay(location: CLLocation?, completion: (String?) -> Void) -> String {
@@ -182,10 +267,8 @@ public class TFCStation {
             // calculate exact distance
             //check if one is in the cache
             distanceString = getLastValidWalkingDistanceValid(location)
-            println(distanceString)
             if (distanceString == nil) {
                 distanceString = "\(directDistance!) Meter"
-                println(distanceString)
                 self.getWalkingDistance(location, completion)
             } else {
                 completion(distanceString)
@@ -237,7 +320,6 @@ public class TFCStation {
                 println("Error")
             }
             if response != nil {
-                for r in response.routes { println("route = \(r)") }
                 var route: MKRoute = response.routes[0] as MKRoute;
                 var time =  Int(round(route.expectedTravelTime / 60))
                 var meters = Int(route.distance);
@@ -340,4 +422,9 @@ public class TFCStation {
 
 
 }
+
+public protocol TFCDeparturesUpdatedProtocol {
+    func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?)
+}
+
 

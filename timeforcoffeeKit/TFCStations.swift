@@ -16,6 +16,7 @@ public class TFCStations {
     private struct favorites {
             static var stations: [String: TFCStation] = [:]
             static var inStationsArray: [String: Bool] = [:]
+            static var userDefaults: NSUserDefaults? =  NSUserDefaults(suiteName: "group.ch.liip.timeforcoffee")
     }
     public init() {
         populateFavoriteStations()
@@ -135,8 +136,7 @@ public class TFCStations {
     }
 
     class func saveFavoriteStations(favoriteStationsDict: [String: [String: String]]) {
-        var sharedDefaults = NSUserDefaults(suiteName: "group.ch.liip.timeforcoffee")
-        sharedDefaults?.setObject(favoriteStationsDict, forKey: "favoriteStations")
+        favorites.userDefaults?.setObject(favoriteStationsDict, forKey: "favoriteStations")
     }
 
     func populateFavoriteStations() {
@@ -177,13 +177,16 @@ public class TFCStations {
 
 
     public class func getFavoriteStationsDict() -> [String: [String: String]] {
-        var sharedDefaults = NSUserDefaults(suiteName: "group.ch.liip.timeforcoffee")
-        var favoriteStationsShared: [String: [String: String]]? = sharedDefaults?.objectForKey("favoriteStations") as [String: [String: String]]?
+        var favoriteStationsShared: [String: [String: String]]? = favorites.userDefaults?.objectForKey("favoriteStations")?.mutableCopy() as [String: [String: String]]?
 
         if (favoriteStationsShared == nil) {
             favoriteStationsShared = [:]
         }
         return favoriteStationsShared!
+    }
+
+    public class func getUserDefaults() -> NSUserDefaults? {
+        return favorites.userDefaults
     }
 
 }
