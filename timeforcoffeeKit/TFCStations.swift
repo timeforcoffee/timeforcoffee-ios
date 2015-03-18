@@ -137,6 +137,7 @@ public class TFCStations {
 
     class func saveFavoriteStations(favoriteStationsDict: [String: [String: String]]) {
         favorites.userDefaults?.setObject(favoriteStationsDict, forKey: "favoriteStations")
+        TFCStations.getUserDefaults()?.setObject(NSDate(), forKey: "settingsLastUpdate")
     }
 
     func populateFavoriteStations() {

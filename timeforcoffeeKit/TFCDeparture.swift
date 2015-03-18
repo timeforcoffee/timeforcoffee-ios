@@ -38,6 +38,10 @@ public class TFCDeparture {
     }
     
     public class func withJSON(allResults: JSONValue, filterStation: TFCStation?) -> [TFCDeparture]? {
+        return self.withJSON(allResults, filterStation: filterStation, maxDepartures: nil)
+    }
+
+    public class func withJSON(allResults: JSONValue, filterStation: TFCStation?, maxDepartures: Int?) -> [TFCDeparture]? {
         // Create an empty array of Albums to append to from this list
         // Store the results in our table data array
         var departures: [TFCDeparture]?
@@ -84,6 +88,9 @@ public class TFCDeparture {
                     }
                 }
                 departures?.append(newDeparture)
+                if (maxDepartures != nil && departures?.count >= maxDepartures) {
+                    break
+                }
             }
         }
         

@@ -104,7 +104,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         currentStation?.filterDepartures()
         self.appsTableView?.reloadData()
         //UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-        currentStation?.updateDepartures(self)
+        currentStation?.updateDepartures(self, maxDepartures: 6)
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -161,7 +161,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                 minutesLabel.text = nil
                 departureLabel.text = nil
             }
-            station?.updateDepartures(self)
+            station?.updateDepartures(self, maxDepartures: 6)
             cell.userInteractionEnabled = true
             return cell
         }
