@@ -125,6 +125,14 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeInactive:", name: "UIApplicationDidEnterBackgroundNotification", object: nil)
     }
 
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        let gtracker = GAI.sharedInstance().defaultTracker
+        gtracker.set(kGAIScreenName, value: "departures")
+        gtracker.send(GAIDictionaryBuilder.createScreenView().build())
+    }
+
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         if (self.mapOnBottom && self.topBarBottomSpace.active == false) {
@@ -319,6 +327,10 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
                 }
             }
         )
+        let gtracker = GAI.sharedInstance().defaultTracker
+        gtracker.set(kGAIScreenName, value: "departuresMap")
+        gtracker.send(GAIDictionaryBuilder.createScreenView().build())
+
     }
 
     func moveMapViewUp(velocity: Double?) {

@@ -36,12 +36,19 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     }
    
     override func viewDidLoad() {
-        NewRelicAgent.startWithApplicationToken("AAe7c5942c67612bc82125c42d8b0b5c6a7df227b2")
+        //NewRelicAgent.startWithApplicationToken("AAe7c5942c67612bc82125c42d8b0b5c6a7df227b2")
         super.viewDidLoad()
         titleLabel.userInteractionEnabled = true;
         let tapGesture  = UITapGestureRecognizer(target: self, action: "handleTap:")
         titleLabel.addGestureRecognizer(tapGesture)
         // Do any additional setup after loading the view from its nib.
+        let gtracker = GAI.sharedInstance()
+        gtracker.trackUncaughtExceptions = true
+        gtracker.dispatchInterval = 20;
+        //GAI.sharedInstance().logger.logLevel = GAILogLevel.Verbose
+        gtracker.trackerWithTrackingId("UA-37092982-2")
+        gtracker.defaultTracker.set("&uid", value: UIDevice().identifierForVendor.UUIDString)
+
     }
     
     deinit {
@@ -49,20 +56,28 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     }
 
     @IBAction func nextButtonTouchUp(sender: AnyObject) {
+        let gtracker = GAI.sharedInstance().defaultTracker
         if (showStations == true) {
             showStations = false
             titleLabel.text = currentStation?.getNameWithStarAndFilters()
             self.appsTableView.reloadData()
+            gtracker.set(kGAIScreenName, value: "todayviewStation")
         } else if (stations?.count() > 0) {
             showStations = true
             titleLabel.text = "Nearby Stations"
             self.appsTableView.reloadData()
+            gtracker.set(kGAIScreenName, value: "todayviewMore")
         }
+        gtracker.send(GAIDictionaryBuilder.createScreenView().build())
     }
+
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        let gtracker = GAI.sharedInstance().defaultTracker
+        gtracker.set(kGAIScreenName, value: "todayviewStation")
+        gtracker.send(GAIDictionaryBuilder.createScreenView().build())
     }
-    
+
     func handleTap(recognizer: UITapGestureRecognizer) {
         if (currentStation != nil && currentStation?.st_id != "0000") {
             let station = currentStation!
@@ -87,11 +102,13 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     override func locationFixed(coord: CLLocationCoordinate2D?) {
         println("locationFixed")
         if (coord != nil) {
-            let nearbyStationsAdded = self.stations?.addNearbyFavorites((locManager?.currentLocation)!)
-            if (nearbyStationsAdded == true) {
-                currentStation = self.stations?.getStation(0)
-                self.titleLabel.text = currentStation?.getNameWithStarAndFilters()
-                displayDepartures()
+            if (locManager?.currentLocation != nil) {
+                let nearbyStationsAdded = self.stations?.addNearbyFavorites((locManager?.currentLocation)!)
+                if (nearbyStationsAdded == true) {
+                    currentStation = self.stations?.getStation(0)
+                    self.titleLabel.text = currentStation?.getNameWithStarAndFilters()
+                    displayDepartures()
+                }
             }
             self.api?.searchFor(coord!)
         }
