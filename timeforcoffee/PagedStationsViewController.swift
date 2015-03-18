@@ -19,6 +19,7 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
     var scrollViewWidth: CGFloat?
     var searchController: UISearchController?
     var scrollView: UIScrollView?
+    var registeredObserver: Bool = false
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -55,7 +56,6 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         if (scrollView != nil) {
             scrollViewDidScroll(scrollView!)
         }
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeActive:", name: "UIApplicationDidBecomeActiveNotification", object: nil)
 
     }
     deinit {
@@ -67,6 +67,10 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
     }
 
     override func viewDidAppear(animated: Bool) {
+        if (!registeredObserver) {
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeActive:", name: "UIApplicationDidBecomeActiveNotification", object: nil)
+            registeredObserver = true
+        }
         refreshLocation()
     }
 

@@ -21,6 +21,7 @@ class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource,
     var showFavorites: Bool?
     var stationsViewController: StationsViewController?
     var loading: Bool = false
+    var lastRefreshLocation: NSDate?
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -40,18 +41,26 @@ class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource,
 
     internal func refresh(sender:AnyObject)
     {
-        refreshLocation()
+        refreshLocation(true)
     }
 
     func refreshLocation() {
+        refreshLocation(false)
+    }
+
+    func refreshLocation(force: Bool) {
         if ((showFavorites) == true) {
             self.stations.loadFavorites(locManager?.currentLocation)
             self.reloadData()
             self.refreshControl.endRefreshing()
         } else {
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-            loading = true
-            self.locManager?.refreshLocation()
+            // dont refresh location within 5 seconds..
+            if (force || lastRefreshLocation == nil || lastRefreshLocation?.timeIntervalSinceNow < -5) {
+                lastRefreshLocation = NSDate()
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+                loading = true
+                self.locManager?.refreshLocation()
+            }
         }
     }
 
