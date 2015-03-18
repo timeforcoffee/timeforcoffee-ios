@@ -63,6 +63,14 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
     }
 
     func applicationDidBecomeActive(notification: NSNotification) {
+        refreshLocation()
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        refreshLocation()
+    }
+
+    func refreshLocation() {
         if (self.searchController == nil) {
             let currentView: StationsViewController  = self.viewControllers[0] as StationsViewController
             currentView.appsTableView?.refreshLocation()
@@ -158,11 +166,6 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
             }
             let currentView: StationsViewController  = pageViewController.viewControllers[0] as StationsViewController
         }
-    }
-
-    func pageViewController(pageViewController: UIPageViewController, willTransitionToViewControllers pendingViewControllers: [AnyObject]) {
-        let currentView: StationsViewController  = pendingViewControllers[0] as StationsViewController
-        currentView.appsTableView?.refreshLocation()
     }
 
     func setPageControlDot() {
