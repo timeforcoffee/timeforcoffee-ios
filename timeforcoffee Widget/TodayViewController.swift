@@ -267,6 +267,10 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         }
     }
 
+    func departuresStillCached(context: Any?, forStation: TFCStation?) {
+        // do nothing
+    }
+
     func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?) {
         dispatch_async(dispatch_get_main_queue(), {
             if (!(error != nil && error?.code == -999)) {

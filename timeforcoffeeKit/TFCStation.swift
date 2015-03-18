@@ -192,12 +192,19 @@ public class TFCStation: NSObject,  APIControllerProtocol {
     }
 
     public func updateDepartures(completionDelegate: TFCDeparturesUpdatedProtocol?, maxDepartures: Int?) {
+        updateDepartures(completionDelegate, maxDepartures: maxDepartures, force: false)
+    }
+    public func updateDepartures(completionDelegate: TFCDeparturesUpdatedProtocol?, force: Bool) {
+        updateDepartures(completionDelegate, maxDepartures: nil, force: force)
+    }
+
+    public func updateDepartures(completionDelegate: TFCDeparturesUpdatedProtocol?, maxDepartures: Int?, force: Bool) {
         let context: Dictionary<String, contextData> = [
             "completionDelegate": .ValCompletionDelegate(completionDelegate),
             "maxDepartures": .ValInt(maxDepartures)
         ]
         var settingsLastUpdated: NSDate? = TFCStations.getUserDefaults()?.objectForKey("settingsLastUpdate") as NSDate?
-        if (lastDepartureUpdate == nil || lastDepartureUpdate?.timeIntervalSinceNow < -20 ||
+        if (force || lastDepartureUpdate == nil || lastDepartureUpdate?.timeIntervalSinceNow < -20 ||
             (settingsLastUpdated != nil && lastDepartureUpdate?.timeIntervalSinceDate(settingsLastUpdated!) < 0 ) ||
             (lastDepartureCount != nil && lastDepartureCount < maxDepartures)
             )
@@ -205,7 +212,10 @@ public class TFCStation: NSObject,  APIControllerProtocol {
             lastDepartureUpdate = NSDate()
             lastDepartureCount = maxDepartures
             self.api.getDepartures(self.st_id, context: context)
+        } else {
+            completionDelegate?.departuresStillCached(context, forStation: self)
         }
+
     }
 
     public func updateDepartures(completionDelegate: TFCDeparturesUpdatedProtocol?) {
@@ -463,6 +473,7 @@ public class TFCStation: NSObject,  APIControllerProtocol {
 
 public protocol TFCDeparturesUpdatedProtocol {
     func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?)
+    func departuresStillCached(context: Any?, forStation: TFCStation?)
 }
 
 

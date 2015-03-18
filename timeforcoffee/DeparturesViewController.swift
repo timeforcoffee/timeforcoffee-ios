@@ -432,8 +432,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     func refresh(sender:AnyObject)
     {
         // Code to refresh table view
-       // self.station?.clearDepartures()
-        self.station?.updateDepartures(self)
+        self.station?.updateDepartures(self, force: true)
     }
 
     func displayDepartures() {
@@ -460,6 +459,10 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
             }
             self.appsTableView!.reloadData()
         }
+    }
+
+    func departuresStillCached(context: Any?, forStation: TFCStation?) {
+        self.refreshControl.endRefreshing()
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
