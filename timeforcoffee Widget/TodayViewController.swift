@@ -84,11 +84,13 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     override func locationFixed(coord: CLLocationCoordinate2D?) {
         println("locationFixed")
         if (coord != nil) {
-            let nearbyStationsAdded = self.stations?.addNearbyFavorites((locManager?.currentLocation)!)
-            if (nearbyStationsAdded == true) {
-                currentStation = self.stations?.getStation(0)
-                self.titleLabel.text = currentStation?.getNameWithStarAndFilters()
-                displayDepartures()
+            if (locManager?.currentLocation != nil) {
+                let nearbyStationsAdded = self.stations?.addNearbyFavorites((locManager?.currentLocation)!)
+                if (nearbyStationsAdded == true) {
+                    currentStation = self.stations?.getStation(0)
+                    self.titleLabel.text = currentStation?.getNameWithStarAndFilters()
+                    displayDepartures()
+                }
             }
             self.api?.searchFor(coord!)
         }
