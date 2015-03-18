@@ -25,12 +25,19 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     var currentStationIndex = 0
    
     override func viewDidLoad() {
-        NewRelicAgent.startWithApplicationToken("AAe7c5942c67612bc82125c42d8b0b5c6a7df227b2")
+        //NewRelicAgent.startWithApplicationToken("AAe7c5942c67612bc82125c42d8b0b5c6a7df227b2")
         super.viewDidLoad()
         titleLabel.userInteractionEnabled = true;
         let tapGesture  = UITapGestureRecognizer(target: self, action: "handleTap:")
         titleLabel.addGestureRecognizer(tapGesture)
         // Do any additional setup after loading the view from its nib.
+        let gtracker = GAI.sharedInstance()
+        gtracker.trackUncaughtExceptions = true
+        gtracker.dispatchInterval = 20;
+        //GAI.sharedInstance().logger.logLevel = GAILogLevel.Verbose
+        gtracker.trackerWithTrackingId("UA-37092982-2")
+        gtracker.defaultTracker.set("&uid", value: UIDevice().identifierForVendor.UUIDString)
+
     }
     
     deinit {
@@ -38,7 +45,6 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     }
 
     @IBAction func nextButtonTouchUp(sender: AnyObject) {
-        
         
         if (stations?.count() != nil) {
             self.currentStationIndex++
@@ -53,12 +59,18 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                 self.currentStationIndex = 0
             }
         }
+        let gtracker = GAI.sharedInstance().defaultTracker
+        gtracker.set(kGAIScreenName, value: "todayviewStation")
+        gtracker.send(GAIDictionaryBuilder.createScreenView().build())
 
     }
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        let gtracker = GAI.sharedInstance().defaultTracker
+        gtracker.set(kGAIScreenName, value: "todayviewStation")
+        gtracker.send(GAIDictionaryBuilder.createScreenView().build())
     }
-    
+
     func handleTap(recognizer: UITapGestureRecognizer) {
         
         var station = (self.stations?.getStation(self.currentStationIndex))!;
