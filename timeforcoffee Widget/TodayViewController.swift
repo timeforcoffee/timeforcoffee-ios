@@ -178,7 +178,14 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                 minutesLabel.text = nil
                 departureLabel.text = nil
             }
-            station?.updateDepartures(self, maxDepartures: 6)
+
+            //if we already have departures, get all 6
+            // if not, then just load 1 for the overview
+            if (station?.getDepartures()?.count > 1) {
+                station?.updateDepartures(self, maxDepartures: 6)
+            } else {
+                station?.updateDepartures(self, maxDepartures: 1)
+            }
             cell.userInteractionEnabled = true
             return cell
         }

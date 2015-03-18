@@ -20,6 +20,7 @@ public class TFCStation: NSObject,  APIControllerProtocol {
     var walkingDistanceString: String?
     var walkingDistanceLastCoord: CLLocation?
     var lastDepartureUpdate: NSDate?
+    var lastDepartureCount: Int?
 
     lazy var api : APIController = {
         return APIController(delegate: self)
@@ -197,10 +198,13 @@ public class TFCStation: NSObject,  APIControllerProtocol {
         ]
         var settingsLastUpdated: NSDate? = TFCStations.getUserDefaults()?.objectForKey("settingsLastUpdate") as NSDate?
         if (lastDepartureUpdate == nil || lastDepartureUpdate?.timeIntervalSinceNow < -20 ||
-            (settingsLastUpdated != nil && lastDepartureUpdate?.timeIntervalSinceDate(settingsLastUpdated!) < 0 )
-            ) {
-            self.api.getDepartures(self.st_id, context: context)
+            (settingsLastUpdated != nil && lastDepartureUpdate?.timeIntervalSinceDate(settingsLastUpdated!) < 0 ) ||
+            (lastDepartureCount != nil && lastDepartureCount < maxDepartures)
+            )
+        {
             lastDepartureUpdate = NSDate()
+            lastDepartureCount = maxDepartures
+            self.api.getDepartures(self.st_id, context: context)
         }
     }
 
