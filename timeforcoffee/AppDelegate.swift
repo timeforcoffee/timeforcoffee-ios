@@ -19,7 +19,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        NewRelicAgent.startWithApplicationToken("AAe7c5942c67612bc82125c42d8b0b5c6a7df227b2")
+//        NewRelicAgent.startWithApplicationToken("AAe7c5942c67612bc82125c42d8b0b5c6a7df227b2")
+        let gtracker = GAI.sharedInstance()
+        gtracker.trackUncaughtExceptions = true
+        gtracker.dispatchInterval = 20;
+        //GAI.sharedInstance().logger.logLevel = GAILogLevel.Verbose
+        gtracker.trackerWithTrackingId("UA-37092982-2")
+        gtracker.defaultTracker.set("&uid", value: "\(UIDevice().identifierForVendor)")
         return true
     }
 

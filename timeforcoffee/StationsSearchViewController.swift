@@ -56,6 +56,9 @@ class StationsSearchViewController: StationsViewController, UISearchBarDelegate 
             }, completion: { (finished:Bool) in
                 return
         })
+        let gtracker = GAI.sharedInstance().defaultTracker
+        gtracker.set(kGAIScreenName, value: "search")
+        gtracker.send(GAIDictionaryBuilder.createScreenView().build())
     }
 
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {

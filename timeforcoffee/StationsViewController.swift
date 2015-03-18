@@ -37,6 +37,13 @@ class StationsViewController: TFCBaseViewController, TFCLocationManagerDelegate 
         // Dispose of any resources that can be recreated.
     }
 
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        let gtracker = GAI.sharedInstance().defaultTracker
+        gtracker.set(kGAIScreenName, value: "stations")
+        gtracker.send(GAIDictionaryBuilder.createScreenView().build())
+    }
+
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         var detailsViewController: DeparturesViewController = segue.destinationViewController as DeparturesViewController
 
