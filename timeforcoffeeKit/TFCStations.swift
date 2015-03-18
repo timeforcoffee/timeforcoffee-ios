@@ -98,6 +98,9 @@ public class TFCStations {
                 station.calculatedDistance = distance
                 self.stations!.append(station)
                 favorites.inStationsArray[station.st_id] = true
+            } else {
+                station.removeFromCache()
+                favorites.stations.removeValueForKey(st_id)
             }
         }
         if (favorites.inStationsArray.count > 0) {

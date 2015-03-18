@@ -61,6 +61,11 @@ public class TFCStation: NSObject,  APIControllerProtocol {
         return newStation!
     }
 
+    public func removeFromCache() {
+        let cache: NSCache = TFCCache.objects.stations
+        cache.removeObjectForKey(self.st_id)
+    }
+
     public class func isStations(results: JSONValue) -> Bool {
         if (results["stations"].array? != nil) {
             return true
