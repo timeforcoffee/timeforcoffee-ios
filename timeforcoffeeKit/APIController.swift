@@ -94,7 +94,9 @@ public class APIController {
             })
 
             dataFetch?.resume()
-            currentFetch[fetchId] = dataFetch
+            if (dataFetch != nil) {
+                currentFetch[fetchId] = dataFetch
+            }
 
         }
     }
