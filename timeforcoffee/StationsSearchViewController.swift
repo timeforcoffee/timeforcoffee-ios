@@ -39,7 +39,7 @@ class StationsSearchViewController: StationsViewController, UISearchBarDelegate 
     }
 
     override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
+        super.viewDidAppear(animated, noReload: true)
         if (!(self.searchController?.isViewLoaded() == true && self.searchController?.view.window != nil)) {
             self.presentViewController(self.searchController!, animated: true, completion: {
                 self.searchController?.searchBar.becomeFirstResponder()
