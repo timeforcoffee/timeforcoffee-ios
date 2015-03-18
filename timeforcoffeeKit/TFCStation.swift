@@ -52,11 +52,9 @@ public class TFCStation: NSObject,  APIControllerProtocol {
         let cache: NSCache = TFCCache.objects.stations
         var newStation: TFCStation? = cache.objectForKey(id) as TFCStation?
         if (newStation == nil) {
-            println("station NOT From Cache")
             newStation = TFCStation(name: name, id: id, coord: coord)
             cache.setObject(newStation!, forKey: id)
         } else {
-            println("station From Cache")
             newStation!.filteredLines = newStation!.getFilteredLines()
         }
         return newStation!

@@ -80,7 +80,6 @@ class DetailsViewController: UIViewController, MKMapViewDelegate {
             }
             if response != nil{
                 println("number of routes = \(response.routes.count)")
-                for r in response.routes { println("route = \(r)") }
                 var route: MKRoute = response.routes[0] as MKRoute;
                 
                 self.map.addOverlay(route.polyline)
@@ -90,7 +89,6 @@ class DetailsViewController: UIViewController, MKMapViewDelegate {
                 var time =  Int(round(route.expectedTravelTime / 60))
                 var meters = Int(route.distance);
                 self.distanceLabel.text = "\(time) min, \(meters) m"
-                println(route.expectedTravelTime / 60)
             }
             else{
                 println("No response")
@@ -101,9 +99,7 @@ class DetailsViewController: UIViewController, MKMapViewDelegate {
         
     }
     func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
-        println("HERE");
         if overlay is MKPolyline {
-            println("FOO");
             var polylineRenderer = MKPolylineRenderer(overlay: overlay)
             polylineRenderer.strokeColor = UIColor.blueColor()
             polylineRenderer.lineWidth = 4

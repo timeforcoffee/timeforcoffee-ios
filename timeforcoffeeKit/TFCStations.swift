@@ -152,7 +152,6 @@ public class TFCStations {
     func populateFavoriteStations() {
         var favoriteStationsDict = TFCStations.getFavoriteStationsDict()
         println("populate")
-        println(favoriteStationsDict)
         favorites.stations = [:]
         for (st_id, station) in favoriteStationsDict {
             let lat = NSString(string:station["latitude"]!).doubleValue
@@ -173,7 +172,6 @@ public class TFCStations {
     public func loadFavorites(location: CLLocation?) {
         self.stations = []
         for (st_id,station) in favorites.stations {
-            println(station.name)
             if (location != nil) {
                 let distance = Int(location?.distanceFromLocation(station.coord) as Double!)
                 station.calculatedDistance = distance
