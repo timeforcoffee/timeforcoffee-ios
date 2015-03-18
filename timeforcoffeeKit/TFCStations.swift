@@ -92,6 +92,7 @@ public class TFCStations {
         if (self.stations == nil) {
             self.stations = []
         }
+        var removeFromFavorites: [String] = []
         for (st_id, station) in favorites.stations {
             var distance = Int(location.distanceFromLocation(station.coord) as Double!)
             if (distance < 1000) {
@@ -100,9 +101,14 @@ public class TFCStations {
                 favorites.inStationsArray[station.st_id] = true
             } else {
                 station.removeFromCache()
-                favorites.stations.removeValueForKey(st_id)
+                removeFromFavorites.append(st_id)
             }
         }
+
+        for (st_id) in removeFromFavorites {
+            favorites.stations.removeValueForKey(st_id)
+        }
+        
         if (favorites.inStationsArray.count > 0) {
             self.stations!.sort({ $0.calculatedDistance < $1.calculatedDistance })
             return true
