@@ -11,7 +11,7 @@ import CoreLocation
 
 public class APIController {
     
-    unowned var delegate: APIControllerProtocol
+    weak var delegate: APIControllerProtocol?
     var currentFetch: [Int: NSURLSessionDataTask] = [:]
 
     lazy var session:NSURLSession = {
@@ -57,7 +57,7 @@ public class APIController {
     func fetchUrl(urlPath: String, fetchId: Int, context: Any?, cacheKey: String?) {
         if (cacheKey != nil && cache.objectForKey(cacheKey!) != nil) {
             let result = JSONValue(cache.objectForKey(cacheKey!) as NSData!);
-            self.delegate.didReceiveAPIResults(result, error: nil, context: context)
+            self.delegate?.didReceiveAPIResults(result, error: nil, context: context)
         } else {
             let urlPathEsc = urlPath.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
             let url: NSURL = NSURL(string: urlPathEsc)!
@@ -90,7 +90,7 @@ public class APIController {
                 if (error == nil && cacheKey != nil) {
                     self.cache.setObject(data, forKey: cacheKey!)
                 }
-                self.delegate.didReceiveAPIResults(jsonResult, error: error, context: context)
+                self.delegate?.didReceiveAPIResults(jsonResult, error: error, context: context)
             })
 
             dataFetch?.resume()
