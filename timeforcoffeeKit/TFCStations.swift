@@ -185,7 +185,7 @@ public class TFCStations {
 
 
     public class func getFavoriteStationsDict() -> [String: [String: String]] {
-        var favoriteStationsShared: [String: [String: String]]? = favorites.userDefaults?.objectForKey("favoriteStations")?.mutableCopy() as [String: [String: String]]?
+        var favoriteStationsShared: [String: [String: String]]? = favorites.userDefaults?.objectForKey("favoriteStations")? as [String: [String: String]]?
 
         if (favoriteStationsShared == nil) {
             favoriteStationsShared = [:]

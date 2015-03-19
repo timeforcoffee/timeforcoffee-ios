@@ -10,7 +10,7 @@ import Foundation
 import CoreLocation
 import MapKit
 
-public class TFCStation: NSObject,  APIControllerProtocol {
+public class TFCStation: NSObject,  NSDiscardableContent, APIControllerProtocol {
     public var name: String
     public var coord: CLLocation?
     public var st_id: String
@@ -21,6 +21,7 @@ public class TFCStation: NSObject,  APIControllerProtocol {
     var walkingDistanceLastCoord: CLLocation?
     var lastDepartureUpdate: NSDate?
     var lastDepartureCount: Int?
+    public var isLastUsed: Bool = false
 
     lazy var api : APIController = {
         return APIController(delegate: self)
@@ -53,7 +54,6 @@ public class TFCStation: NSObject,  APIControllerProtocol {
         var newStation: TFCStation? = cache.objectForKey(id) as TFCStation?
         if (newStation == nil) {
             newStation = TFCStation(name: name, id: id, coord: coord)
-            cache.setObject(newStation!, forKey: id)
         } else {
             newStation!.filteredLines = newStation!.getFilteredLines()
         }
@@ -67,7 +67,8 @@ public class TFCStation: NSObject,  APIControllerProtocol {
             let long: String = (dict["longitude"] as String?)!
             location = CLLocation(latitude: (lat as NSString).doubleValue, longitude: (long as NSString).doubleValue)
         }
-        return initWithCache(dict["name"] as String!, id: dict["st_id"] as String!, coord: location)
+        let station = initWithCache(dict["name"] as String!, id: dict["st_id"] as String!, coord: location)
+        return station
     }
 
     public func removeFromCache() {
@@ -200,6 +201,8 @@ public class TFCStation: NSObject,  APIControllerProtocol {
     }
 
     public func addDepartures(departures: [TFCDeparture]?) {
+        let cache: NSCache = TFCCache.objects.stations
+        cache.setObject(self, forKey: st_id)
         self.departures = departures
     }
 
@@ -490,6 +493,29 @@ public class TFCStation: NSObject,  APIControllerProtocol {
 
     }
 
+    public func discardContentIfPossible() {
+        self.removeObseleteDepartures()
+        if (!isLastUsed && self.departures?.count > 1) {
+            println("delete some departures")
+            self.departures = [(self.departures?.first)!]
+        }
+    }
+
+    public func beginContentAccess() -> Bool {
+        return true
+    }
+
+    public func endContentAccess() {
+
+    }
+
+    public func isContentDiscarded() -> Bool {
+        removeObseleteDepartures()
+        if (!isLastUsed && (departures == nil || departures?.count == 0)) {
+            return true
+        }
+        return false
+    }
 
 }
 

@@ -519,9 +519,15 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
                 destinationLabel.textColor = UIColor.blackColor()
                 minutesLabel.textColor = UIColor.blackColor()
             }
-            
-            departureLabel.attributedText = departure.getDepartureTime()
-            
+
+            let (departureTimeAttr, departureTimeString) = departure.getDepartureTime()
+            if (departureTimeAttr != nil) {
+                departureLabel.text = nil
+                departureLabel.attributedText = departureTimeAttr
+            } else {
+                departureLabel.attributedText = nil
+                departureLabel.text = departureTimeString
+            }
             lineNumberLabel.setStyle("normal", departure: departure)
         }
         return cell

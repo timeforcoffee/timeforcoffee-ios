@@ -48,6 +48,16 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             actionLabel.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         }
     }
+
+    lazy var lastViewedStation: TFCStation? = {
+        let stationDict = TFCStations.getUserDefaults()?.objectForKey("lastUsedStation") as [String: String]?
+        if (stationDict == nil) {
+            return nil
+        }
+        var station = TFCStation.initWithCache(stationDict!)
+        station.isLastUsed = true
+        return station
+    }()
    
     override func viewDidLoad() {
         //NewRelicAgent.startWithApplicationToken("AAe7c5942c67612bc82125c42d8b0b5c6a7df227b2")
@@ -82,11 +92,11 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         // if lastUsedView is a single station and we did look at it no longer than 5 minutes, just show it again
         // without even checking the location
         if (getLastUsedView() == "singleStation" && lastUsedViewUpdatedInterval() > -300) {
-            currentStation = getLastViewedStation()
+            currentStation = lastViewedStation
             if (currentStation != nil) {
                 showStations = false
                 displayDepartures()
-                currentStation?.updateDepartures(self, maxDepartures: 6, force: true)
+                currentStation?.updateDepartures(self, maxDepartures: 6)
             }
         }
         locManager?.refreshLocation()
@@ -115,8 +125,8 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             if (locManager?.currentLocation != nil) {
                 // if lastUsedView is a single station and we did look at it no longer than 30 minutes
                 // and we didn't move too much (missing yet), just show it again
-                if (getLastUsedView() == "singleStation" && lastUsedViewUpdatedInterval() > -(60 * 30)) {
-                    currentStation = getLastViewedStation()
+                if (currentStation == nil && getLastUsedView() == "singleStation" && lastUsedViewUpdatedInterval() > -(60 * 30)) {
+                    currentStation = lastViewedStation
                     if (currentStation != nil) {
                         showStations = false
                         displayDepartures()
@@ -129,7 +139,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                     if (currentStation == nil) {
                         currentStation = self.stations?.getStation(0)
                         if (!showStations) {
-                            showStations = false
+                            titleLabel.text = currentStation?.getNameWithStarAndFilters()
                             displayDepartures()
                         }
                     }
@@ -180,9 +190,10 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         } else {
             userDefaults?.setObject("singleStation", forKey: "lastUsedView")
             if (currentStation != nil) {
+                currentStation?.isLastUsed = true
+                lastViewedStation?.isLastUsed = false
                 userDefaults?.setObject(currentStation?.getAsDict(), forKey: "lastUsedStation")
             }
-
         }
         userDefaults?.setObject(NSDate(), forKey: "lastUsedViewUpdate")
     }
@@ -194,14 +205,6 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     func lastUsedViewUpdatedInterval() -> NSTimeInterval? {
         let lastUpdate: NSDate? = TFCStations.getUserDefaults()?.objectForKey("lastUsedViewUpdate") as NSDate?
         return lastUpdate?.timeIntervalSinceNow
-    }
-
-    func getLastViewedStation() -> TFCStation? {
-        let stationDict = TFCStations.getUserDefaults()?.objectForKey("lastUsedStation") as [String: String]?
-        if (stationDict == nil) {
-            return nil
-        }
-        return TFCStation.initWithCache(stationDict!)
     }
 
     func displayDepartures() {
@@ -302,7 +305,16 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             unabridged = true
         }
         destinationLabel.text = departure.getDestinationWithSign(station, unabridged: unabridged)
-        departureLabel.attributedText = departure.getDepartureTime()
+
+        let (departureTimeAttr, departureTimeString) = departure.getDepartureTime()
+        if (departureTimeAttr != nil) {
+            departureLabel.text = nil
+            departureLabel.attributedText = departureTimeAttr
+        } else {
+            departureLabel.attributedText = nil
+            departureLabel.text = departureTimeString
+        }
+
         minutesLabel.text = departure.getMinutes()
         lineNumberLabel.hidden = false
         lineNumberLabel.setStyle("dark", departure: departure)
