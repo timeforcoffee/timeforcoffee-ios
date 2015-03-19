@@ -16,6 +16,16 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     @IBOutlet weak var appsTableView: UITableView!
     @IBOutlet weak var actionLabel: UIButton!
     let kCellIdentifier: String = "SearchResultCellWidget"
+    lazy var gtracker: GAITracker = {
+        let gtrackerInstance = GAI.sharedInstance()
+        gtrackerInstance.trackUncaughtExceptions = true
+        gtrackerInstance.dispatchInterval = 20;
+        //GAI.sharedInstance().logger.logLevel = GAILogLevel.Verbose
+        gtrackerInstance.trackerWithTrackingId("UA-37092982-2")
+        var gtrack = gtrackerInstance.defaultTracker
+        gtrack?.set("&uid", value: UIDevice().identifierForVendor.UUIDString)
+        return gtrack
+    }()
 
     lazy var stations: TFCStations? =  {return TFCStations()}()
 
@@ -45,13 +55,6 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         let tapGesture  = UITapGestureRecognizer(target: self, action: "handleTap:")
         titleLabel.addGestureRecognizer(tapGesture)
         // Do any additional setup after loading the view from its nib.
-        let gtracker = GAI.sharedInstance()
-        gtracker.trackUncaughtExceptions = true
-        gtracker.dispatchInterval = 20;
-        //GAI.sharedInstance().logger.logLevel = GAILogLevel.Verbose
-        gtracker.trackerWithTrackingId("UA-37092982-2")
-        gtracker.defaultTracker.set("&uid", value: UIDevice().identifierForVendor.UUIDString)
-
     }
     
     deinit {
@@ -59,25 +62,22 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     }
 
     @IBAction func nextButtonTouchUp(sender: AnyObject) {
-        let gtracker = GAI.sharedInstance().defaultTracker
         if (showStations == true) {
             showStations = false
             self.appsTableView.reloadData()
-            gtracker.set(kGAIScreenName, value: "todayviewStation")
+            sendScreenNameToGA("todayviewStation")
         } else if (stations?.count() > 0) {
             showStations = true
             self.appsTableView.reloadData()
-            gtracker.set(kGAIScreenName, value: "todayviewMore")
+            sendScreenNameToGA("todayviewMore")
         }
-        gtracker.send(GAIDictionaryBuilder.createScreenView().build())
     }
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        let gtracker = GAI.sharedInstance().defaultTracker
-        gtracker.set(kGAIScreenName, value: "todayviewStation")
-        gtracker.send(GAIDictionaryBuilder.createScreenView().build())
     }
+
+
 
     func handleTap(recognizer: UITapGestureRecognizer) {
         if (showStations) {
@@ -244,7 +244,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        gtracker.send(GAIDictionaryBuilder.createEventWithCategory("system", action: "memoryWarning", label: "received", value: nil).build())
     }
     
     func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)!) {
@@ -304,6 +304,11 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             self.appsTableView!.reloadData()
             }
         })
+    }
+
+    func sendScreenNameToGA(screenname: String) {
+        gtracker.set(kGAIScreenName, value: screenname)
+        gtracker.send(GAIDictionaryBuilder.createScreenView().build())
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
