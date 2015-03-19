@@ -61,49 +61,27 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         println("deinit widget")
     }
 
-    @IBAction func nextButtonTouchUp(sender: AnyObject) {
-        if (showStations == true) {
-            showStations = false
-            self.appsTableView.reloadData()
-            sendScreenNameToGA("todayviewStation")
-        } else if (stations?.count() > 0) {
-            showStations = true
-            self.appsTableView.reloadData()
-            sendScreenNameToGA("todayviewMore")
-        }
-    }
-
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
     }
 
-
-
-    func handleTap(recognizer: UITapGestureRecognizer) {
-        if (showStations) {
-            var urlstring = "timeforcoffee://nearby"
-            let url: NSURL = NSURL(string: urlstring)!
-            self.extensionContext?.openURL(url, completionHandler: nil);
-        } else if (currentStation != nil && currentStation?.st_id != "0000") {
-            let station = currentStation!
-            var name = station.name.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
-            let long = station.getLongitude()
-            let lat = station.getLatitude()
-            var urlstring = "timeforcoffee://station?id=\(station.st_id)&name=\(name)"
-            if (long != nil && lat != nil) {
-                urlstring = "\(urlstring)&long=\(long!)&lat=\(lat!)"
-            }
-            let url: NSURL = NSURL(string: urlstring)!
-            self.extensionContext?.openURL(url, completionHandler: nil);
-        }
+    func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)!) {
+        // Perform any setup necessary in order to update the view.
+        // If an error is encountered, use NCUpdateResult.Failed
+        // If there's no update required, use NCUpdateResult.NoData
+        // If there's an update, use NCUpdateResult.NewData
+        //this should only be called, after everything is updated. didReceiveAPIResults ;)
+        // see also https://stackoverflow.com/questions/25961513/ios-8-today-widget-stops-working-after-a-while
+        locManager?.refreshLocation()
+        completionHandler(NCUpdateResult.NewData)
     }
-    
+
     override func lazyInitLocationManager() -> TFCLocationManager? {
         titleLabel.text = NSLocalizedString("Looking for nearest station ...", comment: "")
         self.currentStationIndex = 0
         return super.lazyInitLocationManager()
     }
-    
+
     override func locationFixed(coord: CLLocationCoordinate2D?) {
         println("locationFixed")
         if (coord != nil) {
@@ -126,6 +104,38 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         }
 
     }
+
+    @IBAction func nextButtonTouchUp(sender: AnyObject) {
+        if (showStations == true) {
+            showStations = false
+            self.appsTableView.reloadData()
+            sendScreenNameToGA("todayviewStation")
+        } else if (stations?.count() > 0) {
+            showStations = true
+            self.appsTableView.reloadData()
+            sendScreenNameToGA("todayviewMore")
+        }
+    }
+
+    func handleTap(recognizer: UITapGestureRecognizer) {
+        if (showStations) {
+            var urlstring = "timeforcoffee://nearby"
+            let url: NSURL = NSURL(string: urlstring)!
+            self.extensionContext?.openURL(url, completionHandler: nil);
+        } else if (currentStation != nil && currentStation?.st_id != "0000") {
+            let station = currentStation!
+            var name = station.name.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
+            let long = station.getLongitude()
+            let lat = station.getLatitude()
+            var urlstring = "timeforcoffee://station?id=\(station.st_id)&name=\(name)"
+            if (long != nil && lat != nil) {
+                urlstring = "\(urlstring)&long=\(long!)&lat=\(lat!)"
+            }
+            let url: NSURL = NSURL(string: urlstring)!
+            self.extensionContext?.openURL(url, completionHandler: nil);
+        }
+    }
+
 
     func setLastUsedView() {
         if (showStations) {
@@ -263,17 +273,6 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         gtracker.send(GAIDictionaryBuilder.createEventWithCategory("system", action: "memoryWarning", label: "received", value: nil).build())
     }
     
-    func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)!) {
-        // Perform any setup necessary in order to update the view.
-        // If an error is encountered, use NCUpdateResult.Failed
-        // If there's no update required, use NCUpdateResult.NoData
-        // If there's an update, use NCUpdateResult.NewData
-        //this should only be called, after everything is updated. didReceiveAPIResults ;)
-        // see also https://stackoverflow.com/questions/25961513/ios-8-today-widget-stops-working-after-a-while
-        locManager?.refreshLocation()
-        completionHandler(NCUpdateResult.NewData)
-    }
-
     func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?) {
         //  UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         if (showStations) {
