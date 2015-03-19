@@ -30,7 +30,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             if (showStations == true) {
                 actionLabel.setTitle("Back", forState: UIControlState.Normal)
             } else {
-                actionLabel.setTitle("More", forState: UIControlState.Normal)
+                actionLabel.setTitle("Stations", forState: UIControlState.Normal)
             }
         }
     }
