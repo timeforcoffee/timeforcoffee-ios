@@ -20,6 +20,12 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
     var searchController: UISearchController?
     var scrollView: UIScrollView?
     var registeredObserver: Bool = false
+    lazy var nearbyStationsView: StationsViewController = {
+        let view = self.storyboard?.instantiateViewControllerWithIdentifier("StationsView") as StationsViewController
+        view.showFavorites = false
+        view.pageIndex = 0
+        return view
+    }()
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -30,10 +36,8 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         self.dataSource = self
         self.delegate = self
         currentPageIndex = 0
-        var startingViewController = self.storyboard?.instantiateViewControllerWithIdentifier("StationsView") as StationsViewController
-        startingViewController.showFavorites = false
-        startingViewController.pageIndex = 0
-        self.setViewControllers([startingViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
+
+        self.setViewControllers([nearbyStationsView], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
 
         var aboutButton = UIBarButtonItem(title: "☕︎", style: UIBarButtonItemStyle.Plain, target: self, action: "aboutClicked:")
         aboutButton.image = UIImage(named: "icon-coffee")
@@ -155,10 +159,10 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         if (vc.pageIndex == 0) {
             return nil;
         }
-        var newVc: StationsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("StationsView") as StationsViewController
-        newVc.pageIndex = 0
-        newVc.showFavorites = false
-        return newVc
+        nearbyStationsView = self.storyboard?.instantiateViewControllerWithIdentifier("StationsView") as StationsViewController
+        nearbyStationsView.pageIndex = 0
+        nearbyStationsView.showFavorites = false
+        return nearbyStationsView
     }
     
     func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [AnyObject], transitionCompleted completed: Bool) {
@@ -179,6 +183,15 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         if (pc != nil) {
             pc?.currentPage = currentPageIndex!
         }
+    }
+
+    func moveToNearbyStations() {
+
+        self.setViewControllers( [self.nearbyStationsView], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil
+        )
+        currentPageIndex = 0
+        scrollViewDidScroll(self.scrollView!)
+        setPageControlDot()
     }
 
     func getCurrentView() -> StationsViewController {
