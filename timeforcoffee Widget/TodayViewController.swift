@@ -29,8 +29,11 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         didSet {
             if (showStations == true) {
                 actionLabel.setTitle("Back", forState: UIControlState.Normal)
+                titleLabel.text = "Nearby Stations"
+
             } else {
                 actionLabel.setTitle("Stations", forState: UIControlState.Normal)
+                titleLabel.text = currentStation?.getNameWithStarAndFilters()
             }
         }
     }
@@ -59,12 +62,10 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         let gtracker = GAI.sharedInstance().defaultTracker
         if (showStations == true) {
             showStations = false
-            titleLabel.text = currentStation?.getNameWithStarAndFilters()
             self.appsTableView.reloadData()
             gtracker.set(kGAIScreenName, value: "todayviewStation")
         } else if (stations?.count() > 0) {
             showStations = true
-            titleLabel.text = "Nearby Stations"
             self.appsTableView.reloadData()
             gtracker.set(kGAIScreenName, value: "todayviewMore")
         }
@@ -106,12 +107,15 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     override func locationFixed(coord: CLLocationCoordinate2D?) {
         println("locationFixed")
         if (coord != nil) {
+            showStations = true
             if (locManager?.currentLocation != nil) {
                 let nearbyStationsAdded = self.stations?.addNearbyFavorites((locManager?.currentLocation)!)
                 if (nearbyStationsAdded == true) {
                     currentStation = self.stations?.getStation(0)
-                    self.titleLabel.text = currentStation?.getNameWithStarAndFilters()
-                    displayDepartures()
+                    if (!showStations) {
+                        self.titleLabel.text = currentStation?.getNameWithStarAndFilters()
+                        displayDepartures()
+                    }
                 }
             }
             self.api?.searchFor(coord!)
@@ -287,10 +291,11 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                     let hasAlreadyFavouritesDisplayed = self.stations?.count()
                     self.stations?.addWithJSON(results, append: true)
                     self.currentStation = self.stations?.getStation(self.currentStationIndex)
-
-                    self.titleLabel.text = self.currentStation?.getNameWithStarAndFilters()
-                    if (self.showStations == false && hasAlreadyFavouritesDisplayed == nil || hasAlreadyFavouritesDisplayed == 0) {
-                        self.displayDepartures()
+                    if (self.showStations == false) {
+                        self.titleLabel.text = self.currentStation?.getNameWithStarAndFilters()
+                        if (hasAlreadyFavouritesDisplayed == nil || hasAlreadyFavouritesDisplayed == 0) {
+                            self.displayDepartures()
+                        }
                     }
                 } else {
                     //self.currentStation?.addDepartures(TFCDeparture.withJSON(results, filterStation: self.stations.getStation(self.currentStationIndex)))
