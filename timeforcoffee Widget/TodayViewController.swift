@@ -19,7 +19,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     lazy var gtracker: GAITracker = {
         let gtrackerInstance = GAI.sharedInstance()
         gtrackerInstance.trackUncaughtExceptions = true
-        gtrackerInstance.dispatchInterval = 20;
+        gtrackerInstance.dispatchInterval = 10;
         //GAI.sharedInstance().logger.logLevel = GAILogLevel.Verbose
         gtrackerInstance.trackerWithTrackingId("UA-37092982-2")
         var gtrack = gtrackerInstance.defaultTracker
@@ -89,7 +89,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         // If there's no update required, use NCUpdateResult.NoData
         // If there's an update, use NCUpdateResult.NewData
 
-        // if lastUsedView is a single station and we did look at it no longer than 5 minutes, just show it again
+        // if lastUsedView is a single station and we did look at it no longer than 5 minutes ago, just show it again
         // without even checking the location
         if (getLastUsedView() == "singleStation" && lastUsedViewUpdatedInterval() > -300) {
             currentStation = lastViewedStation
@@ -124,13 +124,17 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             }
             if (locManager?.currentLocation != nil) {
                 // if lastUsedView is a single station and we did look at it no longer than 30 minutes
-                // and we didn't move too much (missing yet), just show it again
+                // and the distance is not much more (200m), just show it again
                 if (currentStation == nil && getLastUsedView() == "singleStation" && lastUsedViewUpdatedInterval() > -(60 * 30)) {
-                    currentStation = lastViewedStation
-                    if (currentStation != nil) {
-                        showStations = false
-                        displayDepartures()
-                        currentStation?.updateDepartures(self, maxDepartures: 6, force: true)
+                    let distance2lastViewedStationNow: CLLocationDistance? = locManager?.currentLocation?.distanceFromLocation(lastViewedStation?.coord)
+                    let distance2lastViewedStationLasttime: CLLocationDistance? = TFCStations.getUserDefaults()?.objectForKey("lastUsedStationDistance") as CLLocationDistance?
+                    if (distance2lastViewedStationNow != nil && distance2lastViewedStationLasttime != nil && distance2lastViewedStationNow! < distance2lastViewedStationLasttime! + 200) {
+                        currentStation = lastViewedStation
+                        if (currentStation != nil) {
+                            showStations = false
+                            displayDepartures()
+                            currentStation?.updateDepartures(self, maxDepartures: 6, force: true)
+                        }
                     }
                 }
 
@@ -193,6 +197,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                 currentStation?.isLastUsed = true
                 lastViewedStation?.isLastUsed = false
                 userDefaults?.setObject(currentStation?.getAsDict(), forKey: "lastUsedStation")
+                userDefaults?.setObject(locManager?.currentLocation?.distanceFromLocation(currentStation?.coord), forKey: "lastUsedStationDistance")
             }
         }
         userDefaults?.setObject(NSDate(), forKey: "lastUsedViewUpdate")
@@ -370,7 +375,6 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                 if (TFCStation.isStations(results)) {
                     let hasAlreadyFavouritesDisplayed = self.stations?.count()
                     self.stations?.addWithJSON(results, append: true)
-                    println(self.currentStation?.name)
                     if (self.showStations == false && self.currentStation == nil) {
                         self.currentStation = self.stations?.getStation(self.currentStationIndex)
                         self.titleLabel.text = self.currentStation?.getNameWithStarAndFilters()
