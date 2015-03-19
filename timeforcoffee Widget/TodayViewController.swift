@@ -40,11 +40,11 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             if (showStations == true) {
                 actionLabel.setTitle("Back", forState: UIControlState.Normal)
                 titleLabel.text = "Nearby Stations"
-
             } else {
                 actionLabel.setTitle("Stations", forState: UIControlState.Normal)
                 titleLabel.text = currentStation?.getNameWithStarAndFilters()
             }
+            setLastUsedView()
         }
     }
    
@@ -107,7 +107,11 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     override func locationFixed(coord: CLLocationCoordinate2D?) {
         println("locationFixed")
         if (coord != nil) {
-            showStations = true
+
+            if (getLastUsedView() == "nearbyStations") {
+                    showStations = true
+            }
+
             if (locManager?.currentLocation != nil) {
                 let nearbyStationsAdded = self.stations?.addNearbyFavorites((locManager?.currentLocation)!)
                 if (nearbyStationsAdded == true) {
@@ -121,6 +125,18 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             self.api?.searchFor(coord!)
         }
 
+    }
+
+    func setLastUsedView() {
+        if (showStations) {
+            TFCStations.getUserDefaults()?.setObject("nearbyStations", forKey: "lastUsedView")
+        } else {
+            TFCStations.getUserDefaults()?.setObject(currentStation?.st_id, forKey: "lastUsedView")
+        }
+    }
+
+    func getLastUsedView() -> String? {
+        return TFCStations.getUserDefaults()?.objectForKey("lastUsedView") as String?
     }
 
 
@@ -327,5 +343,3 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     }
 
 }
-
-
