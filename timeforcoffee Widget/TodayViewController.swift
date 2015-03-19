@@ -91,12 +91,17 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
 
         // if lastUsedView is a single station and we did look at it no longer than 5 minutes ago, just show it again
         // without even checking the location
-        if (getLastUsedView() == "singleStation" && lastUsedViewUpdatedInterval() > -300) {
-            currentStation = lastViewedStation
-            if (currentStation != nil) {
-                showStations = false
-                displayDepartures()
-                currentStation?.updateDepartures(self, maxDepartures: 6)
+        if (getLastUsedView() == "nearbyStations") {
+            sendScreenNameToGA("todayviewNearby")
+        } else {
+            sendScreenNameToGA("todayviewStation")
+            if (lastUsedViewUpdatedInterval() > -300) {
+                currentStation = lastViewedStation
+                if (currentStation != nil) {
+                    showStations = false
+                    displayDepartures()
+                    currentStation?.updateDepartures(self, maxDepartures: 6)
+                }
             }
         }
         locManager?.refreshLocation()
