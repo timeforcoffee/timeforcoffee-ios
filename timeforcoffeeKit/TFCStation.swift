@@ -60,6 +60,16 @@ public class TFCStation: NSObject,  APIControllerProtocol {
         return newStation!
     }
 
+    public class func initWithCache(dict: [String: String]) -> TFCStation {
+        var location: CLLocation? = nil;
+        if (dict["latitude"] != nil && dict["longitude"] != nil) {
+            let lat: String = (dict["latitude"] as String?)!
+            let long: String = (dict["longitude"] as String?)!
+            location = CLLocation(latitude: (lat as NSString).doubleValue, longitude: (long as NSString).doubleValue)
+        }
+        return initWithCache(dict["name"] as String!, id: dict["st_id"] as String!, coord: location)
+    }
+
     public func removeFromCache() {
         let cache: NSCache = TFCCache.objects.stations
         cache.removeObjectForKey(self.st_id)
@@ -119,16 +129,24 @@ public class TFCStation: NSObject,  APIControllerProtocol {
         }
         return getName(cityAfter)
     }
-    
+
+    public func getNameWithFilters(cityAfter: Bool) -> String {
+        return "\(getName(cityAfter))\(getFilterSign())"
+    }
+
+    func getFilterSign() -> String {
+        if (self.hasFilters()) {
+            return " ✗"
+        }
+        return ""
+    }
+
     public func getNameWithStarAndFilters() -> String {
         return getNameWithStarAndFilters(false)
     }
     
     public func getNameWithStarAndFilters(cityAfter: Bool) -> String {
-        if self.hasFilters() {
-            return "\(getNameWithStar(cityAfter)) ✗"
-        }
-        return getNameWithStar(cityAfter)
+        return "\(getNameWithStar(cityAfter))\(getFilterSign())"
     }
     
     public func hasFilters() -> Bool {
@@ -404,7 +422,13 @@ public class TFCStation: NSObject,  APIControllerProtocol {
     }
 
 
-    func getAsDict() -> [String: AnyObject] {
+    public func getAsDict() -> [String: String] {
+        if (coord == nil) {
+            return [
+                "name": getName(false),
+                "st_id": st_id,
+            ]
+        }
         return [
             "name": getName(false),
             "st_id": st_id,
