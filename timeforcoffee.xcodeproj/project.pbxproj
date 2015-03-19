@@ -16,6 +16,7 @@
 		31979D761AB5BC7B00525165 /* DepartureLineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31979D741AB5BC7B00525165 /* DepartureLineLabel.swift */; };
 		EC046D631A9C563D00C2C1B3 /* TFCLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC046D621A9C563D00C2C1B3 /* TFCLocationManager.swift */; };
 		EC0530871AB01153008439E9 /* gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0530861AB01153008439E9 /* gradient.png */; };
+		EC0740731AB8C68100452868 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC7A517F19C427CA000F5E7C /* Images.xcassets */; };
 		EC0A30EC1AA344100043B8F8 /* launchicon.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30EB1AA344100043B8F8 /* launchicon.png */; };
 		EC0A30F21AA353CA0043B8F8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30F41AA353CA0043B8F8 /* MainInterface.storyboard */; };
 		EC0DD8CF1AAEC7CB0089A207 /* TFCCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0DD8CE1AAEC7CB0089A207 /* TFCCache.swift */; };
@@ -67,6 +68,12 @@
 		EC7A518319C427CA000F5E7C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC7A518119C427CA000F5E7C /* LaunchScreen.xib */; };
 		EC7A519B19C43E0A000F5E7C /* Blank52.png in Resources */ = {isa = PBXBuildFile; fileRef = EC7A519A19C43E0A000F5E7C /* Blank52.png */; };
 		EC7A519F19C4432F000F5E7C /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A519E19C4432F000F5E7C /* DetailsViewController.swift */; };
+		EC87B6581AB95348005A053E /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B6571AB95348005A053E /* libGoogleAnalyticsServices.a */; };
+		EC87B6591AB95348005A053E /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B6571AB95348005A053E /* libGoogleAnalyticsServices.a */; };
+		EC87B65B1AB95365005A053E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B65A1AB95365005A053E /* CoreData.framework */; };
+		EC87B65D1AB95373005A053E /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B65C1AB95373005A053E /* libsqlite3.dylib */; };
+		EC87B65E1AB95380005A053E /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B65C1AB95373005A053E /* libsqlite3.dylib */; };
+		EC87B65F1AB95386005A053E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B65A1AB95365005A053E /* CoreData.framework */; };
 		EC9010A11AA73A9E00F328E9 /* TFCWatchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9010A01AA73A9E00F328E9 /* TFCWatchData.swift */; };
 		EC95714F1A9CACB70061F8B4 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC95714E1A9CACB70061F8B4 /* extensions.swift */; };
 		EC9571511A9CCEC00061F8B4 /* TFCBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9571501A9CCEC00061F8B4 /* TFCBaseViewController.swift */; };
@@ -202,6 +209,18 @@
 		EC7A518219C427CA000F5E7C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		EC7A519A19C43E0A000F5E7C /* Blank52.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Blank52.png; sourceTree = "<group>"; };
 		EC7A519E19C4432F000F5E7C /* DetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
+		EC87B64E1AB95310005A053E /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
+		EC87B64F1AB95310005A053E /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIDictionaryBuilder.h; sourceTree = "<group>"; };
+		EC87B6501AB95310005A053E /* GAIEcommerceProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceProduct.h; sourceTree = "<group>"; };
+		EC87B6511AB95310005A053E /* GAIEcommerceProductAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceProductAction.h; sourceTree = "<group>"; };
+		EC87B6521AB95310005A053E /* GAIEcommercePromotion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommercePromotion.h; sourceTree = "<group>"; };
+		EC87B6531AB95310005A053E /* GAIFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIFields.h; sourceTree = "<group>"; };
+		EC87B6541AB95310005A053E /* GAILogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAILogger.h; sourceTree = "<group>"; };
+		EC87B6551AB95310005A053E /* GAITrackedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITrackedViewController.h; sourceTree = "<group>"; };
+		EC87B6561AB95310005A053E /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
+		EC87B6571AB95348005A053E /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
+		EC87B65A1AB95365005A053E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		EC87B65C1AB95373005A053E /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		EC9010A01AA73A9E00F328E9 /* TFCWatchData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCWatchData.swift; sourceTree = "<group>"; };
 		EC95714E1A9CACB70061F8B4 /* extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
 		EC9571501A9CCEC00061F8B4 /* TFCBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCBaseViewController.swift; sourceTree = "<group>"; };
@@ -226,9 +245,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC87B65F1AB95386005A053E /* CoreData.framework in Frameworks */,
+				EC87B65E1AB95380005A053E /* libsqlite3.dylib in Frameworks */,
 				EC2C317A1A9E1F2500690397 /* SystemConfiguration.framework in Frameworks */,
 				EC2C31791A9E1F1900690397 /* CoreTelephony.framework in Frameworks */,
 				EC2C31781A9E1F1000690397 /* libz.dylib in Frameworks */,
+				EC87B6591AB95348005A053E /* libGoogleAnalyticsServices.a in Frameworks */,
 				EC2C31771A9E1F0A00690397 /* libc++.dylib in Frameworks */,
 				ECD871961A9BB2F7003CCCB3 /* timeforcoffeeKit.framework in Frameworks */,
 				EC2C316A1A9E1E9B00690397 /* NewRelicAgent.framework in Frameworks */,
@@ -247,9 +269,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC87B65D1AB95373005A053E /* libsqlite3.dylib in Frameworks */,
+				EC87B65B1AB95365005A053E /* CoreData.framework in Frameworks */,
 				EC2C317E1A9E1F4400690397 /* libz.dylib in Frameworks */,
 				EC2C317D1A9E1F3D00690397 /* libc++.dylib in Frameworks */,
 				EC2C317C1A9E1F3300690397 /* CoreTelephony.framework in Frameworks */,
+				EC87B6581AB95348005A053E /* libGoogleAnalyticsServices.a in Frameworks */,
 				EC2C317B1A9E1F2D00690397 /* SystemConfiguration.framework in Frameworks */,
 				EC6EDD441A9BA36F0098CAE0 /* timeforcoffeeKit.framework in Frameworks */,
 				EC2C31691A9E1E9B00690397 /* NewRelicAgent.framework in Frameworks */,
@@ -341,6 +366,9 @@
 		EC6EDCF01A9B9F390098CAE0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EC87B65C1AB95373005A053E /* libsqlite3.dylib */,
+				EC87B65A1AB95365005A053E /* CoreData.framework */,
+				EC87B6571AB95348005A053E /* libGoogleAnalyticsServices.a */,
 				EC2C31751A9E1EEB00690397 /* libz.dylib */,
 				EC2C31731A9E1EE400690397 /* libc++.dylib */,
 				EC2C31711A9E1EDD00690397 /* SystemConfiguration.framework */,
@@ -447,6 +475,7 @@
 		EC7A517519C427CA000F5E7C /* timeforcoffee */ = {
 			isa = PBXGroup;
 			children = (
+				EC87B64D1AB952DD005A053E /* GoogleAnalytics */,
 				EC271DC31AA365BE00A7A75E /* Main.storyboard */,
 				31979D741AB5BC7B00525165 /* DepartureLineLabel.swift */,
 				314AFBD51AA778F400C176FE /* StationTableView.swift */,
@@ -478,6 +507,22 @@
 				EC7A517719C427CA000F5E7C /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		EC87B64D1AB952DD005A053E /* GoogleAnalytics */ = {
+			isa = PBXGroup;
+			children = (
+				EC87B64E1AB95310005A053E /* GAI.h */,
+				EC87B64F1AB95310005A053E /* GAIDictionaryBuilder.h */,
+				EC87B6501AB95310005A053E /* GAIEcommerceProduct.h */,
+				EC87B6511AB95310005A053E /* GAIEcommerceProductAction.h */,
+				EC87B6521AB95310005A053E /* GAIEcommercePromotion.h */,
+				EC87B6531AB95310005A053E /* GAIFields.h */,
+				EC87B6541AB95310005A053E /* GAILogger.h */,
+				EC87B6551AB95310005A053E /* GAITrackedViewController.h */,
+				EC87B6561AB95310005A053E /* GAITracker.h */,
+			);
+			name = GoogleAnalytics;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -689,6 +734,7 @@
 				EC0A30F21AA353CA0043B8F8 /* MainInterface.storyboard in Resources */,
 				3117221C1AB2374F00C176FE /* trainsymbol.otf in Resources */,
 				EC2195EB1AA35B2D005E16EF /* Localizable.strings in Resources */,
+				EC0740731AB8C68100452868 /* Images.xcassets in Resources */,
 				EC2C312C1A9DECBA00690397 /* office.gpx in Resources */,
 				EC2C312D1A9DECBD00690397 /* home.gpx in Resources */,
 			);
@@ -958,6 +1004,10 @@
 				INFOPLIST_FILE = "timeforcoffee Widget/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
@@ -980,6 +1030,10 @@
 				INFOPLIST_FILE = "timeforcoffee Widget/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
@@ -1127,6 +1181,10 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/timeforcoffee/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_MODULE_NAME = timeforcoffee;
 				PRODUCT_NAME = "Time for Coffee!";
@@ -1149,6 +1207,10 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/timeforcoffee/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_MODULE_NAME = timeforcoffee;
 				PRODUCT_NAME = "Time for Coffee!";

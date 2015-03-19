@@ -19,7 +19,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        NewRelicAgent.startWithApplicationToken("AAe7c5942c67612bc82125c42d8b0b5c6a7df227b2")
+//        NewRelicAgent.startWithApplicationToken("AAe7c5942c67612bc82125c42d8b0b5c6a7df227b2")
+        let gtracker = GAI.sharedInstance()
+        gtracker.trackUncaughtExceptions = true
+        gtracker.dispatchInterval = 20;
+        //GAI.sharedInstance().logger.logLevel = GAILogLevel.Verbose
+        gtracker.trackerWithTrackingId("UA-37092982-2")
+        gtracker.defaultTracker.set("&uid", value: UIDevice().identifierForVendor.UUIDString)
         return true
     }
 
@@ -46,7 +52,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
-        if (url.host == "station" && url.query != nil) {
+
+        if (url.host == "nearby") {
+            let rootView = self.window?.rootViewController? as UINavigationController
+            rootView.popToRootViewControllerAnimated(false)
+            let pagedView: PagedStationsViewController = rootView.viewControllers.first as PagedStationsViewController
+            pagedView.moveToNearbyStations()
+
+        } else if (url.host == "station" && url.query != nil) {
          
             var queryStrings = [String: String]()
             if let query = url.query {
@@ -61,12 +74,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     queryStrings[key] = value
                 }
             }
-            var Clocation = CLLocation(latitude: NSString(string: queryStrings["lat"]!).doubleValue, longitude: NSString(string: queryStrings["long"]!).doubleValue)
+            let Clocation = CLLocation(latitude: NSString(string: queryStrings["lat"]!).doubleValue, longitude: NSString(string: queryStrings["long"]!).doubleValue)
 
-            var station = TFCStation(name: queryStrings["name"]!, id: queryStrings["id"]!, coord: Clocation)
+            let station = TFCStation(name: queryStrings["name"]!, id: queryStrings["id"]!, coord: Clocation)
             let stations = TFCStations()
-            var rootView = self.window?.rootViewController? as UINavigationController
-            var detailViewController = rootView.storyboard?.instantiateViewControllerWithIdentifier("DeparturesViewController") as DeparturesViewController
+            let rootView = self.window?.rootViewController? as UINavigationController
+            let detailViewController = rootView.storyboard?.instantiateViewControllerWithIdentifier("DeparturesViewController") as DeparturesViewController
 
             rootView.popToRootViewControllerAnimated(false)
             detailViewController.setStation(station)

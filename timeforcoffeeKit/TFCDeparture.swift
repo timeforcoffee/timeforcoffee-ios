@@ -38,6 +38,10 @@ public class TFCDeparture {
     }
     
     public class func withJSON(allResults: JSONValue, filterStation: TFCStation?) -> [TFCDeparture]? {
+        return self.withJSON(allResults, filterStation: filterStation, maxDepartures: nil)
+    }
+
+    public class func withJSON(allResults: JSONValue, filterStation: TFCStation?, maxDepartures: Int?) -> [TFCDeparture]? {
         // Create an empty array of Albums to append to from this list
         // Store the results in our table data array
         var departures: [TFCDeparture]?
@@ -84,6 +88,9 @@ public class TFCDeparture {
                     }
                 }
                 departures?.append(newDeparture)
+                if (maxDepartures != nil && departures?.count >= maxDepartures) {
+                    break
+                }
             }
         }
         
@@ -123,15 +130,20 @@ public class TFCDeparture {
     public func getTimeString() -> String {
         var timestring = "";
         var minutes = getMinutes()
-        
+        let (departureTimeAttr, departureTimeString) = getDepartureTime(true)
+
         if (minutes != nil) {
-            timestring = "In \(minutes!) / \(getDepartureTime()!)"
+            timestring = "In \(minutes!) / \(departureTimeString!)"
         }
         return timestring
 
     }
-    
-    public func getDepartureTime() -> NSMutableAttributedString? {
+
+    public func getDepartureTime() ->  (NSMutableAttributedString?, String?) {
+        return getDepartureTime(false)
+    }
+
+    public func getDepartureTime(forceString: Bool) -> (NSMutableAttributedString?, String?) {
         var realtimeStr: String?
         var scheduledStr: String?
         let attributesNoStrike = [
@@ -152,31 +164,55 @@ public class TFCDeparture {
             NSFontAttributeName: UIFont(name: "HelveticaNeue-Bold", size: 13.0)!
         ]
 
-        var timestring: NSMutableAttributedString = NSMutableAttributedString(string: "")
+        var timestringAttr: NSMutableAttributedString?
+        var timestring: String?
+
         if (self.realtime != nil) {
             realtimeStr = self.getShortDate(self.realtime!)
         }
         scheduledStr = self.getShortDate(self.scheduled!)
-        
-        if (self.realtime != nil && self.realtime != self.scheduled) {
-            //the nostrike is needed due to an apple bug...
-            // https://stackoverflow.com/questions/25956183/nsmutableattributedstrings-attribute-nsstrikethroughstyleattributename-doesnt
-            timestring.appendAttributedString(NSAttributedString(string: "\(realtimeStr!) ", attributes: attributesNoStrike))
 
-            timestring.appendAttributedString(NSAttributedString(string: "\(scheduledStr!)", attributes: attributesStrike))
+        // we do two different approaches here, since NSMutableAttributedString seems to
+        // use a lot of memory for the today widget and it's only needed, when 
+        // there's a dealy
+
+        if (self.realtime != nil && self.realtime != self.scheduled) {
+            if (forceString) {
+                timestring =  "\(realtimeStr!) / \(scheduledStr!)"
+            } else {
+                timestringAttr = NSMutableAttributedString(string: "")
+
+                //the nostrike is needed due to an apple bug...
+                // https://stackoverflow.com/questions/25956183/nsmutableattributedstrings-attribute-nsstrikethroughstyleattributename-doesnt
+                timestringAttr?.appendAttributedString(NSAttributedString(string: "\(realtimeStr!) ", attributes: attributesNoStrike))
+
+                timestringAttr?.appendAttributedString(NSAttributedString(string: "\(scheduledStr!)", attributes: attributesStrike))
+            }
 
         } else {
-            timestring.appendAttributedString(NSAttributedString(string: "\(scheduledStr!)") )
+            timestring = "\(scheduledStr!)"
         }
         if (accessible) {
-            timestring.appendAttributedString(NSAttributedString(string: " ♿︎", attributes: attributesBoldItalic))
+            if (timestringAttr != nil) {
+                timestringAttr?.appendAttributedString(NSAttributedString(string: " ♿︎"))
+            } else {
+                timestring?.extend(" ♿︎")
+            }
         }
         if (self.realtime == nil) {
-            timestring.appendAttributedString(NSAttributedString(string: " (no real-time data)"))
+            if (timestringAttr != nil) {
+                timestringAttr?.appendAttributedString(NSAttributedString(string: " (no real-time data)"))
+            } else {
+                timestring?.extend(" (no real-time data)")
+            }
         } else if (self.outdated) {
-            timestring.appendAttributedString(NSAttributedString(string: " (not updated)"))
+            if (timestringAttr != nil) {
+                timestringAttr?.appendAttributedString(NSAttributedString(string: " (not updated)"))
+            } else {
+                timestring?.extend(" (not updated)")
+            }
         }
-        return timestring
+        return (timestringAttr, timestring)
     }
     
     public func getMinutesAsInt() -> Int? {
@@ -251,11 +287,12 @@ public class TFCDeparture {
     }
     
     public func getAsDict(station: TFCStation) -> [String: AnyObject] {
-        
+        let (departureTimeAttr, departureTimeString) = getDepartureTime(true)
+
         return [
             "to":         getDestination(station),
             "name":       getLine(),
-            "time":       getDepartureTime()!,
+            "time":       departureTimeString!,
             "minutes":    getMinutes()!,
             "accessible": accessible,
             "colorFg":    colorFg!,

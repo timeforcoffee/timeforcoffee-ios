@@ -10,7 +10,7 @@ import Foundation
 import CoreLocation
 import MapKit
 
-public class TFCStation: NSObject,  APIControllerProtocol {
+public class TFCStation: NSObject,  NSDiscardableContent, APIControllerProtocol {
     public var name: String
     public var coord: CLLocation?
     public var st_id: String
@@ -19,6 +19,9 @@ public class TFCStation: NSObject,  APIControllerProtocol {
     var departures: [TFCDeparture]?
     var walkingDistanceString: String?
     var walkingDistanceLastCoord: CLLocation?
+    var lastDepartureUpdate: NSDate?
+    var lastDepartureCount: Int?
+    public var isLastUsed: Bool = false
 
     lazy var api : APIController = {
         return APIController(delegate: self)
@@ -26,6 +29,8 @@ public class TFCStation: NSObject,  APIControllerProtocol {
 
     enum contextData {
         case ValCompletionDelegate(TFCDeparturesUpdatedProtocol?)
+        case ValInt(Int?)
+        case ValBool(Bool?)
     }
 
     lazy var filteredLines:[String: [String: Bool]] = self.getFilteredLines()
@@ -49,11 +54,26 @@ public class TFCStation: NSObject,  APIControllerProtocol {
         var newStation: TFCStation? = cache.objectForKey(id) as TFCStation?
         if (newStation == nil) {
             newStation = TFCStation(name: name, id: id, coord: coord)
-            cache.setObject(newStation!, forKey: id)
         } else {
             newStation!.filteredLines = newStation!.getFilteredLines()
         }
         return newStation!
+    }
+
+    public class func initWithCache(dict: [String: String]) -> TFCStation {
+        var location: CLLocation? = nil;
+        if (dict["latitude"] != nil && dict["longitude"] != nil) {
+            let lat: String = (dict["latitude"] as String?)!
+            let long: String = (dict["longitude"] as String?)!
+            location = CLLocation(latitude: (lat as NSString).doubleValue, longitude: (long as NSString).doubleValue)
+        }
+        let station = initWithCache(dict["name"] as String!, id: dict["st_id"] as String!, coord: location)
+        return station
+    }
+
+    public func removeFromCache() {
+        let cache: NSCache = TFCCache.objects.stations
+        cache.removeObjectForKey(self.st_id)
     }
 
     public class func isStations(results: JSONValue) -> Bool {
@@ -110,16 +130,24 @@ public class TFCStation: NSObject,  APIControllerProtocol {
         }
         return getName(cityAfter)
     }
-    
+
+    public func getNameWithFilters(cityAfter: Bool) -> String {
+        return "\(getName(cityAfter))\(getFilterSign())"
+    }
+
+    func getFilterSign() -> String {
+        if (self.hasFilters()) {
+            return " ✗"
+        }
+        return ""
+    }
+
     public func getNameWithStarAndFilters() -> String {
         return getNameWithStarAndFilters(false)
     }
     
     public func getNameWithStarAndFilters(cityAfter: Bool) -> String {
-        if self.hasFilters() {
-            return "\(getNameWithStar(cityAfter)) ✗"
-        }
-        return getNameWithStar(cityAfter)
+        return "\(getNameWithStar(cityAfter))\(getFilterSign())"
     }
     
     public func hasFilters() -> Bool {
@@ -160,6 +188,7 @@ public class TFCStation: NSObject,  APIControllerProtocol {
         } else {
             TFCStations.getUserDefaults()?.removeObjectForKey("filtered\(st_id)")
         }
+        TFCStations.getUserDefaults()?.setObject(NSDate(), forKey: "settingsLastUpdate")
     }
     
     func getFilteredLines() -> [String: [String: Bool]] {
@@ -172,6 +201,8 @@ public class TFCStation: NSObject,  APIControllerProtocol {
     }
 
     public func addDepartures(departures: [TFCDeparture]?) {
+        let cache: NSCache = TFCCache.objects.stations
+        cache.setObject(self, forKey: st_id)
         self.departures = departures
     }
 
@@ -179,28 +210,64 @@ public class TFCStation: NSObject,  APIControllerProtocol {
         return self.departures
     }
 
-    public func updateDepartures(completionDelegate: TFCDeparturesUpdatedProtocol?) {
+    public func updateDepartures(completionDelegate: TFCDeparturesUpdatedProtocol?, maxDepartures: Int?) {
+        updateDepartures(completionDelegate, maxDepartures: maxDepartures, force: false)
+    }
+    public func updateDepartures(completionDelegate: TFCDeparturesUpdatedProtocol?, force: Bool) {
+        updateDepartures(completionDelegate, maxDepartures: nil, force: force)
+    }
+
+    public func updateDepartures(completionDelegate: TFCDeparturesUpdatedProtocol?, maxDepartures: Int?, force: Bool) {
         let context: Dictionary<String, contextData> = [
-            "completionDelegate": .ValCompletionDelegate(completionDelegate)
+            "completionDelegate": .ValCompletionDelegate(completionDelegate),
+            "maxDepartures": .ValInt(maxDepartures)
         ]
-        self.api.getDepartures(self.st_id, context: context)
+        var settingsLastUpdated: NSDate? = TFCStations.getUserDefaults()?.objectForKey("settingsLastUpdate") as NSDate?
+        if (force || lastDepartureUpdate == nil || lastDepartureUpdate?.timeIntervalSinceNow < -20 ||
+            (settingsLastUpdated != nil && lastDepartureUpdate?.timeIntervalSinceDate(settingsLastUpdated!) < 0 ) ||
+            (lastDepartureCount != nil && lastDepartureCount < maxDepartures)
+            )
+        {
+            lastDepartureUpdate = NSDate()
+            lastDepartureCount = maxDepartures
+            self.api.getDepartures(self.st_id, context: context)
+        } else {
+            completionDelegate?.departuresStillCached(context, forStation: self)
+        }
+
+    }
+
+    public func updateDepartures(completionDelegate: TFCDeparturesUpdatedProtocol?) {
+        updateDepartures(completionDelegate, maxDepartures: nil)
     }
 
     public func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?) {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
     //    self.refreshControl.endRefreshing()
         dispatch_async(dispatch_get_main_queue(), {
+            let contextInfo = context! as Dictionary<String, contextData>
+
             if (error != nil && self.departures != nil && self.departures?.count > 0) {
                 self.setDeparturesAsOutdated()
             } else {
-                self.addDepartures(TFCDeparture.withJSON(results))
+                var maxDepartures: Int?
+                switch contextInfo["maxDepartures"]! {
+                case .ValInt(let s):
+                    maxDepartures = s
+                default:
+                    maxDepartures = nil
+                }
+                if (maxDepartures > 0) {
+                    self.addDepartures(TFCDeparture.withJSON(results, filterStation: self, maxDepartures: maxDepartures))
+                } else {
+                    self.addDepartures(TFCDeparture.withJSON(results))
+                }
             }
             if (self.name == "") {
                 self.name = TFCDeparture.getStationNameFromJson(results)!;
             }
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
 
-            let contextInfo = context! as Dictionary<String, contextData>
             var completionDelegate: TFCDeparturesUpdatedProtocol?
             switch contextInfo["completionDelegate"]! {
             case .ValCompletionDelegate(let s):
@@ -358,7 +425,13 @@ public class TFCStation: NSObject,  APIControllerProtocol {
     }
 
 
-    func getAsDict() -> [String: AnyObject] {
+    public func getAsDict() -> [String: String] {
+        if (coord == nil) {
+            return [
+                "name": getName(false),
+                "st_id": st_id,
+            ]
+        }
         return [
             "name": getName(false),
             "st_id": st_id,
@@ -420,11 +493,35 @@ public class TFCStation: NSObject,  APIControllerProtocol {
 
     }
 
+    public func discardContentIfPossible() {
+        self.removeObseleteDepartures()
+        if (!isLastUsed && self.departures?.count > 1) {
+            println("delete some departures")
+            self.departures = [(self.departures?.first)!]
+        }
+    }
+
+    public func beginContentAccess() -> Bool {
+        return true
+    }
+
+    public func endContentAccess() {
+
+    }
+
+    public func isContentDiscarded() -> Bool {
+        removeObseleteDepartures()
+        if (!isLastUsed && (departures == nil || departures?.count == 0)) {
+            return true
+        }
+        return false
+    }
 
 }
 
 public protocol TFCDeparturesUpdatedProtocol {
     func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?)
+    func departuresStillCached(context: Any?, forStation: TFCStation?)
 }
 
 

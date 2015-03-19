@@ -11,7 +11,7 @@ import CoreLocation
 
 public class APIController {
     
-    unowned var delegate: APIControllerProtocol
+    weak var delegate: APIControllerProtocol?
     var currentFetch: [Int: NSURLSessionDataTask] = [:]
 
     lazy var session:NSURLSession = {
@@ -57,12 +57,13 @@ public class APIController {
     func fetchUrl(urlPath: String, fetchId: Int, context: Any?, cacheKey: String?) {
         if (cacheKey != nil && cache.objectForKey(cacheKey!) != nil) {
             let result = JSONValue(cache.objectForKey(cacheKey!) as NSData!);
-            self.delegate.didReceiveAPIResults(result, error: nil, context: context)
+            self.delegate?.didReceiveAPIResults(result, error: nil, context: context)
         } else {
             let urlPathEsc = urlPath.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
             let url: NSURL = NSURL(string: urlPathEsc)!
             println("Start fetching data \(urlPath)")
-            if (currentFetch[fetchId] != nil) {
+            var dataFetch: NSURLSessionDataTask?
+            if (fetchId == 1 && currentFetch[fetchId] != nil) {
                 currentFetch[fetchId]?.cancel()
             }
             let session2 = self.session
@@ -74,23 +75,29 @@ public class APIController {
             }
             let request = NSURLRequest(URL: url, cachePolicy: cachePolicy, timeoutInterval: 10.0)
 
-            currentFetch[fetchId] = session2.dataTaskWithRequest(request, completionHandler: {data , response, error -> Void in
+            dataFetch = session2.dataTaskWithRequest(request, completionHandler: {data , response, error -> Void in
 
                 println("Task completed")
                 if(error != nil) {
                     // If there is an error in the web request, print it to the console
                     println(error.localizedDescription)
                 }
-                self.currentFetch[fetchId] = nil
+                if (fetchId == 1) {
+                    self.currentFetch[fetchId] = nil
+                }
                 var err: NSError?
                 let jsonResult = JSONValue(data)
                 if (error == nil && cacheKey != nil) {
                     self.cache.setObject(data, forKey: cacheKey!)
                 }
-                self.delegate.didReceiveAPIResults(jsonResult, error: error, context: context)
+                self.delegate?.didReceiveAPIResults(jsonResult, error: error, context: context)
             })
-            
-            currentFetch[fetchId]?.resume()
+
+            dataFetch?.resume()
+            if (dataFetch != nil) {
+                currentFetch[fetchId] = dataFetch
+            }
+
         }
     }
 }

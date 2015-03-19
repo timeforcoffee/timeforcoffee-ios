@@ -12,7 +12,10 @@ import timeforcoffeeKit
 class DepartureLineLabel: UILabel, UITableViewDelegate {
     
     let linesWithSymbol = ["ICN", "EN", "ICN", "TGV", "RX", "EC", "IC", "SC", "CNL", "ICE", "IR"]
-    
+    var fontsize:CGFloat       { get { return 18.0}}
+    var cornerradius: CGFloat  { get { return 4.0}}
+    var insets: CGFloat        { get { return 5.0}}
+
     override func layoutSubviews() {
         super.layoutSubviews()
     }
@@ -20,14 +23,14 @@ class DepartureLineLabel: UILabel, UITableViewDelegate {
     override func awakeFromNib() {
         super.awakeFromNib()
         self.clipsToBounds = true
-        self.layer.cornerRadius = 4
+        self.layer.cornerRadius = cornerradius
         self.textAlignment = NSTextAlignment.Center
         self.baselineAdjustment = UIBaselineAdjustment.AlignCenters
         self.adjustsFontSizeToFitWidth = true
     }
 
     override func drawTextInRect(rect: CGRect) {
-        return super.drawTextInRect(UIEdgeInsetsInsetRect(rect, UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)))
+        return super.drawTextInRect(UIEdgeInsetsInsetRect(rect, UIEdgeInsets(top: insets, left: insets, bottom: insets, right: insets)))
     }
     
     func setStyle(style: String, departure: TFCDeparture) {
@@ -39,7 +42,7 @@ class DepartureLineLabel: UILabel, UITableViewDelegate {
             self.textColor = UIColor.whiteColor()
             self.backgroundColor = UIColor.redColor()
         } else {
-            self.font = UIFont(name: "HelveticaNeue-Bold", size: 18)
+            self.font = UIFont(name: "HelveticaNeue-Bold", size: fontsize)
             if (departure.getLine() == "RE") {
                 self.textColor = UIColor.redColor()
             } else {
@@ -62,4 +65,11 @@ class DepartureLineLabel: UILabel, UITableViewDelegate {
         }
     }
     
+}
+
+class DepartureLineLabelForToday: DepartureLineLabel {
+    override var fontsize:CGFloat      { get { return 10.0}}
+    override var cornerradius: CGFloat { get { return 1.0}}
+    override var insets: CGFloat       { get { return 1.0}}
+
 }

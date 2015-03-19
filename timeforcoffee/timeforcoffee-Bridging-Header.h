@@ -11,6 +11,7 @@
 #import "MGSwipeTableCell.h"
 #import "MGSwipeButton.h"
 #import <NewRelicAgent/NewRelic.h>
-
-
+#import "GAI.h"
+#import "GAIDictionaryBuilder.h"
+#import "GAIFields.h"
 #endif

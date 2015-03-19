@@ -19,6 +19,13 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
     var scrollViewWidth: CGFloat?
     var searchController: UISearchController?
     var scrollView: UIScrollView?
+    var registeredObserver: Bool = false
+    lazy var nearbyStationsView: StationsViewController = {
+        let view = self.storyboard?.instantiateViewControllerWithIdentifier("StationsView") as StationsViewController
+        view.showFavorites = false
+        view.pageIndex = 0
+        return view
+    }()
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -29,14 +36,12 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         self.dataSource = self
         self.delegate = self
         currentPageIndex = 0
-        var startingViewController = self.storyboard?.instantiateViewControllerWithIdentifier("StationsView") as StationsViewController
-        startingViewController.showFavorites = false
-        startingViewController.pageIndex = 0
-        self.setViewControllers([startingViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
+
+        self.setViewControllers([nearbyStationsView], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
 
         var aboutButton = UIBarButtonItem(title: "☕︎", style: UIBarButtonItemStyle.Plain, target: self, action: "aboutClicked:")
-        aboutButton.tintColor = UIColor.blackColor()
-
+        aboutButton.image = UIImage(named: "icon-coffee")
+        aboutButton.tintColor = UIColor(netHexString: "555555")
         let font = UIFont.systemFontOfSize(30)
         let buttonAttr = [NSFontAttributeName: font]
         aboutButton.setTitleTextAttributes(buttonAttr, forState: UIControlState.Normal)
@@ -55,7 +60,6 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         if (scrollView != nil) {
             scrollViewDidScroll(scrollView!)
         }
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeActive:", name: "UIApplicationDidBecomeActiveNotification", object: nil)
 
     }
     deinit {
@@ -63,6 +67,18 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
     }
 
     func applicationDidBecomeActive(notification: NSNotification) {
+        refreshLocation()
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        if (!registeredObserver) {
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeActive:", name: "UIApplicationDidBecomeActiveNotification", object: nil)
+            registeredObserver = true
+        }
+        refreshLocation()
+    }
+
+    func refreshLocation() {
         if (self.searchController == nil) {
             let currentView: StationsViewController  = self.viewControllers[0] as StationsViewController
             currentView.appsTableView?.refreshLocation()
@@ -143,10 +159,10 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         if (vc.pageIndex == 0) {
             return nil;
         }
-        var newVc: StationsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("StationsView") as StationsViewController
-        newVc.pageIndex = 0
-        newVc.showFavorites = false
-        return newVc
+        nearbyStationsView = self.storyboard?.instantiateViewControllerWithIdentifier("StationsView") as StationsViewController
+        nearbyStationsView.pageIndex = 0
+        nearbyStationsView.showFavorites = false
+        return nearbyStationsView
     }
     
     func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [AnyObject], transitionCompleted completed: Bool) {
@@ -160,11 +176,6 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         }
     }
 
-    func pageViewController(pageViewController: UIPageViewController, willTransitionToViewControllers pendingViewControllers: [AnyObject]) {
-        let currentView: StationsViewController  = pendingViewControllers[0] as StationsViewController
-        currentView.appsTableView?.refreshLocation()
-    }
-
     func setPageControlDot() {
         let currentViewController = getCurrentView()
         currentPageIndex = currentViewController.pageIndex
@@ -174,13 +185,25 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         }
     }
 
+    func moveToNearbyStations() {
+
+        self.setViewControllers( [self.nearbyStationsView], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil
+        )
+        currentPageIndex = 0
+        scrollViewDidScroll(self.scrollView!)
+        setPageControlDot()
+    }
+
     func getCurrentView() -> StationsViewController {
         return self.viewControllers[0] as StationsViewController
     }
 
     func setSearchButton() {
-        var searchButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Search, target: self, action: "searchClicked:")
-        searchButton.tintColor = UIColor.blackColor()
+        //var searchButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Search, target: self, action: "searchClicked:")
+        var searchButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: "searchClicked:")
+
+        searchButton.image = UIImage(named: "icon-search")
+        searchButton.tintColor = UIColor(netHexString: "555555")
 
         self.navigationItem.rightBarButtonItem = searchButton
     }
