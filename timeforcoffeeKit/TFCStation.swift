@@ -26,10 +26,9 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
         return APIController(delegate: self)
     }()
 
-    enum contextData {
-        case ValCompletionDelegate(TFCDeparturesUpdatedProtocol?)
-        case ValInt(Int?)
-        case ValBool(Bool?)
+    struct contextData {
+        var completionDelegate: TFCDeparturesUpdatedProtocol? = nil
+        var maxDepartures: Int? = nil
     }
 
     lazy var filteredLines:[String: [String: Bool]] = self.getFilteredLines()
@@ -239,10 +238,12 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
     }
 
     public func updateDepartures(completionDelegate: TFCDeparturesUpdatedProtocol?, maxDepartures: Int?, force: Bool) {
-        let context: Dictionary<String, contextData> = [
-            "completionDelegate": .ValCompletionDelegate(completionDelegate),
-            "maxDepartures": .ValInt(maxDepartures)
-        ]
+
+        var context: contextData = contextData()
+
+        context.completionDelegate = completionDelegate
+        context.maxDepartures = maxDepartures
+
         var settingsLastUpdated: NSDate? = TFCStations.getUserDefaults()?.objectForKey("settingsLastUpdate") as NSDate?
         if (force || lastDepartureUpdate == nil || lastDepartureUpdate?.timeIntervalSinceNow < -20 ||
             (settingsLastUpdated != nil && lastDepartureUpdate?.timeIntervalSinceDate(settingsLastUpdated!) < 0 ) ||
@@ -264,22 +265,15 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
 
     public func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?) {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+
     //    self.refreshControl.endRefreshing()
         dispatch_async(dispatch_get_main_queue(), {
-            let contextInfo = context! as Dictionary<String, contextData>
-
+            let contextInfo: contextData? = context as contextData?
             if (error != nil && self.departures != nil && self.departures?.count > 0) {
                 self.setDeparturesAsOutdated()
             } else {
-                var maxDepartures: Int?
-                switch contextInfo["maxDepartures"]! {
-                case .ValInt(let s):
-                    maxDepartures = s
-                default:
-                    maxDepartures = nil
-                }
-                if (maxDepartures > 0) {
-                    self.addDepartures(TFCDeparture.withJSON(results, filterStation: self, maxDepartures: maxDepartures))
+                if (contextInfo?.maxDepartures > 0) {
+                    self.addDepartures(TFCDeparture.withJSON(results, filterStation: self, maxDepartures: contextInfo?.maxDepartures!))
                 } else {
                     self.addDepartures(TFCDeparture.withJSON(results))
                 }
@@ -288,16 +282,7 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
                 self.name = TFCDeparture.getStationNameFromJson(results)!;
             }
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-
-            var completionDelegate: TFCDeparturesUpdatedProtocol?
-            switch contextInfo["completionDelegate"]! {
-            case .ValCompletionDelegate(let s):
-                completionDelegate = s
-            default:
-                completionDelegate = nil
-            }
-
-            completionDelegate?.departuresUpdated(error, context: context, forStation: self)
+            contextInfo?.completionDelegate?.departuresUpdated(error, context: context, forStation: self)
         })
     }
 
