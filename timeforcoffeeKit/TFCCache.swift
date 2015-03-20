@@ -12,12 +12,15 @@ class TFCCache {
     struct objects {
         static var apicalls: PINCache = {
             var p = PINCache(name: "apicalls")
+            // cache for max 7 days
             p.diskCache.ageLimit = 60 * 60 * 24 * 7
             return p
             }()
         static var stations: PINCache = {
             var p = PINCache(name: "stations")
+            // cache for max 24 hours
             p.diskCache.ageLimit = 60 * 60 * 24
+            println("diskByteCount stations: \(p.diskByteCount)")
             return p
         }()
     }

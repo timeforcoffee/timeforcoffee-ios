@@ -56,6 +56,7 @@ public class APIController {
 
     func fetchUrl(urlPath: String, fetchId: Int, context: Any?, cacheKey: String?) {
         if (cacheKey != nil && cache.objectForKey(cacheKey!) != nil) {
+            println("diskByteCount apicalls: \(cache.diskByteCount)")
             let result = JSONValue(cache.objectForKey(cacheKey!) as NSData!);
             self.delegate?.didReceiveAPIResults(result, error: nil, context: context)
         } else {

@@ -21,6 +21,7 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
     var lastDepartureUpdate: NSDate?
     var lastDepartureCount: Int?
     public var isLastUsed: Bool = false
+    public var serializeDepartures: Bool = true
 
     lazy var api : APIController = {
         return APIController(delegate: self)
@@ -32,10 +33,6 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
     }
 
     lazy var filteredLines:[String: [String: Bool]] = self.getFilteredLines()
-
-    lazy var stationCache:PINCache = {
-        return TFCCache.objects.stations
-        }()
 
     public init(name: String, id: String, coord: CLLocation?) {
         self.name = name
@@ -50,15 +47,15 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
         self.departures = aDecoder.decodeObjectForKey("departures") as [TFCDeparture]?
         self.walkingDistanceString = aDecoder.decodeObjectForKey("walkingDistanceString") as String?
         self.walkingDistanceLastCoord = aDecoder.decodeObjectForKey("walkingDistanceLastCoord") as CLLocation?
-
-
     }
 
     public func encodeWithCoder(aCoder: NSCoder) {
         aCoder.encodeObject(name, forKey: "name")
         aCoder.encodeObject(st_id, forKey: "st_id")
         aCoder.encodeObject(coord, forKey: "coord")
-        aCoder.encodeObject(departures, forKey: "departures")
+        if (serializeDepartures) {
+            aCoder.encodeObject(departures, forKey: "departures")
+        }
         aCoder.encodeObject(walkingDistanceString, forKey: "walkingDistanceString")
         aCoder.encodeObject(walkingDistanceLastCoord, forKey: "walkingDistanceLastCoord")
     }
@@ -75,7 +72,7 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
         } else {
             let countBefore = newStation!.departures?.count
             if (countBefore > 0) {
-            newStation!.removeObseleteDepartures()
+                newStation!.removeObseleteDepartures()
                 if (countBefore > newStation!.departures?.count) {
                     cache.setObject(newStation!, forKey: newStation!.st_id)
                 }
@@ -116,11 +113,11 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
     }
 
     public func setFavorite() {
-        TFCStations.setFavoriteStation(self)
+        TFCFavorites.getObject().set(self)
     }
 
     public func unsetFavorite() {
-        TFCStations.unsetFavoriteStation(self)
+        TFCFavorites.getObject().unset(self)
     }
 
     public func getLongitude() -> Double? {
@@ -221,9 +218,10 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
     }
 
     public func addDepartures(departures: [TFCDeparture]?) {
+        self.departures = departures
         let cache: PINCache = TFCCache.objects.stations
         cache.setObject(self, forKey: st_id)
-        self.departures = departures
+
     }
 
     public func getDepartures() -> [TFCDeparture]? {

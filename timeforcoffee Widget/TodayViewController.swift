@@ -201,6 +201,8 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             if (currentStation != nil) {
                 currentStation?.isLastUsed = true
                 lastViewedStation?.isLastUsed = false
+                // FIXME, use NSCoding serialisation ..
+                // and maybe one object for all these values
                 userDefaults?.setObject(currentStation?.getAsDict(), forKey: "lastUsedStation")
                 userDefaults?.setObject(locManager?.currentLocation?.distanceFromLocation(currentStation?.coord), forKey: "lastUsedStationDistance")
             }
