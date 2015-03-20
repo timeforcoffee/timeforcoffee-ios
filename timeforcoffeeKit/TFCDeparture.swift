@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-public class TFCDeparture {
+public class TFCDeparture: NSObject, NSCoding {
     public var name: String
     public var type: String
     public var accessible: Bool
@@ -32,6 +32,29 @@ public class TFCDeparture {
         self.colorBg = colorBg
         
     }
+
+    required public init(coder aDecoder: NSCoder) {
+        self.name = aDecoder.decodeObjectForKey("name") as String
+        self.type = aDecoder.decodeObjectForKey("type") as String
+        self.accessible = aDecoder.decodeBoolForKey("accessible")
+        self.to = aDecoder.decodeObjectForKey("to") as String
+        self.scheduled = aDecoder.decodeObjectForKey("scheduled") as NSDate?
+        self.realtime = aDecoder.decodeObjectForKey("realtime") as NSDate?
+        self.colorFg = aDecoder.decodeObjectForKey("colorFg") as String?
+        self.colorBg = aDecoder.decodeObjectForKey("colorBg") as String?
+    }
+
+    public func encodeWithCoder(aCoder: NSCoder) {
+        aCoder.encodeObject(name, forKey: "name")
+        aCoder.encodeObject(type, forKey: "type")
+        aCoder.encodeBool(accessible, forKey: "accessible")
+        aCoder.encodeObject(to, forKey: "to")
+        aCoder.encodeObject(scheduled, forKey: "scheduled")
+        aCoder.encodeObject(realtime, forKey: "realtime")
+        aCoder.encodeObject(colorFg, forKey: "colorFg")
+        aCoder.encodeObject(colorBg, forKey: "colorBg")
+    }
+
     
     public class func getStationNameFromJson(result: JSONValue) -> String? {
         return result["meta"]["station_name"].string

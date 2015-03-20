@@ -100,7 +100,6 @@ public class TFCStations {
                 self.stations!.append(station)
                 favorites.inStationsArray[station.st_id] = true
             } else {
-                station.removeFromCache()
                 removeFromFavorites.append(st_id)
             }
         }

@@ -10,13 +10,12 @@ import Foundation
 import CoreLocation
 import MapKit
 
-public class TFCStation: NSObject,  NSDiscardableContent, APIControllerProtocol {
+public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIControllerProtocol {
     public var name: String
     public var coord: CLLocation?
     public var st_id: String
-    public var distance: CLLocationDistance?
-    public var calculatedDistance: Int?
     var departures: [TFCDeparture]?
+    public var calculatedDistance: Int?
     var walkingDistanceString: String?
     var walkingDistanceLastCoord: CLLocation?
     var lastDepartureUpdate: NSDate?
@@ -35,7 +34,7 @@ public class TFCStation: NSObject,  NSDiscardableContent, APIControllerProtocol 
 
     lazy var filteredLines:[String: [String: Bool]] = self.getFilteredLines()
 
-    lazy var stationCache:NSCache = {
+    lazy var stationCache:PINCache = {
         return TFCCache.objects.stations
         }()
 
@@ -45,16 +44,43 @@ public class TFCStation: NSObject,  NSDiscardableContent, APIControllerProtocol 
         self.coord = coord
     }
 
+    public required init(coder aDecoder: NSCoder) {
+        self.name = aDecoder.decodeObjectForKey("name") as String
+        self.st_id = aDecoder.decodeObjectForKey("st_id") as String
+        self.coord = aDecoder.decodeObjectForKey("coord") as CLLocation?
+        self.departures = aDecoder.decodeObjectForKey("departures") as [TFCDeparture]?
+        self.walkingDistanceString = aDecoder.decodeObjectForKey("walkingDistanceString") as String?
+        self.walkingDistanceLastCoord = aDecoder.decodeObjectForKey("walkingDistanceLastCoord") as CLLocation?
+
+
+    }
+
+    public func encodeWithCoder(aCoder: NSCoder) {
+        aCoder.encodeObject(name, forKey: "name")
+        aCoder.encodeObject(st_id, forKey: "st_id")
+        aCoder.encodeObject(coord, forKey: "coord")
+        aCoder.encodeObject(departures, forKey: "departures")
+        aCoder.encodeObject(walkingDistanceString, forKey: "walkingDistanceString")
+        aCoder.encodeObject(walkingDistanceLastCoord, forKey: "walkingDistanceLastCoord")
+    }
+
     override public convenience init() {
         self.init(name: "doesn't exist", id: "0000", coord: nil)
     }
 
     public class func initWithCache(name: String, id: String, coord: CLLocation?) -> TFCStation {
-        let cache: NSCache = TFCCache.objects.stations
+        let cache: PINCache = TFCCache.objects.stations
         var newStation: TFCStation? = cache.objectForKey(id) as TFCStation?
         if (newStation == nil) {
             newStation = TFCStation(name: name, id: id, coord: coord)
         } else {
+            let countBefore = newStation!.departures?.count
+            if (countBefore > 0) {
+            newStation!.removeObseleteDepartures()
+                if (countBefore > newStation!.departures?.count) {
+                    cache.setObject(newStation!, forKey: newStation!.st_id)
+                }
+            }
             newStation!.filteredLines = newStation!.getFilteredLines()
         }
         return newStation!
@@ -69,11 +95,6 @@ public class TFCStation: NSObject,  NSDiscardableContent, APIControllerProtocol 
         }
         let station = initWithCache(dict["name"] as String!, id: dict["st_id"] as String!, coord: location)
         return station
-    }
-
-    public func removeFromCache() {
-        let cache: NSCache = TFCCache.objects.stations
-        cache.removeObjectForKey(self.st_id)
     }
 
     public class func isStations(results: JSONValue) -> Bool {
@@ -201,7 +222,7 @@ public class TFCStation: NSObject,  NSDiscardableContent, APIControllerProtocol 
     }
 
     public func addDepartures(departures: [TFCDeparture]?) {
-        let cache: NSCache = TFCCache.objects.stations
+        let cache: PINCache = TFCCache.objects.stations
         cache.setObject(self, forKey: st_id)
         self.departures = departures
     }
@@ -493,12 +514,15 @@ public class TFCStation: NSObject,  NSDiscardableContent, APIControllerProtocol 
 
     }
 
+
+    // Not needed anymore, should be moved to be done in DidReceiveMemoryWarning
     public func discardContentIfPossible() {
         self.removeObseleteDepartures()
         if (!isLastUsed && self.departures?.count > 1) {
             println("delete some departures")
             self.departures = [(self.departures?.first)!]
         }
+        println( "discardContentIfPossible")
     }
 
     public func beginContentAccess() -> Bool {
@@ -511,6 +535,7 @@ public class TFCStation: NSObject,  NSDiscardableContent, APIControllerProtocol 
 
     public func isContentDiscarded() -> Bool {
         removeObseleteDepartures()
+        println("isContentDiscarded")
         if (!isLastUsed && (departures == nil || departures?.count == 0)) {
             return true
         }

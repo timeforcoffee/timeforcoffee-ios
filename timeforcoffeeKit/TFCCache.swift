@@ -10,8 +10,16 @@ import Foundation
 
 class TFCCache {
     struct objects {
-        static var stations: NSCache = NSCache()
-        static var apicalls: NSCache = NSCache()
+        static var apicalls: PINCache = {
+            var p = PINCache(name: "apicalls")
+            p.diskCache.ageLimit = 60 * 60 * 24 * 7
+            return p
+            }()
+        static var stations: PINCache = {
+            var p = PINCache(name: "stations")
+            p.diskCache.ageLimit = 60 * 60 * 24
+            return p
+        }()
     }
 
 }

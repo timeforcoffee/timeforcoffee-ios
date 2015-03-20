@@ -18,7 +18,7 @@ public class APIController {
         return NSURLSession.sharedSession()
     }()
 
-    lazy var cache:NSCache = {
+    lazy var cache:PINCache = {
         return TFCCache.objects.apicalls
      }()
 
