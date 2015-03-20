@@ -54,10 +54,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
 
         if (url.host == "nearby") {
-            let rootView = self.window?.rootViewController? as UINavigationController
-            rootView.popToRootViewControllerAnimated(false)
-            let pagedView: PagedStationsViewController = rootView.viewControllers.first as PagedStationsViewController
-            pagedView.moveToNearbyStations()
+            let rootView = self.window?.rootViewController? as UINavigationController?
+            rootView?.popToRootViewControllerAnimated(false)
+            if (rootView != nil) {
+                let pagedView: PagedStationsViewController? = rootView?.viewControllers.first as PagedStationsViewController?
+                pagedView?.moveToNearbyStations()
+            }
 
         } else if (url.host == "station" && url.query != nil) {
          

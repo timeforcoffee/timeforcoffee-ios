@@ -190,7 +190,9 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         self.setViewControllers( [self.nearbyStationsView], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil
         )
         currentPageIndex = 0
-        scrollViewDidScroll(self.scrollView!)
+        if (self.scrollView != nil) {
+            scrollViewDidScroll(self.scrollView!)
+        }
         setPageControlDot()
     }
 
