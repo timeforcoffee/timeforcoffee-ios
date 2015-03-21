@@ -46,6 +46,9 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
         self.st_id = aDecoder.decodeObjectForKey("st_id") as String
         self.coord = aDecoder.decodeObjectForKey("coord") as CLLocation?
         self.departures = aDecoder.decodeObjectForKey("departures") as [TFCDeparture]?
+        if (self.departures?.count == 0) {
+            self.departures = nil
+        }
         self.walkingDistanceString = aDecoder.decodeObjectForKey("walkingDistanceString") as String?
         self.walkingDistanceLastCoord = aDecoder.decodeObjectForKey("walkingDistanceLastCoord") as CLLocation?
     }
@@ -307,6 +310,10 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
                     i++
                 }
             }
+        }
+
+        if (departures?.count == 0) {
+            departures = nil
         }
     }
 
