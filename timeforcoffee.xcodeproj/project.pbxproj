@@ -14,6 +14,7 @@
 		314AFBD61AA778F400C176FE /* StationTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314AFBD51AA778F400C176FE /* StationTableView.swift */; };
 		31979D751AB5BC7B00525165 /* DepartureLineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31979D741AB5BC7B00525165 /* DepartureLineLabel.swift */; };
 		31979D761AB5BC7B00525165 /* DepartureLineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31979D741AB5BC7B00525165 /* DepartureLineLabel.swift */; };
+		4BA86C17986B70448BEAD6EA /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 965B2A36D479CA86DF62E63F /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		EC046D631A9C563D00C2C1B3 /* TFCLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC046D621A9C563D00C2C1B3 /* TFCLocationManager.swift */; };
 		EC0530871AB01153008439E9 /* gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0530861AB01153008439E9 /* gradient.png */; };
 		EC0740731AB8C68100452868 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC7A517F19C427CA000F5E7C /* Images.xcassets */; };
@@ -40,8 +41,6 @@
 		EC2C317E1A9E1F4400690397 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C31751A9E1EEB00690397 /* libz.dylib */; };
 		EC31F5481AAE3AED00771585 /* DeparturesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC31F5471AAE3AED00771585 /* DeparturesViewController.swift */; };
 		EC31F54A1AAE3DC000771585 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC31F5491AAE3DC000771585 /* AboutViewController.swift */; };
-		EC3252E61A9CE1320056AF11 /* MGSwipeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EC3252E31A9CE1320056AF11 /* MGSwipeButton.m */; };
-		EC3252E71A9CE1320056AF11 /* MGSwipeTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC3252E51A9CE1320056AF11 /* MGSwipeTableCell.m */; };
 		EC4843841ABB911A002B3BB5 /* PINCache.h in Headers */ = {isa = PBXBuildFile; fileRef = EC48437E1ABB911A002B3BB5 /* PINCache.h */; };
 		EC4843851ABB911A002B3BB5 /* PINCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC48437F1ABB911A002B3BB5 /* PINCache.m */; };
 		EC4843861ABB911A002B3BB5 /* PINDiskCache.h in Headers */ = {isa = PBXBuildFile; fileRef = EC4843801ABB911A002B3BB5 /* PINDiskCache.h */; };
@@ -135,6 +134,9 @@
 		314AFBD31AA766DC00C176FE /* StationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationTableViewCell.swift; sourceTree = "<group>"; };
 		314AFBD51AA778F400C176FE /* StationTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationTableView.swift; sourceTree = "<group>"; };
 		31979D741AB5BC7B00525165 /* DepartureLineLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DepartureLineLabel.swift; sourceTree = "<group>"; };
+		3C47D48C04911012125C5428 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		648323A7126563DCA991BABD /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		965B2A36D479CA86DF62E63F /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC046D621A9C563D00C2C1B3 /* TFCLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCLocationManager.swift; sourceTree = "<group>"; };
 		EC0530861AB01153008439E9 /* gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gradient.png; path = _assets/gradient.png; sourceTree = "<group>"; };
 		EC0A30EB1AA344100043B8F8 /* launchicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = launchicon.png; path = _assets/launchicon.png; sourceTree = "<group>"; };
@@ -160,10 +162,6 @@
 		EC31F5471AAE3AED00771585 /* DeparturesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeparturesViewController.swift; sourceTree = "<group>"; };
 		EC31F5491AAE3DC000771585 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		EC3252DF1A9CE0800056AF11 /* timeforcoffee-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "timeforcoffee-Bridging-Header.h"; sourceTree = "<group>"; };
-		EC3252E21A9CE1320056AF11 /* MGSwipeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSwipeButton.h; sourceTree = "<group>"; };
-		EC3252E31A9CE1320056AF11 /* MGSwipeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGSwipeButton.m; sourceTree = "<group>"; };
-		EC3252E41A9CE1320056AF11 /* MGSwipeTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSwipeTableCell.h; sourceTree = "<group>"; };
-		EC3252E51A9CE1320056AF11 /* MGSwipeTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGSwipeTableCell.m; sourceTree = "<group>"; };
 		EC4344B11AA5080A009438C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC4344B21AA5080A009438C7 /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
 		EC4344B41AA5080A009438C7 /* GlanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlanceController.swift; sourceTree = "<group>"; };
@@ -266,12 +264,22 @@
 				EC2C317B1A9E1F2D00690397 /* SystemConfiguration.framework in Frameworks */,
 				EC6EDD441A9BA36F0098CAE0 /* timeforcoffeeKit.framework in Frameworks */,
 				EC2C31691A9E1E9B00690397 /* NewRelicAgent.framework in Frameworks */,
+				4BA86C17986B70448BEAD6EA /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D9E9ACCF061DCAE672C25E77 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				3C47D48C04911012125C5428 /* Pods.debug.xcconfig */,
+				648323A7126563DCA991BABD /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		EC0A30E81AA33D990043B8F8 /* _assets */ = {
 			isa = PBXGroup;
 			children = (
@@ -290,17 +298,6 @@
 				EC2C31261A9DE8B000690397 /* home.gpx */,
 			);
 			name = gpx;
-			sourceTree = "<group>";
-		};
-		EC3252E91A9CE9DC0056AF11 /* MGSwipe */ = {
-			isa = PBXGroup;
-			children = (
-				EC3252E21A9CE1320056AF11 /* MGSwipeButton.h */,
-				EC3252E31A9CE1320056AF11 /* MGSwipeButton.m */,
-				EC3252E41A9CE1320056AF11 /* MGSwipeTableCell.h */,
-				EC3252E51A9CE1320056AF11 /* MGSwipeTableCell.m */,
-			);
-			name = MGSwipe;
 			sourceTree = "<group>";
 		};
 		EC4344AF1AA5080A009438C7 /* Time for Coffee! WatchKit Extension */ = {
@@ -378,6 +375,7 @@
 				EC2C316B1A9E1EB800690397 /* CoreTelephony.framework */,
 				EC2C31681A9E1E9B00690397 /* NewRelicAgent.framework */,
 				EC6EDCF11A9B9F390098CAE0 /* NotificationCenter.framework */,
+				965B2A36D479CA86DF62E63F /* Pods.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -462,6 +460,7 @@
 				EC4344BE1AA5080A009438C7 /* Time for Coffee! WatchKit App */,
 				EC6EDCF01A9B9F390098CAE0 /* Frameworks */,
 				EC7A517419C427CA000F5E7C /* Products */,
+				D9E9ACCF061DCAE672C25E77 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -490,7 +489,6 @@
 				EC7A519A19C43E0A000F5E7C /* Blank52.png */,
 				EC7A517819C427CA000F5E7C /* AppDelegate.swift */,
 				EC72FCC01AA336E900E9B275 /* TFCNavigationController.swift */,
-				EC3252E91A9CE9DC0056AF11 /* MGSwipe */,
 				EC7A517A19C427CA000F5E7C /* StationsViewController.swift */,
 				EC0DD8D01AAF1B5F0089A207 /* StationsSearchViewController.swift */,
 				ECDAB3A51AAA42A300EB352B /* PagedStationsViewController.swift */,
@@ -585,12 +583,15 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EC7A519219C427CA000F5E7C /* Build configuration list for PBXNativeTarget "timeforcoffee" */;
 			buildPhases = (
+				4C682C12C8C434B799C1BB99 /* Check Pods Manifest.lock */,
 				EC7A516F19C427CA000F5E7C /* Sources */,
 				EC7A517019C427CA000F5E7C /* Frameworks */,
 				EC7A517119C427CA000F5E7C /* Resources */,
 				EC6EDD001A9B9F390098CAE0 /* Embed App Extensions */,
 				EC6EDD241A9BA33C0098CAE0 /* Embed Frameworks */,
 				EC2C317F1A9E202500690397 /* ShellScript */,
+				A180F513FBCE68D152777704 /* Embed Pods Frameworks */,
+				4A33FD3CC8DCA65BD4628E06 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -705,6 +706,51 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		4A33FD3CC8DCA65BD4628E06 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4C682C12C8C434B799C1BB99 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		A180F513FBCE68D152777704 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		EC2C317F1A9E202500690397 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -774,9 +820,7 @@
 				31979D751AB5BC7B00525165 /* DepartureLineLabel.swift in Sources */,
 				EC31F54A1AAE3DC000771585 /* AboutViewController.swift in Sources */,
 				EC0DD8D11AAF1B5F0089A207 /* StationsSearchViewController.swift in Sources */,
-				EC3252E71A9CE1320056AF11 /* MGSwipeTableCell.m in Sources */,
 				EC7A517919C427CA000F5E7C /* AppDelegate.swift in Sources */,
-				EC3252E61A9CE1320056AF11 /* MGSwipeButton.m in Sources */,
 				EC72FCC11AA336E900E9B275 /* TFCNavigationController.swift in Sources */,
 				314AFBD41AA766DC00C176FE /* StationTableViewCell.swift in Sources */,
 				EC7A519F19C4432F000F5E7C /* DetailsViewController.swift in Sources */,
@@ -1032,6 +1076,7 @@
 		};
 		EC7A519319C427CA000F5E7C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3C47D48C04911012125C5428 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "timeforcoffee/Time for Coffee!.entitlements";
@@ -1058,6 +1103,7 @@
 		};
 		EC7A519419C427CA000F5E7C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 648323A7126563DCA991BABD /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "timeforcoffee/Time for Coffee!.entitlements";

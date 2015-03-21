@@ -9,6 +9,7 @@
 import UIKit
 import timeforcoffeeKit
 import MapKit
+import MGSwipeTableCell
 
 class DeparturesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, MGSwipeTableCellDelegate, MKMapViewDelegate, TFCDeparturesUpdatedProtocol {
 
