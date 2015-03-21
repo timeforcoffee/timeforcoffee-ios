@@ -10,6 +10,7 @@ import UIKit
 import NotificationCenter
 import CoreLocation
 import timeforcoffeeKit
+import PINCache
 
 class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, UIGestureRecognizerDelegate,  TFCDeparturesUpdatedProtocol {
     @IBOutlet weak var titleLabel: UILabel!
