@@ -9,6 +9,7 @@
 import Foundation
 import CoreLocation
 import MapKit
+import PINCache
 
 public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIControllerProtocol {
     public var name: String

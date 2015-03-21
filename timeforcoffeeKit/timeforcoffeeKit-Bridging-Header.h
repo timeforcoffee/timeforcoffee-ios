@@ -9,6 +9,4 @@
 #ifndef timeforcoffee_timeforcoffeeKit_Bridging_Header_h
 #define timeforcoffee_timeforcoffeeKit_Bridging_Header_h
 
-#import "PINCache.h"
-
 #endif
