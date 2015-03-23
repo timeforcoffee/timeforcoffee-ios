@@ -22,7 +22,7 @@ public class TFCDataStore: NSObject {
     let keyvaluestore: NSUbiquitousKeyValueStore? = NSUbiquitousKeyValueStore.defaultStore()
     var notificationObserver: AnyObject?
 
-    func setObject(anObject: AnyObject, forKey: String) {
+    func setObject(anObject: AnyObject?, forKey: String) {
         userDefaults?.setObject(anObject , forKey: forKey)
         keyvaluestore?.setObject(anObject, forKey: forKey)
     }
