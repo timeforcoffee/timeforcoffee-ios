@@ -14,8 +14,7 @@ class TFCFavorites: NSObject {
     lazy public var stations: [String: TFCStation] = { return self.getCurrentFavoritesFromDefaults()}()
     private struct objects {
         static var favorites: TFCFavorites =  TFCFavorites()
-        static let  userDefaults: NSUserDefaults? = NSUserDefaults(suiteName: "group.ch.liip.timeforcoffee")
-
+        static let  dataStore: TFCDataStore? = TFCDataStore()
     }
     var temporarlyRemovedStations = false
 
@@ -31,7 +30,7 @@ class TFCFavorites: NSObject {
 
     func getCurrentFavoritesFromDefaults() -> [String: TFCStation] {
         var st: [String: TFCStation]?
-        if let unarchivedObject = objects.userDefaults?.objectForKey("favorites2") as? NSData {
+        if let unarchivedObject = objects.dataStore?.objectForKey("favorites2") as? NSData {
             st = NSKeyedUnarchiver.unarchiveObjectWithData(unarchivedObject) as? [String: TFCStation]
         }
         let cache: PINCache = TFCCache.objects.stations
@@ -107,7 +106,7 @@ class TFCFavorites: NSObject {
         for (id, station) in stations {
             station.serializeDepartures = true
         }
-        objects.userDefaults?.setObject(archivedFavorites , forKey: "favorites2")
+        objects.dataStore?.setObject(archivedFavorites , forKey: "favorites2")
     }
 
 }

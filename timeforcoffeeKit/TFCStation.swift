@@ -24,6 +24,10 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
     public var isLastUsed: Bool = false
     public var serializeDepartures: Bool = true
 
+    private struct objects {
+        static let  dataStore: TFCDataStore? = TFCDataStore()
+    }
+
     lazy var api : APIController = {
         return APIController(delegate: self)
     }()
@@ -205,15 +209,15 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
         
     public func saveFilteredLines() {
         if (filteredLines.count > 0) {
-            TFCStations.getUserDefaults()?.setObject(filteredLines, forKey: "filtered\(st_id)")
+            objects.dataStore?.setObject(filteredLines, forKey: "filtered\(st_id)")
         } else {
-            TFCStations.getUserDefaults()?.removeObjectForKey("filtered\(st_id)")
+            objects.dataStore?.removeObjectForKey("filtered\(st_id)")
         }
         TFCStations.getUserDefaults()?.setObject(NSDate(), forKey: "settingsLastUpdate")
     }
     
     func getFilteredLines() -> [String: [String: Bool]] {
-        var filteredDestinationsShared: [String: [String: Bool]]? = TFCStations.getUserDefaults()?.objectForKey("filtered\(st_id)")?.mutableCopy() as [String: [String: Bool]]?
+        var filteredDestinationsShared: [String: [String: Bool]]? = objects.dataStore?.objectForKey("filtered\(st_id)")?.mutableCopy() as [String: [String: Bool]]?
         
         if (filteredDestinationsShared == nil) {
             filteredDestinationsShared = [:]
