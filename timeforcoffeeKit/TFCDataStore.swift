@@ -36,21 +36,16 @@ public class TFCDataStore: NSObject {
         keyvaluestore?.removeObjectForKey(forKey)
     }
 
-    func synchronize() {
+    public func synchronize() {
         userDefaults?.synchronize()
         keyvaluestore?.synchronize()
     }
 
     public func registerForNotifications() {
-        println("registerForNotifications 1")
         objc_sync_enter(notificationObserver)
-        println("registerForNotifications 2")
-
         if (notificationObserver != nil) {
             return
         }
-        println("registerForNotifications 3")
-
         notificationObserver = NSNotificationCenter.defaultCenter().addObserverForName("NSUbiquitousKeyValueStoreDidChangeExternallyNotification", object: keyvaluestore, queue: nil, usingBlock: { (notification: NSNotification!) -> Void in
             let userInfo: NSDictionary? = notification.userInfo as NSDictionary?
             let reasonForChange: NSNumber? = userInfo?.objectForKey(NSUbiquitousKeyValueStoreChangeReasonKey) as NSNumber?
@@ -66,15 +61,16 @@ public class TFCDataStore: NSObject {
                     if (changedKeys != nil) {
                         for (key) in changedKeys! {
                             self.userDefaults?.setObject(self.keyvaluestore?.objectForKey(key), forKey: key)
+                            println(key)
+                            if (key == "favorites2") {
+                                TFCFavorites.sharedInstance.repopulateFavorites()
+                            }
                         }
                     }
             }
 
         })
-        println("registerForNotifications 4")
-
         objc_sync_exit(notificationObserver)
-        println("registerForNotifications 5")
 
     }
 
