@@ -47,7 +47,6 @@ class TFCFavorites: NSObject {
             for (st_id, station) in st! {
                 let newStation: TFCStation? = cache.objectForKey(st_id) as TFCStation?
                 if (newStation != nil) {
-                    println("fav from cache \(station.name)")
                     st![st_id] = newStation
                 }
             }
