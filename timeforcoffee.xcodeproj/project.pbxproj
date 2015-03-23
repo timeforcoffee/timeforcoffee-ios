@@ -39,7 +39,6 @@
 		EC2C317E1A9E1F4400690397 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C31751A9E1EEB00690397 /* libz.dylib */; };
 		EC31F5481AAE3AED00771585 /* DeparturesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC31F5471AAE3AED00771585 /* DeparturesViewController.swift */; };
 		EC31F54A1AAE3DC000771585 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC31F5491AAE3DC000771585 /* AboutViewController.swift */; };
-		EC48438B1ABB915C002B3BB5 /* foo.m in Sources */ = {isa = PBXBuildFile; fileRef = EC48438A1ABB915C002B3BB5 /* foo.m */; };
 		EC6EDCF21A9B9F390098CAE0 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC6EDCF11A9B9F390098CAE0 /* NotificationCenter.framework */; };
 		EC6EDCF71A9B9F390098CAE0 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDCF61A9B9F390098CAE0 /* TodayViewController.swift */; };
 		EC6EDCFC1A9B9F390098CAE0 /* timeforcoffee Widget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EC6EDCEF1A9B9F390098CAE0 /* timeforcoffee Widget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -165,7 +164,6 @@
 		EC4344C41AA5080A009438C7 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		EC4344CF1AA508FF009438C7 /* StationRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationRow.swift; sourceTree = "<group>"; };
 		EC4344D11AA5890F009438C7 /* StationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationViewController.swift; sourceTree = "<group>"; };
-		EC48438A1ABB915C002B3BB5 /* foo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = foo.m; sourceTree = "<group>"; };
 		EC48438C1ABB917D002B3BB5 /* timeforcoffeeKit-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "timeforcoffeeKit-Bridging-Header.h"; sourceTree = "<group>"; };
 		EC522E741AA611A40011A992 /* HelveticaNeueBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HelveticaNeueBold.ttf; sourceTree = "<group>"; };
 		EC6EDCEF1A9B9F390098CAE0 /* timeforcoffee Widget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "timeforcoffee Widget.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -386,7 +384,6 @@
 			isa = PBXGroup;
 			children = (
 				EC6EDD501A9BA5080098CAE0 /* SwiftyJSON.swift */,
-				EC48438A1ABB915C002B3BB5 /* foo.m */,
 				EC6EDD4C1A9BA4820098CAE0 /* TFCDeparture.swift */,
 				EC6EDD4D1A9BA4820098CAE0 /* TFCStation.swift */,
 				ECF100AC1A9D9BAE00056510 /* TFCStations.swift */,
@@ -749,7 +746,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC48438B1ABB915C002B3BB5 /* foo.m in Sources */,
 				EC95714F1A9CACB70061F8B4 /* extensions.swift in Sources */,
 				ECF100AD1A9D9BAE00056510 /* TFCStations.swift in Sources */,
 				EC9571511A9CCEC00061F8B4 /* TFCBaseViewController.swift in Sources */,
