@@ -163,8 +163,19 @@ public class TFCStations {
             stations[st_id_fixed] = station
             favorite.s.set(station)
         }
+
         favorite.userDefaults?.removeObjectForKey("favoriteStations")
 
+        // copy filters to iCloud
+        let keys: NSArray? = favorite.userDefaults?.dictionaryRepresentation().keys.array
+        if (keys != nil) {
+            for (key) in  keys! {
+                let k: String = key as String
+                if (k.match("filtered")) {
+                    TFCDataStore.sharedInstance.setObject(favorite.userDefaults?.objectForKey(k), forKey: k)
+                }
+            }
+        }
     }
 
     public class func getFavoriteStationsDict() -> [String: [String: String]] {
