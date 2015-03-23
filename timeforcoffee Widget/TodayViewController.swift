@@ -74,6 +74,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
 
     override func viewDidAppear(animated: Bool) {
         //actionLabel.hidden = false
+        actionLabel.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         super.viewDidAppear(animated)
     }
 
