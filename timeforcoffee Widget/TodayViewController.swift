@@ -67,9 +67,21 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         titleLabel.addGestureRecognizer(tapGesture)
         // Do any additional setup after loading the view from its nib.
     }
-    
+
+
+    override init() {
+        super.init()
+    }
+
+    override init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        TFCDataStore.sharedInstance.registerForNotifications()
+        TFCDataStore.sharedInstance.synchronize()
+    }
+
     deinit {
         println("deinit widget")
+        TFCDataStore.sharedInstance.removeNotifications()
     }
 
     override func viewDidAppear(animated: Bool) {
