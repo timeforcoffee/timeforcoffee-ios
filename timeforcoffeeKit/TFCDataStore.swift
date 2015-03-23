@@ -60,10 +60,14 @@ public class TFCDataStore: NSObject {
                     var changedKeys: [String]? = userInfo?.objectForKey(NSUbiquitousKeyValueStoreChangedKeysKey) as [String]?
                     if (changedKeys != nil) {
                         for (key) in changedKeys! {
-                            self.userDefaults?.setObject(self.keyvaluestore?.objectForKey(key), forKey: key)
-                            println(key)
-                            if (key == "favorites2") {
-                                TFCFavorites.sharedInstance.repopulateFavorites()
+                            // legacy, can be removed later
+                            if (key == "favoriteStations") {
+                                self.keyvaluestore?.removeObjectForKey("favoriteStations")
+                            } else {
+                                self.userDefaults?.setObject(self.keyvaluestore?.objectForKey(key), forKey: key)
+                                if (key == "favorites2") {
+                                    TFCFavorites.sharedInstance.repopulateFavorites()
+                                }
                             }
                         }
                     }
