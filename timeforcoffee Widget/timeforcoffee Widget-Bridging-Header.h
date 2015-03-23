@@ -5,7 +5,6 @@
 #ifndef timeforcoffee_timeforcoffee_widget_Bridging_Header_h
 #define timeforcoffee_timeforcoffee_widget_Bridging_Header_h
 
-#import <NewRelicAgent/NewRelic.h>
 #import "GAI.h"
 #import "GAIDictionaryBuilder.h"
 #import "GAIFields.h"
