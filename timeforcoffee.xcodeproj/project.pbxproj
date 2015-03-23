@@ -172,7 +172,6 @@
 		EC6EDCF51A9B9F390098CAE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC6EDCF61A9B9F390098CAE0 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		EC6EDD011A9BA04D0098CAE0 /* timeforcoffee Widget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "timeforcoffee Widget.entitlements"; sourceTree = "<group>"; };
-		EC6EDD021A9BA07E0098CAE0 /* timeforcoffee.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = timeforcoffee.entitlements; sourceTree = "<group>"; };
 		EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = timeforcoffeeKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC6EDD3F1A9BA36F0098CAE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC6EDD401A9BA36F0098CAE0 /* timeforcoffeeKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = timeforcoffeeKitTests.swift; sourceTree = "<group>"; };
@@ -464,7 +463,6 @@
 				314AFBD11AA7633D00C176FE /* StationTableViewCell.xib */,
 				314AFBD31AA766DC00C176FE /* StationTableViewCell.swift */,
 				ECF100AE1A9DBDAF00056510 /* Time for Coffee!.entitlements */,
-				EC6EDD021A9BA07E0098CAE0 /* timeforcoffee.entitlements */,
 				EC3252DF1A9CE0800056AF11 /* timeforcoffee-Bridging-Header.h */,
 				EC7A519A19C43E0A000F5E7C /* Blank52.png */,
 				EC7A517819C427CA000F5E7C /* AppDelegate.swift */,
