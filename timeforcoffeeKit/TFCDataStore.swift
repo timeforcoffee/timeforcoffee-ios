@@ -11,18 +11,16 @@ import Foundation
 
 public class TFCDataStore: NSObject {
 
-    private struct objects {
-        static var tfcdatastore: TFCDataStore =  TFCDataStore()
-
+    public class var sharedInstance: TFCDataStore {
+        struct Static {
+            static let instance: TFCDataStore = TFCDataStore()
+        }
+        return Static.instance
     }
+
     let userDefaults: NSUserDefaults? = NSUserDefaults(suiteName: "group.ch.liip.timeforcoffee")
     let keyvaluestore: NSUbiquitousKeyValueStore? = NSUbiquitousKeyValueStore.defaultStore()
     var notificationObserver: AnyObject?
-
-
-    class public func getObject() -> TFCDataStore {
-        return objects.tfcdatastore
-    }
 
     func setObject(anObject: AnyObject, forKey: String) {
         userDefaults?.setObject(anObject , forKey: forKey)

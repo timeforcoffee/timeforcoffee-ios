@@ -11,9 +11,17 @@ import PINCache
 
 public
 class TFCFavorites: NSObject {
+
+    public class var sharedInstance: TFCFavorites {
+        struct Static {
+            static let instance: TFCFavorites = TFCFavorites()
+        }
+        return Static.instance
+    }
+
     lazy public var stations: [String: TFCStation] = { return self.getCurrentFavoritesFromDefaults()}()
+    
     private struct objects {
-        static var favorites: TFCFavorites =  TFCFavorites()
         static let  dataStore: TFCDataStore? = TFCDataStore()
     }
     var temporarlyRemovedStations = false
@@ -52,10 +60,6 @@ class TFCFavorites: NSObject {
     public func removeTemporarly(st_id: String) {
         temporarlyRemovedStations = true
         stations.removeValueForKey(st_id)
-    }
-
-    class public func getObject() -> TFCFavorites {
-        return objects.favorites
     }
 
     public func unset(st_id: String?) {

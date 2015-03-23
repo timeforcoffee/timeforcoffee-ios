@@ -121,11 +121,11 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
     }
 
     public func setFavorite() {
-        TFCFavorites.getObject().set(self)
+        TFCFavorites.sharedInstance.set(self)
     }
 
     public func unsetFavorite() {
-        TFCFavorites.getObject().unset(self)
+        TFCFavorites.sharedInstance.unset(self)
     }
 
     public func getLongitude() -> Double? {

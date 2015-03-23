@@ -14,7 +14,7 @@ public class TFCStations {
 
     //struct here, because "class var" is not yet supported
     private struct favorite {
-        static var s: TFCFavorites = TFCFavorites.getObject()
+        static var s: TFCFavorites = TFCFavorites.sharedInstance
         static var inStationsArray: [String: Bool] = [:]
         static var userDefaults: NSUserDefaults? =  NSUserDefaults(suiteName: "group.ch.liip.timeforcoffee")
     }
