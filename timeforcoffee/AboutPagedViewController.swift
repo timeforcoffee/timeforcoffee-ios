@@ -8,6 +8,7 @@
 
 import Foundation
 import SwipeView
+import timeforcoffeeKit
 
 class AboutPagedViewController: UIViewController, SwipeViewDataSource, SwipeViewDelegate, UIWebViewDelegate {
 
@@ -87,9 +88,15 @@ class AboutPagedViewController: UIViewController, SwipeViewDataSource, SwipeView
         return true
     }
 
-    override func viewWillDisappear(animated: Bool) {
-        //bgImage.hidden = true
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        if (TFCDataStore.sharedInstance.getUserDefaults()?.boolForKey("onboardingShown") != true) {
+            swipeView.scrollToPage(1, duration: 1.0)
+            TFCDataStore.sharedInstance.getUserDefaults()?.setBool(true, forKey: "onboardingShown")
+        }
     }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         swipeView.pagingEnabled = true
