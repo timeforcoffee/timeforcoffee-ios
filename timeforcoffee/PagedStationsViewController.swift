@@ -76,8 +76,7 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeActive:", name: "UIApplicationDidBecomeActiveNotification", object: nil)
             registeredObserver = true
         }
-        showOnBoarding()
-        refreshLocation()
+        showOnBoardingOrRefreshLocation()
     }
 
     private func refreshLocation() {
@@ -87,14 +86,15 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         }
     }
 
-    private func showOnBoarding() {
+    private func showOnBoardingOrRefreshLocation() {
+
         if (TFCDataStore.sharedInstance.getUserDefaults()?.boolForKey("onboardingShown") != true) {
 
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc: AboutPagedViewController! = storyboard.instantiateViewControllerWithIdentifier("AboutPagedViewController") as AboutPagedViewController
             self.navigationController?.presentViewController(vc, animated: true, completion: nil)
-            vc.swipeView.scrollToPage(2, duration: 0.0)
-            TFCDataStore.sharedInstance.getUserDefaults()?.setBool(true, forKey: "onboardingShown")
+        } else {
+            refreshLocation()
         }
     }
 

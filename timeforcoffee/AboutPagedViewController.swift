@@ -9,8 +9,9 @@
 import Foundation
 import SwipeView
 import timeforcoffeeKit
+import CoreLocation
 
-class AboutPagedViewController: UIViewController, SwipeViewDataSource, SwipeViewDelegate, UIWebViewDelegate {
+class AboutPagedViewController: UIViewController, SwipeViewDataSource, SwipeViewDelegate, UIWebViewDelegate, CLLocationManagerDelegate {
 
     @IBOutlet weak var swipeView: SwipeView!
 
@@ -18,12 +19,26 @@ class AboutPagedViewController: UIViewController, SwipeViewDataSource, SwipeView
 
     @IBOutlet weak var bgImageLeft: NSLayoutConstraint!
     @IBAction func closeButtonAction(sender: AnyObject) {
+        TFCDataStore.sharedInstance.getUserDefaults()?.setBool(true, forKey: "onboardingShown")
         self.dismissViewControllerAnimated(true, completion: nil)
 
 
     }
+    var lm: CLLocationManager?
+    lazy var onBoardingShown:Bool = {
+        if (TFCDataStore.sharedInstance.getUserDefaults()?.boolForKey("onboardingShown") == true) {
+            return true
+        } else {
+            return false
+        }
+    }()
+
 
     func numberOfItemsInSwipeView(swipeView: SwipeView!) -> Int {
+        if (onBoardingShown) {
+            return 2
+        }
+
         return 4
     }
 
@@ -48,9 +63,7 @@ class AboutPagedViewController: UIViewController, SwipeViewDataSource, SwipeView
 
         let view = UIView()
         view.autoresizingMask = UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleWidth
-
-        label = UILabel(frame: view.bounds)
-        label.autoresizingMask = UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleWidth
+        label = UILabel(frame: CGRectMake(0, self.view.frame.height / 2 - 50, self.view.frame.width, 200))
         label.backgroundColor = UIColor.clearColor()
         label.textAlignment = NSTextAlignment.Center;
         label.tag = 1;
@@ -58,10 +71,72 @@ class AboutPagedViewController: UIViewController, SwipeViewDataSource, SwipeView
         view.backgroundColor = UIColor.clearColor()
         label.lineBreakMode = NSLineBreakMode.ByWordWrapping
         label.numberOfLines=0
-        label.text = String("Here comes the onboarding page \(index)")
+
+        var myIndex = index
+        if (!onBoardingShown) {
+            var status: CLAuthorizationStatus?
+            if (CLLocationManager.locationServicesEnabled()) {
+                status = CLLocationManager.authorizationStatus()
+            }
+            if (status == CLAuthorizationStatus.AuthorizedAlways ||
+                status == CLAuthorizationStatus.AuthorizedWhenInUse) {
+                    myIndex = index + 2
+            }
+
+            if (myIndex == 1) {
+                if (status == CLAuthorizationStatus.Denied) {
+                    label.text = "You denied location permission, please go to settings and enable it"
+                } else {
+                    label.text = String("First we ask you for location permission, please click 'Allow'")
+                }
+            }
+            if (myIndex == 2) {
+                label.text = String("Do it!")
+            }
+        } else {
+            myIndex = index + 2
+        }
+
+        if (myIndex == 3) {
+            label.text = String("And now some cool features...")
+        }
+
         label.font = UIFont.systemFontOfSize(30)
         label.textColor = UIColor.whiteColor()
         return view
+    }
+
+    func swipeViewDidEndDecelerating(swipeView: SwipeView!) {
+        if (swipeView.currentPage == 2) {
+            lm = CLLocationManager()
+            lm?.delegate = self
+            lm?.requestAlwaysAuthorization()
+        }
+    }
+
+    func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+
+        var shouldIAllow = false
+        var locationStatus: String?
+        switch status {
+        case CLAuthorizationStatus.Restricted:
+            locationStatus = "Restricted Access to location"
+        case CLAuthorizationStatus.Denied:
+            locationStatus = "User denied access to location"
+        case CLAuthorizationStatus.NotDetermined:
+            locationStatus = "Status not determined yet"
+            return
+        default:
+            locationStatus = "Allowed to location Access"
+            shouldIAllow = true
+        }
+        if (shouldIAllow == true) {
+            (swipeView.viewWithTag(1) as UILabel).text = "Thank you"
+            TFCDataStore.sharedInstance.getUserDefaults()?.setBool(true, forKey: "onboardingShown")
+        } else {
+            (swipeView.viewWithTag(1) as UILabel).text = "Ugh, that didn't work"
+        }
+
     }
 
     func swipeViewItemSize(swipeView: SwipeView!) -> CGSize {
@@ -93,7 +168,6 @@ class AboutPagedViewController: UIViewController, SwipeViewDataSource, SwipeView
         super.viewDidAppear(animated)
         if (TFCDataStore.sharedInstance.getUserDefaults()?.boolForKey("onboardingShown") != true) {
             swipeView.scrollToPage(1, duration: 1.0)
-            TFCDataStore.sharedInstance.getUserDefaults()?.setBool(true, forKey: "onboardingShown")
         }
     }
 

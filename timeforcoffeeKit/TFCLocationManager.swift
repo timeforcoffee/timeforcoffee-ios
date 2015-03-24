@@ -83,7 +83,6 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
                 locationStatus = "Allowed to location Access"
                 shouldIAllow = true
             }
-            NSNotificationCenter.defaultCenter().postNotificationName("LabelHasbeenUpdated", object: nil)
             if (shouldIAllow == true) {
                 NSLog("Location is allowed")
                 // Start location services

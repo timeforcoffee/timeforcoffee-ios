@@ -49,6 +49,7 @@ class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource,
     }
 
     func refreshLocation(force: Bool) {
+        if (TFCDataStore.sharedInstance.getUserDefaults()?.boolForKey("onboardingShown") == true) {
         if ((showFavorites) == true) {
             self.stations.loadFavorites(locManager?.currentLocation)
             self.reloadData()
@@ -61,6 +62,7 @@ class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource,
                 loading = true
                 self.locManager?.refreshLocation()
             }
+        }
         }
     }
 
