@@ -966,6 +966,7 @@
 /* Begin XCBuildConfiguration section */
 		EC4344C91AA5080B009438C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3C47D48C04911012125C5428 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -983,6 +984,7 @@
 		};
 		EC4344CA1AA5080B009438C7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 648323A7126563DCA991BABD /* Pods.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
