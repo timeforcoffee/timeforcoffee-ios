@@ -386,6 +386,18 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     func scrollViewDidScroll(scrollView: UIScrollView) {
         let offset = scrollView.contentOffset.y + startHeight
         self.topBarHeight.constant = max(min(self.startHeight - offset, self.startHeight), 64)
+        if (self.topBarHeight.constant < 71) {
+            self.stationNameBottomSpace.constant = -22 - (self.topBarHeight.constant - 64)
+        } else {
+            self.stationNameBottomSpace.constant = -28
+        }
+        // the navbar title view has to be above the icon when we
+        //  make the navbar smaller, but below  when we move the map down
+        if (offset < 10) {
+            self.navBarView.layer.zPosition = 0
+        } else {
+            self.navBarView.layer.zPosition = 2
+        }
         self.borderBottomView.alpha = offset / 80
         self.mapView?.alpha = min(1 - (offset / 80), 0.5)
         self.stationIconView.alpha = 1 - (offset / 80)

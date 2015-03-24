@@ -56,48 +56,52 @@ public class APIController {
     }
 
     func fetchUrl(urlPath: String, fetchId: Int, context: Any?, cacheKey: String?) {
-        if (cacheKey != nil && cache.objectForKey(cacheKey!) != nil) {
-            println("diskByteCount apicalls: \(cache.diskByteCount)")
-            let result = JSONValue(cache.objectForKey(cacheKey!) as NSData!);
-            self.delegate?.didReceiveAPIResults(result, error: nil, context: context)
-        } else {
-            let urlPathEsc = urlPath.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
-            let url: NSURL = NSURL(string: urlPathEsc)!
-            println("Start fetching data \(urlPath)")
-            var dataFetch: NSURLSessionDataTask?
-            if (fetchId == 1 && currentFetch[fetchId] != nil) {
-                currentFetch[fetchId]?.cancel()
-            }
-            let session2 = self.session
-            var cachePolicy = NSURLRequestCachePolicy.UseProtocolCachePolicy
-            /* if a cacheKey is set, we may load it from the NSURL Cache (it may be there, but not in NSCache, because of eviction in NSCache. As our own Cache always caches it at least longer than any NSURLCache anyway, that's not a problem)
-            */
-            if (cacheKey != nil) {
-                cachePolicy = NSURLRequestCachePolicy.ReturnCacheDataElseLoad
-            }
-            let request = NSURLRequest(URL: url, cachePolicy: cachePolicy, timeoutInterval: 10.0)
 
-            dataFetch = session2.dataTaskWithRequest(request, completionHandler: {data , response, error -> Void in
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            if (cacheKey != nil && self.cache.objectForKey(cacheKey!) != nil) {
+                println("diskByteCount apicalls: \(self.cache.diskByteCount)")
+                let result = JSONValue(self.cache.objectForKey(cacheKey!) as NSData!);
+                self.delegate?.didReceiveAPIResults(result, error: nil, context: context)
+            } else {
+                let urlPathEsc = urlPath.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
+                let url: NSURL = NSURL(string: urlPathEsc)!
+                println("Start fetching data \(urlPath)")
+                var dataFetch: NSURLSessionDataTask?
+                if (fetchId == 1 && self.currentFetch[fetchId] != nil) {
+                    self.currentFetch[fetchId]?.cancel()
+                }
+                
+                let session2 = self.session
+                var cachePolicy = NSURLRequestCachePolicy.UseProtocolCachePolicy
+                /* if a cacheKey is set, we may load it from the NSURL Cache (it may be there, but not in NSCache, because of eviction in NSCache. As our own Cache always caches it at least longer than any NSURLCache anyway, that's not a problem)
+                */
+                if (cacheKey != nil) {
+                    cachePolicy = NSURLRequestCachePolicy.ReturnCacheDataElseLoad
+                }
+                let request = NSURLRequest(URL: url, cachePolicy: cachePolicy, timeoutInterval: 10.0)
 
-                println("Task completed")
-                if(error != nil) {
-                    // If there is an error in the web request, print it to the console
-                    println(error.localizedDescription)
-                }
-                if (fetchId == 1) {
-                    self.currentFetch[fetchId] = nil
-                }
-                var err: NSError?
-                let jsonResult = JSONValue(data)
-                if (error == nil && cacheKey != nil) {
-                    self.cache.setObject(data, forKey: cacheKey!)
-                }
-                self.delegate?.didReceiveAPIResults(jsonResult, error: error, context: context)
-            })
+                dataFetch = session2.dataTaskWithRequest(request, completionHandler: {data , response, error -> Void in
 
-            dataFetch?.resume()
-            if (dataFetch != nil) {
-                currentFetch[fetchId] = dataFetch
+                    println("Task completed")
+                    if(error != nil) {
+                        // If there is an error in the web request, print it to the console
+                        println(error.localizedDescription)
+                    }
+                    if (fetchId == 1) {
+                        self.currentFetch[fetchId] = nil
+                    }
+                    var err: NSError?
+                    let jsonResult = JSONValue(data)
+                    if (error == nil && cacheKey != nil) {
+                        self.cache.setObject(data, forKey: cacheKey!)
+                    }
+                    self.delegate?.didReceiveAPIResults(jsonResult, error: error, context: context)
+                })
+                
+                dataFetch?.resume()
+                if (dataFetch != nil) {
+                    self.currentFetch[fetchId] = dataFetch
+                }
             }
 
         }
