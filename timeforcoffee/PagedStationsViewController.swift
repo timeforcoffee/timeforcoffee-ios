@@ -8,6 +8,7 @@
 //
 
 import Foundation
+import timeforcoffeeKit
 
 class PagedStationsViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, UIScrollViewDelegate {
 
@@ -75,6 +76,7 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeActive:", name: "UIApplicationDidBecomeActiveNotification", object: nil)
             registeredObserver = true
         }
+        showOnBoarding()
         refreshLocation()
     }
 
@@ -82,6 +84,17 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         if (self.searchController == nil) {
             let currentView: StationsViewController  = self.viewControllers[0] as StationsViewController
             currentView.appsTableView?.refreshLocation()
+        }
+    }
+
+    private func showOnBoarding() {
+        if (TFCDataStore.sharedInstance.getUserDefaults()?.boolForKey("onboardingShown") != true) {
+
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc: AboutPagedViewController! = storyboard.instantiateViewControllerWithIdentifier("AboutPagedViewController") as AboutPagedViewController
+            self.navigationController?.presentViewController(vc, animated: true, completion: nil)
+            vc.swipeView.scrollToPage(2, duration: 0.0)
+            TFCDataStore.sharedInstance.getUserDefaults()?.setBool(true, forKey: "onboardingShown")
         }
     }
 
@@ -219,7 +232,7 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
 
     func aboutClicked(sender: UIBarButtonItem) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc: UIViewController! = storyboard.instantiateViewControllerWithIdentifier("AboutPagedViewController") as UIViewController
+        let vc: AboutPagedViewController! = storyboard.instantiateViewControllerWithIdentifier("AboutPagedViewController") as AboutPagedViewController
         self.navigationController?.presentViewController(vc, animated: true, completion: nil)
 
     }
