@@ -87,4 +87,8 @@ public class TFCDataStore: NSObject {
         objc_sync_exit(notificationObserver)
     }
 
+    public func getUserDefaults() -> NSUserDefaults? {
+        return userDefaults
+    }
+
 }

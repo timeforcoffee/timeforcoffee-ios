@@ -78,14 +78,14 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         refreshLocation()
     }
 
-    func refreshLocation() {
+    private func refreshLocation() {
         if (self.searchController == nil) {
             let currentView: StationsViewController  = self.viewControllers[0] as StationsViewController
             currentView.appsTableView?.refreshLocation()
         }
     }
 
-    func setTitleView () {
+    private func setTitleView () {
         scrollViewWidth = UIScreen.mainScreen().bounds.size.width
         
         var titleView = UIView(frame: CGRect(x: 0, y: 0, width: scrollViewWidth! / 3, height: 30))
@@ -176,7 +176,7 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         }
     }
 
-    func setPageControlDot() {
+    private func setPageControlDot() {
         let currentViewController = getCurrentView()
         currentPageIndex = currentViewController.pageIndex
         let pc: UIPageControl? = self.navigationItem.titleView?.viewWithTag(50) as UIPageControl?
@@ -196,12 +196,11 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         setPageControlDot()
     }
 
-    func getCurrentView() -> StationsViewController {
+    private func getCurrentView() -> StationsViewController {
         return self.viewControllers[0] as StationsViewController
     }
 
-    func setSearchButton() {
-        //var searchButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Search, target: self, action: "searchClicked:")
+    private func setSearchButton() {
         var searchButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: "searchClicked:")
 
         searchButton.image = UIImage(named: "icon-search")
@@ -219,7 +218,7 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
 
     func aboutClicked(sender: UIBarButtonItem) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc: UIViewController! = storyboard.instantiateViewControllerWithIdentifier("AboutViewController") as UIViewController
+        let vc: UIViewController! = storyboard.instantiateViewControllerWithIdentifier("AboutPagedViewController") as UIViewController
         self.navigationController?.presentViewController(vc, animated: true, completion: nil)
 
     }
