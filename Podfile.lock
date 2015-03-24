@@ -4,10 +4,20 @@ PODS:
 
 DEPENDENCIES:
   - MGSwipeTableCell
-  - PINCache
+  - PINCache (from `https://github.com/pinterest/PINCache`, commit `eecf84426751ae3c3f224411763946427fe3aa5b`)
+
+EXTERNAL SOURCES:
+  PINCache:
+    :commit: eecf84426751ae3c3f224411763946427fe3aa5b
+    :git: https://github.com/pinterest/PINCache
+
+CHECKOUT OPTIONS:
+  PINCache:
+    :commit: eecf84426751ae3c3f224411763946427fe3aa5b
+    :git: https://github.com/pinterest/PINCache
 
 SPEC CHECKSUMS:
   MGSwipeTableCell: 59643a884736a0a2fb0f07258b7a97b4f4f9000f
-  PINCache: 6343769873eebcb66d11d29ac1edc41abc061333
+  PINCache: ca953ba93ce1edde056fdd99121ee65b295a08c9
 
 COCOAPODS: 0.36.0
