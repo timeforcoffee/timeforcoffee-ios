@@ -360,7 +360,6 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        gtracker.send(GAIDictionaryBuilder.createEventWithCategory("system", action: "memoryWarning", label: "received", value: nil).build())
     }
     
     func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?) {
