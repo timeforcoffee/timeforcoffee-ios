@@ -272,7 +272,7 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
     public func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?) {
 
     //    self.refreshControl.endRefreshing()
-        dispatch_async(dispatch_get_main_queue(), {
+
             let contextInfo: contextData? = context as contextData?
             if (error != nil && self.departures != nil && self.departures?.count > 0) {
                 self.setDeparturesAsOutdated()
@@ -283,6 +283,8 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
                     self.addDepartures(TFCDeparture.withJSON(results))
                 }
             }
+
+        dispatch_async(dispatch_get_main_queue(), {
             if (self.name == "") {
                 self.name = TFCDeparture.getStationNameFromJson(results)!;
             }
