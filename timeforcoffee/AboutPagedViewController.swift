@@ -23,7 +23,7 @@ class AboutPagedViewController: UIViewController, SwipeViewDataSource, SwipeView
     }
 
     func numberOfItemsInSwipeView(swipeView: SwipeView!) -> Int {
-        return 3
+        return 5
     }
 
     func swipeView(swipeView: SwipeView!, viewForItemAtIndex index: Int, reusingView view: UIView!) -> UIView! {
@@ -73,7 +73,7 @@ class AboutPagedViewController: UIViewController, SwipeViewDataSource, SwipeView
         if(swipeView.scrollOffset  == 0 )  {
             bgImageLeft.constant = swipeView.frame.width
         } else {
-        bgImageLeft.constant = -(swipeView.scrollOffset * swipeView.frame.width * 0.7)
+        bgImageLeft.constant = -(swipeView.scrollOffset * swipeView.frame.width * 0.6) - 100
         }
         self.view.layoutIfNeeded()
     }
@@ -86,8 +86,10 @@ class AboutPagedViewController: UIViewController, SwipeViewDataSource, SwipeView
         return true
     }
 
+    override func viewWillDisappear(animated: Bool) {
+        //bgImage.hidden = true
+    }
     override func viewDidLoad() {
-        println ("viewdidload"  )
         super.viewDidLoad()
         swipeView.pagingEnabled = true
     }
