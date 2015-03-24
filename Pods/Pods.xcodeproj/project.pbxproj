@@ -516,6 +516,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AE437C11D64F06C17DEC9B26 /* Pods-PINCache-Private.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -547,6 +548,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AE437C11D64F06C17DEC9B26 /* Pods-PINCache-Private.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -612,6 +614,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CF97557D559BCCB301C7E763 /* Pods.release.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -641,6 +644,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9023DEFB678135498B64E91E /* Pods-MGSwipeTableCell-Private.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -668,6 +672,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 071CEC20DF8963FC5304D8B1 /* Pods.debug.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -736,6 +741,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CCA199A6646C93BDC70D98F5 /* Pods-SwipeView-Private.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -763,6 +769,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CCA199A6646C93BDC70D98F5 /* Pods-SwipeView-Private.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -790,6 +797,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9023DEFB678135498B64E91E /* Pods-MGSwipeTableCell-Private.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
