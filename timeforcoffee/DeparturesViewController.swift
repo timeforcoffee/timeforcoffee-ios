@@ -449,6 +449,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
 
     func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?) {
         self.refreshControl.endRefreshing()
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         if (forStation?.st_id == station?.st_id) {
             if (error != nil) {
                 self.networkErrorMsg = NSLocalizedString("Network error. Please try again", comment:"")

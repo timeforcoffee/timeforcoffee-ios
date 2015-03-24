@@ -270,7 +270,6 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
     }
 
     public func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?) {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
 
     //    self.refreshControl.endRefreshing()
         dispatch_async(dispatch_get_main_queue(), {
@@ -287,7 +286,6 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
             if (self.name == "") {
                 self.name = TFCDeparture.getStationNameFromJson(results)!;
             }
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             contextInfo?.completionDelegate?.departuresUpdated(error, context: context, forStation: self)
         })
     }
