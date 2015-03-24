@@ -24,12 +24,18 @@
                         <variation key="widthClass=compact" ambiguous="YES" misplaced="YES">
                             <rect key="frame" x="0.0" y="64" width="400" height="600"/>
                         </variation>
+                        <variation key="widthClass=regular" ambiguous="YES" misplaced="YES">
+                            <rect key="frame" x="0.0" y="64" width="800" height="600"/>
+                        </variation>
                     </tableView>
                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3U6-W9-VjK">
                         <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                         <subviews>
                             <imageView hidden="YES" userInteractionEnabled="NO" alpha="0.84999999999999998" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="icon-coffee" translatesAutoresizingMaskIntoConstraints="NO" id="iUB-7t-LXF">
                                 <rect key="frame" x="8" y="14" width="22" height="22"/>
+                                <variation key="widthClass=regular" misplaced="YES">
+                                    <rect key="frame" x="16" y="10" width="36" height="36"/>
+                                </variation>
                             </imageView>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Nearby Stations" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0ff-hV-Iob">
                                 <rect key="frame" x="239" y="11" width="123" height="21"/>

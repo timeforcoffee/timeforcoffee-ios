@@ -219,7 +219,7 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
 
     func aboutClicked(sender: UIBarButtonItem) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc: UIViewController! = storyboard.instantiateViewControllerWithIdentifier("AboutViewController") as UIViewController
+        let vc: UIViewController! = storyboard.instantiateViewControllerWithIdentifier("AboutPagedViewController") as UIViewController
         self.navigationController?.presentViewController(vc, animated: true, completion: nil)
 
     }
