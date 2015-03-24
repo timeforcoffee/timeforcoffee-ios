@@ -55,8 +55,9 @@ class AboutPagedViewController: UIViewController, SwipeViewDataSource, SwipeView
         label.tag = 1;
         view.addSubview(label)
         view.backgroundColor = UIColor.clearColor()
-
-        label.text = String("Page \(index)")
+        label.lineBreakMode = NSLineBreakMode.ByWordWrapping
+        label.numberOfLines=0
+        label.text = String("Here comes the onboarding page \(index)")
         label.font = UIFont.systemFontOfSize(30)
         label.textColor = UIColor.whiteColor()
         return view
