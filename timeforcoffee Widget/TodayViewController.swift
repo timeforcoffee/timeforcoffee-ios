@@ -364,7 +364,6 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     }
     
     func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?) {
-        //  UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         if (showStations) {
             self.appsTableView!.reloadData()
         } else {
