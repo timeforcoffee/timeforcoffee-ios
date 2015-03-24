@@ -13,7 +13,9 @@ class AboutPagedViewController: UIViewController, SwipeViewDataSource, SwipeView
 
     @IBOutlet weak var swipeView: SwipeView!
 
+    @IBOutlet weak var bgImage: UIImageView!
 
+    @IBOutlet weak var bgImageLeft: NSLayoutConstraint!
     @IBAction func closeButtonAction(sender: AnyObject) {
         self.dismissViewControllerAnimated(true, completion: nil)
 
@@ -27,6 +29,8 @@ class AboutPagedViewController: UIViewController, SwipeViewDataSource, SwipeView
     func swipeView(swipeView: SwipeView!, viewForItemAtIndex index: Int, reusingView view: UIView!) -> UIView! {
 
         if (index == 0) {
+            
+
             let aboutview = self.storyboard?.instantiateViewControllerWithIdentifier("AboutViewController").view as UIView?
             aboutview?.autoresizingMask = UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleWidth
            // aboutview?.frame = self.swipeView.bounds
@@ -38,22 +42,40 @@ class AboutPagedViewController: UIViewController, SwipeViewDataSource, SwipeView
             webview.loadHTMLString(htmlString, baseURL: nil)
             return aboutview
         }
+        var label: UILabel
+
+
         let view = UIView()
         view.autoresizingMask = UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleWidth
 
-        var label = UILabel(frame: view.bounds)
+        label = UILabel(frame: view.bounds)
         label.autoresizingMask = UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleWidth
         label.backgroundColor = UIColor.clearColor()
         label.textAlignment = NSTextAlignment.Center;
         label.tag = 1;
         view.addSubview(label)
-        view.backgroundColor = UIColor.blueColor()
-        label.text = String(index)
+        view.backgroundColor = UIColor.clearColor()
+
+        label.text = String("Page \(index)")
+        label.font = UIFont.systemFontOfSize(30)
+        label.textColor = UIColor.whiteColor()
         return view
     }
 
     func swipeViewItemSize(swipeView: SwipeView!) -> CGSize {
         return self.swipeView.bounds.size
+    }
+
+    func swipeViewDidScroll(swipeView: SwipeView!) {
+
+        // Put it outside view, if on first screen, since
+        /// that one doesn't have transparent background now
+        if(swipeView.scrollOffset  == 0 )  {
+            bgImageLeft.constant = swipeView.frame.width
+        } else {
+        bgImageLeft.constant = -(swipeView.scrollOffset * swipeView.frame.width * 0.7)
+        }
+        self.view.layoutIfNeeded()
     }
 
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {

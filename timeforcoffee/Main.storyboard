@@ -5,6 +5,7 @@
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Departures View Controller-->
@@ -409,9 +410,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="Zuerich2.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="IB3-FS-UyE">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" none="YES" image="YES" notEnabled="YES"/>
+                                </accessibility>
+                            </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3UL-Sm-ji9" customClass="SwipeView">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="dataSource" destination="a8j-gm-bPi" id="J90-M2-nRW"/>
                                     <outlet property="delegate" destination="a8j-gm-bPi" id="V6a-oE-kdu"/>
@@ -432,12 +438,17 @@
                         <constraints>
                             <constraint firstItem="V56-M7-s9y" firstAttribute="top" secondItem="3UL-Sm-ji9" secondAttribute="bottom" id="9bG-qf-GTk"/>
                             <constraint firstItem="3UL-Sm-ji9" firstAttribute="top" secondItem="vay-T9-Mo6" secondAttribute="bottom" constant="-20" id="IW9-ou-exh"/>
+                            <constraint firstAttribute="width" secondItem="IB3-FS-UyE" secondAttribute="width" multiplier="3" constant="-1200" id="IYX-kV-hl1"/>
                             <constraint firstAttribute="trailingMargin" secondItem="3UL-Sm-ji9" secondAttribute="trailing" constant="-16" id="Iqi-KC-KX3"/>
                             <constraint firstItem="3UL-Sm-ji9" firstAttribute="leading" secondItem="vTl-5k-23u" secondAttribute="leadingMargin" constant="-16" id="KeO-uc-MUq"/>
+                            <constraint firstItem="IB3-FS-UyE" firstAttribute="leading" secondItem="vTl-5k-23u" secondAttribute="leadingMargin" constant="500" id="Vc2-Ig-MUV"/>
                             <constraint firstItem="3UL-Sm-ji9" firstAttribute="top" secondItem="vay-T9-Mo6" secondAttribute="bottom" constant="-20" id="lGw-TM-Kl8"/>
+                            <constraint firstAttribute="height" secondItem="IB3-FS-UyE" secondAttribute="height" id="pza-N3-H3a"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="bgImage" destination="IB3-FS-UyE" id="Wpo-QF-rMB"/>
+                        <outlet property="bgImageLeft" destination="Vc2-Ig-MUV" id="4pP-cL-gjD"/>
                         <outlet property="swipeView" destination="3UL-Sm-ji9" id="XKL-vA-i1S"/>
                     </connections>
                 </viewController>
@@ -566,6 +577,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Zuerich2.jpg" width="2139" height="750"/>
         <image name="chevron-left" width="44" height="44"/>
         <image name="chevron-up" width="36" height="36"/>
         <image name="icon-map" width="36" height="36"/>
