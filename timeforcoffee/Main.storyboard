@@ -371,30 +371,16 @@
                                             <constraint firstItem="WUH-1o-DDL" firstAttribute="top" secondItem="Bbe-wC-3kI" secondAttribute="top" constant="170" id="sjh-OM-5iP"/>
                                         </constraints>
                                     </view>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" misplaced="YES" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h2A-iR-B1B">
-                                        <rect key="frame" x="113" y="434" width="375" height="158"/>
-                                        <string key="text">http://timeforcoffee.ch
-@time4coffeeApp
-
-Idea, Website and API by
-François Terrrier / @fterrier
-
-App by
-Christian Stocker / @chregu
-and Jan Hug / @dulnan</string>
-                                        <color key="textColor" red="0.73725490199999999" green="0.58823529409999997" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                        <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                            <rect key="frame" x="100" y="590" width="200" height="190"/>
-                                        </variation>
-                                    </textView>
+                                    <webView opaque="NO" tag="10" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="x72-HP-cxq">
+                                        <rect key="frame" x="150" y="434" width="300" height="158"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </webView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="h2A-iR-B1B" secondAttribute="bottom" constant="8" id="5kK-qB-hRI"/>
                                     <constraint firstItem="Bbe-wC-3kI" firstAttribute="top" secondItem="dXz-pn-tWN" secondAttribute="top" constant="40" id="WZk-GH-bj0"/>
-                                    <constraint firstAttribute="centerX" secondItem="h2A-iR-B1B" secondAttribute="centerX" constant="-0.5" id="YN0-pi-XDJ"/>
+                                    <constraint firstAttribute="centerX" secondItem="x72-HP-cxq" secondAttribute="centerX" id="eEX-1w-noj"/>
                                     <constraint firstAttribute="centerX" secondItem="Bbe-wC-3kI" secondAttribute="centerX" id="nYb-sH-UnO"/>
+                                    <constraint firstAttribute="bottom" secondItem="x72-HP-cxq" secondAttribute="bottom" constant="8" id="r7a-M6-xrV"/>
                                 </constraints>
                             </view>
                         </subviews>

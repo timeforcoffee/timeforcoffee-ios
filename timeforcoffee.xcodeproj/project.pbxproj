@@ -40,6 +40,7 @@
 		EC31F5481AAE3AED00771585 /* DeparturesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC31F5471AAE3AED00771585 /* DeparturesViewController.swift */; };
 		EC4A37271AC0811D005D7546 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC4A37261AC0811D005D7546 /* LaunchScreen.xib */; };
 		EC6B1FB81AC152FF0070783C /* AboutPagedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6B1FB71AC152FF0070783C /* AboutPagedViewController.swift */; };
+		EC6CD8DD1AC17C57002488DC /* About.html in Resources */ = {isa = PBXBuildFile; fileRef = EC6CD8DC1AC17C57002488DC /* About.html */; };
 		EC6EDCF21A9B9F390098CAE0 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC6EDCF11A9B9F390098CAE0 /* NotificationCenter.framework */; };
 		EC6EDCF71A9B9F390098CAE0 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDCF61A9B9F390098CAE0 /* TodayViewController.swift */; };
 		EC6EDCFC1A9B9F390098CAE0 /* timeforcoffee Widget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EC6EDCEF1A9B9F390098CAE0 /* timeforcoffee Widget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -164,6 +165,7 @@
 		EC4A37261AC0811D005D7546 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		EC522E741AA611A40011A992 /* HelveticaNeueBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HelveticaNeueBold.ttf; sourceTree = "<group>"; };
 		EC6B1FB71AC152FF0070783C /* AboutPagedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutPagedViewController.swift; sourceTree = "<group>"; };
+		EC6CD8DC1AC17C57002488DC /* About.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = About.html; sourceTree = "<group>"; };
 		EC6EDCEF1A9B9F390098CAE0 /* timeforcoffee Widget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "timeforcoffee Widget.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC6EDCF11A9B9F390098CAE0 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		EC6EDCF51A9B9F390098CAE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -466,6 +468,7 @@
 				EC31F5471AAE3AED00771585 /* DeparturesViewController.swift */,
 				EC4A37261AC0811D005D7546 /* LaunchScreen.xib */,
 				EC6B1FB71AC152FF0070783C /* AboutPagedViewController.swift */,
+				EC6CD8DC1AC17C57002488DC /* About.html */,
 				EC7A517F19C427CA000F5E7C /* Images.xcassets */,
 				EC7A517619C427CA000F5E7C /* Supporting Files */,
 			);
@@ -660,6 +663,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC6CD8DD1AC17C57002488DC /* About.html in Resources */,
 				EC0530871AB01153008439E9 /* gradient.png in Resources */,
 				3117221B1AB2374F00C176FE /* trainsymbol.otf in Resources */,
 				314AFBD21AA7633D00C176FE /* StationTableViewCell.xib in Resources */,
