@@ -24,7 +24,7 @@ class AboutPagedViewController: UIViewController, SwipeViewDataSource, SwipeView
     }
 
     func numberOfItemsInSwipeView(swipeView: SwipeView!) -> Int {
-        return 1
+        return 4
     }
 
     func swipeView(swipeView: SwipeView!, viewForItemAtIndex index: Int, reusingView view: UIView!) -> UIView! {
