@@ -10,6 +10,7 @@ import UIKit
 import NotificationCenter
 import CoreLocation
 import timeforcoffeeKit
+import PINCache
 
 class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, UIGestureRecognizerDelegate,  TFCDeparturesUpdatedProtocol {
     @IBOutlet weak var titleLabel: UILabel!
@@ -60,20 +61,32 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     }()
    
     override func viewDidLoad() {
-        //NewRelicAgent.startWithApplicationToken("AAe7c5942c67612bc82125c42d8b0b5c6a7df227b2")
         super.viewDidLoad()
         titleLabel.userInteractionEnabled = true;
         let tapGesture  = UITapGestureRecognizer(target: self, action: "handleTap:")
         titleLabel.addGestureRecognizer(tapGesture)
         // Do any additional setup after loading the view from its nib.
     }
-    
+
+
+    override init() {
+        super.init()
+    }
+
+    override init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        TFCDataStore.sharedInstance.registerForNotifications()
+        TFCDataStore.sharedInstance.synchronize()
+    }
+
     deinit {
         println("deinit widget")
+        TFCDataStore.sharedInstance.removeNotifications()
     }
 
     override func viewDidAppear(animated: Bool) {
         //actionLabel.hidden = false
+        actionLabel.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         super.viewDidAppear(animated)
     }
 
@@ -91,12 +104,17 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
 
         // if lastUsedView is a single station and we did look at it no longer than 5 minutes ago, just show it again
         // without even checking the location
-        if (getLastUsedView() == "singleStation" && lastUsedViewUpdatedInterval() > -300) {
-            currentStation = lastViewedStation
-            if (currentStation != nil) {
-                showStations = false
-                displayDepartures()
-                currentStation?.updateDepartures(self, maxDepartures: 6)
+        if (getLastUsedView() == "nearbyStations") {
+            sendScreenNameToGA("todayviewNearby")
+        } else {
+            sendScreenNameToGA("todayviewStation")
+            if (lastUsedViewUpdatedInterval() > -300) {
+                currentStation = lastViewedStation
+                if (currentStation != nil) {
+                    showStations = false
+                    displayDepartures()
+                    currentStation?.updateDepartures(self, maxDepartures: 6)
+                }
             }
         }
         locManager?.refreshLocation()
@@ -196,6 +214,8 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             if (currentStation != nil) {
                 currentStation?.isLastUsed = true
                 lastViewedStation?.isLastUsed = false
+                // FIXME, use NSCoding serialisation ..
+                // and maybe one object for all these values
                 userDefaults?.setObject(currentStation?.getAsDict(), forKey: "lastUsedStation")
                 userDefaults?.setObject(locManager?.currentLocation?.distanceFromLocation(currentStation?.coord), forKey: "lastUsedStationDistance")
             }

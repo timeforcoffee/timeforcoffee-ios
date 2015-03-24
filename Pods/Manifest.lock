@@ -1,0 +1,13 @@
+PODS:
+  - MGSwipeTableCell (1.4.0)
+  - PINCache (2.0)
+
+DEPENDENCIES:
+  - MGSwipeTableCell
+  - PINCache
+
+SPEC CHECKSUMS:
+  MGSwipeTableCell: 59643a884736a0a2fb0f07258b7a97b4f4f9000f
+  PINCache: 6343769873eebcb66d11d29ac1edc41abc061333
+
+COCOAPODS: 0.36.0

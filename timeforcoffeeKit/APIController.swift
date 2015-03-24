@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreLocation
+import PINCache
 
 public class APIController {
     
@@ -18,7 +19,7 @@ public class APIController {
         return NSURLSession.sharedSession()
     }()
 
-    lazy var cache:NSCache = {
+    lazy var cache:PINCache = {
         return TFCCache.objects.apicalls
      }()
 
@@ -56,6 +57,7 @@ public class APIController {
 
     func fetchUrl(urlPath: String, fetchId: Int, context: Any?, cacheKey: String?) {
         if (cacheKey != nil && cache.objectForKey(cacheKey!) != nil) {
+            println("diskByteCount apicalls: \(cache.diskByteCount)")
             let result = JSONValue(cache.objectForKey(cacheKey!) as NSData!);
             self.delegate?.didReceiveAPIResults(result, error: nil, context: context)
         } else {

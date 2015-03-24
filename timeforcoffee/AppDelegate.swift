@@ -19,7 +19,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-//        NewRelicAgent.startWithApplicationToken("AAe7c5942c67612bc82125c42d8b0b5c6a7df227b2")
+
+        TFCDataStore.sharedInstance.registerForNotifications()
+        TFCDataStore.sharedInstance.synchronize()
+        
         let gtracker = GAI.sharedInstance()
         gtracker.trackUncaughtExceptions = true
         gtracker.dispatchInterval = 20;
@@ -54,10 +57,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
 
         if (url.host == "nearby") {
-            let rootView = self.window?.rootViewController? as UINavigationController
-            rootView.popToRootViewControllerAnimated(false)
-            let pagedView: PagedStationsViewController = rootView.viewControllers.first as PagedStationsViewController
-            pagedView.moveToNearbyStations()
+            let rootView = self.window?.rootViewController? as UINavigationController?
+            rootView?.popToRootViewControllerAnimated(false)
+            if (rootView != nil) {
+                let pagedView: PagedStationsViewController? = rootView?.viewControllers.first as PagedStationsViewController?
+                pagedView?.moveToNearbyStations()
+            }
 
         } else if (url.host == "station" && url.query != nil) {
          

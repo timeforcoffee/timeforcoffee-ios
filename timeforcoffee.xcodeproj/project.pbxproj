@@ -14,6 +14,7 @@
 		314AFBD61AA778F400C176FE /* StationTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314AFBD51AA778F400C176FE /* StationTableView.swift */; };
 		31979D751AB5BC7B00525165 /* DepartureLineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31979D741AB5BC7B00525165 /* DepartureLineLabel.swift */; };
 		31979D761AB5BC7B00525165 /* DepartureLineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31979D741AB5BC7B00525165 /* DepartureLineLabel.swift */; };
+		4BA86C17986B70448BEAD6EA /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 965B2A36D479CA86DF62E63F /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		EC046D631A9C563D00C2C1B3 /* TFCLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC046D621A9C563D00C2C1B3 /* TFCLocationManager.swift */; };
 		EC0530871AB01153008439E9 /* gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0530861AB01153008439E9 /* gradient.png */; };
 		EC0740731AB8C68100452868 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC7A517F19C427CA000F5E7C /* Images.xcassets */; };
@@ -21,14 +22,13 @@
 		EC0A30F21AA353CA0043B8F8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30F41AA353CA0043B8F8 /* MainInterface.storyboard */; };
 		EC0DD8CF1AAEC7CB0089A207 /* TFCCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0DD8CE1AAEC7CB0089A207 /* TFCCache.swift */; };
 		EC0DD8D11AAF1B5F0089A207 /* StationsSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0DD8D01AAF1B5F0089A207 /* StationsSearchViewController.swift */; };
+		EC21446D1ABCB2AF00B48522 /* TFCFavorites.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC21446C1ABCB2AF00B48522 /* TFCFavorites.swift */; };
 		EC2195EB1AA35B2D005E16EF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC2195ED1AA35B2D005E16EF /* Localizable.strings */; };
 		EC271DC41AA365BE00A7A75E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC271DC31AA365BE00A7A75E /* Main.storyboard */; };
 		EC2C31271A9DE8B000690397 /* home.gpx in Resources */ = {isa = PBXBuildFile; fileRef = EC2C31261A9DE8B000690397 /* home.gpx */; };
 		EC2C312B1A9DECB900690397 /* office.gpx in Resources */ = {isa = PBXBuildFile; fileRef = EC2C31281A9DE92700690397 /* office.gpx */; };
 		EC2C312C1A9DECBA00690397 /* office.gpx in Resources */ = {isa = PBXBuildFile; fileRef = EC2C31281A9DE92700690397 /* office.gpx */; };
 		EC2C312D1A9DECBD00690397 /* home.gpx in Resources */ = {isa = PBXBuildFile; fileRef = EC2C31261A9DE8B000690397 /* home.gpx */; };
-		EC2C31691A9E1E9B00690397 /* NewRelicAgent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C31681A9E1E9B00690397 /* NewRelicAgent.framework */; };
-		EC2C316A1A9E1E9B00690397 /* NewRelicAgent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C31681A9E1E9B00690397 /* NewRelicAgent.framework */; };
 		EC2C31771A9E1F0A00690397 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C31731A9E1EE400690397 /* libc++.dylib */; };
 		EC2C31781A9E1F1000690397 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C31751A9E1EEB00690397 /* libz.dylib */; };
 		EC2C31791A9E1F1900690397 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C316B1A9E1EB800690397 /* CoreTelephony.framework */; };
@@ -39,8 +39,6 @@
 		EC2C317E1A9E1F4400690397 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C31751A9E1EEB00690397 /* libz.dylib */; };
 		EC31F5481AAE3AED00771585 /* DeparturesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC31F5471AAE3AED00771585 /* DeparturesViewController.swift */; };
 		EC31F54A1AAE3DC000771585 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC31F5491AAE3DC000771585 /* AboutViewController.swift */; };
-		EC3252E61A9CE1320056AF11 /* MGSwipeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EC3252E31A9CE1320056AF11 /* MGSwipeButton.m */; };
-		EC3252E71A9CE1320056AF11 /* MGSwipeTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC3252E51A9CE1320056AF11 /* MGSwipeTableCell.m */; };
 		EC4344B31AA5080A009438C7 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4344B21AA5080A009438C7 /* InterfaceController.swift */; };
 		EC4344B51AA5080A009438C7 /* GlanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4344B41AA5080A009438C7 /* GlanceController.swift */; };
 		EC4344B71AA5080A009438C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC4344B61AA5080A009438C7 /* Images.xcassets */; };
@@ -50,6 +48,7 @@
 		EC4344C81AA5080A009438C7 /* Time for Coffee! WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EC4344AE1AA5080A009438C7 /* Time for Coffee! WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		EC4344D01AA508FF009438C7 /* StationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4344CF1AA508FF009438C7 /* StationRow.swift */; };
 		EC4344D21AA5890F009438C7 /* StationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4344D11AA5890F009438C7 /* StationViewController.swift */; };
+		EC4A37271AC0811D005D7546 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC4A37261AC0811D005D7546 /* LaunchScreen.xib */; };
 		EC522E751AA611A40011A992 /* HelveticaNeueBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EC522E741AA611A40011A992 /* HelveticaNeueBold.ttf */; };
 		EC522E761AA611A40011A992 /* HelveticaNeueBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EC522E741AA611A40011A992 /* HelveticaNeueBold.ttf */; };
 		EC6EDCF21A9B9F390098CAE0 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC6EDCF11A9B9F390098CAE0 /* NotificationCenter.framework */; };
@@ -65,7 +64,6 @@
 		EC7A517919C427CA000F5E7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A517819C427CA000F5E7C /* AppDelegate.swift */; };
 		EC7A517B19C427CA000F5E7C /* StationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A517A19C427CA000F5E7C /* StationsViewController.swift */; };
 		EC7A518019C427CA000F5E7C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC7A517F19C427CA000F5E7C /* Images.xcassets */; };
-		EC7A518319C427CA000F5E7C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC7A518119C427CA000F5E7C /* LaunchScreen.xib */; };
 		EC7A519B19C43E0A000F5E7C /* Blank52.png in Resources */ = {isa = PBXBuildFile; fileRef = EC7A519A19C43E0A000F5E7C /* Blank52.png */; };
 		EC7A519F19C4432F000F5E7C /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A519E19C4432F000F5E7C /* DetailsViewController.swift */; };
 		EC87B6581AB95348005A053E /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B6571AB95348005A053E /* libGoogleAnalyticsServices.a */; };
@@ -75,13 +73,18 @@
 		EC87B65E1AB95380005A053E /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B65C1AB95373005A053E /* libsqlite3.dylib */; };
 		EC87B65F1AB95386005A053E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B65A1AB95365005A053E /* CoreData.framework */; };
 		EC9010A11AA73A9E00F328E9 /* TFCWatchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9010A01AA73A9E00F328E9 /* TFCWatchData.swift */; };
+		EC94528F1AC1328A0006B284 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC94528E1AC1328A0006B284 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		EC9452951AC132E90006B284 /* timeforcoffeeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */; };
 		EC95714F1A9CACB70061F8B4 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC95714E1A9CACB70061F8B4 /* extensions.swift */; };
 		EC9571511A9CCEC00061F8B4 /* TFCBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9571501A9CCEC00061F8B4 /* TFCBaseViewController.swift */; };
+		ECAD8C3B1ABD849B00704974 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECAD8C3A1ABD849B00704974 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		ECAD8C3F1ABD861000704974 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECAD8C3E1ABD861000704974 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		ECC163D71AA36924006BC3E9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC2195ED1AA35B2D005E16EF /* Localizable.strings */; };
 		ECD871961A9BB2F7003CCCB3 /* timeforcoffeeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */; };
 		ECDAB3A61AAA42A300EB352B /* PagedStationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDAB3A51AAA42A300EB352B /* PagedStationsViewController.swift */; };
 		ECEA097A1AA596EF007827AD /* launchicon.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30EB1AA344100043B8F8 /* launchicon.png */; };
 		ECF100AD1A9D9BAE00056510 /* TFCStations.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF100AC1A9D9BAE00056510 /* TFCStations.swift */; };
+		ECFDA0B31AC00DD30019AA4E /* TFCDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFDA0B21AC00DD30019AA4E /* TFCDataStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,6 +110,13 @@
 			remoteInfo = "timeforcoffee Widget";
 		};
 		EC6EDD421A9BA36F0098CAE0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EC7A516B19C427CA000F5E7C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EC6EDD2C1A9BA36F0098CAE0;
+			remoteInfo = timeforcoffeeKit;
+		};
+		EC9452961AC132EF0006B284 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = EC7A516B19C427CA000F5E7C /* Project object */;
 			proxyType = 1;
@@ -147,21 +157,23 @@
 		314AFBD31AA766DC00C176FE /* StationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationTableViewCell.swift; sourceTree = "<group>"; };
 		314AFBD51AA778F400C176FE /* StationTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationTableView.swift; sourceTree = "<group>"; };
 		31979D741AB5BC7B00525165 /* DepartureLineLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DepartureLineLabel.swift; sourceTree = "<group>"; };
+		3C47D48C04911012125C5428 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		648323A7126563DCA991BABD /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		965B2A36D479CA86DF62E63F /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC046D621A9C563D00C2C1B3 /* TFCLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCLocationManager.swift; sourceTree = "<group>"; };
 		EC0530861AB01153008439E9 /* gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gradient.png; path = _assets/gradient.png; sourceTree = "<group>"; };
 		EC0A30EB1AA344100043B8F8 /* launchicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = launchicon.png; path = _assets/launchicon.png; sourceTree = "<group>"; };
-		EC0A30F11AA352BD0043B8F8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		EC0A30F51AA353E40043B8F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		EC0A30F61AA354010043B8F8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MainInterface.strings; sourceTree = "<group>"; };
 		EC0DD8CE1AAEC7CB0089A207 /* TFCCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCCache.swift; sourceTree = "<group>"; };
 		EC0DD8D01AAF1B5F0089A207 /* StationsSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationsSearchViewController.swift; sourceTree = "<group>"; };
+		EC21446C1ABCB2AF00B48522 /* TFCFavorites.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCFavorites.swift; sourceTree = "<group>"; };
 		EC2195EC1AA35B2D005E16EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EC2195EF1AA35B4B005E16EF /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EC250B0C1AA8684F00F8B3C4 /* timeforcoffee Widget-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "timeforcoffee Widget-Bridging-Header.h"; sourceTree = "<group>"; };
 		EC271DC31AA365BE00A7A75E /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		EC2C31261A9DE8B000690397 /* home.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = home.gpx; path = gpx/home.gpx; sourceTree = "<group>"; };
 		EC2C31281A9DE92700690397 /* office.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = office.gpx; path = gpx/office.gpx; sourceTree = "<group>"; };
-		EC2C31681A9E1E9B00690397 /* NewRelicAgent.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = NewRelicAgent.framework; sourceTree = "<group>"; };
 		EC2C316B1A9E1EB800690397 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		EC2C316D1A9E1EC000690397 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		EC2C316F1A9E1EC700690397 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -171,10 +183,6 @@
 		EC31F5471AAE3AED00771585 /* DeparturesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeparturesViewController.swift; sourceTree = "<group>"; };
 		EC31F5491AAE3DC000771585 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		EC3252DF1A9CE0800056AF11 /* timeforcoffee-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "timeforcoffee-Bridging-Header.h"; sourceTree = "<group>"; };
-		EC3252E21A9CE1320056AF11 /* MGSwipeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSwipeButton.h; sourceTree = "<group>"; };
-		EC3252E31A9CE1320056AF11 /* MGSwipeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGSwipeButton.m; sourceTree = "<group>"; };
-		EC3252E41A9CE1320056AF11 /* MGSwipeTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSwipeTableCell.h; sourceTree = "<group>"; };
-		EC3252E51A9CE1320056AF11 /* MGSwipeTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGSwipeTableCell.m; sourceTree = "<group>"; };
 		EC4344AE1AA5080A009438C7 /* Time for Coffee! WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Time for Coffee! WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC4344B11AA5080A009438C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC4344B21AA5080A009438C7 /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
@@ -186,13 +194,14 @@
 		EC4344C41AA5080A009438C7 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		EC4344CF1AA508FF009438C7 /* StationRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationRow.swift; sourceTree = "<group>"; };
 		EC4344D11AA5890F009438C7 /* StationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationViewController.swift; sourceTree = "<group>"; };
+		EC48438C1ABB917D002B3BB5 /* timeforcoffeeKit-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "timeforcoffeeKit-Bridging-Header.h"; sourceTree = "<group>"; };
+		EC4A37261AC0811D005D7546 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		EC522E741AA611A40011A992 /* HelveticaNeueBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HelveticaNeueBold.ttf; sourceTree = "<group>"; };
 		EC6EDCEF1A9B9F390098CAE0 /* timeforcoffee Widget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "timeforcoffee Widget.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC6EDCF11A9B9F390098CAE0 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		EC6EDCF51A9B9F390098CAE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC6EDCF61A9B9F390098CAE0 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		EC6EDD011A9BA04D0098CAE0 /* timeforcoffee Widget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "timeforcoffee Widget.entitlements"; sourceTree = "<group>"; };
-		EC6EDD021A9BA07E0098CAE0 /* timeforcoffee.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = timeforcoffee.entitlements; sourceTree = "<group>"; };
 		EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = timeforcoffeeKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC6EDD3F1A9BA36F0098CAE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC6EDD401A9BA36F0098CAE0 /* timeforcoffeeKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = timeforcoffeeKitTests.swift; sourceTree = "<group>"; };
@@ -206,7 +215,6 @@
 		EC7A517819C427CA000F5E7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EC7A517A19C427CA000F5E7C /* StationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationsViewController.swift; sourceTree = "<group>"; };
 		EC7A517F19C427CA000F5E7C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		EC7A518219C427CA000F5E7C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		EC7A519A19C43E0A000F5E7C /* Blank52.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Blank52.png; sourceTree = "<group>"; };
 		EC7A519E19C4432F000F5E7C /* DetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		EC87B64E1AB95310005A053E /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
@@ -222,15 +230,20 @@
 		EC87B65A1AB95365005A053E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		EC87B65C1AB95373005A053E /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		EC9010A01AA73A9E00F328E9 /* TFCWatchData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCWatchData.swift; sourceTree = "<group>"; };
+		EC94528E1AC1328A0006B284 /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
 		EC95714E1A9CACB70061F8B4 /* extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
 		EC9571501A9CCEC00061F8B4 /* TFCBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCBaseViewController.swift; sourceTree = "<group>"; };
-		ECC163D81AA369ED006BC3E9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		ECAD8C3A1ABD849B00704974 /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
+		ECAD8C3C1ABD84A600704974 /* PINCache.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PINCache.framework; path = "Pods/../build/Debug-iphoneos/Pods/PINCache.framework"; sourceTree = "<group>"; };
+		ECAD8C3E1ABD861000704974 /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
+		ECAD8C401ABD861D00704974 /* PINCache.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PINCache.framework; path = "Pods/../build/Debug-iphoneos/Pods/PINCache.framework"; sourceTree = "<group>"; };
 		ECC163D91AA369ED006BC3E9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		ECC163DB1AA36A35006BC3E9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MainInterface.strings; sourceTree = "<group>"; };
 		ECD871941A9BAE18003CCCB3 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ECDAB3A51AAA42A300EB352B /* PagedStationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagedStationsViewController.swift; sourceTree = "<group>"; };
 		ECF100AC1A9D9BAE00056510 /* TFCStations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCStations.swift; sourceTree = "<group>"; };
 		ECF100AE1A9DBDAF00056510 /* Time for Coffee!.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Time for Coffee!.entitlements"; sourceTree = "<group>"; };
+		ECFDA0B21AC00DD30019AA4E /* TFCDataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCDataStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -238,6 +251,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC9452951AC132E90006B284 /* timeforcoffeeKit.framework in Frameworks */,
+				EC94528F1AC1328A0006B284 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -245,6 +260,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ECAD8C3F1ABD861000704974 /* Pods.framework in Frameworks */,
 				EC87B65F1AB95386005A053E /* CoreData.framework in Frameworks */,
 				EC87B65E1AB95380005A053E /* libsqlite3.dylib in Frameworks */,
 				EC2C317A1A9E1F2500690397 /* SystemConfiguration.framework in Frameworks */,
@@ -253,7 +269,6 @@
 				EC87B6591AB95348005A053E /* libGoogleAnalyticsServices.a in Frameworks */,
 				EC2C31771A9E1F0A00690397 /* libc++.dylib in Frameworks */,
 				ECD871961A9BB2F7003CCCB3 /* timeforcoffeeKit.framework in Frameworks */,
-				EC2C316A1A9E1E9B00690397 /* NewRelicAgent.framework in Frameworks */,
 				EC6EDCF21A9B9F390098CAE0 /* NotificationCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -262,6 +277,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ECAD8C3B1ABD849B00704974 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,13 +293,22 @@
 				EC87B6581AB95348005A053E /* libGoogleAnalyticsServices.a in Frameworks */,
 				EC2C317B1A9E1F2D00690397 /* SystemConfiguration.framework in Frameworks */,
 				EC6EDD441A9BA36F0098CAE0 /* timeforcoffeeKit.framework in Frameworks */,
-				EC2C31691A9E1E9B00690397 /* NewRelicAgent.framework in Frameworks */,
+				4BA86C17986B70448BEAD6EA /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D9E9ACCF061DCAE672C25E77 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				3C47D48C04911012125C5428 /* Pods.debug.xcconfig */,
+				648323A7126563DCA991BABD /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		EC0A30E81AA33D990043B8F8 /* _assets */ = {
 			isa = PBXGroup;
 			children = (
@@ -302,17 +327,6 @@
 				EC2C31261A9DE8B000690397 /* home.gpx */,
 			);
 			name = gpx;
-			sourceTree = "<group>";
-		};
-		EC3252E91A9CE9DC0056AF11 /* MGSwipe */ = {
-			isa = PBXGroup;
-			children = (
-				EC3252E21A9CE1320056AF11 /* MGSwipeButton.h */,
-				EC3252E31A9CE1320056AF11 /* MGSwipeButton.m */,
-				EC3252E41A9CE1320056AF11 /* MGSwipeTableCell.h */,
-				EC3252E51A9CE1320056AF11 /* MGSwipeTableCell.m */,
-			);
-			name = MGSwipe;
 			sourceTree = "<group>";
 		};
 		EC4344AF1AA5080A009438C7 /* Time for Coffee! WatchKit Extension */ = {
@@ -366,6 +380,11 @@
 		EC6EDCF01A9B9F390098CAE0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EC94528E1AC1328A0006B284 /* Pods.framework */,
+				ECAD8C401ABD861D00704974 /* PINCache.framework */,
+				ECAD8C3E1ABD861000704974 /* Pods.framework */,
+				ECAD8C3C1ABD84A600704974 /* PINCache.framework */,
+				ECAD8C3A1ABD849B00704974 /* Pods.framework */,
 				EC87B65C1AB95373005A053E /* libsqlite3.dylib */,
 				EC87B65A1AB95365005A053E /* CoreData.framework */,
 				EC87B6571AB95348005A053E /* libGoogleAnalyticsServices.a */,
@@ -375,8 +394,8 @@
 				EC2C316F1A9E1EC700690397 /* Foundation.framework */,
 				EC2C316D1A9E1EC000690397 /* UIKit.framework */,
 				EC2C316B1A9E1EB800690397 /* CoreTelephony.framework */,
-				EC2C31681A9E1E9B00690397 /* NewRelicAgent.framework */,
 				EC6EDCF11A9B9F390098CAE0 /* NotificationCenter.framework */,
+				965B2A36D479CA86DF62E63F /* Pods.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -408,7 +427,10 @@
 				EC6EDD4C1A9BA4820098CAE0 /* TFCDeparture.swift */,
 				EC6EDD4D1A9BA4820098CAE0 /* TFCStation.swift */,
 				ECF100AC1A9D9BAE00056510 /* TFCStations.swift */,
+				EC21446C1ABCB2AF00B48522 /* TFCFavorites.swift */,
+				EC48438C1ABB917D002B3BB5 /* timeforcoffeeKit-Bridging-Header.h */,
 				EC0DD8CE1AAEC7CB0089A207 /* TFCCache.swift */,
+				ECFDA0B21AC00DD30019AA4E /* TFCDataStore.swift */,
 				EC6EDD531A9BA79B0098CAE0 /* APIController.swift */,
 				EC6EDD2F1A9BA36F0098CAE0 /* Supporting Files */,
 				EC9571501A9CCEC00061F8B4 /* TFCBaseViewController.swift */,
@@ -457,6 +479,7 @@
 				EC4344BE1AA5080A009438C7 /* Time for Coffee! WatchKit App */,
 				EC6EDCF01A9B9F390098CAE0 /* Frameworks */,
 				EC7A517419C427CA000F5E7C /* Products */,
+				D9E9ACCF061DCAE672C25E77 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -482,20 +505,18 @@
 				314AFBD11AA7633D00C176FE /* StationTableViewCell.xib */,
 				314AFBD31AA766DC00C176FE /* StationTableViewCell.swift */,
 				ECF100AE1A9DBDAF00056510 /* Time for Coffee!.entitlements */,
-				EC6EDD021A9BA07E0098CAE0 /* timeforcoffee.entitlements */,
 				EC3252DF1A9CE0800056AF11 /* timeforcoffee-Bridging-Header.h */,
 				EC7A519A19C43E0A000F5E7C /* Blank52.png */,
 				EC7A517819C427CA000F5E7C /* AppDelegate.swift */,
 				EC72FCC01AA336E900E9B275 /* TFCNavigationController.swift */,
-				EC3252E91A9CE9DC0056AF11 /* MGSwipe */,
 				EC7A517A19C427CA000F5E7C /* StationsViewController.swift */,
 				EC0DD8D01AAF1B5F0089A207 /* StationsSearchViewController.swift */,
 				ECDAB3A51AAA42A300EB352B /* PagedStationsViewController.swift */,
 				EC31F5471AAE3AED00771585 /* DeparturesViewController.swift */,
+				EC4A37261AC0811D005D7546 /* LaunchScreen.xib */,
 				EC7A519E19C4432F000F5E7C /* DetailsViewController.swift */,
 				EC31F5491AAE3DC000771585 /* AboutViewController.swift */,
 				EC7A517F19C427CA000F5E7C /* Images.xcassets */,
-				EC7A518119C427CA000F5E7C /* LaunchScreen.xib */,
 				EC7A517619C427CA000F5E7C /* Supporting Files */,
 			);
 			path = timeforcoffee;
@@ -549,6 +570,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				EC9452971AC132EF0006B284 /* PBXTargetDependency */,
 				EC4344BD1AA5080A009438C7 /* PBXTargetDependency */,
 			);
 			name = "Time for Coffee! WatchKit Extension";
@@ -596,7 +618,6 @@
 				EC6EDD291A9BA36F0098CAE0 /* Frameworks */,
 				EC6EDD2A1A9BA36F0098CAE0 /* Headers */,
 				EC6EDD5F1A9BAB110098CAE0 /* Resources */,
-				EC2C31801A9E203300690397 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -611,12 +632,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EC7A519219C427CA000F5E7C /* Build configuration list for PBXNativeTarget "timeforcoffee" */;
 			buildPhases = (
+				4C682C12C8C434B799C1BB99 /* Check Pods Manifest.lock */,
 				EC7A516F19C427CA000F5E7C /* Sources */,
 				EC7A517019C427CA000F5E7C /* Frameworks */,
 				EC7A517119C427CA000F5E7C /* Resources */,
 				EC6EDD001A9B9F390098CAE0 /* Embed App Extensions */,
 				EC6EDD241A9BA33C0098CAE0 /* Embed Frameworks */,
-				EC2C317F1A9E202500690397 /* ShellScript */,
+				A180F513FBCE68D152777704 /* Embed Pods Frameworks */,
+				4A33FD3CC8DCA65BD4628E06 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -659,6 +682,9 @@
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
 							};
+							com.apple.iCloud = {
+								enabled = 1;
+							};
 						};
 					};
 					EC6EDD2C1A9BA36F0098CAE0 = {
@@ -677,6 +703,9 @@
 							};
 							com.apple.Maps.iOS = {
 								enabled = 0;
+							};
+							com.apple.iCloud = {
+								enabled = 1;
 							};
 						};
 					};
@@ -755,10 +784,10 @@
 				EC0530871AB01153008439E9 /* gradient.png in Resources */,
 				3117221B1AB2374F00C176FE /* trainsymbol.otf in Resources */,
 				314AFBD21AA7633D00C176FE /* StationTableViewCell.xib in Resources */,
+				EC4A37271AC0811D005D7546 /* LaunchScreen.xib in Resources */,
 				EC2C31271A9DE8B000690397 /* home.gpx in Resources */,
 				ECC163D71AA36924006BC3E9 /* Localizable.strings in Resources */,
 				EC271DC41AA365BE00A7A75E /* Main.storyboard in Resources */,
-				EC7A518319C427CA000F5E7C /* LaunchScreen.xib in Resources */,
 				EC0A30EC1AA344100043B8F8 /* launchicon.png in Resources */,
 				EC7A518019C427CA000F5E7C /* Images.xcassets in Resources */,
 				EC2C312B1A9DECB900690397 /* office.gpx in Resources */,
@@ -768,31 +797,50 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		EC2C317F1A9E202500690397 /* ShellScript */ = {
+		4A33FD3CC8DCA65BD4628E06 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "SCRIPT=`/usr/bin/find \"${SRCROOT}\" -name newrelic_postbuild.sh | head -n 1`\n\n/bin/sh \"${SCRIPT}\" \"AAe7c5942c67612bc82125c42d8b0b5c6a7df227b2\"";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
-		EC2C31801A9E203300690397 /* ShellScript */ = {
+		4C682C12C8C434B799C1BB99 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "SCRIPT=`/usr/bin/find \"${SRCROOT}\" -name newrelic_postbuild.sh | head -n 1`\n\n/bin/sh \"${SCRIPT}\" \"AAe7c5942c67612bc82125c42d8b0b5c6a7df227b2\"";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		A180F513FBCE68D152777704 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -830,6 +878,8 @@
 				EC046D631A9C563D00C2C1B3 /* TFCLocationManager.swift in Sources */,
 				EC6EDD4F1A9BA4820098CAE0 /* TFCStation.swift in Sources */,
 				EC0DD8CF1AAEC7CB0089A207 /* TFCCache.swift in Sources */,
+				ECFDA0B31AC00DD30019AA4E /* TFCDataStore.swift in Sources */,
+				EC21446D1ABCB2AF00B48522 /* TFCFavorites.swift in Sources */,
 				EC6EDD4E1A9BA4820098CAE0 /* TFCDeparture.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -843,9 +893,7 @@
 				31979D751AB5BC7B00525165 /* DepartureLineLabel.swift in Sources */,
 				EC31F54A1AAE3DC000771585 /* AboutViewController.swift in Sources */,
 				EC0DD8D11AAF1B5F0089A207 /* StationsSearchViewController.swift in Sources */,
-				EC3252E71A9CE1320056AF11 /* MGSwipeTableCell.m in Sources */,
 				EC7A517919C427CA000F5E7C /* AppDelegate.swift in Sources */,
-				EC3252E61A9CE1320056AF11 /* MGSwipeButton.m in Sources */,
 				EC72FCC11AA336E900E9B275 /* TFCNavigationController.swift in Sources */,
 				314AFBD41AA766DC00C176FE /* StationTableViewCell.swift in Sources */,
 				EC7A519F19C4432F000F5E7C /* DetailsViewController.swift in Sources */,
@@ -876,6 +924,11 @@
 			isa = PBXTargetDependency;
 			target = EC6EDD2C1A9BA36F0098CAE0 /* timeforcoffeeKit */;
 			targetProxy = EC6EDD421A9BA36F0098CAE0 /* PBXContainerItemProxy */;
+		};
+		EC9452971AC132EF0006B284 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EC6EDD2C1A9BA36F0098CAE0 /* timeforcoffeeKit */;
+			targetProxy = EC9452961AC132EF0006B284 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -908,16 +961,6 @@
 			name = Interface.storyboard;
 			sourceTree = "<group>";
 		};
-		EC7A518119C427CA000F5E7C /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				EC7A518219C427CA000F5E7C /* Base */,
-				EC0A30F11AA352BD0043B8F8 /* de */,
-				ECC163D81AA369ED006BC3E9 /* en */,
-			);
-			name = LaunchScreen.xib;
-			sourceTree = "<group>";
-		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -926,6 +969,10 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
 				INFOPLIST_FILE = "Time for Coffee! WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_NAME = "${TARGET_NAME}";
@@ -939,6 +986,10 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
 				INFOPLIST_FILE = "Time for Coffee! WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_NAME = "${TARGET_NAME}";
@@ -988,6 +1039,7 @@
 		};
 		EC6EDCFE1A9B9F390098CAE0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3C47D48C04911012125C5428 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "timeforcoffee Widget/timeforcoffee Widget.entitlements";
@@ -996,6 +1048,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/Pods",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -1018,6 +1072,7 @@
 		};
 		EC6EDCFF1A9B9F390098CAE0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 648323A7126563DCA991BABD /* Pods.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "timeforcoffee Widget/timeforcoffee Widget.entitlements";
@@ -1026,6 +1081,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/Pods",
 				);
 				INFOPLIST_FILE = "timeforcoffee Widget/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1043,6 +1100,7 @@
 		};
 		EC6EDD471A9BA36F0098CAE0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3C47D48C04911012125C5428 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1052,6 +1110,11 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/Pods",
+				);
 				INFOPLIST_FILE = timeforcoffeeKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1059,12 +1122,14 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "$(SRCROOT)/timeforcoffeeKit/timeforcoffeeKit-Bridging-Header.h";
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
 		EC6EDD481A9BA36F0098CAE0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 648323A7126563DCA991BABD /* Pods.release.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1074,6 +1139,11 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/Pods",
+				);
 				INFOPLIST_FILE = timeforcoffeeKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1081,6 +1151,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "$(SRCROOT)/timeforcoffeeKit/timeforcoffeeKit-Bridging-Header.h";
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
@@ -1169,6 +1240,7 @@
 		};
 		EC7A519319C427CA000F5E7C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3C47D48C04911012125C5428 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "timeforcoffee/Time for Coffee!.entitlements";
@@ -1195,6 +1267,7 @@
 		};
 		EC7A519419C427CA000F5E7C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 648323A7126563DCA991BABD /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "timeforcoffee/Time for Coffee!.entitlements";
