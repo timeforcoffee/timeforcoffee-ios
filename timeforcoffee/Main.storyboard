@@ -20,8 +20,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Zf4-nR-Sej">
-                                <rect key="frame" x="0.0" y="204" width="600" height="480"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Zf4-nR-Sej">
+                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="separatorColor" red="0.8666666666666667" green="0.8666666666666667" blue="0.8666666666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
@@ -113,15 +113,18 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="elb-MS-l3n" userLabel="Nav Bar View">
                                         <rect key="frame" x="0.0" y="70" width="600" height="80"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tiy-IY-zxF" userLabel="White Background View">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tiy-IY-zxF" userLabel="White Background View">
                                                 <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Gf-nk-f44">
+                                                    <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6Gf-nk-f44">
                                                         <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     </imageView>
-                                                    <button opaque="NO" contentMode="center" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3J6-WH-M4V" userLabel="Up Button">
+                                                    <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3J6-WH-M4V" userLabel="Up Button">
                                                         <rect key="frame" x="3" y="23" width="36" height="36"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="36" id="G2C-kr-nrd"/>
+                                                        </constraints>
                                                         <state key="normal" image="chevron-up">
                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -130,8 +133,11 @@
                                                             <action selector="mapUpAction:" destination="COk-7g-JfJ" eventType="touchUpInside" id="bEC-br-XsA"/>
                                                         </connections>
                                                     </button>
-                                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2ey-js-9pA" userLabel="Map Button">
+                                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2ey-js-9pA" userLabel="Map Button">
                                                         <rect key="frame" x="558" y="25" width="36" height="36"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="36" id="r0C-fv-BbX"/>
+                                                        </constraints>
                                                         <state key="normal" image="icon-map">
                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
@@ -140,12 +146,9 @@
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstItem="3J6-WH-M4V" firstAttribute="leading" secondItem="tiy-IY-zxF" secondAttribute="leading" constant="3" id="5lv-DH-JCa"/>
-                                                    <constraint firstItem="6Gf-nk-f44" firstAttribute="leading" secondItem="tiy-IY-zxF" secondAttribute="leading" id="AvQ-Hf-CTu"/>
-                                                    <constraint firstAttribute="trailing" secondItem="6Gf-nk-f44" secondAttribute="trailing" id="Dta-c5-ye3"/>
+                                                    <constraint firstItem="6Gf-nk-f44" firstAttribute="top" secondItem="tiy-IY-zxF" secondAttribute="top" id="BdB-aA-1wJ"/>
                                                     <constraint firstAttribute="width" secondItem="6Gf-nk-f44" secondAttribute="width" id="Lcv-GK-g8n"/>
                                                     <constraint firstItem="6Gf-nk-f44" firstAttribute="centerX" secondItem="tiy-IY-zxF" secondAttribute="centerX" id="MnX-Vk-uwp"/>
-                                                    <constraint firstItem="6Gf-nk-f44" firstAttribute="leading" secondItem="tiy-IY-zxF" secondAttribute="leading" id="OT6-ub-IGC"/>
-                                                    <constraint firstItem="6Gf-nk-f44" firstAttribute="leading" secondItem="tiy-IY-zxF" secondAttribute="leading" id="PfY-dd-6qF"/>
                                                     <constraint firstAttribute="bottom" secondItem="6Gf-nk-f44" secondAttribute="bottom" id="T77-HK-mhC"/>
                                                     <constraint firstAttribute="trailing" secondItem="2ey-js-9pA" secondAttribute="trailing" constant="6" id="TH5-ZP-ziQ"/>
                                                     <constraint firstAttribute="height" secondItem="6Gf-nk-f44" secondAttribute="height" id="U9Q-VP-7Af"/>
@@ -183,9 +186,12 @@
                                             <constraint firstAttribute="width" secondItem="G4Z-yb-SMS" secondAttribute="width" id="HF6-LF-XeS"/>
                                             <constraint firstAttribute="height" constant="80" id="Sqn-hC-6jc"/>
                                             <constraint firstAttribute="width" secondItem="tiy-IY-zxF" secondAttribute="width" id="TLj-np-q9m"/>
+                                            <constraint firstAttribute="trailing" secondItem="tiy-IY-zxF" secondAttribute="trailing" id="TMO-qo-CCE"/>
                                             <constraint firstItem="37z-MA-FFU" firstAttribute="bottom" secondItem="elb-MS-l3n" secondAttribute="bottom" constant="-28" id="Ufm-GS-sWA"/>
+                                            <constraint firstItem="tiy-IY-zxF" firstAttribute="top" secondItem="elb-MS-l3n" secondAttribute="top" id="hQc-58-zsa"/>
                                             <constraint firstAttribute="centerX" secondItem="G4Z-yb-SMS" secondAttribute="centerX" id="ndo-hd-liE"/>
                                             <constraint firstItem="G4Z-yb-SMS" firstAttribute="top" secondItem="37z-MA-FFU" secondAttribute="bottom" constant="3" id="tLp-XH-eCc"/>
+                                            <constraint firstItem="tiy-IY-zxF" firstAttribute="leading" secondItem="elb-MS-l3n" secondAttribute="leading" id="uRj-XF-RgT"/>
                                             <constraint firstAttribute="centerX" secondItem="37z-MA-FFU" secondAttribute="centerX" id="x5p-Yd-s4q"/>
                                         </constraints>
                                     </view>
@@ -479,7 +485,7 @@
         <!--Paged Stations View Controller-->
         <scene sceneID="rXH-fF-JWm">
             <objects>
-                <pageViewController storyboardIdentifier="PageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="mid" doubleSided="YES" id="KiB-sC-VsM" customClass="PagedStationsViewController" customModule="timeforcoffee" customModuleProvider="target" sceneMemberID="viewController">
+                <pageViewController storyboardIdentifier="PageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="KiB-sC-VsM" customClass="PagedStationsViewController" customModule="timeforcoffee" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="RSb-wJ-pvc"/>
                 </pageViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zcj-mR-3E9" userLabel="First Responder" sceneMemberID="firstResponder"/>
