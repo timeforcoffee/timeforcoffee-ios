@@ -386,16 +386,11 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     func scrollViewDidScroll(scrollView: UIScrollView) {
         let offset = scrollView.contentOffset.y + startHeight
         self.topBarHeight.constant = max(min(self.startHeight - offset, self.startHeight), 64)
-        println(self.topBarHeight.constant)
-        println(offset)
         if (self.topBarHeight.constant < 71) {
             self.stationNameBottomSpace.constant = -22 - (self.topBarHeight.constant - 64)
         } else {
             self.stationNameBottomSpace.constant = -28
-
         }
-        println(self.stationNameBottomSpace.constant)
-        println("foo")
         self.borderBottomView.alpha = offset / 80
         self.mapView?.alpha = min(1 - (offset / 80), 0.5)
         self.stationIconView.alpha = 1 - (offset / 80)
