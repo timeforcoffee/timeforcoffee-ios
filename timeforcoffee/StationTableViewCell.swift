@@ -27,7 +27,7 @@ class StationTableViewCell: UITableViewCell {
     }
 
     deinit {
-        println("cell deinit")
+        NSLog("cell deinit")
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

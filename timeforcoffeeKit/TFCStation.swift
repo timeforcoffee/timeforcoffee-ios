@@ -385,6 +385,9 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
         let currentCoordinate = location?.coordinate
         var sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
 
+        if (self.coord == nil) {
+            completion(nil)
+        }
         let coord = self.coord!
         var destinationPlacemark:MKPlacemark = MKPlacemark(coordinate: coord.coordinate, addressDictionary: nil)
         var source:MKMapItem = MKMapItem(placemark: sourcePlacemark)
@@ -400,7 +403,7 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
         directions.calculateDirectionsWithCompletionHandler({
             (response: MKDirectionsResponse!, error: NSError?) in
             if error != nil{
-                println("Error")
+                NSLog("Error")
             }
             if response != nil {
                 var route: MKRoute = response.routes[0] as MKRoute;
@@ -412,7 +415,7 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
             }  else {
                 self.walkingDistanceLastCoord = nil
                 self.walkingDistanceString = nil
-                println("No response")
+                NSLog("No response")
                 completion(nil)
                 println(error?.description)
             }
@@ -514,10 +517,10 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
     public func discardContentIfPossible() {
         self.removeObseleteDepartures()
         if (!isLastUsed && self.departures?.count > 1) {
-            println("delete some departures")
+            NSLog("delete some departures")
             self.departures = [(self.departures?.first)!]
         }
-        println( "discardContentIfPossible")
+        NSLog( "discardContentIfPossible")
     }
 
     public func beginContentAccess() -> Bool {
@@ -530,7 +533,7 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
 
     public func isContentDiscarded() -> Bool {
         removeObseleteDepartures()
-        println("isContentDiscarded")
+        NSLog("isContentDiscarded")
         if (!isLastUsed && (departures == nil || departures?.count == 0)) {
             return true
         }

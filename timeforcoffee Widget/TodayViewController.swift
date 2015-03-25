@@ -80,7 +80,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     }
 
     deinit {
-        println("deinit widget")
+        NSLog("deinit widget")
         TFCDataStore.sharedInstance.removeNotifications()
     }
 
@@ -132,7 +132,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     }
 
     override func locationFixed(coord: CLLocationCoordinate2D?) {
-        println("locationFixed")
+        NSLog("locationFixed")
         if (coord != nil) {
 
             if (getLastUsedView() == "nearbyStations") {
