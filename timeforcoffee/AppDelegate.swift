@@ -103,7 +103,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else if (userInfo["module"] == "departures") {
             watchData?.getDepartures(userInfo, reply: reply!)
         } else if (userInfo["module"] == "nearby") {
-            println("get nearby module")
+            NSLog("get nearby module")
             watchData?.getNearbyStations(reply)
         } else {
             watchData?.getFavorites(reply)

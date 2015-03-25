@@ -52,7 +52,7 @@ public class TFCDataStore: NSObject {
             if (reasonForChange == nil) {
                 return
             }
-            println("got icloud sync")
+            NSLog("got icloud sync")
 
             let reason = reasonForChange?.integerValue
             if ((reason == NSUbiquitousKeyValueStoreServerChange) ||

@@ -59,13 +59,13 @@ public class APIController {
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             if (cacheKey != nil && self.cache.objectForKey(cacheKey!) != nil) {
-                println("diskByteCount apicalls: \(self.cache.diskByteCount)")
+                NSLog("diskByteCount apicalls: \(self.cache.diskByteCount)")
                 let result = JSONValue(self.cache.objectForKey(cacheKey!) as NSData!);
                 self.delegate?.didReceiveAPIResults(result, error: nil, context: context)
             } else {
                 let urlPathEsc = urlPath.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
                 let url: NSURL = NSURL(string: urlPathEsc)!
-                println("Start fetching data \(urlPath)")
+                NSLog("Start fetching data \(urlPath)")
                 var dataFetch: NSURLSessionDataTask?
                 if (fetchId == 1 && self.currentFetch[fetchId] != nil) {
                     self.currentFetch[fetchId]?.cancel()
@@ -82,10 +82,10 @@ public class APIController {
 
                 dataFetch = session2.dataTaskWithRequest(request, completionHandler: {data , response, error -> Void in
 
-                    println("Task completed")
+                    NSLog("Task completed")
                     if(error != nil) {
                         // If there is an error in the web request, print it to the console
-                        println(error.localizedDescription)
+                        NSLog(error.localizedDescription)
                     }
                     if (fetchId == 1) {
                         self.currentFetch[fetchId] = nil
