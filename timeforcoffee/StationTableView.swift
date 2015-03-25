@@ -137,7 +137,6 @@ class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource,
 
     func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?) {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-        dispatch_async(dispatch_get_main_queue(), {
 
             if (error != nil && error?.code != -999) {
                 self.networkErrorMsg = "Network error. Please try again"
@@ -145,6 +144,7 @@ class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource,
                 self.networkErrorMsg = nil
             }
             self.stations.addWithJSON(results)
+        dispatch_async(dispatch_get_main_queue(), {
             self.reloadData()
             self.refreshControl.endRefreshing()
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
