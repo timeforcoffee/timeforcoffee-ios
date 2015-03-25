@@ -92,7 +92,8 @@ public class APIController {
                     }
                     var err: NSError?
                     let jsonResult = JSONValue(data)
-                    if (error == nil && cacheKey != nil) {
+                    //jsonResult.boolValue is false, when data was not parseable. Don't cache it in that case
+                    if (jsonResult.boolValue == true && error == nil && cacheKey != nil) {
                         self.cache.setObject(data, forKey: cacheKey!)
                     }
                     self.delegate?.didReceiveAPIResults(jsonResult, error: error, context: context)
