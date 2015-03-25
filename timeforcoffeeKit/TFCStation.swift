@@ -385,6 +385,9 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
         let currentCoordinate = location?.coordinate
         var sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
 
+        if (self.coord == nil) {
+            completion(nil)
+        }
         let coord = self.coord!
         var destinationPlacemark:MKPlacemark = MKPlacemark(coordinate: coord.coordinate, addressDictionary: nil)
         var source:MKMapItem = MKMapItem(placemark: sourcePlacemark)
