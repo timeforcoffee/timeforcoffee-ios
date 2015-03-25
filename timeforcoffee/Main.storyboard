@@ -601,6 +601,50 @@
             </objects>
             <point key="canvasLocation" x="1335" y="456"/>
         </scene>
+        <!--OnBoarding-->
+        <scene sceneID="5z7-ei-wKK">
+            <objects>
+                <viewController storyboardIdentifier="OnBoardingViewController" id="t3A-TI-W1f" userLabel="OnBoarding" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="zeg-qD-A74"/>
+                        <viewControllerLayoutGuide type="bottom" id="66f-85-RFm"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="7Wd-V4-GOj">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aqA-MK-Sba">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <subviews>
+                                    <textView multipleTouchEnabled="YES" tag="1" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" text="Lorem Ipsum" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="g4e-i4-biU">
+                                        <rect key="frame" x="25" y="150" width="550" height="300"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="300" id="VFK-W8-Xmm"/>
+                                        </constraints>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="centerX" secondItem="g4e-i4-biU" secondAttribute="centerX" id="ULo-u0-ymq"/>
+                                    <constraint firstItem="g4e-i4-biU" firstAttribute="width" secondItem="aqA-MK-Sba" secondAttribute="width" constant="-50" id="ZMD-mV-VX6"/>
+                                    <constraint firstAttribute="centerY" secondItem="g4e-i4-biU" secondAttribute="centerY" id="zfl-4I-GpA"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="aqA-MK-Sba" firstAttribute="width" secondItem="7Wd-V4-GOj" secondAttribute="width" id="FWn-4J-c5z"/>
+                            <constraint firstItem="aqA-MK-Sba" firstAttribute="height" secondItem="7Wd-V4-GOj" secondAttribute="height" id="NtJ-ZR-hrR"/>
+                            <constraint firstAttribute="centerY" secondItem="aqA-MK-Sba" secondAttribute="centerY" id="gh0-P5-nlW"/>
+                            <constraint firstAttribute="centerX" secondItem="aqA-MK-Sba" secondAttribute="centerX" id="kVr-MK-va0"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0KN-dx-YCF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1482" y="-1465"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Zuerich2.jpg" width="2139" height="750"/>

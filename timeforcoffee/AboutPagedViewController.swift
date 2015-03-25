@@ -49,7 +49,6 @@ class AboutPagedViewController: UIViewController, SwipeViewDataSource, SwipeView
 
             let aboutview = self.storyboard?.instantiateViewControllerWithIdentifier("AboutViewController").view as UIView?
             aboutview?.autoresizingMask = UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleWidth
-           // aboutview?.frame = self.swipeView.bounds
             let webview = aboutview?.viewWithTag(10) as UIWebView
             webview.delegate = self
             let htmlfile = NSBundle.mainBundle().pathForResource("About", ofType: "html")
@@ -58,19 +57,15 @@ class AboutPagedViewController: UIViewController, SwipeViewDataSource, SwipeView
             webview.loadHTMLString(htmlString, baseURL: nil)
             return aboutview
         }
-        var label: UILabel
+
+        let boardview = self.storyboard?.instantiateViewControllerWithIdentifier("OnBoardingViewController").view as UIView?
 
 
-        let view = UIView()
-        view.autoresizingMask = UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleWidth
-        label = UILabel(frame: CGRectMake(0, self.view.frame.height / 2 - 50, self.view.frame.width, 200))
-        label.backgroundColor = UIColor.clearColor()
-        label.textAlignment = NSTextAlignment.Center;
-        label.tag = 1;
-        view.addSubview(label)
-        view.backgroundColor = UIColor.clearColor()
-        label.lineBreakMode = NSLineBreakMode.ByWordWrapping
-        label.numberOfLines=0
+        boardview?.autoresizingMask = UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleWidth
+
+
+        let label = boardview?.viewWithTag(1) as UITextView
+
 
         var myIndex = index
         if (!onBoardingShown) {
@@ -101,9 +96,10 @@ class AboutPagedViewController: UIViewController, SwipeViewDataSource, SwipeView
             label.text = String("And now some cool features...")
         }
 
-        label.font = UIFont.systemFontOfSize(30)
-        label.textColor = UIColor.whiteColor()
-        return view
+ /*       CGSize sizeThatShouldFitTheContent = [_textView sizeThatFits:_textView.frame.size];
+        heightConstraint.constant = sizeThatShouldFitTheContent.height;
+*/
+        return boardview
     }
 
     func swipeViewDidEndDecelerating(swipeView: SwipeView!) {
