@@ -38,11 +38,14 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
 
     var showStations: Bool = false {
         didSet {
-            setLastUsedView()
             if (showStations == true) {
+                setLastUsedView()
                 actionLabel.setTitle("Back", forState: UIControlState.Normal)
                 titleLabel.text = "Nearby Stations"
             } else {
+                if (currentStation != nil) {
+                    setLastUsedView()
+                }
                 actionLabel.setTitle("Stations", forState: UIControlState.Normal)
                 titleLabel.text = currentStation?.getNameWithStarAndFilters()
             }
