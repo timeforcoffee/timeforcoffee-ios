@@ -168,6 +168,8 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                 }
             }
             self.api?.searchFor(coord!)
+        } else {
+            //NSLog("Location coord is nil!")
         }
 
     }
@@ -210,14 +212,19 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         if (showStations) {
             userDefaults?.setObject("nearbyStations", forKey: "lastUsedView")
         } else {
-            userDefaults?.setObject("singleStation", forKey: "lastUsedView")
             if (currentStation != nil) {
+                userDefaults?.setObject("singleStation", forKey: "lastUsedView")
                 currentStation?.isLastUsed = true
                 lastViewedStation?.isLastUsed = false
                 // FIXME, use NSCoding serialisation ..
                 // and maybe one object for all these values
                 userDefaults?.setObject(currentStation?.getAsDict(), forKey: "lastUsedStation")
                 userDefaults?.setObject(locManager?.currentLocation?.distanceFromLocation(currentStation?.coord), forKey: "lastUsedStationDistance")
+            } else {
+                userDefaults?.removeObjectForKey("lastUsedView")
+                userDefaults?.removeObjectForKey("lastUsedStation")
+                userDefaults?.removeObjectForKey("lastUsedStationDistance")
+                lastViewedStation?.isLastUsed = false
             }
         }
         userDefaults?.setObject(NSDate(), forKey: "lastUsedViewUpdate")
