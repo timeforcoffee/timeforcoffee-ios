@@ -97,13 +97,13 @@ public class TFCStations {
         }
         var hasNearbyFavs = false
         var removeFromFavorites: [String] = []
+        var favDistance = 1000.0
+        if (location.horizontalAccuracy > 500.0) {
+            NSLog("horizontalAccuracy > 500: \(location.horizontalAccuracy)")
+            favDistance = location.horizontalAccuracy + 500.0
+        }
         for (st_id, station) in favorite.s.stations {
             var distance = location.distanceFromLocation(station.coord)
-            var favDistance = 1000.0
-            if (location.horizontalAccuracy > 500.0) {
-                NSLog("horizontalAccuracy > 500: \(location.horizontalAccuracy)")
-                favDistance = location.horizontalAccuracy + 500.0
-            }
             if (distance < favDistance) {
                 hasNearbyFavs = true
                 station.calculatedDistance = Int(distance)
