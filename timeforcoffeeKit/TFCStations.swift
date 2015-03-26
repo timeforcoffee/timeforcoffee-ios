@@ -91,9 +91,9 @@ public class TFCStations {
     }
 
     public func addNearbyFavorites(location: CLLocation) -> Bool {
-        favorite.inStationsArray = [:]
         if (self.stations == nil) {
             self.stations = []
+            favorite.inStationsArray = [:]
         }
         var hasNearbyFavs = false
         var removeFromFavorites: [String] = []
@@ -106,9 +106,11 @@ public class TFCStations {
             var distance = location.distanceFromLocation(station.coord)
             if (distance < favDistance) {
                 hasNearbyFavs = true
-                station.calculatedDistance = Int(distance)
-                self.stations!.append(station)
-                favorite.inStationsArray[station.st_id] = true
+                if (favorite.inStationsArray[station.st_id] != true) {
+                    station.calculatedDistance = Int(distance)
+                    self.stations!.append(station)
+                    favorite.inStationsArray[station.st_id] = true
+                }
             } else {
                 removeFromFavorites.append(st_id)
             }

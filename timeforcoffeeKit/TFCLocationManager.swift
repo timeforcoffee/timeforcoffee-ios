@@ -64,7 +64,7 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
     
     public func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
         var coord: CLLocationCoordinate2D? = nil
-        if (locationFixAchieved == false) {
+        if (currentLocation == nil || locationFixAchieved == false) {
             locationFixAchieved = true
             var locationArray = locations as NSArray
             var locationObj = locationArray.lastObject as CLLocation
