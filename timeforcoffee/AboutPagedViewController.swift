@@ -35,6 +35,7 @@ class AboutPagedViewController: UIViewController, SwipeViewDataSource, SwipeView
             aboutview?.autoresizingMask = UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleWidth
            // aboutview?.frame = self.swipeView.bounds
             let webview = aboutview?.viewWithTag(10) as UIWebView
+            webview.scrollView.scrollEnabled = false;
             webview.delegate = self
             let htmlfile = NSBundle.mainBundle().pathForResource("About", ofType: "html")
             let htmlString = String(contentsOfFile: htmlfile!, encoding: NSUTF8StringEncoding, error: nil)
