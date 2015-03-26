@@ -168,6 +168,8 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                 }
             }
             self.api?.searchFor(coord!)
+        } else {
+            NSLog("Location coord is nil!")
         }
 
     }
