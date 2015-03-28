@@ -29,6 +29,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //GAI.sharedInstance().logger.logLevel = GAILogLevel.Verbose
         gtracker.trackerWithTrackingId("UA-37092982-2")
         gtracker.defaultTracker.set("&uid", value: UIDevice().identifierForVendor.UUIDString)
+
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
+
+            var settings = SKTSettings(appToken: "7n3aaqyp9fr5kr7y1wjssd231")
+            settings.knowledgeBaseURL = "https://timeforcoffee.zendesk.com"
+            SupportKit.initWithSettings(settings)
+          //  SupportKit.setDefaultRecommendations(["https://medium.com/@timeforcoffee/how-to-add-time-for-coffee-to-the-today-screen-178bbf52d3cc"])
+            let userdefaults = TFCDataStore.sharedInstance.getUserDefaults()
+            let lastusedTodayScreen: NSDate? = userdefaults?.objectForKey("lastUsedViewUpdate") as NSDate?
+            if (lastusedTodayScreen != nil) {
+                SKTUser.currentUser().addProperties(["usedTodayScreen": true])
+            }
+            if (SKTUser.currentUser().signedUpAt == nil) {
+                SKTUser.currentUser().signedUpAt = NSDate()
+                SKTUser.currentUser().addProperties(["signedUpDate" : NSDate()])
+                SKTUser.currentUser().addProperties(["language": NSLocale.preferredLanguages().first as NSString])
+                if (userdefaults?.objectForKey("favorites2") != nil) {
+                    SKTUser.currentUser().addProperties(["usedFavorites": true])
+                } else {
+                    SKTUser.currentUser().addProperties(["usedFavorites": false])
+                }
+                if (lastusedTodayScreen != nil) {
+                    SKTUser.currentUser().addProperties(["lastUsedTodayScreen": lastusedTodayScreen!])
+                    SKTUser.currentUser().addProperties(["usedTodayScreen": true])
+                } else {
+                    SKTUser.currentUser().addProperties(["usedTodayScreen": false])
+                }
+            }
+        }
         return true
     }
 

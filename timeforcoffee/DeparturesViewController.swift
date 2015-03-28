@@ -439,6 +439,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
             favButton.setTitle("☆", forState: UIControlState.Normal)
         }
         self.appsTableView?.reloadData()
+        SKTUser.currentUser().addProperties(["usedFavorites": true])
     }
 
 
@@ -580,6 +581,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         let station2 = station!
         let departures: [TFCDeparture] = station2.getDepartures()!
         let departure: TFCDeparture = departures[cell.tag]
+        SKTUser.currentUser().addProperties(["usedFilters": true])
         if (station2.isFiltered(departure)) {
             station2.unsetFilter(departure);
             var button = cell.rightButtons[0] as MGSwipeButton
