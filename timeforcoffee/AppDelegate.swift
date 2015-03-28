@@ -31,8 +31,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         gtracker.defaultTracker.set("&uid", value: UIDevice().identifierForVendor.UUIDString)
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
-            SupportKit.initWithSettings(SKTSettings(appToken: "7n3aaqyp9fr5kr7y1wjssd231"))
-            SupportKit.setDefaultRecommendations(["https://medium.com/@timeforcoffee/how-to-add-time-for-coffee-to-the-today-screen-178bbf52d3cc"])
+
+            var settings = SKTSettings(appToken: "7n3aaqyp9fr5kr7y1wjssd231")
+            settings.knowledgeBaseURL = "https://timeforcoffee.zendesk.com"
+            SupportKit.initWithSettings(settings)
+          //  SupportKit.setDefaultRecommendations(["https://medium.com/@timeforcoffee/how-to-add-time-for-coffee-to-the-today-screen-178bbf52d3cc"])
             let userdefaults = TFCDataStore.sharedInstance.getUserDefaults()
             let lastusedTodayScreen: NSDate? = userdefaults?.objectForKey("lastUsedViewUpdate") as NSDate?
             if (lastusedTodayScreen != nil) {

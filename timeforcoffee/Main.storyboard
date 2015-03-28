@@ -400,7 +400,7 @@
                                         <constraints>
                                             <constraint firstAttribute="width" constant="250" id="9z4-b0-ND2"/>
                                         </constraints>
-                                        <state key="normal" title="Chat with us!">
+                                        <state key="normal" title="Help / Chat with us!">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>

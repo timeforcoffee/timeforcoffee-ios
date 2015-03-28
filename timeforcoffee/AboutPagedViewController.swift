@@ -69,7 +69,7 @@ class AboutPagedViewController: UIViewController, SwipeViewDataSource, SwipeView
     }
 
     func startChat() {
-        SupportKit.showConversation()
+        SupportKit.show()
     }
     func swipeViewItemSize(swipeView: SwipeView!) -> CGSize {
         return self.swipeView.bounds.size
