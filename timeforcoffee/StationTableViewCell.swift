@@ -44,6 +44,7 @@ class StationTableViewCell: UITableViewCell {
 
         self.station.toggleIcon(self.StationFavoriteButton!, icon: StationIconView, completion: completion)
 
+        SKTUser.currentUser().addProperties(["usedFavorites": true])
     }
 
     func drawCell() {

@@ -248,6 +248,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         self.appsTableView?.reloadData()
         //UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         currentStation?.updateDepartures(self, maxDepartures: 6)
+        setLastUsedView()
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
