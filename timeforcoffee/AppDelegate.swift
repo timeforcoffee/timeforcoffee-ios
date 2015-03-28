@@ -29,6 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //GAI.sharedInstance().logger.logLevel = GAILogLevel.Verbose
         gtracker.trackerWithTrackingId("UA-37092982-2")
         gtracker.defaultTracker.set("&uid", value: UIDevice().identifierForVendor.UUIDString)
+        SupportKit.initWithSettings(SKTSettings(appToken: "7n3aaqyp9fr5kr7y1wjssd231"))
         return true
     }
 
