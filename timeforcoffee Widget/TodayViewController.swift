@@ -38,11 +38,14 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
 
     var showStations: Bool = false {
         didSet {
-            setLastUsedView()
             if (showStations == true) {
+                setLastUsedView()
                 actionLabel.setTitle("Back", forState: UIControlState.Normal)
                 titleLabel.text = "Nearby Stations"
             } else {
+                if (currentStation != nil) {
+                    setLastUsedView()
+                }
                 actionLabel.setTitle("Stations", forState: UIControlState.Normal)
                 titleLabel.text = currentStation?.getNameWithStarAndFilters()
             }
@@ -245,6 +248,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         self.appsTableView?.reloadData()
         //UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         currentStation?.updateDepartures(self, maxDepartures: 6)
+        setLastUsedView()
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

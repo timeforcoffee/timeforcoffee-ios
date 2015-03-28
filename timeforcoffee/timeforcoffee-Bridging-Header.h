@@ -11,4 +11,5 @@
 #import "GAI.h"
 #import "GAIDictionaryBuilder.h"
 #import "GAIFields.h"
+#import <SupportKit/SupportKit.h>
 #endif

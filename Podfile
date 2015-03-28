@@ -18,15 +18,13 @@ post_install do |installer_representation|
       target.build_configurations.each do |config|
         config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= ['$(inherited)']
         config.build_settings['GCC_PREPROCESSOR_DEFINITIONS']  << 'PIN_APP_EXTENSIONS=1'
+        config.build_settings['APPLICATION_EXTENSION_API_ONLY'] = 'YES'
+      end
+    else 
+      target.build_configurations.each do |config|
+        config.build_settings['APPLICATION_EXTENSION_API_ONLY'] = 'YES'
       end
     end
   end
 end
 
-post_install do |installer_representation|
-  installer_representation.project.targets.each do |target|
-    target.build_configurations.each do |config|
-      config.build_settings['APPLICATION_EXTENSION_API_ONLY'] = 'YES'
-    end
-  end
-end

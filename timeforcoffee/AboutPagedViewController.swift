@@ -41,6 +41,10 @@ class AboutPagedViewController: UIViewController, SwipeViewDataSource, SwipeView
             let htmlString = String(contentsOfFile: htmlfile!, encoding: NSUTF8StringEncoding, error: nil)
 
             webview.loadHTMLString(htmlString, baseURL: nil)
+
+            let chatbutton = aboutview?.viewWithTag(20) as UIButton
+            chatbutton.addTarget(self, action: "startChat", forControlEvents: UIControlEvents.TouchUpInside
+            )
             return aboutview
         }
         var label: UILabel
@@ -64,6 +68,9 @@ class AboutPagedViewController: UIViewController, SwipeViewDataSource, SwipeView
         return view
     }
 
+    func startChat() {
+        SupportKit.show()
+    }
     func swipeViewItemSize(swipeView: SwipeView!) -> CGSize {
         return self.swipeView.bounds.size
     }
