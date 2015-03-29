@@ -35,7 +35,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             var settings = SKTSettings(appToken: "7n3aaqyp9fr5kr7y1wjssd231")
             settings.knowledgeBaseURL = "https://timeforcoffee.zendesk.com"
             SupportKit.initWithSettings(settings)
-          //  SupportKit.setDefaultRecommendations(["https://medium.com/@timeforcoffee/how-to-add-time-for-coffee-to-the-today-screen-178bbf52d3cc"])
             let userdefaults = TFCDataStore.sharedInstance.getUserDefaults()
             let lastusedTodayScreen: NSDate? = userdefaults?.objectForKey("lastUsedViewUpdate") as NSDate?
             if (lastusedTodayScreen != nil) {
@@ -56,6 +55,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 } else {
                     SKTUser.currentUser().addProperties(["usedTodayScreen": false])
                 }
+            }
+
+        //    SupportKit.setDefaultRecommendations(["https://timeforcoffee.zendesk.com/hc/en-us/articles/202772601-How-to-chat-with-you-in-the-iPhone-App-"])
+            if (lastusedTodayScreen == nil) {
+           //     SupportKit.setTopRecommendation("https://timeforcoffee.zendesk.com/hc/en-us/articles/202698032-How-to-add-Time-for-Coffee-to-the-Today-Screen-")
+
             }
         }
         return true
