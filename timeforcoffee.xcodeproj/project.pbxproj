@@ -17,6 +17,7 @@
 		4BA86C17986B70448BEAD6EA /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 965B2A36D479CA86DF62E63F /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		EC046D631A9C563D00C2C1B3 /* TFCLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC046D621A9C563D00C2C1B3 /* TFCLocationManager.swift */; };
 		EC0530871AB01153008439E9 /* gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0530861AB01153008439E9 /* gradient.png */; };
+		EC069DE31AC885C90017D345 /* SupportKitLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC069DE21AC885C90017D345 /* SupportKitLocalizable.strings */; };
 		EC0740731AB8C68100452868 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC7A517F19C427CA000F5E7C /* Images.xcassets */; };
 		EC0A30EC1AA344100043B8F8 /* launchicon.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30EB1AA344100043B8F8 /* launchicon.png */; };
 		EC0A30F21AA353CA0043B8F8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30F41AA353CA0043B8F8 /* MainInterface.storyboard */; };
@@ -169,6 +170,7 @@
 		965B2A36D479CA86DF62E63F /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC046D621A9C563D00C2C1B3 /* TFCLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCLocationManager.swift; sourceTree = "<group>"; };
 		EC0530861AB01153008439E9 /* gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gradient.png; path = _assets/gradient.png; sourceTree = "<group>"; };
+		EC069DE21AC885C90017D345 /* SupportKitLocalizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = SupportKitLocalizable.strings; sourceTree = "<group>"; };
 		EC0A30EB1AA344100043B8F8 /* launchicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = launchicon.png; path = _assets/launchicon.png; sourceTree = "<group>"; };
 		EC0A30F51AA353E40043B8F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		EC0A30F61AA354010043B8F8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MainInterface.strings; sourceTree = "<group>"; };
@@ -495,6 +497,7 @@
 		EC7A516A19C427CA000F5E7C = {
 			isa = PBXGroup;
 			children = (
+				EC069DE21AC885C90017D345 /* SupportKitLocalizable.strings */,
 				EC0A30E81AA33D990043B8F8 /* _assets */,
 				EC7A517519C427CA000F5E7C /* timeforcoffee */,
 				EC6EDCF31A9B9F390098CAE0 /* timeforcoffee Widget */,
@@ -813,6 +816,7 @@
 				EC4A37271AC0811D005D7546 /* LaunchScreen.xib in Resources */,
 				EC2C31271A9DE8B000690397 /* home.gpx in Resources */,
 				ECC163D71AA36924006BC3E9 /* Localizable.strings in Resources */,
+				EC069DE31AC885C90017D345 /* SupportKitLocalizable.strings in Resources */,
 				EC6CD8E11AC18C43002488DC /* Zuerich2.jpg in Resources */,
 				EC271DC41AA365BE00A7A75E /* Main.storyboard in Resources */,
 				EC0A30EC1AA344100043B8F8 /* launchicon.png in Resources */,
