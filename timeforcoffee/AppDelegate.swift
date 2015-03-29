@@ -37,6 +37,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             SupportKit.initWithSettings(settings)
             let userdefaults = TFCDataStore.sharedInstance.getUserDefaults()
             let lastusedTodayScreen: NSDate? = userdefaults?.objectForKey("lastUsedViewUpdate") as NSDate?
+            var recommendations: [String] = []
+            recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202701502-How-to-use-the-favourite-station-feature-")
+            recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202701512-Can-I-exclude-some-destinations-from-a-station-")
+            recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202775921-Is-there-a-map-view-somewhere-")
+            recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202772511-Who-is-behind-Time-for-Coffee-")
+
             if (lastusedTodayScreen != nil) {
                 SKTUser.currentUser().addProperties(["usedTodayScreen": true])
             }
@@ -57,9 +63,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
 
-        //    SupportKit.setDefaultRecommendations(["https://timeforcoffee.zendesk.com/hc/en-us/articles/202772601-How-to-chat-with-you-in-the-iPhone-App-"])
+//            SupportKit.setDefaultRecommendations(recommendations)
             if (lastusedTodayScreen == nil) {
-           //     SupportKit.setTopRecommendation("https://timeforcoffee.zendesk.com/hc/en-us/articles/202698032-How-to-add-Time-for-Coffee-to-the-Today-Screen-")
+//                SupportKit.setTopRecommendation("https://timeforcoffee.zendesk.com/hc/en-us/articles/202698032-How-to-add-Time-for-Coffee-to-the-Today-Screen-")
 
             }
         }
