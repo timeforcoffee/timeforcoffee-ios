@@ -84,6 +84,8 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
 
     deinit {
         NSLog("deinit widget")
+        
+        self.api = nil
         TFCDataStore.sharedInstance.removeNotifications()
     }
 

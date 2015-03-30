@@ -68,6 +68,7 @@ public class APIController {
                 NSLog("Start fetching data \(urlPath)")
                 var dataFetch: NSURLSessionDataTask?
                 if (fetchId == 1 && self.currentFetch[fetchId] != nil) {
+                    NSLog("cancel current fetch")
                     self.currentFetch[fetchId]?.cancel()
                 }
                 
@@ -79,7 +80,7 @@ public class APIController {
                     cachePolicy = NSURLRequestCachePolicy.ReturnCacheDataElseLoad
                 }
                 let request = NSURLRequest(URL: url, cachePolicy: cachePolicy, timeoutInterval: 10.0)
-
+                NSLog("Just before dataTask")
                 dataFetch = session2.dataTaskWithRequest(request, completionHandler: {data , response, error -> Void in
 
                     NSLog("Task completed")
@@ -98,8 +99,8 @@ public class APIController {
                     }
                     self.delegate?.didReceiveAPIResults(jsonResult, error: error, context: context)
                 })
-                
                 dataFetch?.resume()
+                NSLog("dataTask resumed")
                 if (dataFetch != nil) {
                     self.currentFetch[fetchId] = dataFetch
                 }
