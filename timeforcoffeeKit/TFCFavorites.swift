@@ -19,7 +19,9 @@ class TFCFavorites: NSObject {
         return Static.instance
     }
 
-    lazy public var stations: [String: TFCStation] = { return self.getCurrentFavoritesFromDefaults()}()
+    lazy public var stations: [String: TFCStation] = { [unowned self] in
+        return self.getCurrentFavoritesFromDefaults()
+        }()
     
     private struct objects {
         static let  dataStore: TFCDataStore? = TFCDataStore()
