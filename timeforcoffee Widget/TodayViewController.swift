@@ -33,7 +33,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     weak var currentStation: TFCStation?
 
     var networkErrorMsg: String?
-    lazy var api : APIController? = {return APIController(delegate: self)}()
+    lazy var api : APIController? = {[unowned self] in return APIController(delegate: self)}()
     var currentStationIndex = 0
 
     var showStations: Bool = false {
@@ -84,7 +84,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
 
     deinit {
         NSLog("deinit widget")
-        
+        TFCURLSession.sharedInstance.cancelURLSession()
         self.api = nil
         TFCDataStore.sharedInstance.removeNotifications()
     }
