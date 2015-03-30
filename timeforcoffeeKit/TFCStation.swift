@@ -29,6 +29,7 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
     }
 
     lazy var api : APIController = {
+        [unowned self] in
         return APIController(delegate: self)
     }()
 
@@ -37,7 +38,10 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
         var maxDepartures: Int? = nil
     }
 
-    lazy var filteredLines:[String: [String: Bool]] = self.getFilteredLines()
+    lazy var filteredLines:[String: [String: Bool]] = {
+        [unowned self] in
+        return self.getFilteredLines()
+    }()
 
     public init(name: String, id: String, coord: CLLocation?) {
         self.name = name
