@@ -23,7 +23,10 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     var destinationPlacemark: MKPlacemark?
     var mapDirectionOverlay: MKOverlay?
     var startHeight: CGFloat!
-    
+    var updateInAMinuteTimer: NSTimer?
+    let updateOnceQueue:dispatch_queue_t = dispatch_queue_create(
+        "ch.liip.timeforcoffee.updateinaminute", DISPATCH_QUEUE_SERIAL)
+
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var BackButton: UIButton!
     @IBOutlet weak var favButton: UIButton!
@@ -69,6 +72,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     deinit {
         NSLog("deinit")
         NSNotificationCenter.defaultCenter().removeObserver(self)
+        self.updateInAMinuteTimer?.invalidate()
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -155,6 +159,11 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         station = nil
         self.navigationController?.interactivePopGestureRecognizer.delegate = gestureRecognizer
         NSNotificationCenter.defaultCenter().removeObserver(self)
+        dispatch_sync(updateOnceQueue) {
+            [unowned self] in
+            self.updateInAMinuteTimer?.invalidate()
+            return
+        }
     }
 
     @IBAction func panOnTopView(sender: UIPanGestureRecognizer) {
@@ -420,7 +429,11 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     func applicationDidBecomeInactive(notification: NSNotification) {
         NSNotificationCenter.defaultCenter().removeObserver(self)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeActive:", name: "UIApplicationDidBecomeActiveNotification", object: nil)
-
+        dispatch_sync(updateOnceQueue) {
+            [unowned self] in
+            self.updateInAMinuteTimer?.invalidate()
+            return
+        }
     }
     
     func applicationDidBecomeActive(notification: NSNotification) {
@@ -450,9 +463,12 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     }
 
     func displayDepartures() {
-        station!.removeObseleteDepartures()
-        self.appsTableView?.reloadData()
-        self.station?.updateDepartures(self)
+        if (self.station != nil) {
+            updateInAMinute()
+            self.station?.removeObseleteDepartures()
+            self.appsTableView?.reloadData()
+            self.station?.updateDepartures(self)
+        }
     }
 
     internal func setStation(station: TFCStation) {
@@ -627,4 +643,23 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
                 return
         })
     }
+
+    func updateInAMinute() {
+        // make sure this only runs serially
+        dispatch_async(updateOnceQueue, {
+            [unowned self] in
+            // invalidate timer to be sure we don't have more than one
+            self.updateInAMinuteTimer?.invalidate()
+            let now = NSDate.timeIntervalSinceReferenceDate()
+            let timeInterval = 60.0
+            let nextMinute = floor(now / timeInterval) * timeInterval + (timeInterval + Double(arc4random_uniform(10))) //time interval for next minute, plus random 0 - 10 seconds, to avoid server overload
+            let delay = max(25.0, nextMinute - now) //don't set the delay to less than 25 seconds
+            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC)))
+            dispatch_sync(dispatch_get_main_queue(), {
+                self.updateInAMinuteTimer = NSTimer.scheduledTimerWithTimeInterval(delay, target: self,  selector: "displayDepartures", userInfo: nil, repeats: false)
+            })
+        })
+    }
+    
+
 }

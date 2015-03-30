@@ -15,10 +15,6 @@ public class APIController {
     weak var delegate: APIControllerProtocol?
     var currentFetch: [Int: NSURLSessionDataTask] = [:]
 
-    lazy var session:NSURLSession = {
-        return NSURLSession.sharedSession()
-    }()
-
     lazy var cache:PINCache = {
         return TFCCache.objects.apicalls
      }()
@@ -26,14 +22,14 @@ public class APIController {
     public init(delegate: APIControllerProtocol) {
         self.delegate = delegate
     }
-    
+
     public func searchFor(coord: CLLocationCoordinate2D) {
         let cacheKey: String = String(format: "locations?x=%.3f&y=%.3f", coord.latitude, coord.longitude)
         let urlPath: String = "http://transport.opendata.ch/v1/locations?x=\(coord.latitude)&y=\(coord.longitude)"
 
         self.fetchUrl(urlPath, fetchId: 1, cacheKey: cacheKey)
     }
-
+    
     public func searchFor(location: String) {
         let name = location.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
         let cacheKey = "stations/\(name)"
@@ -68,10 +64,11 @@ public class APIController {
                 NSLog("Start fetching data \(urlPath)")
                 var dataFetch: NSURLSessionDataTask?
                 if (fetchId == 1 && self.currentFetch[fetchId] != nil) {
+                    NSLog("cancel current fetch")
                     self.currentFetch[fetchId]?.cancel()
                 }
                 
-                let session2 = self.session
+                let session2 = TFCURLSession.sharedInstance.session
                 var cachePolicy = NSURLRequestCachePolicy.UseProtocolCachePolicy
                 /* if a cacheKey is set, we may load it from the NSURL Cache (it may be there, but not in NSCache, because of eviction in NSCache. As our own Cache always caches it at least longer than any NSURLCache anyway, that's not a problem)
                 */
@@ -79,7 +76,7 @@ public class APIController {
                     cachePolicy = NSURLRequestCachePolicy.ReturnCacheDataElseLoad
                 }
                 let request = NSURLRequest(URL: url, cachePolicy: cachePolicy, timeoutInterval: 10.0)
-
+                NSLog("Just before dataTask")
                 dataFetch = session2.dataTaskWithRequest(request, completionHandler: {data , response, error -> Void in
 
                     NSLog("Task completed")
@@ -98,8 +95,8 @@ public class APIController {
                     }
                     self.delegate?.didReceiveAPIResults(jsonResult, error: error, context: context)
                 })
-                
                 dataFetch?.resume()
+                NSLog("dataTask resumed")
                 if (dataFetch != nil) {
                     self.currentFetch[fetchId] = dataFetch
                 }
