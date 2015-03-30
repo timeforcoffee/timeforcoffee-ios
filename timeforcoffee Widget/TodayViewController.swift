@@ -163,12 +163,10 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
 
                 let nearbyStationsAdded = self.stations?.addNearbyFavorites((locManager?.currentLocation)!)
                 if (nearbyStationsAdded == true) {
-                    if (currentStation == nil) {
+                    if (currentStation == nil && !showStations) {
                         currentStation = self.stations?.getStation(0)
-                        if (!showStations) {
-                            titleLabel.text = currentStation?.getNameWithStarAndFilters()
-                            displayDepartures()
-                        }
+                        titleLabel.text = currentStation?.getNameWithStarAndFilters()
+                        displayDepartures()
                     }
                 }
             }
@@ -181,6 +179,13 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
 
     @IBAction func nextButtonTouchUp(sender: AnyObject) {
         if (showStations == true) {
+            if (currentStation == nil) {
+                if (lastViewedStation != nil) {
+                    currentStation = lastViewedStation
+                } else if (stations?.count() > 0) {
+                    currentStation = stations?.getStation(0)
+                }
+            }
             showStations = false
             currentStation?.updateDepartures(self, maxDepartures: 6)
             self.appsTableView.reloadData()
