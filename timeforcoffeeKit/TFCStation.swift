@@ -391,6 +391,7 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
 
         if (self.coord == nil) {
             completion(nil)
+            return
         }
         let coord = self.coord!
         var destinationPlacemark:MKPlacemark = MKPlacemark(coordinate: coord.coordinate, addressDictionary: nil)
