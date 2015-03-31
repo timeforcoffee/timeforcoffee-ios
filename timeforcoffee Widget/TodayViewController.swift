@@ -32,10 +32,6 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
 
     weak var currentStation: TFCStation?
 
-    var updateInAMinuteTimer: NSTimer?
-    let updateOnceQueue:dispatch_queue_t = dispatch_queue_create(
-        "ch.liip.timeforcoffee.updateinaminute", DISPATCH_QUEUE_SERIAL)
-
     var networkErrorMsg: String?
     lazy var api : APIController? = {
         [unowned self] in
@@ -46,7 +42,6 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
 
     var showStations: Bool = false {
         didSet {
-            self.updateInAMinuteStartDelayed()
             if (showStations == true) {
                 setLastUsedView()
                 actionLabel.setTitle("Back", forState: UIControlState.Normal)
@@ -97,7 +92,6 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         TFCURLSession.sharedInstance.cancelURLSession()
         self.api = nil
         TFCDataStore.sharedInstance.removeNotifications()
-        self.updateInAMinuteTimer?.invalidate()
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -110,11 +104,6 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         actionLabel.setTitleColor(UIColor.lightGrayColor(), forState: UIControlState.Normal)
-        dispatch_sync(updateOnceQueue) {
-            [unowned self] in
-            self.updateInAMinuteTimer?.invalidate()
-            return
-        }
     }
 
     func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)!) {
@@ -141,8 +130,6 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             }
         }
         locManager?.refreshLocation()
-
-        self.updateInAMinuteStartDelayed()
     }
 
     override func lazyInitLocationManager() -> TFCLocationManager? {
@@ -276,7 +263,6 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     }
 
     func updateDeparturesForInAMinute() {
-        self.updateInAMinute()
         if (showStations) {
             self.appsTableView!.reloadData()
         } else {
@@ -469,39 +455,4 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                 return
         })
     }
-
-    //start the timer only 20 seconds after the widget was initialized
-    private func updateInAMinuteStartDelayed() {
-        dispatch_async(dispatch_get_main_queue(), {
-            NSLog("updateInAMinuteStartDelayed")
-            self.updateInAMinuteTimer?.invalidate()
-            let delay = 20.0
-            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC)))
-            self.updateInAMinuteTimer = NSTimer.scheduledTimerWithTimeInterval(delay, target: self,  selector: "updateInAMinute", userInfo: nil, repeats: false)
-        })
-    }
-
-    func updateInAMinute() {
-        // make sure this only runs once
-        dispatch_async(updateOnceQueue, {
-            // invalidate timer to be sure we don't have more than one
-            self.updateInAMinuteTimer?.invalidate()
-            let now = NSDate.timeIntervalSinceReferenceDate()
-            let timeInterval = 60.0
-            let nextMinute = floor(now / timeInterval) * timeInterval + (timeInterval + Double(arc4random_uniform(10))) //time interval for next minute, plus random 0 - 10 seconds, to avoid server overload
-            let delay = max(5.0, nextMinute - now) //don't set the delay to less than 5 seconds, we already have a 20 seconds delay in startUpdateDelayed
-            NSLog("updateInAMinute with delay \(delay)")
-            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC)))
-            //if updateInAMinuteTimer is nil, it never was started in this instance (in startUpdateDelayed)
-            // so stop it here
-            if (self.updateInAMinuteTimer != nil) {
-                dispatch_sync(dispatch_get_main_queue(), {
-                    self.updateInAMinuteTimer = NSTimer.scheduledTimerWithTimeInterval(delay, target: self,  selector: "updateDeparturesForInAMinute", userInfo: nil, repeats: false)
-                })
-            } else {
-                NSLog("updateInAMinuteTimer was nil")
-            }
-        })
-    }
-
 }
