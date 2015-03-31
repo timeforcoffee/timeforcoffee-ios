@@ -167,7 +167,9 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
 
                 let nearbyStationsAdded = self.stations?.addNearbyFavorites((locManager?.currentLocation)!)
                 if (nearbyStationsAdded == true) {
-                    if (currentStation == nil && !showStations) {
+                    if (showStations) {
+                        self.appsTableView.reloadData()
+                    } else if (currentStation == nil) {
                         currentStation = self.stations?.getStation(0)
                         titleLabel.text = currentStation?.getNameWithStarAndFilters()
                         displayDepartures()
