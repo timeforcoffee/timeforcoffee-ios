@@ -48,10 +48,14 @@ public class APIController {
     }
     
     func fetchUrl(urlPath: String, fetchId: Int, cacheKey: String?) {
-        fetchUrl(urlPath, fetchId: fetchId, context: nil, cacheKey: cacheKey)
+        fetchUrl(urlPath, fetchId: fetchId, context: nil, cacheKey: cacheKey, counter: 0)
     }
 
     func fetchUrl(urlPath: String, fetchId: Int, context: Any?, cacheKey: String?) {
+        fetchUrl(urlPath, fetchId: fetchId, context: context, cacheKey: cacheKey, counter: 0)
+    }
+
+    func fetchUrl(urlPath: String, fetchId: Int, context: Any?, cacheKey: String?, counter: Int) {
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             if (cacheKey != nil && self.cache.objectForKey(cacheKey!) != nil) {
@@ -77,6 +81,15 @@ public class APIController {
                     if(error != nil) {
                         // If there is an error in the web request, print it to the console
                         NSLog(error.localizedDescription)
+                        // 1001 == timeout => just retry
+                        if (error.code == -1001) {
+                            let newcounter = counter + 1
+                            NSLog("Retry #\(newcounter) fetching \(urlPath)")
+                            // don't do it more than 5 times
+                            if (newcounter <= 5) {
+                                self.fetchUrl(urlPath, fetchId: fetchId, context: context, cacheKey: cacheKey, counter: newcounter)
+                            }
+                        }
                     }
                     if (fetchId == 1) {
                         self.currentFetch[fetchId] = nil
