@@ -50,7 +50,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             stationsTable.setNumberOfRows(departures2.count, withRowType: "station")
             for (deptstation) in departures2 {
                 let sr = stationsTable.rowControllerAtIndex(i) as StationRow?
-                let to = deptstation.getDestination() as String
+                let to = deptstation.getDestination(forStation!)
                 let name = deptstation.getLine()                // doesn't work yet  with the font;(
                 let helvetica = UIFont(name: "HelveticaNeue-Bold", size: 18.0)!
                 var fontAttrs = [NSFontAttributeName : helvetica]
