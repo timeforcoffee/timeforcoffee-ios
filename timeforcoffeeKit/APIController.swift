@@ -69,10 +69,9 @@ public class APIController {
                 }
                 
                 let session2 = TFCURLSession.sharedInstance.session
-                var cachePolicy = NSURLRequestCachePolicy.UseProtocolCachePolicy
-                let request = NSURLRequest(URL: url, cachePolicy: cachePolicy, timeoutInterval: 10.0)
-                NSLog("Just before dataTask")
-                dataFetch = session2.dataTaskWithRequest(request, completionHandler: {data , response, error -> Void in
+/*                var cachePolicy = NSURLRequestCachePolicy.UseProtocolCachePolicy
+                let request = NSURLRequest(URL: url, cachePolicy: cachePolicy, timeoutInterval: 10.0)*/
+                dataFetch = session2.dataTaskWithURL(url, completionHandler: {data , response, error -> Void in
 
                     NSLog("Task completed")
                     if(error != nil) {
