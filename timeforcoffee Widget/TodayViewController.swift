@@ -32,10 +32,6 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
 
     weak var currentStation: TFCStation?
 
-    var updateInAMinuteTimer: NSTimer?
-    let updateOnceQueue:dispatch_queue_t = dispatch_queue_create(
-        "ch.liip.timeforcoffee.updateinaminute", DISPATCH_QUEUE_SERIAL)
-
     var networkErrorMsg: String?
     lazy var api : APIController? = {
         [unowned self] in
@@ -46,7 +42,6 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
 
     var showStations: Bool = false {
         didSet {
-            self.updateInAMinute()
             if (showStations == true) {
                 setLastUsedView()
                 actionLabel.setTitle("Back", forState: UIControlState.Normal)
@@ -86,6 +81,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     }
 
     override init(coder aDecoder: NSCoder) {
+        NSLog("init")
         super.init(coder: aDecoder)
         TFCDataStore.sharedInstance.registerForNotifications()
         TFCDataStore.sharedInstance.synchronize()
@@ -96,11 +92,11 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         TFCURLSession.sharedInstance.cancelURLSession()
         self.api = nil
         TFCDataStore.sharedInstance.removeNotifications()
-        self.updateInAMinuteTimer?.invalidate()
     }
 
     override func viewDidAppear(animated: Bool) {
         //actionLabel.hidden = false
+        NSLog("viewDidAppear")
         actionLabel.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         super.viewDidAppear(animated)
     }
@@ -108,11 +104,6 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         actionLabel.setTitleColor(UIColor.lightGrayColor(), forState: UIControlState.Normal)
-        dispatch_sync(updateOnceQueue) {
-            [unowned self] in
-            self.updateInAMinuteTimer?.invalidate()
-            return
-        }
     }
 
     func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)!) {
@@ -120,6 +111,8 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         // If an error is encountered, use NCUpdateResult.Failed
         // If there's no update required, use NCUpdateResult.NoData
         // If there's an update, use NCUpdateResult.NewData
+        NSLog("widgetPerformUpdateWithCompletionHandler")
+        completionHandler(NCUpdateResult.NewData)
 
         // if lastUsedView is a single station and we did look at it no longer than 5 minutes ago, just show it again
         // without even checking the location
@@ -137,10 +130,6 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             }
         }
         locManager?.refreshLocation()
-        //this should only be called, after everything is updated. didReceiveAPIResults ;)
-        // see also https://stackoverflow.com/questions/25961513/ios-8-today-widget-stops-working-after-a-while
-        completionHandler(NCUpdateResult.NewData)
-        self.updateInAMinute()
     }
 
     override func lazyInitLocationManager() -> TFCLocationManager? {
@@ -178,7 +167,9 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
 
                 let nearbyStationsAdded = self.stations?.addNearbyFavorites((locManager?.currentLocation)!)
                 if (nearbyStationsAdded == true) {
-                    if (currentStation == nil && !showStations) {
+                    if (showStations) {
+                        self.appsTableView.reloadData()
+                    } else if (currentStation == nil) {
                         currentStation = self.stations?.getStation(0)
                         titleLabel.text = currentStation?.getNameWithStarAndFilters()
                         displayDepartures()
@@ -274,7 +265,6 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     }
 
     func updateDeparturesForInAMinute() {
-        self.updateInAMinute()
         if (showStations) {
             self.appsTableView!.reloadData()
         } else {
@@ -467,21 +457,4 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                 return
         })
     }
-
-    func updateInAMinute() {
-        // make sure this only runs once
-        dispatch_async(updateOnceQueue, {
-                // invalidate timer to be sure we don't have more than one
-                self.updateInAMinuteTimer?.invalidate()
-                let now = NSDate.timeIntervalSinceReferenceDate()
-                let timeInterval = 60.0
-                let nextMinute = floor(now / timeInterval) * timeInterval + (timeInterval + Double(arc4random_uniform(10))) //time interval for next minute, plus random 0 - 10 seconds, to avoid server overload
-                let delay = max(25.0, nextMinute - now) //don't set the delay to less than 25 seconds
-                let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC)))
-                dispatch_sync(dispatch_get_main_queue(), {
-                    self.updateInAMinuteTimer = NSTimer.scheduledTimerWithTimeInterval(delay, target: self,  selector: "updateDeparturesForInAMinute", userInfo: nil, repeats: false)
-                })
-        })
-    }
-
 }
