@@ -46,7 +46,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
 
     var showStations: Bool = false {
         didSet {
-            self.updateInAMinute()
+            self.updateInAMinuteStartDelayed()
             if (showStations == true) {
                 setLastUsedView()
                 actionLabel.setTitle("Back", forState: UIControlState.Normal)
@@ -142,7 +142,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         }
         locManager?.refreshLocation()
 
-        self.updateInAMinute()
+        self.updateInAMinuteStartDelayed()
     }
 
     override func lazyInitLocationManager() -> TFCLocationManager? {
@@ -470,19 +470,37 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         })
     }
 
+    //start the timer only 20 seconds after the widget was initialized
+    private func updateInAMinuteStartDelayed() {
+        dispatch_async(dispatch_get_main_queue(), {
+            NSLog("updateInAMinuteStartDelayed")
+            self.updateInAMinuteTimer?.invalidate()
+            let delay = 20.0
+            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC)))
+            self.updateInAMinuteTimer = NSTimer.scheduledTimerWithTimeInterval(delay, target: self,  selector: "updateInAMinute", userInfo: nil, repeats: false)
+        })
+    }
+
     func updateInAMinute() {
         // make sure this only runs once
         dispatch_async(updateOnceQueue, {
-                // invalidate timer to be sure we don't have more than one
-                self.updateInAMinuteTimer?.invalidate()
-                let now = NSDate.timeIntervalSinceReferenceDate()
-                let timeInterval = 60.0
-                let nextMinute = floor(now / timeInterval) * timeInterval + (timeInterval + Double(arc4random_uniform(10))) //time interval for next minute, plus random 0 - 10 seconds, to avoid server overload
-                let delay = max(25.0, nextMinute - now) //don't set the delay to less than 25 seconds
-                let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC)))
+            // invalidate timer to be sure we don't have more than one
+            self.updateInAMinuteTimer?.invalidate()
+            let now = NSDate.timeIntervalSinceReferenceDate()
+            let timeInterval = 60.0
+            let nextMinute = floor(now / timeInterval) * timeInterval + (timeInterval + Double(arc4random_uniform(10))) //time interval for next minute, plus random 0 - 10 seconds, to avoid server overload
+            let delay = max(5.0, nextMinute - now) //don't set the delay to less than 5 seconds, we already have a 20 seconds delay in startUpdateDelayed
+            NSLog("updateInAMinute with delay \(delay)")
+            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC)))
+            //if updateInAMinuteTimer is nil, it never was started in this instance (in startUpdateDelayed)
+            // so stop it here
+            if (self.updateInAMinuteTimer != nil) {
                 dispatch_sync(dispatch_get_main_queue(), {
                     self.updateInAMinuteTimer = NSTimer.scheduledTimerWithTimeInterval(delay, target: self,  selector: "updateDeparturesForInAMinute", userInfo: nil, repeats: false)
                 })
+            } else {
+                NSLog("updateInAMinuteTimer was nil")
+            }
         })
     }
 
