@@ -63,9 +63,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
 
-//            SupportKit.setDefaultRecommendations(recommendations)
+            SupportKit.setDefaultRecommendations(recommendations)
             if (lastusedTodayScreen == nil) {
-//                SupportKit.setTopRecommendation("https://timeforcoffee.zendesk.com/hc/en-us/articles/202698032-How-to-add-Time-for-Coffee-to-the-Today-Screen-")
+                SupportKit.setTopRecommendation("https://timeforcoffee.zendesk.com/hc/en-us/articles/202698032-How-to-add-Time-for-Coffee-to-the-Today-Screen-")
 
             }
         }

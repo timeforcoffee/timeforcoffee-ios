@@ -74,8 +74,6 @@
 		EC87B65E1AB95380005A053E /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B65C1AB95373005A053E /* libsqlite3.dylib */; };
 		EC87B65F1AB95386005A053E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B65A1AB95365005A053E /* CoreData.framework */; };
 		EC9010A11AA73A9E00F328E9 /* TFCWatchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9010A01AA73A9E00F328E9 /* TFCWatchData.swift */; };
-		EC93E3621AC6F4AB00A0DA46 /* SupportKit.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EC93E3601AC6F4AB00A0DA46 /* SupportKit.bundle */; };
-		EC93E3631AC6F4AB00A0DA46 /* SupportKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC93E3611AC6F4AB00A0DA46 /* SupportKit.framework */; };
 		EC93E3651AC6F4C500A0DA46 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC93E3641AC6F4C500A0DA46 /* CoreGraphics.framework */; };
 		EC93E3671AC6F4CC00A0DA46 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EC93E3661AC6F4CC00A0DA46 /* libxml2.dylib */; };
 		EC93E3691AC6F4DC00A0DA46 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC93E3681AC6F4DC00A0DA46 /* CoreText.framework */; };
@@ -87,6 +85,8 @@
 		EC9571511A9CCEC00061F8B4 /* TFCBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9571501A9CCEC00061F8B4 /* TFCBaseViewController.swift */; };
 		ECAD8C3B1ABD849B00704974 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECAD8C3A1ABD849B00704974 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		ECAD8C3F1ABD861000704974 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECAD8C3E1ABD861000704974 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		ECBCF0021ACB398200957A4F /* SupportKit.bundle in Resources */ = {isa = PBXBuildFile; fileRef = ECBCF0001ACB398200957A4F /* SupportKit.bundle */; };
+		ECBCF0031ACB398200957A4F /* SupportKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECBCF0011ACB398200957A4F /* SupportKit.framework */; };
 		ECC163D71AA36924006BC3E9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC2195ED1AA35B2D005E16EF /* Localizable.strings */; };
 		ECD871961A9BB2F7003CCCB3 /* timeforcoffeeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */; };
 		ECDAB3A61AAA42A300EB352B /* PagedStationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDAB3A51AAA42A300EB352B /* PagedStationsViewController.swift */; };
@@ -240,8 +240,6 @@
 		EC87B65A1AB95365005A053E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		EC87B65C1AB95373005A053E /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		EC9010A01AA73A9E00F328E9 /* TFCWatchData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCWatchData.swift; sourceTree = "<group>"; };
-		EC93E3601AC6F4AB00A0DA46 /* SupportKit.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SupportKit.bundle; path = "../../../Users/chregu/Downloads/SupportKit-master/SupportKit.bundle"; sourceTree = "<group>"; };
-		EC93E3611AC6F4AB00A0DA46 /* SupportKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SupportKit.framework; path = "../../../Users/chregu/Downloads/SupportKit-master/SupportKit.framework"; sourceTree = "<group>"; };
 		EC93E3641AC6F4C500A0DA46 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		EC93E3661AC6F4CC00A0DA46 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		EC93E3681AC6F4DC00A0DA46 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
@@ -253,6 +251,8 @@
 		ECAD8C3C1ABD84A600704974 /* PINCache.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PINCache.framework; path = "Pods/../build/Debug-iphoneos/Pods/PINCache.framework"; sourceTree = "<group>"; };
 		ECAD8C3E1ABD861000704974 /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
 		ECAD8C401ABD861D00704974 /* PINCache.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PINCache.framework; path = "Pods/../build/Debug-iphoneos/Pods/PINCache.framework"; sourceTree = "<group>"; };
+		ECBCF0001ACB398200957A4F /* SupportKit.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SupportKit.bundle; sourceTree = "<group>"; };
+		ECBCF0011ACB398200957A4F /* SupportKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SupportKit.framework; sourceTree = "<group>"; };
 		ECC163D91AA369ED006BC3E9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		ECC163DB1AA36A35006BC3E9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MainInterface.strings; sourceTree = "<group>"; };
 		ECD871941A9BAE18003CCCB3 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -303,6 +303,7 @@
 				EC93E36F1AC6F50000A0DA46 /* Foundation.framework in Frameworks */,
 				EC2C317C1A9E1F3300690397 /* CoreTelephony.framework in Frameworks */,
 				EC93E36E1AC6F4F200A0DA46 /* UIKit.framework in Frameworks */,
+				ECBCF0031ACB398200957A4F /* SupportKit.framework in Frameworks */,
 				EC93E36D1AC6F4EA00A0DA46 /* QuartzCore.framework in Frameworks */,
 				EC93E36B1AC6F4E200A0DA46 /* OpenGLES.framework in Frameworks */,
 				EC93E3691AC6F4DC00A0DA46 /* CoreText.framework in Frameworks */,
@@ -312,7 +313,6 @@
 				EC87B65B1AB95365005A053E /* CoreData.framework in Frameworks */,
 				EC2C317E1A9E1F4400690397 /* libz.dylib in Frameworks */,
 				EC2C317D1A9E1F3D00690397 /* libc++.dylib in Frameworks */,
-				EC93E3631AC6F4AB00A0DA46 /* SupportKit.framework in Frameworks */,
 				EC87B6581AB95348005A053E /* libGoogleAnalyticsServices.a in Frameworks */,
 				EC2C317B1A9E1F2D00690397 /* SystemConfiguration.framework in Frameworks */,
 				EC6EDD441A9BA36F0098CAE0 /* timeforcoffeeKit.framework in Frameworks */,
@@ -411,8 +411,8 @@
 				EC93E3641AC6F4C500A0DA46 /* CoreGraphics.framework */,
 				ECAD8C401ABD861D00704974 /* PINCache.framework */,
 				ECAD8C3E1ABD861000704974 /* Pods.framework */,
-				EC93E3601AC6F4AB00A0DA46 /* SupportKit.bundle */,
-				EC93E3611AC6F4AB00A0DA46 /* SupportKit.framework */,
+				ECBCF0001ACB398200957A4F /* SupportKit.bundle */,
+				ECBCF0011ACB398200957A4F /* SupportKit.framework */,
 				ECAD8C3C1ABD84A600704974 /* PINCache.framework */,
 				ECAD8C3A1ABD849B00704974 /* Pods.framework */,
 				EC87B65C1AB95373005A053E /* libsqlite3.dylib */,
@@ -812,12 +812,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC6CD8DD1AC17C57002488DC /* About.html in Resources */,
-				EC93E3621AC6F4AB00A0DA46 /* SupportKit.bundle in Resources */,
 				EC0530871AB01153008439E9 /* gradient.png in Resources */,
 				3117221B1AB2374F00C176FE /* trainsymbol.otf in Resources */,
 				314AFBD21AA7633D00C176FE /* StationTableViewCell.xib in Resources */,
 				EC4A37271AC0811D005D7546 /* LaunchScreen.xib in Resources */,
 				EC2C31271A9DE8B000690397 /* home.gpx in Resources */,
+				ECBCF0021ACB398200957A4F /* SupportKit.bundle in Resources */,
 				ECC163D71AA36924006BC3E9 /* Localizable.strings in Resources */,
 				EC069DE31AC885C90017D345 /* SupportKitLocalizable.strings in Resources */,
 				EC6CD8E11AC18C43002488DC /* Zuerich2.jpg in Resources */,

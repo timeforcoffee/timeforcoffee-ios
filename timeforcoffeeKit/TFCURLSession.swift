@@ -31,7 +31,9 @@ public class TFCURLSession: NSObject {
     }
 
     func getSession() -> NSURLSession {
-        let config = NSURLSessionConfiguration.defaultSessionConfiguration()
+        let config = NSURLSessionConfiguration.ephemeralSessionConfiguration()
+        config.timeoutIntervalForRequest = 10.0
+        config.timeoutIntervalForResource = 10.0
         return NSURLSession(configuration: config)
     }
 

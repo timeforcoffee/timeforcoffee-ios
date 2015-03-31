@@ -48,10 +48,14 @@ public class APIController {
     }
     
     func fetchUrl(urlPath: String, fetchId: Int, cacheKey: String?) {
-        fetchUrl(urlPath, fetchId: fetchId, context: nil, cacheKey: cacheKey)
+        fetchUrl(urlPath, fetchId: fetchId, context: nil, cacheKey: cacheKey, counter: 0)
     }
 
     func fetchUrl(urlPath: String, fetchId: Int, context: Any?, cacheKey: String?) {
+        fetchUrl(urlPath, fetchId: fetchId, context: context, cacheKey: cacheKey, counter: 0)
+    }
+
+    func fetchUrl(urlPath: String, fetchId: Int, context: Any?, cacheKey: String?, counter: Int) {
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             if (cacheKey != nil && self.cache.objectForKey(cacheKey!) != nil) {
@@ -69,20 +73,23 @@ public class APIController {
                 }
                 
                 let session2 = TFCURLSession.sharedInstance.session
-                var cachePolicy = NSURLRequestCachePolicy.UseProtocolCachePolicy
-                /* if a cacheKey is set, we may load it from the NSURL Cache (it may be there, but not in NSCache, because of eviction in NSCache. As our own Cache always caches it at least longer than any NSURLCache anyway, that's not a problem)
-                */
-                if (cacheKey != nil) {
-                    cachePolicy = NSURLRequestCachePolicy.ReturnCacheDataElseLoad
-                }
-                let request = NSURLRequest(URL: url, cachePolicy: cachePolicy, timeoutInterval: 10.0)
-                NSLog("Just before dataTask")
-                dataFetch = session2.dataTaskWithRequest(request, completionHandler: {data , response, error -> Void in
+/*                var cachePolicy = NSURLRequestCachePolicy.UseProtocolCachePolicy
+                let request = NSURLRequest(URL: url, cachePolicy: cachePolicy, timeoutInterval: 10.0)*/
+                dataFetch = session2.dataTaskWithURL(url, completionHandler: {data , response, error -> Void in
 
                     NSLog("Task completed")
                     if(error != nil) {
                         // If there is an error in the web request, print it to the console
                         NSLog(error.localizedDescription)
+                        // 1001 == timeout => just retry
+                        if (error.code == -1001) {
+                            let newcounter = counter + 1
+                            NSLog("Retry #\(newcounter) fetching \(urlPath)")
+                            // don't do it more than 5 times
+                            if (newcounter <= 5) {
+                                self.fetchUrl(urlPath, fetchId: fetchId, context: context, cacheKey: cacheKey, counter: newcounter)
+                            }
+                        }
                     }
                     if (fetchId == 1) {
                         self.currentFetch[fetchId] = nil
