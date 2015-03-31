@@ -70,11 +70,6 @@ public class APIController {
                 
                 let session2 = TFCURLSession.sharedInstance.session
                 var cachePolicy = NSURLRequestCachePolicy.UseProtocolCachePolicy
-                /* if a cacheKey is set, we may load it from the NSURL Cache (it may be there, but not in NSCache, because of eviction in NSCache. As our own Cache always caches it at least longer than any NSURLCache anyway, that's not a problem)
-                */
-                if (cacheKey != nil) {
-                    cachePolicy = NSURLRequestCachePolicy.ReturnCacheDataElseLoad
-                }
                 let request = NSURLRequest(URL: url, cachePolicy: cachePolicy, timeoutInterval: 10.0)
                 NSLog("Just before dataTask")
                 dataFetch = session2.dataTaskWithRequest(request, completionHandler: {data , response, error -> Void in
