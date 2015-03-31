@@ -308,21 +308,5 @@ public class TFCDeparture: NSObject, NSCoding {
         dateFmt.dateFormat = format
         return dateFmt.stringFromDate(date)
     }
-    
-    public func getAsDict(station: TFCStation) -> [String: AnyObject] {
-        let (departureTimeAttr, departureTimeString) = getDepartureTime(true)
-
-        return [
-            "to":         getDestination(station),
-            "name":       getLine(),
-            "time":       departureTimeString!,
-            "minutes":    getMinutes()!,
-            "accessible": accessible,
-            "colorFg":    colorFg!,
-            "colorBg":    colorBg!,
-        ]
-
-        
-    }
 }
 

@@ -88,24 +88,7 @@ public class TFCWatchData: NSObject, APIControllerProtocol, TFCLocationManagerDe
                     }
                     self.replyNearby!(["stations": stationsReply])
                 }
-            } else {
-                if (context != nil) {
-
-                    let contextInfo = context as contextData?
-
-                    var stationName = contextInfo?.st_name
-                    var stationId = contextInfo?.st_id
-                    let station = TFCStation(name: stationName!, id: stationId!, coord: nil)
-                    //let reply = contextData.ValReply(contextInfo["reply"]?)
-                    let departuresObjects: [TFCDeparture]? = TFCDeparture.withJSON(results, filterStation: station)
-                    var departures: [NSDictionary] = []
-                    for departure in departuresObjects! as [TFCDeparture] {
-                        departures.append(departure.getAsDict(station))
-                    }
-                    contextInfo?.reply!(["departures": departures])
-                }
             }
-
         })
     }
 }
