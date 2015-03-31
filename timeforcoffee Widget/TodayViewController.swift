@@ -86,6 +86,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     }
 
     override init(coder aDecoder: NSCoder) {
+        NSLog("init")
         super.init(coder: aDecoder)
         TFCDataStore.sharedInstance.registerForNotifications()
         TFCDataStore.sharedInstance.synchronize()
@@ -101,6 +102,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
 
     override func viewDidAppear(animated: Bool) {
         //actionLabel.hidden = false
+        NSLog("viewDidAppear")
         actionLabel.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         super.viewDidAppear(animated)
     }
@@ -120,6 +122,8 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         // If an error is encountered, use NCUpdateResult.Failed
         // If there's no update required, use NCUpdateResult.NoData
         // If there's an update, use NCUpdateResult.NewData
+        NSLog("widgetPerformUpdateWithCompletionHandler")
+        completionHandler(NCUpdateResult.NewData)
 
         // if lastUsedView is a single station and we did look at it no longer than 5 minutes ago, just show it again
         // without even checking the location
@@ -137,9 +141,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             }
         }
         locManager?.refreshLocation()
-        //this should only be called, after everything is updated. didReceiveAPIResults ;)
-        // see also https://stackoverflow.com/questions/25961513/ios-8-today-widget-stops-working-after-a-while
-        completionHandler(NCUpdateResult.NewData)
+
         self.updateInAMinute()
     }
 
