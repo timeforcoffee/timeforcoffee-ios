@@ -23,11 +23,14 @@ public class APIController {
         self.delegate = delegate
     }
 
-    public func searchFor(coord: CLLocationCoordinate2D) {
+    public func searchFor(coord: CLLocationCoordinate2D, context: Any?) {
         let cacheKey: String = String(format: "locations?x=%.3f&y=%.3f", coord.latitude, coord.longitude)
         let urlPath: String = "http://transport.opendata.ch/v1/locations?x=\(coord.latitude)&y=\(coord.longitude)"
+        self.fetchUrl(urlPath, fetchId: 1, context: context?, cacheKey: cacheKey)
+    }
 
-        self.fetchUrl(urlPath, fetchId: 1, cacheKey: cacheKey)
+    public func searchFor(coord: CLLocationCoordinate2D) {
+        searchFor(coord, context: nil)
     }
     
     public func searchFor(location: String) {

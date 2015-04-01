@@ -11,7 +11,7 @@ import Foundation
 import timeforcoffeeKit
 
 
-class GlanceController: WKInterfaceController, APIControllerProtocol {
+class GlanceController: WKInterfaceController {
     
     @IBOutlet weak var minutesLabel: WKInterfaceLabel!
     @IBOutlet weak var destinationLabel: WKInterfaceLabel!
@@ -19,11 +19,6 @@ class GlanceController: WKInterfaceController, APIControllerProtocol {
     @IBOutlet weak var depatureLabel: WKInterfaceLabel!
     @IBOutlet weak var numberLabel: WKInterfaceLabel!
     
-    lazy var stations: TFCStations? =  {return TFCStations()}()
-    lazy var api : APIController? = {
-        [unowned self] in
-        return APIController(delegate: self)
-        }()
     var networkErrorMsg: String?
     
     override func awakeWithContext(context: AnyObject?) {
@@ -38,17 +33,30 @@ class GlanceController: WKInterfaceController, APIControllerProtocol {
         // This method is called when watch view controller is about to be visible to user
         
         super.willActivate()
-        func handleReply(replyInfo: [NSObject : AnyObject]!, error: NSError!) {
-            if(replyInfo["lat"] != nil) {
-                let loc = CLLocation(latitude: replyInfo["lat"] as Double, longitude: replyInfo["long"] as Double)
-                self.stations?.clear()
-                self.stations?.addNearbyFavorites(loc)
-                //todo only ask for one station
-                self.api?.searchFor(loc.coordinate)
+        func handleReply(stations: TFCStations?) {
+            for (station) in stations! {
+                station.removeObseleteDepartures()
+                let departures = station.getDepartures()
+                if(departures?.count > 0) {
+                    //todo only ask for one depature
+                    if let firstDepature = departures?[0] {
+                        let to = firstDepature.getDestination(station)
+
+                        minutesLabel.setText(firstDepature.getMinutes())
+                        destinationLabel.setText(to);
+                        depatureLabel.setText(firstDepature.getTimeString());
+                        numberLabel.setText(firstDepature.getLine())
+                        numberLabel.setTextColor(UIColor(netHexString:(firstDepature.colorFg)!))
+                        numberGroup.setBackgroundColor(UIColor(netHexString:(firstDepature.colorBg)!))
+                        println("\(to)")
+                        break
+                    }
+                }
             }
         }
-        WKInterfaceController.openParentApplication(["module":"location"], handleReply)
-        
+      //  WKInterfaceController.openParentApplication(["module":"location"], handleReply)
+        TFCWatchData.sharedInstance.getStations(handleReply, stopWithFavorites: true)
+
         minutesLabel.setText("6'")
         destinationLabel.setText("Röntgenstrasse");
         depatureLabel.setText("In 6' / 16:59");
@@ -57,42 +65,7 @@ class GlanceController: WKInterfaceController, APIControllerProtocol {
         numberGroup.setBackgroundColor(UIColor.greenColor())
         
     }
-    
-    func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?) {
-        if (!(error != nil && error?.code == -999)) {
-            if (error != nil) {
-                self.networkErrorMsg = NSLocalizedString("Network error. Please try again", comment: "")
-            } else {
-                self.networkErrorMsg = nil
-            }
-            if (TFCStation.isStations(results)) {
-                self.stations?.addWithJSON(results, append: true)
-                var pages = [String]()
-                var pageContexts = [AnyObject]()
-                for (station) in self.stations! {
-                    
-                    station.removeObseleteDepartures()
-                    let departures = station.getDepartures()
-                    if(departures?.count > 0) {
-                        //todo only ask for one depature
-                        if let firstDepature = departures?[0] {
-                            let to = firstDepature.getDestination(station)
-                            
-                            minutesLabel.setText(firstDepature.getMinutes())
-                            destinationLabel.setText(to);
-                            depatureLabel.setText(firstDepature.getTimeString());
-                            numberLabel.setText(firstDepature.getLine())
-                            numberLabel.setTextColor(UIColor(netHexString:(firstDepature.colorFg)!))
-                            numberGroup.setBackgroundColor(UIColor(netHexString:(firstDepature.colorBg)!))
-                            
-                            println("\(to)")
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
+
     override func didDeactivate() {
         // This method is called when watch view controller is no longer visible
         super.didDeactivate()
