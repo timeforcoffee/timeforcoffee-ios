@@ -68,7 +68,7 @@ class InterfaceController: WKInterfaceController, APIControllerProtocol {
 
                 }
 
-               // WKInterfaceController.reloadRootControllersWithNames(pages, contexts: pageContexts)
+                WKInterfaceController.reloadRootControllersWithNames(pages, contexts: pageContexts)
                 NSLog("End reloadRootControllersWithNames")
             }
         }
