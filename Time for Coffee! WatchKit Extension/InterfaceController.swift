@@ -65,7 +65,9 @@ class InterfaceController: WKInterfaceController, APIControllerProtocol {
                         station.updateDepartures(nil, maxDepartures: 10)
                         return
                     }
-
+                 /*   pages.append("StationsOverviewPage")
+                    pageContexts.append(stations!)
+*/
                 }
 
                 WKInterfaceController.reloadRootControllersWithNames(pages, contexts: pageContexts)

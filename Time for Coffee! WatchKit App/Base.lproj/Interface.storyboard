@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="6751" systemVersion="14D127a" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="3737"/>
@@ -65,8 +65,74 @@
                             </items>
                         </table>
                     </items>
+                    <menu key="menu" id="dJV-vw-hvt">
+                        <items>
+                            <menuItem title="Stations" icon="more" id="5sJ-6Y-1Wz">
+                                <connections>
+                                    <action selector="contextButtionStations" destination="3ez-Oj-rei" id="MxD-lb-gKG"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
                     <connections>
                         <outlet property="stationsTable" destination="J4B-MA-cdK" id="Ck5-NG-9w6"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="438" y="104"/>
+        </scene>
+        <!--Time for Coffee!-->
+        <scene sceneID="ihE-BX-ciu">
+            <objects>
+                <controller identifier="StationsOverviewPage" id="BnD-Gm-YKt" userLabel="Time for Coffee!" customClass="StationViewController" customModule="Time_for_Coffee__WatchKit_Extension">
+                    <items>
+                        <table alignment="left" id="SXg-A1-SPs">
+                            <items>
+                                <tableRow identifier="station" id="4hO-c9-55K" customClass="StationRow" customModule="Time_for_Coffee__WatchKit_Extension">
+                                    <group key="rootItem" width="1" height="28.5" alignment="left" id="TcE-GW-aim">
+                                        <items>
+                                            <group width="26" height="26" alignment="left" verticalAlignment="center" radius="4" id="Xm0-os-Wlp">
+                                                <items>
+                                                    <label width="26" height="26" alignment="left" verticalAlignment="center" text="12" textAlignment="center" minimumScaleFactor="0.50000000000000011" id="Kd6-e9-8j1">
+                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <fontDescription key="font" type="system" pointSize="18"/>
+                                                    </label>
+                                                </items>
+                                                <color key="backgroundColor" red="0.99607843139999996" green="0.76470588240000004" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
+                                            </group>
+                                            <group width="94" height="28" alignment="left" layout="vertical" spacing="0.0" id="IUf-mO-YCq">
+                                                <items>
+                                                    <label width="108" height="14" alignment="left" text="Zürich, Röntgenstrasse" minimumScaleFactor="0.79999999999999993" id="k9f-Vh-KpK">
+                                                        <fontDescription key="font" type="system" pointSize="13"/>
+                                                    </label>
+                                                    <label width="1" height="14" alignment="left" verticalAlignment="bottom" text="in 0' / 17:30" minimumScaleFactor="0.50000000000000011" id="WDF-1n-zdk">
+                                                        <fontDescription key="font" type="system" pointSize="10"/>
+                                                    </label>
+                                                </items>
+                                            </group>
+                                            <group height="1" alignment="right" id="s5B-1Y-m5d">
+                                                <items>
+                                                    <label height="1" alignment="left" text="3" id="zts-rW-KVC"/>
+                                                </items>
+                                            </group>
+                                        </items>
+                                        <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
+                                    </group>
+                                    <connections>
+                                        <outlet property="depatureLabel" destination="WDF-1n-zdk" id="baZ-CE-bFo"/>
+                                        <outlet property="destinationLabel" destination="k9f-Vh-KpK" id="LKu-n8-sNX"/>
+                                        <outlet property="minutesLabel" destination="zts-rW-KVC" id="ZrM-sl-hRi"/>
+                                        <outlet property="numberGroup" destination="Xm0-os-Wlp" id="Ev9-6X-haT"/>
+                                        <outlet property="numberLabel" destination="Kd6-e9-8j1" id="c1W-5Q-Ven"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                    </items>
+                    <color key="backgroundColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <connections>
+                        <outlet property="stationsTable" destination="SXg-A1-SPs" id="pva-nF-HJO"/>
                     </connections>
                 </controller>
             </objects>
