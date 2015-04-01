@@ -11,7 +11,6 @@ import Foundation
 import timeforcoffeeKit
 
 class InterfaceController: WKInterfaceController, APIControllerProtocol {
-    @IBOutlet weak var stationsTable: WKInterfaceTable!
 
     lazy var stations: TFCStations? =  {return TFCStations()}()
     lazy var api : APIController? = {
@@ -22,7 +21,7 @@ class InterfaceController: WKInterfaceController, APIControllerProtocol {
 
     override init () {
         super.init()
-        println("init")
+        println("init InterfaceController")
     }
     
     override func awakeWithContext(context: AnyObject?) {
@@ -55,13 +54,22 @@ class InterfaceController: WKInterfaceController, APIControllerProtocol {
             }
             if (TFCStation.isStations(results)) {
                 self.stations?.addWithJSON(results, append: true)
+                let ctxStations = self.stations?[0...5]
                 var pages = [String]()
                 var pageContexts = [AnyObject]()
-                for (station) in self.stations! {
+                NSLog("Start reloadRootControllersWithNames")
+                for (station) in ctxStations! {
                     pages.append("StationPage")
                     pageContexts.append(station)
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
+                        station.updateDepartures(nil, maxDepartures: 10)
+                        return
+                    }
+
                 }
-                WKInterfaceController.reloadRootControllersWithNames(pages, contexts: pageContexts)
+
+               // WKInterfaceController.reloadRootControllersWithNames(pages, contexts: pageContexts)
+                NSLog("End reloadRootControllersWithNames")
             }
         }
     }

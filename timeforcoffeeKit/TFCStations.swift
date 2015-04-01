@@ -205,4 +205,11 @@ public class TFCStations: SequenceType {
         return stations!.generate()
     }
 
+    public subscript(i: Int) -> TFCStation {
+            return stations![i]
+    }
+
+    public subscript(range: ClosedInterval<Int>) -> Slice<TFCStation> {
+        return stations![range.start...range.end]
+    }
 }

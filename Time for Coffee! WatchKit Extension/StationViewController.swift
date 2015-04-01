@@ -25,15 +25,14 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     }
     override func awakeWithContext(context: AnyObject?) {
       super.awakeWithContext(context)
-
+        NSLog("awake page")
         self.station = context as TFCStation?
-
     }
     
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
-        println("willActivate")
+        NSLog("willActivate page")
         self.setTitle(station?.getName(true))
         station?.removeObseleteDepartures()
         self.displayDepartures(station)
