@@ -138,13 +138,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             watchData = TFCWatchData()
         }
 
-        if (userInfo["module"] == "favorites") {
-            watchData?.getFavorites(reply)
-        } else if (userInfo["module"] == "nearby") {
-            NSLog("get nearby module")
-            watchData?.getNearbyStations(reply)
-        } else {
-            watchData?.getFavorites(reply)
+        if (userInfo["module"] == "location") {
+            watchData?.getLocation(reply)
         }
     }
 

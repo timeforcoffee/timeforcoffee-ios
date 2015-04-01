@@ -9,7 +9,7 @@
 import Foundation
 import CoreLocation
 
-public class TFCStations {
+public class TFCStations: SequenceType {
     var stations:[TFCStation]?
 
     //struct here, because "class var" is not yet supported
@@ -199,6 +199,10 @@ public class TFCStations {
 
     public class func getUserDefaults() -> NSUserDefaults? {
         return favorite.userDefaults
+    }
+
+    public func generate() -> IndexingGenerator<[TFCStation]> {
+        return stations!.generate()
     }
 
 }

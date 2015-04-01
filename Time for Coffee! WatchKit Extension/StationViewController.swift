@@ -25,14 +25,9 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     }
     override func awakeWithContext(context: AnyObject?) {
       super.awakeWithContext(context)
-        
-        if let contextDict:Dictionary = context as Dictionary<String,AnyObject>!
-        {
-            stationInfo = contextDict
-            stationId = contextDict["st_id"] as String
-            stationName = contextDict["name"] as String
-            station = TFCStation(name: stationName, id: stationId, coord: nil);
-        }
+
+        self.station = context as TFCStation?
+
     }
     
     override func willActivate() {
@@ -40,17 +35,26 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         super.willActivate()
         println("willActivate")
         self.setTitle(station?.getName(true))
-        station?.updateDepartures(self, maxDepartures: 10)       
+        station?.removeObseleteDepartures()
+        self.displayDepartures(station)
+        station?.updateDepartures(self, maxDepartures: 10)
     }
 
     func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?) {
-        let departures = forStation?.getDepartures()
+        self.displayDepartures(forStation)
+    }
+
+    private func displayDepartures(station: TFCStation?) {
+        if (station == nil) {
+            return
+        }
+        let departures = station?.getDepartures()
         var i = 0;
         if let departures2 = departures {
             stationsTable.setNumberOfRows(departures2.count, withRowType: "station")
             for (deptstation) in departures2 {
                 let sr = stationsTable.rowControllerAtIndex(i) as StationRow?
-                let to = deptstation.getDestination(forStation!)
+                let to = deptstation.getDestination(station!)
                 let name = deptstation.getLine()                // doesn't work yet  with the font;(
                 let helvetica = UIFont(name: "HelveticaNeue-Bold", size: 18.0)!
                 var fontAttrs = [NSFontAttributeName : helvetica]
@@ -67,17 +71,13 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             }
         }
     }
+
     func departuresStillCached(context: Any?, forStation: TFCStation?) {
         departuresUpdated(nil, context: context, forStation: forStation)
     }
-
-
-
+    
     override func didDeactivate() {
         // This method is called when watch view controller is no longer visible
         super.didDeactivate()
     }
-    
-    
-    
 }
