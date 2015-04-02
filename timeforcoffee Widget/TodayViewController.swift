@@ -10,7 +10,6 @@ import UIKit
 import NotificationCenter
 import CoreLocation
 import timeforcoffeeKit
-import PINCache
 
 class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol, UIGestureRecognizerDelegate,  TFCDeparturesUpdatedProtocol {
     @IBOutlet weak var titleLabel: UILabel!
@@ -125,7 +124,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                 if (currentStation != nil) {
                     showStations = false
                     displayDepartures()
-                    currentStation?.updateDepartures(self, maxDepartures: 6)
+                    currentStation?.updateDepartures(self)
                 }
             }
         }
@@ -160,7 +159,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                         if (currentStation != nil) {
                             showStations = false
                             displayDepartures()
-                            currentStation?.updateDepartures(self, maxDepartures: 6, force: true)
+                            currentStation?.updateDepartures(self, force: true)
                         }
                     }
                 }
@@ -193,7 +192,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                 }
             }
             showStations = false
-            currentStation?.updateDepartures(self, maxDepartures: 6)
+            currentStation?.updateDepartures(self)
             self.appsTableView.reloadData()
             sendScreenNameToGA("todayviewStation")
         } else if (stations?.count() > 0) {
@@ -256,11 +255,9 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     }
 
     func displayDepartures() {
-        currentStation?.removeObseleteDepartures()
-        currentStation?.filterDepartures()
         self.appsTableView?.reloadData()
         //UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-        currentStation?.updateDepartures(self, maxDepartures: 6)
+        currentStation?.updateDepartures(self)
         setLastUsedView()
     }
 
@@ -279,7 +276,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             }
             return 1
         }
-        let departures = self.currentStation?.getDepartures()
+        let departures = self.currentStation?.getFilteredDepartures()
         if (departures == nil || departures!.count == 0) {
             return 1
         }
@@ -306,9 +303,8 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
 
         if (showStations) {
             let station = self.stations?.getStation(indexPath.row)
-            station?.removeObseleteDepartures()
-            station?.filterDepartures()
-            let firstDeparture = station?.getDepartures()?.first
+            let departures = station?.getFilteredDepartures()
+            let firstDeparture = departures?.first
             let iconLabel = cell.viewWithTag(500) as UIImageView
             iconLabel.layer.cornerRadius = iconLabel.layer.bounds.width / 2
             iconLabel.clipsToBounds = true
@@ -327,18 +323,12 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                 departureLabel.text = nil
             }
 
-            //if we already have departures, get all 6
-            // if not, then just load 1 for the overview
-            if (station?.getDepartures()?.count > 1) {
-                station?.updateDepartures(self, maxDepartures: 6)
-            } else {
-                station?.updateDepartures(self, maxDepartures: 1)
-            }
+            station?.updateDepartures(self)
             cell.userInteractionEnabled = true
             return cell
         }
         let station = currentStation
-        let departures = currentStation?.getDepartures()
+        let departures = currentStation?.getFilteredDepartures()
         if (departures == nil || departures!.count == 0) {
             lineNumberLabel.hidden = true
             departureLabel.text = nil
@@ -404,7 +394,6 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                 } else {
                     self.networkErrorMsg = nil
                 }
-                currentStation?.filterDepartures()
                 self.appsTableView!.reloadData()
             }
         }

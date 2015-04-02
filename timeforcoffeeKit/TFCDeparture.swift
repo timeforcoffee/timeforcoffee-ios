@@ -60,11 +60,7 @@ public class TFCDeparture: NSObject, NSCoding {
         return result["meta"]["station_name"].string
     }
     
-    public class func withJSON(allResults: JSONValue, filterStation: TFCStation?) -> [TFCDeparture]? {
-        return self.withJSON(allResults, filterStation: filterStation, maxDepartures: nil)
-    }
-
-    public class func withJSON(allResults: JSONValue, filterStation: TFCStation?, maxDepartures: Int?) -> [TFCDeparture]? {
+    public class func withJSON(allResults: JSONValue) -> [TFCDeparture]? {
         // Create an empty array of Albums to append to from this list
         // Store the results in our table data array
         var departures: [TFCDeparture]?
@@ -104,26 +100,13 @@ public class TFCDeparture: NSObject, NSCoding {
                 }
                 
                 var newDeparture = TFCDeparture(name: name!, type: type!, accessible: accessible, to: to!, scheduled: scheduled, realtime: realtime, colorFg: colorFg, colorBg: colorBg)
-                if (filterStation != nil) {
-                    let filterStation2 = filterStation!
-                    if (filterStation2.isFiltered(newDeparture)) {
-                        continue
-                    }
-                }
                 departures?.append(newDeparture)
-                if (maxDepartures != nil && departures?.count >= maxDepartures) {
-                    break
-                }
             }
         }
         
         return departures
     }
-    
-    public class func withJSON(allResults: JSONValue) -> [TFCDeparture]? {
-        return withJSON(allResults, filterStation: nil)
-    }
-    
+
     public func getDestination(station: TFCStation) -> String {
         let fullName = self.to
         if (fullName.match(", ") && station.name.match(", ")) {

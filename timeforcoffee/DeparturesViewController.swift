@@ -467,9 +467,8 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     func displayDepartures() {
         if (self.station != nil) {
             updateInAMinute()
-            self.station?.removeObseleteDepartures()
-            self.appsTableView?.reloadData()
             self.station?.updateDepartures(self)
+            self.appsTableView?.reloadData()
         }
     }
 
@@ -535,7 +534,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
                 return cell
             }
             lineNumberLabel.hidden = false
-            let departure: TFCDeparture = station2.getDepartures()![indexPath.row]
+            let departure: TFCDeparture = departures![indexPath.row]
             
             var unabridged = false
             if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
