@@ -34,9 +34,8 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         super.willActivate()
         NSLog("willActivate page")
         self.setTitle(station?.getName(true))
-        station?.removeObseleteDepartures()
+        station?.updateDepartures(self)
         self.displayDepartures(station)
-        station?.updateDepartures(self, maxDepartures: 10)
     }
 
     func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?) {

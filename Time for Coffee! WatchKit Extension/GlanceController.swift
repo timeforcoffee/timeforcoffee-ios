@@ -35,8 +35,8 @@ class GlanceController: WKInterfaceController {
         super.willActivate()
         func handleReply(stations: TFCStations?) {
             for (station) in stations! {
-                station.removeObseleteDepartures()
-                let departures = station.getDepartures()
+                station.updateDepartures(nil)
+                let departures = station.getFilteredDepartures()
                 if(departures?.count > 0) {
                     //todo only ask for one depature
                     if let firstDepature = departures?[0] {
