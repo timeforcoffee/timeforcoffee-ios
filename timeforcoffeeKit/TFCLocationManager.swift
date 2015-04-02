@@ -10,11 +10,11 @@ import Foundation
 import CoreLocation
 
 public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
-    lazy var locationManager : CLLocationManager = self.lazyInitLocationManager()
-    var locationFixAchieved : Bool = false
-    var locationStatus : NSString = "Not Started"
-    var seenError : Bool = false
-    unowned var delegate: TFCLocationManagerDelegate
+    private lazy var locationManager : CLLocationManager = self.lazyInitLocationManager()
+    private var locationFixAchieved : Bool = false
+    private var locationStatus : NSString = "Not Started"
+    private var seenError : Bool = false
+    private unowned var delegate: TFCLocationManagerDelegate
 
     public var currentLocation: CLLocation? {
         get {
@@ -33,7 +33,7 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
         self.delegate = delegate
     }
     
-    func lazyInitLocationManager() -> CLLocationManager {
+    private func lazyInitLocationManager() -> CLLocationManager {
         seenError = false
         locationFixAchieved = false
         var lm = CLLocationManager()
@@ -42,7 +42,6 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
         lm.requestAlwaysAuthorization()
         return lm
     }
-
     
     public func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
         self.locationManager.stopUpdatingLocation()

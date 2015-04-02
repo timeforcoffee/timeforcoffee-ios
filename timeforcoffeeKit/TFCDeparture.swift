@@ -10,15 +10,15 @@ import Foundation
 import UIKit
 
 public class TFCDeparture: NSObject, NSCoding {
-    public var name: String
+    private var name: String
     public var type: String
-    public var accessible: Bool
-    public var to: String
-    public var scheduled: NSDate?
-    public var realtime: NSDate?
+    private var accessible: Bool
+    private var to: String
+    private var scheduled: NSDate?
+    private var realtime: NSDate?
     public var colorFg: String?
     public var colorBg: String?
-    public var outdated: Bool = false
+    var outdated: Bool = false
 
     init(name: String, type: String, accessible: Bool, to: String, scheduled: NSDate?, realtime: NSDate?, colorFg: String?, colorBg: String? ) {
         // TODO: strip "Zurich, " from name

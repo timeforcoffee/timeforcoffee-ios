@@ -11,18 +11,17 @@ import CoreLocation
 
 public class TFCWatchData: NSObject, APIControllerProtocol, TFCLocationManagerDelegate {
 
-    var api : APIController?
-    var stations: TFCStations!
-    var replyNearby: replyClosure?
+    private var api : APIController?
+    private var stations: TFCStations!
+    private var replyNearby: replyClosure?
     
-    lazy var locManager: TFCLocationManager? = self.lazyInitLocationManager()
+    private lazy var locManager: TFCLocationManager? = self.lazyInitLocationManager()
 
-    struct contextData {
+    private struct contextData {
         var reply: replyClosure?
         var st_id: String?
         var st_name: String?
     }
-
 
     public override init () {
         super.init()
@@ -30,7 +29,7 @@ public class TFCWatchData: NSObject, APIControllerProtocol, TFCLocationManagerDe
         api = APIController(delegate: self)
     }
     
-    func lazyInitLocationManager() -> TFCLocationManager? {
+    private func lazyInitLocationManager() -> TFCLocationManager? {
         return TFCLocationManager(delegate: self)
     }
     

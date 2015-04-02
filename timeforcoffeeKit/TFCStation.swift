@@ -15,6 +15,7 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
     public var name: String
     public var coord: CLLocation?
     public var st_id: String
+
     private var departures: [TFCDeparture]? = nil {
         didSet {
             filteredDepartures = nil
@@ -223,7 +224,7 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
         } else {
             objects.dataStore?.removeObjectForKey("filtered\(st_id)")
         }
-        TFCStations.getUserDefaults()?.setObject(NSDate(), forKey: "settingsLastUpdate")
+        TFCDataStore.sharedInstance.getUserDefaults()?.setObject(NSDate(), forKey: "settingsLastUpdate")
     }
     
     private func getFilteredLines() -> [String: [String: Bool]] {
@@ -277,7 +278,7 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
 
         context.completionDelegate = completionDelegate
 
-        var settingsLastUpdated: NSDate? = TFCStations.getUserDefaults()?.objectForKey("settingsLastUpdate") as NSDate?
+        var settingsLastUpdated: NSDate? = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("settingsLastUpdate") as NSDate?
         if (force || self.lastDepartureUpdate == nil || self.lastDepartureUpdate?.timeIntervalSinceNow < -20 ||
             (settingsLastUpdated != nil && self.lastDepartureUpdate?.timeIntervalSinceDate(settingsLastUpdated!) < 0 )
             )

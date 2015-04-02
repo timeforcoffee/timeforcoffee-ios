@@ -12,10 +12,10 @@ import PINCache
 
 public class APIController {
     
-    weak var delegate: APIControllerProtocol?
-    var currentFetch: [Int: NSURLSessionDataTask] = [:]
+    private weak var delegate: APIControllerProtocol?
+    private var currentFetch: [Int: NSURLSessionDataTask] = [:]
 
-    lazy var cache:PINCache = {
+    private lazy var cache:PINCache = {
         return TFCCache.objects.apicalls
      }()
 
@@ -47,15 +47,15 @@ public class APIController {
         self.fetchUrl(urlPath, fetchId: 2, context: context, cacheKey: nil)
     }
     
-    func fetchUrl(urlPath: String, fetchId: Int, cacheKey: String?) {
+    private func fetchUrl(urlPath: String, fetchId: Int, cacheKey: String?) {
         fetchUrl(urlPath, fetchId: fetchId, context: nil, cacheKey: cacheKey, counter: 0)
     }
 
-    func fetchUrl(urlPath: String, fetchId: Int, context: Any?, cacheKey: String?) {
+    private func fetchUrl(urlPath: String, fetchId: Int, context: Any?, cacheKey: String?) {
         fetchUrl(urlPath, fetchId: fetchId, context: context, cacheKey: cacheKey, counter: 0)
     }
 
-    func fetchUrl(urlPath: String, fetchId: Int, context: Any?, cacheKey: String?, counter: Int) {
+    private func fetchUrl(urlPath: String, fetchId: Int, context: Any?, cacheKey: String?, counter: Int) {
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             if (cacheKey != nil && self.cache.objectForKey(cacheKey!) != nil) {
