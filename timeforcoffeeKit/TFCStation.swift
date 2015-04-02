@@ -15,6 +15,7 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
     public var name: String
     public var coord: CLLocation?
     public var st_id: String
+
     private var departures: [TFCDeparture]? = nil {
         didSet {
             filteredDepartures = nil

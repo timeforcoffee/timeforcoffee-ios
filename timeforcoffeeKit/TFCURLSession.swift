@@ -20,7 +20,6 @@ public class TFCURLSession: NSObject {
 
     lazy var session: NSURLSession = {
         [unowned self] in
-        NSLog("session init")
         return self.getSession()
     }()
 

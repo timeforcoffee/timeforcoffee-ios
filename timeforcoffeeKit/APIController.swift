@@ -12,10 +12,10 @@ import PINCache
 
 public class APIController {
     
-    weak var delegate: APIControllerProtocol?
-    var currentFetch: [Int: NSURLSessionDataTask] = [:]
+    private weak var delegate: APIControllerProtocol?
+    private var currentFetch: [Int: NSURLSessionDataTask] = [:]
 
-    lazy var cache:PINCache = {
+    private lazy var cache:PINCache = {
         return TFCCache.objects.apicalls
      }()
 
