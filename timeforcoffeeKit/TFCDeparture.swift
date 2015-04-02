@@ -275,7 +275,7 @@ public class TFCDeparture: NSObject, NSCoding {
         return getDestination()
     }
 
-    class func parseDate(dateStr:String) -> NSDate? {
+    private class func parseDate(dateStr:String) -> NSDate? {
         let format = "yyyy-MM-dd'T'HH:mm:ss.'000'ZZZZZ"
         var dateFmt = NSDateFormatter()
         dateFmt.timeZone = NSTimeZone.defaultTimeZone()
@@ -283,8 +283,7 @@ public class TFCDeparture: NSObject, NSCoding {
         return dateFmt.dateFromString(dateStr)
     }
     
-    
-    func getShortDate(date:NSDate) -> String {
+    private func getShortDate(date:NSDate) -> String {
         let format = "HH:mm"
         var dateFmt = NSDateFormatter()
         dateFmt.timeZone = NSTimeZone.defaultTimeZone()
