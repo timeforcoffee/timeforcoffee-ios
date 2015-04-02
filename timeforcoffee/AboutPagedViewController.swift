@@ -131,11 +131,13 @@ class AboutPagedViewController: UIViewController, SwipeViewDataSource, SwipeView
             locationStatus = "Allowed to location Access"
             shouldIAllow = true
         }
+        let label = swipeView?.viewWithTag(1) as UITextView
+
         if (shouldIAllow == true) {
-            (swipeView.viewWithTag(1) as UILabel).text = "Thank you"
+            label.text = "Thank you"
             TFCDataStore.sharedInstance.getUserDefaults()?.setBool(true, forKey: "onboardingShown")
         } else {
-            (swipeView.viewWithTag(1) as UILabel).text = "Ugh, that didn't work"
+            label.text = "Ugh, that didn't work"
         }
 
     }
