@@ -22,7 +22,7 @@ public class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIControllerPr
 
     var replyNearby: replyClosure?
     lazy var stations: TFCStations? =  {return TFCStations()}()
-    lazy var locManager: TFCLocationManager? = self.lazyInitLocationManager()
+    private lazy var locManager: TFCLocationManager? = self.lazyInitLocationManager()
 
     lazy var api : APIController? = {
         [unowned self] in
@@ -34,7 +34,7 @@ public class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIControllerPr
         super.init()
     }
     
-    func lazyInitLocationManager() -> TFCLocationManager? {
+    private func lazyInitLocationManager() -> TFCLocationManager? {
         return TFCLocationManager(delegate: self)
     }
 

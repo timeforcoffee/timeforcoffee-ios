@@ -16,7 +16,7 @@ public class TFCStations: SequenceType {
     private struct favorite {
         static var s: TFCFavorites = TFCFavorites.sharedInstance
         static var inStationsArray: [String: Bool] = [:]
-        static var userDefaults: NSUserDefaults? =  NSUserDefaults(suiteName: "group.ch.liip.timeforcoffee")
+        static var userDefaults: NSUserDefaults? = TFCDataStore.sharedInstance.getUserDefaults()
     }
 
     public init() {
@@ -32,12 +32,14 @@ public class TFCStations: SequenceType {
         return stations!.count
     }
 
-    public func addWithJSON(allResults: JSONValue) {
-        addWithJSON(allResults, append: false)
-    }
     public func clear () {
         stations = nil
     }
+
+    public func addWithJSON(allResults: JSONValue) {
+        addWithJSON(allResults, append: false)
+    }
+
     public func addWithJSON(allResults: JSONValue, append: Bool) {
         if (!append || stations == nil) {
             stations = []
@@ -79,11 +81,7 @@ public class TFCStations: SequenceType {
         return stations![index]
     }
 
-    public class func getStationById(st_id: String) -> TFCStation {
-        return TFCStation(name: "", id: st_id, coord: nil)
-    }
-
-    public class func isFavoriteStation(index: String) -> Bool {
+    class func isFavoriteStation(index: String) -> Bool {
         if (favorite.s.stations[index] != nil) {
             return true
         }
@@ -127,12 +125,6 @@ public class TFCStations: SequenceType {
         return false
     }
 
-    public class func setFavoriteStation(station: TFCStation) {
-        station.setFavorite()
-    }
-
-
-    
     public func loadFavorites(location: CLLocation?) {
         self.stations = []
         for (st_id, station) in favorite.s.stations {
@@ -149,7 +141,7 @@ public class TFCStations: SequenceType {
 
     /*** OLD WAY TO STORE FAVS, can be removed some day ***/
 
-    func populateFavoriteStationsOld() {
+    private func populateFavoriteStationsOld() {
         if (favorite.userDefaults?.objectForKey("favoriteStations") == nil) {
             return
         }
@@ -185,7 +177,7 @@ public class TFCStations: SequenceType {
         }
     }
 
-    public class func getFavoriteStationsDict() -> [String: [String: String]] {
+    private class func getFavoriteStationsDict() -> [String: [String: String]] {
         var favoriteStationsShared: [String: [String: String]]? = favorite.userDefaults?.objectForKey("favoriteStations")? as [String: [String: String]]?
 
         if (favoriteStationsShared == nil) {
@@ -195,11 +187,6 @@ public class TFCStations: SequenceType {
     }
 
     /*** END OLD WAY TO STORE FAVS, can be removed some day ***/
-
-
-    public class func getUserDefaults() -> NSUserDefaults? {
-        return favorite.userDefaults
-    }
 
     public func generate() -> IndexingGenerator<[TFCStation]> {
         return stations!.generate()

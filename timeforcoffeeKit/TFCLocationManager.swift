@@ -33,7 +33,7 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
         self.delegate = delegate
     }
     
-    func lazyInitLocationManager() -> CLLocationManager {
+    private func lazyInitLocationManager() -> CLLocationManager {
         seenError = false
         locationFixAchieved = false
         var lm = CLLocationManager()

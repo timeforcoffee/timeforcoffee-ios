@@ -18,7 +18,7 @@ public class TFCURLSession: NSObject {
         return Static.instance
     }
 
-    public lazy var session: NSURLSession = {
+    lazy var session: NSURLSession = {
         [unowned self] in
         NSLog("session init")
         return self.getSession()
@@ -30,7 +30,7 @@ public class TFCURLSession: NSObject {
         self.session = getSession()
     }
 
-    func getSession() -> NSURLSession {
+    private func getSession() -> NSURLSession {
         let config = NSURLSessionConfiguration.ephemeralSessionConfiguration()
         config.timeoutIntervalForRequest = 10.0
         config.timeoutIntervalForResource = 10.0
