@@ -12,7 +12,6 @@ import CoreLocation
 
 public class TFCBaseViewController: UIViewController, TFCLocationManagerDelegate {
     public lazy var locManager: TFCLocationManager? = self.lazyInitLocationManager()
-
     
     public func lazyInitLocationManager() -> TFCLocationManager? {
         return TFCLocationManager(delegate: self)

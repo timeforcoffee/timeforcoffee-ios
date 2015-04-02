@@ -57,7 +57,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     }
 
     lazy var lastViewedStation: TFCStation? = {
-        let stationDict = TFCStations.getUserDefaults()?.objectForKey("lastUsedStation") as [String: String]?
+        let stationDict = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedStation") as [String: String]?
         if (stationDict == nil) {
             return nil
         }
@@ -153,7 +153,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                 // and the distance is not much more (200m), just show it again
                 if (currentStation == nil && getLastUsedView() == "singleStation" && lastUsedViewUpdatedInterval() > -(60 * 30)) {
                     let distance2lastViewedStationNow: CLLocationDistance? = locManager?.currentLocation?.distanceFromLocation(lastViewedStation?.coord)
-                    let distance2lastViewedStationLasttime: CLLocationDistance? = TFCStations.getUserDefaults()?.objectForKey("lastUsedStationDistance") as CLLocationDistance?
+                    let distance2lastViewedStationLasttime: CLLocationDistance? = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedStationDistance") as CLLocationDistance?
                     if (distance2lastViewedStationNow != nil && distance2lastViewedStationLasttime != nil && distance2lastViewedStationNow! < distance2lastViewedStationLasttime! + 200) {
                         currentStation = lastViewedStation
                         if (currentStation != nil) {
@@ -223,7 +223,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
 
 
     func setLastUsedView() {
-        let userDefaults = TFCStations.getUserDefaults()
+        let userDefaults = TFCDataStore.sharedInstance.getUserDefaults()
         if (showStations) {
             userDefaults?.setObject("nearbyStations", forKey: "lastUsedView")
         } else {
@@ -246,11 +246,11 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     }
 
     func getLastUsedView() -> String? {
-        return TFCStations.getUserDefaults()?.objectForKey("lastUsedView") as String?
+        return TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedView") as String?
     }
 
     func lastUsedViewUpdatedInterval() -> NSTimeInterval? {
-        let lastUpdate: NSDate? = TFCStations.getUserDefaults()?.objectForKey("lastUsedViewUpdate") as NSDate?
+        let lastUpdate: NSDate? = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedViewUpdate") as NSDate?
         return lastUpdate?.timeIntervalSinceNow
     }
 
