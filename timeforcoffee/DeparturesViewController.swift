@@ -90,12 +90,14 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
 
         nameLabel.text = self.station?.name
         let currentLocation = TFCLocationManager.getCurrentLocation()
-        self.distanceLabel.text = self.station?.getDistanceForDisplay(currentLocation, completion: {
-            text in
-            if (text != nil) {
-                self.distanceLabel.text = text
-            }
-        })
+        if (self.station?.coord != nil) {
+            self.distanceLabel.text = self.station?.getDistanceForDisplay(currentLocation, completion: {
+                text in
+                if (text != nil) {
+                    self.distanceLabel.text = text
+                }
+            })
+        }
 
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         self.refreshControl = UIRefreshControl()
