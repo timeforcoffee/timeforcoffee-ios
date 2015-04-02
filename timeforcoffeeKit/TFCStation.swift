@@ -79,7 +79,7 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
     public class func initWithCache(name: String, id: String, coord: CLLocation?) -> TFCStation {
         let cache: PINCache = TFCCache.objects.stations
         var newStation: TFCStation? = cache.objectForKey(id) as TFCStation?
-        if (newStation == nil) {
+        if (newStation == nil || newStation?.coord == nil) {
             newStation = TFCStation(name: name, id: id, coord: coord)
         } else {
             let countBefore = newStation!.departures?.count
@@ -340,7 +340,7 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
     }
 
     public func getDistanceForDisplay(location: CLLocation?, completion: (String?) -> Void) -> String {
-        if (location == nil) {
+        if (location == nil || coord == nil) {
             completion("")
             return ""
         }
