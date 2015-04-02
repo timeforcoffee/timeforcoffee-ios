@@ -156,8 +156,6 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     }
 
     override func viewDidDisappear(animated: Bool) {
-        //fixme, station should stay in NSCache, and especially departures
-//        station?.clearDepartures ()
         station = nil
         self.navigationController?.interactivePopGestureRecognizer.delegate = gestureRecognizer
         NSNotificationCenter.defaultCenter().removeObserver(self)
@@ -474,7 +472,6 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
 
     internal func setStation(station: TFCStation) {
         self.station = station
-       // self.station?.clearDepartures()
     }
 
     func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?) {

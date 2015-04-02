@@ -11,7 +11,7 @@ import CoreLocation
 import MapKit
 import PINCache
 
-public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIControllerProtocol {
+public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
     public var name: String
     public var coord: CLLocation?
     public var st_id: String
@@ -21,11 +21,13 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
         }
     }
     private var filteredDepartures: [TFCDeparture]?
+
     public var calculatedDistance: Int?
-    var walkingDistanceString: String?
-    var walkingDistanceLastCoord: CLLocation?
-    var lastDepartureUpdate: NSDate?
-    var lastDepartureCount: Int?
+    private var walkingDistanceString: String?
+    private var walkingDistanceLastCoord: CLLocation?
+    private var lastDepartureUpdate: NSDate?
+    private var lastDepartureCount: Int?
+
     public var isLastUsed: Bool = false
     public var serializeDepartures: Bool = true
 
@@ -33,17 +35,16 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
         static let  dataStore: TFCDataStore? = TFCDataStore()
     }
 
-    lazy var api : APIController = {
+    private lazy var api : APIController = {
         [unowned self] in
         return APIController(delegate: self)
     }()
 
     struct contextData {
         var completionDelegate: TFCDeparturesUpdatedProtocol? = nil
-        var maxDepartures: Int? = nil
     }
 
-    lazy var filteredLines:[String: [String: Bool]] = {
+    private lazy var filteredLines:[String: [String: Bool]] = {
         [unowned self] in
         return self.getFilteredLines()
     }()
@@ -169,7 +170,7 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
         return "\(getName(cityAfter))\(getFilterSign())"
     }
 
-    func getFilterSign() -> String {
+    private func getFilterSign() -> String {
         if (self.hasFilters()) {
             return " ✗"
         }
@@ -216,7 +217,7 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
 
     }
         
-    public func saveFilteredLines() {
+    private func saveFilteredLines() {
         if (filteredLines.count > 0) {
             objects.dataStore?.setObject(filteredLines, forKey: "filtered\(st_id)")
         } else {
@@ -225,7 +226,7 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
         TFCStations.getUserDefaults()?.setObject(NSDate(), forKey: "settingsLastUpdate")
     }
     
-    func getFilteredLines() -> [String: [String: Bool]] {
+    private func getFilteredLines() -> [String: [String: Bool]] {
         var filteredDestinationsShared: [String: [String: Bool]]? = objects.dataStore?.objectForKey("filtered\(st_id)")?.mutableCopy() as [String: [String: Bool]]?
         
         if (filteredDestinationsShared == nil) {
@@ -234,7 +235,7 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
         return filteredDestinationsShared!
     }
 
-    public func addDepartures(departures: [TFCDeparture]?) {
+    private func addDepartures(departures: [TFCDeparture]?) {
         self.departures = departures
         let cache: PINCache = TFCCache.objects.stations
         cache.setObject(self, forKey: st_id)
@@ -292,8 +293,6 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
 
     public func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?) {
 
-    //    self.refreshControl.endRefreshing()
-
             let contextInfo: contextData? = context as contextData?
             if (error != nil && self.departures != nil && self.departures?.count > 0) {
                 self.setDeparturesAsOutdated()
@@ -309,7 +308,7 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
         })
     }
 
-    func setDeparturesAsOutdated() {
+    private func setDeparturesAsOutdated() {
         if (self.departures != nil) {
             for (departure) in self.departures! {
                 departure.outdated = true
@@ -320,6 +319,7 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
     func clearDepartures() {
         self.departures = nil
     }
+
     private func removeObseleteDepartures() {
         if (self.departures == nil) {
             return
@@ -364,7 +364,7 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
         return Int(location?.distanceFromLocation(coord) as Double!)
     }
 
-    func getLastValidWalkingDistanceValid(location: CLLocation?) -> String? {
+    private func getLastValidWalkingDistanceValid(location: CLLocation?) -> String? {
         if (walkingDistanceLastCoord != nil && walkingDistanceString != nil) {
             let distanceToLast = location?.distanceFromLocation(walkingDistanceLastCoord)
             if (distanceToLast < 50) {
@@ -374,7 +374,7 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
         return nil
     }
 
-    public func getWalkingDistance(location: CLLocation?, completion: (String?) -> Void ) {
+    private func getWalkingDistance(location: CLLocation?, completion: (String?) -> Void ) {
         let walkingDistanceValidString = getLastValidWalkingDistanceValid(location)
         if (walkingDistanceValidString != nil) {
                 completion(walkingDistanceValidString)
@@ -466,14 +466,14 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
         return getNormalIcon()
     }
 
-    func getFavoriteIcon() -> UIImage {
+    private func getFavoriteIcon() -> UIImage {
         if (st_id == "8591306") {
             return UIImage(named: "stationicon-liip")!
         }
         return UIImage(named: "stationicon-star")!
     }
 
-    func getNormalIcon() -> UIImage {
+    private func getNormalIcon() -> UIImage {
         return UIImage(named: "stationicon-pin")!
     }
 
@@ -484,9 +484,6 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
 
         newImage = self.getIcon()
 
-        /*StationFavoriteButton.imageView?.alpha = 1.0
-        StationIconView.transform = CGAffineTransformMakeScale(1, 1);
-*/
         button.imageView?.alpha = 1.0
         icon.transform = CGAffineTransformMakeScale(1, 1);
 
@@ -511,35 +508,6 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
         })
 
     }
-
-
-    // Not needed anymore, should be moved to be done in DidReceiveMemoryWarning
-    public func discardContentIfPossible() {
-        self.removeObseleteDepartures()
-        if (!isLastUsed && self.departures?.count > 1) {
-            NSLog("delete some departures")
-            self.departures = [(self.departures?.first)!]
-        }
-        NSLog( "discardContentIfPossible")
-    }
-
-    public func beginContentAccess() -> Bool {
-        return true
-    }
-
-    public func endContentAccess() {
-
-    }
-
-    public func isContentDiscarded() -> Bool {
-        removeObseleteDepartures()
-        NSLog("isContentDiscarded")
-        if (!isLastUsed && (departures == nil || departures?.count == 0)) {
-            return true
-        }
-        return false
-    }
-
 }
 
 public protocol TFCDeparturesUpdatedProtocol {
