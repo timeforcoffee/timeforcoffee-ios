@@ -18,10 +18,10 @@ public class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIControllerPr
         }
         return Static.instance
     }
-    var networkErrorMsg: String?
+    private var networkErrorMsg: String?
 
-    var replyNearby: replyClosure?
-    lazy var stations: TFCStations? =  {return TFCStations()}()
+    private var replyNearby: replyClosure?
+    private lazy var stations: TFCStations? =  {return TFCStations()}()
     private lazy var locManager: TFCLocationManager? = self.lazyInitLocationManager()
 
     lazy var api : APIController? = {
