@@ -67,11 +67,14 @@
                     </items>
                     <menu key="menu" id="dJV-vw-hvt">
                         <items>
+                            <menuItem title="Favorite Station" icon="add" id="bJQ-tw-36N"/>
+                            <menuItem title="Filter Line" icon="decline" id="RFg-Rc-AdD"/>
                             <menuItem title="Stations" icon="more" id="5sJ-6Y-1Wz">
                                 <connections>
                                     <action selector="contextButtionStations" destination="3ez-Oj-rei" id="MxD-lb-gKG"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Reload" icon="resume" id="Iwo-uz-eje"/>
                         </items>
                     </menu>
                     <connections>
