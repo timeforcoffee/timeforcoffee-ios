@@ -8,12 +8,27 @@
 
 import Foundation
 import CoreLocation
+import WatchKit
 
-public class TFCWatchData: NSObject, TFCLocationManagerDelegate {
+public class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIControllerProtocol {
+
+    public class var sharedInstance: TFCWatchData {
+        struct Static {
+            static let instance: TFCWatchData = TFCWatchData()
+        }
+        return Static.instance
+    }
+    var networkErrorMsg: String?
 
     var replyNearby: replyClosure?
-    
+    lazy var stations: TFCStations? =  {return TFCStations()}()
     lazy var locManager: TFCLocationManager? = self.lazyInitLocationManager()
+
+    lazy var api : APIController? = {
+        [unowned self] in
+        return APIController(delegate: self)
+        }()
+
 
     public override init () {
         super.init()
@@ -22,7 +37,8 @@ public class TFCWatchData: NSObject, TFCLocationManagerDelegate {
     func lazyInitLocationManager() -> TFCLocationManager? {
         return TFCLocationManager(delegate: self)
     }
-    
+
+    /* USED FROM THE APP */
     public func locationFixed(coord: CLLocationCoordinate2D?) {
         //do nothing here, you have to overwrite that
         if (coord != nil) {
@@ -37,5 +53,39 @@ public class TFCWatchData: NSObject, TFCLocationManagerDelegate {
         // the data from the API... (in locationFixed)
         self.replyNearby = reply
         locManager?.refreshLocation()
+    }
+    /* END USED FROM THE APP */
+
+    /* USED FROM THE WATCHKIT EXTENSION */
+    public func getStations(reply: replyStations, stopWithFavorites: Bool?) {
+        func handleReply(replyInfo: [NSObject : AnyObject]!, error: NSError!) {
+            if(replyInfo["lat"] != nil) {
+                let loc = CLLocation(latitude: replyInfo["lat"] as Double, longitude: replyInfo["long"] as Double)
+                self.stations?.clear()
+                self.stations?.addNearbyFavorites(loc)
+                if (stopWithFavorites == true && self.stations?.count() > 0 ) {
+                    reply(self.stations?)
+                    return
+                }
+                self.api?.searchFor(loc.coordinate, context: reply)
+            }
+        }
+        WKInterfaceController.openParentApplication(["module":"location"], handleReply)
+    }
+
+    public func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?) {
+        if (!(error != nil && error?.code == -999)) {
+            if (error != nil) {
+                self.networkErrorMsg = NSLocalizedString("Network error. Please try again", comment: "")
+            } else {
+                self.networkErrorMsg = nil
+            }
+            if (TFCStation.isStations(results)) {
+                self.stations?.addWithJSON(results, append: true)
+            }
+            if let reply:replyStations = context as? replyStations {
+                reply(self.stations)
+            }
+        }
     }
 }
