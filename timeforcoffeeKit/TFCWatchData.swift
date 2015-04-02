@@ -102,7 +102,7 @@ public class TFCWatchData: NSObject, APIControllerProtocol, TFCLocationManagerDe
                     var stationId = contextInfo?.st_id
                     let station = TFCStation(name: stationName!, id: stationId!, coord: nil)
                     //let reply = contextData.ValReply(contextInfo["reply"]?)
-                    let departuresObjects: [TFCDeparture]? = TFCDeparture.withJSON(results, filterStation: station)
+                    let departuresObjects: [TFCDeparture]? = TFCDeparture.withJSON(results)
                     var departures: [NSDictionary] = []
                     for departure in departuresObjects! as [TFCDeparture] {
                         departures.append(departure.getAsDict(station))
