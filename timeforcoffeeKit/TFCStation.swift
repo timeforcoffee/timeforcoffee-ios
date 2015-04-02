@@ -15,7 +15,12 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
     public var name: String
     public var coord: CLLocation?
     public var st_id: String
-    var departures: [TFCDeparture]?
+    private var departures: [TFCDeparture]? = nil {
+        didSet {
+            filteredDepartures = nil
+        }
+    }
+    private var filteredDepartures: [TFCDeparture]?
     public var calculatedDistance: Int?
     var walkingDistanceString: String?
     var walkingDistanceLastCoord: CLLocation?
@@ -240,37 +245,49 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
         return self.departures
     }
 
-    public func updateDepartures(completionDelegate: TFCDeparturesUpdatedProtocol?, maxDepartures: Int?) {
-        updateDepartures(completionDelegate, maxDepartures: maxDepartures, force: false)
+    public func getFilteredDepartures() -> [TFCDeparture]? {
+        if (!hasFilters()) {
+            return departures
+        }
+        if (filteredDepartures != nil) {
+            return filteredDepartures
+        }
+        if (self.departures != nil) {
+            filteredDepartures = []
+            for (departure) in self.departures! {
+                if (!self.isFiltered(departure)) {
+                    filteredDepartures?.append(departure)
+                }
+            }
+            return filteredDepartures
+        }
+        return nil
     }
+
+    public func updateDepartures(completionDelegate: TFCDeparturesUpdatedProtocol?) {
+        updateDepartures(completionDelegate, force: false)
+    }
+    
     public func updateDepartures(completionDelegate: TFCDeparturesUpdatedProtocol?, force: Bool) {
-        updateDepartures(completionDelegate, maxDepartures: nil, force: force)
-    }
 
-    public func updateDepartures(completionDelegate: TFCDeparturesUpdatedProtocol?, maxDepartures: Int?, force: Bool) {
-
+        removeObseleteDepartures()
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
         var context: contextData = contextData()
 
         context.completionDelegate = completionDelegate
-        context.maxDepartures = maxDepartures
 
         var settingsLastUpdated: NSDate? = TFCStations.getUserDefaults()?.objectForKey("settingsLastUpdate") as NSDate?
-        if (force || lastDepartureUpdate == nil || lastDepartureUpdate?.timeIntervalSinceNow < -20 ||
-            (settingsLastUpdated != nil && lastDepartureUpdate?.timeIntervalSinceDate(settingsLastUpdated!) < 0 ) ||
-            (lastDepartureCount != nil && lastDepartureCount < maxDepartures)
+        if (force || self.lastDepartureUpdate == nil || self.lastDepartureUpdate?.timeIntervalSinceNow < -20 ||
+            (settingsLastUpdated != nil && self.lastDepartureUpdate?.timeIntervalSinceDate(settingsLastUpdated!) < 0 )
             )
         {
-            lastDepartureUpdate = NSDate()
-            lastDepartureCount = maxDepartures
+            self.lastDepartureUpdate = NSDate()
             self.api.getDepartures(self.st_id, context: context)
         } else {
             completionDelegate?.departuresStillCached(context, forStation: self)
         }
+        }
 
-    }
-
-    public func updateDepartures(completionDelegate: TFCDeparturesUpdatedProtocol?) {
-        updateDepartures(completionDelegate, maxDepartures: nil)
     }
 
     public func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?) {
@@ -281,11 +298,7 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
             if (error != nil && self.departures != nil && self.departures?.count > 0) {
                 self.setDeparturesAsOutdated()
             } else {
-                if (contextInfo?.maxDepartures > 0) {
-                    self.addDepartures(TFCDeparture.withJSON(results, filterStation: self, maxDepartures: contextInfo?.maxDepartures!))
-                } else {
-                    self.addDepartures(TFCDeparture.withJSON(results))
-                }
+                self.addDepartures(TFCDeparture.withJSON(results))
             }
 
         dispatch_async(dispatch_get_main_queue(), {
@@ -307,25 +320,7 @@ public class TFCStation: NSObject, NSCoding, NSDiscardableContent, APIController
     func clearDepartures() {
         self.departures = nil
     }
-
-    public func filterDepartures() {
-        var i = 0
-        if (self.departures != nil) {
-            for (departure) in self.departures! {
-                if (self.isFiltered(departure)) {
-                    departures?.removeAtIndex(i)
-                } else {
-                    i++
-                }
-            }
-        }
-
-        if (departures?.count == 0) {
-            departures = nil
-        }
-    }
-
-    public func removeObseleteDepartures() {
+    private func removeObseleteDepartures() {
         if (self.departures == nil) {
             return
         }
