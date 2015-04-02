@@ -24,11 +24,10 @@ public class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIControllerPr
     private lazy var stations: TFCStations? =  {return TFCStations()}()
     private lazy var locManager: TFCLocationManager? = self.lazyInitLocationManager()
 
-    lazy var api : APIController? = {
+    private lazy var api : APIController? = {
         [unowned self] in
         return APIController(delegate: self)
         }()
-
 
     public override init () {
         super.init()

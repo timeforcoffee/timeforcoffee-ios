@@ -24,7 +24,8 @@ class TFCFavorites: NSObject {
     private struct objects {
         static let  dataStore: TFCDataStore? = TFCDataStore()
     }
-    var temporarlyRemovedStations = false
+
+    private var temporarlyRemovedStations = false
 
 
     override init() {
