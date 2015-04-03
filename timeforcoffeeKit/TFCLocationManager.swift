@@ -109,6 +109,21 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
         return classvar.currentLocation
     }
 
+    public func getReasonForNoStationFound(networkErrorMsg: String?) -> String {
+        var text = ""
+        if (networkErrorMsg != nil) {
+            return networkErrorMsg!
+        } else {
+            if let distanceFromSwitzerland = self.currentLocation?.distanceFromLocation(CLLocation(latitude: 47, longitude: 8)) {
+                if (distanceFromSwitzerland > 1000000) {
+                    return "Not in Switzerland?"
+                }
+            }
+        }
+        return ""
+
+    }
+
 }
 
 public protocol TFCLocationManagerDelegate: class {
