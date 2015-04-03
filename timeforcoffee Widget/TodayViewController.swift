@@ -276,7 +276,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             }
             return 1
         }
-        let departures = self.currentStation?.getFilteredDepartures()
+        let departures = self.currentStation?.getFilteredDepartures(6)
         if (departures == nil || departures!.count == 0) {
             return 1
         }
@@ -303,7 +303,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
 
         if (showStations) {
             let station = self.stations?.getStation(indexPath.row)
-            let departures = station?.getFilteredDepartures()
+            let departures = station?.getFilteredDepartures(1)
             let firstDeparture = departures?.first
             let iconLabel = cell.viewWithTag(500) as UIImageView
             iconLabel.layer.cornerRadius = iconLabel.layer.bounds.width / 2
@@ -328,7 +328,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             return cell
         }
         let station = currentStation
-        let departures = currentStation?.getFilteredDepartures()
+        let departures = currentStation?.getFilteredDepartures(6)
         if (departures == nil || departures!.count == 0) {
             lineNumberLabel.hidden = true
             departureLabel.text = nil

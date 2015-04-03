@@ -266,6 +266,14 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
         return nil
     }
 
+    public func getFilteredDepartures(maxDepartures: Int) -> Slice<TFCDeparture>? {
+        if let filteredDepartures = getFilteredDepartures() {
+            let endIndex = min(maxDepartures, filteredDepartures.count)
+            return filteredDepartures[0..<endIndex]
+        }
+        return nil
+    }
+
     public func updateDepartures(completionDelegate: TFCDeparturesUpdatedProtocol?) {
         updateDepartures(completionDelegate, force: false)
     }
