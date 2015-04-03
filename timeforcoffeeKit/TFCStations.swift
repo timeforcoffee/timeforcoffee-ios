@@ -9,7 +9,7 @@
 import Foundation
 import CoreLocation
 
-public class TFCStations {
+public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerProtocol {
     var stations:[TFCStation]?
 
     //struct here, because "class var" is not yet supported
@@ -19,7 +19,21 @@ public class TFCStations {
         static var userDefaults: NSUserDefaults? = TFCDataStore.sharedInstance.getUserDefaults()
     }
 
-    public init() {
+    public var networkErrorMsg: String?
+    public var isLoading: Bool = false {
+        didSet { if (isLoading == true) {
+                self.networkErrorMsg = nil
+            }
+        }
+    }
+    private var lastRefreshLocation: NSDate?
+
+    private lazy var locManager: TFCLocationManager? = { return TFCLocationManager(delegate: self)}()
+    private lazy var api : APIController = { return APIController(delegate: self)}()
+    private var stationsUpdateReply:stationsUpdatedClosure?
+
+    public override init() {
+        // can be removed, when everyone moved to the new way of storing favorites
         favorite.s.repopulateFavorites()
     }
 
@@ -126,6 +140,10 @@ public class TFCStations {
         return false
     }
 
+    public func loadFavorites() {
+        loadFavorites(locManager?.currentLocation)
+    }
+
     public func loadFavorites(location: CLLocation?) {
         self.stations = []
         for (st_id, station) in favorite.s.stations {
@@ -139,4 +157,75 @@ public class TFCStations {
             self.stations!.sort({ $0.calculatedDistance < $1.calculatedDistance })
         }
     }
+
+    public func updateStations(completion:stationsUpdatedClosure, searchFor:String) -> Bool {
+        stationsUpdateReply = completion
+        isLoading = true
+        self.api.searchFor(searchFor)
+        return true
+    }
+
+    public func updateStations(completion:stationsUpdatedClosure) -> Bool {
+        return updateStations(completion, force: false)
+    }
+
+    public func updateStations(completion:stationsUpdatedClosure, force: Bool) -> Bool {
+        // dont refresh location within 5 seconds..
+        if (force || lastRefreshLocation == nil || lastRefreshLocation?.timeIntervalSinceNow < -5) {
+            lastRefreshLocation = NSDate()
+            isLoading = true
+            stationsUpdateReply = completion
+            locManager?.refreshLocation()
+            return true
+        }
+        return false
+    }
+
+    public func locationFixed(coord: CLLocationCoordinate2D?) {
+        if (coord != nil) {
+            self.api.searchFor(coord!)
+        }
+    }
+
+    public func locationDenied(manager: CLLocationManager) {
+        replyCompletion("Location not available")
+    }
+
+    public func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?) {
+        isLoading = false
+        var err: String? = nil
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            if (error != nil && error?.code != -999) {
+                err =  "Network error. Please try again"
+            } else {
+                self.addWithJSON(results)
+                if (!(self.stations?.count > 0)) {
+                    err = self.getReasonForNoStationFound()
+                }
+            }
+            self.replyCompletion(err)
+        }
+    }
+
+    private func replyCompletion(err: String?) {
+        if (!(self.stations?.count > 0)) {
+            self.empty()
+        }
+        self.networkErrorMsg = err
+        self.stationsUpdateReply!(err: self.networkErrorMsg)
+    }
+
+    private func getReasonForNoStationFound() -> String? {
+
+        if let distanceFromSwitzerland = locManager?.currentLocation?.distanceFromLocation(CLLocation(latitude: 47, longitude: 8)) {
+            if (distanceFromSwitzerland > 1000000) {
+                return "Not in Switzerland?"
+            }
+        }
+
+        return nil
+
+    }
+    
+
 }

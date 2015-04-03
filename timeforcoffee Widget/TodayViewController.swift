@@ -308,7 +308,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         if (showStations) {
             if (self.stations?.count() == 0) {
                  destinationLabel.text = NSLocalizedString("No stations found.", comment: "")
-                 departureLabel.text  = locManager?.getReasonForNoStationFound(self.networkErrorMsg)
+                 departureLabel.text  = self.networkErrorMsg
                  lineNumberLabel.hidden = true
                  minutesLabel.text = nil
 

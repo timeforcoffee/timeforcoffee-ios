@@ -58,7 +58,7 @@ public class APIController {
     private func fetchUrl(urlPath: String, fetchId: Int, context: Any?, cacheKey: String?, counter: Int) {
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            if (cacheKey != nil && self.cache.objectForKey(cacheKey!) != nil) {
+            if (false && cacheKey != nil && self.cache.objectForKey(cacheKey!) != nil) {
                 NSLog("diskByteCount apicalls: \(self.cache.diskByteCount)")
                 let result = JSONValue(self.cache.objectForKey(cacheKey!) as NSData!);
                 self.delegate?.didReceiveAPIResults(result, error: nil, context: context)
