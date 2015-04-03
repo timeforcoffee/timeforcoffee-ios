@@ -313,7 +313,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             lineNumberLabel.hidden = false
             destinationLabel.text = station?.getNameWithFilters(false)
 
-            if (firstDeparture != nil) {
+            if (firstDeparture != nil && firstDeparture?.getMinutesAsInt() >= 0) {
                 lineNumberLabel.setStyle("dark", departure: firstDeparture!)
                 minutesLabel.text = firstDeparture!.getMinutes()
                 departureLabel.text = firstDeparture!.getDestinationWithSign(station, unabridged: false)
