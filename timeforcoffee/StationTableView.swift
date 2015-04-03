@@ -71,6 +71,10 @@ class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource,
     internal func locationFixed(coord: CLLocationCoordinate2D?) {
         if (coord != nil) {
             self.api.searchFor(coord!)
+        } else {
+            self.stations.empty()
+            self.networkErrorMsg = "Location not available"
+            self.reloadData()
         }
     }
 
@@ -112,12 +116,7 @@ class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource,
                 detailTextLabel?.text = ""
             } else {
                 textLabel?.text = NSLocalizedString("No stations found.", comment: "")
-
-                if (self.networkErrorMsg != nil) {
-                    detailTextLabel?.text = self.networkErrorMsg
-                } else {
-                    detailTextLabel?.text = ""
-                }
+                detailTextLabel.text = locManager?.getReasonForNoStationFound(self.networkErrorMsg)
             }
             return cell
         }

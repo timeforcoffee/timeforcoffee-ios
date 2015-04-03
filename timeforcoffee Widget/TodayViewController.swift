@@ -177,7 +177,10 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             }
             self.api?.searchFor(coord!)
         } else {
-            //NSLog("Location coord is nil!")
+            self.networkErrorMsg = "Location not available"
+            self.stations?.clear()
+            self.titleLabel.text = "Time for Coffee!"
+            self.appsTableView?.reloadData()
         }
 
     }
@@ -195,7 +198,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             currentStation?.updateDepartures(self)
             self.appsTableView.reloadData()
             sendScreenNameToGA("todayviewStation")
-        } else if (stations?.count() > 0) {
+        } else { // if (stations?.count() > 0) {
             showStations = true
             self.appsTableView.reloadData()
             sendScreenNameToGA("todayviewMore")
@@ -271,10 +274,11 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (showStations) {
-            if (stations?.count() != nil) {
-                return (self.stations?.count())!
+            let count = stations?.count()
+            if (count == nil || count == 0) {
+                return 1
             }
-            return 1
+            return count!
         }
         let departures = self.currentStation?.getFilteredDepartures(6)
         if (departures == nil || departures!.count == 0) {
@@ -302,6 +306,15 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         let minutesLabel = cell.viewWithTag(400) as UILabel
 
         if (showStations) {
+            if (self.stations?.count() == 0) {
+                 destinationLabel.text = NSLocalizedString("No stations found.", comment: "")
+                 departureLabel.text  = locManager?.getReasonForNoStationFound(self.networkErrorMsg)
+                 lineNumberLabel.hidden = true
+                 minutesLabel.text = nil
+
+                 return cell
+            }
+
             let station = self.stations?.getStation(indexPath.row)
             let departures = station?.getFilteredDepartures(1)
             let firstDeparture = departures?.first
@@ -333,14 +346,19 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             lineNumberLabel.hidden = true
             departureLabel.text = nil
             minutesLabel.text = nil
-            if (departures == nil) {
+            if (station != nil && departures == nil) {
                 destinationLabel.text = NSLocalizedString("Loading", comment: "Loading ..")
             } else {
-                destinationLabel.text = NSLocalizedString("No departures found.", comment: "")
-                if (self.networkErrorMsg != nil) {
-                    departureLabel.text = self.networkErrorMsg
-                } else if (station?.hasFilters() == true) {
+                if (station == nil) {
+                    destinationLabel.text = NSLocalizedString("No stations found.", comment: "")
+                } else {
+                    destinationLabel.text = NSLocalizedString("No departures found.", comment: "")
+                }
+
+                departureLabel.text  = locManager?.getReasonForNoStationFound(self.networkErrorMsg)
+                if (station?.hasFilters() == true && station?.getDepartures()?.count > 0) {
                     departureLabel.text = NSLocalizedString("Remove some filters.", comment: "")
+
                 }
             }
             return cell
@@ -416,9 +434,15 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                     self.stations?.addWithJSON(results, append: true)
                     if (self.showStations == false && self.currentStation == nil) {
                         self.currentStation = self.stations?.getStation(self.currentStationIndex)
-                        self.titleLabel.text = self.currentStation?.getNameWithStarAndFilters()
-                        if (hasAlreadyFavouritesDisplayed == nil || hasAlreadyFavouritesDisplayed == 0) {
-                            self.displayDepartures()
+                        if (self.currentStation != nil) {
+                            self.titleLabel.text = self.currentStation?.getNameWithStarAndFilters()
+                            if (hasAlreadyFavouritesDisplayed == nil || hasAlreadyFavouritesDisplayed == 0) {
+                                self.displayDepartures()
+                            }
+                            self.actionLabel.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+                        } else {
+                            self.titleLabel.text = "Time for Coffee!"
+                            self.actionLabel.setTitleColor(UIColor.lightGrayColor(), forState: UIControlState.Normal)
                         }
                     }
                 }

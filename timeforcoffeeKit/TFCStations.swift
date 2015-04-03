@@ -32,8 +32,11 @@ public class TFCStations {
         return stations!.count
     }
 
-    public func clear () {
+    public func clear() {
         stations = nil
+    }
+    public func empty() {
+        stations = []
     }
 
     public func addWithJSON(allResults: JSONValue) {
