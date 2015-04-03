@@ -20,8 +20,6 @@ public class TFCStations {
     }
 
     public init() {
-        // can be removed, when everyone moved to the new way of storing favorites
-        populateFavoriteStationsOld()
         favorite.s.repopulateFavorites()
     }
 
@@ -141,54 +139,4 @@ public class TFCStations {
             self.stations!.sort({ $0.calculatedDistance < $1.calculatedDistance })
         }
     }
-
-    /*** OLD WAY TO STORE FAVS, can be removed some day ***/
-
-    private func populateFavoriteStationsOld() {
-        if (favorite.userDefaults?.objectForKey("favoriteStations") == nil) {
-            return
-        }
-        var favoriteStationsDict = TFCStations.getFavoriteStationsDict()
-        var stations:[String: TFCStation] = [:]
-        for (st_id, station) in favoriteStationsDict {
-            let lat = NSString(string:station["latitude"]!).doubleValue
-            let long = NSString(string:station["longitude"]!).doubleValue
-            var Clocation = CLLocation(latitude: lat, longitude: long)
-            let station: TFCStation = TFCStation.initWithCache(station["name"]!, id: station["st_id"]!, coord: Clocation)
-
-            //FIXME: can be removed in a few days, st_id can start with 00 or not sometimes
-            //then back to just
-            // self.favoriteStations[st_id] = station
-
-            let st_id_fixed = String(st_id.toInt()!)
-            station.st_id = st_id_fixed
-            stations[st_id_fixed] = station
-            favorite.s.set(station)
-        }
-
-        favorite.userDefaults?.removeObjectForKey("favoriteStations")
-
-        // copy filters to iCloud
-        let keys: NSArray? = favorite.userDefaults?.dictionaryRepresentation().keys.array
-        if (keys != nil) {
-            for (key) in  keys! {
-                let k: String = key as String
-                if (k.match("filtered")) {
-                    TFCDataStore.sharedInstance.setObject(favorite.userDefaults?.objectForKey(k), forKey: k)
-                }
-            }
-        }
-    }
-
-    private class func getFavoriteStationsDict() -> [String: [String: String]] {
-        var favoriteStationsShared: [String: [String: String]]? = favorite.userDefaults?.objectForKey("favoriteStations")? as [String: [String: String]]?
-
-        if (favoriteStationsShared == nil) {
-            favoriteStationsShared = [:]
-        }
-        return favoriteStationsShared!
-    }
-
-    /*** END OLD WAY TO STORE FAVS, can be removed some day ***/
-
 }
