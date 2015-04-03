@@ -175,7 +175,10 @@ public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerPro
             lastRefreshLocation = NSDate()
             isLoading = true
             stationsUpdateReply = completion
-            locManager?.refreshLocation()
+            dispatch_async(dispatch_get_main_queue(), {
+                self.locManager?.refreshLocation()
+                return
+            })
             return true
         }
         return false
@@ -183,6 +186,7 @@ public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerPro
 
     public func locationFixed(coord: CLLocationCoordinate2D?) {
         if (coord != nil) {
+            self.addNearbyFavorites((locManager?.currentLocation)!)
             self.api.searchFor(coord!)
         }
     }

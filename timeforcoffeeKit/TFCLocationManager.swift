@@ -56,6 +56,8 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
                 currentLocation = CLLocation(latitude: 47.386142, longitude: 8.529163)
                 locationManager.stopUpdatingLocation()
                 self.delegate.locationFixed(currentLocation?.coordinate)
+                //self.delegate.locationDenied(manager)
+                #else
                 self.delegate.locationDenied(manager)
                 #endif
             }
