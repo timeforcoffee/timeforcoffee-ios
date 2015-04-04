@@ -10,6 +10,8 @@ import Foundation
 import CoreLocation
 
 public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerProtocol {
+
+    private weak var delegate: TFCStationsUpdatedProtocol?
     var stations:[TFCStation]?
 
     //struct here, because "class var" is not yet supported
@@ -30,10 +32,14 @@ public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerPro
 
     private lazy var locManager: TFCLocationManager? = { return TFCLocationManager(delegate: self)}()
     private lazy var api : APIController = { return APIController(delegate: self)}()
-    private var stationsUpdateReply:stationsUpdatedClosure?
 
     public override init() {
         // can be removed, when everyone moved to the new way of storing favorites
+        favorite.s.repopulateFavorites()
+    }
+
+    public init(delegate: TFCStationsUpdatedProtocol) {
+        self.delegate = delegate
         favorite.s.repopulateFavorites()
     }
 
@@ -158,23 +164,21 @@ public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerPro
         }
     }
 
-    public func updateStations(completion:stationsUpdatedClosure, searchFor:String) -> Bool {
-        stationsUpdateReply = completion
+    public func updateStations(searchFor:String) -> Bool {
         isLoading = true
         self.api.searchFor(searchFor)
         return true
     }
 
-    public func updateStations(completion:stationsUpdatedClosure) -> Bool {
-        return updateStations(completion, force: false)
+    public func updateStations() -> Bool {
+        return updateStations(false)
     }
 
-    public func updateStations(completion:stationsUpdatedClosure, force: Bool) -> Bool {
+    public func updateStations(force: Bool) -> Bool {
         // dont refresh location within 5 seconds..
         if (force || lastRefreshLocation == nil || lastRefreshLocation?.timeIntervalSinceNow < -5) {
             lastRefreshLocation = NSDate()
             isLoading = true
-            stationsUpdateReply = completion
             dispatch_async(dispatch_get_main_queue(), {
                 self.locManager?.refreshLocation()
                 return
@@ -216,7 +220,9 @@ public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerPro
             self.empty()
         }
         self.networkErrorMsg = err
-        self.stationsUpdateReply!(err: self.networkErrorMsg)
+        if let dele = self.delegate {
+            dele.stationsUpdated(self.networkErrorMsg, favoritesOnly: false)
+        }
     }
 
     private func getReasonForNoStationFound() -> String? {
@@ -232,4 +238,8 @@ public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerPro
     }
     
 
+}
+
+public protocol TFCStationsUpdatedProtocol: class {
+    func stationsUpdated(error: String?, favoritesOnly: Bool)
 }

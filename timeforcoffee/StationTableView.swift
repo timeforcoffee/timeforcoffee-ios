@@ -11,10 +11,10 @@ import MapKit
 import timeforcoffeeKit
 import CoreLocation
 
-class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating {
+class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, TFCStationsUpdatedProtocol {
     
     var refreshControl:UIRefreshControl!
-    lazy var stations: TFCStations = {return TFCStations();}()
+    lazy var stations: TFCStations = {return TFCStations(delegate: self)}()
     var showFavorites: Bool?
     var stationsViewController: StationsViewController?
 
@@ -50,15 +50,14 @@ class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource,
             self.refreshControl.endRefreshing()
         } else {
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-            if (!self.stations.updateStations(stationsUpdated, force: force)) {
+            if (!self.stations.updateStations(force)) {
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 self.refreshControl.endRefreshing()
             }
         }
     }
 
-    func stationsUpdated(err: String?) {
-        NSLog("stationsUpdated \(err)")
+    func stationsUpdated(err: String?, favoritesOnly: Bool) {
         dispatch_async(dispatch_get_main_queue(), {
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             self.refreshControl.endRefreshing()
@@ -71,7 +70,7 @@ class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource,
         let strippedString = searchController.searchBar.text.stringByTrimmingCharactersInSet(whitespaceCharacterSet)
         if (strippedString != "") {
             stations.clear()
-            self.stations.updateStations(stationsUpdated, searchFor: strippedString)
+            self.stations.updateStations(strippedString)
         }
     }
 

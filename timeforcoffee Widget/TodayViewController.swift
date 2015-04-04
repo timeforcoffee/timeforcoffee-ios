@@ -11,7 +11,7 @@ import NotificationCenter
 import CoreLocation
 import timeforcoffeeKit
 
-class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate,  TFCDeparturesUpdatedProtocol {
+class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate,  TFCDeparturesUpdatedProtocol, TFCStationsUpdatedProtocol {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var appsTableView: UITableView!
     @IBOutlet weak var actionLabel: UIButton!
@@ -27,7 +27,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         return gtrack
     }()
 
-    lazy var stations: TFCStations? =  {return TFCStations()}()
+    lazy var stations: TFCStations? =  {return TFCStations(delegate: self)}()
 
     weak var currentStation: TFCStation?
 
@@ -113,11 +113,11 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         if (getLastUsedView() == "nearbyStations") {
             sendScreenNameToGA("todayviewNearby")
             showStations = true
-            stations?.updateStations(stationsUpdated)
+            stations?.updateStations()
         } else {
             sendScreenNameToGA("todayviewStation")
             if (lastViewedStation == nil) {
-                stations?.updateStations(stationsUpdated, force: false)
+                stations?.updateStations(false)
             }
             if (lastUsedViewUpdatedInterval() > -300) {
                 currentStation = lastViewedStation
@@ -167,16 +167,21 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             if (locManager?.currentLocation != nil) {
                 // if lastUsedView is a single station and we did look at it no longer than 30 minutes
                 // and the distance is not much more (200m), just show it again
-                if (currentStation == nil && lastUsedViewUpdatedInterval() > -(60 * 30)) {
-                    let distance2lastViewedStationNow: CLLocationDistance? = locManager?.currentLocation?.distanceFromLocation(lastViewedStation?.coord)
-                    let distance2lastViewedStationLasttime: CLLocationDistance? = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedStationDistance") as CLLocationDistance?
-                    if (distance2lastViewedStationNow != nil && distance2lastViewedStationLasttime != nil && distance2lastViewedStationNow! < distance2lastViewedStationLasttime! + 200) {
-                        currentStation = lastViewedStation
-                        if (currentStation != nil) {
-                            showStations = false
-                            displayDepartures()
+                if (currentStation == nil) {
+                    if (lastUsedViewUpdatedInterval() > -(60 * 30)) {
+                        let distance2lastViewedStationNow: CLLocationDistance? = locManager?.currentLocation?.distanceFromLocation(lastViewedStation?.coord)
+                        let distance2lastViewedStationLasttime: CLLocationDistance? = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedStationDistance") as CLLocationDistance?
+                        if (distance2lastViewedStationNow != nil && distance2lastViewedStationLasttime != nil && distance2lastViewedStationNow! < distance2lastViewedStationLasttime! + 200) {
+                            currentStation = lastViewedStation
+                            if (currentStation != nil) {
+                                showStations = false
+                                displayDepartures()
+                            }
                         }
+                    } else {
+                        stations?.updateStations()
                     }
+                    
                 }
             }
         }
@@ -206,7 +211,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             sendScreenNameToGA("todayviewStation")
         } else { // if (stations?.count() > 0) {
             showStations = true
-            stations?.updateStations(stationsUpdated, force: false)
+            stations?.updateStations(false)
             self.appsTableView?.reloadData()
             sendScreenNameToGA("todayviewMore")
         }
@@ -426,6 +431,10 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
 
     func departuresStillCached(context: Any?, forStation: TFCStation?) {
         // do nothing
+    }
+
+    func stationsUpdated(error: String?, favoritesOnly: Bool) {
+
     }
 
     func sendScreenNameToGA(screenname: String) {
