@@ -91,7 +91,7 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
         } else {
             let countBefore = newStation!.departures?.count
             if (countBefore > 0) {
-                newStation!.removeObseleteDepartures()
+                newStation!.removeObsoleteDepartures()
                 if (countBefore > newStation!.departures?.count) {
                     cache.setObject(newStation!, forKey: newStation!.st_id)
                 }
@@ -280,7 +280,7 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
     
     public func updateDepartures(completionDelegate: TFCDeparturesUpdatedProtocol?, force: Bool) {
 
-        removeObseleteDepartures()
+        removeObsoleteDepartures()
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
         var context: contextData = contextData()
 
@@ -329,7 +329,7 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
         self.departures = nil
     }
 
-    private func removeObseleteDepartures() {
+    private func removeObsoleteDepartures() {
         if (self.departures == nil) {
             return
         }
@@ -340,6 +340,10 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
             } else {
                 i++
             }
+        }
+
+        if (departures?.count == 0) {
+            clearDepartures()
         }
     }
 
