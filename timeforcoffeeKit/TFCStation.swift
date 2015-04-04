@@ -330,7 +330,7 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
     }
 
     private func removeObsoleteDepartures() {
-        if (self.departures == nil) {
+        if (self.departures == nil || self.departures?.count == 0) {
             return
         }
         var i = 0;

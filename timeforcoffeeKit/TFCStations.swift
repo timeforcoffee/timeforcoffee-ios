@@ -191,7 +191,7 @@ public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerPro
     public func locationFixed(loc: CLLocation?) {
         if let loc = loc {
             if (self.addNearbyFavorites(loc)) {
-                self.callStationsUpdatedDelegate(nil)
+                self.callStationsUpdatedDelegate(nil, favoritesOnly: true)
             }
             let coord = loc.coordinate
             self.api.searchFor(coord)
