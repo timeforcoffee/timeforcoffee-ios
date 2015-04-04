@@ -173,10 +173,12 @@ public class TFCDeparture: NSObject, NSCoding {
         var timestringAttr: NSMutableAttributedString?
         var timestring: String?
 
-        if (self.realtime != nil) {
-            realtimeStr = self.getShortDate(self.realtime!)
+        if let realtime = self.realtime {
+            realtimeStr = self.getShortDate(realtime)
         }
-        scheduledStr = self.getShortDate(self.scheduled!)
+        if let scheduled = self.scheduled {
+            scheduledStr = self.getShortDate(scheduled)
+        }
 
         // we do two different approaches here, since NSMutableAttributedString seems to
         // use a lot of memory for the today widget and it's only needed, when 
@@ -258,16 +260,14 @@ public class TFCDeparture: NSObject, NSCoding {
     }
     
     public func getDestinationWithSign(station: TFCStation?, unabridged: Bool) -> String {
-        if (station != nil) {
+        if let station = station {
             var destination: String = ""
-            let station2 = station!
-
             if (unabridged) {
                 destination = getDestination()
             } else {
-                destination = getDestination(station2)
+                destination = getDestination(station)
             }
-            if (station2.isFiltered(self)) {
+            if (station.isFiltered(self)) {
                 return "\(destination) ✗"
             }
             return destination

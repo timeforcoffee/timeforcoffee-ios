@@ -55,7 +55,10 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
                 NSLog("Set coordinates to Liip ZH...")
                 currentLocation = CLLocation(latitude: 47.386142, longitude: 8.529163)
                 locationManager.stopUpdatingLocation()
-                self.delegate.locationFixed(currentLocation?.coordinate)
+                self.delegate.locationFixed(currentLocation)
+                //self.delegate.locationDenied(manager)
+                #else
+                self.delegate.locationDenied(manager)
                 #endif
             }
         }
@@ -67,11 +70,12 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
             locationFixAchieved = true
             var locationArray = locations as NSArray
             var locationObj = locationArray.lastObject as CLLocation
-            coord = locationObj.coordinate
             currentLocation = locationObj;
+            self.delegate.locationFixed(currentLocation)
+        } else {
+            self.delegate.locationFixed(nil)
         }
         locationManager.stopUpdatingLocation()
-        self.delegate.locationFixed(coord)
 
     }
     
@@ -107,9 +111,10 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
     public class func getCurrentLocation() -> CLLocation? {
         return classvar.currentLocation
     }
-
 }
 
 public protocol TFCLocationManagerDelegate: class {
-    func locationFixed(coord: CLLocationCoordinate2D?)
+    func locationFixed(coord: CLLocation?)
+    func locationDenied(manager: CLLocationManager)
+
 }

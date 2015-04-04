@@ -50,16 +50,14 @@ class StationTableViewCell: UITableViewCell {
     func drawCell() {
         self.selectionStyle = UITableViewCellSelectionStyle.None;
         drawIcon()
-        let parent = self.superview?.superview as StationTableView
-        let locManager = parent.locManager
         StationNameLabel?.text = station.getName(false)
 
-        if (locManager?.currentLocation == nil) {
+        if ( TFCLocationManager.getCurrentLocation() == nil) {
             StationDescriptionLabel.text = ""
             return
         }
 
-        StationDescriptionLabel.text = station.getDistanceForDisplay(locManager?.currentLocation, completion: {
+        StationDescriptionLabel.text = station.getDistanceForDisplay( TFCLocationManager.getCurrentLocation(), completion: {
             text in
             if (text != nil) {
                 self.StationDescriptionLabel.text = text
