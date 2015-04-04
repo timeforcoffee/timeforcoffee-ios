@@ -113,12 +113,9 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         if (getLastUsedView() == "nearbyStations") {
             sendScreenNameToGA("todayviewNearby")
             showStations = true
-            stations?.updateStations()
         } else {
             sendScreenNameToGA("todayviewStation")
-            if (lastViewedStation == nil) {
-                stations?.updateStations(false)
-            }
+            showStations = false
             if (lastUsedViewUpdatedInterval() > -300) {
                 currentStation = lastViewedStation
                 if (currentStation != nil) {
@@ -129,28 +126,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             }
            locManager?.refreshLocation()
         }
-    }
-
-    func stationsUpdated(err: String?) {
-        dispatch_async(dispatch_get_main_queue(), {
-            // if we show a single station, but it's not determined which one
-            //  update the view
-            if (self.showStations == false && self.currentStation == nil) {
-                self.currentStation = self.stations?.getStation(self.currentStationIndex)
-                if (self.currentStation != nil) {
-                    self.titleLabel.text = self.currentStation?.getNameWithStarAndFilters()
-            /*        if (hasAlreadyFavouritesDisplayed == nil || hasAlreadyFavouritesDisplayed == 0) {
-                        self.displayDepartures()
-                    }*/
-                    self.displayDepartures()
-                    self.actionLabel.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-                } else {
-                    self.titleLabel.text = "Time for Coffee!"
-                    self.actionLabel.setTitleColor(UIColor.lightGrayColor(), forState: UIControlState.Normal)
-                }
-            }
-            self.appsTableView.reloadData()
-        })
+        stations?.updateStations()
     }
 
     override func lazyInitLocationManager() -> TFCLocationManager? {
@@ -178,10 +154,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                                 displayDepartures()
                             }
                         }
-                    } else {
-                        stations?.updateStations()
                     }
-                    
                 }
             }
         }
@@ -213,7 +186,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             showStations = true
             stations?.updateStations(false)
             self.appsTableView?.reloadData()
-            sendScreenNameToGA("todayviewMore")
+            sendScreenNameToGA("todayviewNearby")
         }
     }
 
@@ -434,7 +407,22 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     }
 
     func stationsUpdated(error: String?, favoritesOnly: Bool) {
-
+        dispatch_async(dispatch_get_main_queue(), {
+            // if we show a single station, but it's not determined which one
+            //   try to get one from the stations array
+            if (self.showStations == false && self.currentStation == nil) {
+                self.currentStation = self.stations?.getStation(self.currentStationIndex)
+                if (self.currentStation != nil) {
+                    self.titleLabel.text = self.currentStation?.getNameWithStarAndFilters()
+                    self.displayDepartures()
+                    self.actionLabel.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+                } else {
+                    self.titleLabel.text = "Time for Coffee!"
+                    self.actionLabel.setTitleColor(UIColor.lightGrayColor(), forState: UIControlState.Normal)
+                }
+            }
+            self.appsTableView.reloadData()
+        })
     }
 
     func sendScreenNameToGA(screenname: String) {

@@ -95,9 +95,9 @@ public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerPro
         }
     }
 
-    public func getStation(index: Int) -> TFCStation {
+    public func getStation(index: Int) -> TFCStation? {
         if (stations == nil || index + 1 > stations!.count) {
-            return TFCStation()
+            return nil
         }
         return stations![index]
     }
@@ -190,13 +190,15 @@ public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerPro
 
     public func locationFixed(coord: CLLocationCoordinate2D?) {
         if (coord != nil) {
-            self.addNearbyFavorites((locManager?.currentLocation)!)
+            if (self.addNearbyFavorites((locManager?.currentLocation)!)) {
+                self.callStationsUpdatedDelegate(nil)
+            }
             self.api.searchFor(coord!)
         }
     }
 
     public func locationDenied(manager: CLLocationManager) {
-        replyCompletion("Location not available")
+        callStationsUpdatedDelegate("Location not available")
     }
 
     public func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?) {
@@ -211,17 +213,23 @@ public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerPro
                     err = self.getReasonForNoStationFound()
                 }
             }
-            self.replyCompletion(err)
+            self.callStationsUpdatedDelegate(err)
         }
     }
 
-    private func replyCompletion(err: String?) {
-        if (!(self.stations?.count > 0)) {
-            self.empty()
-        }
-        self.networkErrorMsg = err
-        if let dele = self.delegate {
-            dele.stationsUpdated(self.networkErrorMsg, favoritesOnly: false)
+    private func callStationsUpdatedDelegate(err: String?) {
+        callStationsUpdatedDelegate(err, favoritesOnly: false)
+    }
+
+    private func callStationsUpdatedDelegate(err: String?, favoritesOnly: Bool) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            if (!(self.stations?.count > 0)) {
+                self.empty()
+            }
+            self.networkErrorMsg = err
+            if let dele = self.delegate {
+                dele.stationsUpdated(self.networkErrorMsg, favoritesOnly: favoritesOnly)
+            }
         }
     }
 

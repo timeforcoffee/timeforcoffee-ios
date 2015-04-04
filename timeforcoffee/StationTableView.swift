@@ -109,7 +109,9 @@ class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource,
 
 
         let station = self.stations.getStation(indexPath.row)
-        cell.station = station
+        if (station != nil) {
+            cell.station = station!
+        }
         cell.drawCell()
         return cell
     }
