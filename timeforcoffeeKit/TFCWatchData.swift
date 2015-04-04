@@ -38,10 +38,10 @@ public class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIControllerPr
     }
 
     /* USED FROM THE APP */
-    public func locationFixed(coord: CLLocationCoordinate2D?) {
+    public func locationFixed(loc: CLLocation?) {
         //do nothing here, you have to overwrite that
-        if (coord != nil) {
-            replyNearby!(["lat" : coord!.latitude, "long": coord!.longitude]);
+        if let coord = loc?.coordinate {
+            replyNearby!(["lat" : coord.latitude, "long": coord.longitude]);
         } else {
             replyNearby!(["coord" : "none"]);
         }
