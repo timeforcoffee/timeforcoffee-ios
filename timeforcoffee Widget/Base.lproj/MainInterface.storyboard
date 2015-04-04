@@ -68,8 +68,8 @@
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="IfH-9c-VDG" id="evy-VU-QI2">
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" tag="300" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Stk-Nb-fZC" userLabel="DepartureLabel">
-                                                            <rect key="frame" x="41" y="27" width="340" height="16"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="300" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Stk-Nb-fZC" userLabel="DepartureLabel">
+                                                            <rect key="frame" x="42" y="28" width="339" height="15.5"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                                                             <color key="textColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -84,14 +84,14 @@
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" tag="200" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Zürich" lineBreakMode="tailTruncation" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0fo-iq-xUL" userLabel="LineNameLabel">
-                                                            <rect key="frame" x="41" y="9" width="315" height="20"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="200" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Zürich" lineBreakMode="tailTruncation" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0fo-iq-xUL" userLabel="LineNameLabel">
+                                                            <rect key="frame" x="42" y="9" width="320" height="19.5"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="16"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" tag="400" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="0'" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="none" minimumFontSize="8" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kwG-MO-Vtz" userLabel="MinutesLabel">
-                                                            <rect key="frame" x="349" y="9" width="32" height="32"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="400" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0'" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="none" minimumFontSize="8" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kwG-MO-Vtz" userLabel="MinutesLabel">
+                                                            <rect key="frame" x="362" y="10" width="23" height="23"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" secondItem="kwG-MO-Vtz" secondAttribute="height" multiplier="1:1" id="4do-0k-tRQ"/>
                                                             </constraints>
@@ -103,15 +103,15 @@
                                                     <constraints>
                                                         <constraint firstItem="jpy-Ce-zrf" firstAttribute="top" secondItem="evy-VU-QI2" secondAttribute="top" constant="10" id="0oS-vu-tFf"/>
                                                         <constraint firstItem="0fo-iq-xUL" firstAttribute="leading" secondItem="jpy-Ce-zrf" secondAttribute="trailing" constant="10" id="3kI-lr-24m"/>
-                                                        <constraint firstItem="kwG-MO-Vtz" firstAttribute="width" secondItem="kwG-MO-Vtz" secondAttribute="height" multiplier="1:1" id="AOs-U7-MPV"/>
                                                         <constraint firstAttribute="trailingMargin" secondItem="Stk-Nb-fZC" secondAttribute="trailing" id="IOn-1Z-NbS"/>
                                                         <constraint firstItem="Stk-Nb-fZC" firstAttribute="leading" secondItem="jpy-Ce-zrf" secondAttribute="trailing" constant="10" id="Jcr-04-Co8"/>
                                                         <constraint firstItem="0fo-iq-xUL" firstAttribute="top" secondItem="jpy-Ce-zrf" secondAttribute="top" constant="-1" id="KSS-ag-sBy"/>
                                                         <constraint firstItem="jpy-Ce-zrf" firstAttribute="bottom" secondItem="Stk-Nb-fZC" secondAttribute="bottom" constant="-1" id="Mrr-hG-svo"/>
+                                                        <constraint firstItem="0fo-iq-xUL" firstAttribute="top" secondItem="kwG-MO-Vtz" secondAttribute="top" constant="-1" id="TGH-gh-Ltd"/>
                                                         <constraint firstItem="kwG-MO-Vtz" firstAttribute="leading" secondItem="0fo-iq-xUL" secondAttribute="trailing" id="Wmj-QI-DxE"/>
                                                         <constraint firstItem="jpy-Ce-zrf" firstAttribute="leading" secondItem="evy-VU-QI2" secondAttribute="leading" id="r7m-9a-I82"/>
                                                         <constraint firstItem="jpy-Ce-zrf" firstAttribute="bottom" secondItem="evy-VU-QI2" secondAttribute="bottom" constant="-10" id="wc0-dv-tDY"/>
-                                                        <constraint firstAttribute="trailingMargin" secondItem="kwG-MO-Vtz" secondAttribute="trailing" id="yDo-r6-2CB"/>
+                                                        <constraint firstAttribute="trailingMargin" secondItem="kwG-MO-Vtz" secondAttribute="trailing" constant="-4" id="yDo-r6-2CB"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
                                             </tableViewCell>
@@ -122,7 +122,7 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="300" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WOc-us-lJS" userLabel="StationsDestinationLabel">
-                                                            <rect key="frame" x="60" y="27" width="296" height="16"/>
+                                                            <rect key="frame" x="60" y="27" width="296" height="15.5"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                                                             <color key="textColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -138,13 +138,13 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="200" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Zürich" lineBreakMode="tailTruncation" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lZC-zq-jz4" userLabel="StationNameLabel">
-                                                            <rect key="frame" x="41" y="9" width="317" height="20"/>
+                                                            <rect key="frame" x="41" y="9" width="317" height="19.5"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="16"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" tag="400" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="0'" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="none" minimumFontSize="8" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bqq-pe-hom" userLabel="StationMinutesLabel">
-                                                            <rect key="frame" x="349" y="27" width="32" height="16"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="400" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0'" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="none" minimumFontSize="8" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bqq-pe-hom" userLabel="StationMinutesLabel">
+                                                            <rect key="frame" x="365.5" y="27.5" width="15.5" height="15.5"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" secondItem="Bqq-pe-hom" secondAttribute="height" multiplier="1:1" id="07j-CN-v8L"/>
                                                             </constraints>
@@ -164,11 +164,11 @@
                                                         <constraint firstAttribute="trailingMargin" secondItem="lZC-zq-jz4" secondAttribute="trailing" constant="23" id="BeQ-Kz-jri"/>
                                                         <constraint firstItem="VXV-Hc-mO4" firstAttribute="leading" secondItem="UWl-Z7-P6R" secondAttribute="leading" constant="41" id="Jnf-yn-3e8"/>
                                                         <constraint firstItem="lZC-zq-jz4" firstAttribute="leading" secondItem="VXV-Hc-mO4" secondAttribute="trailing" constant="-15" id="UHx-F4-UDU"/>
-                                                        <constraint firstItem="Bqq-pe-hom" firstAttribute="width" secondItem="Bqq-pe-hom" secondAttribute="height" multiplier="1:1" id="Ubk-Gp-u6P"/>
                                                         <constraint firstItem="VXV-Hc-mO4" firstAttribute="bottom" secondItem="UWl-Z7-P6R" secondAttribute="bottom" constant="-8" id="ZcR-1S-gbT"/>
                                                         <constraint firstItem="VXV-Hc-mO4" firstAttribute="top" secondItem="UWl-Z7-P6R" secondAttribute="top" constant="28" id="lvL-b9-5Ml"/>
                                                         <constraint firstItem="WOc-us-lJS" firstAttribute="leading" secondItem="VXV-Hc-mO4" secondAttribute="trailing" constant="4" id="meC-a0-S3O"/>
                                                         <constraint firstAttribute="trailingMargin" secondItem="WOc-us-lJS" secondAttribute="trailing" constant="25" id="rVG-gg-Npl"/>
+                                                        <constraint firstItem="WOc-us-lJS" firstAttribute="top" secondItem="Bqq-pe-hom" secondAttribute="top" id="yT3-Tu-3B9"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
                                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>

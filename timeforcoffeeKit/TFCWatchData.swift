@@ -47,6 +47,10 @@ public class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIControllerPr
         }
     }
 
+    public func locationDenied(manager: CLLocationManager) {
+
+    }
+
     public func getLocation(reply: replyClosure?) {
         // this is a not so nice way to get the reply Closure to later when we actually have
         // the data from the API... (in locationFixed)

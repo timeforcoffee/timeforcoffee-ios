@@ -21,4 +21,8 @@ public class TFCBaseViewController: UIViewController, TFCLocationManagerDelegate
         //do nothing here, you have to overwrite that
     }
 
+    public func locationDenied(manager: CLLocationManager) {
+    }
+
+
 }

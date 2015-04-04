@@ -62,7 +62,6 @@ public class APIController {
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             if (cacheKey != nil && self.cache.objectForKey(cacheKey!) != nil) {
-                NSLog("diskByteCount apicalls: \(self.cache.diskByteCount)")
                 let result = JSONValue(self.cache.objectForKey(cacheKey!) as NSData!);
                 self.delegate?.didReceiveAPIResults(result, error: nil, context: context)
             } else {
@@ -76,8 +75,6 @@ public class APIController {
                 }
                 
                 let session2 = TFCURLSession.sharedInstance.session
-/*                var cachePolicy = NSURLRequestCachePolicy.UseProtocolCachePolicy
-                let request = NSURLRequest(URL: url, cachePolicy: cachePolicy, timeoutInterval: 10.0)*/
                 dataFetch = session2.dataTaskWithURL(url, completionHandler: {data , response, error -> Void in
 
                     NSLog("Task completed")

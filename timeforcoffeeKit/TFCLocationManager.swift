@@ -56,6 +56,9 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
                 currentLocation = CLLocation(latitude: 47.386142, longitude: 8.529163)
                 locationManager.stopUpdatingLocation()
                 self.delegate.locationFixed(currentLocation?.coordinate)
+                //self.delegate.locationDenied(manager)
+                #else
+                self.delegate.locationDenied(manager)
                 #endif
             }
         }
@@ -90,7 +93,6 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
                 locationStatus = "Allowed to location Access"
                 shouldIAllow = true
             }
-            NSNotificationCenter.defaultCenter().postNotificationName("LabelHasbeenUpdated", object: nil)
             if (shouldIAllow == true) {
                 NSLog("Location is allowed")
                 // Start location services
@@ -108,24 +110,10 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
     public class func getCurrentLocation() -> CLLocation? {
         return classvar.currentLocation
     }
-
-    public func getReasonForNoStationFound(networkErrorMsg: String?) -> String {
-        var text = ""
-        if (networkErrorMsg != nil) {
-            return networkErrorMsg!
-        } else {
-            if let distanceFromSwitzerland = self.currentLocation?.distanceFromLocation(CLLocation(latitude: 47, longitude: 8)) {
-                if (distanceFromSwitzerland > 1000000) {
-                    return "Not in Switzerland?"
-                }
-            }
-        }
-        return ""
-
-    }
-
 }
 
 public protocol TFCLocationManagerDelegate: class {
     func locationFixed(coord: CLLocationCoordinate2D?)
+    func locationDenied(manager: CLLocationManager)
+
 }
