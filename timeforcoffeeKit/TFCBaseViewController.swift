@@ -17,7 +17,7 @@ public class TFCBaseViewController: UIViewController, TFCLocationManagerDelegate
         return TFCLocationManager(delegate: self)
     }
     
-    public func locationFixed(coord: CLLocationCoordinate2D?) {
+    public func locationFixed(coord: CLLocation?) {
         //do nothing here, you have to overwrite that
     }
 

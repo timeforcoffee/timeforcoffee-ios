@@ -137,7 +137,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         return super.lazyInitLocationManager()
     }
 
-    override func locationFixed(coord: CLLocationCoordinate2D?) {
+    override func locationFixed(coord: CLLocation?) {
         NSLog("locationFixed")
         if (coord != nil) {
             if (locManager?.currentLocation != nil) {

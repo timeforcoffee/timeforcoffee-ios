@@ -188,12 +188,13 @@ public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerPro
         return false
     }
 
-    public func locationFixed(coord: CLLocationCoordinate2D?) {
-        if (coord != nil) {
-            if (self.addNearbyFavorites((locManager?.currentLocation)!)) {
+    public func locationFixed(loc: CLLocation?) {
+        if let loc = loc {
+            if (self.addNearbyFavorites(loc)) {
                 self.callStationsUpdatedDelegate(nil)
             }
-            self.api.searchFor(coord!)
+            let coord = loc.coordinate
+            self.api.searchFor(coord)
         }
     }
 

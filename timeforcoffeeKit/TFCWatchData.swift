@@ -33,11 +33,11 @@ public class TFCWatchData: NSObject, APIControllerProtocol, TFCLocationManagerDe
         return TFCLocationManager(delegate: self)
     }
     
-    public func locationFixed(coord: CLLocationCoordinate2D?) {
+    public func locationFixed(loc: CLLocation?) {
         //do nothing here, you have to overwrite that
-        if (coord != nil) {
-            self.stations.addNearbyFavorites((locManager?.currentLocation)!)
-            self.api?.searchFor(coord!)
+        if let coord = loc?.coordinate {
+            self.stations.addNearbyFavorites(loc!)
+            self.api?.searchFor(coord)
         } else {
             if (replyNearby != nil) {
                 replyNearby!(["error" : "no coordinates delivered"]);
