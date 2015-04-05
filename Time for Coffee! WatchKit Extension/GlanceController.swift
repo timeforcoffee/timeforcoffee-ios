@@ -19,15 +19,12 @@ class GlanceController: WKInterfaceController {
     @IBOutlet weak var depatureLabel: WKInterfaceLabel!
     @IBOutlet weak var numberLabel: WKInterfaceLabel!
     
-    var networkErrorMsg: String?
-    
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
         
         // Configure interface objects here.
         println("are we here??")
     }
-    
     
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
