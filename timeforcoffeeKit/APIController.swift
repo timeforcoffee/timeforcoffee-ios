@@ -83,6 +83,7 @@ public class APIController {
                             let newcounter = counter + 1
                             NSLog("Retry #\(newcounter) fetching \(urlPath)")
                             // don't do it more than 5 times
+                            self.delegate?.didReceiveAPIResults(JSONValue(nil), error: error, context: context)
                             if (newcounter <= 5) {
                                 self.fetchUrl(urlPath, fetchId: fetchId, context: context, cacheKey: cacheKey, counter: newcounter)
                             }
@@ -91,7 +92,6 @@ public class APIController {
                     if (fetchId == 1) {
                         self.currentFetch[fetchId] = nil
                     }
-                    var err: NSError?
                     let jsonResult = JSONValue(data)
                     //jsonResult.boolValue is false, when data was not parseable. Don't cache it in that case
                     if (jsonResult.boolValue == true && error == nil && cacheKey != nil) {
