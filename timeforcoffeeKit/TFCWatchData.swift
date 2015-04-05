@@ -64,8 +64,7 @@ public class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIControllerPr
         func handleReply(replyInfo: [NSObject : AnyObject]!, error: NSError!) {
             if(replyInfo["lat"] != nil) {
                 let loc = CLLocation(latitude: replyInfo["lat"] as Double, longitude: replyInfo["long"] as Double)
-                self.stations?.clear()
-                self.stations?.addNearbyFavorites(loc)
+                self.stations?.initWithNearbyFavorites(loc)
                 if (stopWithFavorites == true && self.stations?.count() > 0 ) {
                     reply(self.stations?)
                     return
@@ -84,7 +83,7 @@ public class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIControllerPr
                 self.networkErrorMsg = nil
             }
             if (TFCStation.isStations(results)) {
-                self.stations?.addWithJSON(results, append: true)
+                self.stations?.addWithJSON(results)
             }
             if let reply:replyStations = context as? replyStations {
                 reply(self.stations)
