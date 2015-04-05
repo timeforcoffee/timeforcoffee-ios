@@ -46,7 +46,11 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                     setLastUsedView()
                 }
                 actionLabel.setTitle("Stations", forState: UIControlState.Normal)
-                titleLabel.text = currentStation?.getNameWithStarAndFilters()
+                if let stationName = currentStation?.getNameWithStarAndFilters() {
+                    titleLabel.text = currentStation?.getNameWithStarAndFilters()
+                } else {
+                    titleLabel.text = "Time for Coffee"
+                }
             }
             actionLabel.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         }
