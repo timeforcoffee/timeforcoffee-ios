@@ -36,7 +36,7 @@ public class TFCWatchData: NSObject, APIControllerProtocol, TFCLocationManagerDe
     public func locationFixed(loc: CLLocation?) {
         //do nothing here, you have to overwrite that
         if let coord = loc?.coordinate {
-            self.stations.addNearbyFavorites(loc!)
+            self.stations.initWithNearbyFavorites(loc!)
             self.api?.searchFor(coord)
         } else {
             if (replyNearby != nil) {
@@ -59,7 +59,6 @@ public class TFCWatchData: NSObject, APIControllerProtocol, TFCLocationManagerDe
         // this is a not so nice way to get the reply Closure to later when we actually have
         // the data from the API... (in locationFixed)
         self.replyNearby = reply
-        self.stations?.clear()
         locManager?.refreshLocation()
     }
     
@@ -87,7 +86,7 @@ public class TFCWatchData: NSObject, APIControllerProtocol, TFCLocationManagerDe
 
             if (TFCStation.isStations(results)) {
                 self.stations.loadFavorites(self.locManager?.currentLocation)
-                self.stations.addWithJSON(results, append: true)
+                self.stations.addWithJSON(results)
 
                 if (self.replyNearby != nil) {
                     var stationsReply: [NSDictionary] = []

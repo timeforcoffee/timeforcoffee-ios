@@ -78,6 +78,11 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     override init(coder aDecoder: NSCoder) {
         NSLog("init")
         super.init(coder: aDecoder)
+        if (getLastUsedView() == "nearbyStations") {
+            showStations = true
+        } else {
+            showStations = false
+        }
         TFCDataStore.sharedInstance.registerForNotifications()
         TFCDataStore.sharedInstance.synchronize()
     }

@@ -12,12 +12,27 @@ import CoreLocation
 public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerProtocol {
 
     private weak var delegate: TFCStationsUpdatedProtocol?
-    var stations:[TFCStation]?
+
+    var stations:[TFCStation]? {
+        get {
+
+            if  let nearbyFavorites = nearbyFavorites {
+                if let _stations = _stations {
+                    return nearbyFavorites + _stations
+                }
+                return nearbyFavorites
+            }
+            return _stations
+        }
+    }
+
+    private var _stations:[TFCStation]?
+    private var nearbyFavorites:[TFCStation]?
+    private var inStationsArray: [String: Bool] = [:]
 
     //struct here, because "class var" is not yet supported
     private struct favorite {
         static var s: TFCFavorites = TFCFavorites.sharedInstance
-        static var inStationsArray: [String: Bool] = [:]
         static var userDefaults: NSUserDefaults? = TFCDataStore.sharedInstance.getUserDefaults()
     }
 
@@ -44,35 +59,26 @@ public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerPro
     }
 
     public func count() -> Int? {
-        if (stations == nil) {
-            return nil
+        if let stations = stations {
+            return stations.count
         }
-        return stations!.count
+        return nil
     }
 
-    public func clear() {
-        stations = nil
-    }
     public func empty() {
-        stations = []
+        _stations = []
+        nearbyFavorites = []
     }
 
     public func addWithJSON(allResults: JSONValue) {
-        addWithJSON(allResults, append: false)
-    }
-
-    public func addWithJSON(allResults: JSONValue, append: Bool) {
-        if (!append || stations == nil) {
-            stations = []
-            favorite.inStationsArray = [:]
-        }
         // Create an empty array of Albums to append to from this list
         // Store the results in our table data array
         if allResults["stations"].array?.count>0 {
+            _stations = []
             if let results = allResults["stations"].array {
                 for result in results {
                     var id = String(result["id"].integer!)
-                    if (favorite.inStationsArray[id] == nil) {
+                    if (inStationsArray[id] == nil) {
                         var name = result["name"].string
                         var longitude: Double? = nil
                         var latitude: Double? = nil
@@ -88,7 +94,7 @@ public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerPro
                             Clocation = CLLocation(latitude: latitude!, longitude: longitude!)
                         }
                         var newStation = TFCStation.initWithCache(name!, id: id, coord: Clocation)
-                        stations!.append(newStation)
+                        _stations!.append(newStation)
                     }
                 }
             }
@@ -109,11 +115,9 @@ public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerPro
         return false
     }
 
-    public func addNearbyFavorites(location: CLLocation) -> Bool {
-        if (self.stations == nil) {
-            self.stations = []
-            favorite.inStationsArray = [:]
-        }
+    public func initWithNearbyFavorites(location: CLLocation) -> Bool {
+        self.nearbyFavorites = []
+        inStationsArray = [:]
         var hasNearbyFavs = false
         var removeFromFavorites: [String] = []
         var favDistance = 1000.0
@@ -125,10 +129,10 @@ public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerPro
             var distance = location.distanceFromLocation(station.coord)
             if (distance < favDistance) {
                 hasNearbyFavs = true
-                if (favorite.inStationsArray[station.st_id] != true) {
+                if (inStationsArray[station.st_id] != true) {
                     station.calculatedDistance = Int(distance)
-                    self.stations!.append(station)
-                    favorite.inStationsArray[station.st_id] = true
+                    self.nearbyFavorites!.append(station)
+                    inStationsArray[station.st_id] = true
                 }
             } else {
                 removeFromFavorites.append(st_id)
@@ -140,9 +144,10 @@ public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerPro
         }
 
         if (hasNearbyFavs) {
-            self.stations!.sort({ $0.calculatedDistance < $1.calculatedDistance })
+            self.nearbyFavorites!.sort({ $0.calculatedDistance < $1.calculatedDistance })
             return true
         }
+        self.nearbyFavorites = nil
         return false
     }
 
@@ -151,16 +156,17 @@ public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerPro
     }
 
     public func loadFavorites(location: CLLocation?) {
-        self.stations = []
+        self._stations = []
+        TFCFavorites.sharedInstance.repopulateFavorites()
         for (st_id, station) in favorite.s.stations {
             if (location != nil) {
                 let distance = Int(location?.distanceFromLocation(station.coord) as Double!)
                 station.calculatedDistance = distance
             }
-            self.stations?.append(station)
+            self._stations?.append(station)
         }
         if (location != nil) {
-            self.stations!.sort({ $0.calculatedDistance < $1.calculatedDistance })
+            self._stations!.sort({ $0.calculatedDistance < $1.calculatedDistance })
         }
     }
 
@@ -190,8 +196,8 @@ public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerPro
 
     public func locationFixed(loc: CLLocation?) {
         if let loc = loc {
-            if (self.addNearbyFavorites(loc)) {
-                self.callStationsUpdatedDelegate(nil)
+            if (self.initWithNearbyFavorites(loc)) {
+                self.callStationsUpdatedDelegate(nil, favoritesOnly: true)
             }
             let coord = loc.coordinate
             self.api.searchFor(coord)
