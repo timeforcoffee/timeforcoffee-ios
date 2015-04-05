@@ -313,6 +313,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             }
 
             let station = self.stations?.getStation(indexPath.row)
+            station?.updateDepartures(self)
             let departures = station?.getFilteredDepartures(1)
             let firstDeparture = departures?.first
             let iconLabel = cell.viewWithTag(500) as UIImageView
@@ -332,7 +333,6 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                 minutesLabel.text = nil
                 departureLabel.text = nil
             }
-            station?.updateDepartures(self)
             cell.userInteractionEnabled = true
             return cell
         }
