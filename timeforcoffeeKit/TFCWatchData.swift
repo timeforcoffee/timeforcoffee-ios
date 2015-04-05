@@ -18,34 +18,37 @@ public class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIControllerPr
         }
         return Static.instance
     }
-    var networkErrorMsg: String?
+    private var networkErrorMsg: String?
 
-    var replyNearby: replyClosure?
-    lazy var stations: TFCStations? =  {return TFCStations()}()
-    lazy var locManager: TFCLocationManager? = self.lazyInitLocationManager()
+    private var replyNearby: replyClosure?
+    private lazy var stations: TFCStations? =  {return TFCStations()}()
+    private lazy var locManager: TFCLocationManager? = self.lazyInitLocationManager()
 
-    lazy var api : APIController? = {
+    private lazy var api : APIController? = {
         [unowned self] in
         return APIController(delegate: self)
         }()
-
 
     public override init () {
         super.init()
     }
     
-    func lazyInitLocationManager() -> TFCLocationManager? {
+    private func lazyInitLocationManager() -> TFCLocationManager? {
         return TFCLocationManager(delegate: self)
     }
 
     /* USED FROM THE APP */
-    public func locationFixed(coord: CLLocationCoordinate2D?) {
+    public func locationFixed(loc: CLLocation?) {
         //do nothing here, you have to overwrite that
-        if (coord != nil) {
-            replyNearby!(["lat" : coord!.latitude, "long": coord!.longitude]);
+        if let coord = loc?.coordinate {
+            replyNearby!(["lat" : coord.latitude, "long": coord.longitude]);
         } else {
             replyNearby!(["coord" : "none"]);
         }
+    }
+
+    public func locationDenied(manager: CLLocationManager) {
+
     }
 
     public func getLocation(reply: replyClosure?) {
@@ -61,8 +64,7 @@ public class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIControllerPr
         func handleReply(replyInfo: [NSObject : AnyObject]!, error: NSError!) {
             if(replyInfo["lat"] != nil) {
                 let loc = CLLocation(latitude: replyInfo["lat"] as Double, longitude: replyInfo["long"] as Double)
-                self.stations?.clear()
-                self.stations?.addNearbyFavorites(loc)
+                self.stations?.initWithNearbyFavorites(loc)
                 if (stopWithFavorites == true && self.stations?.count() > 0 ) {
                     reply(self.stations?)
                     return
@@ -81,7 +83,7 @@ public class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIControllerPr
                 self.networkErrorMsg = nil
             }
             if (TFCStation.isStations(results)) {
-                self.stations?.addWithJSON(results, append: true)
+                self.stations?.addWithJSON(results)
             }
             if let reply:replyStations = context as? replyStations {
                 reply(self.stations)

@@ -90,12 +90,14 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
 
         nameLabel.text = self.station?.name
         let currentLocation = TFCLocationManager.getCurrentLocation()
-        self.distanceLabel.text = self.station?.getDistanceForDisplay(currentLocation, completion: {
-            text in
-            if (text != nil) {
-                self.distanceLabel.text = text
-            }
-        })
+        if (self.station?.coord != nil) {
+            self.distanceLabel.text = self.station?.getDistanceForDisplay(currentLocation, completion: {
+                text in
+                if (text != nil) {
+                    self.distanceLabel.text = text
+                }
+            })
+        }
 
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         self.refreshControl = UIRefreshControl()
@@ -154,8 +156,6 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     }
 
     override func viewDidDisappear(animated: Bool) {
-        //fixme, station should stay in NSCache, and especially departures
-//        station?.clearDepartures ()
         station = nil
         self.navigationController?.interactivePopGestureRecognizer.delegate = gestureRecognizer
         NSNotificationCenter.defaultCenter().removeObserver(self)
@@ -465,15 +465,13 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     func displayDepartures() {
         if (self.station != nil) {
             updateInAMinute()
-            self.station?.removeObseleteDepartures()
-            self.appsTableView?.reloadData()
             self.station?.updateDepartures(self)
+            self.appsTableView?.reloadData()
         }
     }
 
     internal func setStation(station: TFCStation) {
         self.station = station
-       // self.station?.clearDepartures()
     }
 
     func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?) {
@@ -533,7 +531,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
                 return cell
             }
             lineNumberLabel.hidden = false
-            let departure: TFCDeparture = station2.getDepartures()![indexPath.row]
+            let departure: TFCDeparture = departures![indexPath.row]
             
             var unabridged = false
             if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {

@@ -12,10 +12,6 @@ import timeforcoffeeKit
 
 class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol {
     @IBOutlet weak var stationsTable: WKInterfaceTable!
-    var stationName: String = ""
-    var stationId: String = ""
-    var data2: Int = 1
-    var stationInfo: AnyObject?
     var station: TFCStation?
     
     override init () {
@@ -34,9 +30,8 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         super.willActivate()
         NSLog("willActivate page")
         self.setTitle(station?.getName(true))
-        station?.removeObseleteDepartures()
+        station?.updateDepartures(self)
         self.displayDepartures(station)
-        station?.updateDepartures(self, maxDepartures: 10)
     }
 
     func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?) {
@@ -47,24 +42,38 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         if (station == nil) {
             return
         }
-        let departures = station?.getDepartures()
+        let departures = station?.getFilteredDepartures(10)
         var i = 0;
         if let departures2 = departures {
             stationsTable.setNumberOfRows(departures2.count, withRowType: "station")
             for (deptstation) in departures2 {
-                let sr = stationsTable.rowControllerAtIndex(i) as StationRow?
-                let to = deptstation.getDestination(station!)
-                let name = deptstation.getLine()                // doesn't work yet  with the font;(
-                let helvetica = UIFont(name: "HelveticaNeue-Bold", size: 18.0)!
-                var fontAttrs = [NSFontAttributeName : helvetica]
-                var attrString = NSAttributedString(string: name, attributes: fontAttrs)
-                sr?.numberLabel.setAttributedText(attrString)
-                sr?.destinationLabel.setText(to)
-                sr?.depatureLabel.setText(deptstation.getTimeString())
-                sr?.minutesLabel.setText(deptstation.getMinutes())
-                if (deptstation.colorBg != nil) {
-                    sr?.numberGroup.setBackgroundColor(UIColor(netHexString:(deptstation.colorBg)!))
-                    sr?.numberLabel.setTextColor(UIColor(netHexString:(deptstation.colorFg)!))
+                if let sr = stationsTable.rowControllerAtIndex(i) as StationRow? {
+                    let to = deptstation.getDestination(station!)
+                    let name = deptstation.getLine()                // doesn't work yet  with the font;(
+                    let helvetica = UIFont(name: "HelveticaNeue-Bold", size: 18.0)!
+                    var fontAttrs = [NSFontAttributeName : helvetica]
+                    var attrString = NSAttributedString(string: name, attributes: fontAttrs)
+                    if let numberLabel = sr.numberLabel {
+                        numberLabel.setAttributedText(attrString)
+                    }
+                    if let label = sr.destinationLabel {
+                        label.setText(to)
+                    }
+                    if let label = sr.depatureLabel {
+                        label.setText(deptstation.getTimeString())
+                    }
+                    if let label = sr.minutesLabel {
+                        label.setText(deptstation.getMinutes())
+                    }
+                    if (deptstation.colorBg != nil) {
+                        if let group = sr.numberGroup {
+                            group.setBackgroundColor(UIColor(netHexString:(deptstation.colorBg)!))
+                        }
+                        if let label = sr.numberLabel {
+                            label.setTextColor(UIColor(netHexString:(deptstation.colorFg)!))
+                        }
+                    }
+
                 }
                 i++
             }

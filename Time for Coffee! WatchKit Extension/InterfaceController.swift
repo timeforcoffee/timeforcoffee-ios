@@ -38,7 +38,7 @@ class InterfaceController: WKInterfaceController {
                 pages.append("StationPage")
                 pageContexts.append(station)
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
-                    station.updateDepartures(nil, maxDepartures: 10)
+                    station.updateDepartures(nil)
                     return
                 }
             }

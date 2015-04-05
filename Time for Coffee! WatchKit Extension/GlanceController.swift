@@ -19,8 +19,6 @@ class GlanceController: WKInterfaceController {
     @IBOutlet weak var depatureLabel: WKInterfaceLabel!
     @IBOutlet weak var numberLabel: WKInterfaceLabel!
     
-    var networkErrorMsg: String?
-    
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
         
@@ -28,15 +26,14 @@ class GlanceController: WKInterfaceController {
         println("are we here??")
     }
     
-    
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
         
         super.willActivate()
         func handleReply(stations: TFCStations?) {
             for (station) in stations! {
-                station.removeObseleteDepartures()
-                let departures = station.getDepartures()
+                station.updateDepartures(nil)
+                let departures = station.getFilteredDepartures()
                 if(departures?.count > 0) {
                     //todo only ask for one depature
                     if let firstDepature = departures?[0] {

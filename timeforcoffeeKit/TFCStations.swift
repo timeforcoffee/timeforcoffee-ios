@@ -9,47 +9,76 @@
 import Foundation
 import CoreLocation
 
-public class TFCStations: SequenceType {
-    var stations:[TFCStation]?
+public class TFCStations: SequenceType, TFCLocationManagerDelegate, APIControllerProtocol {
+
+    private weak var delegate: TFCStationsUpdatedProtocol?
+
+    var stations:[TFCStation]? {
+        get {
+
+            if  let nearbyFavorites = nearbyFavorites {
+                if let _stations = _stations {
+                    return nearbyFavorites + _stations
+                }
+                return nearbyFavorites
+            }
+            return _stations
+        }
+    }
+
+    private var _stations:[TFCStation]?
+    private var nearbyFavorites:[TFCStation]?
+    private var inStationsArray: [String: Bool] = [:]
 
     //struct here, because "class var" is not yet supported
     private struct favorite {
         static var s: TFCFavorites = TFCFavorites.sharedInstance
-        static var inStationsArray: [String: Bool] = [:]
-        static var userDefaults: NSUserDefaults? =  NSUserDefaults(suiteName: "group.ch.liip.timeforcoffee")
+        static var userDefaults: NSUserDefaults? = TFCDataStore.sharedInstance.getUserDefaults()
     }
+
+    public var networkErrorMsg: String?
+    public var isLoading: Bool = false {
+        didSet { if (isLoading == true) {
+                self.networkErrorMsg = nil
+            }
+        }
+    }
+    private var lastRefreshLocation: NSDate?
+
+    private lazy var locManager: TFCLocationManager? = { return TFCLocationManager(delegate: self)}()
+    private lazy var api : APIController = { return APIController(delegate: self)}()
 
     public init() {
         // can be removed, when everyone moved to the new way of storing favorites
-        populateFavoriteStationsOld()
+        favorite.s.repopulateFavorites()
+    }
+
+    public init(delegate: TFCStationsUpdatedProtocol) {
+        self.delegate = delegate
         favorite.s.repopulateFavorites()
     }
 
     public func count() -> Int? {
-        if (stations == nil) {
-            return nil
+        if let stations = stations {
+            return stations.count
         }
-        return stations!.count
+        return nil
+    }
+
+    public func empty() {
+        _stations = []
+        nearbyFavorites = []
     }
 
     public func addWithJSON(allResults: JSONValue) {
-        addWithJSON(allResults, append: false)
-    }
-    public func clear () {
-        stations = nil
-    }
-    public func addWithJSON(allResults: JSONValue, append: Bool) {
-        if (!append || stations == nil) {
-            stations = []
-            favorite.inStationsArray = [:]
-        }
         // Create an empty array of Albums to append to from this list
         // Store the results in our table data array
         if allResults["stations"].array?.count>0 {
+            _stations = []
             if let results = allResults["stations"].array {
                 for result in results {
                     var id = String(result["id"].integer!)
-                    if (favorite.inStationsArray[id] == nil) {
+                    if (inStationsArray[id] == nil) {
                         var name = result["name"].string
                         var longitude: Double? = nil
                         var latitude: Double? = nil
@@ -65,36 +94,30 @@ public class TFCStations: SequenceType {
                             Clocation = CLLocation(latitude: latitude!, longitude: longitude!)
                         }
                         var newStation = TFCStation.initWithCache(name!, id: id, coord: Clocation)
-                        stations!.append(newStation)
+                        _stations!.append(newStation)
                     }
                 }
             }
         }
     }
 
-    public func getStation(index: Int) -> TFCStation {
+    public func getStation(index: Int) -> TFCStation? {
         if (stations == nil || index + 1 > stations!.count) {
-            return TFCStation()
+            return nil
         }
         return stations![index]
     }
 
-    public class func getStationById(st_id: String) -> TFCStation {
-        return TFCStation(name: "", id: st_id, coord: nil)
-    }
-
-    public class func isFavoriteStation(index: String) -> Bool {
+    class func isFavoriteStation(index: String) -> Bool {
         if (favorite.s.stations[index] != nil) {
             return true
         }
         return false
     }
 
-    public func addNearbyFavorites(location: CLLocation) -> Bool {
-        if (self.stations == nil) {
-            self.stations = []
-            favorite.inStationsArray = [:]
-        }
+    public func initWithNearbyFavorites(location: CLLocation) -> Bool {
+        self.nearbyFavorites = []
+        inStationsArray = [:]
         var hasNearbyFavs = false
         var removeFromFavorites: [String] = []
         var favDistance = 1000.0
@@ -106,10 +129,10 @@ public class TFCStations: SequenceType {
             var distance = location.distanceFromLocation(station.coord)
             if (distance < favDistance) {
                 hasNearbyFavs = true
-                if (favorite.inStationsArray[station.st_id] != true) {
+                if (inStationsArray[station.st_id] != true) {
                     station.calculatedDistance = Int(distance)
-                    self.stations!.append(station)
-                    favorite.inStationsArray[station.st_id] = true
+                    self.nearbyFavorites!.append(station)
+                    inStationsArray[station.st_id] = true
                 }
             } else {
                 removeFromFavorites.append(st_id)
@@ -121,95 +144,128 @@ public class TFCStations: SequenceType {
         }
 
         if (hasNearbyFavs) {
-            self.stations!.sort({ $0.calculatedDistance < $1.calculatedDistance })
+            self.nearbyFavorites!.sort({ $0.calculatedDistance < $1.calculatedDistance })
             return true
         }
+        self.nearbyFavorites = nil
         return false
     }
 
-    public class func setFavoriteStation(station: TFCStation) {
-        station.setFavorite()
+    public func loadFavorites() {
+        loadFavorites(locManager?.currentLocation)
     }
 
-
-    
     public func loadFavorites(location: CLLocation?) {
-        self.stations = []
+        self._stations = []
+        TFCFavorites.sharedInstance.repopulateFavorites()
         for (st_id, station) in favorite.s.stations {
             if (location != nil) {
                 let distance = Int(location?.distanceFromLocation(station.coord) as Double!)
                 station.calculatedDistance = distance
             }
-            self.stations?.append(station)
+            self._stations?.append(station)
         }
         if (location != nil) {
-            self.stations!.sort({ $0.calculatedDistance < $1.calculatedDistance })
+            self._stations!.sort({ $0.calculatedDistance < $1.calculatedDistance })
         }
     }
 
-    /*** OLD WAY TO STORE FAVS, can be removed some day ***/
+    public func updateStations(searchFor:String) -> Bool {
+        isLoading = true
+        self.api.searchFor(searchFor)
+        return true
+    }
 
-    func populateFavoriteStationsOld() {
-        if (favorite.userDefaults?.objectForKey("favoriteStations") == nil) {
-            return
+    public func updateStations() -> Bool {
+        return updateStations(false)
+    }
+
+    public func updateStations(force: Bool) -> Bool {
+        // dont refresh location within 5 seconds..
+        if (force || lastRefreshLocation == nil || lastRefreshLocation?.timeIntervalSinceNow < -5) {
+            lastRefreshLocation = NSDate()
+            isLoading = true
+            dispatch_async(dispatch_get_main_queue(), {
+                self.locManager?.refreshLocation()
+                return
+            })
+            return true
         }
-        var favoriteStationsDict = TFCStations.getFavoriteStationsDict()
-        var stations:[String: TFCStation] = [:]
-        for (st_id, station) in favoriteStationsDict {
-            let lat = NSString(string:station["latitude"]!).doubleValue
-            let long = NSString(string:station["longitude"]!).doubleValue
-            var Clocation = CLLocation(latitude: lat, longitude: long)
-            let station: TFCStation = TFCStation.initWithCache(station["name"]!, id: station["st_id"]!, coord: Clocation)
+        return false
+    }
 
-            //FIXME: can be removed in a few days, st_id can start with 00 or not sometimes
-            //then back to just
-            // self.favoriteStations[st_id] = station
-
-            let st_id_fixed = String(st_id.toInt()!)
-            station.st_id = st_id_fixed
-            stations[st_id_fixed] = station
-            favorite.s.set(station)
+    public func locationFixed(loc: CLLocation?) {
+        if let loc = loc {
+            if (self.initWithNearbyFavorites(loc)) {
+                self.callStationsUpdatedDelegate(nil, favoritesOnly: true)
+            }
+            let coord = loc.coordinate
+            self.api.searchFor(coord)
         }
+    }
 
-        favorite.userDefaults?.removeObjectForKey("favoriteStations")
+    public func locationDenied(manager: CLLocationManager) {
+        callStationsUpdatedDelegate("Location not available")
+    }
 
-        // copy filters to iCloud
-        let keys: NSArray? = favorite.userDefaults?.dictionaryRepresentation().keys.array
-        if (keys != nil) {
-            for (key) in  keys! {
-                let k: String = key as String
-                if (k.match("filtered")) {
-                    TFCDataStore.sharedInstance.setObject(favorite.userDefaults?.objectForKey(k), forKey: k)
+    public func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?) {
+        isLoading = false
+        var err: String? = nil
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            if (error != nil && error?.code != -999) {
+                err =  "Network error. Please try again"
+            } else {
+                self.addWithJSON(results)
+                if (!(self.stations?.count > 0)) {
+                    err = self.getReasonForNoStationFound()
                 }
+            }
+            self.callStationsUpdatedDelegate(err)
+        }
+    }
+
+    private func callStationsUpdatedDelegate(err: String?) {
+        callStationsUpdatedDelegate(err, favoritesOnly: false)
+    }
+
+    private func callStationsUpdatedDelegate(err: String?, favoritesOnly: Bool) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            if (!(self.stations?.count > 0)) {
+                self.empty()
+            }
+            self.networkErrorMsg = err
+            if let dele = self.delegate {
+                dele.stationsUpdated(self.networkErrorMsg, favoritesOnly: favoritesOnly)
             }
         }
     }
 
-    public class func getFavoriteStationsDict() -> [String: [String: String]] {
-        var favoriteStationsShared: [String: [String: String]]? = favorite.userDefaults?.objectForKey("favoriteStations")? as [String: [String: String]]?
+    private func getReasonForNoStationFound() -> String? {
 
-        if (favoriteStationsShared == nil) {
-            favoriteStationsShared = [:]
+        if let distanceFromSwitzerland = locManager?.currentLocation?.distanceFromLocation(CLLocation(latitude: 47, longitude: 8)) {
+            if (distanceFromSwitzerland > 1000000) {
+                return "Not in Switzerland?"
+            }
         }
-        return favoriteStationsShared!
+
+        return nil
+
     }
-
-    /*** END OLD WAY TO STORE FAVS, can be removed some day ***/
-
-
-    public class func getUserDefaults() -> NSUserDefaults? {
-        return favorite.userDefaults
-    }
-
+    
     public func generate() -> IndexingGenerator<[TFCStation]> {
         return stations!.generate()
     }
 
     public subscript(i: Int) -> TFCStation {
-            return stations![i]
+        return stations![i]
     }
 
     public subscript(range: ClosedInterval<Int>) -> Slice<TFCStation> {
         return stations![range.start...range.end]
     }
+
+}
+
+public protocol TFCStationsUpdatedProtocol: class {
+    func stationsUpdated(error: String?, favoritesOnly: Bool)
 }

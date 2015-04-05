@@ -10,11 +10,11 @@ import Foundation
 import CoreLocation
 
 public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
-    lazy var locationManager : CLLocationManager = self.lazyInitLocationManager()
-    var locationFixAchieved : Bool = false
-    var locationStatus : NSString = "Not Started"
-    var seenError : Bool = false
-    unowned var delegate: TFCLocationManagerDelegate
+    private lazy var locationManager : CLLocationManager = self.lazyInitLocationManager()
+    private var locationFixAchieved : Bool = false
+    private var locationStatus : NSString = "Not Started"
+    private var seenError : Bool = false
+    private unowned var delegate: TFCLocationManagerDelegate
 
     public var currentLocation: CLLocation? {
         get {
@@ -33,7 +33,7 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
         self.delegate = delegate
     }
     
-    func lazyInitLocationManager() -> CLLocationManager {
+    private func lazyInitLocationManager() -> CLLocationManager {
         seenError = false
         locationFixAchieved = false
         var lm = CLLocationManager()
@@ -42,7 +42,6 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
         lm.requestAlwaysAuthorization()
         return lm
     }
-
     
     public func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
         self.locationManager.stopUpdatingLocation()
@@ -55,8 +54,14 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
                 #if (arch(i386) || arch(x86_64)) && os(iOS)
                 NSLog("Set coordinates to Liip ZH...")
                 currentLocation = CLLocation(latitude: 47.386142, longitude: 8.529163)
+                //currentLocation = CLLocation(latitude: 46.386142, longitude: 7.529163)
+                // random location in zurich
+                // currentLocation = CLLocation(latitude: 47.33 + (Double(arc4random_uniform(100)) / 1000.0), longitude: 8.5 + (Double(arc4random_uniform(100)) / 1000.0))
                 locationManager.stopUpdatingLocation()
-                self.delegate.locationFixed(currentLocation?.coordinate)
+                self.delegate.locationFixed(currentLocation)
+                //self.delegate.locationDenied(manager)
+                #else
+                self.delegate.locationDenied(manager)
                 #endif
             }
         }
@@ -68,11 +73,12 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
             locationFixAchieved = true
             var locationArray = locations as NSArray
             var locationObj = locationArray.lastObject as CLLocation
-            coord = locationObj.coordinate
             currentLocation = locationObj;
+            self.delegate.locationFixed(currentLocation)
+        } else {
+            self.delegate.locationFixed(nil)
         }
         locationManager.stopUpdatingLocation()
-        self.delegate.locationFixed(coord)
 
     }
     
@@ -91,7 +97,6 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
                 locationStatus = "Allowed to location Access"
                 shouldIAllow = true
             }
-            NSNotificationCenter.defaultCenter().postNotificationName("LabelHasbeenUpdated", object: nil)
             if (shouldIAllow == true) {
                 NSLog("Location is allowed")
                 // Start location services
@@ -102,6 +107,7 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
     }
     
     public func refreshLocation() {
+        seenError = false
         locationFixAchieved = false
         locationManager.startUpdatingLocation()
     }
@@ -109,9 +115,10 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
     public class func getCurrentLocation() -> CLLocation? {
         return classvar.currentLocation
     }
-
 }
 
 public protocol TFCLocationManagerDelegate: class {
-    func locationFixed(coord: CLLocationCoordinate2D?)
+    func locationFixed(coord: CLLocation?)
+    func locationDenied(manager: CLLocationManager)
+
 }

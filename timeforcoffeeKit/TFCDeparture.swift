@@ -10,15 +10,15 @@ import Foundation
 import UIKit
 
 public class TFCDeparture: NSObject, NSCoding {
-    public var name: String
+    private var name: String
     public var type: String
-    public var accessible: Bool
-    public var to: String
-    public var scheduled: NSDate?
-    public var realtime: NSDate?
+    private var accessible: Bool
+    private var to: String
+    private var scheduled: NSDate?
+    private var realtime: NSDate?
     public var colorFg: String?
     public var colorBg: String?
-    public var outdated: Bool = false
+    var outdated: Bool = false
 
     init(name: String, type: String, accessible: Bool, to: String, scheduled: NSDate?, realtime: NSDate?, colorFg: String?, colorBg: String? ) {
         // TODO: strip "Zurich, " from name
@@ -60,11 +60,7 @@ public class TFCDeparture: NSObject, NSCoding {
         return result["meta"]["station_name"].string
     }
     
-    public class func withJSON(allResults: JSONValue, filterStation: TFCStation?) -> [TFCDeparture]? {
-        return self.withJSON(allResults, filterStation: filterStation, maxDepartures: nil)
-    }
-
-    public class func withJSON(allResults: JSONValue, filterStation: TFCStation?, maxDepartures: Int?) -> [TFCDeparture]? {
+    public class func withJSON(allResults: JSONValue) -> [TFCDeparture]? {
         // Create an empty array of Albums to append to from this list
         // Store the results in our table data array
         var departures: [TFCDeparture]?
@@ -104,26 +100,13 @@ public class TFCDeparture: NSObject, NSCoding {
                 }
                 
                 var newDeparture = TFCDeparture(name: name!, type: type!, accessible: accessible, to: to!, scheduled: scheduled, realtime: realtime, colorFg: colorFg, colorBg: colorBg)
-                if (filterStation != nil) {
-                    let filterStation2 = filterStation!
-                    if (filterStation2.isFiltered(newDeparture)) {
-                        continue
-                    }
-                }
                 departures?.append(newDeparture)
-                if (maxDepartures != nil && departures?.count >= maxDepartures) {
-                    break
-                }
             }
         }
         
         return departures
     }
-    
-    public class func withJSON(allResults: JSONValue) -> [TFCDeparture]? {
-        return withJSON(allResults, filterStation: nil)
-    }
-    
+
     public func getDestination(station: TFCStation) -> String {
         let fullName = self.to
         if (fullName.match(", ") && station.name.match(", ")) {
@@ -190,10 +173,12 @@ public class TFCDeparture: NSObject, NSCoding {
         var timestringAttr: NSMutableAttributedString?
         var timestring: String?
 
-        if (self.realtime != nil) {
-            realtimeStr = self.getShortDate(self.realtime!)
+        if let realtime = self.realtime {
+            realtimeStr = self.getShortDate(realtime)
         }
-        scheduledStr = self.getShortDate(self.scheduled!)
+        if let scheduled = self.scheduled {
+            scheduledStr = self.getShortDate(scheduled)
+        }
 
         // we do two different approaches here, since NSMutableAttributedString seems to
         // use a lot of memory for the today widget and it's only needed, when 
@@ -275,16 +260,14 @@ public class TFCDeparture: NSObject, NSCoding {
     }
     
     public func getDestinationWithSign(station: TFCStation?, unabridged: Bool) -> String {
-        if (station != nil) {
+        if let station = station {
             var destination: String = ""
-            let station2 = station!
-
             if (unabridged) {
                 destination = getDestination()
             } else {
-                destination = getDestination(station2)
+                destination = getDestination(station)
             }
-            if (station2.isFiltered(self)) {
+            if (station.isFiltered(self)) {
                 return "\(destination) ✗"
             }
             return destination
@@ -292,7 +275,7 @@ public class TFCDeparture: NSObject, NSCoding {
         return getDestination()
     }
 
-    class func parseDate(dateStr:String) -> NSDate? {
+    private class func parseDate(dateStr:String) -> NSDate? {
         let format = "yyyy-MM-dd'T'HH:mm:ss.'000'ZZZZZ"
         var dateFmt = NSDateFormatter()
         dateFmt.timeZone = NSTimeZone.defaultTimeZone()
@@ -300,8 +283,7 @@ public class TFCDeparture: NSObject, NSCoding {
         return dateFmt.dateFromString(dateStr)
     }
     
-    
-    func getShortDate(date:NSDate) -> String {
+    private func getShortDate(date:NSDate) -> String {
         let format = "HH:mm"
         var dateFmt = NSDateFormatter()
         dateFmt.timeZone = NSTimeZone.defaultTimeZone()

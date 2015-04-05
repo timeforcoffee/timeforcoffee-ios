@@ -18,9 +18,9 @@ public class TFCDataStore: NSObject {
         return Static.instance
     }
 
-    let userDefaults: NSUserDefaults? = NSUserDefaults(suiteName: "group.ch.liip.timeforcoffee")
-    let keyvaluestore: NSUbiquitousKeyValueStore? = NSUbiquitousKeyValueStore.defaultStore()
-    var notificationObserver: AnyObject?
+    private let userDefaults: NSUserDefaults? = NSUserDefaults(suiteName: "group.ch.liip.timeforcoffee")
+    private let keyvaluestore: NSUbiquitousKeyValueStore? = NSUbiquitousKeyValueStore.defaultStore()
+    private var notificationObserver: AnyObject?
 
     func setObject(anObject: AnyObject?, forKey: String) {
         userDefaults?.setObject(anObject , forKey: forKey)
