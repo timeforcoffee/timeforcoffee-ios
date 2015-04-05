@@ -34,7 +34,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     var networkErrorMsg: String?
 
     var currentStationIndex = 0
-
+    var viewDidAppear = false
     var showStations: Bool = false {
         didSet {
             if (showStations == true) {
@@ -96,6 +96,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     override func viewDidAppear(animated: Bool) {
         //actionLabel.hidden = false
         NSLog("viewDidAppear")
+        viewDidAppear = true
         actionLabel.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         super.viewDidAppear(animated)
     }
@@ -262,6 +263,9 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                 return 1
             }
             return min(6, count!)
+        }
+        if (viewDidAppear == false && currentStation == nil) {
+            return 0
         }
         let departures = self.currentStation?.getFilteredDepartures(6)
         if (departures == nil || departures!.count == 0) {
