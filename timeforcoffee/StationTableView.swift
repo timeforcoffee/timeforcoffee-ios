@@ -69,7 +69,6 @@ class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource,
         let whitespaceCharacterSet = NSCharacterSet.whitespaceCharacterSet()
         let strippedString = searchController.searchBar.text.stringByTrimmingCharactersInSet(whitespaceCharacterSet)
         if (strippedString != "") {
-            stations.clear()
             self.stations.updateStations(strippedString)
         }
     }

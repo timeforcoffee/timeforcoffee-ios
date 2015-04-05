@@ -54,9 +54,11 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
                 #if (arch(i386) || arch(x86_64)) && os(iOS)
                 NSLog("Set coordinates to Liip ZH...")
                 currentLocation = CLLocation(latitude: 47.386142, longitude: 8.529163)
+                // random location in zurich
+                // currentLocation = CLLocation(latitude: 47.33 + (Double(arc4random_uniform(100)) / 1000.0), longitude: 8.5 + (Double(arc4random_uniform(100)) / 1000.0))
                 locationManager.stopUpdatingLocation()
-                self.delegate.locationFixed(currentLocation)
-                //self.delegate.locationDenied(manager)
+                //self.delegate.locationFixed(currentLocation)
+                self.delegate.locationDenied(manager)
                 #else
                 self.delegate.locationDenied(manager)
                 #endif
@@ -104,6 +106,7 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
     }
     
     public func refreshLocation() {
+        seenError = false
         locationFixAchieved = false
         locationManager.startUpdatingLocation()
     }
