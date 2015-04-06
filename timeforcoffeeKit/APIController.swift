@@ -82,10 +82,10 @@ public class APIController {
                         // 1001 == timeout => just retry
                         if (error.code == -1001) {
                             let newcounter = counter + 1
-                            NSLog("Retry #\(newcounter) fetching \(urlPath)")
                             // don't do it more than 5 times
-                            self.delegate?.didReceiveAPIResults(JSONValue(nil), error: error, context: context)
                             if (newcounter <= 5) {
+                                self.delegate?.didReceiveAPIResults(JSONValue(nil), error: error, context: context)
+                                NSLog("Retry #\(newcounter) fetching \(urlPath)")
                                 self.fetchUrl(urlPath, fetchId: fetchId, context: context, cacheKey: cacheKey, counter: newcounter)
                             }
                         }
