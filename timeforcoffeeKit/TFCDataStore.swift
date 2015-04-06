@@ -18,6 +18,8 @@ public class TFCDataStore: NSObject {
         return Static.instance
     }
 
+    let lockQueue = dispatch_queue_create("group.ch.liip.timeforcoffee.notificationLock", DISPATCH_QUEUE_SERIAL)
+
     private let userDefaults: NSUserDefaults? = NSUserDefaults(suiteName: "group.ch.liip.timeforcoffee")
     private let keyvaluestore: NSUbiquitousKeyValueStore? = NSUbiquitousKeyValueStore.defaultStore()
     private var notificationObserver: AnyObject?
@@ -42,49 +44,51 @@ public class TFCDataStore: NSObject {
     }
 
     public func registerForNotifications() {
-        objc_sync_enter(notificationObserver)
-        if (notificationObserver != nil) {
-            return
-        }
-        notificationObserver = NSNotificationCenter.defaultCenter().addObserverForName("NSUbiquitousKeyValueStoreDidChangeExternallyNotification", object: keyvaluestore, queue: nil, usingBlock: { (notification: NSNotification!) -> Void in
-            let userInfo: NSDictionary? = notification.userInfo as NSDictionary?
-            let reasonForChange: NSNumber? = userInfo?.objectForKey(NSUbiquitousKeyValueStoreChangeReasonKey) as NSNumber?
-            if (reasonForChange == nil) {
+        dispatch_sync(lockQueue) {
+            if (self.notificationObserver != nil) {
                 return
             }
-            NSLog("got icloud sync")
+            self.notificationObserver = NSNotificationCenter.defaultCenter().addObserverForName("NSUbiquitousKeyValueStoreDidChangeExternallyNotification", object: self.keyvaluestore, queue: nil, usingBlock: { (notification: NSNotification!) -> Void in
+                let userInfo: NSDictionary? = notification.userInfo as NSDictionary?
+                let reasonForChange: NSNumber? = userInfo?.objectForKey(NSUbiquitousKeyValueStoreChangeReasonKey) as NSNumber?
+                if (reasonForChange == nil) {
+                    return
+                }
+                NSLog("got icloud sync")
 
-            let reason = reasonForChange?.integerValue
-            if ((reason == NSUbiquitousKeyValueStoreServerChange) ||
-                (reason == NSUbiquitousKeyValueStoreInitialSyncChange)) {
-                    var changedKeys: [String]? = userInfo?.objectForKey(NSUbiquitousKeyValueStoreChangedKeysKey) as [String]?
-                    if (changedKeys != nil) {
-                        for (key) in changedKeys! {
-                            // legacy, can be removed later
-                            if (key == "favoriteStations") {
-                                self.keyvaluestore?.removeObjectForKey("favoriteStations")
-                            } else {
-                                self.userDefaults?.setObject(self.keyvaluestore?.objectForKey(key), forKey: key)
-                                if (key == "favorites2") {
-                                    TFCFavorites.sharedInstance.repopulateFavorites()
+                let reason = reasonForChange?.integerValue
+                if ((reason == NSUbiquitousKeyValueStoreServerChange) ||
+                    (reason == NSUbiquitousKeyValueStoreInitialSyncChange)) {
+                        var changedKeys: [String]? = userInfo?.objectForKey(NSUbiquitousKeyValueStoreChangedKeysKey) as [String]?
+                        if (changedKeys != nil) {
+                            for (key) in changedKeys! {
+                                // legacy, can be removed later
+                                if (key == "favoriteStations") {
+                                    self.keyvaluestore?.removeObjectForKey("favoriteStations")
+                                } else {
+                                    self.userDefaults?.setObject(self.keyvaluestore?.objectForKey(key), forKey: key)
+                                    if (key == "favorites2") {
+                                        TFCFavorites.sharedInstance.repopulateFavorites()
+                                    }
                                 }
                             }
                         }
-                    }
-            }
-
-        })
-        objc_sync_exit(notificationObserver)
-
+                }
+                
+            })
+        }
     }
 
     public func removeNotifications() {
-        objc_sync_enter(notificationObserver)
-        if (notificationObserver != nil) {
-        NSNotificationCenter.defaultCenter().removeObserver(notificationObserver!)
-            notificationObserver = nil
+        NSLog("removeNotifications")
+        dispatch_sync(lockQueue) {
+            NSLog("removeNotifications2")
+
+            if (self.notificationObserver != nil) {
+                NSNotificationCenter.defaultCenter().removeObserver(self.notificationObserver!)
+                self.notificationObserver = nil
+            }
         }
-        objc_sync_exit(notificationObserver)
     }
 
     public func getUserDefaults() -> NSUserDefaults? {

@@ -29,6 +29,10 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
         static var currentLocation: CLLocation?
     }
 
+    public struct k {
+        public static let AirplaneMode = "AirplaneMode?"
+    }
+    
     public init(delegate: TFCLocationManagerDelegate) {
         self.delegate = delegate
     }
@@ -39,29 +43,38 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
         var lm = CLLocationManager()
         lm.delegate = self
         lm.desiredAccuracy = kCLLocationAccuracyBest
-        lm.requestAlwaysAuthorization()
+        if (CLLocationManager.locationServicesEnabled()) {
+            lm.requestAlwaysAuthorization()
+        }
         return lm
     }
     
     public func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
-        self.locationManager.stopUpdatingLocation()
         if ((error) != nil) {
-            if (seenError == false) {
+            NSLog("LocationManager Error \(error) with code \(error.code)")
+            #if !((arch(i386) || arch(x86_64)) && os(iOS))
+                if (error.code == CLError.LocationUnknown.rawValue) {
+                NSLog("LocationManager LocationUnknown")
+                self.delegate.locationStillTrying(manager, err: error)
+                return
+                }
+            #endif
+            self.locationManager.stopUpdatingLocation()
+            if (seenError == false ) {
                 seenError = true
-                NSLog("LocationManager Error \(error)")
                 // we often get errors on the simulator, this just sets the currentCoordinates to the liip office
                 // in zurich when in the simulator
                 #if (arch(i386) || arch(x86_64)) && os(iOS)
-                NSLog("Set coordinates to Liip ZH...")
-                currentLocation = CLLocation(latitude: 47.386142, longitude: 8.529163)
-                //currentLocation = CLLocation(latitude: 46.386142, longitude: 7.529163)
-                // random location in zurich
-                // currentLocation = CLLocation(latitude: 47.33 + (Double(arc4random_uniform(100)) / 1000.0), longitude: 8.5 + (Double(arc4random_uniform(100)) / 1000.0))
-                locationManager.stopUpdatingLocation()
-                self.delegate.locationFixed(currentLocation)
-                //self.delegate.locationDenied(manager)
+                    NSLog("Set coordinates to Liip ZH...")
+                    currentLocation = CLLocation(latitude: 47.386142, longitude: 8.529163)
+                    //currentLocation = CLLocation(latitude: 46.386142, longitude: 7.529163)
+                    // random location in zurich
+                    // currentLocation = CLLocation(latitude: 47.33 + (Double(arc4random_uniform(100)) / 1000.0), longitude: 8.5 + (Double(arc4random_uniform(100)) / 1000.0))
+                    locationManager.stopUpdatingLocation()
+                    self.delegate.locationFixed(currentLocation)
+                    //self.delegate.locationDenied(manager)
                 #else
-                self.delegate.locationDenied(manager)
+                    self.delegate.locationDenied(manager, err: error)
                 #endif
             }
         }
@@ -119,6 +132,6 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
 
 public protocol TFCLocationManagerDelegate: class {
     func locationFixed(coord: CLLocation?)
-    func locationDenied(manager: CLLocationManager)
-
+    func locationDenied(manager: CLLocationManager, err: NSError)
+    func locationStillTrying(manager: CLLocationManager, err: NSError)
 }

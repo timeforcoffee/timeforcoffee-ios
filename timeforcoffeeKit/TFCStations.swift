@@ -37,9 +37,11 @@ public class TFCStations: SequenceType, TFCLocationManagerDelegate, APIControlle
     }
 
     public var networkErrorMsg: String?
+    public var loadingMessage: String?
     public var isLoading: Bool = false {
         didSet { if (isLoading == true) {
                 self.networkErrorMsg = nil
+                self.loadingMessage = nil
             }
         }
     }
@@ -210,8 +212,12 @@ public class TFCStations: SequenceType, TFCLocationManagerDelegate, APIControlle
         }
     }
 
-    public func locationDenied(manager: CLLocationManager) {
-        callStationsUpdatedDelegate("Location not available")
+    public func locationDenied(manager: CLLocationManager, err: NSError) {
+            callStationsUpdatedDelegate("Location not available")
+    }
+
+    public func locationStillTrying(manager: CLLocationManager, err: NSError) {
+            callStationsUpdatedDelegate(TFCLocationManager.k.AirplaneMode)
     }
 
     public func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?) {
@@ -236,10 +242,14 @@ public class TFCStations: SequenceType, TFCLocationManagerDelegate, APIControlle
 
     private func callStationsUpdatedDelegate(err: String?, favoritesOnly: Bool) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            if (!(self.stations?.count > 0)) {
-                self.empty()
+            if (err == TFCLocationManager.k.AirplaneMode) {
+                self.loadingMessage = "Airplane Mode?"
+            } else {
+                if (!(self.stations?.count > 0)) {
+                    self.empty()
+                }
+                self.networkErrorMsg = err
             }
-            self.networkErrorMsg = err
             if let dele = self.delegate {
                 dele.stationsUpdated(self.networkErrorMsg, favoritesOnly: favoritesOnly)
             }

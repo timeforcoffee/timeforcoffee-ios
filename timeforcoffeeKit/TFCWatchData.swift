@@ -47,8 +47,12 @@ public class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIControllerPr
         }
     }
 
-    public func locationDenied(manager: CLLocationManager) {
+    public func locationDenied(manager: CLLocationManager, err:NSError) {
 
+    }
+
+    public func locationStillTrying(manager: CLLocationManager, err: NSError) {
+        
     }
 
     public func getLocation(reply: replyClosure?) {
