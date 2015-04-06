@@ -52,27 +52,29 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
     public func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
         if ((error) != nil) {
             NSLog("LocationManager Error \(error) with code \(error.code)")
-            if (error.code == CLError.LocationUnknown.rawValue) {
+            #if !((arch(i386) || arch(x86_64)) && os(iOS))
+                if (error.code == CLError.LocationUnknown.rawValue) {
                 NSLog("LocationManager LocationUnknown")
                 self.delegate.locationStillTrying(manager, err: error)
                 return
-            }
+                }
+            #endif
             self.locationManager.stopUpdatingLocation()
             if (seenError == false ) {
                 seenError = true
                 // we often get errors on the simulator, this just sets the currentCoordinates to the liip office
                 // in zurich when in the simulator
                 #if (arch(i386) || arch(x86_64)) && os(iOS)
-                NSLog("Set coordinates to Liip ZH...")
-                currentLocation = CLLocation(latitude: 47.386142, longitude: 8.529163)
-                //currentLocation = CLLocation(latitude: 46.386142, longitude: 7.529163)
-                // random location in zurich
-                // currentLocation = CLLocation(latitude: 47.33 + (Double(arc4random_uniform(100)) / 1000.0), longitude: 8.5 + (Double(arc4random_uniform(100)) / 1000.0))
-                locationManager.stopUpdatingLocation()
-                self.delegate.locationFixed(currentLocation)
-                //self.delegate.locationDenied(manager)
+                    NSLog("Set coordinates to Liip ZH...")
+                    currentLocation = CLLocation(latitude: 47.386142, longitude: 8.529163)
+                    //currentLocation = CLLocation(latitude: 46.386142, longitude: 7.529163)
+                    // random location in zurich
+                    // currentLocation = CLLocation(latitude: 47.33 + (Double(arc4random_uniform(100)) / 1000.0), longitude: 8.5 + (Double(arc4random_uniform(100)) / 1000.0))
+                    locationManager.stopUpdatingLocation()
+                    self.delegate.locationFixed(currentLocation)
+                    //self.delegate.locationDenied(manager)
                 #else
-                self.delegate.locationDenied(manager, err: error)
+                    self.delegate.locationDenied(manager, err: error)
                 #endif
             }
         }
