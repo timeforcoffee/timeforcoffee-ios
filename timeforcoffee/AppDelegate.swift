@@ -97,11 +97,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
 
         if (url.host == "nearby") {
-            let rootView = self.window?.rootViewController? as UINavigationController?
-            rootView?.popToRootViewControllerAnimated(false)
-            if (rootView != nil) {
-                let pagedView: PagedStationsViewController? = rootView?.viewControllers.first as PagedStationsViewController?
-                pagedView?.moveToNearbyStations()
+            if let rootView = self.window?.rootViewController? as UINavigationController? {
+                rootView.dismissViewControllerAnimated(false, completion: nil)
+                rootView.popToRootViewControllerAnimated(false)
+                if let pagedView:PagedStationsViewController = rootView.viewControllers.first as PagedStationsViewController? {
+                    pagedView.moveToNearbyStations()
+                }
             }
 
         } else if (url.host == "station" && url.query != nil) {
@@ -128,6 +129,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let rootView = self.window?.rootViewController? as UINavigationController
             let detailViewController = rootView.storyboard?.instantiateViewControllerWithIdentifier("DeparturesViewController") as DeparturesViewController
 
+            rootView.dismissViewControllerAnimated(false, completion: nil)
             rootView.popToRootViewControllerAnimated(false)
             detailViewController.setStation(station)
             rootView.pushViewController(detailViewController, animated: false)
