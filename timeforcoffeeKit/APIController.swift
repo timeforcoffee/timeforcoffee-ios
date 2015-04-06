@@ -62,9 +62,10 @@ public class APIController {
                 let result = JSONValue(self.cache.objectForKey(cacheKey!) as NSData!);
                 self.delegate?.didReceiveAPIResults(result, error: nil, context: context)
             } else {
-                let urlPathEsc = urlPath.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
-                let url: NSURL = NSURL(string: urlPathEsc)!
-                NSLog("Start fetching data \(urlPath)")
+                let url: NSURL = NSURL(string: urlPath)!
+                if let absUrl = url.absoluteString {
+                    NSLog("Start fetching data %@", absUrl)
+                }
                 var dataFetch: NSURLSessionDataTask?
                 if (fetchId == 1 && self.currentFetch[fetchId] != nil) {
                     NSLog("cancel current fetch")
