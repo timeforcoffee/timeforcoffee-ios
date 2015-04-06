@@ -74,7 +74,7 @@ public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerPro
         // Create an empty array of Albums to append to from this list
         // Store the results in our table data array
         if allResults["stations"].array?.count>0 {
-            _stations = []
+            var newStations:[TFCStation] = []
             if let results = allResults["stations"].array {
                 for result in results {
                     var id = String(result["id"].integer!)
@@ -94,10 +94,11 @@ public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerPro
                             Clocation = CLLocation(latitude: latitude!, longitude: longitude!)
                         }
                         var newStation = TFCStation.initWithCache(name!, id: id, coord: Clocation)
-                        _stations!.append(newStation)
+                        newStations.append(newStation)
                     }
                 }
             }
+            _stations = newStations
         }
     }
 
