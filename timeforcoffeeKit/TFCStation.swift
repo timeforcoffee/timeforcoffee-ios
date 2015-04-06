@@ -282,20 +282,23 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
 
         removeObsoleteDepartures()
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-        var context: contextData = contextData()
+            var context: contextData = contextData()
 
-        context.completionDelegate = completionDelegate
+            context.completionDelegate = completionDelegate
 
-        var settingsLastUpdated: NSDate? = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("settingsLastUpdate") as NSDate?
-        if (force || self.lastDepartureUpdate == nil || self.lastDepartureUpdate?.timeIntervalSinceNow < -20 ||
-            (settingsLastUpdated != nil && self.lastDepartureUpdate?.timeIntervalSinceDate(settingsLastUpdated!) < 0 )
-            )
-        {
-            self.lastDepartureUpdate = NSDate()
-            self.api.getDepartures(self.st_id, context: context)
-        } else {
-            completionDelegate?.departuresStillCached(context, forStation: self)
-        }
+            var settingsLastUpdated: NSDate? = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("settingsLastUpdate") as NSDate?
+            if (force || self.lastDepartureUpdate == nil || self.lastDepartureUpdate?.timeIntervalSinceNow < -20 ||
+                (settingsLastUpdated != nil && self.lastDepartureUpdate?.timeIntervalSinceDate(settingsLastUpdated!) < 0 )
+                )
+            {
+                self.lastDepartureUpdate = NSDate()
+                self.api.getDepartures(self.st_id, context: context)
+            } else {
+                dispatch_async(dispatch_get_main_queue(), {
+                    completionDelegate?.departuresStillCached(context, forStation: self)
+                    return  
+                })
+            }
         }
 
     }

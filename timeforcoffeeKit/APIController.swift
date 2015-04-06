@@ -62,9 +62,10 @@ public class APIController {
                 let result = JSONValue(self.cache.objectForKey(cacheKey!) as NSData!);
                 self.delegate?.didReceiveAPIResults(result, error: nil, context: context)
             } else {
-                let urlPathEsc = urlPath.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
-                let url: NSURL = NSURL(string: urlPathEsc)!
-                NSLog("Start fetching data \(urlPath)")
+                let url: NSURL = NSURL(string: urlPath)!
+                if let absUrl = url.absoluteString {
+                    NSLog("Start fetching data %@", absUrl)
+                }
                 var dataFetch: NSURLSessionDataTask?
                 if (fetchId == 1 && self.currentFetch[fetchId] != nil) {
                     NSLog("cancel current fetch")
@@ -81,10 +82,10 @@ public class APIController {
                         // 1001 == timeout => just retry
                         if (error.code == -1001) {
                             let newcounter = counter + 1
-                            NSLog("Retry #\(newcounter) fetching \(urlPath)")
                             // don't do it more than 5 times
-                            self.delegate?.didReceiveAPIResults(JSONValue(nil), error: error, context: context)
                             if (newcounter <= 5) {
+                                self.delegate?.didReceiveAPIResults(JSONValue(nil), error: error, context: context)
+                                NSLog("Retry #\(newcounter) fetching \(urlPath)")
                                 self.fetchUrl(urlPath, fetchId: fetchId, context: context, cacheKey: cacheKey, counter: newcounter)
                             }
                         }
