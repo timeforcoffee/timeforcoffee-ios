@@ -19,10 +19,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-
-        TFCDataStore.sharedInstance.registerForNotifications()
-        TFCDataStore.sharedInstance.synchronize()
-        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
+            TFCDataStore.sharedInstance.registerForNotifications()
+            TFCDataStore.sharedInstance.synchronize()
+        }
         let gtracker = GAI.sharedInstance()
         gtracker.trackUncaughtExceptions = true
         gtracker.dispatchInterval = 20;

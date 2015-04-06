@@ -102,10 +102,12 @@ public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerPro
     }
 
     public func getStation(index: Int) -> TFCStation? {
-        if (stations == nil || index + 1 > stations!.count) {
-            return nil
+        if let stations = stations {
+            if (index < stations.count) {
+                return stations[index]
+            }
         }
-        return stations![index]
+        return nil
     }
 
     class func isFavoriteStation(index: String) -> Bool {
