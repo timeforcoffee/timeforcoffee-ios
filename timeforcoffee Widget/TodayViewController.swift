@@ -105,8 +105,12 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         //actionLabel.hidden = false
         NSLog("viewDidAppear")
         viewDidAppear = true
-        actionLabel.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         super.viewDidAppear(animated)
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        actionLabel.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
     }
 
     override func viewWillDisappear(animated: Bool) {
