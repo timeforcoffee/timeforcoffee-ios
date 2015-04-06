@@ -37,22 +37,24 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     var viewDidAppear = false
     var showStations: Bool = false {
         didSet {
-            if (showStations == true) {
-                setLastUsedView()
-                actionLabel.setTitle("Back", forState: UIControlState.Normal)
-                titleLabel.text = "Nearby Stations"
-            } else {
-                if (currentStation != nil) {
-                    setLastUsedView()
-                }
-                actionLabel.setTitle("Stations", forState: UIControlState.Normal)
-                if let stationName = currentStation?.getNameWithStarAndFilters() {
-                    titleLabel.text = currentStation?.getNameWithStarAndFilters()
+            dispatch_async(dispatch_get_main_queue(), {
+                if (self.showStations == true) {
+                    self.setLastUsedView()
+                    self.actionLabel.setTitle("Back", forState: UIControlState.Normal)
+                    self.titleLabel.text = "Nearby Stations"
                 } else {
-                    titleLabel.text = "Time for Coffee"
+                    if (self.currentStation != nil) {
+                        self.setLastUsedView()
+                    }
+                    self.actionLabel.setTitle("Stations", forState: UIControlState.Normal)
+                    if let stationName = self.currentStation?.getNameWithStarAndFilters() {
+                        self.titleLabel.text = stationName
+                    } else {
+                        self.titleLabel.text = "Time for Coffee"
+                    }
                 }
-            }
-            actionLabel.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+                self.actionLabel.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+            })
         }
     }
 
@@ -87,8 +89,10 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         } else {
             showStations = false
         }
-        TFCDataStore.sharedInstance.registerForNotifications()
-        TFCDataStore.sharedInstance.synchronize()
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
+            TFCDataStore.sharedInstance.registerForNotifications()
+            TFCDataStore.sharedInstance.synchronize()
+        }
     }
 
     deinit {
@@ -120,28 +124,32 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
 
         // if lastUsedView is a single station and we did look at it no longer than 5 minutes ago, just show it again
         // without even checking the location
-        if (getLastUsedView() == "nearbyStations") {
-            sendScreenNameToGA("todayviewNearby")
-            showStations = true
-        } else {
-            sendScreenNameToGA("todayviewStation")
-            showStations = false
-            if (lastUsedViewUpdatedInterval() > -300) {
-                currentStation = lastViewedStation
-                if (currentStation != nil) {
-                    showStations = false
-                    displayDepartures()
-                    return
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            if (self.getLastUsedView() == "nearbyStations") {
+                self.sendScreenNameToGA("todayviewNearby")
+                self.showStations = true
+            } else {
+                self.sendScreenNameToGA("todayviewStation")
+                self.showStations = false
+                if (self.lastUsedViewUpdatedInterval() > -300) {
+                    self.currentStation = self.lastViewedStation
+                    if (self.currentStation != nil) {
+                        self.showStations = false
+                        self.displayDepartures()
+                        return
+                    }
                 }
+                self.locManager?.refreshLocation()
             }
-           locManager?.refreshLocation()
+            self.stations?.updateStations()
         }
-        stations?.updateStations()
     }
 
     override func lazyInitLocationManager() -> TFCLocationManager? {
         if (currentStation == nil) {
-            titleLabel.text = NSLocalizedString("Looking for nearest station ...", comment: "")
+            dispatch_async(dispatch_get_main_queue(), {
+                self.titleLabel.text = NSLocalizedString("Looking for nearest station ...", comment: "")
+            })
         }
         self.currentStationIndex = 0
         return super.lazyInitLocationManager()
@@ -171,10 +179,12 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     }
 
     override func locationDenied(manager: CLLocationManager) {
-        self.networkErrorMsg = "Location not available"
-        self.stations?.empty()
-        self.titleLabel.text = "Time for Coffee!"
-        self.appsTableView?.reloadData()
+        dispatch_async(dispatch_get_main_queue(), {
+            self.networkErrorMsg = "Location not available"
+            self.stations?.empty()
+            self.titleLabel.text = "Time for Coffee!"
+            self.appsTableView?.reloadData()
+        })
     }
 
 
@@ -256,7 +266,10 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         //UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         self.networkErrorMsg = nil
         currentStation?.updateDepartures(self)
-        self.appsTableView?.reloadData()
+        dispatch_async(dispatch_get_main_queue(), {
+            self.appsTableView?.reloadData()
+            return
+        })
         setLastUsedView()
     }
 
@@ -313,6 +326,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             }
 
             let station = self.stations?.getStation(indexPath.row)
+            station?.updateDepartures(self)
             let departures = station?.getFilteredDepartures(1)
             let firstDeparture = departures?.first
             let iconLabel = cell.viewWithTag(500) as UIImageView
@@ -332,7 +346,6 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                 minutesLabel.text = nil
                 departureLabel.text = nil
             }
-            station?.updateDepartures(self)
             cell.userInteractionEnabled = true
             return cell
         }
@@ -439,8 +452,10 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     }
 
     func sendScreenNameToGA(screenname: String) {
-        gtracker.set(kGAIScreenName, value: screenname)
-        gtracker.send(GAIDictionaryBuilder.createScreenView().build())
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
+            self.gtracker.set(kGAIScreenName, value: screenname)
+            self.gtracker.send(GAIDictionaryBuilder.createScreenView().build())
+        }
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {

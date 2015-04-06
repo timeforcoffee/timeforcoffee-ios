@@ -28,7 +28,7 @@ public class TFCStations: SequenceType, TFCLocationManagerDelegate, APIControlle
 
     private var _stations:[TFCStation]?
     private var nearbyFavorites:[TFCStation]?
-    private var inStationsArray: [String: Bool] = [:]
+    private var inStationsArrayAsFavorite: [String: Bool] = [:]
 
     //struct here, because "class var" is not yet supported
     private struct favorite {
@@ -74,11 +74,13 @@ public class TFCStations: SequenceType, TFCLocationManagerDelegate, APIControlle
         // Create an empty array of Albums to append to from this list
         // Store the results in our table data array
         if allResults["stations"].array?.count>0 {
-            _stations = []
+            var newStations:[TFCStation] = []
+            // to prevent double entries, the api sometimes returns more than one with the same id
+            var stationsAdded:[String: Bool] = [:]
             if let results = allResults["stations"].array {
                 for result in results {
                     var id = String(result["id"].integer!)
-                    if (inStationsArray[id] == nil) {
+                    if (inStationsArrayAsFavorite[id] == nil && stationsAdded[id] == nil) {
                         var name = result["name"].string
                         var longitude: Double? = nil
                         var latitude: Double? = nil
@@ -94,18 +96,22 @@ public class TFCStations: SequenceType, TFCLocationManagerDelegate, APIControlle
                             Clocation = CLLocation(latitude: latitude!, longitude: longitude!)
                         }
                         var newStation = TFCStation.initWithCache(name!, id: id, coord: Clocation)
-                        _stations!.append(newStation)
+                        stationsAdded[id] = true
+                        newStations.append(newStation)
                     }
                 }
             }
+            _stations = newStations
         }
     }
 
     public func getStation(index: Int) -> TFCStation? {
-        if (stations == nil || index + 1 > stations!.count) {
-            return nil
+        if let stations = stations {
+            if (index < stations.count) {
+                return stations[index]
+            }
         }
-        return stations![index]
+        return nil
     }
 
     class func isFavoriteStation(index: String) -> Bool {
@@ -117,7 +123,7 @@ public class TFCStations: SequenceType, TFCLocationManagerDelegate, APIControlle
 
     public func initWithNearbyFavorites(location: CLLocation) -> Bool {
         self.nearbyFavorites = []
-        inStationsArray = [:]
+        inStationsArrayAsFavorite = [:]
         var hasNearbyFavs = false
         var removeFromFavorites: [String] = []
         var favDistance = 1000.0
@@ -129,10 +135,10 @@ public class TFCStations: SequenceType, TFCLocationManagerDelegate, APIControlle
             var distance = location.distanceFromLocation(station.coord)
             if (distance < favDistance) {
                 hasNearbyFavs = true
-                if (inStationsArray[station.st_id] != true) {
+                if (inStationsArrayAsFavorite[station.st_id] != true) {
                     station.calculatedDistance = Int(distance)
                     self.nearbyFavorites!.append(station)
-                    inStationsArray[station.st_id] = true
+                    inStationsArrayAsFavorite[station.st_id] = true
                 }
             } else {
                 removeFromFavorites.append(st_id)
