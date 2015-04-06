@@ -97,7 +97,7 @@ class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource,
             cell.userInteractionEnabled = false;
             if (stationsCount == nil) {
                 textLabel?.text = NSLocalizedString("Loading", comment: "Loading ..")
-                detailTextLabel?.text = ""
+                detailTextLabel?.text = stations.loadingMessage
             } else {
                 textLabel?.text = NSLocalizedString("No stations found.", comment: "")
                 detailTextLabel.text = stations.networkErrorMsg

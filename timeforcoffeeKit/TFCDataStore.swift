@@ -88,7 +88,6 @@ public class TFCDataStore: NSObject {
                 NSNotificationCenter.defaultCenter().removeObserver(self.notificationObserver!)
                 self.notificationObserver = nil
             }
-            NSLog("removeNotifications3")
         }
     }
 

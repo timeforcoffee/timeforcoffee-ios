@@ -21,7 +21,10 @@ public class TFCBaseViewController: UIViewController, TFCLocationManagerDelegate
         //do nothing here, you have to overwrite that
     }
 
-    public func locationDenied(manager: CLLocationManager) {
+    public func locationDenied(manager: CLLocationManager, err:NSError) {
+    }
+
+    public func locationStillTrying(manager: CLLocationManager, err:NSError) {
     }
 
 

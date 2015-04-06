@@ -178,7 +178,12 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         }
     }
 
-    override func locationDenied(manager: CLLocationManager) {
+    override func locationDenied(manager: CLLocationManager, err:NSError) {
+        if (err.code == CLError.LocationUnknown.rawValue) {
+            self.networkErrorMsg = "Airplane mode?"
+            self.appsTableView?.reloadData()
+            return
+        }
         dispatch_async(dispatch_get_main_queue(), {
             self.networkErrorMsg = "Location not available"
             self.stations?.empty()
@@ -314,7 +319,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             if (stationsCount == nil || stationsCount == 0) {
                 if (stationsCount == nil) {
                     destinationLabel.text = NSLocalizedString("Loading", comment: "Loading ..")
-                    departureLabel.text = ""
+                    departureLabel.text = stations?.loadingMessage
                 } else {
                     destinationLabel.text = NSLocalizedString("No stations found.", comment: "")
                     departureLabel.text = stations?.networkErrorMsg
@@ -355,8 +360,9 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             lineNumberLabel.hidden = true
             departureLabel.text = nil
             minutesLabel.text = nil
-            if (station != nil && departures == nil) {
+            if ((station != nil && departures == nil) || stations?.isLoading == true) {
                 destinationLabel.text = NSLocalizedString("Loading", comment: "Loading ..")
+                departureLabel.text = stations?.loadingMessage
             } else {
                 if (station == nil ) {
                     destinationLabel.text = NSLocalizedString("No stations found.", comment: "")

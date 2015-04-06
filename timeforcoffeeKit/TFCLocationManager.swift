@@ -29,6 +29,10 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
         static var currentLocation: CLLocation?
     }
 
+    public struct k {
+        public static let AirplaneMode = "AirplaneMode?"
+    }
+    
     public init(delegate: TFCLocationManagerDelegate) {
         self.delegate = delegate
     }
@@ -47,10 +51,10 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
     
     public func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
         if ((error) != nil) {
-            NSLog("LocationManager ErrorCode \(error.code)")
-
-            NSLog("LocationManager Error \(error)")
+            NSLog("LocationManager Error \(error) with code \(error.code)")
             if (error.code == CLError.LocationUnknown.rawValue) {
+                NSLog("LocationManager LocationUnknown")
+                self.delegate.locationStillTrying(manager, err: error)
                 return
             }
             self.locationManager.stopUpdatingLocation()
@@ -68,7 +72,7 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
                 self.delegate.locationFixed(currentLocation)
                 //self.delegate.locationDenied(manager)
                 #else
-                self.delegate.locationDenied(manager)
+                self.delegate.locationDenied(manager, err: error)
                 #endif
             }
         }
@@ -126,6 +130,6 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
 
 public protocol TFCLocationManagerDelegate: class {
     func locationFixed(coord: CLLocation?)
-    func locationDenied(manager: CLLocationManager)
-
+    func locationDenied(manager: CLLocationManager, err: NSError)
+    func locationStillTrying(manager: CLLocationManager, err: NSError)
 }
