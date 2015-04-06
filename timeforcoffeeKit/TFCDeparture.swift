@@ -119,6 +119,13 @@ public class TFCDeparture: NSObject, NSCoding {
         }
         return fullName
     }
+
+    public func isRealTime() -> Bool {
+        if (realtime == nil) {
+            return false
+        }
+        return true
+    }
     
     public func getDestination() -> String {
         return "\(self.to)"

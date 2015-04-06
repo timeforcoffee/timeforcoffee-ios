@@ -120,19 +120,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     queryStrings[key] = value
                 }
             }
-            var Clocation: CLLocation? = nil
-            if (queryStrings["lat"] != nil) {
-                Clocation = CLLocation(latitude: NSString(string: queryStrings["lat"]!).doubleValue, longitude: NSString(string: queryStrings["long"]!).doubleValue)
-            }
-            let station = TFCStation(name: queryStrings["name"]!, id: queryStrings["id"]!, coord: Clocation)
-            let stations = TFCStations()
-            let rootView = self.window?.rootViewController? as UINavigationController
-            let detailViewController = rootView.storyboard?.instantiateViewControllerWithIdentifier("DeparturesViewController") as DeparturesViewController
+            if let name = queryStrings["name"] as String? {
+                var Clocation: CLLocation? = nil
+                if (queryStrings["lat"] != nil) {
+                    Clocation = CLLocation(latitude: NSString(string: queryStrings["lat"]!).doubleValue, longitude: NSString(string: queryStrings["long"]!).doubleValue)
+                }
+                let station = TFCStation.initWithCache(name, id: queryStrings["id"]!, coord: Clocation)
+                let stations = TFCStations()
+                let rootView = self.window?.rootViewController? as UINavigationController
+                let detailViewController = rootView.storyboard?.instantiateViewControllerWithIdentifier("DeparturesViewController") as DeparturesViewController
 
-            rootView.dismissViewControllerAnimated(false, completion: nil)
-            rootView.popToRootViewControllerAnimated(false)
-            detailViewController.setStation(station)
-            rootView.pushViewController(detailViewController, animated: false)
+                rootView.dismissViewControllerAnimated(false, completion: nil)
+                rootView.popToRootViewControllerAnimated(false)
+                detailViewController.setStation(station)
+                rootView.pushViewController(detailViewController, animated: false)
+            }
         }
         return true
     }
