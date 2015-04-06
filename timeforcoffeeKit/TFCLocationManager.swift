@@ -46,11 +46,16 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
     }
     
     public func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
-        self.locationManager.stopUpdatingLocation()
         if ((error) != nil) {
-            if (seenError == false) {
+            NSLog("LocationManager ErrorCode \(error.code)")
+
+            NSLog("LocationManager Error \(error)")
+            if (error.code == CLError.LocationUnknown.rawValue) {
+                return
+            }
+            self.locationManager.stopUpdatingLocation()
+            if (seenError == false ) {
                 seenError = true
-                NSLog("LocationManager Error \(error)")
                 // we often get errors on the simulator, this just sets the currentCoordinates to the liip office
                 // in zurich when in the simulator
                 #if (arch(i386) || arch(x86_64)) && os(iOS)
