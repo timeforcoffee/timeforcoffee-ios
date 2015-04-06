@@ -45,10 +45,12 @@ public class TFCWatchData: NSObject, APIControllerProtocol, TFCLocationManagerDe
         }
     }
 
-    public func locationDenied(manager: CLLocationManager) {
+    public func locationDenied(manager: CLLocationManager, err:NSError) {
 
     }
 
+    public func locationStillTrying(manager: CLLocationManager, err:NSError) {
+    }
     
     public func getDepartures(info: NSDictionary, reply: replyClosure?) {
         var context = contextData(reply: reply, st_id: info["st_id"] as String?, st_name: info["st_name"] as String?)
