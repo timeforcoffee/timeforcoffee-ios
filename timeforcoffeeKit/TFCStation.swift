@@ -88,6 +88,7 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
         var newStation: TFCStation? = cache.objectForKey(id) as TFCStation?
         if (newStation == nil || newStation?.coord == nil) {
             newStation = TFCStation(name: name, id: id, coord: coord)
+            cache.setObject(newStation!, forKey: newStation!.st_id)
         } else {
             let countBefore = newStation!.departures?.count
             if (countBefore > 0) {
@@ -280,19 +281,36 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
     
     public func updateDepartures(completionDelegate: TFCDeparturesUpdatedProtocol?, force: Bool) {
 
-        removeObsoleteDepartures()
+        let removedDepartures = removeObsoleteDepartures()
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             var context: contextData = contextData()
 
             context.completionDelegate = completionDelegate
-
+            var dontUpdate = false
+            if let first = self.departures?.first {
+                // don't update if the next departure is more than 30 minutes away,
+                // we didn't remove any departures above
+                // and this happens to be not realtime (which I assume normally isnt
+                // if the first departure is that far away)
+                if (!removedDepartures && first.getMinutesAsInt() > 30 && !first.isRealTime()) {
+                    dontUpdate = true
+                }
+            }
             var settingsLastUpdated: NSDate? = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("settingsLastUpdate") as NSDate?
-            if (force || self.lastDepartureUpdate == nil || self.lastDepartureUpdate?.timeIntervalSinceNow < -20 ||
-                (settingsLastUpdated != nil && self.lastDepartureUpdate?.timeIntervalSinceDate(settingsLastUpdated!) < 0 )
+            if (force ||
+                    (!dontUpdate &&
+                        (self.lastDepartureUpdate == nil ||
+                         self.lastDepartureUpdate?.timeIntervalSinceNow < -20 ||
+                            (settingsLastUpdated != nil &&
+                             self.lastDepartureUpdate?.timeIntervalSinceDate(settingsLastUpdated!) < 0
+                            )
+                        )
+                    )
                 )
             {
                 self.lastDepartureUpdate = NSDate()
                 self.api.getDepartures(self.st_id, context: context)
+
             } else {
                 dispatch_async(dispatch_get_main_queue(), {
                     completionDelegate?.departuresStillCached(context, forStation: self)
@@ -300,11 +318,9 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
                 })
             }
         }
-
     }
 
     public func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?) {
-
             let contextInfo: contextData? = context as contextData?
             if (error != nil && self.departures != nil && self.departures?.count > 0) {
                 self.setDeparturesAsOutdated()
@@ -332,13 +348,15 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
         self.departures = nil
     }
 
-    private func removeObsoleteDepartures() {
+    private func removeObsoleteDepartures() -> Bool {
         if (self.departures == nil || self.departures?.count == 0) {
-            return
+            return false
         }
         var i = 0;
+        var someRemoved = false
         for (departure: TFCDeparture) in self.departures! {
             if (departure.getMinutesAsInt() < 0) {
+                someRemoved = true
                 departures?.removeAtIndex(i)
             } else {
                 i++
@@ -347,7 +365,9 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
 
         if (departures?.count == 0) {
             clearDepartures()
+            someRemoved = true
         }
+        return someRemoved
     }
 
     public func getDistanceForDisplay(location: CLLocation?, completion: (String?) -> Void) -> String {
