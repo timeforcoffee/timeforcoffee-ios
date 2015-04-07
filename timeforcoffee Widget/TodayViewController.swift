@@ -118,6 +118,10 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         actionLabel.setTitleColor(UIColor.lightGrayColor(), forState: UIControlState.Normal)
     }
 
+    override func viewDidDisappear(animated: Bool) {
+        TFCURLSession.sharedInstance.cancelURLSession()
+    }
+
     func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)!) {
         // Perform any setup necessary in order to update the view.
         // If an error is encountered, use NCUpdateResult.Failed
