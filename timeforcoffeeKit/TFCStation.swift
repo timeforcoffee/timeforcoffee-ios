@@ -238,10 +238,13 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
     }
 
     private func addDepartures(departures: [TFCDeparture]?) {
-        self.departures = departures
-        let cache: PINCache = TFCCache.objects.stations
-        cache.setObject(self, forKey: st_id)
-
+        // don't update departures, if we get nil
+        // can happen when network request didn't work properly
+        if (!(departures == nil && self.departures?.count > 0)) {
+            self.departures = departures
+            let cache: PINCache = TFCCache.objects.stations
+            cache.setObject(self, forKey: st_id)
+        }
     }
 
     public func getDepartures() -> [TFCDeparture]? {

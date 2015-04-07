@@ -65,9 +65,8 @@ public class TFCDeparture: NSObject, NSCoding {
         // Store the results in our table data array
         var departures: [TFCDeparture]?
 
-        departures = [TFCDeparture]()
         if let results = allResults["departures"].array {
-            
+            departures = [TFCDeparture]()
             for result in results {
                 var name = result["name"].string
                 var type = result["type"].string
@@ -102,9 +101,9 @@ public class TFCDeparture: NSObject, NSCoding {
                 var newDeparture = TFCDeparture(name: name!, type: type!, accessible: accessible, to: to!, scheduled: scheduled, realtime: realtime, colorFg: colorFg, colorBg: colorBg)
                 departures?.append(newDeparture)
             }
+            return departures
         }
-        
-        return departures
+        return nil
     }
 
     public func getDestination(station: TFCStation) -> String {
