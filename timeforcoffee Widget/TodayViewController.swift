@@ -86,12 +86,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         super.init(coder: aDecoder)
         if (getLastUsedView() == "nearbyStations") {
             showStations = true
-            let stationDict = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedStationsNormal") as [String]?
-            let stationDictFavs = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedStationsFavorites") as [String]?
-            if (stationDict != nil) {
-                self.stations?.populateWithIds(stationDictFavs, nonfavorites:stationDict)
-                self.appsTableView?.reloadData()
-            }
+            populateStationsFromLastUsed()
         } else {
             self.currentStation = self.lastViewedStation
             if (self.currentStation != nil) {
@@ -227,6 +222,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             sendScreenNameToGA("todayviewStation")
         } else { // if (stations?.count() > 0) {
             showStations = true
+            populateStationsFromLastUsed()
             stations?.updateStations(false)
             self.appsTableView?.reloadData()
             sendScreenNameToGA("todayviewNearby")
@@ -335,6 +331,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         if (showStations) {
             let stationsCount = self.stations?.count()
             if (stationsCount == nil || stationsCount == 0) {
+                titleLabel.text = "Time for Coffee!"
                 if (stationsCount == nil) {
                     destinationLabel.text = NSLocalizedString("Loading", comment: "Loading ..")
                     departureLabel.text = stations?.loadingMessage
@@ -391,7 +388,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                         departureLabel.text = self.networkErrorMsg
                     }
                 }
-
+                titleLabel.text = "Time for Coffee!"
                 if (station?.hasFilters() == true && station?.getDepartures()?.count > 0) {
                     departureLabel.text = NSLocalizedString("Remove some filters.", comment: "")
                 }
@@ -495,13 +492,26 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         })
     }
 
-    func sendScreenNameToGA(screenname: String) {
+    private func sendScreenNameToGA(screenname: String) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
             self.gtracker.set(kGAIScreenName, value: screenname)
             self.gtracker.send(GAIDictionaryBuilder.createScreenView().build())
         }
     }
-    
+
+    private func populateStationsFromLastUsed() {
+        if (!(self.stations?.count() > 0)) {
+            let stationDict = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedStationsNormal") as [String]?
+            let stationDictFavs = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedStationsFavorites") as [String]?
+            if (stationDict != nil) {
+                self.stations?.populateWithIds(stationDictFavs, nonfavorites:stationDict)
+                self.appsTableView?.reloadData()
+            }
+        }
+    }
+
+
+
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         
         super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
