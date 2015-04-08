@@ -49,8 +49,6 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                     self.actionLabel.setTitle("Stations", forState: UIControlState.Normal)
                     if let stationName = self.currentStation?.getNameWithStarAndFilters() {
                         self.titleLabel.text = stationName
-                    } else {
-                        self.titleLabel.text = "Time for Coffee"
                     }
                 }
                 self.actionLabel.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
@@ -115,6 +113,11 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        if (getLastUsedView() == "nearbyStations") {
+            actionLabel.titleLabel?.text = "Back"
+        } else {
+            actionLabel.titleLabel?.text = "Stations"
+        }
         actionLabel.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
     }
 
@@ -464,10 +467,6 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                         self.titleLabel.text = title
                     }
                     self.displayDepartures()
-                    self.actionLabel.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-                } else {
-                    self.titleLabel.text = "Time for Coffee!"
-                    self.actionLabel.setTitleColor(UIColor.lightGrayColor(), forState: UIControlState.Normal)
                 }
             }
             if (self.showStations) {
