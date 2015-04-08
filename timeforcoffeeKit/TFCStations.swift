@@ -9,7 +9,7 @@
 import Foundation
 import CoreLocation
 
-public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerProtocol {
+public class TFCStations: NSObject, SequenceType, TFCLocationManagerDelegate, APIControllerProtocol {
 
     private weak var delegate: TFCStationsUpdatedProtocol?
 
@@ -267,8 +267,31 @@ public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerPro
         return nil
 
     }
-    
 
+    public func generate() -> IndexingGenerator<[TFCStation]> {
+        if (stations == nil) {
+            return [].generate()
+        }
+        return stations!.generate()
+    }
+
+    public func populateWithIds(favorites: [String]?, nonfavorites: [String]?) {
+        self.empty()
+        if let favorites = favorites {
+            for (id) in favorites {
+                let station = TFCStation.initWithCache("", id: id, coord: nil)
+                NSLog("\(station)")
+                self.nearbyFavorites!.append(station)
+            }
+        }
+        if let nonfavorites = nonfavorites {
+            for (id) in nonfavorites {
+                let station = TFCStation.initWithCache("", id: id, coord: nil)
+                NSLog("\(station)")
+                self._stations!.append(station)
+            }
+        }
+    }
 }
 
 public protocol TFCStationsUpdatedProtocol: class {

@@ -86,7 +86,17 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         super.init(coder: aDecoder)
         if (getLastUsedView() == "nearbyStations") {
             showStations = true
+            let stationDict = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedStationsNormal") as [String]?
+            let stationDictFavs = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedStationsFavorites") as [String]?
+            if (stationDict != nil) {
+                self.stations?.populateWithIds(stationDictFavs, nonfavorites:stationDict)
+                self.appsTableView?.reloadData()
+            }
         } else {
+            self.currentStation = self.lastViewedStation
+            if (self.currentStation != nil) {
+                self.appsTableView?.reloadData()
+            }
             showStations = false
         }
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
@@ -169,7 +179,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             if (locManager?.currentLocation != nil) {
                 // if lastUsedView is a single station and we did look at it no longer than 30 minutes
                 // and the distance is not much more (200m), just show it again
-                if (currentStation == nil) {
+                if (currentStation == nil && showStations == false) {
                     if (lastUsedViewUpdatedInterval() > -(60 * 30)) {
                         let distance2lastViewedStationNow: CLLocationDistance? = locManager?.currentLocation?.distanceFromLocation(lastViewedStation?.coord)
                         let distance2lastViewedStationLasttime: CLLocationDistance? = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedStationDistance") as CLLocationDistance?
@@ -463,6 +473,24 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                     self.actionLabel.setTitleColor(UIColor.lightGrayColor(), forState: UIControlState.Normal)
                 }
             }
+            if (self.showStations) {
+                var lastUsedStationsNormal:[String] = []
+                var lastUsedStationsFavorites:[String] = []
+                if let stations = self.stations {
+                    let userDefaults = TFCDataStore.sharedInstance.getUserDefaults()
+                    for (station) in stations {
+                        if (station.isFavorite()) {
+                            lastUsedStationsFavorites.append(station.st_id)
+                        } else {
+                            lastUsedStationsNormal.append(station.st_id)
+                        }
+                    }
+                    userDefaults?.setObject(lastUsedStationsNormal, forKey: "lastUsedStationsNormal")
+                    userDefaults?.setObject(lastUsedStationsFavorites, forKey: "lastUsedStationsFavorites")
+                }
+
+            }
+
             self.appsTableView.reloadData()
         })
     }
