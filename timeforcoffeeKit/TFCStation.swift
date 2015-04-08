@@ -363,6 +363,8 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
                 departures?.removeAtIndex(i)
             } else {
                 i++
+                //if we find one, which is not obselte, we can stop here
+                break
             }
         }
 
