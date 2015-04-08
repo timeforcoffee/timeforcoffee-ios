@@ -125,7 +125,9 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
     public func refreshLocation() {
         seenError = false
         locationFixAchieved = false
-        locationManager.startUpdatingLocation()
+        dispatch_async(dispatch_get_main_queue(), {
+            self.locationManager.startUpdatingLocation()
+        })
     }
 
     public class func getCurrentLocation() -> CLLocation? {
