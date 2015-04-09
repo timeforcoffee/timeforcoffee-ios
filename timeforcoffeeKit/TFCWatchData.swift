@@ -10,7 +10,7 @@ import Foundation
 import CoreLocation
 import WatchKit
 
-public class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIControllerProtocol {
+public final class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIControllerProtocol {
 
     public class var sharedInstance: TFCWatchData {
         struct Static {

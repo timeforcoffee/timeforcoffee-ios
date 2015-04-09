@@ -9,7 +9,7 @@
 import Foundation
 import CoreLocation
 
-public class TFCStations: SequenceType, TFCLocationManagerDelegate, APIControllerProtocol {
+public final class TFCStations: SequenceType, TFCLocationManagerDelegate, APIControllerProtocol {
 
     private weak var delegate: TFCStationsUpdatedProtocol?
 

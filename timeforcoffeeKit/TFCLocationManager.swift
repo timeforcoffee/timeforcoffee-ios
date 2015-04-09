@@ -9,7 +9,7 @@
 import Foundation
 import CoreLocation
 
-public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
+public final class TFCLocationManager: NSObject, CLLocationManagerDelegate {
     private lazy var locationManager : CLLocationManager = self.lazyInitLocationManager()
     private var locationFixAchieved : Bool = false
     private var locationStatus : NSString = "Not Started"

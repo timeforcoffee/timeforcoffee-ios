@@ -11,7 +11,7 @@ import CoreLocation
 import MapKit
 import PINCache
 
-public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
+public final class TFCStation: NSObject, NSCoding, APIControllerProtocol {
     public var name: String
     public var coord: CLLocation?
     public var st_id: String

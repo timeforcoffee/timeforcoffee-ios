@@ -11,7 +11,7 @@ import timeforcoffeeKit
 import MapKit
 import MGSwipeTableCell
 
-class DeparturesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, MGSwipeTableCellDelegate, MKMapViewDelegate, TFCDeparturesUpdatedProtocol {
+final class DeparturesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, MGSwipeTableCellDelegate, MKMapViewDelegate, TFCDeparturesUpdatedProtocol {
 
     @IBOutlet var appsTableView : UITableView?
     var refreshControl:UIRefreshControl!

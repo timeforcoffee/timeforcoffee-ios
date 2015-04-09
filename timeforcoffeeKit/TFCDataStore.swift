@@ -9,7 +9,7 @@
 import Foundation
 
 
-public class TFCDataStore: NSObject {
+final public class TFCDataStore: NSObject {
 
     public class var sharedInstance: TFCDataStore {
         struct Static {

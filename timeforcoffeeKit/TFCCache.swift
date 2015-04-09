@@ -9,7 +9,7 @@
 import Foundation
 import PINCache
 
-class TFCCache {
+final class TFCCache {
     struct objects {
         static var apicalls: PINCache = {
             let p = TFCCache.getCacheInstance("apicalls")

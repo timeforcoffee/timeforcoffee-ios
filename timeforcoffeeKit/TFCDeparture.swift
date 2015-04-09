@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-public class TFCDeparture: NSObject, NSCoding {
+public final class TFCDeparture: NSObject, NSCoding {
     private var name: String
     public var type: String
     private var accessible: Bool
