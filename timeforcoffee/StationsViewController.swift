@@ -15,7 +15,6 @@ class StationsViewController: TFCBaseViewController, TFCLocationManagerDelegate 
     @IBOutlet var appsTableView : StationTableView?
     //var stations: TFCStations!
     let cellIdentifier: String = "StationTableViewCell"
-    var api : APIController?
     var networkErrorMsg: String? = nil
     var showFavorites: Bool = false
     var pageIndex: Int?

@@ -10,13 +10,8 @@ import WatchKit
 import Foundation
 import timeforcoffeeKit
 
-
-class StationViewController: WKInterfaceController {
+class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol {
     @IBOutlet weak var stationsTable: WKInterfaceTable!
-    var stationName: String = ""
-    var stationId: String = ""
-    var data2: Int = 1
-    var stationInfo: AnyObject?
     var station: TFCStation?
     
     override init () {
@@ -26,50 +21,71 @@ class StationViewController: WKInterfaceController {
     }
     override func awakeWithContext(context: AnyObject?) {
       super.awakeWithContext(context)
-        
-        if let contextDict:Dictionary = context as Dictionary<String,AnyObject>!
-        {
-            stationInfo = contextDict
-            stationId = contextDict["st_id"] as String
-            stationName = contextDict["name"] as String
-            station = TFCStation(name: stationName, id: stationId, coord: nil);
-        }
+        NSLog("awake page")
+        self.station = context as! TFCStation?
     }
     
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
-        println("willActivate")
+        NSLog("willActivate page")
         self.setTitle(station?.getName(true))
-        func handleReply(replyInfo: [NSObject : AnyObject]!, error: NSError!) {
-            var i = 0;
-            let departures:[NSDictionary] = replyInfo["departures"] as [NSDictionary]
-            stationsTable.setNumberOfRows(departures.count, withRowType: "station")
-            for (station) in departures {
-                let sr = stationsTable.rowControllerAtIndex(i) as StationRow?
-                let to = station["to"] as String
-                let name = station["name"] as String
-                // doesn't work yet  with the font;(
-                let helvetica = UIFont(name: "HelveticaNeue-Bold", size: 18.0)!
-                var fontAttrs = [NSFontAttributeName : helvetica]
-                var attrString = NSAttributedString(string: name, attributes: fontAttrs)
-                sr?.numberLabel.setAttributedText(attrString)
-                sr?.destinationLabel.setText(to)
-                sr?.depatureLabel.setText(station["time"] as? String)
-                sr?.minutesLabel.setText(station["minutes"] as? String)
-                sr?.numberGroup.setBackgroundColor(UIColor(netHexString:(station["colorBg"] as String)))
-                sr?.numberLabel.setTextColor(UIColor(netHexString:(station["colorFg"] as String)))
+        station?.updateDepartures(self)
+        self.displayDepartures(station)
+    }
+
+    func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?) {
+        self.displayDepartures(forStation)
+    }
+
+    private func displayDepartures(station: TFCStation?) {
+        if (station == nil) {
+            return
+        }
+        let departures = station?.getFilteredDepartures(10)
+        var i = 0;
+        if let departures2 = departures {
+            stationsTable.setNumberOfRows(departures2.count, withRowType: "station")
+            for (deptstation) in departures2 {
+                if let sr = stationsTable.rowControllerAtIndex(i) as! StationRow? {
+                    let to = deptstation.getDestination(station!)
+                    let name = deptstation.getLine()                // doesn't work yet  with the font;(
+                    let helvetica = UIFont(name: "HelveticaNeue-Bold", size: 18.0)!
+                    var fontAttrs = [NSFontAttributeName : helvetica]
+                    var attrString = NSAttributedString(string: name, attributes: fontAttrs)
+                    if let numberLabel = sr.numberLabel {
+                        numberLabel.setAttributedText(attrString)
+                    }
+                    if let label = sr.destinationLabel {
+                        label.setText(to)
+                    }
+                    if let label = sr.depatureLabel {
+                        label.setText(deptstation.getTimeString())
+                    }
+                    if let label = sr.minutesLabel {
+                        label.setText(deptstation.getMinutes())
+                    }
+                    if (deptstation.colorBg != nil) {
+                        if let group = sr.numberGroup {
+                            group.setBackgroundColor(UIColor(netHexString:(deptstation.colorBg)!))
+                        }
+                        if let label = sr.numberLabel {
+                            label.setTextColor(UIColor(netHexString:(deptstation.colorFg)!))
+                        }
+                    }
+
+                }
                 i++
             }
         }
-        WKInterfaceController.openParentApplication(["module":"departures", "st_id": stationId, "st_name": stationName], handleReply)
+    }
+
+    func departuresStillCached(context: Any?, forStation: TFCStation?) {
+        departuresUpdated(nil, context: context, forStation: forStation)
     }
     
     override func didDeactivate() {
         // This method is called when watch view controller is no longer visible
         super.didDeactivate()
     }
-    
-    
-    
 }

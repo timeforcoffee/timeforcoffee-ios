@@ -11,7 +11,7 @@ import timeforcoffeeKit
 import CoreLocation
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var watchData: TFCWatchData?
@@ -142,16 +142,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if  (watchData == nil) {
             watchData = TFCWatchData()
         }
+
         let uI:[NSString : NSString] = userInfo as! [NSString : NSString]
-        if (uI["module"] == "favorites") {
-            watchData?.getFavorites(reply)
-        } else if (uI["module"] == "departures") {
-            watchData?.getDepartures(uI, reply: reply!)
-        } else if (uI["module"] == "nearby") {
-            NSLog("get nearby module")
-            watchData?.getNearbyStations(reply)
-        } else {
-            watchData?.getFavorites(reply)
+        if (uI["module"] == "location") {
+            watchData?.getLocation(reply)
         }
     }
 

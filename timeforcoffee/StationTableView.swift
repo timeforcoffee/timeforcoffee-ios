@@ -11,7 +11,7 @@ import MapKit
 import timeforcoffeeKit
 import CoreLocation
 
-class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, TFCStationsUpdatedProtocol {
+final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, TFCStationsUpdatedProtocol {
     
     var refreshControl:UIRefreshControl!
     lazy var stations: TFCStations = {return TFCStations(delegate: self)}()

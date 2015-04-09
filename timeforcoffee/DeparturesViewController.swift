@@ -11,7 +11,7 @@ import timeforcoffeeKit
 import MapKit
 import MGSwipeTableCell
 
-class DeparturesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, MGSwipeTableCellDelegate, MKMapViewDelegate, TFCDeparturesUpdatedProtocol {
+final class DeparturesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, MGSwipeTableCellDelegate, MKMapViewDelegate, TFCDeparturesUpdatedProtocol {
 
     @IBOutlet var appsTableView : UITableView?
     var refreshControl:UIRefreshControl!
@@ -536,7 +536,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
             let departure: TFCDeparture = departures![indexPath.row]
             
             var unabridged = false
-            if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+            if (UIDeviceOrientationIsLandscape(UIDevice.currentDevice().orientation)) {
                 unabridged = true
             }
             destinationLabel.text = departure.getDestinationWithSign(station, unabridged: unabridged)

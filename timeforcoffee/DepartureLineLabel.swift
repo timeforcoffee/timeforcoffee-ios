@@ -67,7 +67,7 @@ class DepartureLineLabel: UILabel, UITableViewDelegate {
     
 }
 
-class DepartureLineLabelForToday: DepartureLineLabel {
+final class DepartureLineLabelForToday: DepartureLineLabel {
     override var fontsize:CGFloat      { get { return 10.0}}
     override var cornerradius: CGFloat { get { return 1.0}}
     override var insets: CGFloat       { get { return 1.0}}

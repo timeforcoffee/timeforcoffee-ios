@@ -11,7 +11,7 @@ import SwipeView
 import timeforcoffeeKit
 import CoreLocation
 
-class AboutPagedViewController: UIViewController, SwipeViewDataSource, SwipeViewDelegate, UIWebViewDelegate, CLLocationManagerDelegate {
+final class AboutPagedViewController: UIViewController, SwipeViewDataSource, SwipeViewDelegate, UIWebViewDelegate, CLLocationManagerDelegate {
 
     @IBOutlet weak var swipeView: SwipeView!
 

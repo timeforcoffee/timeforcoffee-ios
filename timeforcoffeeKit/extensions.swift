@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 public typealias replyClosure = (([NSObject : AnyObject]!) -> Void)
+public typealias replyStations = ((TFCStations?) -> Void)
 
 public extension UIColor {
     convenience init(red: Int, green: Int, blue: Int) {

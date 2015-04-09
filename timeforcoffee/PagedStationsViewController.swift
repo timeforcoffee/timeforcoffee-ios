@@ -10,7 +10,7 @@
 import Foundation
 import timeforcoffeeKit
 
-class PagedStationsViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, UIScrollViewDelegate {
+final class PagedStationsViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, UIScrollViewDelegate {
 
     @IBOutlet weak var test: UINavigationItem!
 

@@ -9,7 +9,7 @@
 import Foundation
 import CoreLocation
 
-public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerProtocol {
+public final class TFCStations: SequenceType, TFCLocationManagerDelegate, APIControllerProtocol {
 
     private weak var delegate: TFCStationsUpdatedProtocol?
 
@@ -50,7 +50,7 @@ public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerPro
     private lazy var locManager: TFCLocationManager? = { return TFCLocationManager(delegate: self)}()
     private lazy var api : APIController = { return APIController(delegate: self)}()
 
-    public override init() {
+    public init() {
         // can be removed, when everyone moved to the new way of storing favorites
         favorite.s.repopulateFavorites()
     }
@@ -84,6 +84,11 @@ public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerPro
                     var id = String(result["id"].string!)
                     if (inStationsArrayAsFavorite[id] == nil && stationsAdded[id] == nil) {
                         var name = result["name"].string
+                        // the DB has all the uppercased short Strings as well, we don't want to display them
+                        // just don't add them
+                        if (name == name?.uppercaseString) {
+                            continue
+                        }
                         var longitude: Double? = nil
                         var latitude: Double? = nil
                         if (result["coordinate"]["y"].double != nil) {
@@ -134,7 +139,7 @@ public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerPro
             favDistance = location.horizontalAccuracy + 500.0
         }
         for (st_id, station) in favorite.s.stations {
-            var distance = location.distanceFromLocation(station.coord)
+            let distance = location.distanceFromLocation(station.coord)
             if (distance < favDistance) {
                 hasNearbyFavs = true
                 if (inStationsArrayAsFavorite[station.st_id] != true) {
@@ -268,6 +273,17 @@ public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerPro
 
     }
     
+    public func generate() -> IndexingGenerator<[TFCStation]> {
+        return stations!.generate()
+    }
+
+    public subscript(i: Int) -> TFCStation {
+        return stations![i]
+    }
+
+    public subscript(range: ClosedInterval<Int>) -> ArraySlice<TFCStation> {
+        return stations![range.start...range.end]
+    }
 
 }
 

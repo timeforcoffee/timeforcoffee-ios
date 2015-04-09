@@ -9,7 +9,7 @@
 import Foundation
 import CoreLocation
 
-public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
+public final class TFCLocationManager: NSObject, CLLocationManagerDelegate {
     private lazy var locationManager : CLLocationManager = self.lazyInitLocationManager()
     private var locationFixAchieved : Bool = false
     private var locationStatus : NSString = "Not Started"
@@ -40,7 +40,7 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
     private func lazyInitLocationManager() -> CLLocationManager {
         seenError = false
         locationFixAchieved = false
-        var lm = CLLocationManager()
+        let lm = CLLocationManager()
         lm.delegate = self
         lm.desiredAccuracy = kCLLocationAccuracyBest
         if (CLLocationManager.locationServicesEnabled()) {
@@ -84,11 +84,10 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
     
     public func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
         dispatch_async(dispatch_get_main_queue(), {
-            var coord: CLLocationCoordinate2D? = nil
             if (self.currentLocation == nil || self.locationFixAchieved == false) {
                 self.locationFixAchieved = true
-                var locationArray = locations as NSArray
-                var locationObj = locationArray.lastObject as! CLLocation
+                let locationArray = locations as NSArray
+                let locationObj = locationArray.lastObject as! CLLocation
                 self.currentLocation = locationObj;
                 self.delegate.locationFixed(self.currentLocation)
             } else {

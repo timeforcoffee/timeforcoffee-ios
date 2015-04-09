@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="6750" systemVersion="14D72i" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="6751" systemVersion="14D127a" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6735"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="3737"/>
     </dependencies>
     <scenes>
@@ -36,12 +36,12 @@
                                                 <color key="backgroundColor" red="0.99607843139999996" green="0.76470588240000004" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                                             </group>
-                                            <group width="90" height="28" alignment="left" layout="vertical" spacing="0.0" id="Cha-10-uSx">
+                                            <group width="94" height="28" alignment="left" layout="vertical" spacing="0.0" id="Cha-10-uSx">
                                                 <items>
-                                                    <label width="1" height="14" alignment="left" text="Zürich, Röntgenstrasse" minimumScaleFactor="0.79999999999999993" id="qmq-be-vci">
+                                                    <label width="108" height="14" alignment="left" text="Zürich, Röntgenstrasse" minimumScaleFactor="0.79999999999999993" id="qmq-be-vci">
                                                         <fontDescription key="font" type="system" pointSize="13"/>
                                                     </label>
-                                                    <label width="1" height="14" alignment="left" verticalAlignment="bottom" text="Timerfdgdfgdfg" minimumScaleFactor="0.50000000000000011" id="Kdx-go-JUj">
+                                                    <label width="1" height="14" alignment="left" verticalAlignment="bottom" text="in 0' / 17:30" minimumScaleFactor="0.50000000000000011" id="Kdx-go-JUj">
                                                         <fontDescription key="font" type="system" pointSize="10"/>
                                                     </label>
                                                 </items>
@@ -79,34 +79,40 @@
                     <items>
                         <group alignment="left" id="gv7-I2-MZq">
                             <items>
-                                <group width="26" height="26" alignment="left" verticalAlignment="center" radius="4" id="dUM-0r-Zst">
-                                    <items>
-                                        <label width="26" height="26" alignment="left" verticalAlignment="center" text="12" textAlignment="center" minimumScaleFactor="0.5" id="hE4-i0-wwk">
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <fontDescription key="font" type="system" pointSize="18"/>
-                                        </label>
-                                    </items>
-                                    <color key="backgroundColor" red="0.99607843139999996" green="0.76470588240000004" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
-                                </group>
                                 <group width="1" height="26" alignment="left" verticalAlignment="center" id="a8H-Pf-vgm">
                                     <items>
-                                        <label alignment="left" text="Zürich, Röntgenstrasse" id="Tuk-w4-2jI"/>
+                                        <label width="115" alignment="center" text="Zürich, Röntgenstrasse" id="Tuk-w4-2jI"/>
                                     </items>
+                                    <edgeInsets key="margins" left="4" right="0.0" top="0.0" bottom="0.0"/>
                                 </group>
                             </items>
                         </group>
                         <group alignment="left" layout="vertical" id="eew-Gs-W6Y">
                             <items>
-                                <group width="1" alignment="left" layout="vertical" id="X9s-ax-gfx">
+                                <group width="1" alignment="center" id="fMD-Jc-6G6">
                                     <items>
-                                        <label width="1" alignment="center" verticalAlignment="center" text="5'" textAlignment="center" id="o1H-2i-5C8">
-                                            <fontDescription key="font" type="system" pointSize="46"/>
-                                        </label>
+                                        <group width="52" height="52" alignment="left" verticalAlignment="center" radius="4" id="dUM-0r-Zst">
+                                            <items>
+                                                <label width="52" height="52" alignment="left" verticalAlignment="center" text="12" textAlignment="center" minimumScaleFactor="0.5" id="hE4-i0-wwk">
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="font" type="system" pointSize="18"/>
+                                                </label>
+                                            </items>
+                                            <color key="backgroundColor" red="0.99607843139999996" green="0.76470588240000004" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        </group>
+                                        <group alignment="left" layout="vertical" id="X9s-ax-gfx">
+                                            <items>
+                                                <label width="1" alignment="center" verticalAlignment="center" text="5'" textAlignment="center" id="o1H-2i-5C8">
+                                                    <fontDescription key="font" type="system" pointSize="46"/>
+                                                </label>
+                                            </items>
+                                        </group>
                                     </items>
+                                    <edgeInsets key="margins" left="4" right="0.0" top="0.0" bottom="0.0"/>
                                 </group>
                                 <group alignment="center" verticalAlignment="bottom" id="Kes-ck-dmS">
                                     <items>
-                                        <label alignment="left" text="in 0' / 17:30" textAlignment="center" id="HuI-Vy-Yul"/>
+                                        <label alignment="left" text="in 5' / 17:30" textAlignment="center" id="HuI-Vy-Yul"/>
                                     </items>
                                 </group>
                             </items>
@@ -114,7 +120,11 @@
                     </items>
                     <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="14"/>
                     <connections>
+                        <outlet property="depatureLabel" destination="HuI-Vy-Yul" id="Mex-YO-TMK"/>
+                        <outlet property="destinationLabel" destination="Tuk-w4-2jI" id="1Io-9H-V7P"/>
                         <outlet property="minutesLabel" destination="o1H-2i-5C8" id="LI3-Xf-6m4"/>
+                        <outlet property="numberGroup" destination="dUM-0r-Zst" id="FfL-cx-1e2"/>
+                        <outlet property="numberLabel" destination="hE4-i0-wwk" id="6zC-Zo-SSf"/>
                     </connections>
                 </glanceController>
             </objects>

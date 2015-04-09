@@ -11,7 +11,7 @@ import NotificationCenter
 import CoreLocation
 import timeforcoffeeKit
 
-class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate,  TFCDeparturesUpdatedProtocol, TFCStationsUpdatedProtocol {
+final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate,  TFCDeparturesUpdatedProtocol, TFCStationsUpdatedProtocol {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var appsTableView: UITableView!
     @IBOutlet weak var actionLabel: UIButton!
@@ -387,7 +387,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         cell.textLabel!.text = nil
         let departure: TFCDeparture = departures![indexPath.row]
         var unabridged = false
-        if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+        if (UIDeviceOrientationIsLandscape(UIDevice.currentDevice().orientation)) {
             unabridged = true
         }
         destinationLabel.text = departure.getDestinationWithSign(station, unabridged: unabridged)
