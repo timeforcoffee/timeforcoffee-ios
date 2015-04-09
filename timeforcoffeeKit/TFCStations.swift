@@ -72,16 +72,16 @@ public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerPro
         nearbyFavorites = []
     }
 
-    public func addWithJSON(allResults: JSON) {
+    public func addWithJSON(allResults: JSON?) {
         // Create an empty array of Albums to append to from this list
         // Store the results in our table data array
-        if allResults["stations"].array?.count>0 {
+        if (allResults != nil && allResults?["stations"].array?.count>0) {
             var newStations:[TFCStation] = []
             // to prevent double entries, the api sometimes returns more than one with the same id
             var stationsAdded:[String: Bool] = [:]
-            if let results = allResults["stations"].array {
+            if let results = allResults?["stations"].array {
                 for result in results {
-                    var id = String(result["id"].int!)
+                    var id = String(result["id"].string!)
                     if (inStationsArrayAsFavorite[id] == nil && stationsAdded[id] == nil) {
                         var name = result["name"].string
                         var longitude: Double? = nil
@@ -178,7 +178,7 @@ public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerPro
         }
     }
 
-    public func updateStations(searchFor:String) -> Bool {
+    public func updateStations(#searchFor: String) -> Bool {
         isLoading = true
         self.api.searchFor(searchFor)
         return true
@@ -220,11 +220,11 @@ public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerPro
             callStationsUpdatedDelegate(TFCLocationManager.k.AirplaneMode)
     }
 
-    public func didReceiveAPIResults(results: JSON, error: NSError?, context: Any?) {
+    public func didReceiveAPIResults(results: JSON?, error: NSError?, context: Any?) {
         isLoading = false
         var err: String? = nil
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            if (error != nil && error?.code != -999) {
+            if (error != nil && error?.code != -999 || results == nil) {
                 err =  "Network error. Please try again"
             } else {
                 self.addWithJSON(results)

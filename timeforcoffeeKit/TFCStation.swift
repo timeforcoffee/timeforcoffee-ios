@@ -85,7 +85,7 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
 
     public class func initWithCache(name: String, id: String, coord: CLLocation?) -> TFCStation {
         let cache: PINCache = TFCCache.objects.stations
-        var newStation: TFCStation? = cache.objectForKey(id) as TFCStation?
+        var newStation: TFCStation? = cache.objectForKey(id) as? TFCStation
         if (newStation == nil || newStation?.coord == nil) {
             newStation = TFCStation(name: name, id: id, coord: coord)
             cache.setObject(newStation!, forKey: newStation!.st_id)
@@ -114,7 +114,7 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
     }
 
     public class func isStations(results: JSON) -> Bool {
-        if (results["stations"].array? != nil) {
+        if (results["stations"].array != nil) {
             return true
         }
         return false
@@ -137,7 +137,7 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
     }
 
     public func unsetFavorite() {
-        TFCFavorites.sharedInstance.unset(self)
+        TFCFavorites.sharedInstance.unset(station: self)
     }
 
     public func getLongitude() -> Double? {
@@ -323,17 +323,17 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
         }
     }
 
-    public func didReceiveAPIResults(results: JSON, error: NSError?, context: Any?) {
+    public func didReceiveAPIResults(results: JSON?, error: NSError?, context: Any?) {
             let contextInfo: contextData? = context as! contextData?
-            if (error != nil && self.departures != nil && self.departures?.count > 0) {
+            if (results == nil || (error != nil && self.departures != nil && self.departures?.count > 0)) {
                 self.setDeparturesAsOutdated()
             } else {
                 self.addDepartures(TFCDeparture.withJSON(results))
             }
 
         dispatch_async(dispatch_get_main_queue(), {
-            if (self.name == "") {
-                self.name = TFCDeparture.getStationNameFromJson(results)!;
+            if (self.name == "" && results != nil) {
+                self.name = TFCDeparture.getStationNameFromJson(results!)!;
             }
             contextInfo?.completionDelegate?.departuresUpdated(error, context: context, forStation: self)
         })
@@ -518,7 +518,7 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
         return UIImage(named: "stationicon-pin")!
     }
 
-    public func toggleIcon(button: UIButton, icon: UIView, completion: () -> Void?) {
+    public func toggleIcon(button: UIButton, icon: UIView, completion: () -> Void) {
         var newImage: UIImage?
 
         self.toggleFavorite()

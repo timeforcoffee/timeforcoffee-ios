@@ -60,12 +60,14 @@ public class TFCDeparture: NSObject, NSCoding {
         return result["meta"]["station_name"].string
     }
     
-    public class func withJSON(allResults: JSON) -> [TFCDeparture]? {
+    public class func withJSON(allResults: JSON?) -> [TFCDeparture]? {
         // Create an empty array of Albums to append to from this list
         // Store the results in our table data array
         var departures: [TFCDeparture]?
-
-        if let results = allResults["departures"].array {
+        if (allResults == nil) {
+            return nil
+        }
+        if let results = allResults?["departures"].array {
             departures = [TFCDeparture]()
             for result in results {
                 var name = result["name"].string

@@ -77,7 +77,7 @@ public class TFCWatchData: NSObject, APIControllerProtocol, TFCLocationManagerDe
     }
     
  
-    public func didReceiveAPIResults(results: JSON, error: NSError?, context: Any?) {
+    public func didReceiveAPIResults(results: JSON?, error: NSError?, context: Any?) {
         dispatch_async(dispatch_get_main_queue(), {
             //TODO: show network error in watch
             if (error != nil && error?.code != -999) {
@@ -85,8 +85,11 @@ public class TFCWatchData: NSObject, APIControllerProtocol, TFCLocationManagerDe
             } else {
                 //   self.networkErrorMsg = nil
             }
+            if (results == nil) {
+                return
+            }
 
-            if (TFCStation.isStations(results)) {
+            if (TFCStation.isStations(results!)) {
                 self.stations.loadFavorites(self.locManager?.currentLocation)
                 self.stations.addWithJSON(results)
 
@@ -100,13 +103,13 @@ public class TFCWatchData: NSObject, APIControllerProtocol, TFCLocationManagerDe
             } else {
                 if (context != nil) {
 
-                    let contextInfo = context as contextData?
+                    let contextInfo = context as! contextData?
 
                     var stationName = contextInfo?.st_name
                     var stationId = contextInfo?.st_id
                     let station = TFCStation(name: stationName!, id: stationId!, coord: nil)
                     //let reply = contextData.ValReply(contextInfo["reply"]?)
-                    let departuresObjects: [TFCDeparture]? = TFCDeparture.withJSON(results)
+                    let departuresObjects: [TFCDeparture]? = TFCDeparture.withJSON(results!)
                     var departures: [NSDictionary] = []
                     for departure in departuresObjects! as [TFCDeparture] {
                         departures.append(departure.getAsDict(station))

@@ -40,6 +40,7 @@ class StationTableViewCell: UITableViewCell {
 
         func completion() -> Void {
             self.drawIcon()
+            return
         }
 
         self.station.toggleIcon(self.StationFavoriteButton!, icon: StationIconView, completion: completion)
