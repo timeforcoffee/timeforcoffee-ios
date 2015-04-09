@@ -58,8 +58,8 @@ public class APIController {
     private func fetchUrl(urlPath: String, fetchId: Int, context: Any?, cacheKey: String?, counter: Int) {
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            if (cacheKey != nil && self.cache.objectForKey(cacheKey!) != nil) {
-                let result = JSONValue(self.cache.objectForKey(cacheKey!) as NSData!);
+            if (cacheKey != nil && self.cache.objectForKey(cacheKey!) as? NSData != nil) {
+                let result = JSON(data: self.cache.objectForKey(cacheKey!) as! NSData);
                 self.delegate?.didReceiveAPIResults(result, error: nil, context: context)
             } else {
                 let url: NSURL = NSURL(string: urlPath)!
@@ -84,7 +84,7 @@ public class APIController {
                             let newcounter = counter + 1
                             // don't do it more than 5 times
                             if (newcounter <= 5) {
-                                self.delegate?.didReceiveAPIResults(JSONValue(nil), error: error, context: context)
+                                self.delegate?.didReceiveAPIResults(nil, error: error, context: context)
                                 NSLog("Retry #\(newcounter) fetching \(urlPath)")
                                 self.fetchUrl(urlPath, fetchId: fetchId, context: context, cacheKey: cacheKey, counter: newcounter)
                             }
@@ -93,7 +93,7 @@ public class APIController {
                     if (fetchId == 1) {
                         self.currentFetch[fetchId] = nil
                     }
-                    let jsonResult = JSONValue(data)
+                    let jsonResult = JSON(data: data)
                     //jsonResult.boolValue is false, when data was not parseable. Don't cache it in that case
                     if (jsonResult.boolValue == true && error == nil && cacheKey != nil) {
                         self.cache.setObject(data, forKey: cacheKey!)
@@ -112,5 +112,5 @@ public class APIController {
 }
 
 public protocol APIControllerProtocol: class {
-    func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?)
+    func didReceiveAPIResults(results: JSON?, error: NSError?, context: Any?)
 }

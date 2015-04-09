@@ -49,7 +49,7 @@ class AboutPagedViewController: UIViewController, SwipeViewDataSource, SwipeView
 
             let aboutview = self.storyboard?.instantiateViewControllerWithIdentifier("AboutViewController").view as UIView?
             aboutview?.autoresizingMask = UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleWidth
-            let webview = aboutview?.viewWithTag(10) as UIWebView
+            let webview = aboutview?.viewWithTag(10) as! UIWebView
             webview.scrollView.scrollEnabled = false;
             webview.delegate = self
             let htmlfile = NSBundle.mainBundle().pathForResource("About", ofType: "html")
@@ -57,7 +57,7 @@ class AboutPagedViewController: UIViewController, SwipeViewDataSource, SwipeView
 
             webview.loadHTMLString(htmlString, baseURL: nil)
 
-            let chatbutton = aboutview?.viewWithTag(20) as UIButton
+            let chatbutton = aboutview?.viewWithTag(20) as! UIButton
             chatbutton.addTarget(self, action: "startChat", forControlEvents: UIControlEvents.TouchUpInside
             )
             return aboutview
@@ -163,7 +163,7 @@ class AboutPagedViewController: UIViewController, SwipeViewDataSource, SwipeView
 
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         if (navigationType == UIWebViewNavigationType.LinkClicked) {
-            UIApplication.sharedApplication().openURL(request.URL)
+            UIApplication.sharedApplication().openURL(request.URL!)
             return false
         }
         return true

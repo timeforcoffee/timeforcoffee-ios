@@ -25,7 +25,7 @@ class StationsSearchViewController: StationsViewController, UISearchBarDelegate 
         self.navigationItem.rightBarButtonItem = nil;
         self.navigationItem.titleView = searchBar
         searchBar?.delegate = self
-        let appsTableView = self.appsTableView2?
+        let appsTableView = self.appsTableView2
         sc.searchResultsUpdater = appsTableView
         definesPresentationContext = false
         self.view.alpha = 0.0
@@ -59,7 +59,7 @@ class StationsSearchViewController: StationsViewController, UISearchBarDelegate 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
             let gtracker = GAI.sharedInstance().defaultTracker
             gtracker.set(kGAIScreenName, value: "search")
-            gtracker.send(GAIDictionaryBuilder.createScreenView().build())
+            gtracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject]!)
         }
     }
 
@@ -69,7 +69,7 @@ class StationsSearchViewController: StationsViewController, UISearchBarDelegate 
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        var detailsViewController: DeparturesViewController = segue.destinationViewController as DeparturesViewController
+        var detailsViewController: DeparturesViewController = segue.destinationViewController as! DeparturesViewController
 
         if (self.searchController != nil) {
             self.searchController?.searchBar.resignFirstResponder()
@@ -77,7 +77,7 @@ class StationsSearchViewController: StationsViewController, UISearchBarDelegate 
         var index = appsTableView2?.indexPathForSelectedRow()?.row
         if (index != nil) {
             var station = appsTableView2?.stations.getStation(index!)
-            detailsViewController.setStation(station!);
+            detailsViewController.setStation(station: station!);
         }
     }
 }

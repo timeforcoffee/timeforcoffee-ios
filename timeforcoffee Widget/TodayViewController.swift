@@ -59,7 +59,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     }
 
     lazy var lastViewedStation: TFCStation? = {
-        let stationDict = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedStation") as [String: String]?
+        let stationDict = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedStation") as! [String: String]?
         if (stationDict == nil) {
             return nil
         }
@@ -77,11 +77,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     }
 
 
-    override init() {
-        super.init()
-    }
-
-    override init(coder aDecoder: NSCoder) {
+    required init(coder aDecoder: NSCoder) {
         NSLog("init")
         super.init(coder: aDecoder)
         if (getLastUsedView() == "nearbyStations") {
@@ -116,6 +112,10 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         actionLabel.setTitleColor(UIColor.lightGrayColor(), forState: UIControlState.Normal)
+    }
+
+    override func viewDidDisappear(animated: Bool) {
+        TFCURLSession.sharedInstance.cancelURLSession()
     }
 
     func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)!) {
@@ -168,7 +168,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                 if (currentStation == nil) {
                     if (lastUsedViewUpdatedInterval() > -(60 * 30)) {
                         let distance2lastViewedStationNow: CLLocationDistance? = locManager?.currentLocation?.distanceFromLocation(lastViewedStation?.coord)
-                        let distance2lastViewedStationLasttime: CLLocationDistance? = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedStationDistance") as CLLocationDistance?
+                        let distance2lastViewedStationLasttime: CLLocationDistance? = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedStationDistance") as! CLLocationDistance?
                         if (distance2lastViewedStationNow != nil && distance2lastViewedStationLasttime != nil && distance2lastViewedStationNow! < distance2lastViewedStationLasttime! + 200) {
                             currentStation = lastViewedStation
                             if (currentStation != nil) {
@@ -263,11 +263,11 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     }
 
     func getLastUsedView() -> String? {
-        return TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedView") as String?
+        return TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedView") as! String?
     }
 
     func lastUsedViewUpdatedInterval() -> NSTimeInterval? {
-        let lastUpdate: NSDate? = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedViewUpdate") as NSDate?
+        let lastUpdate: NSDate? = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedViewUpdate") as! NSDate?
         return lastUpdate?.timeIntervalSinceNow
     }
 
@@ -304,19 +304,19 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell: UITableViewCell
         if (showStations) {
-            cell = tableView.dequeueReusableCellWithIdentifier("NearbyStationsCell") as UITableViewCell
+            cell = tableView.dequeueReusableCellWithIdentifier("NearbyStationsCell") as! UITableViewCell
         } else {
-            cell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as UITableViewCell
+            cell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as! UITableViewCell
         }
         cell.layoutMargins = UIEdgeInsetsZero
         cell.preservesSuperviewLayoutMargins = false
         
         
         
-        let lineNumberLabel = cell.viewWithTag(100) as DepartureLineLabel
-        let destinationLabel = cell.viewWithTag(200) as UILabel
-        let departureLabel = cell.viewWithTag(300) as UILabel
-        let minutesLabel = cell.viewWithTag(400) as UILabel
+        let lineNumberLabel = cell.viewWithTag(100) as! DepartureLineLabel
+        let destinationLabel = cell.viewWithTag(200) as! UILabel
+        let departureLabel = cell.viewWithTag(300) as! UILabel
+        let minutesLabel = cell.viewWithTag(400) as! UILabel
 
         if (showStations) {
             let stationsCount = self.stations?.count()
@@ -338,7 +338,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             station?.updateDepartures(self)
             let departures = station?.getFilteredDepartures(1)
             let firstDeparture = departures?.first
-            let iconLabel = cell.viewWithTag(500) as UIImageView
+            let iconLabel = cell.viewWithTag(500) as! UIImageView
             iconLabel.layer.cornerRadius = iconLabel.layer.bounds.width / 2
             iconLabel.clipsToBounds = true
             iconLabel.image = station?.getIcon()
@@ -466,22 +466,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     func sendScreenNameToGA(screenname: String) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
             self.gtracker.set(kGAIScreenName, value: screenname)
-            self.gtracker.send(GAIDictionaryBuilder.createScreenView().build())
+            self.gtracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject]!)
         }
-    }
-    
-    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-        
-        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
-        
-        coordinator.animateAlongsideTransition(
-            {
-                (context) -> Void in
-            },
-            completion: {
-                (context) -> Void in
-                self.appsTableView?.reloadData()
-                return
-        })
     }
 }
