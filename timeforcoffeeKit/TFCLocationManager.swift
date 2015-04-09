@@ -88,7 +88,7 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
             if (self.currentLocation == nil || self.locationFixAchieved == false) {
                 self.locationFixAchieved = true
                 var locationArray = locations as NSArray
-                var locationObj = locationArray.lastObject as CLLocation
+                var locationObj = locationArray.lastObject as! CLLocation
                 self.currentLocation = locationObj;
                 self.delegate.locationFixed(self.currentLocation)
             } else {

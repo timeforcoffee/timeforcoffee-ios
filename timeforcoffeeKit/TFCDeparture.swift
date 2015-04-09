@@ -34,14 +34,14 @@ public class TFCDeparture: NSObject, NSCoding {
     }
 
     required public init(coder aDecoder: NSCoder) {
-        self.name = aDecoder.decodeObjectForKey("name") as String
-        self.type = aDecoder.decodeObjectForKey("type") as String
+        self.name = aDecoder.decodeObjectForKey("name") as! String
+        self.type = aDecoder.decodeObjectForKey("type") as! String
         self.accessible = aDecoder.decodeBoolForKey("accessible")
-        self.to = aDecoder.decodeObjectForKey("to") as String
-        self.scheduled = aDecoder.decodeObjectForKey("scheduled") as NSDate?
-        self.realtime = aDecoder.decodeObjectForKey("realtime") as NSDate?
-        self.colorFg = aDecoder.decodeObjectForKey("colorFg") as String?
-        self.colorBg = aDecoder.decodeObjectForKey("colorBg") as String?
+        self.to = aDecoder.decodeObjectForKey("to") as! String
+        self.scheduled = aDecoder.decodeObjectForKey("scheduled") as! NSDate?
+        self.realtime = aDecoder.decodeObjectForKey("realtime") as! NSDate?
+        self.colorFg = aDecoder.decodeObjectForKey("colorFg") as! String?
+        self.colorBg = aDecoder.decodeObjectForKey("colorBg") as! String?
     }
 
     public func encodeWithCoder(aCoder: NSCoder) {
@@ -56,11 +56,11 @@ public class TFCDeparture: NSObject, NSCoding {
     }
 
     
-    public class func getStationNameFromJson(result: JSONValue) -> String? {
+    public class func getStationNameFromJson(result: JSON) -> String? {
         return result["meta"]["station_name"].string
     }
     
-    public class func withJSON(allResults: JSONValue) -> [TFCDeparture]? {
+    public class func withJSON(allResults: JSON) -> [TFCDeparture]? {
         // Create an empty array of Albums to append to from this list
         // Store the results in our table data array
         var departures: [TFCDeparture]?

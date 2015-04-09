@@ -53,7 +53,7 @@ public class TFCWatchData: NSObject, APIControllerProtocol, TFCLocationManagerDe
     }
     
     public func getDepartures(info: NSDictionary, reply: replyClosure?) {
-        var context = contextData(reply: reply, st_id: info["st_id"] as String?, st_name: info["st_name"] as String?)
+        var context = contextData(reply: reply, st_id: info["st_id"] as! String?, st_name: info["st_name"] as! String?)
         self.api?.getDepartures(context.st_id, context: context)
     }
     
@@ -77,7 +77,7 @@ public class TFCWatchData: NSObject, APIControllerProtocol, TFCLocationManagerDe
     }
     
  
-    public func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?) {
+    public func didReceiveAPIResults(results: JSON, error: NSError?, context: Any?) {
         dispatch_async(dispatch_get_main_queue(), {
             //TODO: show network error in watch
             if (error != nil && error?.code != -999) {

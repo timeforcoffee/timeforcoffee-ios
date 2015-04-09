@@ -112,5 +112,5 @@ public class APIController {
 }
 
 public protocol APIControllerProtocol: class {
-    func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?)
+    func didReceiveAPIResults(results: JSON, error: NSError?, context: Any?)
 }

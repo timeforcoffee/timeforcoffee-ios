@@ -72,7 +72,7 @@ public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerPro
         nearbyFavorites = []
     }
 
-    public func addWithJSON(allResults: JSONValue) {
+    public func addWithJSON(allResults: JSON) {
         // Create an empty array of Albums to append to from this list
         // Store the results in our table data array
         if allResults["stations"].array?.count>0 {
@@ -81,7 +81,7 @@ public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerPro
             var stationsAdded:[String: Bool] = [:]
             if let results = allResults["stations"].array {
                 for result in results {
-                    var id = String(result["id"].integer!)
+                    var id = String(result["id"].int!)
                     if (inStationsArrayAsFavorite[id] == nil && stationsAdded[id] == nil) {
                         var name = result["name"].string
                         var longitude: Double? = nil
@@ -220,7 +220,7 @@ public class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerPro
             callStationsUpdatedDelegate(TFCLocationManager.k.AirplaneMode)
     }
 
-    public func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?) {
+    public func didReceiveAPIResults(results: JSON, error: NSError?, context: Any?) {
         isLoading = false
         var err: String? = nil
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {

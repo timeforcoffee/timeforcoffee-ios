@@ -57,15 +57,15 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
     }
 
     public required init(coder aDecoder: NSCoder) {
-        self.name = aDecoder.decodeObjectForKey("name") as String
-        self.st_id = aDecoder.decodeObjectForKey("st_id") as String
-        self.coord = aDecoder.decodeObjectForKey("coord") as CLLocation?
-        self.departures = aDecoder.decodeObjectForKey("departures") as [TFCDeparture]?
+        self.name = aDecoder.decodeObjectForKey("name") as! String
+        self.st_id = aDecoder.decodeObjectForKey("st_id") as! String
+        self.coord = aDecoder.decodeObjectForKey("coord") as! CLLocation?
+        self.departures = aDecoder.decodeObjectForKey("departures") as! [TFCDeparture]?
         if (self.departures?.count == 0) {
             self.departures = nil
         }
-        self.walkingDistanceString = aDecoder.decodeObjectForKey("walkingDistanceString") as String?
-        self.walkingDistanceLastCoord = aDecoder.decodeObjectForKey("walkingDistanceLastCoord") as CLLocation?
+        self.walkingDistanceString = aDecoder.decodeObjectForKey("walkingDistanceString") as! String?
+        self.walkingDistanceLastCoord = aDecoder.decodeObjectForKey("walkingDistanceLastCoord") as! CLLocation?
     }
 
     public func encodeWithCoder(aCoder: NSCoder) {
@@ -113,7 +113,7 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
         return station
     }
 
-    public class func isStations(results: JSONValue) -> Bool {
+    public class func isStations(results: JSON) -> Bool {
         if (results["stations"].array? != nil) {
             return true
         }
@@ -229,7 +229,7 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
     }
     
     private func getFilteredLines() -> [String: [String: Bool]] {
-        var filteredDestinationsShared: [String: [String: Bool]]? = objects.dataStore?.objectForKey("filtered\(st_id)")?.mutableCopy() as [String: [String: Bool]]?
+        var filteredDestinationsShared: [String: [String: Bool]]? = objects.dataStore?.objectForKey("filtered\(st_id)")?.mutableCopy() as! [String: [String: Bool]]?
         
         if (filteredDestinationsShared == nil) {
             filteredDestinationsShared = [:]
@@ -270,7 +270,7 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
         return nil
     }
 
-    public func getFilteredDepartures(maxDepartures: Int) -> Slice<TFCDeparture>? {
+    public func getFilteredDepartures(maxDepartures: Int) -> ArraySlice<TFCDeparture>? {
         if let filteredDepartures = getFilteredDepartures() {
             let endIndex = min(maxDepartures, filteredDepartures.count)
             return filteredDepartures[0..<endIndex]
@@ -299,7 +299,7 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
                     dontUpdate = true
                 }
             }
-            var settingsLastUpdated: NSDate? = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("settingsLastUpdate") as NSDate?
+            var settingsLastUpdated: NSDate? = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("settingsLastUpdate") as! NSDate?
             if (force ||
                     (!dontUpdate &&
                         (self.lastDepartureUpdate == nil ||
@@ -323,8 +323,8 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
         }
     }
 
-    public func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?) {
-            let contextInfo: contextData? = context as contextData?
+    public func didReceiveAPIResults(results: JSON, error: NSError?, context: Any?) {
+            let contextInfo: contextData? = context as! contextData?
             if (error != nil && self.departures != nil && self.departures?.count > 0) {
                 self.setDeparturesAsOutdated()
             } else {
@@ -392,7 +392,7 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
             distanceString = getLastValidWalkingDistanceValid(location)
             if (distanceString == nil) {
                 distanceString = "\(directDistance!) Meter"
-                self.getWalkingDistance(location, completion)
+                self.getWalkingDistance(location, completion: completion)
             } else {
                 completion(distanceString)
             }
@@ -447,7 +447,7 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
                 NSLog("Error")
             }
             if response != nil {
-                var route: MKRoute = response.routes[0] as MKRoute;
+                var route: MKRoute = response.routes[0] as! MKRoute;
                 var time =  Int(round(route.expectedTravelTime / 60))
                 var meters = Int(route.distance);
                 self.walkingDistanceString = "\(meters) m, \(time) min "
