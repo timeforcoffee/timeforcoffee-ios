@@ -21,7 +21,7 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
     var scrollView: UIScrollView?
     var registeredObserver: Bool = false
     lazy var nearbyStationsView: StationsViewController = {
-        let view = self.storyboard?.instantiateViewControllerWithIdentifier("StationsView") as StationsViewController
+        let view = self.storyboard?.instantiateViewControllerWithIdentifier("StationsView") as! StationsViewController
         view.showFavorites = false
         view.pageIndex = 0
         return view
@@ -53,7 +53,7 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         
         for v in self.view.subviews {
             if v.isKindOfClass(UIScrollView){
-                scrollView = (v as UIScrollView)
+                scrollView = (v as! UIScrollView)
                 scrollView?.delegate = self
             }
         }
@@ -80,7 +80,7 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
 
     private func refreshLocation() {
         if (self.searchController == nil) {
-            let currentView: StationsViewController  = self.viewControllers[0] as StationsViewController
+            let currentView: StationsViewController  = self.viewControllers[0] as! StationsViewController
             currentView.appsTableView?.refreshLocation()
         }
     }
@@ -144,22 +144,22 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
     }
 
     func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
-        let vc:StationsViewController = viewController as StationsViewController
+        let vc:StationsViewController = viewController as! StationsViewController
         if (vc.pageIndex == 1) {
             return nil;
         }
-        var newVc: StationsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("StationsView") as StationsViewController
+        var newVc: StationsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("StationsView") as! StationsViewController
         newVc.pageIndex = 1
         newVc.showFavorites = true
         return newVc
     }
 
     func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
-        let vc:StationsViewController = viewController as StationsViewController
+        let vc:StationsViewController = viewController as! StationsViewController
         if (vc.pageIndex == 0) {
             return nil;
         }
-        nearbyStationsView = self.storyboard?.instantiateViewControllerWithIdentifier("StationsView") as StationsViewController
+        nearbyStationsView = self.storyboard?.instantiateViewControllerWithIdentifier("StationsView") as! StationsViewController
         nearbyStationsView.pageIndex = 0
         nearbyStationsView.showFavorites = false
         return nearbyStationsView
@@ -172,14 +172,14 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
                     setPageControlDot()
                 }
             }
-            let currentView: StationsViewController  = pageViewController.viewControllers[0] as StationsViewController
+            let currentView: StationsViewController  = pageViewController.viewControllers[0] as! StationsViewController
         }
     }
 
     private func setPageControlDot() {
         let currentViewController = getCurrentView()
         currentPageIndex = currentViewController.pageIndex
-        let pc: UIPageControl? = self.navigationItem.titleView?.viewWithTag(50) as UIPageControl?
+        let pc: UIPageControl? = self.navigationItem.titleView?.viewWithTag(50) as! UIPageControl?
         if (pc != nil) {
             pc?.currentPage = currentPageIndex!
         }
@@ -197,7 +197,7 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
     }
 
     private func getCurrentView() -> StationsViewController {
-        return self.viewControllers[0] as StationsViewController
+        return self.viewControllers[0] as! StationsViewController
     }
 
     private func setSearchButton() {
@@ -211,14 +211,14 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
     
     func searchClicked(sender: UIBarButtonItem) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let ssv: StationsSearchViewController = storyboard.instantiateViewControllerWithIdentifier("StationsSearchView") as StationsSearchViewController;
+        let ssv: StationsSearchViewController = storyboard.instantiateViewControllerWithIdentifier("StationsSearchView") as! StationsSearchViewController;
 
         self.navigationController?.pushViewController(ssv, animated: false)
     }
 
     func aboutClicked(sender: UIBarButtonItem) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc: UIViewController! = storyboard.instantiateViewControllerWithIdentifier("AboutPagedViewController") as UIViewController
+        let vc: UIViewController! = storyboard.instantiateViewControllerWithIdentifier("AboutPagedViewController") as! UIViewController
         self.navigationController?.presentViewController(vc, animated: true, completion: nil)
 
     }

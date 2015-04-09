@@ -49,19 +49,20 @@ class StationsViewController: TFCBaseViewController, TFCLocationManagerDelegate 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
             let gtracker = GAI.sharedInstance().defaultTracker
             gtracker.set(kGAIScreenName, value: "stations")
-            gtracker.send(GAIDictionaryBuilder.createScreenView().build())
+            gtracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject]!)
         }
         appsTableView?.refreshLocation()
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        var detailsViewController: DeparturesViewController = segue.destinationViewController as DeparturesViewController
+        var detailsViewController: DeparturesViewController = segue.destinationViewController as! DeparturesViewController
 
         var index = appsTableView?.indexPathForSelectedRow()?.row
         if (index != nil) {
             var station = appsTableView?.stations.getStation(index!)
-            detailsViewController.setStation(station!);
+            detailsViewController.setStation(station: station!);
         }
+
     }
 
 }

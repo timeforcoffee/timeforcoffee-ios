@@ -41,6 +41,6 @@ class TFCCache {
         if (rootDir == nil) {
             return PINCache(name: name)
         }
-        return PINCache(name: name, rootPath: rootDir)
+        return PINCache(name: name, rootPath: rootDir!)
     }
 }

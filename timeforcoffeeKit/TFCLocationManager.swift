@@ -88,7 +88,7 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
             if (self.currentLocation == nil || self.locationFixAchieved == false) {
                 self.locationFixAchieved = true
                 var locationArray = locations as NSArray
-                var locationObj = locationArray.lastObject as CLLocation
+                var locationObj = locationArray.lastObject as! CLLocation
                 self.currentLocation = locationObj;
                 self.delegate.locationFixed(self.currentLocation)
             } else {
@@ -125,7 +125,9 @@ public class TFCLocationManager: NSObject, CLLocationManagerDelegate {
     public func refreshLocation() {
         seenError = false
         locationFixAchieved = false
-        locationManager.startUpdatingLocation()
+        dispatch_async(dispatch_get_main_queue(), {
+            self.locationManager.startUpdatingLocation()
+        })
     }
 
     public class func getCurrentLocation() -> CLLocation? {

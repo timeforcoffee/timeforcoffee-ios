@@ -22,7 +22,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     override func awakeWithContext(context: AnyObject?) {
       super.awakeWithContext(context)
         NSLog("awake page")
-        self.station = context as TFCStation?
+        self.station = context as! TFCStation?
     }
     
     override func willActivate() {
@@ -47,7 +47,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         if let departures2 = departures {
             stationsTable.setNumberOfRows(departures2.count, withRowType: "station")
             for (deptstation) in departures2 {
-                if let sr = stationsTable.rowControllerAtIndex(i) as StationRow? {
+                if let sr = stationsTable.rowControllerAtIndex(i) as! StationRow? {
                     let to = deptstation.getDestination(station!)
                     let name = deptstation.getLine()                // doesn't work yet  with the font;(
                     let helvetica = UIFont(name: "HelveticaNeue-Bold", size: 18.0)!
