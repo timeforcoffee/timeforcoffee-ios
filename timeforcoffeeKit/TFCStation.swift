@@ -11,7 +11,7 @@ import CoreLocation
 import MapKit
 import PINCache
 
-public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
+public final class TFCStation: NSObject, NSCoding, APIControllerProtocol {
     public var name: String
     public var coord: CLLocation?
     public var st_id: String
@@ -104,10 +104,9 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
 
     public class func initWithCache(dict: [String: String]) -> TFCStation {
         var location: CLLocation? = nil;
-        if (dict["latitude"] != nil && dict["longitude"] != nil) {
-            let lat: String = (dict["latitude"] as String?)!
-            let long: String = (dict["longitude"] as String?)!
-            location = CLLocation(latitude: (lat as NSString).doubleValue, longitude: (long as NSString).doubleValue)
+        if let lat: String = (dict["latitude"] as String?),
+            let long: String = (dict["longitude"] as String?) {
+                location = CLLocation(latitude: (lat as NSString).doubleValue, longitude: (long as NSString).doubleValue)
         }
         let station = initWithCache(dict["name"] as String!, id: dict["st_id"] as String!, coord: location)
         return station
@@ -430,26 +429,26 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
             return
         }
         let coord = self.coord!
-        var destinationPlacemark:MKPlacemark = MKPlacemark(coordinate: coord.coordinate, addressDictionary: nil)
-        var source:MKMapItem = MKMapItem(placemark: sourcePlacemark)
-        var destination:MKMapItem = MKMapItem(placemark: destinationPlacemark)
-        var directionRequest:MKDirectionsRequest = MKDirectionsRequest()
+        let destinationPlacemark:MKPlacemark = MKPlacemark(coordinate: coord.coordinate, addressDictionary: nil)
+        let source:MKMapItem = MKMapItem(placemark: sourcePlacemark)
+        let destination:MKMapItem = MKMapItem(placemark: destinationPlacemark)
+        let directionRequest:MKDirectionsRequest = MKDirectionsRequest()
 
         directionRequest.setSource(source)
         directionRequest.setDestination(destination)
         directionRequest.transportType = MKDirectionsTransportType.Walking
         directionRequest.requestsAlternateRoutes = true
 
-        var directions:MKDirections = MKDirections(request: directionRequest)
+        let directions:MKDirections = MKDirections(request: directionRequest)
         directions.calculateDirectionsWithCompletionHandler({
             (response: MKDirectionsResponse!, error: NSError?) in
             if error != nil{
                 NSLog("Error")
             }
             if response != nil {
-                var route: MKRoute = response.routes[0] as! MKRoute;
-                var time =  Int(round(route.expectedTravelTime / 60))
-                var meters = Int(route.distance);
+                let route: MKRoute = response.routes[0] as! MKRoute;
+                let time =  Int(round(route.expectedTravelTime / 60))
+                let meters = Int(route.distance);
                 self.walkingDistanceString = "\(meters) m, \(time) min "
                 self.walkingDistanceLastCoord = location
                 completion(self.walkingDistanceString)
@@ -465,10 +464,10 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
     }
 
     public func getMapImage(completion: (UIImage) -> Void?) {
-        var map: MKMapView = MKMapView()
+        let map: MKMapView = MKMapView()
         map.bounds.size = CGSize(width: 320,height: 150)
         let location = self.coord?.coordinate
-        var region = MKCoordinateRegionMakeWithDistance(location!,200,200);
+        let region = MKCoordinateRegionMakeWithDistance(location!,200,200);
         map.setRegion(region, animated: false)
 
         let options = MKMapSnapshotOptions()
@@ -519,7 +518,7 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
     }
 
     public func toggleIcon(button: UIButton, icon: UIView, completion: () -> Void) {
-        var newImage: UIImage?
+        let newImage: UIImage?
 
         self.toggleFavorite()
 

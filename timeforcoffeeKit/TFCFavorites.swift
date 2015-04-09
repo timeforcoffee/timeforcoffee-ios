@@ -8,7 +8,7 @@
 
 import Foundation
 
-class TFCFavorites: NSObject {
+final class TFCFavorites: NSObject {
 
     class var sharedInstance: TFCFavorites {
         struct Static {

@@ -10,7 +10,7 @@ import Foundation
 import CoreLocation
 import PINCache
 
-public class APIController {
+final class APIController {
     
     private weak var delegate: APIControllerProtocol?
     private var currentFetch: [Int: NSURLSessionDataTask] = [:]
@@ -19,21 +19,21 @@ public class APIController {
         return TFCCache.objects.apicalls
      }()
 
-    public init(delegate: APIControllerProtocol) {
+    init(delegate: APIControllerProtocol) {
         self.delegate = delegate
     }
 
-    public func searchFor(coord: CLLocationCoordinate2D, context: Any?) {
+    func searchFor(coord: CLLocationCoordinate2D, context: Any?) {
         let cacheKey: String = String(format: "locations?x=%.3f&y=%.3f", coord.latitude, coord.longitude)
         let urlPath: String = "http://transport.opendata.ch/v1/locations?x=\(coord.latitude)&y=\(coord.longitude)"
         self.fetchUrl(urlPath, fetchId: 1, context: context, cacheKey: cacheKey)
     }
 
-    public func searchFor(coord: CLLocationCoordinate2D) {
+    func searchFor(coord: CLLocationCoordinate2D) {
         searchFor(coord, context: nil)
     }
     
-    public func searchFor(location: String) {
+    func searchFor(location: String) {
         let name = location.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
         let cacheKey = "stations/\(name)"
         let urlPath = "http://www.timeforcoffee.ch/api/zvv/stations/\(name)*";
@@ -41,12 +41,12 @@ public class APIController {
         self.fetchUrl(urlPath, fetchId: 1, cacheKey: cacheKey)
     }
 
-    public func getDepartures(id: String!) {
+    func getDepartures(id: String!) {
         getDepartures(id, context: nil)
     }
     
-    public func getDepartures(id: String!, context: Any?) {
-        var urlPath = "http://www.timeforcoffee.ch/api/zvv/stationboard/\(id)"
+    func getDepartures(id: String!, context: Any?) {
+        let urlPath = "http://www.timeforcoffee.ch/api/zvv/stationboard/\(id)"
         self.fetchUrl(urlPath, fetchId: 2, context: context, cacheKey: nil)
     }
     
@@ -69,14 +69,14 @@ public class APIController {
                 if let absUrl = url.absoluteString {
                     NSLog("Start fetching data %@", absUrl)
                 }
-                var dataFetch: NSURLSessionDataTask?
+
                 if (fetchId == 1 && self.currentFetch[fetchId] != nil) {
                     NSLog("cancel current fetch")
                     self.currentFetch[fetchId]?.cancel()
                 }
                 
                 let session2 = TFCURLSession.sharedInstance.session
-                dataFetch = session2.dataTaskWithURL(url, completionHandler: {data , response, error -> Void in
+                let dataFetch: NSURLSessionDataTask? = session2.dataTaskWithURL(url, completionHandler: {data , response, error -> Void in
 
                     NSLog("Task completed")
                     if(error != nil) {

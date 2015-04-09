@@ -8,7 +8,7 @@
 
 import Foundation
 
-class StationsSearchViewController: StationsViewController, UISearchBarDelegate {
+final class StationsSearchViewController: StationsViewController, UISearchBarDelegate {
 
     @IBOutlet  var appsTableView2: StationTableView?
     var searchController: UISearchController?

@@ -9,7 +9,7 @@
 import Foundation
 import SwipeView
 
-class AboutPagedViewController: UIViewController, SwipeViewDataSource, SwipeViewDelegate, UIWebViewDelegate {
+final class AboutPagedViewController: UIViewController, SwipeViewDataSource, SwipeViewDelegate, UIWebViewDelegate {
 
     @IBOutlet weak var swipeView: SwipeView!
 

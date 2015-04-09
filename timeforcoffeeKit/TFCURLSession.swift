@@ -9,7 +9,7 @@
 import Foundation
 
 
-public class TFCURLSession: NSObject {
+public final class TFCURLSession: NSObject {
 
     public class var sharedInstance: TFCURLSession {
         struct Static {
