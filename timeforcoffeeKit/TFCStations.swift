@@ -84,6 +84,11 @@ public class TFCStations: SequenceType, TFCLocationManagerDelegate, APIControlle
                     var id = String(result["id"].string!)
                     if (inStationsArrayAsFavorite[id] == nil && stationsAdded[id] == nil) {
                         var name = result["name"].string
+                        // the DB has all the uppercased short Strings as well, we don't want to display them
+                        // just don't add them
+                        if (name == name?.uppercaseString) {
+                            continue
+                        }
                         var longitude: Double? = nil
                         var latitude: Double? = nil
                         if (result["coordinate"]["y"].double != nil) {
