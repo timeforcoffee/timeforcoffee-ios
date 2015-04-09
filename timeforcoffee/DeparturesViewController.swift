@@ -536,7 +536,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
             let departure: TFCDeparture = departures![indexPath.row]
             
             var unabridged = false
-            if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+            if (UIDeviceOrientationIsLandscape(UIDevice.currentDevice().orientation)) {
                 unabridged = true
             }
             destinationLabel.text = departure.getDestinationWithSign(station, unabridged: unabridged)
