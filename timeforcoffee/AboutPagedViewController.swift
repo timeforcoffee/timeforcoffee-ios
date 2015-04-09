@@ -69,7 +69,7 @@ class AboutPagedViewController: UIViewController, SwipeViewDataSource, SwipeView
         boardview?.autoresizingMask = UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleWidth
 
 
-        let label = boardview?.viewWithTag(1) as UITextView
+        let label = boardview?.viewWithTag(1) as! UITextView
 
 
         var myIndex = index
@@ -131,7 +131,7 @@ class AboutPagedViewController: UIViewController, SwipeViewDataSource, SwipeView
             locationStatus = "Allowed to location Access"
             shouldIAllow = true
         }
-        let label = swipeView?.viewWithTag(1) as UITextView
+        let label = swipeView?.viewWithTag(1) as! UITextView
 
         if (shouldIAllow == true) {
             label.text = "Thank you"

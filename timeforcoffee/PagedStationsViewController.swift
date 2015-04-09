@@ -91,7 +91,7 @@ class PagedStationsViewController: UIPageViewController, UIPageViewControllerDat
         if (TFCDataStore.sharedInstance.getUserDefaults()?.boolForKey("onboardingShown") != true) {
 
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc: AboutPagedViewController! = storyboard.instantiateViewControllerWithIdentifier("AboutPagedViewController") as AboutPagedViewController
+            let vc: AboutPagedViewController! = storyboard.instantiateViewControllerWithIdentifier("AboutPagedViewController") as! AboutPagedViewController
             self.navigationController?.presentViewController(vc, animated: true, completion: nil)
         } else {
             refreshLocation()
