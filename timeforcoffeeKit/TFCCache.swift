@@ -12,14 +12,14 @@ import PINCache
 class TFCCache {
     struct objects {
         static var apicalls: PINCache = {
-            var p = TFCCache.getCacheInstance("apicalls")
+            let p = TFCCache.getCacheInstance("apicalls")
             // cache for max 7 days
             p.diskCache.ageLimit = 60 * 60 * 24 * 7 // 7 days
             p.diskCache.byteLimit = 5 * 1024 * 1024 // 5 MB
             return p
             }()
         static var stations: PINCache = {
-            var p = TFCCache.getCacheInstance("stations")
+            let p = TFCCache.getCacheInstance("stations")
             // cache for max 24 hours
             p.diskCache.ageLimit = 60 * 60 * 24 // 1 day
             p.diskCache.byteLimit = 5 * 1024 * 1024 // 5 MB
@@ -35,12 +35,11 @@ class TFCCache {
     }
 
     private class func getCacheInstance(name: String) -> PINCache {
-        let rootDir = getRootDirectory()
         // to make sure that cache still works, even if we can't get a shared directory
         //  the cache won't be shared then between app and extensions, but it still works
-        if (rootDir == nil) {
-            return PINCache(name: name)
+        if let rootDir = getRootDirectory() {
+            return PINCache(name: name, rootPath: rootDir)
         }
-        return PINCache(name: name, rootPath: rootDir!)
+        return PINCache(name: name)
     }
 }

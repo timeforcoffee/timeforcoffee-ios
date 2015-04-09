@@ -46,7 +46,7 @@ public class APIController {
     }
     
     public func getDepartures(id: String!, context: Any?) {
-        var urlPath = "http://www.timeforcoffee.ch/api/zvv/stationboard/\(id)"
+        let urlPath = "http://www.timeforcoffee.ch/api/zvv/stationboard/\(id)"
         self.fetchUrl(urlPath, fetchId: 2, context: context, cacheKey: nil)
     }
     
@@ -69,14 +69,14 @@ public class APIController {
                 if let absUrl = url.absoluteString {
                     NSLog("Start fetching data %@", absUrl)
                 }
-                var dataFetch: NSURLSessionDataTask?
+
                 if (fetchId == 1 && self.currentFetch[fetchId] != nil) {
                     NSLog("cancel current fetch")
                     self.currentFetch[fetchId]?.cancel()
                 }
                 
                 let session2 = TFCURLSession.sharedInstance.session
-                dataFetch = session2.dataTaskWithURL(url, completionHandler: {data , response, error -> Void in
+                let dataFetch: NSURLSessionDataTask? = session2.dataTaskWithURL(url, completionHandler: {data , response, error -> Void in
 
                     NSLog("Task completed")
                     if(error != nil) {

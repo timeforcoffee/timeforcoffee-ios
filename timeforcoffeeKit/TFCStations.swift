@@ -139,7 +139,7 @@ public class TFCStations: SequenceType, TFCLocationManagerDelegate, APIControlle
             favDistance = location.horizontalAccuracy + 500.0
         }
         for (st_id, station) in favorite.s.stations {
-            var distance = location.distanceFromLocation(station.coord)
+            let distance = location.distanceFromLocation(station.coord)
             if (distance < favDistance) {
                 hasNearbyFavs = true
                 if (inStationsArrayAsFavorite[station.st_id] != true) {
