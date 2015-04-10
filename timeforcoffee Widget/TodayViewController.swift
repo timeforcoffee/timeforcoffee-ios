@@ -79,20 +79,6 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     required init(coder aDecoder: NSCoder) {
         NSLog("init")
         super.init(coder: aDecoder)
-        if (getLastUsedView() == "nearbyStations") {
-            showStations = true
-            populateStationsFromLastUsed()
-            dataIsFromInitCache = true
-        } else {
-            self.currentStation = self.lastViewedStation
-            if (self.currentStation != nil && self.currentStation?.getDepartures()?.count > 0) {
-                self.appsTableView?.reloadData()
-                dataIsFromInitCache = true
-            } else {
-                self.currentStation = nil
-            }
-            showStations = false
-        }
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
             TFCDataStore.sharedInstance.registerForNotifications()
             TFCDataStore.sharedInstance.synchronize()
@@ -110,6 +96,27 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         NSLog("viewDidAppear")
         viewDidAppear = true
         super.viewDidAppear(animated)
+    }
+
+    override func awakeFromNib() {
+if (getLastUsedView() == "nearbyStations") {
+            showStations = true
+            populateStationsFromLastUsed()
+            dataIsFromInitCache = true
+        } else {
+            self.currentStation = self.lastViewedStation
+            if (self.currentStation != nil && self.currentStation?.getDepartures()?.count > 0) {
+                NSLog("1 \(self.titleLabel?.text)")
+                showStations = false
+                NSLog("2 \(self.titleLabel?.text)")
+                self.appsTableView?.reloadData()
+                dataIsFromInitCache = true
+            } else {
+                self.currentStation = nil
+                showStations = false
+            }
+        }
+NSLog("awakeFromNib")
     }
 
     override func viewWillAppear(animated: Bool) {
