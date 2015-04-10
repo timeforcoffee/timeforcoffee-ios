@@ -11,7 +11,7 @@ import timeforcoffeeKit
 import CoreLocation
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var watchData: TFCWatchData?
@@ -36,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             settings.knowledgeBaseURL = "https://timeforcoffee.zendesk.com"
             SupportKit.initWithSettings(settings)
             let userdefaults = TFCDataStore.sharedInstance.getUserDefaults()
-            let lastusedTodayScreen: NSDate? = userdefaults?.objectForKey("lastUsedViewUpdate") as NSDate?
+            let lastusedTodayScreen: NSDate? = userdefaults?.objectForKey("lastUsedViewUpdate") as! NSDate?
             var recommendations: [String] = []
             recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202701502-How-to-use-the-favourite-station-feature-")
             recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202701512-Can-I-exclude-some-destinations-from-a-station-")
@@ -49,7 +49,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if (SKTUser.currentUser().signedUpAt == nil) {
                 SKTUser.currentUser().signedUpAt = NSDate()
                 SKTUser.currentUser().addProperties(["signedUpDate" : NSDate()])
-                SKTUser.currentUser().addProperties(["language": NSLocale.preferredLanguages().first as NSString])
+                SKTUser.currentUser().addProperties(["language": NSLocale.preferredLanguages().first as! NSString])
                 if (userdefaults?.objectForKey("favorites2") != nil) {
                     SKTUser.currentUser().addProperties(["usedFavorites": true])
                 } else {
@@ -97,10 +97,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
 
         if (url.host == "nearby") {
-            if let rootView = self.window?.rootViewController? as UINavigationController? {
+            if let rootView = self.window?.rootViewController as! UINavigationController? {
                 rootView.dismissViewControllerAnimated(false, completion: nil)
                 rootView.popToRootViewControllerAnimated(false)
-                if let pagedView:PagedStationsViewController = rootView.viewControllers.first as PagedStationsViewController? {
+                if let pagedView:PagedStationsViewController = rootView.viewControllers.first as! PagedStationsViewController? {
                     pagedView.moveToNearbyStations()
                 }
             }
@@ -127,32 +127,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
                 let station = TFCStation.initWithCache(name, id: queryStrings["id"]!, coord: Clocation)
                 let stations = TFCStations()
-                let rootView = self.window?.rootViewController? as UINavigationController
-                let detailViewController = rootView.storyboard?.instantiateViewControllerWithIdentifier("DeparturesViewController") as DeparturesViewController
+                let rootView = self.window?.rootViewController as! UINavigationController
+                let detailViewController = rootView.storyboard?.instantiateViewControllerWithIdentifier("DeparturesViewController") as! DeparturesViewController
 
                 rootView.dismissViewControllerAnimated(false, completion: nil)
                 rootView.popToRootViewControllerAnimated(false)
-                detailViewController.setStation(station)
+                detailViewController.setStation(station: station)
                 rootView.pushViewController(detailViewController, animated: false)
             }
         }
         return true
     }
-    
-    func application(application: UIApplication!, handleWatchKitExtensionRequest userInfo: [NSString : NSString]!, reply: (([NSObject : AnyObject]!) -> Void)!) {
+    func application(application: UIApplication, handleWatchKitExtensionRequest userInfo: [NSObject : AnyObject]?, reply: (([NSObject : AnyObject]!) -> Void)!) {
         if  (watchData == nil) {
             watchData = TFCWatchData()
         }
 
-        if (userInfo["module"] == "favorites") {
-            watchData?.getFavorites(reply)
-        } else if (userInfo["module"] == "departures") {
-            watchData?.getDepartures(userInfo, reply: reply!)
-        } else if (userInfo["module"] == "nearby") {
-            NSLog("get nearby module")
-            watchData?.getNearbyStations(reply)
-        } else {
-            watchData?.getFavorites(reply)
+        let uI:[NSString : NSString] = userInfo as! [NSString : NSString]
+        if (uI["module"] == "location") {
+            watchData?.getLocation(reply)
         }
     }
 

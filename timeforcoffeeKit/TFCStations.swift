@@ -9,7 +9,7 @@
 import Foundation
 import CoreLocation
 
-public class TFCStations: NSObject, SequenceType, TFCLocationManagerDelegate, APIControllerProtocol {
+public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelegate, APIControllerProtocol {
 
     private weak var delegate: TFCStationsUpdatedProtocol?
 
@@ -72,18 +72,23 @@ public class TFCStations: NSObject, SequenceType, TFCLocationManagerDelegate, AP
         nearbyFavorites = []
     }
 
-    public func addWithJSON(allResults: JSONValue) {
+    public func addWithJSON(allResults: JSON?) {
         // Create an empty array of Albums to append to from this list
         // Store the results in our table data array
-        if allResults["stations"].array?.count>0 {
+        if (allResults != nil && allResults?["stations"].array?.count>0) {
             var newStations:[TFCStation] = []
             // to prevent double entries, the api sometimes returns more than one with the same id
             var stationsAdded:[String: Bool] = [:]
-            if let results = allResults["stations"].array {
+            if let results = allResults?["stations"].array {
                 for result in results {
-                    var id = String(result["id"].integer!)
+                    var id = String(result["id"].string!)
                     if (inStationsArrayAsFavorite[id] == nil && stationsAdded[id] == nil) {
                         var name = result["name"].string
+                        // the DB has all the uppercased short Strings as well, we don't want to display them
+                        // just don't add them
+                        if (name == name?.uppercaseString) {
+                            continue
+                        }
                         var longitude: Double? = nil
                         var latitude: Double? = nil
                         if (result["coordinate"]["y"].double != nil) {
@@ -134,7 +139,7 @@ public class TFCStations: NSObject, SequenceType, TFCLocationManagerDelegate, AP
             favDistance = location.horizontalAccuracy + 500.0
         }
         for (st_id, station) in favorite.s.stations {
-            var distance = location.distanceFromLocation(station.coord)
+            let distance = location.distanceFromLocation(station.coord)
             if (distance < favDistance) {
                 hasNearbyFavs = true
                 if (inStationsArrayAsFavorite[station.st_id] != true) {
@@ -178,7 +183,7 @@ public class TFCStations: NSObject, SequenceType, TFCLocationManagerDelegate, AP
         }
     }
 
-    public func updateStations(searchFor:String) -> Bool {
+    public func updateStations(#searchFor: String) -> Bool {
         isLoading = true
         self.api.searchFor(searchFor)
         return true
@@ -220,11 +225,11 @@ public class TFCStations: NSObject, SequenceType, TFCLocationManagerDelegate, AP
             callStationsUpdatedDelegate(TFCLocationManager.k.AirplaneMode)
     }
 
-    public func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?) {
+    public func didReceiveAPIResults(results: JSON?, error: NSError?, context: Any?) {
         isLoading = false
         var err: String? = nil
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            if (error != nil && error?.code != -999) {
+            if (error != nil && error?.code != -999 || results == nil) {
                 err =  "Network error. Please try again"
             } else {
                 self.addWithJSON(results)
@@ -266,6 +271,14 @@ public class TFCStations: NSObject, SequenceType, TFCLocationManagerDelegate, AP
 
         return nil
 
+    }
+
+    public subscript(i: Int) -> TFCStation {
+        return stations![i]
+    }
+
+    public subscript(range: ClosedInterval<Int>) -> ArraySlice<TFCStation> {
+        return stations![range.start...range.end]
     }
 
     public func generate() -> IndexingGenerator<[TFCStation]> {

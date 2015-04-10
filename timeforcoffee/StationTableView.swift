@@ -11,7 +11,7 @@ import MapKit
 import timeforcoffeeKit
 import CoreLocation
 
-class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, TFCStationsUpdatedProtocol {
+final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, TFCStationsUpdatedProtocol {
     
     var refreshControl:UIRefreshControl!
     lazy var stations: TFCStations = {return TFCStations(delegate: self)}()
@@ -69,7 +69,7 @@ class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource,
         let whitespaceCharacterSet = NSCharacterSet.whitespaceCharacterSet()
         let strippedString = searchController.searchBar.text.stringByTrimmingCharactersInSet(whitespaceCharacterSet)
         if (strippedString != "") {
-            self.stations.updateStations(strippedString)
+            self.stations.updateStations(searchFor: strippedString)
         }
     }
 
@@ -84,7 +84,7 @@ class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource,
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("StationTableViewCell", forIndexPath: indexPath) as StationTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("StationTableViewCell", forIndexPath: indexPath) as! StationTableViewCell
 
         cell.tag = indexPath.row
 

@@ -9,7 +9,7 @@
 import Foundation
 
 
-public class TFCDataStore: NSObject {
+final public class TFCDataStore: NSObject {
 
     public class var sharedInstance: TFCDataStore {
         struct Static {
@@ -50,7 +50,7 @@ public class TFCDataStore: NSObject {
             }
             self.notificationObserver = NSNotificationCenter.defaultCenter().addObserverForName("NSUbiquitousKeyValueStoreDidChangeExternallyNotification", object: self.keyvaluestore, queue: nil, usingBlock: { (notification: NSNotification!) -> Void in
                 let userInfo: NSDictionary? = notification.userInfo as NSDictionary?
-                let reasonForChange: NSNumber? = userInfo?.objectForKey(NSUbiquitousKeyValueStoreChangeReasonKey) as NSNumber?
+                let reasonForChange: NSNumber? = userInfo?.objectForKey(NSUbiquitousKeyValueStoreChangeReasonKey) as! NSNumber?
                 if (reasonForChange == nil) {
                     return
                 }
@@ -59,7 +59,7 @@ public class TFCDataStore: NSObject {
                 let reason = reasonForChange?.integerValue
                 if ((reason == NSUbiquitousKeyValueStoreServerChange) ||
                     (reason == NSUbiquitousKeyValueStoreInitialSyncChange)) {
-                        var changedKeys: [String]? = userInfo?.objectForKey(NSUbiquitousKeyValueStoreChangedKeysKey) as [String]?
+                        let changedKeys: [String]? = userInfo?.objectForKey(NSUbiquitousKeyValueStoreChangedKeysKey) as! [String]?
                         if (changedKeys != nil) {
                             for (key) in changedKeys! {
                                 // legacy, can be removed later

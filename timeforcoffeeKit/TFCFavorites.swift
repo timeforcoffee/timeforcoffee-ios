@@ -8,7 +8,7 @@
 
 import Foundation
 
-class TFCFavorites: NSObject {
+final class TFCFavorites: NSObject {
 
     class var sharedInstance: TFCFavorites {
         struct Static {
@@ -46,7 +46,7 @@ class TFCFavorites: NSObject {
         if (st != nil) {
             // get if from the cache, if it's already there.
             for (st_id, station) in st! {
-                let newStation: TFCStation? = cache.objectForKey(st_id) as TFCStation?
+                let newStation: TFCStation? = cache.objectForKey(st_id) as? TFCStation
                 if (newStation != nil && newStation?.coord != nil) {
                     st![st_id] = newStation
                 }
@@ -73,7 +73,7 @@ class TFCFavorites: NSObject {
         self.saveFavorites()
     }
 
-    func unset(station: TFCStation?) {
+    func unset(#station: TFCStation?) {
         unset(station?.st_id)
     }
 

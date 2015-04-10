@@ -11,7 +11,7 @@ import CoreLocation
 import MapKit
 import PINCache
 
-public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
+public final class TFCStation: NSObject, NSCoding, APIControllerProtocol {
     public var name: String
     public var coord: CLLocation?
     public var st_id: String
@@ -57,15 +57,15 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
     }
 
     public required init(coder aDecoder: NSCoder) {
-        self.name = aDecoder.decodeObjectForKey("name") as String
-        self.st_id = aDecoder.decodeObjectForKey("st_id") as String
-        self.coord = aDecoder.decodeObjectForKey("coord") as CLLocation?
-        self.departures = aDecoder.decodeObjectForKey("departures") as [TFCDeparture]?
+        self.name = aDecoder.decodeObjectForKey("name") as! String
+        self.st_id = aDecoder.decodeObjectForKey("st_id") as! String
+        self.coord = aDecoder.decodeObjectForKey("coord") as! CLLocation?
+        self.departures = aDecoder.decodeObjectForKey("departures") as! [TFCDeparture]?
         if (self.departures?.count == 0) {
             self.departures = nil
         }
-        self.walkingDistanceString = aDecoder.decodeObjectForKey("walkingDistanceString") as String?
-        self.walkingDistanceLastCoord = aDecoder.decodeObjectForKey("walkingDistanceLastCoord") as CLLocation?
+        self.walkingDistanceString = aDecoder.decodeObjectForKey("walkingDistanceString") as! String?
+        self.walkingDistanceLastCoord = aDecoder.decodeObjectForKey("walkingDistanceLastCoord") as! CLLocation?
     }
 
     public func encodeWithCoder(aCoder: NSCoder) {
@@ -85,7 +85,7 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
 
     public class func initWithCache(name: String, id: String, coord: CLLocation?) -> TFCStation {
         let cache: PINCache = TFCCache.objects.stations
-        var newStation: TFCStation? = cache.objectForKey(id) as TFCStation?
+        var newStation: TFCStation? = cache.objectForKey(id) as? TFCStation
         if (newStation == nil || newStation?.coord == nil) {
             newStation = TFCStation(name: name, id: id, coord: coord)
             cache.setObject(newStation!, forKey: newStation!.st_id)
@@ -104,17 +104,16 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
 
     public class func initWithCache(dict: [String: String]) -> TFCStation {
         var location: CLLocation? = nil;
-        if (dict["latitude"] != nil && dict["longitude"] != nil) {
-            let lat: String = (dict["latitude"] as String?)!
-            let long: String = (dict["longitude"] as String?)!
-            location = CLLocation(latitude: (lat as NSString).doubleValue, longitude: (long as NSString).doubleValue)
+        if let lat: String = (dict["latitude"] as String?),
+            let long: String = (dict["longitude"] as String?) {
+                location = CLLocation(latitude: (lat as NSString).doubleValue, longitude: (long as NSString).doubleValue)
         }
         let station = initWithCache(dict["name"] as String!, id: dict["st_id"] as String!, coord: location)
         return station
     }
 
-    public class func isStations(results: JSONValue) -> Bool {
-        if (results["stations"].array? != nil) {
+    public class func isStations(results: JSON) -> Bool {
+        if (results["stations"].array != nil) {
             return true
         }
         return false
@@ -137,7 +136,7 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
     }
 
     public func unsetFavorite() {
-        TFCFavorites.sharedInstance.unset(self)
+        TFCFavorites.sharedInstance.unset(station: self)
     }
 
     public func getLongitude() -> Double? {
@@ -229,7 +228,7 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
     }
     
     private func getFilteredLines() -> [String: [String: Bool]] {
-        var filteredDestinationsShared: [String: [String: Bool]]? = objects.dataStore?.objectForKey("filtered\(st_id)")?.mutableCopy() as [String: [String: Bool]]?
+        var filteredDestinationsShared: [String: [String: Bool]]? = objects.dataStore?.objectForKey("filtered\(st_id)")?.mutableCopy() as! [String: [String: Bool]]?
         
         if (filteredDestinationsShared == nil) {
             filteredDestinationsShared = [:]
@@ -270,7 +269,7 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
         return nil
     }
 
-    public func getFilteredDepartures(maxDepartures: Int) -> Slice<TFCDeparture>? {
+    public func getFilteredDepartures(maxDepartures: Int) -> ArraySlice<TFCDeparture>? {
         if let filteredDepartures = getFilteredDepartures() {
             let endIndex = min(maxDepartures, filteredDepartures.count)
             return filteredDepartures[0..<endIndex]
@@ -299,7 +298,7 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
                     dontUpdate = true
                 }
             }
-            var settingsLastUpdated: NSDate? = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("settingsLastUpdate") as NSDate?
+            var settingsLastUpdated: NSDate? = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("settingsLastUpdate") as! NSDate?
             if (force ||
                     (!dontUpdate &&
                         (self.lastDepartureUpdate == nil ||
@@ -323,17 +322,17 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
         }
     }
 
-    public func didReceiveAPIResults(results: JSONValue, error: NSError?, context: Any?) {
-            let contextInfo: contextData? = context as contextData?
-            if (error != nil && self.departures != nil && self.departures?.count > 0) {
+    public func didReceiveAPIResults(results: JSON?, error: NSError?, context: Any?) {
+            let contextInfo: contextData? = context as! contextData?
+            if (results == nil || (error != nil && self.departures != nil && self.departures?.count > 0)) {
                 self.setDeparturesAsOutdated()
             } else {
                 self.addDepartures(TFCDeparture.withJSON(results))
             }
 
         dispatch_async(dispatch_get_main_queue(), {
-            if (self.name == "") {
-                self.name = TFCDeparture.getStationNameFromJson(results)!;
+            if (self.name == "" && results != nil) {
+                self.name = TFCDeparture.getStationNameFromJson(results!)!;
             }
             contextInfo?.completionDelegate?.departuresUpdated(error, context: context, forStation: self)
         })
@@ -392,7 +391,7 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
             distanceString = getLastValidWalkingDistanceValid(location)
             if (distanceString == nil) {
                 distanceString = "\(directDistance!) Meter"
-                self.getWalkingDistance(location, completion)
+                self.getWalkingDistance(location, completion: completion)
             } else {
                 completion(distanceString)
             }
@@ -430,26 +429,26 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
             return
         }
         let coord = self.coord!
-        var destinationPlacemark:MKPlacemark = MKPlacemark(coordinate: coord.coordinate, addressDictionary: nil)
-        var source:MKMapItem = MKMapItem(placemark: sourcePlacemark)
-        var destination:MKMapItem = MKMapItem(placemark: destinationPlacemark)
-        var directionRequest:MKDirectionsRequest = MKDirectionsRequest()
+        let destinationPlacemark:MKPlacemark = MKPlacemark(coordinate: coord.coordinate, addressDictionary: nil)
+        let source:MKMapItem = MKMapItem(placemark: sourcePlacemark)
+        let destination:MKMapItem = MKMapItem(placemark: destinationPlacemark)
+        let directionRequest:MKDirectionsRequest = MKDirectionsRequest()
 
         directionRequest.setSource(source)
         directionRequest.setDestination(destination)
         directionRequest.transportType = MKDirectionsTransportType.Walking
         directionRequest.requestsAlternateRoutes = true
 
-        var directions:MKDirections = MKDirections(request: directionRequest)
+        let directions:MKDirections = MKDirections(request: directionRequest)
         directions.calculateDirectionsWithCompletionHandler({
             (response: MKDirectionsResponse!, error: NSError?) in
             if error != nil{
                 NSLog("Error")
             }
             if response != nil {
-                var route: MKRoute = response.routes[0] as MKRoute;
-                var time =  Int(round(route.expectedTravelTime / 60))
-                var meters = Int(route.distance);
+                let route: MKRoute = response.routes[0] as! MKRoute;
+                let time =  Int(round(route.expectedTravelTime / 60))
+                let meters = Int(route.distance);
                 self.walkingDistanceString = "\(meters) m, \(time) min "
                 self.walkingDistanceLastCoord = location
                 completion(self.walkingDistanceString)
@@ -465,10 +464,10 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
     }
 
     public func getMapImage(completion: (UIImage) -> Void?) {
-        var map: MKMapView = MKMapView()
+        let map: MKMapView = MKMapView()
         map.bounds.size = CGSize(width: 320,height: 150)
         let location = self.coord?.coordinate
-        var region = MKCoordinateRegionMakeWithDistance(location!,200,200);
+        let region = MKCoordinateRegionMakeWithDistance(location!,200,200);
         map.setRegion(region, animated: false)
 
         let options = MKMapSnapshotOptions()
@@ -518,8 +517,8 @@ public class TFCStation: NSObject, NSCoding, APIControllerProtocol {
         return UIImage(named: "stationicon-pin")!
     }
 
-    public func toggleIcon(button: UIButton, icon: UIView, completion: () -> Void?) {
-        var newImage: UIImage?
+    public func toggleIcon(button: UIButton, icon: UIView, completion: () -> Void) {
+        let newImage: UIImage?
 
         self.toggleFavorite()
 

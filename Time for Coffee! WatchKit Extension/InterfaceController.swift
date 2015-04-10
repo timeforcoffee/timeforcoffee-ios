@@ -8,16 +8,15 @@
 
 import WatchKit
 import Foundation
-
+import timeforcoffeeKit
 
 class InterfaceController: WKInterfaceController {
-    @IBOutlet weak var stationsTable: WKInterfaceTable!
-   
+
     override init () {
         super.init()
-        println("init")
-        
+        println("init InterfaceController")
     }
+    
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
         
@@ -27,31 +26,28 @@ class InterfaceController: WKInterfaceController {
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
-        println("willactivate")
-        func handleReply(replyInfo: [NSObject : AnyObject]!, error: NSError!) {
-            println("replyinfo \(replyInfo)")
-            let stationsDict:  [NSDictionary]? = replyInfo["stations"] as  [NSDictionary]?
-            if (stationsDict != nil) {
-                var pages = [String]()
-                var pageContexts = [AnyObject]()
-                for station in stationsDict! as NSArray {
-                    pages.append("StationPage")
-                    pageContexts.append(station)
-                }
-                
-                WKInterfaceController.reloadRootControllersWithNames(pages, contexts: pageContexts)
+        func handleReply(stations: TFCStations?) {
+            if (stations == nil) {
+                return
             }
+            let maxStations = min(5, (stations?.count())! - 1)
+            let ctxStations = stations?[0...maxStations]
+            var pages = [String]()
+            var pageContexts = [AnyObject]()
+            for (station) in ctxStations! {
+                pages.append("StationPage")
+                pageContexts.append(station)
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
+                    station.updateDepartures(nil)
+                    return
+                }
+            }
+            WKInterfaceController.reloadRootControllersWithNames(pages, contexts: pageContexts)
         }
-        
-        WKInterfaceController.openParentApplication(["module":"nearby"], handleReply)
-
+        TFCWatchData.sharedInstance.getStations(handleReply, stopWithFavorites: false)
     }
-    
     override func didDeactivate() {
         // This method is called when watch view controller is no longer visible
         super.didDeactivate()
     }
-    
-    
-
 }

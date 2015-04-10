@@ -11,7 +11,7 @@ import timeforcoffeeKit
 import MapKit
 import MGSwipeTableCell
 
-class DeparturesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, MGSwipeTableCellDelegate, MKMapViewDelegate, TFCDeparturesUpdatedProtocol {
+final class DeparturesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, MGSwipeTableCellDelegate, MKMapViewDelegate, TFCDeparturesUpdatedProtocol {
 
     @IBOutlet var appsTableView : UITableView?
     var refreshControl:UIRefreshControl!
@@ -137,7 +137,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
             let gtracker = GAI.sharedInstance().defaultTracker
             gtracker.set(kGAIScreenName, value: "departures")
-            gtracker.send(GAIDictionaryBuilder.createScreenView().build())
+            gtracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject]!)
         }
     }
 
@@ -243,7 +243,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         self.mapView.addAnnotation(destinationPlacemark)
         self.mapView.showsUserLocation = true
 
-        let currentLocation = TFCLocationManager.getCurrentLocation()?
+        let currentLocation = TFCLocationManager.getCurrentLocation()
         let currentCoordinate = currentLocation?.coordinate
 
         if (currentCoordinate == nil || station?.getDistanceInMeter(currentLocation) >= 5000) {
@@ -268,7 +268,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
             }
             if response != nil{
 //                for r in response.routes { NSLog("route = \(r)") }
-                var route: MKRoute = response.routes[0] as MKRoute;
+                var route: MKRoute = response.routes[0] as! MKRoute;
                 self.mapDirectionOverlay = route.polyline
                 self.mapView.addOverlay(self.mapDirectionOverlay)
             }
@@ -341,7 +341,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         )
         let gtracker = GAI.sharedInstance().defaultTracker
         gtracker.set(kGAIScreenName, value: "departuresMap")
-        gtracker.send(GAIDictionaryBuilder.createScreenView().build())
+        gtracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject]!)
 
     }
 
@@ -472,7 +472,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         }
     }
 
-    internal func setStation(station: TFCStation) {
+    internal func setStation(#station: TFCStation) {
         self.station = station
     }
 
@@ -505,16 +505,16 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell:MGSwipeTableCell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as MGSwipeTableCell
+        var cell:MGSwipeTableCell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as! MGSwipeTableCell
 
         cell.delegate = self
         cell.tag = indexPath.row
 
 
-        let lineNumberLabel = cell.viewWithTag(100) as DepartureLineLabel
-        let destinationLabel = cell.viewWithTag(200) as UILabel
-        let departureLabel = cell.viewWithTag(300) as UILabel
-        let minutesLabel = cell.viewWithTag(400) as UILabel
+        let lineNumberLabel = cell.viewWithTag(100) as! DepartureLineLabel
+        let destinationLabel = cell.viewWithTag(200) as! UILabel
+        let departureLabel = cell.viewWithTag(300) as! UILabel
+        let minutesLabel = cell.viewWithTag(400) as! UILabel
         if (station != nil) {
             let station2 = station!
             let departures = station2.getDepartures()
@@ -536,7 +536,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
             let departure: TFCDeparture = departures![indexPath.row]
             
             var unabridged = false
-            if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+            if (UIDeviceOrientationIsLandscape(UIDevice.currentDevice().orientation)) {
                 unabridged = true
             }
             destinationLabel.text = departure.getDestinationWithSign(station, unabridged: unabridged)
@@ -590,7 +590,7 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
                 expansionSettings.threshold = 2.5
             }
         }
-        return buttons
+        return buttons as [AnyObject]
     }
 
     func swipeTableCell(cell: MGSwipeTableCell!, tappedButtonAtIndex index: Int, direction: MGSwipeDirection, fromExpansion: Bool) -> Bool {
@@ -600,11 +600,11 @@ class DeparturesViewController: UIViewController, UITableViewDataSource, UITable
         SKTUser.currentUser().addProperties(["usedFilters": true])
         if (station2.isFiltered(departure)) {
             station2.unsetFilter(departure);
-            var button = cell.rightButtons[0] as MGSwipeButton
+            var button = cell.rightButtons[0] as! MGSwipeButton
             button.backgroundColor = UIColor.greenColor();
         } else {
             station2.setFilter(departure);
-            var button = cell.rightButtons[0] as MGSwipeButton
+            var button = cell.rightButtons[0] as! MGSwipeButton
             button.backgroundColor = UIColor.redColor();
         }
         self.appsTableView?.reloadData()

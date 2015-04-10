@@ -11,7 +11,7 @@ import NotificationCenter
 import CoreLocation
 import timeforcoffeeKit
 
-class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate,  TFCDeparturesUpdatedProtocol, TFCStationsUpdatedProtocol {
+final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate,  TFCDeparturesUpdatedProtocol, TFCStationsUpdatedProtocol {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var appsTableView: UITableView!
     @IBOutlet weak var actionLabel: UIButton!
@@ -57,7 +57,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     }
 
     lazy var lastViewedStation: TFCStation? = {
-        let stationDict = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedStation") as [String: String]?
+        let stationDict = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedStation") as! [String: String]?
         if (stationDict == nil) {
             return nil
         }
@@ -75,11 +75,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     }
 
 
-    override init() {
-        super.init()
-    }
-
-    override init(coder aDecoder: NSCoder) {
+    required init(coder aDecoder: NSCoder) {
         NSLog("init")
         super.init(coder: aDecoder)
         if (getLastUsedView() == "nearbyStations") {
@@ -180,7 +176,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
                 if (currentStation == nil && showStations == false) {
                     if (lastUsedViewUpdatedInterval() > -(60 * 30)) {
                         let distance2lastViewedStationNow: CLLocationDistance? = locManager?.currentLocation?.distanceFromLocation(lastViewedStation?.coord)
-                        let distance2lastViewedStationLasttime: CLLocationDistance? = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedStationDistance") as CLLocationDistance?
+                        let distance2lastViewedStationLasttime: CLLocationDistance? = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedStationDistance") as! CLLocationDistance?
                         if (distance2lastViewedStationNow != nil && distance2lastViewedStationLasttime != nil && distance2lastViewedStationNow! < distance2lastViewedStationLasttime! + 200) {
                             currentStation = lastViewedStation
                             if (currentStation != nil) {
@@ -276,11 +272,11 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     }
 
     func getLastUsedView() -> String? {
-        return TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedView") as String?
+        return TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedView") as! String?
     }
 
     func lastUsedViewUpdatedInterval() -> NSTimeInterval? {
-        let lastUpdate: NSDate? = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedViewUpdate") as NSDate?
+        let lastUpdate: NSDate? = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedViewUpdate") as! NSDate?
         return lastUpdate?.timeIntervalSinceNow
     }
 
@@ -317,19 +313,19 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell: UITableViewCell
         if (showStations) {
-            cell = tableView.dequeueReusableCellWithIdentifier("NearbyStationsCell") as UITableViewCell
+            cell = tableView.dequeueReusableCellWithIdentifier("NearbyStationsCell") as! UITableViewCell
         } else {
-            cell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as UITableViewCell
+            cell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as! UITableViewCell
         }
         cell.layoutMargins = UIEdgeInsetsZero
         cell.preservesSuperviewLayoutMargins = false
         
         
         
-        let lineNumberLabel = cell.viewWithTag(100) as DepartureLineLabel
-        let destinationLabel = cell.viewWithTag(200) as UILabel
-        let departureLabel = cell.viewWithTag(300) as UILabel
-        let minutesLabel = cell.viewWithTag(400) as UILabel
+        let lineNumberLabel = cell.viewWithTag(100) as! DepartureLineLabel
+        let destinationLabel = cell.viewWithTag(200) as! UILabel
+        let departureLabel = cell.viewWithTag(300) as! UILabel
+        let minutesLabel = cell.viewWithTag(400) as! UILabel
 
         if (showStations) {
             let stationsCount = self.stations?.count()
@@ -352,7 +348,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
             station?.updateDepartures(self)
             let departures = station?.getFilteredDepartures(1)
             let firstDeparture = departures?.first
-            let iconLabel = cell.viewWithTag(500) as UIImageView
+            let iconLabel = cell.viewWithTag(500) as! UIImageView
             iconLabel.layer.cornerRadius = iconLabel.layer.bounds.width / 2
             iconLabel.clipsToBounds = true
             iconLabel.image = station?.getIcon()
@@ -401,7 +397,7 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
         cell.textLabel!.text = nil
         let departure: TFCDeparture = departures![indexPath.row]
         var unabridged = false
-        if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+        if (UIDeviceOrientationIsLandscape(UIDevice.currentDevice().orientation)) {
             unabridged = true
         }
         destinationLabel.text = departure.getDestinationWithSign(station, unabridged: unabridged)
@@ -494,16 +490,16 @@ class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableView
     private func sendScreenNameToGA(screenname: String) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
             self.gtracker.set(kGAIScreenName, value: screenname)
-            self.gtracker.send(GAIDictionaryBuilder.createScreenView().build())
+            self.gtracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject]!)
         }
     }
 
     private func populateStationsFromLastUsed() {
         if (!(self.stations?.count() > 0)) {
-            let stationDict = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedStationsNormal") as [String]?
-            let stationDictFavs = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedStationsFavorites") as [String]?
-            if (stationDict != nil) {
-                self.stations?.populateWithIds(stationDictFavs, nonfavorites:stationDict)
+            let stationDict = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedStationsNormal") as? [String]?
+            let stationDictFavs = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedStationsFavorites") as? [String]?
+            if (stationDict != nil && stationDictFavs != nil) {
+                self.stations?.populateWithIds(stationDictFavs!, nonfavorites:stationDict!)
                 self.appsTableView?.reloadData()
             }
         }

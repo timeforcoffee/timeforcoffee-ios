@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-public class TFCDeparture: NSObject, NSCoding {
+public final class TFCDeparture: NSObject, NSCoding {
     private var name: String
     public var type: String
     private var accessible: Bool
@@ -34,14 +34,14 @@ public class TFCDeparture: NSObject, NSCoding {
     }
 
     required public init(coder aDecoder: NSCoder) {
-        self.name = aDecoder.decodeObjectForKey("name") as String
-        self.type = aDecoder.decodeObjectForKey("type") as String
+        self.name = aDecoder.decodeObjectForKey("name") as! String
+        self.type = aDecoder.decodeObjectForKey("type") as! String
         self.accessible = aDecoder.decodeBoolForKey("accessible")
-        self.to = aDecoder.decodeObjectForKey("to") as String
-        self.scheduled = aDecoder.decodeObjectForKey("scheduled") as NSDate?
-        self.realtime = aDecoder.decodeObjectForKey("realtime") as NSDate?
-        self.colorFg = aDecoder.decodeObjectForKey("colorFg") as String?
-        self.colorBg = aDecoder.decodeObjectForKey("colorBg") as String?
+        self.to = aDecoder.decodeObjectForKey("to") as! String
+        self.scheduled = aDecoder.decodeObjectForKey("scheduled") as! NSDate?
+        self.realtime = aDecoder.decodeObjectForKey("realtime") as! NSDate?
+        self.colorFg = aDecoder.decodeObjectForKey("colorFg") as! String?
+        self.colorBg = aDecoder.decodeObjectForKey("colorBg") as! String?
     }
 
     public func encodeWithCoder(aCoder: NSCoder) {
@@ -56,36 +56,39 @@ public class TFCDeparture: NSObject, NSCoding {
     }
 
     
-    public class func getStationNameFromJson(result: JSONValue) -> String? {
+    public class func getStationNameFromJson(result: JSON) -> String? {
         return result["meta"]["station_name"].string
     }
     
-    public class func withJSON(allResults: JSONValue) -> [TFCDeparture]? {
+    public class func withJSON(allResults: JSON?) -> [TFCDeparture]? {
         // Create an empty array of Albums to append to from this list
         // Store the results in our table data array
         var departures: [TFCDeparture]?
-
-        if let results = allResults["departures"].array {
+        if (allResults == nil) {
+            return nil
+        }
+        if let results = allResults?["departures"].array {
             departures = [TFCDeparture]()
             for result in results {
-                var name = result["name"].string
-                var type = result["type"].string
-                var accessibleOpt = result["accessible"].bool
+                let name = result["name"].string
+                let type = result["type"].string
+                let accessibleOpt = result["accessible"].bool
                 var accessible = true
                 if (accessibleOpt == nil || accessibleOpt == false) {
                     accessible = false
                 }
-                var to = result["to"].string
-                var scheduledStr = result["departure"]["scheduled"].string
-                var realtimeStr = result["departure"]["realtime"].string
+                let to = result["to"].string
+                let scheduledStr = result["departure"]["scheduled"].string
+                let realtimeStr = result["departure"]["realtime"].string
                 var colorFg = result["colors"]["fg"].string
                 colorFg = colorFg == nil ? "#000000" : colorFg
 
                 var colorBg = result["colors"]["bg"].string
                 colorBg = colorBg == nil ? "#ffffff" : colorBg
                 
-                var scheduled: NSDate?
-                var realtime: NSDate?
+                let scheduled: NSDate?
+                let realtime: NSDate?
+
                 if (scheduledStr != nil) {
                     scheduled = self.parseDate(scheduledStr!);
                 } else {
@@ -98,7 +101,7 @@ public class TFCDeparture: NSObject, NSCoding {
                     realtime = nil
                 }
                 
-                var newDeparture = TFCDeparture(name: name!, type: type!, accessible: accessible, to: to!, scheduled: scheduled, realtime: realtime, colorFg: colorFg, colorBg: colorBg)
+                let newDeparture = TFCDeparture(name: name!, type: type!, accessible: accessible, to: to!, scheduled: scheduled, realtime: realtime, colorFg: colorFg, colorBg: colorBg)
                 departures?.append(newDeparture)
             }
             return departures
@@ -141,7 +144,7 @@ public class TFCDeparture: NSObject, NSCoding {
     
     public func getTimeString() -> String {
         var timestring = "";
-        var minutes = getMinutes()
+        let minutes = getMinutes()
         let (departureTimeAttr, departureTimeString) = getDepartureTime(true)
 
         if (minutes != nil) {
@@ -231,8 +234,6 @@ public class TFCDeparture: NSObject, NSCoding {
     
     public func getMinutesAsInt() -> Int? {
         var timeInterval: NSTimeInterval?
-        var realtimeStr: String?
-        var scheduledStr: String?
         if (self.realtime != nil) {
             timeInterval = self.realtime?.timeIntervalSinceNow
         } else {
@@ -245,7 +246,6 @@ public class TFCDeparture: NSObject, NSCoding {
     }
 
     public func getMinutes() -> String? {
-        var timestring = "";
         var timeInterval = getMinutesAsInt()
         if (timeInterval != nil) {
             if (timeInterval < 0) {
@@ -283,7 +283,7 @@ public class TFCDeparture: NSObject, NSCoding {
 
     private class func parseDate(dateStr:String) -> NSDate? {
         let format = "yyyy-MM-dd'T'HH:mm:ss.'000'ZZZZZ"
-        var dateFmt = NSDateFormatter()
+        let dateFmt = NSDateFormatter()
         dateFmt.timeZone = NSTimeZone.defaultTimeZone()
         dateFmt.dateFormat = format
         return dateFmt.dateFromString(dateStr)
@@ -291,26 +291,10 @@ public class TFCDeparture: NSObject, NSCoding {
     
     private func getShortDate(date:NSDate) -> String {
         let format = "HH:mm"
-        var dateFmt = NSDateFormatter()
+        let dateFmt = NSDateFormatter()
         dateFmt.timeZone = NSTimeZone.defaultTimeZone()
         dateFmt.dateFormat = format
         return dateFmt.stringFromDate(date)
-    }
-    
-    public func getAsDict(station: TFCStation) -> [String: AnyObject] {
-        let (departureTimeAttr, departureTimeString) = getDepartureTime(true)
-
-        return [
-            "to":         getDestination(station),
-            "name":       getLine(),
-            "time":       departureTimeString!,
-            "minutes":    getMinutes()!,
-            "accessible": accessible,
-            "colorFg":    colorFg!,
-            "colorBg":    colorBg!,
-        ]
-
-        
     }
 }
 

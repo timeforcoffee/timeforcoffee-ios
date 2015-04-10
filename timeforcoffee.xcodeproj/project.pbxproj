@@ -52,7 +52,6 @@
 		EC6EDD4F1A9BA4820098CAE0 /* TFCStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDD4D1A9BA4820098CAE0 /* TFCStation.swift */; };
 		EC6EDD511A9BA5080098CAE0 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDD501A9BA5080098CAE0 /* SwiftyJSON.swift */; };
 		EC6EDD541A9BA79B0098CAE0 /* APIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDD531A9BA79B0098CAE0 /* APIController.swift */; };
-		EC72FCC11AA336E900E9B275 /* TFCNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC72FCC01AA336E900E9B275 /* TFCNavigationController.swift */; };
 		EC7A517919C427CA000F5E7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A517819C427CA000F5E7C /* AppDelegate.swift */; };
 		EC7A517B19C427CA000F5E7C /* StationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A517A19C427CA000F5E7C /* StationsViewController.swift */; };
 		EC7A518019C427CA000F5E7C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC7A517F19C427CA000F5E7C /* Images.xcassets */; };
@@ -85,13 +84,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		EC3B78761AB830BE006043C5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EC7A516B19C427CA000F5E7C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = EC6EDD2C1A9BA36F0098CAE0;
-			remoteInfo = timeforcoffeeKit;
-		};
 		EC6EDCFA1A9B9F390098CAE0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = EC7A516B19C427CA000F5E7C /* Project object */;
@@ -192,7 +184,6 @@
 		EC6EDD4D1A9BA4820098CAE0 /* TFCStation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCStation.swift; sourceTree = "<group>"; };
 		EC6EDD501A9BA5080098CAE0 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		EC6EDD531A9BA79B0098CAE0 /* APIController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIController.swift; sourceTree = "<group>"; };
-		EC72FCC01AA336E900E9B275 /* TFCNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCNavigationController.swift; sourceTree = "<group>"; };
 		EC7A517319C427CA000F5E7C /* Time for Coffee!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Time for Coffee!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC7A517719C427CA000F5E7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC7A517819C427CA000F5E7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -224,6 +215,7 @@
 		ECAD8C401ABD861D00704974 /* PINCache.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PINCache.framework; path = "Pods/../build/Debug-iphoneos/Pods/PINCache.framework"; sourceTree = "<group>"; };
 		ECBCF0001ACB398200957A4F /* SupportKit.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SupportKit.bundle; sourceTree = "<group>"; };
 		ECBCF0011ACB398200957A4F /* SupportKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SupportKit.framework; sourceTree = "<group>"; };
+		ECBCF0041ACB506400957A4F /* Time for Coffee! WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Time for Coffee! WatchKit Extension.entitlements"; sourceTree = "<group>"; };
 		ECC163D91AA369ED006BC3E9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		ECC163DB1AA36A35006BC3E9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MainInterface.strings; sourceTree = "<group>"; };
 		ECD871941A9BAE18003CCCB3 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -320,6 +312,7 @@
 		EC4344AF1AA5080A009438C7 /* Time for Coffee! WatchKit Extension */ = {
 			isa = PBXGroup;
 			children = (
+				ECBCF0041ACB506400957A4F /* Time for Coffee! WatchKit Extension.entitlements */,
 				EC522E701AA60CF30011A992 /* fonts */,
 				EC4344B21AA5080A009438C7 /* InterfaceController.swift */,
 				EC4344D11AA5890F009438C7 /* StationViewController.swift */,
@@ -501,7 +494,6 @@
 				ECF100AE1A9DBDAF00056510 /* Time for Coffee!.entitlements */,
 				EC3252DF1A9CE0800056AF11 /* timeforcoffee-Bridging-Header.h */,
 				EC7A517819C427CA000F5E7C /* AppDelegate.swift */,
-				EC72FCC01AA336E900E9B275 /* TFCNavigationController.swift */,
 				EC7A517A19C427CA000F5E7C /* StationsViewController.swift */,
 				EC0DD8D01AAF1B5F0089A207 /* StationsSearchViewController.swift */,
 				ECDAB3A51AAA42A300EB352B /* PagedStationsViewController.swift */,
@@ -563,7 +555,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				EC3B78771AB830BE006043C5 /* PBXTargetDependency */,
 			);
 			name = "timeforcoffee Widget";
 			productName = "timeforcoffee Widget";
@@ -810,7 +801,6 @@
 				EC0DD8D11AAF1B5F0089A207 /* StationsSearchViewController.swift in Sources */,
 				EC6B1FB81AC152FF0070783C /* AboutPagedViewController.swift in Sources */,
 				EC7A517919C427CA000F5E7C /* AppDelegate.swift in Sources */,
-				EC72FCC11AA336E900E9B275 /* TFCNavigationController.swift in Sources */,
 				314AFBD41AA766DC00C176FE /* StationTableViewCell.swift in Sources */,
 				ECDAB3A61AAA42A300EB352B /* PagedStationsViewController.swift in Sources */,
 				EC31F5481AAE3AED00771585 /* DeparturesViewController.swift in Sources */,
@@ -820,11 +810,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		EC3B78771AB830BE006043C5 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = EC6EDD2C1A9BA36F0098CAE0 /* timeforcoffeeKit */;
-			targetProxy = EC3B78761AB830BE006043C5 /* PBXContainerItemProxy */;
-		};
 		EC6EDCFB1A9B9F390098CAE0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = EC6EDCEE1A9B9F390098CAE0 /* timeforcoffee Widget */;
@@ -906,8 +891,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "timeforcoffee Widget/timeforcoffee Widget.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -947,6 +931,7 @@
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "$(SRCROOT)/timeforcoffeeKit/timeforcoffeeKit-Bridging-Header.h";
+				SWIFT_WHOLE_MODULE_OPTIMIZATION = NO;
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
@@ -957,7 +942,6 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -972,6 +956,7 @@
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "$(SRCROOT)/timeforcoffeeKit/timeforcoffeeKit-Bridging-Header.h";
+				SWIFT_WHOLE_MODULE_OPTIMIZATION = NO;
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
@@ -1092,8 +1077,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "timeforcoffee/Time for Coffee!.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (

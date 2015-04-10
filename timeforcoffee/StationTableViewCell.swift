@@ -9,7 +9,7 @@
 import UIKit
 import timeforcoffeeKit
 
-class StationTableViewCell: UITableViewCell {
+final class StationTableViewCell: UITableViewCell {
     @IBOutlet weak var StationIconView: UIView!
     @IBOutlet weak var StationNameLabel: UILabel!
     @IBOutlet weak var StationDescriptionLabel: UILabel!
@@ -40,6 +40,7 @@ class StationTableViewCell: UITableViewCell {
 
         func completion() -> Void {
             self.drawIcon()
+            return
         }
 
         self.station.toggleIcon(self.StationFavoriteButton!, icon: StationIconView, completion: completion)
