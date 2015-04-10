@@ -35,6 +35,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
     var currentStationIndex = 0
     var viewDidAppear = false
+    var dataIsFromInitCache = false
     var showStations: Bool = false {
         didSet {
             dispatch_async(dispatch_get_main_queue(), {
@@ -81,10 +82,14 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         if (getLastUsedView() == "nearbyStations") {
             showStations = true
             populateStationsFromLastUsed()
+            dataIsFromInitCache = true
         } else {
             self.currentStation = self.lastViewedStation
-            if (self.currentStation != nil) {
+            if (self.currentStation != nil && self.currentStation?.getDepartures()?.count > 0) {
                 self.appsTableView?.reloadData()
+                dataIsFromInitCache = true
+            } else {
+                self.currentStation = nil
             }
             showStations = false
         }
@@ -144,12 +149,14 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                 self.sendScreenNameToGA("todayviewStation")
                 self.showStations = false
                 if (self.lastUsedViewUpdatedInterval() > -300) {
-                    self.currentStation = self.lastViewedStation
+                    self.dataIsFromInitCache = false
+                    return
+                    /* self.currentStation = self.lastViewedStation
                     if (self.currentStation != nil) {
                         self.showStations = false
                         self.displayDepartures()
                         return
-                    }
+                    } */
                 }
                 self.locManager?.refreshLocation()
             }
@@ -173,16 +180,12 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             if (locManager?.currentLocation != nil) {
                 // if lastUsedView is a single station and we did look at it no longer than 30 minutes
                 // and the distance is not much more (200m), just show it again
-                if (currentStation == nil && showStations == false) {
+                if (self.dataIsFromInitCache && showStations == false) {
                     if (lastUsedViewUpdatedInterval() > -(60 * 30)) {
                         let distance2lastViewedStationNow: CLLocationDistance? = locManager?.currentLocation?.distanceFromLocation(lastViewedStation?.coord)
                         let distance2lastViewedStationLasttime: CLLocationDistance? = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedStationDistance") as! CLLocationDistance?
                         if (distance2lastViewedStationNow != nil && distance2lastViewedStationLasttime != nil && distance2lastViewedStationNow! < distance2lastViewedStationLasttime! + 200) {
-                            currentStation = lastViewedStation
-                            if (currentStation != nil) {
-                                showStations = false
-                                displayDepartures()
-                            }
+                            dataIsFromInitCache = false
                         }
                     }
                 }
@@ -456,7 +459,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         dispatch_async(dispatch_get_main_queue(), {
             // if we show a single station, but it's not determined which one
             //   try to get one from the stations array
-            if (self.showStations == false && self.currentStation == nil) {
+            if (self.showStations == false && (self.currentStation == nil ||                             self.dataIsFromInitCache == false)) {
                 self.currentStation = self.stations?.getStation(self.currentStationIndex)
                 if (self.currentStation != nil) {
                     if let title = self.currentStation?.getNameWithStarAndFilters() {
@@ -480,9 +483,8 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                     userDefaults?.setObject(lastUsedStationsNormal, forKey: "lastUsedStationsNormal")
                     userDefaults?.setObject(lastUsedStationsFavorites, forKey: "lastUsedStationsFavorites")
                 }
-
             }
-
+            self.dataIsFromInitCache = false
             self.appsTableView.reloadData()
         })
     }
@@ -503,22 +505,5 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                 self.appsTableView?.reloadData()
             }
         }
-    }
-
-
-
-    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-        
-        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
-        
-        coordinator.animateAlongsideTransition(
-            {
-                (context) -> Void in
-            },
-            completion: {
-                (context) -> Void in
-                self.appsTableView?.reloadData()
-                return
-        })
     }
 }
