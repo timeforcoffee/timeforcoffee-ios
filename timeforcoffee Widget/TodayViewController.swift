@@ -33,7 +33,6 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
     var networkErrorMsg: String?
 
-    var currentStationIndex = 0
     var viewDidAppear = false
     var dataIsFromInitCache = false
     var showStations: Bool = false {
@@ -172,7 +171,6 @@ NSLog("awakeFromNib")
                 self.titleLabel.text = NSLocalizedString("Looking for nearest station ...", comment: "")
             })
         }
-        self.currentStationIndex = 0
         return super.lazyInitLocationManager()
     }
 
@@ -429,7 +427,6 @@ NSLog("awakeFromNib")
             currentStation = self.stations?.getStation(indexPath.row)
             showStations = false
             if (currentStation?.st_id != "0000") {
-                currentStationIndex = indexPath.row
                 displayDepartures()
             }
         }
@@ -463,7 +460,7 @@ NSLog("awakeFromNib")
             // if we show a single station, but it's not determined which one
             //   try to get one from the stations array
             if (self.showStations == false && (self.currentStation == nil ||                             self.dataIsFromInitCache == false)) {
-                self.currentStation = self.stations?.getStation(self.currentStationIndex)
+                self.currentStation = self.stations?.getStation(0)
                 if (self.currentStation != nil) {
                     if let title = self.currentStation?.getNameWithStarAndFilters() {
                         self.titleLabel.text = title
