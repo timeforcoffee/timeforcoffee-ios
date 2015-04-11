@@ -399,6 +399,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                 departureLabel.text = stations?.loadingMessage
             } else {
                 if (station == nil ) {
+                    titleLabel.text = "Time for Coffee! 405"
                     destinationLabel.text = NSLocalizedString("No stations found.", comment: "")
                     departureLabel.text = stations?.networkErrorMsg
                 } else {
@@ -407,7 +408,6 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                         departureLabel.text = self.networkErrorMsg
                     }
                 }
-                titleLabel.text = "Time for Coffee!"
                 if (station?.hasFilters() == true && station?.getDepartures()?.count > 0) {
                     departureLabel.text = NSLocalizedString("Remove some filters.", comment: "")
                 }
