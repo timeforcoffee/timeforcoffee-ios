@@ -274,22 +274,22 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
     func setLastUsedView() {
         let userDefaults = TFCDataStore.sharedInstance.getUserDefaults()
-        if (showStations) {
+        if (self.showStations) {
             userDefaults?.setObject("nearbyStations", forKey: "lastUsedView")
         } else {
-            if (currentStation != nil) {
+            if (self.currentStation != nil) {
                 userDefaults?.setObject("singleStation", forKey: "lastUsedView")
-                currentStation?.isLastUsed = true
-                lastViewedStation?.isLastUsed = false
+                self.currentStation?.isLastUsed = true
+                self.lastViewedStation?.isLastUsed = false
                 // FIXME, use NSCoding serialisation ..
                 // and maybe one object for all these values
-                userDefaults?.setObject(currentStation?.getAsDict(), forKey: "lastUsedStation")
-                userDefaults?.setObject(locManager?.currentLocation?.distanceFromLocation(currentStation?.coord), forKey: "lastUsedStationDistance")
+                userDefaults?.setObject(self.currentStation?.getAsDict(), forKey: "lastUsedStation")
+                userDefaults?.setObject(self.locManager?.currentLocation?.distanceFromLocation(self.currentStation?.coord), forKey: "lastUsedStationDistance")
             } else {
                 userDefaults?.removeObjectForKey("lastUsedView")
                 userDefaults?.removeObjectForKey("lastUsedStation")
                 userDefaults?.removeObjectForKey("lastUsedStationDistance")
-                lastViewedStation?.isLastUsed = false
+                self.lastViewedStation?.isLastUsed = false
             }
         }
         userDefaults?.setObject(NSDate(), forKey: "lastUsedViewUpdate")
