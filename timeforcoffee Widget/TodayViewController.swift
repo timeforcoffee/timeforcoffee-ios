@@ -157,13 +157,8 @@ NSLog("awakeFromNib")
                 self.showStations = false
                 if (self.lastUsedViewUpdatedInterval() > -300) {
                     self.dataIsFromInitCache = false
+                    self.currentStation?.updateDepartures(self)
                     return
-                    /* self.currentStation = self.lastViewedStation
-                    if (self.currentStation != nil) {
-                        self.showStations = false
-                        self.displayDepartures()
-                        return
-                    } */
                 }
                 self.locManager?.refreshLocation()
             }
@@ -193,6 +188,7 @@ NSLog("awakeFromNib")
                         let distance2lastViewedStationLasttime: CLLocationDistance? = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedStationDistance") as! CLLocationDistance?
                         if (distance2lastViewedStationNow != nil && distance2lastViewedStationLasttime != nil && distance2lastViewedStationNow! < distance2lastViewedStationLasttime! + 200) {
                             dataIsFromInitCache = false
+                            self.currentStation?.updateDepartures(self)
                         }
                     }
                 }
