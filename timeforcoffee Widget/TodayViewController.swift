@@ -94,7 +94,6 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         //actionLabel.hidden = false
         NSLog("viewDidAppear")
         viewDidAppear = true
-        NSLog("4 \(self.titleLabel?.text)")
         NSLog("width \(self.view.frame.width)")
         NSLog("width \(self.appsTableView?.frame.width)")
 
@@ -129,9 +128,6 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             }
         }
         NSLog("awakeFromNib")
-        NSLog("trailingTable \(trailingTable?.constant)")
-        NSLog("trailingBoardTitle \(trailingBoardTitle?.constant)")
-        NSLog("trailingContainer \(trailingContainer?.constant)")
         NSLog("width \(self.view.frame.width)")
         NSLog("width \(self.appsTableView?.frame.width)")
     }
