@@ -94,28 +94,46 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         //actionLabel.hidden = false
         NSLog("viewDidAppear")
         viewDidAppear = true
+        NSLog("4 \(self.titleLabel?.text)")
+        NSLog("width \(self.view.frame.width)")
+        NSLog("width \(self.appsTableView?.frame.width)")
+
         super.viewDidAppear(animated)
     }
 
     override func awakeFromNib() {
-if (getLastUsedView() == "nearbyStations") {
+        NSLog("width \(self.view.frame.width)")
+        NSLog("width \(self.appsTableView?.frame.width)")
+
+
+        if (getLastUsedView() == "nearbyStations") {
             showStations = true
             populateStationsFromLastUsed()
             dataIsFromInitCache = true
         } else {
             self.currentStation = self.lastViewedStation
             if (self.currentStation != nil && self.currentStation?.getDepartures()?.count > 0) {
-                NSLog("1 \(self.titleLabel?.text)")
                 showStations = false
-                NSLog("2 \(self.titleLabel?.text)")
                 self.appsTableView?.reloadData()
-                dataIsFromInitCache = true
+                // if lastUsedView is a single station and we did look at it no longer than 
+                // 5 minutes ago, just show it again without even checking the location later
+                if (self.lastUsedViewUpdatedInterval() > -300) {
+                    self.dataIsFromInitCache = false
+                    self.currentStation?.updateDepartures(self)
+                } else {
+                    dataIsFromInitCache = true
+                }
             } else {
                 self.currentStation = nil
                 showStations = false
             }
         }
-NSLog("awakeFromNib")
+        NSLog("awakeFromNib")
+        NSLog("trailingTable \(trailingTable?.constant)")
+        NSLog("trailingBoardTitle \(trailingBoardTitle?.constant)")
+        NSLog("trailingContainer \(trailingContainer?.constant)")
+        NSLog("width \(self.view.frame.width)")
+        NSLog("width \(self.appsTableView?.frame.width)")
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -126,6 +144,10 @@ NSLog("awakeFromNib")
             actionLabel.titleLabel?.text = "Stations"
         }
         actionLabel.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        NSLog("ViewWillAppear")
+        NSLog("width \(self.view.frame.width)")
+        NSLog("width \(self.appsTableView?.frame.width)")
+
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -135,8 +157,8 @@ NSLog("awakeFromNib")
 
     override func viewDidDisappear(animated: Bool) {
         TFCURLSession.sharedInstance.cancelURLSession()
-    }
 
+    }
     func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)!) {
         // Perform any setup necessary in order to update the view.
         // If an error is encountered, use NCUpdateResult.Failed
@@ -145,20 +167,18 @@ NSLog("awakeFromNib")
         NSLog("widgetPerformUpdateWithCompletionHandler")
         completionHandler(NCUpdateResult.NewData)
 
-        // if lastUsedView is a single station and we did look at it no longer than 5 minutes ago, just show it again
-        // without even checking the location
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             if (self.getLastUsedView() == "nearbyStations") {
                 self.sendScreenNameToGA("todayviewNearby")
                 self.showStations = true
             } else {
                 self.sendScreenNameToGA("todayviewStation")
-                self.showStations = false
-                if (self.lastUsedViewUpdatedInterval() > -300) {
-                    self.dataIsFromInitCache = false
-                    self.currentStation?.updateDepartures(self)
+                // if we're within the 5 minutes from last time (checked in awakeFromNiB)
+                // don't do anything
+                if (self.currentStation != nil && self.dataIsFromInitCache == false) {
                     return
                 }
+                self.showStations = false
                 self.locManager?.refreshLocation()
             }
             self.stations?.updateStations()
@@ -166,7 +186,7 @@ NSLog("awakeFromNib")
     }
 
     override func lazyInitLocationManager() -> TFCLocationManager? {
-        if (currentStation == nil) {
+        if (currentStation == nil || self.dataIsFromInitCache == true) {
             dispatch_async(dispatch_get_main_queue(), {
                 self.titleLabel.text = NSLocalizedString("Looking for nearest station ...", comment: "")
             })
