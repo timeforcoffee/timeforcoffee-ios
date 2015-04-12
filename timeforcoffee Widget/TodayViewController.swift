@@ -134,6 +134,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        self.view.setNeedsLayout()
         if (getLastUsedView() == "nearbyStations") {
             actionLabel.titleLabel?.text = "Back"
         } else {
