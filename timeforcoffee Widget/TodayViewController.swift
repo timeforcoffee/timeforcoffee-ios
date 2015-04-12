@@ -400,7 +400,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                 departureLabel.text = stations?.loadingMessage
             } else {
                 if (station == nil ) {
-                    titleLabel.text = "Time for Coffee! 405"
+                    titleLabel.text = "Time for Coffee!"
                     destinationLabel.text = NSLocalizedString("No stations found.", comment: "")
                     departureLabel.text = stations?.networkErrorMsg
                 } else {
