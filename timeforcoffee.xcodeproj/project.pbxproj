@@ -55,6 +55,7 @@
 		EC7A517919C427CA000F5E7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A517819C427CA000F5E7C /* AppDelegate.swift */; };
 		EC7A517B19C427CA000F5E7C /* StationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A517A19C427CA000F5E7C /* StationsViewController.swift */; };
 		EC7A518019C427CA000F5E7C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC7A517F19C427CA000F5E7C /* Images.xcassets */; };
+		EC7B49D41ADABAA000C79588 /* TFCNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7B49D31ADABAA000C79588 /* TFCNavigationController.swift */; };
 		EC87B6581AB95348005A053E /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B6571AB95348005A053E /* libGoogleAnalyticsServices.a */; };
 		EC87B6591AB95348005A053E /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B6571AB95348005A053E /* libGoogleAnalyticsServices.a */; };
 		EC87B65B1AB95365005A053E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B65A1AB95365005A053E /* CoreData.framework */; };
@@ -189,6 +190,7 @@
 		EC7A517819C427CA000F5E7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EC7A517A19C427CA000F5E7C /* StationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationsViewController.swift; sourceTree = "<group>"; };
 		EC7A517F19C427CA000F5E7C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		EC7B49D31ADABAA000C79588 /* TFCNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCNavigationController.swift; sourceTree = "<group>"; };
 		EC87B64E1AB95310005A053E /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
 		EC87B64F1AB95310005A053E /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIDictionaryBuilder.h; sourceTree = "<group>"; };
 		EC87B6501AB95310005A053E /* GAIEcommerceProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceProduct.h; sourceTree = "<group>"; };
@@ -500,6 +502,7 @@
 				EC31F5471AAE3AED00771585 /* DeparturesViewController.swift */,
 				EC4A37261AC0811D005D7546 /* LaunchScreen.xib */,
 				EC6B1FB71AC152FF0070783C /* AboutPagedViewController.swift */,
+				EC7B49D31ADABAA000C79588 /* TFCNavigationController.swift */,
 				EC6CD8DC1AC17C57002488DC /* About.html */,
 				EC7A517F19C427CA000F5E7C /* Images.xcassets */,
 				EC7A517619C427CA000F5E7C /* Supporting Files */,
@@ -796,6 +799,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				314AFBD61AA778F400C176FE /* StationTableView.swift in Sources */,
+				EC7B49D41ADABAA000C79588 /* TFCNavigationController.swift in Sources */,
 				EC7A517B19C427CA000F5E7C /* StationsViewController.swift in Sources */,
 				31979D751AB5BC7B00525165 /* DepartureLineLabel.swift in Sources */,
 				EC0DD8D11AAF1B5F0089A207 /* StationsSearchViewController.swift in Sources */,
