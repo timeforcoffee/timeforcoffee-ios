@@ -16,6 +16,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     @IBOutlet weak var appsTableView: UITableView!
     @IBOutlet weak var actionLabel: UIButton!
     let kCellIdentifier: String = "SearchResultCellWidget"
+    @IBOutlet weak var ContainerViewHeightConstraint: NSLayoutConstraint!
     lazy var gtracker: GAITracker = {
         let gtrackerInstance = GAI.sharedInstance()
         gtrackerInstance.trackUncaughtExceptions = true
@@ -131,7 +132,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
     private func setPreferredContentSize() {
         let height = 33 + (self.numberOfCells * 52)
-        self.preferredContentSize = CGSize(width: 350, height: height)
+        self.ContainerViewHeightConstraint.constant = CGFloat(height)
         self.view.setNeedsLayout()
     }
 

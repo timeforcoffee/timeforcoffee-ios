@@ -206,6 +206,7 @@
                                     </tableView>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstAttribute="height" priority="999" constant="345" id="2Ki-TZ-pn0"/>
                                     <constraint firstAttribute="bottom" secondItem="5hh-Zj-fgy" secondAttribute="bottom" id="3l6-uP-wec"/>
                                     <constraint firstAttribute="trailing" secondItem="ZqN-ss-Y5x" secondAttribute="trailing" id="5FQ-Ob-3IU"/>
                                     <constraint firstItem="ZqN-ss-Y5x" firstAttribute="leading" secondItem="5Hu-2U-LK8" secondAttribute="leading" id="9Fo-EJ-PS3"/>
@@ -224,11 +225,11 @@
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <value key="contentSizeForViewInPopover" type="size" width="320" height="350"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="ContainerViewHeightConstraint" destination="2Ki-TZ-pn0" id="OdG-Ya-oP5"/>
                         <outlet property="actionLabel" destination="zf4-3t-t8S" id="Eoc-iE-6lr"/>
                         <outlet property="appsTableView" destination="5hh-Zj-fgy" id="f0J-ac-m4h"/>
                         <outlet property="titleLabel" destination="GcN-lo-r42" id="VSW-84-JZL"/>
