@@ -143,6 +143,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     private func setPreferredContentSize() {
         let height = 33 + (self.numberOfCells * 52)
         self.ContainerViewHeightConstraint?.constant = CGFloat(height)
+        self.preferredContentSize = CGSize(width: Double(0.0), height: Double(height))
     }
 
     override func viewWillAppear(animated: Bool) {
