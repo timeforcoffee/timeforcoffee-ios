@@ -113,7 +113,7 @@
                                                     </constraints>
                                                 </tableViewCellContentView>
                                             </tableViewCell>
-                                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="0.0" reuseIdentifier="NearbyStationsCell" rowHeight="52" id="HLE-XB-MAz">
+                                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="0.0" reuseIdentifier="NearbyStationsCell" rowHeight="52" id="HLE-XB-MAz" customClass="NearbyStationsTableViewCell" customModule="timeforcoffee_Widget" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="HLE-XB-MAz" id="UWl-Z7-P6R">
@@ -150,24 +150,38 @@
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <imageView hidden="YES" opaque="NO" userInteractionEnabled="NO" tag="500" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stationicon-pin" translatesAutoresizingMaskIntoConstraints="NO" id="epc-oS-60b">
-                                                            <rect key="frame" x="0.0" y="10" width="32" height="32"/>
-                                                            <color key="backgroundColor" red="0.7725490196" green="0.7725490196" blue="0.7725490196" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        </imageView>
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="voF-Rv-Exk" userLabel="StationIcon">
+                                                            <rect key="frame" x="0.0" y="12" width="32" height="32"/>
+                                                            <subviews>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bt6-43-Nvz">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
+                                                                    <state key="normal" image="stationicon-pin">
+                                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    </state>
+                                                                </button>
+                                                            </subviews>
+                                                            <color key="backgroundColor" red="0.7725490196" green="0.7725490196" blue="0.7725490196" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" secondItem="voF-Rv-Exk" secondAttribute="height" multiplier="1:1" id="Bxm-cN-DOT"/>
+                                                                <constraint firstAttribute="centerY" secondItem="bt6-43-Nvz" secondAttribute="centerY" id="ITw-9G-qWs"/>
+                                                                <constraint firstItem="bt6-43-Nvz" firstAttribute="leading" secondItem="voF-Rv-Exk" secondAttribute="leading" id="YAa-OE-PfM"/>
+                                                                <constraint firstAttribute="width" constant="32" id="eAC-Ge-KmR"/>
+                                                                <constraint firstAttribute="centerX" secondItem="bt6-43-Nvz" secondAttribute="centerX" id="heM-dc-ue5"/>
+                                                                <constraint firstItem="bt6-43-Nvz" firstAttribute="top" secondItem="voF-Rv-Exk" secondAttribute="top" id="nfI-h0-pAH"/>
+                                                            </constraints>
+                                                        </view>
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstItem="VXV-Hc-mO4" firstAttribute="bottom" secondItem="WOc-us-lJS" secondAttribute="bottom" id="4je-bm-VCI"/>
                                                         <constraint firstItem="lZC-zq-jz4" firstAttribute="top" secondItem="VXV-Hc-mO4" secondAttribute="top" constant="-19" id="8fG-6J-xBF"/>
                                                         <constraint firstAttribute="trailingMargin" secondItem="Bqq-pe-hom" secondAttribute="trailing" id="B6c-06-mhL"/>
                                                         <constraint firstAttribute="trailingMargin" secondItem="lZC-zq-jz4" secondAttribute="trailing" constant="23" id="BeQ-Kz-jri"/>
+                                                        <constraint firstItem="voF-Rv-Exk" firstAttribute="top" secondItem="UWl-Z7-P6R" secondAttribute="topMargin" constant="4" id="Gm4-Ei-Tae"/>
                                                         <constraint firstItem="VXV-Hc-mO4" firstAttribute="leading" secondItem="UWl-Z7-P6R" secondAttribute="leading" constant="41" id="Jnf-yn-3e8"/>
-                                                        <constraint firstItem="epc-oS-60b" firstAttribute="top" secondItem="UWl-Z7-P6R" secondAttribute="topMargin" constant="2" id="KcI-mk-XP7"/>
-                                                        <constraint firstAttribute="bottomMargin" secondItem="epc-oS-60b" secondAttribute="bottom" constant="1" id="PhY-KY-vlZ"/>
                                                         <constraint firstItem="WOc-us-lJS" firstAttribute="baseline" secondItem="Bqq-pe-hom" secondAttribute="baseline" constant="-1" id="Q1b-pL-ZKA"/>
-                                                        <constraint firstItem="epc-oS-60b" firstAttribute="leading" secondItem="UWl-Z7-P6R" secondAttribute="leading" id="R2A-2X-gJl"/>
                                                         <constraint firstItem="lZC-zq-jz4" firstAttribute="leading" secondItem="VXV-Hc-mO4" secondAttribute="trailing" constant="-15" id="UHx-F4-UDU"/>
                                                         <constraint firstItem="VXV-Hc-mO4" firstAttribute="bottom" secondItem="UWl-Z7-P6R" secondAttribute="bottom" constant="-8" id="ZcR-1S-gbT"/>
-                                                        <constraint firstItem="lZC-zq-jz4" firstAttribute="leading" secondItem="epc-oS-60b" secondAttribute="trailing" constant="9" id="jjl-c2-MVI"/>
+                                                        <constraint firstItem="voF-Rv-Exk" firstAttribute="leading" secondItem="UWl-Z7-P6R" secondAttribute="leadingMargin" constant="-8" id="gzM-yz-PtW"/>
                                                         <constraint firstItem="VXV-Hc-mO4" firstAttribute="top" secondItem="UWl-Z7-P6R" secondAttribute="top" constant="28" id="lvL-b9-5Ml"/>
                                                         <constraint firstItem="WOc-us-lJS" firstAttribute="leading" secondItem="VXV-Hc-mO4" secondAttribute="trailing" constant="4" id="meC-a0-S3O"/>
                                                         <constraint firstItem="WOc-us-lJS" firstAttribute="leading" secondItem="VXV-Hc-mO4" secondAttribute="trailing" constant="4" id="rED-Fn-E8n"/>
@@ -175,6 +189,14 @@
                                                     </constraints>
                                                 </tableViewCellContentView>
                                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <connections>
+                                                    <outlet property="StationFavoriteButton" destination="bt6-43-Nvz" id="Rld-bE-rUg"/>
+                                                    <outlet property="StationIconView" destination="voF-Rv-Exk" id="WsJ-Yc-Nge"/>
+                                                    <outlet property="StationMinuteLabel" destination="Bqq-pe-hom" id="b4X-Z0-IPQ"/>
+                                                    <outlet property="StationNameLabel" destination="lZC-zq-jz4" id="trk-M6-YBL"/>
+                                                    <outlet property="StationsDestinationLabel" destination="WOc-us-lJS" id="zcs-E0-jgx"/>
+                                                    <outlet property="StationsLineNumberLabel" destination="VXV-Hc-mO4" id="Vxi-P3-xSJ"/>
+                                                </connections>
                                             </tableViewCell>
                                         </prototypes>
                                         <connections>

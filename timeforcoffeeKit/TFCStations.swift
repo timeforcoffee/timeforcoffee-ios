@@ -138,6 +138,8 @@ public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelega
             NSLog("horizontalAccuracy > 500: \(location.horizontalAccuracy)")
             favDistance = location.horizontalAccuracy + 500.0
         }
+        favorite.s.repopulateFavorites()
+
         for (st_id, station) in favorite.s.stations {
             let distance = location.distanceFromLocation(station.coord)
             if (distance < favDistance) {

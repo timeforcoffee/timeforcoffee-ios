@@ -334,7 +334,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell: UITableViewCell
         if (showStations) {
-            cell = tableView.dequeueReusableCellWithIdentifier("NearbyStationsCell") as! UITableViewCell
+            cell = tableView.dequeueReusableCellWithIdentifier("NearbyStationsCell") as! NearbyStationsTableViewCell
         } else {
             cell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as! UITableViewCell
         }
@@ -367,26 +367,9 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
             let station = self.stations?.getStation(indexPath.row)
             station?.updateDepartures(self)
-            let departures = station?.getFilteredDepartures(1)
-            let firstDeparture = departures?.first
-            let iconLabel = cell.viewWithTag(500) as! UIImageView
-            iconLabel.layer.cornerRadius = iconLabel.layer.bounds.width / 2
-            iconLabel.clipsToBounds = true
-            iconLabel.image = station?.getIcon()
-            iconLabel.hidden = false
-            lineNumberLabel.hidden = false
-            destinationLabel.text = station?.getNameWithFilters(false)
-
-            if (firstDeparture != nil && firstDeparture?.getMinutesAsInt() >= 0) {
-                lineNumberLabel.setStyle("dark", departure: firstDeparture!)
-                minutesLabel.text = firstDeparture!.getMinutes()
-                departureLabel.text = firstDeparture!.getDestinationWithSign(station, unabridged: false)
-            } else {
-                lineNumberLabel.hidden = true
-                minutesLabel.text = nil
-                departureLabel.text = nil
-            }
-            cell.userInteractionEnabled = true
+            let cellinstance = cell as! NearbyStationsTableViewCell
+            cellinstance.station = station
+            cellinstance.drawCell()
             return cell
         }
         let station = currentStation

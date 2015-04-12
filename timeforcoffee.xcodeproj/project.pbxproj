@@ -56,6 +56,7 @@
 		EC7A517B19C427CA000F5E7C /* StationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A517A19C427CA000F5E7C /* StationsViewController.swift */; };
 		EC7A518019C427CA000F5E7C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC7A517F19C427CA000F5E7C /* Images.xcassets */; };
 		EC7B49D41ADABAA000C79588 /* TFCNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7B49D31ADABAA000C79588 /* TFCNavigationController.swift */; };
+		EC7B49D61ADABBDA00C79588 /* NearbyStationsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7B49D51ADABBDA00C79588 /* NearbyStationsTableViewCell.swift */; };
 		EC87B6581AB95348005A053E /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B6571AB95348005A053E /* libGoogleAnalyticsServices.a */; };
 		EC87B6591AB95348005A053E /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B6571AB95348005A053E /* libGoogleAnalyticsServices.a */; };
 		EC87B65B1AB95365005A053E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B65A1AB95365005A053E /* CoreData.framework */; };
@@ -191,6 +192,7 @@
 		EC7A517A19C427CA000F5E7C /* StationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationsViewController.swift; sourceTree = "<group>"; };
 		EC7A517F19C427CA000F5E7C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		EC7B49D31ADABAA000C79588 /* TFCNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCNavigationController.swift; sourceTree = "<group>"; };
+		EC7B49D51ADABBDA00C79588 /* NearbyStationsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearbyStationsTableViewCell.swift; sourceTree = "<group>"; };
 		EC87B64E1AB95310005A053E /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
 		EC87B64F1AB95310005A053E /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIDictionaryBuilder.h; sourceTree = "<group>"; };
 		EC87B6501AB95310005A053E /* GAIEcommerceProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceProduct.h; sourceTree = "<group>"; };
@@ -395,6 +397,7 @@
 				EC6EDD011A9BA04D0098CAE0 /* timeforcoffee Widget.entitlements */,
 				EC0A30F41AA353CA0043B8F8 /* MainInterface.storyboard */,
 				EC6EDCF61A9B9F390098CAE0 /* TodayViewController.swift */,
+				EC7B49D51ADABBDA00C79588 /* NearbyStationsTableViewCell.swift */,
 				EC6EDCF41A9B9F390098CAE0 /* Supporting Files */,
 				EC250B0C1AA8684F00F8B3C4 /* timeforcoffee Widget-Bridging-Header.h */,
 			);
@@ -770,6 +773,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC6EDCF71A9B9F390098CAE0 /* TodayViewController.swift in Sources */,
+				EC7B49D61ADABBDA00C79588 /* NearbyStationsTableViewCell.swift in Sources */,
 				31979D761AB5BC7B00525165 /* DepartureLineLabel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
