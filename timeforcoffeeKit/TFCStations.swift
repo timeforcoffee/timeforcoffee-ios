@@ -9,7 +9,7 @@
 import Foundation
 import CoreLocation
 
-public final class TFCStations: SequenceType, TFCLocationManagerDelegate, APIControllerProtocol {
+public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelegate, APIControllerProtocol {
 
     private weak var delegate: TFCStationsUpdatedProtocol?
 
@@ -50,7 +50,7 @@ public final class TFCStations: SequenceType, TFCLocationManagerDelegate, APICon
     private lazy var locManager: TFCLocationManager? = { return TFCLocationManager(delegate: self)}()
     private lazy var api : APIController = { return APIController(delegate: self)}()
 
-    public init() {
+    public override init() {
         // can be removed, when everyone moved to the new way of storing favorites
         favorite.s.repopulateFavorites()
     }
@@ -138,6 +138,8 @@ public final class TFCStations: SequenceType, TFCLocationManagerDelegate, APICon
             NSLog("horizontalAccuracy > 500: \(location.horizontalAccuracy)")
             favDistance = location.horizontalAccuracy + 500.0
         }
+        favorite.s.repopulateFavorites()
+
         for (st_id, station) in favorite.s.stations {
             let distance = location.distanceFromLocation(station.coord)
             if (distance < favDistance) {
@@ -272,10 +274,6 @@ public final class TFCStations: SequenceType, TFCLocationManagerDelegate, APICon
         return nil
 
     }
-    
-    public func generate() -> IndexingGenerator<[TFCStation]> {
-        return stations!.generate()
-    }
 
     public subscript(i: Int) -> TFCStation {
         return stations![i]
@@ -285,6 +283,30 @@ public final class TFCStations: SequenceType, TFCLocationManagerDelegate, APICon
         return stations![range.start...range.end]
     }
 
+    public func generate() -> IndexingGenerator<[TFCStation]> {
+        if (stations == nil) {
+            return [].generate()
+        }
+        return stations!.generate()
+    }
+
+    public func populateWithIds(favorites: [String]?, nonfavorites: [String]?) {
+        self.empty()
+        if let favorites = favorites {
+            for (id) in favorites {
+                let station = TFCStation.initWithCache("", id: id, coord: nil)
+                NSLog("\(station)")
+                self.nearbyFavorites!.append(station)
+            }
+        }
+        if let nonfavorites = nonfavorites {
+            for (id) in nonfavorites {
+                let station = TFCStation.initWithCache("", id: id, coord: nil)
+                NSLog("\(station)")
+                self._stations!.append(station)
+            }
+        }
+    }
 }
 
 public protocol TFCStationsUpdatedProtocol: class {
