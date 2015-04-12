@@ -83,7 +83,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="200" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Zürich" lineBreakMode="tailTruncation" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0fo-iq-xUL" userLabel="LineNameLabel">
-                                                            <rect key="frame" x="41" y="9" width="309" height="20"/>
+                                                            <rect key="frame" x="41" y="9" width="306" height="20"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="16"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
@@ -106,7 +106,7 @@
                                                         <constraint firstItem="0fo-iq-xUL" firstAttribute="top" secondItem="jpy-Ce-zrf" secondAttribute="top" constant="-1" id="KSS-ag-sBy"/>
                                                         <constraint firstItem="jpy-Ce-zrf" firstAttribute="bottom" secondItem="Stk-Nb-fZC" secondAttribute="bottom" constant="-1" id="Mrr-hG-svo"/>
                                                         <constraint firstItem="0fo-iq-xUL" firstAttribute="top" secondItem="kwG-MO-Vtz" secondAttribute="top" constant="-1" id="TGH-gh-Ltd"/>
-                                                        <constraint firstItem="kwG-MO-Vtz" firstAttribute="leading" secondItem="0fo-iq-xUL" secondAttribute="trailing" id="Wmj-QI-DxE"/>
+                                                        <constraint firstItem="kwG-MO-Vtz" firstAttribute="leading" secondItem="0fo-iq-xUL" secondAttribute="trailing" constant="3" id="Wmj-QI-DxE"/>
                                                         <constraint firstItem="jpy-Ce-zrf" firstAttribute="leading" secondItem="evy-VU-QI2" secondAttribute="leading" id="r7m-9a-I82"/>
                                                         <constraint firstItem="jpy-Ce-zrf" firstAttribute="bottom" secondItem="evy-VU-QI2" secondAttribute="bottom" constant="-10" id="wc0-dv-tDY"/>
                                                         <constraint firstAttribute="trailingMargin" secondItem="kwG-MO-Vtz" secondAttribute="trailing" constant="-4" id="yDo-r6-2CB"/>
