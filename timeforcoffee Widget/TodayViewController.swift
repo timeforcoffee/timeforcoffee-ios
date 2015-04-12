@@ -32,6 +32,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     weak var currentStation: TFCStation?
 
     var networkErrorMsg: String?
+    var numberOfCells:Int = 6
 
     var viewDidAppear = false
     var dataIsFromInitCache = false
@@ -98,6 +99,11 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     }
 
     override func awakeFromNib() {
+        if (self.view.frame.height < 568) { //iPhone 4S
+            self.numberOfCells = 5
+        }
+        setPreferredContentSize()
+
         if (getLastUsedView() == "nearbyStations") {
             showStations = true
             populateStationsFromLastUsed()
@@ -121,6 +127,12 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             }
         }
         NSLog("awakeFromNib")
+    }
+
+    private func setPreferredContentSize() {
+        let height = 33 + (self.numberOfCells * 52)
+        self.preferredContentSize = CGSize(width: 350, height: height)
+        self.view.setNeedsLayout()
     }
 
     override func viewWillAppear(animated: Bool) {
