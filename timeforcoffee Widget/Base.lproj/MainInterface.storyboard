@@ -211,6 +211,7 @@
                                     <constraint firstAttribute="trailing" secondItem="ZqN-ss-Y5x" secondAttribute="trailing" id="5FQ-Ob-3IU"/>
                                     <constraint firstItem="ZqN-ss-Y5x" firstAttribute="leading" secondItem="5Hu-2U-LK8" secondAttribute="leading" id="9Fo-EJ-PS3"/>
                                     <constraint firstAttribute="trailing" secondItem="5hh-Zj-fgy" secondAttribute="trailing" id="UHd-ZA-SH7"/>
+                                    <constraint firstAttribute="width" priority="999" constant="377" id="lLh-TY-s1S"/>
                                     <constraint firstItem="ZqN-ss-Y5x" firstAttribute="top" secondItem="5Hu-2U-LK8" secondAttribute="top" id="qnw-Ub-drh"/>
                                     <constraint firstItem="5hh-Zj-fgy" firstAttribute="top" secondItem="ZqN-ss-Y5x" secondAttribute="bottom" id="tDa-0t-48T"/>
                                     <constraint firstItem="5hh-Zj-fgy" firstAttribute="leading" secondItem="5Hu-2U-LK8" secondAttribute="leading" id="u67-is-ahU"/>
@@ -230,8 +231,11 @@
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="ContainerViewHeightConstraint" destination="2Ki-TZ-pn0" id="OdG-Ya-oP5"/>
+                        <outlet property="ContainerViewTrailingConstraint" destination="Muh-Y2-6pD" id="r6P-34-AEn"/>
+                        <outlet property="ContainerViewWidthConstraint" destination="lLh-TY-s1S" id="o9x-8A-j0T"/>
                         <outlet property="actionLabel" destination="zf4-3t-t8S" id="Eoc-iE-6lr"/>
                         <outlet property="appsTableView" destination="5hh-Zj-fgy" id="f0J-ac-m4h"/>
+                        <outlet property="containerView" destination="5Hu-2U-LK8" id="nso-Wl-L2t"/>
                         <outlet property="titleLabel" destination="GcN-lo-r42" id="VSW-84-JZL"/>
                     </connections>
                 </viewController>

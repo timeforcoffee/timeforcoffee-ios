@@ -16,7 +16,12 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     @IBOutlet weak var appsTableView: UITableView!
     @IBOutlet weak var actionLabel: UIButton!
     let kCellIdentifier: String = "SearchResultCellWidget"
+
+    @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var ContainerViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var ContainerViewWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var ContainerViewTrailingConstraint: NSLayoutConstraint!
+
     lazy var gtracker: GAITracker = {
         let gtrackerInstance = GAI.sharedInstance()
         gtrackerInstance.trackUncaughtExceptions = true
@@ -97,11 +102,16 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         NSLog("viewDidAppear")
         viewDidAppear = true
         super.viewDidAppear(animated)
+        //make sure container width stays the same
+        // strange things are happinging, if this is not set
+        ContainerViewTrailingConstraint?.active = false
+        ContainerViewWidthConstraint?.constant = containerView.frame.width
     }
 
     override func awakeFromNib() {
-        if (self.view.frame.height < 568) { //iPhone 4S
-            self.numberOfCells = 5
+
+        if (UIScreen.mainScreen().bounds.height < 568) { //iPhone 4S
+            self.numberOfCells = max(2, Int((UIScreen.mainScreen().bounds.height - 33.0) / 52.0) - 3)
         }
         setPreferredContentSize()
 
@@ -132,8 +142,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
     private func setPreferredContentSize() {
         let height = 33 + (self.numberOfCells * 52)
-        self.ContainerViewHeightConstraint.constant = CGFloat(height)
-        self.view.setNeedsLayout()
+        self.ContainerViewHeightConstraint?.constant = CGFloat(height)
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -146,6 +155,12 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         }
         actionLabel.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         NSLog("ViewWillAppear")
+
+        // adjust containerView height, if it's too big
+        if (self.containerView.frame.height > 0 && self.containerView.frame.height < ContainerViewHeightConstraint.constant) {
+            self.numberOfCells = max(2,Int((self.containerView.frame.height - 33.0) / 52.0))
+            setPreferredContentSize()
+        }
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -319,16 +334,16 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             if (count == nil || count == 0) {
                 return 1
             }
-            return min(6, count!)
+            return min(self.numberOfCells, count!)
         }
         if (viewDidAppear == false && currentStation == nil) {
             return 0
         }
-        let departures = self.currentStation?.getFilteredDepartures(6)
+        let departures = self.currentStation?.getFilteredDepartures(self.numberOfCells)
         if (departures == nil || departures!.count == 0) {
             return 1
         }
-        return min(6, departures!.count)
+        return min(self.numberOfCells, departures!.count)
     }
     
     
@@ -374,7 +389,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             return cell
         }
         let station = currentStation
-        let departures = currentStation?.getFilteredDepartures(6)
+        let departures = currentStation?.getFilteredDepartures(self.numberOfCells)
         if (departures == nil || departures!.count == 0) {
             lineNumberLabel.hidden = true
             departureLabel.text = nil
