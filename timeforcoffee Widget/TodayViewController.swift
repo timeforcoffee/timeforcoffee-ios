@@ -94,17 +94,10 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         //actionLabel.hidden = false
         NSLog("viewDidAppear")
         viewDidAppear = true
-        NSLog("width \(self.view.frame.width)")
-        NSLog("width \(self.appsTableView?.frame.width)")
-
         super.viewDidAppear(animated)
     }
 
     override func awakeFromNib() {
-        NSLog("width \(self.view.frame.width)")
-        NSLog("width \(self.appsTableView?.frame.width)")
-
-
         if (getLastUsedView() == "nearbyStations") {
             showStations = true
             populateStationsFromLastUsed()
@@ -128,8 +121,6 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             }
         }
         NSLog("awakeFromNib")
-        NSLog("width \(self.view.frame.width)")
-        NSLog("width \(self.appsTableView?.frame.width)")
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -142,9 +133,6 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         }
         actionLabel.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         NSLog("ViewWillAppear")
-        NSLog("width \(self.view.frame.width)")
-        NSLog("width \(self.appsTableView?.frame.width)")
-
     }
 
     override func viewWillDisappear(animated: Bool) {
