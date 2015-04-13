@@ -24,7 +24,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZqN-ss-Y5x" userLabel="BoardTitle">
                                         <rect key="frame" x="0.0" y="0.0" width="377" height="32"/>
                                         <subviews>
-                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Time for Coffee!" lineBreakMode="tailTruncation" minimumScaleFactor="0.79999999999999982" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GcN-lo-r42">
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time for Coffee!" lineBreakMode="tailTruncation" minimumScaleFactor="0.79999999999999982" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GcN-lo-r42">
                                                 <rect key="frame" x="0.0" y="0.0" width="309" height="32"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -33,8 +33,8 @@
                                             <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" contentHorizontalAlignment="right" contentVerticalAlignment="fill" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zf4-3t-t8S">
                                                 <rect key="frame" x="311" y="0.0" width="60" height="32"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="44" id="3Mk-r2-JF6"/>
-                                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="60" id="Kgn-P1-L2n"/>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="999" constant="44" id="3Mk-r2-JF6"/>
+                                                    <constraint firstAttribute="width" relation="lessThanOrEqual" priority="999" constant="60" id="Kgn-P1-L2n"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <state key="normal" title="Stations">
