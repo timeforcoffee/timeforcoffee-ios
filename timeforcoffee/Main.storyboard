@@ -527,6 +527,7 @@
                                 <rect key="frame" x="9" y="192" width="577" height="31"/>
                                 <connections>
                                     <action selector="sliderChanged:" destination="v4W-Hv-fUQ" eventType="touchUpInside" id="mmn-nz-ogD"/>
+                                    <action selector="sliderChanged:" destination="v4W-Hv-fUQ" eventType="touchUpOutside" id="s3W-nH-eWb"/>
                                     <action selector="sliderChangedValue:" destination="v4W-Hv-fUQ" eventType="valueChanged" id="n3h-ig-3xc"/>
                                 </connections>
                             </slider>
