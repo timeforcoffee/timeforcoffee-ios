@@ -51,6 +51,15 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         self.setTitle(station?.getName(true))
         station?.updateDepartures(self)
         self.displayDepartures(station)
+        self.clearAllMenuItems()
+        if (station?.isFavorite() == true) {
+            self.addMenuItemWithItemIcon(WKMenuItemIcon.Decline, title: "Unfavorite Station", action: "contextButtonFavorite")
+        } else {
+            self.addMenuItemWithItemIcon(WKMenuItemIcon.Add, title: "Favorite Station", action: "contextButtonFavorite")
+        }
+
+        self.addMenuItemWithItemIcon(WKMenuItemIcon.Resume, title: "Reload", action: "contextButtonReload")
+        self.addMenuItemWithItemIcon(WKMenuItemIcon.More, title: "Stations", action: Selector("contextButtonStations"))
 
     }
     func selectStation(notification: NSNotification) {
@@ -118,18 +127,19 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         super.didDeactivate()
     }
 
-    @IBAction func contextButtionStations() {
+    func contextButtonStations() {
         self.presentControllerWithName("StationsOverviewPage", context: nil)
     }
 
-    @IBAction func contextButtonReload() {
+    func contextButtonReload() {
         func reload(stations: TFCStations?) {
             setStationValues()
         }
         TFCWatchData.sharedInstance.getStations(reload, stopWithFavorites: false)
     }
 
-    @IBAction func contextButtonFavorite() {
+    func contextButtonFavorite() {
         self.station?.toggleFavorite()
+        setStationValues()
     }
 }
