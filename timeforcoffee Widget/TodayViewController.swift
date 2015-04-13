@@ -110,8 +110,10 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
     override func awakeFromNib() {
 
-        if (UIScreen.mainScreen().bounds.height < 568) { //iPhone 4S
-            self.numberOfCells = max(2, Int((UIScreen.mainScreen().bounds.height - 33.0) / 52.0) - 3)
+        let height = max(UIScreen.mainScreen().bounds.height,
+            UIScreen.mainScreen().bounds.width)
+        if (height < 568) { //iPhone 4S
+            self.numberOfCells = max(2, Int((height - 33.0) / 52.0) - 3)
         }
         setPreferredContentSize()
 
@@ -144,6 +146,8 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         let height = 33 + (self.numberOfCells * 52)
         self.ContainerViewHeightConstraint?.constant = CGFloat(height)
         self.preferredContentSize = CGSize(width: Double(0.0), height: Double(height))
+        self.view.setNeedsLayout()
+
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -158,7 +162,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         NSLog("ViewWillAppear")
 
         // adjust containerView height, if it's too big
-        if (self.containerView.frame.height > 0 && self.containerView.frame.height < ContainerViewHeightConstraint.constant) {
+        if (self.containerView.frame.height > 0 && self.containerView.frame.height <= ContainerViewHeightConstraint.constant) {
             self.numberOfCells = max(2,Int((self.containerView.frame.height - 33.0) / 52.0))
             setPreferredContentSize()
         }
