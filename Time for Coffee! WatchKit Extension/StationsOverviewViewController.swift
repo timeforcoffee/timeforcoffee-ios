@@ -27,7 +27,7 @@ class StationsOverviewViewController: WKInterfaceController {
             if (stations == nil) {
                 return
             }
-            let maxStations = min(10, (stations?.count())! - 1)
+            let maxStations = min(5, (stations?.count())! - 1)
             let ctxStations = stations?[0...maxStations]
             stationsTable.setNumberOfRows(ctxStations!.count, withRowType: "stations")
             var i = 0;

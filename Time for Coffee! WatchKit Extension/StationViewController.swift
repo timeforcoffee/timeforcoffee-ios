@@ -117,14 +117,19 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         // This method is called when watch view controller is no longer visible
         super.didDeactivate()
     }
+
     @IBAction func contextButtionStations() {
         self.presentControllerWithName("StationsOverviewPage", context: nil)
     }
+
     @IBAction func contextButtonReload() {
         func reload(stations: TFCStations?) {
             setStationValues()
         }
         TFCWatchData.sharedInstance.getStations(reload, stopWithFavorites: false)
-        /*NSNotificationCenter.defaultCenter().postNotificationName("TFCWatchkitReloadPages", object: nil) */
+    }
+
+    @IBAction func contextButtonFavorite() {
+        self.station?.toggleFavorite()
     }
 }
