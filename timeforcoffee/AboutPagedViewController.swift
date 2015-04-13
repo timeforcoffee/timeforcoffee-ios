@@ -60,6 +60,15 @@ final class AboutPagedViewController: UIViewController, SwipeViewDataSource, Swi
             let chatbutton = aboutview?.viewWithTag(20) as! UIButton
             chatbutton.addTarget(self, action: "startChat", forControlEvents: UIControlEvents.TouchUpInside
             )
+
+            if let coffeeimg = aboutview?.viewWithTag(40) as? UIImageView {
+                coffeeimg.userInteractionEnabled = true;
+
+                let tapGesture = UITapGestureRecognizer(target: self, action: "openSettings")
+                tapGesture.numberOfTapsRequired = 2
+                coffeeimg.addGestureRecognizer(tapGesture)
+            }
+
             return aboutview
         }
 
@@ -145,6 +154,13 @@ final class AboutPagedViewController: UIViewController, SwipeViewDataSource, Swi
     func startChat() {
         SupportKit.show()
     }
+
+    func openSettings() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc: UIViewController! = storyboard.instantiateViewControllerWithIdentifier("SettingsViewController") as! UIViewController
+        self.presentViewController(vc, animated: true, completion: nil)
+    }
+
     func swipeViewItemSize(swipeView: SwipeView!) -> CGSize {
         return self.swipeView.bounds.size
     }
@@ -156,7 +172,7 @@ final class AboutPagedViewController: UIViewController, SwipeViewDataSource, Swi
         if(swipeView.scrollOffset  == 0 )  {
             bgImageLeft.constant = swipeView.frame.width
         } else {
-        bgImageLeft.constant = -(swipeView.scrollOffset * swipeView.frame.width * 0.6) - 100
+            bgImageLeft.constant = -(swipeView.scrollOffset * swipeView.frame.width * 0.6) - 100
         }
         self.view.layoutIfNeeded()
     }

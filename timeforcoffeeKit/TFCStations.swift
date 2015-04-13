@@ -295,14 +295,12 @@ public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelega
         if let favorites = favorites {
             for (id) in favorites {
                 let station = TFCStation.initWithCache("", id: id, coord: nil)
-                NSLog("\(station)")
                 self.nearbyFavorites!.append(station)
             }
         }
         if let nonfavorites = nonfavorites {
             for (id) in nonfavorites {
                 let station = TFCStation.initWithCache("", id: id, coord: nil)
-                NSLog("\(station)")
                 self._stations!.append(station)
             }
         }
