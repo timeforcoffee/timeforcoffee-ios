@@ -22,7 +22,7 @@ class SettingsViewController: UIViewController {
     }
     override func viewWillAppear(animated: Bool) {
         var numberOfCells = TFCDataStore.sharedInstance.getUserDefaults()?.integerForKey("numberOfCellsToday")
-        if (numberOfCells == nil) {
+        if (numberOfCells == nil || numberOfCells == 0) {
             numberOfCells = 6
         }
         numberCellsTodaySlider.value = Float(numberOfCells!)

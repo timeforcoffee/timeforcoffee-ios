@@ -123,12 +123,8 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         NSLog("viewDidAppear")
         viewDidAppear = true
         super.viewDidAppear(animated)
-        //make sure container width stays the same
-        // strange things are happinging, if this is not set
-        ContainerViewTrailingConstraint?.active = false
-        ContainerViewWidthConstraint?.constant = containerView.frame.width
         // adjust containerView height, if it's too big
-        if (self.containerView.frame.height > 0 && self.containerView.frame.height <= ContainerViewHeightConstraint.constant) {
+        if (self.containerView.frame.height > 0 && self.containerView.frame.height < ContainerViewHeightConstraint.constant) {
             self.numberOfCells = min(self.numberOfCells, max(2, Int((self.containerView.frame.height - 33.0) / 52.0)))
             setPreferredContentSize()
         }
@@ -136,7 +132,9 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
     override func awakeFromNib() {
 
-        if let preferredHeight =         TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastPreferredContentHeight") as? CGFloat {
+        let userDefaults = TFCDataStore.sharedInstance.getUserDefaults()
+
+        if let preferredHeight = userDefaults?.objectForKey("lastPreferredContentHeight") as? CGFloat {
             self.preferredContentSize = CGSize(width: CGFloat(0.0), height: preferredHeight)
         }
         if (getLastUsedView() == "nearbyStations") {
@@ -148,7 +146,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             if (self.currentStation != nil && self.currentStation?.getDepartures()?.count > 0) {
                 showStations = false
                 self.appsTableView?.reloadData()
-                // if lastUsedView is a single station and we did look at it no longer than 
+                // if lastUsedView is a single station and we did look at it no longer than
                 // 5 minutes ago, just show it again without even checking the location later
                 if (self.lastUsedViewUpdatedInterval() > -300) {
                     self.dataIsFromInitCache = false
@@ -161,14 +159,14 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                 showStations = false
             }
         }
+
         NSLog("awakeFromNib")
     }
-
     private func setPreferredContentSize() {
         let height = CGFloat(33 + (self.numberOfCells * 52))
+        self.ContainerViewHeightConstraint?.constant = height
         // don't jump around, if it's only a small amount
         if (abs(height - self.view.frame.height) > 10) {
-            self.ContainerViewHeightConstraint?.constant = height
             self.preferredContentSize = CGSize(width: CGFloat(0.0), height: height)
             self.view.setNeedsLayout()
             TFCDataStore.sharedInstance.getUserDefaults()?.setObject(height, forKey: "lastPreferredContentHeight")
@@ -180,6 +178,11 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+
+        //sometimes strange things happen with the calculated width
+        // just fix it here, and it should stay...
+        ContainerViewTrailingConstraint?.active = false
+        ContainerViewWidthConstraint?.constant = self.containerView.frame.width
         self.view.setNeedsLayout()
         if (getLastUsedView() == "nearbyStations") {
             actionLabel.titleLabel?.text = "Back"
@@ -187,8 +190,6 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             actionLabel.titleLabel?.text = "Stations"
         }
         actionLabel.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        NSLog("ViewWillAppear")
-
         setPreferredContentSize()
     }
 
