@@ -106,17 +106,18 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         // strange things are happinging, if this is not set
         ContainerViewTrailingConstraint?.active = false
         ContainerViewWidthConstraint?.constant = containerView.frame.width
+        // adjust containerView height, if it's too big
+        if (self.containerView.frame.height > 0 && self.containerView.frame.height <= ContainerViewHeightConstraint.constant) {
+            self.numberOfCells = max(2,Int((self.containerView.frame.height - 33.0) / 52.0))
+            setPreferredContentSize()
+        }
     }
 
     override func awakeFromNib() {
 
-        let height = max(UIScreen.mainScreen().bounds.height,
-            UIScreen.mainScreen().bounds.width)
-        if (height < 568) { //iPhone 4S
-            self.numberOfCells = max(2, Int((height - 33.0) / 52.0) - 3)
+        if let preferredHeight =         TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastPreferredContentHeight") as? CGFloat {
+            self.preferredContentSize = CGSize(width: CGFloat(0.0), height: preferredHeight)
         }
-        setPreferredContentSize()
-
         if (getLastUsedView() == "nearbyStations") {
             showStations = true
             populateStationsFromLastUsed()
@@ -143,10 +144,16 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     }
 
     private func setPreferredContentSize() {
-        let height = 33 + (self.numberOfCells * 52)
-        self.ContainerViewHeightConstraint?.constant = CGFloat(height)
-        self.preferredContentSize = CGSize(width: Double(0.0), height: Double(height))
-        self.view.setNeedsLayout()
+        let height = CGFloat(33 + (self.numberOfCells * 52))
+        // don't jump around, if it's only a small amount
+        if (abs(height - self.view.frame.height) > 10) {
+            self.ContainerViewHeightConstraint?.constant = height
+            self.preferredContentSize = CGSize(width: CGFloat(0.0), height: height)
+            self.view.setNeedsLayout()
+            TFCDataStore.sharedInstance.getUserDefaults()?.setObject(height, forKey: "lastPreferredContentHeight")
+        } else {
+            TFCDataStore.sharedInstance.getUserDefaults()?.setObject(self.view.frame.height, forKey: "lastPreferredContentHeight")
+        }
 
     }
 
@@ -161,11 +168,12 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         actionLabel.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         NSLog("ViewWillAppear")
 
-        // adjust containerView height, if it's too big
-        if (self.containerView.frame.height > 0 && self.containerView.frame.height <= ContainerViewHeightConstraint.constant) {
-            self.numberOfCells = max(2,Int((self.containerView.frame.height - 33.0) / 52.0))
-            setPreferredContentSize()
+        let height = max(UIScreen.mainScreen().bounds.height,
+            UIScreen.mainScreen().bounds.width)
+        if (height < 568) { //iPhone 4S
+            self.numberOfCells = max(2, Int((height - 33.0) / 52.0) - 3)
         }
+        setPreferredContentSize()
     }
 
     override func viewWillDisappear(animated: Bool) {
