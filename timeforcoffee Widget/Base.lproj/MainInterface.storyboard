@@ -136,7 +136,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="200" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Zürich" lineBreakMode="tailTruncation" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lZC-zq-jz4" userLabel="StationNameLabel">
-                                                            <rect key="frame" x="41" y="9" width="318" height="20"/>
+                                                            <rect key="frame" x="41" y="9" width="341" height="20"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="16"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
@@ -175,7 +175,7 @@
                                                         <constraint firstItem="VXV-Hc-mO4" firstAttribute="bottom" secondItem="WOc-us-lJS" secondAttribute="bottom" id="4je-bm-VCI"/>
                                                         <constraint firstItem="lZC-zq-jz4" firstAttribute="top" secondItem="VXV-Hc-mO4" secondAttribute="top" constant="-19" id="8fG-6J-xBF"/>
                                                         <constraint firstAttribute="trailingMargin" secondItem="Bqq-pe-hom" secondAttribute="trailing" id="B6c-06-mhL"/>
-                                                        <constraint firstAttribute="trailingMargin" secondItem="lZC-zq-jz4" secondAttribute="trailing" constant="23" id="BeQ-Kz-jri"/>
+                                                        <constraint firstAttribute="trailingMargin" secondItem="lZC-zq-jz4" secondAttribute="trailing" id="BeQ-Kz-jri"/>
                                                         <constraint firstItem="voF-Rv-Exk" firstAttribute="top" secondItem="UWl-Z7-P6R" secondAttribute="topMargin" constant="4" id="Gm4-Ei-Tae"/>
                                                         <constraint firstItem="VXV-Hc-mO4" firstAttribute="leading" secondItem="UWl-Z7-P6R" secondAttribute="leading" constant="41" id="Jnf-yn-3e8"/>
                                                         <constraint firstItem="WOc-us-lJS" firstAttribute="baseline" secondItem="Bqq-pe-hom" secondAttribute="baseline" constant="-1" id="Q1b-pL-ZKA"/>
