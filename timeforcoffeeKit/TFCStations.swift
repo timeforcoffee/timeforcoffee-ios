@@ -301,7 +301,6 @@ public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelega
         if let nonfavorites = nonfavorites {
             for (id) in nonfavorites {
                 let station = TFCStation.initWithCache("", id: id, coord: nil)
-                NSLog("\(station)")
                 self._stations!.append(station)
             }
         }
