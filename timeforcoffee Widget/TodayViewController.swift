@@ -38,7 +38,28 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     weak var currentStation: TFCStation?
 
     var networkErrorMsg: String?
-    var numberOfCells:Int = 6
+    lazy var numberOfCells:Int = {
+        var number = 6
+
+        // not implemented yet, settings screen is missing
+        if let newNumber = TFCDataStore.sharedInstance.getUserDefaults()?.integerForKey("numberOfCellsToday")
+        {
+            if (newNumber > 0) {
+                number = newNumber
+            }
+        }
+
+        let height = max(UIScreen.mainScreen().bounds.height,
+            UIScreen.mainScreen().bounds.width)
+        if (height < 568) { //iPhone 4S
+            let maxNumber = max(2, Int((height - 33.0) / 52.0) - 3)
+            if (maxNumber < number) {
+                number = maxNumber
+            }
+        }
+        return number
+    }()
+
 
     var viewDidAppear = false
     var dataIsFromInitCache = false
@@ -108,7 +129,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         ContainerViewWidthConstraint?.constant = containerView.frame.width
         // adjust containerView height, if it's too big
         if (self.containerView.frame.height > 0 && self.containerView.frame.height <= ContainerViewHeightConstraint.constant) {
-            self.numberOfCells = max(2,Int((self.containerView.frame.height - 33.0) / 52.0))
+            self.numberOfCells = min(self.numberOfCells, max(2, Int((self.containerView.frame.height - 33.0) / 52.0)))
             setPreferredContentSize()
         }
     }
@@ -168,11 +189,6 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         actionLabel.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         NSLog("ViewWillAppear")
 
-        let height = max(UIScreen.mainScreen().bounds.height,
-            UIScreen.mainScreen().bounds.width)
-        if (height < 568) { //iPhone 4S
-            self.numberOfCells = max(2, Int((height - 33.0) / 52.0) - 3)
-        }
         setPreferredContentSize()
     }
 

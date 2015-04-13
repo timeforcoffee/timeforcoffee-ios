@@ -80,6 +80,7 @@
 		ECC163D71AA36924006BC3E9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC2195ED1AA35B2D005E16EF /* Localizable.strings */; };
 		ECD871961A9BB2F7003CCCB3 /* timeforcoffeeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */; };
 		ECDAB3A61AAA42A300EB352B /* PagedStationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDAB3A51AAA42A300EB352B /* PagedStationsViewController.swift */; };
+		ECE864A61ADBF3AA004392B2 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE864A51ADBF3AA004392B2 /* SettingsViewController.swift */; };
 		ECF100AD1A9D9BAE00056510 /* TFCStations.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF100AC1A9D9BAE00056510 /* TFCStations.swift */; };
 		ECF3C59C1AC92FB2006F5745 /* TFCURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF3C59B1AC92FB2006F5745 /* TFCURLSession.swift */; };
 		ECFDA0B31AC00DD30019AA4E /* TFCDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFDA0B21AC00DD30019AA4E /* TFCDataStore.swift */; };
@@ -224,6 +225,7 @@
 		ECC163DB1AA36A35006BC3E9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MainInterface.strings; sourceTree = "<group>"; };
 		ECD871941A9BAE18003CCCB3 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ECDAB3A51AAA42A300EB352B /* PagedStationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagedStationsViewController.swift; sourceTree = "<group>"; };
+		ECE864A51ADBF3AA004392B2 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		ECF100AC1A9D9BAE00056510 /* TFCStations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCStations.swift; sourceTree = "<group>"; };
 		ECF100AE1A9DBDAF00056510 /* Time for Coffee!.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Time for Coffee!.entitlements"; sourceTree = "<group>"; };
 		ECF3C59B1AC92FB2006F5745 /* TFCURLSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCURLSession.swift; sourceTree = "<group>"; };
@@ -509,6 +511,7 @@
 				EC6CD8DC1AC17C57002488DC /* About.html */,
 				EC7A517F19C427CA000F5E7C /* Images.xcassets */,
 				EC7A517619C427CA000F5E7C /* Supporting Files */,
+				ECE864A51ADBF3AA004392B2 /* SettingsViewController.swift */,
 			);
 			path = timeforcoffee;
 			sourceTree = "<group>";
@@ -804,6 +807,7 @@
 			files = (
 				314AFBD61AA778F400C176FE /* StationTableView.swift in Sources */,
 				EC7B49D41ADABAA000C79588 /* TFCNavigationController.swift in Sources */,
+				ECE864A61ADBF3AA004392B2 /* SettingsViewController.swift in Sources */,
 				EC7A517B19C427CA000F5E7C /* StationsViewController.swift in Sources */,
 				31979D751AB5BC7B00525165 /* DepartureLineLabel.swift in Sources */,
 				EC0DD8D11AAF1B5F0089A207 /* StationsSearchViewController.swift in Sources */,
