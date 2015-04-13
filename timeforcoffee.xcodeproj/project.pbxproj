@@ -84,6 +84,8 @@
 		EC93E36F1AC6F50000A0DA46 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C316F1A9E1EC700690397 /* Foundation.framework */; };
 		EC95714F1A9CACB70061F8B4 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC95714E1A9CACB70061F8B4 /* extensions.swift */; };
 		EC9571511A9CCEC00061F8B4 /* TFCBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9571501A9CCEC00061F8B4 /* TFCBaseViewController.swift */; };
+		EC994D7E1ADC240000354014 /* StationsOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC994D7D1ADC240000354014 /* StationsOverviewViewController.swift */; };
+		EC994D801ADC283000354014 /* StationsRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC994D7F1ADC283000354014 /* StationsRow.swift */; };
 		ECAD8C3B1ABD849B00704974 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECAD8C3A1ABD849B00704974 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		ECAD8C3F1ABD861000704974 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECAD8C3E1ABD861000704974 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		ECBCF0021ACB398200957A4F /* SupportKit.bundle in Resources */ = {isa = PBXBuildFile; fileRef = ECBCF0001ACB398200957A4F /* SupportKit.bundle */; };
@@ -250,6 +252,8 @@
 		EC93E36C1AC6F4EA00A0DA46 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		EC95714E1A9CACB70061F8B4 /* extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
 		EC9571501A9CCEC00061F8B4 /* TFCBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCBaseViewController.swift; sourceTree = "<group>"; };
+		EC994D7D1ADC240000354014 /* StationsOverviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationsOverviewViewController.swift; sourceTree = "<group>"; };
+		EC994D7F1ADC283000354014 /* StationsRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationsRow.swift; sourceTree = "<group>"; };
 		ECAD8C3A1ABD849B00704974 /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
 		ECAD8C3C1ABD84A600704974 /* PINCache.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PINCache.framework; path = "Pods/../build/Debug-iphoneos/Pods/PINCache.framework"; sourceTree = "<group>"; };
 		ECAD8C3E1ABD861000704974 /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
@@ -365,10 +369,12 @@
 				EC522E701AA60CF30011A992 /* fonts */,
 				EC4344B21AA5080A009438C7 /* InterfaceController.swift */,
 				EC4344D11AA5890F009438C7 /* StationViewController.swift */,
+				EC994D7D1ADC240000354014 /* StationsOverviewViewController.swift */,
 				EC4344B41AA5080A009438C7 /* GlanceController.swift */,
 				EC4344B61AA5080A009438C7 /* Images.xcassets */,
 				EC4344B01AA5080A009438C7 /* Supporting Files */,
 				EC4344CF1AA508FF009438C7 /* StationRow.swift */,
+				EC994D7F1ADC283000354014 /* StationsRow.swift */,
 			);
 			path = "Time for Coffee! WatchKit Extension";
 			sourceTree = "<group>";
@@ -895,7 +901,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC4344D01AA508FF009438C7 /* StationRow.swift in Sources */,
+				EC994D7E1ADC240000354014 /* StationsOverviewViewController.swift in Sources */,
 				EC4344B31AA5080A009438C7 /* InterfaceController.swift in Sources */,
+				EC994D801ADC283000354014 /* StationsRow.swift in Sources */,
 				EC4344B51AA5080A009438C7 /* GlanceController.swift in Sources */,
 				EC4344D21AA5890F009438C7 /* StationViewController.swift in Sources */,
 			);

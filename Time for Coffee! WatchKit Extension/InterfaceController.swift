@@ -19,7 +19,11 @@ class InterfaceController: WKInterfaceController {
     
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
-        
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: "reloadPages:",
+            name: "TFCWatchkitReloadPages",
+            object: nil)
         // Configure interface objects here.
     }
 
@@ -34,13 +38,18 @@ class InterfaceController: WKInterfaceController {
             let ctxStations = stations?[0...maxStations]
             var pages = [String]()
             var pageContexts = [AnyObject]()
+            var i = 0;
             for (station) in ctxStations! {
                 pages.append("StationPage")
-                pageContexts.append(station)
+                var pc = TFCPageContext()
+                pc.station = station
+                pc.pageNumber = i
+                pageContexts.append(pc)
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
                     station.updateDepartures(nil)
                     return
                 }
+                i++
             }
             WKInterfaceController.reloadRootControllersWithNames(pages, contexts: pageContexts)
         }
@@ -49,5 +58,9 @@ class InterfaceController: WKInterfaceController {
     override func didDeactivate() {
         // This method is called when watch view controller is no longer visible
         super.didDeactivate()
+    }
+
+    func reloadPages(notification: NSNotification) {
+         NSLog("foo")
     }
 }

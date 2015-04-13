@@ -21,8 +21,9 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIContro
     private var networkErrorMsg: String?
 
     private var replyNearby: replyClosure?
-    private lazy var stations: TFCStations? =  {return TFCStations()}()
+    public lazy var stations: TFCStations? =  {return TFCStations()}()
     private lazy var locManager: TFCLocationManager? = self.lazyInitLocationManager()
+
 
     private lazy var api : APIController? = {
         [unowned self] in
@@ -64,13 +65,13 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIContro
     /* END USED FROM THE APP */
 
     /* USED FROM THE WATCHKIT EXTENSION */
-    public func getStations(reply: replyStations, stopWithFavorites: Bool?) {
+    public func getStations(reply: replyStations?, stopWithFavorites: Bool?) {
         func handleReply(replyInfo: [NSObject : AnyObject]!, error: NSError!) {
             if(replyInfo["lat"] != nil) {
                 let loc = CLLocation(latitude: replyInfo["lat"] as! Double, longitude: replyInfo["long"] as! Double)
                 self.stations?.initWithNearbyFavorites(loc)
-                if (stopWithFavorites == true && self.stations?.count() > 0 ) {
-                    reply(self.stations)
+                if (stopWithFavorites == true && self.stations?.count() > 0 && reply != nil ) {
+                    reply!(self.stations)
                     return
                 }
                 self.api?.searchFor(loc.coordinate, context: reply)
@@ -86,7 +87,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIContro
             } else {
                 self.networkErrorMsg = nil
             }
-            if (TFCStation.isStations(results!)) {
+            if (results != nil && TFCStation.isStations(results!)) {
                 self.stations?.addWithJSON(results)
             }
             if let reply:replyStations = context as? replyStations {
@@ -94,4 +95,14 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIContro
             }
         }
     }
+}
+
+public class TFCPageContext: NSObject {
+
+    public override init() {
+        super.init()
+    }
+
+    public var station:TFCStation?
+    public var pageNumber:Int?
 }
