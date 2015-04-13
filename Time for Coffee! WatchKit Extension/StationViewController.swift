@@ -88,4 +88,8 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         // This method is called when watch view controller is no longer visible
         super.didDeactivate()
     }
+    @IBAction func contextButtionStations() {
+        NSLog("here")
+    //    self.pushControllerWithName("StationsOverviewPage", context: self.)
+    }
 }
