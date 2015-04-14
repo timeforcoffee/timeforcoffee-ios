@@ -37,6 +37,7 @@ final class APIController {
         let name = location.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
         let cacheKey = "stations/\(name)"
         let urlPath = "http://www.timeforcoffee.ch/api/zvv/stations/\(name)*";
+        //let urlPath = "http://transport.opendata.ch/v1/locations?query=\(name)*";
 
         self.fetchUrl(urlPath, fetchId: 1, cacheKey: cacheKey)
     }
