@@ -29,6 +29,7 @@ final class StationsSearchViewController: StationsViewController, UISearchBarDel
         sc.searchResultsUpdater = appsTableView
         definesPresentationContext = false
         self.view.alpha = 0.0
+        appsTableView?.removePullToRefresh()
         self.searchController?.searchBar.alpha = 0.0
     }
 
