@@ -70,7 +70,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
     }
 
     deinit {
-        NSLog("deinit")
+        NSLog("deinit DeparturesViewController")
         NSNotificationCenter.defaultCenter().removeObserver(self)
         self.updateInAMinuteTimer?.invalidate()
     }

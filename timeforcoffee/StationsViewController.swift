@@ -12,8 +12,7 @@ import timeforcoffeeKit
 import CoreLocation
 
 class StationsViewController: TFCBaseViewController, TFCLocationManagerDelegate {
-    @IBOutlet var appsTableView : StationTableView?
-    //var stations: TFCStations!
+    @IBOutlet weak var appsTableView : StationTableView?
     let cellIdentifier: String = "StationTableViewCell"
     var networkErrorMsg: String? = nil
     var showFavorites: Bool = false

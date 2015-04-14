@@ -16,7 +16,7 @@ final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataS
     var refreshControl:UIRefreshControl?
     lazy var stations: TFCStations = {return TFCStations(delegate: self)}()
     var showFavorites: Bool?
-    var stationsViewController: StationsViewController?
+    weak var stationsViewController: StationsViewController?
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
