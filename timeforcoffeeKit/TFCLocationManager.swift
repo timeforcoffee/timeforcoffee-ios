@@ -44,7 +44,8 @@ public final class TFCLocationManager: NSObject, CLLocationManagerDelegate {
         lm.delegate = self
         lm.desiredAccuracy = kCLLocationAccuracyBest
         if (CLLocationManager.locationServicesEnabled()) {
-            lm.requestAlwaysAuthorization()
+ //           lm.requestAlwaysAuthorization()
+            lm.requestWhenInUseAuthorization()
         }
         return lm
     }
