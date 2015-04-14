@@ -29,7 +29,6 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         //GAI.sharedInstance().logger.logLevel = GAILogLevel.Verbose
         gtrackerInstance.trackerWithTrackingId("UA-37092982-2")
         var gtrack = gtrackerInstance.defaultTracker
-        gtrack?.set("&uid", value: UIDevice().identifierForVendor.UUIDString)
         return gtrack
     }()
 
