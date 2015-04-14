@@ -17,6 +17,7 @@ final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataS
     lazy var stations: TFCStations = {return TFCStations(delegate: self)}()
     var showFavorites: Bool?
     weak var stationsViewController: StationsViewController?
+    weak var searchBar: UISearchBar?
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -124,5 +125,9 @@ final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataS
             self.refreshControl?.removeFromSuperview()
             self.refreshControl = nil
         }
+    }
+
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+            searchBar?.resignFirstResponder()
     }
 }
