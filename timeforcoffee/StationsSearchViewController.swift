@@ -10,7 +10,7 @@ import Foundation
 
 final class StationsSearchViewController: StationsViewController, UISearchBarDelegate {
 
-    @IBOutlet  var appsTableView2: StationTableView?
+    @IBOutlet weak  var appsTableView2: StationTableView?
     var searchController: UISearchController?
 
     override func viewDidLoad() {
@@ -31,6 +31,14 @@ final class StationsSearchViewController: StationsViewController, UISearchBarDel
         self.view.alpha = 0.0
         appsTableView?.removePullToRefresh()
         self.searchController?.searchBar.alpha = 0.0
+    }
+
+    deinit {
+        self.searchController?.dismissViewControllerAnimated(false, completion: { () -> Void in
+
+        })
+        self.searchController?.removeFromParentViewController()
+        NSLog("deinit StationsSearchViewController")
     }
 
     override func viewWillAppear(animated: Bool) {
