@@ -23,6 +23,8 @@
 		EC0A30F21AA353CA0043B8F8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30F41AA353CA0043B8F8 /* MainInterface.storyboard */; };
 		EC0DD8CF1AAEC7CB0089A207 /* TFCCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0DD8CE1AAEC7CB0089A207 /* TFCCache.swift */; };
 		EC0DD8D11AAF1B5F0089A207 /* StationsSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0DD8D01AAF1B5F0089A207 /* StationsSearchViewController.swift */; };
+		EC0FE29B1AEBE5C1008F59F1 /* SupportKit.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EC0FE2991AEBE5C1008F59F1 /* SupportKit.bundle */; };
+		EC0FE29C1AEBE5C1008F59F1 /* SupportKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC0FE29A1AEBE5C1008F59F1 /* SupportKit.framework */; };
 		EC21446D1ABCB2AF00B48522 /* TFCFavorites.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC21446C1ABCB2AF00B48522 /* TFCFavorites.swift */; };
 		EC2195EB1AA35B2D005E16EF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC2195ED1AA35B2D005E16EF /* Localizable.strings */; };
 		EC271DC41AA365BE00A7A75E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC271DC31AA365BE00A7A75E /* Main.storyboard */; };
@@ -75,8 +77,6 @@
 		EC9571511A9CCEC00061F8B4 /* TFCBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9571501A9CCEC00061F8B4 /* TFCBaseViewController.swift */; };
 		ECAD8C3B1ABD849B00704974 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECAD8C3A1ABD849B00704974 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		ECAD8C3F1ABD861000704974 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECAD8C3E1ABD861000704974 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		ECBCF0021ACB398200957A4F /* SupportKit.bundle in Resources */ = {isa = PBXBuildFile; fileRef = ECBCF0001ACB398200957A4F /* SupportKit.bundle */; };
-		ECBCF0031ACB398200957A4F /* SupportKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECBCF0011ACB398200957A4F /* SupportKit.framework */; };
 		ECC163D71AA36924006BC3E9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC2195ED1AA35B2D005E16EF /* Localizable.strings */; };
 		ECD871961A9BB2F7003CCCB3 /* timeforcoffeeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */; };
 		ECDAB3A61AAA42A300EB352B /* PagedStationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDAB3A51AAA42A300EB352B /* PagedStationsViewController.swift */; };
@@ -145,6 +145,8 @@
 		EC0A30F61AA354010043B8F8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MainInterface.strings; sourceTree = "<group>"; };
 		EC0DD8CE1AAEC7CB0089A207 /* TFCCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCCache.swift; sourceTree = "<group>"; };
 		EC0DD8D01AAF1B5F0089A207 /* StationsSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationsSearchViewController.swift; sourceTree = "<group>"; };
+		EC0FE2991AEBE5C1008F59F1 /* SupportKit.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SupportKit.bundle; sourceTree = "<group>"; };
+		EC0FE29A1AEBE5C1008F59F1 /* SupportKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SupportKit.framework; sourceTree = "<group>"; };
 		EC21446C1ABCB2AF00B48522 /* TFCFavorites.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCFavorites.swift; sourceTree = "<group>"; };
 		EC2195EC1AA35B2D005E16EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EC2195EF1AA35B4B005E16EF /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -218,8 +220,6 @@
 		ECAD8C3C1ABD84A600704974 /* PINCache.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PINCache.framework; path = "Pods/../build/Debug-iphoneos/Pods/PINCache.framework"; sourceTree = "<group>"; };
 		ECAD8C3E1ABD861000704974 /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
 		ECAD8C401ABD861D00704974 /* PINCache.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PINCache.framework; path = "Pods/../build/Debug-iphoneos/Pods/PINCache.framework"; sourceTree = "<group>"; };
-		ECBCF0001ACB398200957A4F /* SupportKit.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SupportKit.bundle; sourceTree = "<group>"; };
-		ECBCF0011ACB398200957A4F /* SupportKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SupportKit.framework; sourceTree = "<group>"; };
 		ECBCF0041ACB506400957A4F /* Time for Coffee! WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Time for Coffee! WatchKit Extension.entitlements"; sourceTree = "<group>"; };
 		ECC163D91AA369ED006BC3E9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		ECC163DB1AA36A35006BC3E9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MainInterface.strings; sourceTree = "<group>"; };
@@ -265,7 +265,6 @@
 				EC93E36F1AC6F50000A0DA46 /* Foundation.framework in Frameworks */,
 				EC2C317C1A9E1F3300690397 /* CoreTelephony.framework in Frameworks */,
 				EC93E36E1AC6F4F200A0DA46 /* UIKit.framework in Frameworks */,
-				ECBCF0031ACB398200957A4F /* SupportKit.framework in Frameworks */,
 				EC93E36D1AC6F4EA00A0DA46 /* QuartzCore.framework in Frameworks */,
 				EC93E36B1AC6F4E200A0DA46 /* OpenGLES.framework in Frameworks */,
 				EC93E3691AC6F4DC00A0DA46 /* CoreText.framework in Frameworks */,
@@ -273,6 +272,7 @@
 				EC93E3651AC6F4C500A0DA46 /* CoreGraphics.framework in Frameworks */,
 				EC87B65D1AB95373005A053E /* libsqlite3.dylib in Frameworks */,
 				EC87B65B1AB95365005A053E /* CoreData.framework in Frameworks */,
+				EC0FE29C1AEBE5C1008F59F1 /* SupportKit.framework in Frameworks */,
 				EC2C317E1A9E1F4400690397 /* libz.dylib in Frameworks */,
 				EC2C317D1A9E1F3D00690397 /* libc++.dylib in Frameworks */,
 				EC87B6581AB95348005A053E /* libGoogleAnalyticsServices.a in Frameworks */,
@@ -374,10 +374,10 @@
 				EC93E3641AC6F4C500A0DA46 /* CoreGraphics.framework */,
 				ECAD8C401ABD861D00704974 /* PINCache.framework */,
 				ECAD8C3E1ABD861000704974 /* Pods.framework */,
-				ECBCF0001ACB398200957A4F /* SupportKit.bundle */,
-				ECBCF0011ACB398200957A4F /* SupportKit.framework */,
 				ECAD8C3C1ABD84A600704974 /* PINCache.framework */,
 				ECAD8C3A1ABD849B00704974 /* Pods.framework */,
+				EC0FE2991AEBE5C1008F59F1 /* SupportKit.bundle */,
+				EC0FE29A1AEBE5C1008F59F1 /* SupportKit.framework */,
 				EC87B65C1AB95373005A053E /* libsqlite3.dylib */,
 				EC87B65A1AB95365005A053E /* CoreData.framework */,
 				EC87B6571AB95348005A053E /* libGoogleAnalyticsServices.a */,
@@ -709,7 +709,7 @@
 				314AFBD21AA7633D00C176FE /* StationTableViewCell.xib in Resources */,
 				EC4A37271AC0811D005D7546 /* LaunchScreen.xib in Resources */,
 				EC2C31271A9DE8B000690397 /* home.gpx in Resources */,
-				ECBCF0021ACB398200957A4F /* SupportKit.bundle in Resources */,
+				EC0FE29B1AEBE5C1008F59F1 /* SupportKit.bundle in Resources */,
 				ECC163D71AA36924006BC3E9 /* Localizable.strings in Resources */,
 				EC069DE31AC885C90017D345 /* SupportKitLocalizable.strings in Resources */,
 				EC6CD8E11AC18C43002488DC /* Zuerich2.jpg in Resources */,
