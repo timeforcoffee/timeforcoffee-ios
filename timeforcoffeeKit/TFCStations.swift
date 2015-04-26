@@ -133,9 +133,9 @@ public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelega
         inStationsArrayAsFavorite = [:]
         var hasNearbyFavs = false
         var removeFromFavorites: [String] = []
-        var favDistance = 1000.0
-        if (location.horizontalAccuracy > 500.0) {
-            NSLog("horizontalAccuracy > 500: \(location.horizontalAccuracy)")
+        var favDistance = Double(TFCFavorites.sharedInstance.getSearchRadius())
+        if (location.horizontalAccuracy > favDistance - 500.0) {
+            NSLog("horizontalAccuracy > \(favDistance - 500.0): \(location.horizontalAccuracy)")
             favDistance = location.horizontalAccuracy + 500.0
         }
         favorite.s.repopulateFavorites()

@@ -29,7 +29,6 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         //GAI.sharedInstance().logger.logLevel = GAILogLevel.Verbose
         gtrackerInstance.trackerWithTrackingId("UA-37092982-2")
         var gtrack = gtrackerInstance.defaultTracker
-        gtrack?.set("&uid", value: UIDevice().identifierForVendor.UUIDString)
         return gtrack
     }()
 
@@ -69,12 +68,14 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                 if (self.showStations == true) {
                     self.setLastUsedView()
                     self.actionLabel.setTitle("Back", forState: UIControlState.Normal)
+
                     self.titleLabel.text = "Nearby Stations"
                 } else {
                     if (self.currentStation != nil) {
                         self.setLastUsedView()
                     }
                     self.actionLabel.setTitle("Stations", forState: UIControlState.Normal)
+
                     if let stationName = self.currentStation?.getNameWithStarAndFilters() {
                         self.titleLabel.text = stationName
                     }
@@ -128,9 +129,11 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             self.numberOfCells = min(self.numberOfCells, max(2, Int((self.containerView.frame.height - 33.0) / 52.0)))
             setPreferredContentSize()
         }
+        self.actionLabel.setTitleColor(UIColor.lightGrayColor(), forState: UIControlState.Highlighted)
     }
 
     override func awakeFromNib() {
+
 
         let userDefaults = TFCDataStore.sharedInstance.getUserDefaults()
 
@@ -184,11 +187,11 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         ContainerViewTrailingConstraint?.active = false
         ContainerViewWidthConstraint?.constant = self.containerView.frame.width
         self.view.setNeedsLayout()
-        if (getLastUsedView() == "nearbyStations") {
+/*        if (getLastUsedView() == "nearbyStations") {
             actionLabel.titleLabel?.text = "Back"
         } else {
             actionLabel.titleLabel?.text = "Stations"
-        }
+        }*/
         actionLabel.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         setPreferredContentSize()
     }
