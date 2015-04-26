@@ -10,26 +10,40 @@ import Foundation
 
 final class StationsSearchViewController: StationsViewController, UISearchBarDelegate {
 
-    @IBOutlet  var appsTableView2: StationTableView?
+    @IBOutlet weak  var appsTableView2: StationTableView?
     var searchController: UISearchController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.hidesBackButton = true;
+        self.navigationItem.hidesBackButton = false;
         let sc: UISearchController = UISearchController(searchResultsController: nil)
 
         self.searchController = sc
         self.searchController?.hidesNavigationBarDuringPresentation = false;
         self.searchController?.dimsBackgroundDuringPresentation = false;
         let searchBar = self.searchController?.searchBar
+        self.navigationController?.navigationBar.tintColor = UIColor.darkGrayColor()
         self.navigationItem.rightBarButtonItem = nil;
         self.navigationItem.titleView = searchBar
+
         searchBar?.delegate = self
         let appsTableView = self.appsTableView2
+        appsTableView?.searchBar = searchBar
         sc.searchResultsUpdater = appsTableView
         definesPresentationContext = false
         self.view.alpha = 0.0
+        appsTableView?.removePullToRefresh()
         self.searchController?.searchBar.alpha = 0.0
+
+
+    }
+
+    deinit {
+        self.searchController?.dismissViewControllerAnimated(false, completion: { () -> Void in
+
+        })
+        self.searchController?.removeFromParentViewController()
+        NSLog("deinit StationsSearchViewController")
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -64,8 +78,7 @@ final class StationsSearchViewController: StationsViewController, UISearchBarDel
     }
 
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-        var searchBar = self.searchController?.searchBar
-        self.navigationController?.popToRootViewControllerAnimated(false)
+        self.searchController?.searchBar.resignFirstResponder()
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

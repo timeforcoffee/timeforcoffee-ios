@@ -16,6 +16,12 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     @IBOutlet weak var appsTableView: UITableView!
     @IBOutlet weak var actionLabel: UIButton!
     let kCellIdentifier: String = "SearchResultCellWidget"
+
+    @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var ContainerViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var ContainerViewWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var ContainerViewTrailingConstraint: NSLayoutConstraint!
+
     lazy var gtracker: GAITracker = {
         let gtrackerInstance = GAI.sharedInstance()
         gtrackerInstance.trackUncaughtExceptions = true
@@ -23,7 +29,6 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         //GAI.sharedInstance().logger.logLevel = GAILogLevel.Verbose
         gtrackerInstance.trackerWithTrackingId("UA-37092982-2")
         var gtrack = gtrackerInstance.defaultTracker
-        gtrack?.set("&uid", value: UIDevice().identifierForVendor.UUIDString)
         return gtrack
     }()
 
@@ -32,6 +37,28 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     weak var currentStation: TFCStation?
 
     var networkErrorMsg: String?
+    lazy var numberOfCells:Int = {
+        var number = 6
+
+        // not implemented yet, settings screen is missing
+        if let newNumber = TFCDataStore.sharedInstance.getUserDefaults()?.integerForKey("numberOfCellsToday")
+        {
+            if (newNumber > 0) {
+                number = newNumber
+            }
+        }
+
+        let height = max(UIScreen.mainScreen().bounds.height,
+            UIScreen.mainScreen().bounds.width)
+        if (height < 568) { //iPhone 4S
+            let maxNumber = max(2, Int((height - 33.0) / 52.0) - 3)
+            if (maxNumber < number) {
+                number = maxNumber
+            }
+        }
+        return number
+    }()
+
 
     var viewDidAppear = false
     var dataIsFromInitCache = false
@@ -41,12 +68,14 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                 if (self.showStations == true) {
                     self.setLastUsedView()
                     self.actionLabel.setTitle("Back", forState: UIControlState.Normal)
+
                     self.titleLabel.text = "Nearby Stations"
                 } else {
                     if (self.currentStation != nil) {
                         self.setLastUsedView()
                     }
                     self.actionLabel.setTitle("Stations", forState: UIControlState.Normal)
+
                     if let stationName = self.currentStation?.getNameWithStarAndFilters() {
                         self.titleLabel.text = stationName
                     }
@@ -95,9 +124,22 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         NSLog("viewDidAppear")
         viewDidAppear = true
         super.viewDidAppear(animated)
+        // adjust containerView height, if it's too big
+        if (self.containerView.frame.height > 0 && self.containerView.frame.height < ContainerViewHeightConstraint.constant) {
+            self.numberOfCells = min(self.numberOfCells, max(2, Int((self.containerView.frame.height - 33.0) / 52.0)))
+            setPreferredContentSize()
+        }
+        self.actionLabel.setTitleColor(UIColor.lightGrayColor(), forState: UIControlState.Highlighted)
     }
 
     override func awakeFromNib() {
+
+
+        let userDefaults = TFCDataStore.sharedInstance.getUserDefaults()
+
+        if let preferredHeight = userDefaults?.objectForKey("lastPreferredContentHeight") as? CGFloat {
+            self.preferredContentSize = CGSize(width: CGFloat(0.0), height: preferredHeight)
+        }
         if (getLastUsedView() == "nearbyStations") {
             showStations = true
             populateStationsFromLastUsed()
@@ -107,7 +149,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             if (self.currentStation != nil && self.currentStation?.getDepartures()?.count > 0) {
                 showStations = false
                 self.appsTableView?.reloadData()
-                // if lastUsedView is a single station and we did look at it no longer than 
+                // if lastUsedView is a single station and we did look at it no longer than
                 // 5 minutes ago, just show it again without even checking the location later
                 if (self.lastUsedViewUpdatedInterval() > -300) {
                     self.dataIsFromInitCache = false
@@ -120,19 +162,38 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                 showStations = false
             }
         }
+
         NSLog("awakeFromNib")
+    }
+    private func setPreferredContentSize() {
+        let height = CGFloat(33 + (self.numberOfCells * 52))
+        self.ContainerViewHeightConstraint?.constant = height
+        // don't jump around, if it's only a small amount
+        if (abs(height - self.view.frame.height) > 10) {
+            self.preferredContentSize = CGSize(width: CGFloat(0.0), height: height)
+            self.view.setNeedsLayout()
+            TFCDataStore.sharedInstance.getUserDefaults()?.setObject(height, forKey: "lastPreferredContentHeight")
+        } else {
+            TFCDataStore.sharedInstance.getUserDefaults()?.setObject(self.view.frame.height, forKey: "lastPreferredContentHeight")
+        }
+
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+
+        //sometimes strange things happen with the calculated width
+        // just fix it here, and it should stay...
+        ContainerViewTrailingConstraint?.active = false
+        ContainerViewWidthConstraint?.constant = self.containerView.frame.width
         self.view.setNeedsLayout()
-        if (getLastUsedView() == "nearbyStations") {
+/*        if (getLastUsedView() == "nearbyStations") {
             actionLabel.titleLabel?.text = "Back"
         } else {
             actionLabel.titleLabel?.text = "Stations"
-        }
+        }*/
         actionLabel.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        NSLog("ViewWillAppear")
+        setPreferredContentSize()
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -306,16 +367,16 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             if (count == nil || count == 0) {
                 return 1
             }
-            return min(6, count!)
+            return min(self.numberOfCells, count!)
         }
         if (viewDidAppear == false && currentStation == nil) {
             return 0
         }
-        let departures = self.currentStation?.getFilteredDepartures(6)
+        let departures = self.currentStation?.getFilteredDepartures(self.numberOfCells)
         if (departures == nil || departures!.count == 0) {
             return 1
         }
-        return min(6, departures!.count)
+        return min(self.numberOfCells, departures!.count)
     }
     
     
@@ -361,7 +422,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             return cell
         }
         let station = currentStation
-        let departures = currentStation?.getFilteredDepartures(6)
+        let departures = currentStation?.getFilteredDepartures(self.numberOfCells)
         if (departures == nil || departures!.count == 0) {
             lineNumberLabel.hidden = true
             departureLabel.text = nil

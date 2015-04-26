@@ -32,22 +32,16 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>37</string>
+	<string>40</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>We need the location to show you nearby locations. "Always" is needed for use with an Apple Watch (But only when requested, no constant tracking). If you don't have an Apple Watch, you may change it to "While using the App" in Settings.</string>
 	<key>NSLocationUsageDescription</key>
-	<string>We need the location to show you nearby locations. "Always" is needed for use with an Apple Watch (But only when requested, no constant tracking). If you don't have an Apple Watch, you may change it to "While using the App" in Settings.</string>
+	<string> We need the location to show you nearby stations. We’re only accessing this, when the app or the Today extension is in use and for as short as possible.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need the location to show you nearby locations. If you want to use it with an Apple Watch, please enable "Always"</string>
+	<string> We need the location to show you nearby stations. We’re only accessing this, when the app or the Today extension is in use and for as short as possible.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>trainsymbol.otf</string>
-	</array>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>location</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

@@ -13,10 +13,11 @@ import CoreLocation
 
 final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, TFCStationsUpdatedProtocol {
     
-    var refreshControl:UIRefreshControl!
+    var refreshControl:UIRefreshControl?
     lazy var stations: TFCStations = {return TFCStations(delegate: self)}()
     var showFavorites: Bool?
-    var stationsViewController: StationsViewController?
+    weak var stationsViewController: StationsViewController?
+    weak var searchBar: UISearchBar?
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -28,10 +29,10 @@ final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataS
         self.dataSource = self
 
         self.refreshControl = UIRefreshControl()
-        self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
-        self.refreshControl.backgroundColor = UIColor(red: 242.0/255.0, green: 243.0/255.0, blue: 245.0/255.0, alpha: 1.0)
-        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        self.addSubview(refreshControl)
+        self.refreshControl?.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl?.backgroundColor = UIColor(red: 242.0/255.0, green: 243.0/255.0, blue: 245.0/255.0, alpha: 1.0)
+        self.refreshControl?.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        self.addSubview(refreshControl!)
     }
 
     internal func refresh(sender:AnyObject)
@@ -47,12 +48,12 @@ final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataS
         if ((showFavorites) == true) {
             self.stations.loadFavorites()
             self.reloadData()
-            self.refreshControl.endRefreshing()
+            self.refreshControl?.endRefreshing()
         } else {
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true
             if (!self.stations.updateStations(force)) {
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                self.refreshControl.endRefreshing()
+                self.refreshControl?.endRefreshing()
             }
         }
     }
@@ -60,7 +61,7 @@ final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataS
     func stationsUpdated(err: String?, favoritesOnly: Bool) {
         dispatch_async(dispatch_get_main_queue(), {
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-            self.refreshControl.endRefreshing()
+            self.refreshControl?.endRefreshing()
             self.reloadData()
         })
     }
@@ -117,5 +118,16 @@ final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataS
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.stationsViewController?.performSegueWithIdentifier("SegueToStationView", sender: tableView)
+    }
+
+    func removePullToRefresh() {
+        if (self.refreshControl != nil) {
+            self.refreshControl?.removeFromSuperview()
+            self.refreshControl = nil
+        }
+    }
+
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+            searchBar?.resignFirstResponder()
     }
 }
