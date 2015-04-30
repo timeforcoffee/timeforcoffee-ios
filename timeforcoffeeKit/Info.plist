@@ -2,16 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationUsageDescription</key>
-	<string>We need that</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>When in use</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
-	<string>ch.liip.timeforcofee.$(PRODUCT_NAME:rfc1034identifier)</string>
+	<string>ch.opendata.timeforcoffee.$(PRODUCT_NAME:rfc1034identifier)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -24,6 +20,10 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>NSLocationUsageDescription</key>
+	<string>We need that</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>When in use</string>
 	<key>NSPrincipalClass</key>
 	<string></string>
 </dict>

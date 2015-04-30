@@ -30,7 +30,7 @@ final class TFCCache {
 
     private class func getRootDirectory() -> String? {
         let manager = NSFileManager.defaultManager()
-        let documentsDirectory2 = manager.containerURLForSecurityApplicationGroupIdentifier("group.ch.liip.timeforcoffee")
+        let documentsDirectory2 = manager.containerURLForSecurityApplicationGroupIdentifier("group.ch.opendata.timeforcoffee")
         return (documentsDirectory2?.path)
     }
 
