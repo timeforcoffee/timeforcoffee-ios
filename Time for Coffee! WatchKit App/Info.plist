@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
-	<string>ch.liip.timeforcoffee.watchkitapp</string>
+	<string>ch.opendata.timeforcoffee.watchkitapp</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -32,7 +32,7 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>WKCompanionAppBundleIdentifier</key>
-	<string>ch.liip.timeforcoffee</string>
+	<string>ch.opendata.timeforcoffee</string>
 	<key>WKWatchKitApp</key>
 	<true/>
 </dict>

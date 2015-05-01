@@ -18,9 +18,9 @@ final public class TFCDataStore: NSObject {
         return Static.instance
     }
 
-    let lockQueue = dispatch_queue_create("group.ch.liip.timeforcoffee.notificationLock", DISPATCH_QUEUE_SERIAL)
+    let lockQueue = dispatch_queue_create("group.ch.opendata.timeforcoffee.notificationLock", DISPATCH_QUEUE_SERIAL)
 
-    private let userDefaults: NSUserDefaults? = NSUserDefaults(suiteName: "group.ch.liip.timeforcoffee")
+    private let userDefaults: NSUserDefaults? = NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee")
     private let keyvaluestore: NSUbiquitousKeyValueStore? = NSUbiquitousKeyValueStore.defaultStore()
     private var notificationObserver: AnyObject?
 

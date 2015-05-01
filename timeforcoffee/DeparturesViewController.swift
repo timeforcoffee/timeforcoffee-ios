@@ -25,7 +25,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
     var startHeight: CGFloat!
     var updateInAMinuteTimer: NSTimer?
     let updateOnceQueue:dispatch_queue_t = dispatch_queue_create(
-        "ch.liip.timeforcoffee.updateinaminute", DISPATCH_QUEUE_SERIAL)
+        "ch.opendata.timeforcoffee.updateinaminute", DISPATCH_QUEUE_SERIAL)
 
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var BackButton: UIButton!
