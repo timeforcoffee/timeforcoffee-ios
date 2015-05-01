@@ -30,16 +30,18 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" contentHorizontalAlignment="right" contentVerticalAlignment="fill" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zf4-3t-t8S">
+                                            <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zf4-3t-t8S">
                                                 <rect key="frame" x="324" y="0.0" width="60" height="32"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="999" constant="44" id="3Mk-r2-JF6"/>
                                                     <constraint firstAttribute="width" relation="lessThanOrEqual" priority="999" constant="60" id="Kgn-P1-L2n"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                <state key="normal" title="Stations">
+                                                <state key="normal">
                                                     <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="highlighted">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
                                                     <action selector="nextButtonTouchUp:" destination="M4Y-Lb-cyx" eventType="touchUpInside" id="ltv-nT-kFj"/>
@@ -83,13 +85,13 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="200" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Zürich" lineBreakMode="tailTruncation" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0fo-iq-xUL" userLabel="LineNameLabel">
-                                                            <rect key="frame" x="41" y="9" width="319" height="20"/>
+                                                            <rect key="frame" x="41" y="9" width="321" height="20"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="16"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="400" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0'" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="none" minimumFontSize="8" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kwG-MO-Vtz" userLabel="MinutesLabel">
-                                                            <rect key="frame" x="363" y="10" width="23" height="23"/>
+                                                            <rect key="frame" x="365" y="10" width="23" height="23"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" secondItem="kwG-MO-Vtz" secondAttribute="height" multiplier="1:1" id="4do-0k-tRQ"/>
                                                             </constraints>
@@ -109,7 +111,7 @@
                                                         <constraint firstItem="kwG-MO-Vtz" firstAttribute="leading" secondItem="0fo-iq-xUL" secondAttribute="trailing" constant="3" id="Wmj-QI-DxE"/>
                                                         <constraint firstItem="jpy-Ce-zrf" firstAttribute="leading" secondItem="evy-VU-QI2" secondAttribute="leading" id="r7m-9a-I82"/>
                                                         <constraint firstItem="jpy-Ce-zrf" firstAttribute="bottom" secondItem="evy-VU-QI2" secondAttribute="bottom" constant="-10" id="wc0-dv-tDY"/>
-                                                        <constraint firstAttribute="trailingMargin" secondItem="kwG-MO-Vtz" secondAttribute="trailing" constant="-4" id="yDo-r6-2CB"/>
+                                                        <constraint firstAttribute="trailingMargin" secondItem="kwG-MO-Vtz" secondAttribute="trailing" constant="-6" id="yDo-r6-2CB"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
                                             </tableViewCell>
@@ -119,8 +121,8 @@
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="HLE-XB-MAz" id="UWl-Z7-P6R">
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" tag="300" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WOc-us-lJS" userLabel="StationsDestinationLabel">
-                                                            <rect key="frame" x="60" y="27" width="297" height="16"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="300" contentMode="left" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WOc-us-lJS" userLabel="StationsDestinationLabel">
+                                                            <rect key="frame" x="60" y="27" width="315" height="16"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                                                             <color key="textColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -136,16 +138,13 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="200" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Zürich" lineBreakMode="tailTruncation" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lZC-zq-jz4" userLabel="StationNameLabel">
-                                                            <rect key="frame" x="41" y="9" width="341" height="20"/>
+                                                            <rect key="frame" x="41" y="9" width="345" height="20"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="16"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="400" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0'" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="none" minimumFontSize="8" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bqq-pe-hom" userLabel="StationMinutesLabel">
-                                                            <rect key="frame" x="366" y="27" width="16" height="16"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="width" secondItem="Bqq-pe-hom" secondAttribute="height" multiplier="1:1" id="07j-CN-v8L"/>
-                                                            </constraints>
+                                                            <rect key="frame" x="375" y="26" width="11" height="16"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="13"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
@@ -174,18 +173,18 @@
                                                     <constraints>
                                                         <constraint firstItem="VXV-Hc-mO4" firstAttribute="bottom" secondItem="WOc-us-lJS" secondAttribute="bottom" id="4je-bm-VCI"/>
                                                         <constraint firstItem="lZC-zq-jz4" firstAttribute="top" secondItem="VXV-Hc-mO4" secondAttribute="top" constant="-19" id="8fG-6J-xBF"/>
-                                                        <constraint firstAttribute="trailingMargin" secondItem="Bqq-pe-hom" secondAttribute="trailing" id="B6c-06-mhL"/>
-                                                        <constraint firstAttribute="trailingMargin" secondItem="lZC-zq-jz4" secondAttribute="trailing" id="BeQ-Kz-jri"/>
+                                                        <constraint firstAttribute="trailingMargin" secondItem="Bqq-pe-hom" secondAttribute="trailing" constant="-4" id="B6c-06-mhL"/>
+                                                        <constraint firstAttribute="trailingMargin" secondItem="lZC-zq-jz4" secondAttribute="trailing" constant="-4" id="BeQ-Kz-jri"/>
                                                         <constraint firstItem="voF-Rv-Exk" firstAttribute="top" secondItem="UWl-Z7-P6R" secondAttribute="topMargin" constant="4" id="Gm4-Ei-Tae"/>
                                                         <constraint firstItem="VXV-Hc-mO4" firstAttribute="leading" secondItem="UWl-Z7-P6R" secondAttribute="leading" constant="41" id="Jnf-yn-3e8"/>
-                                                        <constraint firstItem="WOc-us-lJS" firstAttribute="baseline" secondItem="Bqq-pe-hom" secondAttribute="baseline" constant="-1" id="Q1b-pL-ZKA"/>
+                                                        <constraint firstItem="WOc-us-lJS" firstAttribute="baseline" secondItem="Bqq-pe-hom" secondAttribute="baseline" id="Q1b-pL-ZKA"/>
                                                         <constraint firstItem="lZC-zq-jz4" firstAttribute="leading" secondItem="VXV-Hc-mO4" secondAttribute="trailing" constant="-15" id="UHx-F4-UDU"/>
+                                                        <constraint firstItem="Bqq-pe-hom" firstAttribute="leading" secondItem="WOc-us-lJS" secondAttribute="trailing" id="ZTb-Xj-t82"/>
                                                         <constraint firstItem="VXV-Hc-mO4" firstAttribute="bottom" secondItem="UWl-Z7-P6R" secondAttribute="bottom" constant="-8" id="ZcR-1S-gbT"/>
                                                         <constraint firstItem="voF-Rv-Exk" firstAttribute="leading" secondItem="UWl-Z7-P6R" secondAttribute="leadingMargin" constant="-8" id="gzM-yz-PtW"/>
                                                         <constraint firstItem="VXV-Hc-mO4" firstAttribute="top" secondItem="UWl-Z7-P6R" secondAttribute="top" constant="28" id="lvL-b9-5Ml"/>
                                                         <constraint firstItem="WOc-us-lJS" firstAttribute="leading" secondItem="VXV-Hc-mO4" secondAttribute="trailing" constant="4" id="meC-a0-S3O"/>
                                                         <constraint firstItem="WOc-us-lJS" firstAttribute="leading" secondItem="VXV-Hc-mO4" secondAttribute="trailing" constant="4" id="rED-Fn-E8n"/>
-                                                        <constraint firstAttribute="trailingMargin" secondItem="WOc-us-lJS" secondAttribute="trailing" constant="25" id="rVG-gg-Npl"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
                                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>

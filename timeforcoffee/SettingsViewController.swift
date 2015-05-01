@@ -17,6 +17,8 @@ class SettingsViewController: UIViewController {
     
     @IBOutlet weak var numberCellsTodaySlider: UISlider!
 
+    @IBOutlet weak var favoritesRadiusSlider: UISlider!
+    @IBOutlet weak var favoritesRadiusValue: UITextView!
     @IBAction func closeButtionTapped(sender: AnyObject) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
@@ -27,6 +29,10 @@ class SettingsViewController: UIViewController {
         }
         numberCellsTodaySlider.value = Float(numberOfCells!)
         numberCellsTodayValue.text = String(numberOfCells!)
+
+        let favoritesSearchRadius = TFCFavorites.sharedInstance.getSearchRadius()
+        setRadiusTextValue(favoritesSearchRadius)
+        setRadiusSliderValue(favoritesSearchRadius)
     }
 
     @IBAction func sliderChanged(sender: AnyObject) {
@@ -42,4 +48,29 @@ class SettingsViewController: UIViewController {
         numberCellsTodayValue.text = String(sliderValue)
     }
 
+    private func setRadiusSliderValue(radius:Int) {
+        let newSliderValue = log(Float(radius)) / log(10)
+        favoritesRadiusSlider.setValue(newSliderValue, animated: true)
+    }
+
+    private func setRadiusTextValue(radius:Int) {
+        let formatted = String(format: "%.1f km", arguments: [Float(radius) / 1000.0])
+        favoritesRadiusValue.text = formatted
+    }
+
+    private func getRadiusSliderValueInMeters() -> Float {
+        var sliderValue = pow(10,favoritesRadiusSlider.value)
+        return Float(roundf(sliderValue / 100)) * 100
+    }
+
+    @IBAction func favoritesRadiusSliderChanged(sender: AnyObject) {
+        let rounded = Int(getRadiusSliderValueInMeters())
+        setRadiusSliderValue(rounded)
+        TFCDataStore.sharedInstance.getUserDefaults()?.setInteger(rounded, forKey: "favoritesSearchRadius")
+    }
+
+    @IBAction func favoritesRadiusSliderChangedValue(sender: AnyObject) {
+        let rounded = getRadiusSliderValueInMeters()
+        setRadiusTextValue(Int(rounded))
+    }
 }

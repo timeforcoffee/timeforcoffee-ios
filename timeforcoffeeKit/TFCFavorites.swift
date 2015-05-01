@@ -8,9 +8,9 @@
 
 import Foundation
 
-final class TFCFavorites: NSObject {
+final public class TFCFavorites: NSObject {
 
-    class var sharedInstance: TFCFavorites {
+    public class var sharedInstance: TFCFavorites {
         struct Static {
             static let instance: TFCFavorites = TFCFavorites()
         }
@@ -35,6 +35,16 @@ final class TFCFavorites: NSObject {
     func repopulateFavorites() {
         temporarlyRemovedStations = false
         self.stations = getCurrentFavoritesFromDefaults()
+    }
+
+    public func getSearchRadius() -> Int {
+        var favoritesSearchRadius =
+        TFCDataStore.sharedInstance.getUserDefaults()?.integerForKey("favoritesSearchRadius")
+
+        if (favoritesSearchRadius == nil || favoritesSearchRadius == 0) {
+            favoritesSearchRadius = 1000
+        }
+        return favoritesSearchRadius!
     }
 
     private func getCurrentFavoritesFromDefaults() -> [String: TFCStation] {

@@ -28,7 +28,6 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         gtracker.dispatchInterval = 20;
         //GAI.sharedInstance().logger.logLevel = GAILogLevel.Verbose
         gtracker.trackerWithTrackingId("UA-37092982-2")
-        gtracker.defaultTracker.set("&uid", value: UIDevice().identifierForVendor.UUIDString)
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
 

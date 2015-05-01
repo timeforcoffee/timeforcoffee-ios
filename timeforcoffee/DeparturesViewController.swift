@@ -25,7 +25,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
     var startHeight: CGFloat!
     var updateInAMinuteTimer: NSTimer?
     let updateOnceQueue:dispatch_queue_t = dispatch_queue_create(
-        "ch.liip.timeforcoffee.updateinaminute", DISPATCH_QUEUE_SERIAL)
+        "ch.opendata.timeforcoffee.updateinaminute", DISPATCH_QUEUE_SERIAL)
 
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var BackButton: UIButton!
@@ -70,7 +70,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
     }
 
     deinit {
-        NSLog("deinit")
+        NSLog("deinit DeparturesViewController")
         NSNotificationCenter.defaultCenter().removeObserver(self)
         self.updateInAMinuteTimer?.invalidate()
     }
@@ -123,6 +123,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
 
         topViewProperties(0.0)
         self.mapView?.userInteractionEnabled = false;
+        self.mapView?.rotateEnabled = false
         var region = MKCoordinateRegionMakeWithDistance((station?.coord?.coordinate)! ,450,450);
         self.mapView.setRegion(region, animated: false)
         // put it to true when within a few hundred meters
