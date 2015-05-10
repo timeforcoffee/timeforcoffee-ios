@@ -19,7 +19,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<string>46</string>
 	<key>NSLocationUsageDescription</key>
 	<string>We need that</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
