@@ -785,7 +785,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC522E751AA611A40011A992 /* HelveticaNeueBold.ttf in Resources */,
 				EC4344B71AA5080A009438C7 /* Images.xcassets in Resources */,
 				EC4344BB1AA5080A009438C7 /* Time for Coffee! WatchKit App.app in Resources */,
 			);
@@ -798,7 +797,6 @@
 				EC4344C31AA5080A009438C7 /* Interface.storyboard in Resources */,
 				ECEA097A1AA596EF007827AD /* launchicon.png in Resources */,
 				EC4344C51AA5080A009438C7 /* Images.xcassets in Resources */,
-				EC522E761AA611A40011A992 /* HelveticaNeueBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
