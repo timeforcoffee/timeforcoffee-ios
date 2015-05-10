@@ -709,7 +709,7 @@
 				TargetAttributes = {
 					EC4344AD1AA5080A009438C7 = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = QCDJ9EC736;
+						DevelopmentTeam = DN76797UYF;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -721,7 +721,7 @@
 					};
 					EC4344B91AA5080A009438C7 = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = QCDJ9EC736;
+						DevelopmentTeam = DN76797UYF;
 					};
 					EC6EDCEE1A9B9F390098CAE0 = {
 						CreatedOnToolsVersion = 6.1.1;
