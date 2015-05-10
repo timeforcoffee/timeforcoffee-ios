@@ -49,8 +49,8 @@
 		EC4344D01AA508FF009438C7 /* StationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4344CF1AA508FF009438C7 /* StationRow.swift */; };
 		EC4344D21AA5890F009438C7 /* StationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4344D11AA5890F009438C7 /* StationViewController.swift */; };
 		EC4A37271AC0811D005D7546 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC4A37261AC0811D005D7546 /* LaunchScreen.xib */; };
-		EC522E751AA611A40011A992 /* HelveticaNeueBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EC522E741AA611A40011A992 /* HelveticaNeueBold.ttf */; };
-		EC522E761AA611A40011A992 /* HelveticaNeueBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EC522E741AA611A40011A992 /* HelveticaNeueBold.ttf */; };
+		EC4B20751AFF67DD0060285D /* SupportKit.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EC4B20731AFF67DD0060285D /* SupportKit.bundle */; };
+		EC4B20761AFF67DD0060285D /* SupportKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC4B20741AFF67DD0060285D /* SupportKit.framework */; };
 		EC6B1FB81AC152FF0070783C /* AboutPagedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6B1FB71AC152FF0070783C /* AboutPagedViewController.swift */; };
 		EC6CD8DD1AC17C57002488DC /* About.html in Resources */ = {isa = PBXBuildFile; fileRef = EC6CD8DC1AC17C57002488DC /* About.html */; };
 		EC6CD8E11AC18C43002488DC /* Zuerich2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = EC6CD8E01AC18C43002488DC /* Zuerich2.jpg */; };
@@ -63,8 +63,6 @@
 		EC6EDD4F1A9BA4820098CAE0 /* TFCStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDD4D1A9BA4820098CAE0 /* TFCStation.swift */; };
 		EC6EDD511A9BA5080098CAE0 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDD501A9BA5080098CAE0 /* SwiftyJSON.swift */; };
 		EC6EDD541A9BA79B0098CAE0 /* APIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDD531A9BA79B0098CAE0 /* APIController.swift */; };
-		EC7610101AF149320035CE0E /* SupportKit.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EC76100E1AF149320035CE0E /* SupportKit.bundle */; };
-		EC7610111AF149320035CE0E /* SupportKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC76100F1AF149320035CE0E /* SupportKit.framework */; };
 		EC7A517919C427CA000F5E7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A517819C427CA000F5E7C /* AppDelegate.swift */; };
 		EC7A517B19C427CA000F5E7C /* StationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A517A19C427CA000F5E7C /* StationsViewController.swift */; };
 		EC7A518019C427CA000F5E7C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC7A517F19C427CA000F5E7C /* Images.xcassets */; };
@@ -209,6 +207,8 @@
 		EC4344D11AA5890F009438C7 /* StationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationViewController.swift; sourceTree = "<group>"; };
 		EC48438C1ABB917D002B3BB5 /* timeforcoffeeKit-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "timeforcoffeeKit-Bridging-Header.h"; sourceTree = "<group>"; };
 		EC4A37261AC0811D005D7546 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
+		EC4B20731AFF67DD0060285D /* SupportKit.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SupportKit.bundle; sourceTree = "<group>"; };
+		EC4B20741AFF67DD0060285D /* SupportKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SupportKit.framework; sourceTree = "<group>"; };
 		EC522E741AA611A40011A992 /* HelveticaNeueBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HelveticaNeueBold.ttf; sourceTree = "<group>"; };
 		EC6B1FB71AC152FF0070783C /* AboutPagedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutPagedViewController.swift; sourceTree = "<group>"; };
 		EC6CD8DC1AC17C57002488DC /* About.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = About.html; sourceTree = "<group>"; };
@@ -225,8 +225,6 @@
 		EC6EDD4D1A9BA4820098CAE0 /* TFCStation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCStation.swift; sourceTree = "<group>"; };
 		EC6EDD501A9BA5080098CAE0 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		EC6EDD531A9BA79B0098CAE0 /* APIController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIController.swift; sourceTree = "<group>"; };
-		EC76100E1AF149320035CE0E /* SupportKit.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SupportKit.bundle; sourceTree = "<group>"; };
-		EC76100F1AF149320035CE0E /* SupportKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SupportKit.framework; sourceTree = "<group>"; };
 		EC7A517319C427CA000F5E7C /* Time for Coffee!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Time for Coffee!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC7A517719C427CA000F5E7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC7A517819C427CA000F5E7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -319,7 +317,7 @@
 				EC93E3651AC6F4C500A0DA46 /* CoreGraphics.framework in Frameworks */,
 				EC87B65D1AB95373005A053E /* libsqlite3.dylib in Frameworks */,
 				EC87B65B1AB95365005A053E /* CoreData.framework in Frameworks */,
-				EC7610111AF149320035CE0E /* SupportKit.framework in Frameworks */,
+				EC4B20761AFF67DD0060285D /* SupportKit.framework in Frameworks */,
 				EC2C317E1A9E1F4400690397 /* libz.dylib in Frameworks */,
 				EC2C317D1A9E1F3D00690397 /* libc++.dylib in Frameworks */,
 				EC87B6581AB95348005A053E /* libGoogleAnalyticsServices.a in Frameworks */,
@@ -423,10 +421,10 @@
 				EC93E3641AC6F4C500A0DA46 /* CoreGraphics.framework */,
 				ECAD8C401ABD861D00704974 /* PINCache.framework */,
 				ECAD8C3E1ABD861000704974 /* Pods.framework */,
-				EC76100E1AF149320035CE0E /* SupportKit.bundle */,
-				EC76100F1AF149320035CE0E /* SupportKit.framework */,
 				ECAD8C3C1ABD84A600704974 /* PINCache.framework */,
 				ECAD8C3A1ABD849B00704974 /* Pods.framework */,
+				EC4B20731AFF67DD0060285D /* SupportKit.bundle */,
+				EC4B20741AFF67DD0060285D /* SupportKit.framework */,
 				EC87B65C1AB95373005A053E /* libsqlite3.dylib */,
 				EC87B65A1AB95365005A053E /* CoreData.framework */,
 				EC87B6571AB95348005A053E /* libGoogleAnalyticsServices.a */,
@@ -834,7 +832,7 @@
 				314AFBD21AA7633D00C176FE /* StationTableViewCell.xib in Resources */,
 				EC4A37271AC0811D005D7546 /* LaunchScreen.xib in Resources */,
 				EC2C31271A9DE8B000690397 /* home.gpx in Resources */,
-				EC7610101AF149320035CE0E /* SupportKit.bundle in Resources */,
+				EC4B20751AFF67DD0060285D /* SupportKit.bundle in Resources */,
 				ECC163D71AA36924006BC3E9 /* Localizable.strings in Resources */,
 				EC069DE31AC885C90017D345 /* SupportKitLocalizable.strings in Resources */,
 				EC6CD8E11AC18C43002488DC /* Zuerich2.jpg in Resources */,
@@ -1295,7 +1293,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"/Users/chregu/Downloads/SupportKit-master",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/timeforcoffee/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1324,7 +1321,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"/Users/chregu/Downloads/SupportKit-master",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/timeforcoffee/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
