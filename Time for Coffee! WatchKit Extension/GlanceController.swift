@@ -58,11 +58,11 @@ class GlanceController: WKInterfaceController {
                 }
             }
         }
-      //  WKInterfaceController.openParentApplication(["module":"location"], handleReply)
         TFCWatchData.sharedInstance.getStations(handleReply, stopWithFavorites: true)
 
         minutesLabel.setText("")
-        destinationLabel.setText("Loading ...");
+        stationLabel.setText("Loading ...");
+        destinationLabel.setText("")
         departureLabel.setText("");
         numberLabel.setText("")
         numberLabel.setTextColor(UIColor.whiteColor())
