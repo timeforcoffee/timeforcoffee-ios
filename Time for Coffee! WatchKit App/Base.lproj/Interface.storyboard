@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="6751" systemVersion="14D127a" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="3737"/>
     </dependencies>
     <scenes>
@@ -23,7 +23,7 @@
                     <items>
                         <table alignment="left" id="J4B-MA-cdK">
                             <items>
-                                <tableRow identifier="station" id="Y4q-hS-mJZ" customClass="StationRow" customModule="Time_for_Coffee__WatchKit_Extension">
+                                <tableRow identifier="station" selectable="NO" id="Y4q-hS-mJZ" customClass="StationRow" customModule="Time_for_Coffee__WatchKit_Extension">
                                     <group key="rootItem" width="1" height="28.5" alignment="left" id="UGC-nv-9zx">
                                         <items>
                                             <group width="26" height="26" alignment="left" verticalAlignment="center" radius="4" id="cBO-9q-LrM">
@@ -70,7 +70,41 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="622" y="104"/>
+            <point key="canvasLocation" x="462" y="104"/>
+        </scene>
+        <!--StationsOverview-->
+        <scene sceneID="ihE-BX-ciu">
+            <objects>
+                <controller identifier="StationsOverviewPage" hidesWhenLoading="NO" id="BnD-Gm-YKt" userLabel="StationsOverview" customClass="StationsOverviewViewController" customModule="Time_for_Coffee__WatchKit_Extension">
+                    <items>
+                        <table alignment="left" id="SXg-A1-SPs">
+                            <items>
+                                <tableRow identifier="stations" id="4hO-c9-55K" customClass="StationsRow" customModule="Time_for_Coffee__WatchKit_Extension">
+                                    <group key="rootItem" width="1" height="28.5" alignment="left" id="TcE-GW-aim">
+                                        <items>
+                                            <group alignment="left" verticalAlignment="center" layout="vertical" spacing="0.0" id="IUf-mO-YCq">
+                                                <items>
+                                                    <label alignment="left" minimumScaleFactor="0.79999999999999993" id="k9f-Vh-KpK">
+                                                        <fontDescription key="font" type="system" pointSize="13"/>
+                                                    </label>
+                                                </items>
+                                            </group>
+                                        </items>
+                                        <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
+                                    </group>
+                                    <connections>
+                                        <outlet property="stationLabel" destination="k9f-Vh-KpK" id="Ajg-jV-Wzn"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                    </items>
+                    <connections>
+                        <outlet property="stationsTable" destination="SXg-A1-SPs" id="HL6-rM-xEf"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="762" y="97"/>
         </scene>
         <!--Glance Interface Controller-->
         <scene sceneID="rjY-Ar-IMT">
@@ -79,17 +113,17 @@
                     <items>
                         <group alignment="left" id="gv7-I2-MZq">
                             <items>
-                                <group width="1" height="26" alignment="left" verticalAlignment="center" id="a8H-Pf-vgm">
+                                <group width="1" alignment="left" verticalAlignment="center" id="a8H-Pf-vgm">
                                     <items>
-                                        <label width="115" alignment="center" text="Zürich, Röntgenstrasse" id="Tuk-w4-2jI"/>
+                                        <label width="1" alignment="center" text="Zürich, Röntgenstrasse" numberOfLines="2" id="Tuk-w4-2jI"/>
                                     </items>
-                                    <edgeInsets key="margins" left="4" right="0.0" top="0.0" bottom="0.0"/>
+                                    <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                                 </group>
                             </items>
                         </group>
                         <group alignment="left" layout="vertical" id="eew-Gs-W6Y">
                             <items>
-                                <group width="1" alignment="center" id="fMD-Jc-6G6">
+                                <group width="136" alignment="center" id="fMD-Jc-6G6">
                                     <items>
                                         <group width="52" height="52" alignment="left" verticalAlignment="center" radius="4" id="dUM-0r-Zst">
                                             <items>
@@ -108,11 +142,12 @@
                                             </items>
                                         </group>
                                     </items>
-                                    <edgeInsets key="margins" left="4" right="0.0" top="0.0" bottom="0.0"/>
+                                    <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                                 </group>
-                                <group alignment="center" verticalAlignment="bottom" id="Kes-ck-dmS">
+                                <group width="1" alignment="left" verticalAlignment="bottom" layout="vertical" id="Kes-ck-dmS">
                                     <items>
-                                        <label alignment="left" text="in 5' / 17:30" textAlignment="center" id="HuI-Vy-Yul"/>
+                                        <label alignment="left" text="Label" id="S8c-kT-XlP"/>
+                                        <label alignment="left" text="17:30 / 17:31 / " textAlignment="center" id="HuI-Vy-Yul"/>
                                     </items>
                                 </group>
                             </items>
@@ -120,11 +155,12 @@
                     </items>
                     <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="14"/>
                     <connections>
-                        <outlet property="depatureLabel" destination="HuI-Vy-Yul" id="Mex-YO-TMK"/>
-                        <outlet property="destinationLabel" destination="Tuk-w4-2jI" id="1Io-9H-V7P"/>
+                        <outlet property="departureLabel" destination="HuI-Vy-Yul" id="yqq-Q8-Bur"/>
+                        <outlet property="destinationLabel" destination="S8c-kT-XlP" id="z2C-Bl-UXL"/>
                         <outlet property="minutesLabel" destination="o1H-2i-5C8" id="LI3-Xf-6m4"/>
                         <outlet property="numberGroup" destination="dUM-0r-Zst" id="FfL-cx-1e2"/>
                         <outlet property="numberLabel" destination="hE4-i0-wwk" id="6zC-Zo-SSf"/>
+                        <outlet property="stationLabel" destination="Tuk-w4-2jI" id="FDe-IH-IiD"/>
                     </connections>
                 </glanceController>
             </objects>
