@@ -16,8 +16,9 @@ class GlanceController: WKInterfaceController {
     @IBOutlet weak var minutesLabel: WKInterfaceLabel!
     @IBOutlet weak var destinationLabel: WKInterfaceLabel!
     @IBOutlet weak var numberGroup: WKInterfaceGroup!
-    @IBOutlet weak var depatureLabel: WKInterfaceLabel!
+    @IBOutlet weak var departureLabel: WKInterfaceLabel!
     @IBOutlet weak var numberLabel: WKInterfaceLabel!
+    @IBOutlet weak var stationLabel: WKInterfaceLabel!
     
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
@@ -40,8 +41,14 @@ class GlanceController: WKInterfaceController {
                         let to = firstDepature.getDestination(station)
 
                         minutesLabel.setText(firstDepature.getMinutes())
-                        destinationLabel.setText(to);
-                        depatureLabel.setText(firstDepature.getTimeString());
+                        destinationLabel.setText("To \(to)");
+                        stationLabel.setText(station.getName(true))
+                        let (departureTimeAttr, departureTimeString) = firstDepature.getDepartureTime()
+                        if (departureTimeAttr != nil) {
+                            departureLabel.setAttributedText(departureTimeAttr)
+                        } else {
+                            departureLabel.setText(departureTimeString)
+                        }
                         numberLabel.setText(firstDepature.getLine())
                         numberLabel.setTextColor(UIColor(netHexString:(firstDepature.colorFg)!))
                         numberGroup.setBackgroundColor(UIColor(netHexString:(firstDepature.colorBg)!))
@@ -51,15 +58,15 @@ class GlanceController: WKInterfaceController {
                 }
             }
         }
-      //  WKInterfaceController.openParentApplication(["module":"location"], handleReply)
         TFCWatchData.sharedInstance.getStations(handleReply, stopWithFavorites: true)
 
-        minutesLabel.setText("6'")
-        destinationLabel.setText("Röntgenstrasse");
-        depatureLabel.setText("In 6' / 16:59");
-        numberLabel.setText("12")
+        minutesLabel.setText("")
+        stationLabel.setText("Loading ...");
+        destinationLabel.setText("")
+        departureLabel.setText("");
+        numberLabel.setText("")
         numberLabel.setTextColor(UIColor.whiteColor())
-        numberGroup.setBackgroundColor(UIColor.greenColor())
+        numberGroup.setBackgroundColor(UIColor.clearColor())
         
     }
 

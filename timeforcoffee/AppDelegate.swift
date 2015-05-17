@@ -137,16 +137,5 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         return true
     }
-    func application(application: UIApplication, handleWatchKitExtensionRequest userInfo: [NSObject : AnyObject]?, reply: (([NSObject : AnyObject]!) -> Void)!) {
-        if  (watchData == nil) {
-            watchData = TFCWatchData()
-        }
-
-        let uI:[NSString : NSString] = userInfo as! [NSString : NSString]
-        if (uI["module"] == "location") {
-            watchData?.getLocation(reply)
-        }
-    }
-
 }
 

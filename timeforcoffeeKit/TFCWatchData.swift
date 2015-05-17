@@ -21,8 +21,9 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIContro
     private var networkErrorMsg: String?
 
     private var replyNearby: replyClosure?
-    private lazy var stations: TFCStations? =  {return TFCStations()}()
+    public lazy var stations: TFCStations? =  {return TFCStations()}()
     private lazy var locManager: TFCLocationManager? = self.lazyInitLocationManager()
+
 
     private lazy var api : APIController? = {
         [unowned self] in
@@ -37,7 +38,6 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIContro
         return TFCLocationManager(delegate: self)
     }
 
-    /* USED FROM THE APP */
     public func locationFixed(loc: CLLocation?) {
         //do nothing here, you have to overwrite that
         if let coord = loc?.coordinate {
@@ -61,22 +61,20 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIContro
         self.replyNearby = reply
         locManager?.refreshLocation()
     }
-    /* END USED FROM THE APP */
 
-    /* USED FROM THE WATCHKIT EXTENSION */
-    public func getStations(reply: replyStations, stopWithFavorites: Bool?) {
-        func handleReply(replyInfo: [NSObject : AnyObject]!, error: NSError!) {
+    public func getStations(reply: replyStations?, stopWithFavorites: Bool?) {
+        func handleReply(replyInfo: [NSObject : AnyObject]!) {
             if(replyInfo["lat"] != nil) {
                 let loc = CLLocation(latitude: replyInfo["lat"] as! Double, longitude: replyInfo["long"] as! Double)
                 self.stations?.initWithNearbyFavorites(loc)
-                if (stopWithFavorites == true && self.stations?.count() > 0 ) {
-                    reply(self.stations)
+                if (stopWithFavorites == true && self.stations?.count() > 0 && reply != nil ) {
+                    reply!(self.stations)
                     return
                 }
                 self.api?.searchFor(loc.coordinate, context: reply)
             }
         }
-        WKInterfaceController.openParentApplication(["module":"location"], reply: handleReply)
+        TFCWatchData.sharedInstance.getLocation(handleReply)
     }
 
     public func didReceiveAPIResults(results: JSON?, error: NSError?, context: Any?) {
@@ -86,7 +84,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIContro
             } else {
                 self.networkErrorMsg = nil
             }
-            if (TFCStation.isStations(results!)) {
+            if (results != nil && TFCStation.isStations(results!)) {
                 self.stations?.addWithJSON(results)
             }
             if let reply:replyStations = context as? replyStations {
@@ -94,4 +92,14 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIContro
             }
         }
     }
+}
+
+public class TFCPageContext: NSObject {
+
+    public override init() {
+        super.init()
+    }
+
+    public var station:TFCStation?
+    public var pageNumber:Int?
 }
