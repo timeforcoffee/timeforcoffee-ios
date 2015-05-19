@@ -98,7 +98,12 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
                         label.setText(to)
                     }
                     if let label = sr.depatureLabel {
-                        label.setText(deptstation.getTimeString())
+                        let (departureTimeAttr, departureTimeString) = deptstation.getDepartureTime()
+                        if (departureTimeAttr != nil) {
+                            label.setAttributedText(departureTimeAttr)
+                        } else {
+                            label.setText(departureTimeString)
+                        }
                     }
                     if let label = sr.minutesLabel {
                         label.setText(deptstation.getMinutes())
