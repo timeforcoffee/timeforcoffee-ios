@@ -41,7 +41,7 @@
                                                     <label width="108" height="14" alignment="left" text="Zürich, Röntgenstrasse" minimumScaleFactor="0.79999999999999993" id="qmq-be-vci">
                                                         <fontDescription key="font" type="system" pointSize="13"/>
                                                     </label>
-                                                    <label width="1" height="14" alignment="left" verticalAlignment="bottom" text="in 0' / 17:30" minimumScaleFactor="0.80000000000000004" id="Kdx-go-JUj">
+                                                    <label width="1" height="14" alignment="left" verticalAlignment="bottom" text="in 0' / 17:30" minimumScaleFactor="0.90000000000000002" id="Kdx-go-JUj">
                                                         <fontDescription key="font" type="system" pointSize="10"/>
                                                     </label>
                                                 </items>
