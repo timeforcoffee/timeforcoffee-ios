@@ -86,37 +86,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             stationsTable.setNumberOfRows(departures2.count, withRowType: "station")
             for (deptstation) in departures2 {
                 if let sr = stationsTable.rowControllerAtIndex(i) as! StationRow? {
-                    let to = deptstation.getDestination(station!)
-                    let name = deptstation.getLine()                // doesn't work yet  with the font;(
-                    let helvetica = UIFont(name: "HelveticaNeue-Bold", size: 18.0)!
-                    var fontAttrs = [NSFontAttributeName : helvetica]
-                    var attrString = NSAttributedString(string: name, attributes: fontAttrs)
-                    if let numberLabel = sr.numberLabel {
-                        numberLabel.setAttributedText(attrString)
-                    }
-                    if let label = sr.destinationLabel {
-                        label.setText(to)
-                    }
-                    if let label = sr.depatureLabel {
-                        let (departureTimeAttr, departureTimeString) = deptstation.getDepartureTime()
-                        if (departureTimeAttr != nil) {
-                            label.setAttributedText(departureTimeAttr)
-                        } else {
-                            label.setText(departureTimeString)
-                        }
-                    }
-                    if let label = sr.minutesLabel {
-                        label.setText(deptstation.getMinutes())
-                    }
-                    if (deptstation.colorBg != nil) {
-                        if let group = sr.numberGroup {
-                            group.setBackgroundColor(UIColor(netHexString:(deptstation.colorBg)!))
-                        }
-                        if let label = sr.numberLabel {
-                            label.setTextColor(UIColor(netHexString:(deptstation.colorFg)!))
-                        }
-                    }
-
+                    sr.drawCell(deptstation, station: station!)
                 }
                 i++
             }

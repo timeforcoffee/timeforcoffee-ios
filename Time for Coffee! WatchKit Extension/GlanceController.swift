@@ -41,38 +41,9 @@ class GlanceController: WKInterfaceController {
                     var i = 0
                     stationLabel.setText(station.getName(true))
                     stationsTable.setNumberOfRows(min(3,(departures?.count)!), withRowType: "station")
-                    for (secondDepature) in departures! {
+                    for (departure) in departures! {
                         if let sr = stationsTable.rowControllerAtIndex(i) as! StationRow? {
-                            let to = secondDepature.getDestination(station)
-                            let name = secondDepature.getLine()                // doesn't work yet  with the font;(
-                            let helvetica = UIFont(name: "HelveticaNeue-Bold", size: 18.0)!
-                            var fontAttrs = [NSFontAttributeName : helvetica]
-                            var attrString = NSAttributedString(string: name, attributes: fontAttrs)
-                            if let numberLabel = sr.numberLabel {
-                                numberLabel.setAttributedText(attrString)
-                            }
-                            if let label = sr.destinationLabel {
-                                label.setText(to)
-                            }
-                            if let label = sr.depatureLabel {
-                                let (departureTimeAttr, departureTimeString) = secondDepature.getDepartureTime()
-                                if (departureTimeAttr != nil) {
-                                    label.setAttributedText(departureTimeAttr)
-                                } else {
-                                    label.setText(departureTimeString)
-                                }
-                            }
-                            if let label = sr.minutesLabel {
-                                label.setText(secondDepature.getMinutes())
-                            }
-                            if (secondDepature.colorBg != nil) {
-                                if let group = sr.numberGroup {
-                                    group.setBackgroundColor(UIColor(netHexString:(secondDepature.colorBg)!))
-                                }
-                                if let label = sr.numberLabel {
-                                    label.setTextColor(UIColor(netHexString:(secondDepature.colorFg)!))
-                                }
-                            }
+                            sr.drawCell(departure, station: station)
                             i++
                             if (i >= 3) {
                                 break;
