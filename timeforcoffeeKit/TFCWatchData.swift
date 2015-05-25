@@ -24,6 +24,10 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIContro
     public lazy var stations: TFCStations? =  {return TFCStations()}()
     private lazy var locManager: TFCLocationManager? = self.lazyInitLocationManager()
 
+    private struct replyContext {
+        var reply: replyStations?
+        var errorReply: ((String) -> Void)?
+    }
 
     private lazy var api : APIController? = {
         [unowned self] in
@@ -71,7 +75,10 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIContro
                     reply!(self.stations)
                     return
                 }
-                self.api?.searchFor(loc.coordinate, context: reply)
+                var replyC:replyContext = replyContext()
+                replyC.reply = reply
+                replyC.errorReply = errorReply
+                self.api?.searchFor(loc.coordinate, context: replyC)
             } else {
                 if let err = replyInfo["error"] as? NSError {
                     if (err.code == CLError.LocationUnknown.rawValue) {
@@ -87,16 +94,36 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIContro
     }
 
     public func didReceiveAPIResults(results: JSON?, error: NSError?, context: Any?) {
+        let reply:replyContext = context as! replyContext
         if (!(error != nil && error?.code == -999)) {
+            let errorReply = reply.errorReply
             if (error != nil || results == nil) {
                 self.networkErrorMsg = NSLocalizedString("Network error. Please try again", comment: "")
+                if (errorReply != nil) {
+                    errorReply!(self.networkErrorMsg!)
+                }
+
             } else {
                 self.networkErrorMsg = nil
             }
             if (results != nil && TFCStation.isStations(results!)) {
-                self.stations?.addWithJSON(results)
+                if let stations = self.stations {
+                    stations.addWithJSON(results)
+                    if (!(stations.count() > 0)) {
+                        if (errorReply != nil) {
+                            let reason = stations.getReasonForNoStationFound()
+                            if (reason != nil)  {
+                                errorReply!("No stations found. \(reason!)")
+                            } else {
+                                errorReply!("No stations found.")
+                            }
+                            return
+                        }
+                    }
+                }
+
             }
-            if let reply:replyStations = context as? replyStations {
+            if let reply:replyStations = reply.reply {
                 reply(self.stations)
             }
         }

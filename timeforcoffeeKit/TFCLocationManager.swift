@@ -66,7 +66,7 @@ public final class TFCLocationManager: NSObject, CLLocationManagerDelegate {
                     self.seenError = true
                     // we often get errors on the simulator, this just sets the currentCoordinates to the liip office
                     // in zurich when in the simulator
-                    #if (arch(i386) || arch(x86_64)) && os(iOS)
+                /*    #if (arch(i386) || arch(x86_64)) && os(iOS)
                         NSLog("Set coordinates to Liip ZH...")
                         self.currentLocation = CLLocation(latitude: 47.386142, longitude: 8.529163)
                         //currentLocation = CLLocation(latitude: 46.386142, longitude: 7.529163)
@@ -78,6 +78,8 @@ public final class TFCLocationManager: NSObject, CLLocationManagerDelegate {
                         #else
                         self.delegate.locationDenied(manager, err: error)
                     #endif
+*/                    self.delegate.locationDenied(manager, err: error)
+
                 }
             }
         })

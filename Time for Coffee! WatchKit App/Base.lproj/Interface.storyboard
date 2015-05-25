@@ -12,7 +12,7 @@
                     <items>
                         <group width="1" alignment="left" hidden="YES" id="V60-Ai-Gni" userLabel="info Group">
                             <items>
-                                <label alignment="left" text="Label" numberOfLines="2" id="gx4-sJ-B8Q" userLabel="info Label"/>
+                                <label alignment="left" text="Label" numberOfLines="3" id="gx4-sJ-B8Q" userLabel="info Label"/>
                             </items>
                             <edgeInsets key="margins" left="3" right="3" top="0.0" bottom="0.0"/>
                         </group>

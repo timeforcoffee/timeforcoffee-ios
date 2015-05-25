@@ -263,7 +263,7 @@ public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelega
         }
     }
 
-    private func getReasonForNoStationFound() -> String? {
+    public func getReasonForNoStationFound() -> String? {
 
         if let distanceFromSwitzerland = locManager?.currentLocation?.distanceFromLocation(CLLocation(latitude: 47, longitude: 8)) {
             if (distanceFromSwitzerland > 1000000) {
