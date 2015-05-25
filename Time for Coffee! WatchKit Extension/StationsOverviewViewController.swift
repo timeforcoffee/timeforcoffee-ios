@@ -14,6 +14,10 @@ class StationsOverviewViewController: WKInterfaceController {
 
     @IBOutlet weak var stationsTable: WKInterfaceTable!
 
+    @IBOutlet weak var infoGroup: WKInterfaceGroup!
+    @IBOutlet weak var infoLabel: WKInterfaceLabel!
+
+
     var stations:[TFCStation] = []
 
     override func awakeWithContext(context: AnyObject?) {
@@ -40,8 +44,13 @@ class StationsOverviewViewController: WKInterfaceController {
                 i++
             }
         }
+        func errorReply(text: String) {
+            infoGroup.setHidden(false)
+            infoLabel.setText(text)
+        }
 
-        TFCWatchData.sharedInstance.getStations(handleReply, stopWithFavorites: false)
+
+        TFCWatchData.sharedInstance.getStations(handleReply, errorReply: errorReply, stopWithFavorites: false)
     }
 
     override func table(table: WKInterfaceTable, didSelectRowAtIndex rowIndex: Int) {

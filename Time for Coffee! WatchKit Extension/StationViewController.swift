@@ -14,6 +14,8 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     @IBOutlet weak var stationsTable: WKInterfaceTable!
     var station: TFCStation?
     var pageNumber: Int?
+    @IBOutlet weak var infoGroup: WKInterfaceGroup!
+    @IBOutlet weak var infoLabel: WKInterfaceLabel!
     
     override init () {
         super.init()
@@ -112,7 +114,12 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         func reload(stations: TFCStations?) {
             setStationValues()
         }
-        TFCWatchData.sharedInstance.getStations(reload, stopWithFavorites: false)
+        func errorReply(text: String) {
+            infoGroup.setHidden(false)
+            infoLabel.setText(text)
+        }
+
+        TFCWatchData.sharedInstance.getStations(reload, errorReply: errorReply, stopWithFavorites: false)
     }
 
     func contextButtonMap() {

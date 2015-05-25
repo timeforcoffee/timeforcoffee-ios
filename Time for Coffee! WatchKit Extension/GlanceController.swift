@@ -22,6 +22,10 @@ class GlanceController: WKInterfaceController {
 
     @IBOutlet weak var stationsTable: WKInterfaceTable!
 
+    @IBOutlet weak var infoGroup: WKInterfaceGroup!
+    @IBOutlet weak var infoLabel: WKInterfaceLabel!
+
+
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
         
@@ -55,7 +59,14 @@ class GlanceController: WKInterfaceController {
                 }
             }
         }
-        TFCWatchData.sharedInstance.getStations(handleReply, stopWithFavorites: true)
+
+        func errorReply(text: String) {
+            stationLabel.setText("Time for Coffee!");
+
+            infoGroup.setHidden(false)
+            infoLabel.setText(text)
+        }
+        TFCWatchData.sharedInstance.getStations(handleReply, errorReply: errorReply, stopWithFavorites: true)
 
         stationLabel.setText("Loading ...");
         //stationsTable.setNumberOfRows(0, withRowType: "station")

@@ -12,6 +12,8 @@ import timeforcoffeeKit
 
 class InterfaceController: WKInterfaceController {
 
+    @IBOutlet weak var infoLabel: WKInterfaceLabel!
+    @IBOutlet weak var infoGroup: WKInterfaceGroup!
     override init () {
         super.init()
         println("init InterfaceController")
@@ -58,7 +60,12 @@ class InterfaceController: WKInterfaceController {
             }
             WKInterfaceController.reloadRootControllersWithNames(pages, contexts: pageContexts)
         }
-        TFCWatchData.sharedInstance.getStations(handleReply, stopWithFavorites: false)
+        func errorReply(text: String) {
+            infoGroup.setHidden(false)
+            infoLabel.setText(text)
+        }
+
+        TFCWatchData.sharedInstance.getStations(handleReply, errorReply: errorReply, stopWithFavorites: false)
     }
     override func didDeactivate() {
         // This method is called when watch view controller is no longer visible

@@ -48,7 +48,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIContro
     }
 
     public func locationDenied(manager: CLLocationManager, err:NSError) {
-
+        replyNearby!(["error": err]);
     }
 
     public func locationStillTrying(manager: CLLocationManager, err: NSError) {
@@ -62,7 +62,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIContro
         locManager?.refreshLocation()
     }
 
-    public func getStations(reply: replyStations?, stopWithFavorites: Bool?) {
+    public func getStations(reply: replyStations?, errorReply: ((String) -> Void)?, stopWithFavorites: Bool?) {
         func handleReply(replyInfo: [NSObject : AnyObject]!) {
             if(replyInfo["lat"] != nil) {
                 let loc = CLLocation(latitude: replyInfo["lat"] as! Double, longitude: replyInfo["long"] as! Double)
@@ -72,6 +72,15 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIContro
                     return
                 }
                 self.api?.searchFor(loc.coordinate, context: reply)
+            } else {
+                if let err = replyInfo["error"] as? NSError {
+                    if (err.code == CLError.LocationUnknown.rawValue) {
+                        self.networkErrorMsg = "Airplane mode?"
+                    } else {
+                        self.networkErrorMsg = "Location not available"
+                    }
+                    errorReply!(self.networkErrorMsg!)
+                }
             }
         }
         TFCWatchData.sharedInstance.getLocation(handleReply)
