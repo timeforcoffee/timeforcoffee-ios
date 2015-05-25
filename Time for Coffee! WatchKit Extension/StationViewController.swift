@@ -112,6 +112,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
 
     func contextButtonReload() {
         func reload(stations: TFCStations?) {
+            infoGroup.setHidden(true)
             setStationValues()
         }
         func errorReply(text: String) {

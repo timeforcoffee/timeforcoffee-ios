@@ -38,6 +38,7 @@ class GlanceController: WKInterfaceController {
         
         super.willActivate()
         func handleReply(stations: TFCStations?) {
+            infoGroup.setHidden(true)
             for (station) in stations! {
                 station.updateDepartures(nil)
                 let departures = station.getFilteredDepartures()
@@ -62,7 +63,6 @@ class GlanceController: WKInterfaceController {
 
         func errorReply(text: String) {
             stationLabel.setText("Time for Coffee!");
-
             infoGroup.setHidden(false)
             infoLabel.setText(text)
         }

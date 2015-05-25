@@ -75,7 +75,7 @@ public final class TFCLocationManager: NSObject, CLLocationManagerDelegate {
                         self.locationManager.stopUpdatingLocation()
                         self.delegate.locationFixed(self.currentLocation)
                         //self.delegate.locationDenied(manager)
-                        #else
+                    #else
                         self.delegate.locationDenied(manager, err: error)
                     #endif
 

@@ -38,6 +38,7 @@ class InterfaceController: WKInterfaceController {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
         func handleReply(stations: TFCStations?) {
+            infoGroup.setHidden(true)
             if (stations == nil) {
                 return
             }

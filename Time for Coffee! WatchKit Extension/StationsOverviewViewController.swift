@@ -28,6 +28,7 @@ class StationsOverviewViewController: WKInterfaceController {
     override func willActivate() {
         
         func handleReply(stations: TFCStations?) {
+            infoGroup.setHidden(true)
             if (stations == nil) {
                 return
             }
