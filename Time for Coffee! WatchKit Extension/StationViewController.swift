@@ -59,6 +59,8 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         }
 
         self.addMenuItemWithItemIcon(WKMenuItemIcon.Resume, title: "Reload", action: "contextButtonReload")
+        self.addMenuItemWithItemIcon(WKMenuItemIcon.Maybe, title: "Map", action: Selector("contextButtonMap"))
+
         self.addMenuItemWithItemIcon(WKMenuItemIcon.More, title: "Stations", action: Selector("contextButtonStations"))
 
     }
@@ -86,32 +88,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             stationsTable.setNumberOfRows(departures2.count, withRowType: "station")
             for (deptstation) in departures2 {
                 if let sr = stationsTable.rowControllerAtIndex(i) as! StationRow? {
-                    let to = deptstation.getDestination(station!)
-                    let name = deptstation.getLine()                // doesn't work yet  with the font;(
-                    let helvetica = UIFont(name: "HelveticaNeue-Bold", size: 18.0)!
-                    var fontAttrs = [NSFontAttributeName : helvetica]
-                    var attrString = NSAttributedString(string: name, attributes: fontAttrs)
-                    if let numberLabel = sr.numberLabel {
-                        numberLabel.setAttributedText(attrString)
-                    }
-                    if let label = sr.destinationLabel {
-                        label.setText(to)
-                    }
-                    if let label = sr.depatureLabel {
-                        label.setText(deptstation.getTimeString())
-                    }
-                    if let label = sr.minutesLabel {
-                        label.setText(deptstation.getMinutes())
-                    }
-                    if (deptstation.colorBg != nil) {
-                        if let group = sr.numberGroup {
-                            group.setBackgroundColor(UIColor(netHexString:(deptstation.colorBg)!))
-                        }
-                        if let label = sr.numberLabel {
-                            label.setTextColor(UIColor(netHexString:(deptstation.colorFg)!))
-                        }
-                    }
-
+                    sr.drawCell(deptstation, station: station!)
                 }
                 i++
             }
@@ -136,6 +113,11 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             setStationValues()
         }
         TFCWatchData.sharedInstance.getStations(reload, stopWithFavorites: false)
+    }
+
+    func contextButtonMap() {
+        self.presentControllerWithName("MapPage", context: self.station)
+
     }
 
     func contextButtonFavorite() {

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="3737"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="7701"/>
     </dependencies>
     <scenes>
         <!--Time for Coffee!-->
@@ -36,22 +36,23 @@
                                                 <color key="backgroundColor" red="0.99607843139999996" green="0.76470588240000004" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                                             </group>
-                                            <group width="94" height="28" alignment="left" layout="vertical" spacing="0.0" id="Cha-10-uSx">
+                                            <group width="1" widthAdjustment="-46" height="28" alignment="left" layout="vertical" spacing="0.0" id="Cha-10-uSx">
                                                 <items>
                                                     <label width="108" height="14" alignment="left" text="Zürich, Röntgenstrasse" minimumScaleFactor="0.79999999999999993" id="qmq-be-vci">
                                                         <fontDescription key="font" type="system" pointSize="13"/>
                                                     </label>
-                                                    <label width="1" height="14" alignment="left" verticalAlignment="bottom" text="in 0' / 17:30" minimumScaleFactor="0.50000000000000011" id="Kdx-go-JUj">
+                                                    <label width="1" height="14" alignment="left" verticalAlignment="bottom" text="in 0' / 17:30" minimumScaleFactor="0.90000000000000002" id="Kdx-go-JUj">
                                                         <fontDescription key="font" type="system" pointSize="10"/>
                                                     </label>
                                                 </items>
                                             </group>
                                             <group height="1" alignment="right" id="aG3-Za-dwg">
                                                 <items>
-                                                    <label height="1" alignment="left" text="3" id="wVu-EU-Rtc"/>
+                                                    <label width="20" height="1" alignment="left" verticalAlignment="center" text="28'" textAlignment="right" minimumScaleFactor="0.50000000000000011" id="wVu-EU-Rtc"/>
                                                 </items>
                                             </group>
                                         </items>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                                     </group>
                                     <connections>
@@ -84,12 +85,13 @@
                                         <items>
                                             <group alignment="left" verticalAlignment="center" layout="vertical" spacing="0.0" id="IUf-mO-YCq">
                                                 <items>
-                                                    <label alignment="left" minimumScaleFactor="0.79999999999999993" id="k9f-Vh-KpK">
+                                                    <label alignment="left" minimumScaleFactor="0.89999999999999991" id="k9f-Vh-KpK">
                                                         <fontDescription key="font" type="system" pointSize="13"/>
                                                     </label>
                                                 </items>
                                             </group>
                                         </items>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                                     </group>
                                     <connections>
@@ -105,6 +107,20 @@
                 </controller>
             </objects>
             <point key="canvasLocation" x="762" y="97"/>
+        </scene>
+        <!--Map-->
+        <scene sceneID="Sud-i2-3Rx">
+            <objects>
+                <controller identifier="MapPage" title="Map" id="cCd-lg-BUO" customClass="MapViewController" customModule="Time_for_Coffee__WatchKit_Extension">
+                    <items>
+                        <map width="1" height="1" alignment="left" id="cn0-SD-YfA"/>
+                    </items>
+                    <connections>
+                        <outlet property="map" destination="cn0-SD-YfA" id="PIF-LY-TAJ"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="625" y="348"/>
         </scene>
         <!--Glance Interface Controller-->
         <scene sceneID="rjY-Ar-IMT">
@@ -123,44 +139,57 @@
                         </group>
                         <group alignment="left" layout="vertical" id="eew-Gs-W6Y">
                             <items>
-                                <group width="136" alignment="center" id="fMD-Jc-6G6">
+                                <table alignment="left" id="Lb1-UE-yg4">
                                     <items>
-                                        <group width="52" height="52" alignment="left" verticalAlignment="center" radius="4" id="dUM-0r-Zst">
-                                            <items>
-                                                <label width="52" height="52" alignment="left" verticalAlignment="center" text="12" textAlignment="center" minimumScaleFactor="0.5" id="hE4-i0-wwk">
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <fontDescription key="font" type="system" pointSize="18"/>
-                                                </label>
-                                            </items>
-                                            <color key="backgroundColor" red="0.99607843139999996" green="0.76470588240000004" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
-                                        </group>
-                                        <group alignment="left" layout="vertical" id="X9s-ax-gfx">
-                                            <items>
-                                                <label width="1" alignment="center" verticalAlignment="center" text="5'" textAlignment="center" id="o1H-2i-5C8">
-                                                    <fontDescription key="font" type="system" pointSize="46"/>
-                                                </label>
-                                            </items>
-                                        </group>
+                                        <tableRow identifier="station" selectable="NO" id="kX2-lL-sOt" customClass="StationRow" customModule="Time_for_Coffee__WatchKit_Extension">
+                                            <group key="rootItem" width="1" height="28.5" alignment="left" id="rfn-HQ-lEX">
+                                                <items>
+                                                    <group width="26" height="26" alignment="left" verticalAlignment="center" radius="4" id="eh9-nV-NI2">
+                                                        <items>
+                                                            <label width="26" height="26" alignment="left" verticalAlignment="center" text="??" textAlignment="center" minimumScaleFactor="0.50000000000000011" id="g9d-wJ-KDh">
+                                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <fontDescription key="font" type="system" pointSize="18"/>
+                                                            </label>
+                                                        </items>
+                                                        <color key="backgroundColor" red="0.99607843139999996" green="0.76470588240000004" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
+                                                    </group>
+                                                    <group width="1" widthAdjustment="-46" height="28" alignment="left" layout="vertical" spacing="0.0" id="zZC-5V-bTa">
+                                                        <items>
+                                                            <label width="108" height="14" alignment="left" text="Loading ..." minimumScaleFactor="0.79999999999999993" id="q7Q-WX-apw">
+                                                                <fontDescription key="font" type="system" pointSize="13"/>
+                                                            </label>
+                                                            <label width="1" height="14" alignment="left" verticalAlignment="bottom" text="in ?' / ??:??" minimumScaleFactor="0.90000000000000002" id="WtL-BS-0oK">
+                                                                <fontDescription key="font" type="system" pointSize="10"/>
+                                                            </label>
+                                                        </items>
+                                                    </group>
+                                                    <group height="1" alignment="right" id="6oH-B9-Red">
+                                                        <items>
+                                                            <label width="20" height="1" alignment="left" verticalAlignment="center" text="??'" textAlignment="right" minimumScaleFactor="0.50000000000000011" id="QnM-C5-toj"/>
+                                                        </items>
+                                                    </group>
+                                                </items>
+                                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
+                                            </group>
+                                            <connections>
+                                                <outlet property="depatureLabel" destination="WtL-BS-0oK" id="DLh-dZ-8AB"/>
+                                                <outlet property="destinationLabel" destination="q7Q-WX-apw" id="ymP-6t-InZ"/>
+                                                <outlet property="minutesLabel" destination="QnM-C5-toj" id="G0S-vM-jAh"/>
+                                                <outlet property="numberGroup" destination="eh9-nV-NI2" id="kbE-dH-5ij"/>
+                                                <outlet property="numberLabel" destination="g9d-wJ-KDh" id="Gzm-hX-Dq3"/>
+                                            </connections>
+                                        </tableRow>
                                     </items>
-                                    <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
-                                </group>
-                                <group width="1" alignment="left" verticalAlignment="bottom" layout="vertical" id="Kes-ck-dmS">
-                                    <items>
-                                        <label alignment="left" text="Label" id="S8c-kT-XlP"/>
-                                        <label alignment="left" text="17:30 / 17:31 / " textAlignment="center" id="HuI-Vy-Yul"/>
-                                    </items>
-                                </group>
+                                </table>
                             </items>
                         </group>
                     </items>
                     <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="14"/>
                     <connections>
-                        <outlet property="departureLabel" destination="HuI-Vy-Yul" id="yqq-Q8-Bur"/>
-                        <outlet property="destinationLabel" destination="S8c-kT-XlP" id="z2C-Bl-UXL"/>
-                        <outlet property="minutesLabel" destination="o1H-2i-5C8" id="LI3-Xf-6m4"/>
-                        <outlet property="numberGroup" destination="dUM-0r-Zst" id="FfL-cx-1e2"/>
-                        <outlet property="numberLabel" destination="hE4-i0-wwk" id="6zC-Zo-SSf"/>
                         <outlet property="stationLabel" destination="Tuk-w4-2jI" id="FDe-IH-IiD"/>
+                        <outlet property="stationsTable" destination="Lb1-UE-yg4" id="4A8-VE-1ua"/>
                     </connections>
                 </glanceController>
             </objects>

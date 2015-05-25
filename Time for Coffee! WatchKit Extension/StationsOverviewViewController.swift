@@ -35,7 +35,7 @@ class StationsOverviewViewController: WKInterfaceController {
             for (station) in ctxStations! {
                 self.stations.append(station)
                 if let sr = stationsTable.rowControllerAtIndex(i) as! StationsRow? {
-                    sr.stationLabel.setText(station.getNameWithStarAndFilters())
+                    sr.stationLabel.setText(station.getName(true))
                 }
                 i++
             }

@@ -19,7 +19,9 @@ class GlanceController: WKInterfaceController {
     @IBOutlet weak var departureLabel: WKInterfaceLabel!
     @IBOutlet weak var numberLabel: WKInterfaceLabel!
     @IBOutlet weak var stationLabel: WKInterfaceLabel!
-    
+
+    @IBOutlet weak var stationsTable: WKInterfaceTable!
+
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
         
@@ -36,37 +38,34 @@ class GlanceController: WKInterfaceController {
                 station.updateDepartures(nil)
                 let departures = station.getFilteredDepartures()
                 if(departures?.count > 0) {
-                    //todo only ask for one depature
-                    if let firstDepature = departures?[0] {
-                        let to = firstDepature.getDestination(station)
+                    var i = 0
+                    stationLabel.setText(station.getName(true))
+                    stationsTable.setNumberOfRows(min(3,(departures?.count)!), withRowType: "station")
+                    for (departure) in departures! {
+                        if let sr = stationsTable.rowControllerAtIndex(i) as! StationRow? {
+                            sr.drawCell(departure, station: station)
+                            i++
+                            if (i >= 3) {
+                                break;
+                            }
 
-                        minutesLabel.setText(firstDepature.getMinutes())
-                        destinationLabel.setText("To \(to)");
-                        stationLabel.setText(station.getName(true))
-                        let (departureTimeAttr, departureTimeString) = firstDepature.getDepartureTime()
-                        if (departureTimeAttr != nil) {
-                            departureLabel.setAttributedText(departureTimeAttr)
-                        } else {
-                            departureLabel.setText(departureTimeString)
                         }
-                        numberLabel.setText(firstDepature.getLine())
-                        numberLabel.setTextColor(UIColor(netHexString:(firstDepature.colorFg)!))
-                        numberGroup.setBackgroundColor(UIColor(netHexString:(firstDepature.colorBg)!))
-                        println("\(to)")
-                        break
                     }
+                    break;
                 }
             }
         }
         TFCWatchData.sharedInstance.getStations(handleReply, stopWithFavorites: true)
 
-        minutesLabel.setText("")
         stationLabel.setText("Loading ...");
+        //stationsTable.setNumberOfRows(0, withRowType: "station")
+
+     /*   minutesLabel.setText("")
         destinationLabel.setText("")
         departureLabel.setText("");
         numberLabel.setText("")
         numberLabel.setTextColor(UIColor.whiteColor())
-        numberGroup.setBackgroundColor(UIColor.clearColor())
+        numberGroup.setBackgroundColor(UIColor.clearColor())*/
         
     }
 
