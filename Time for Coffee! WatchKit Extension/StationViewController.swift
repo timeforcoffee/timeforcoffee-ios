@@ -59,6 +59,8 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         }
 
         self.addMenuItemWithItemIcon(WKMenuItemIcon.Resume, title: "Reload", action: "contextButtonReload")
+        self.addMenuItemWithItemIcon(WKMenuItemIcon.Maybe, title: "Map", action: Selector("contextButtonMap"))
+
         self.addMenuItemWithItemIcon(WKMenuItemIcon.More, title: "Stations", action: Selector("contextButtonStations"))
 
     }
@@ -111,6 +113,11 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             setStationValues()
         }
         TFCWatchData.sharedInstance.getStations(reload, stopWithFavorites: false)
+    }
+
+    func contextButtonMap() {
+        self.presentControllerWithName("MapPage", context: self.station)
+
     }
 
     func contextButtonFavorite() {

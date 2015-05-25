@@ -108,6 +108,20 @@
             </objects>
             <point key="canvasLocation" x="762" y="97"/>
         </scene>
+        <!--Map-->
+        <scene sceneID="Sud-i2-3Rx">
+            <objects>
+                <controller identifier="MapPage" title="Map" id="cCd-lg-BUO" customClass="MapViewController" customModule="Time_for_Coffee__WatchKit_Extension">
+                    <items>
+                        <map width="1" height="1" alignment="left" id="cn0-SD-YfA"/>
+                    </items>
+                    <connections>
+                        <outlet property="map" destination="cn0-SD-YfA" id="PIF-LY-TAJ"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="625" y="348"/>
+        </scene>
         <!--Glance Interface Controller-->
         <scene sceneID="rjY-Ar-IMT">
             <objects>

@@ -89,6 +89,7 @@
 		ECAD8C3B1ABD849B00704974 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECAD8C3A1ABD849B00704974 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		ECAD8C3F1ABD861000704974 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECAD8C3E1ABD861000704974 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		ECC163D71AA36924006BC3E9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC2195ED1AA35B2D005E16EF /* Localizable.strings */; };
+		ECC1EDB61B132FF8009B0D53 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC1EDB51B132FF8009B0D53 /* MapViewController.swift */; };
 		ECD871961A9BB2F7003CCCB3 /* timeforcoffeeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */; };
 		ECDAB3A61AAA42A300EB352B /* PagedStationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDAB3A51AAA42A300EB352B /* PagedStationsViewController.swift */; };
 		ECE864A61ADBF3AA004392B2 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE864A51ADBF3AA004392B2 /* SettingsViewController.swift */; };
@@ -261,6 +262,7 @@
 		ECBCF0041ACB506400957A4F /* Time for Coffee! WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Time for Coffee! WatchKit Extension.entitlements"; sourceTree = "<group>"; };
 		ECC163D91AA369ED006BC3E9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		ECC163DB1AA36A35006BC3E9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MainInterface.strings; sourceTree = "<group>"; };
+		ECC1EDB51B132FF8009B0D53 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		ECD871941A9BAE18003CCCB3 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ECDAB3A51AAA42A300EB352B /* PagedStationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagedStationsViewController.swift; sourceTree = "<group>"; };
 		ECE864A51ADBF3AA004392B2 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -368,6 +370,7 @@
 				EC4344B21AA5080A009438C7 /* InterfaceController.swift */,
 				EC4344D11AA5890F009438C7 /* StationViewController.swift */,
 				EC994D7D1ADC240000354014 /* StationsOverviewViewController.swift */,
+				ECC1EDB51B132FF8009B0D53 /* MapViewController.swift */,
 				EC4344B41AA5080A009438C7 /* GlanceController.swift */,
 				EC4344B61AA5080A009438C7 /* Images.xcassets */,
 				EC4344B01AA5080A009438C7 /* Supporting Files */,
@@ -897,6 +900,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC4344D01AA508FF009438C7 /* StationRow.swift in Sources */,
+				ECC1EDB61B132FF8009B0D53 /* MapViewController.swift in Sources */,
 				EC994D7E1ADC240000354014 /* StationsOverviewViewController.swift in Sources */,
 				EC4344B31AA5080A009438C7 /* InterfaceController.swift in Sources */,
 				EC994D801ADC283000354014 /* StationsRow.swift in Sources */,
