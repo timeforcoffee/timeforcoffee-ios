@@ -81,6 +81,8 @@
 		ECD871961A9BB2F7003CCCB3 /* timeforcoffeeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */; };
 		ECDAB3A61AAA42A300EB352B /* PagedStationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDAB3A51AAA42A300EB352B /* PagedStationsViewController.swift */; };
 		ECE864A61ADBF3AA004392B2 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE864A51ADBF3AA004392B2 /* SettingsViewController.swift */; };
+		ECEA2F0B1B33171400117F0F /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECEA2F091B33171400117F0F /* Fabric.framework */; };
+		ECEA2F0C1B33171400117F0F /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECEA2F0A1B33171400117F0F /* Crashlytics.framework */; };
 		ECF100AD1A9D9BAE00056510 /* TFCStations.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF100AC1A9D9BAE00056510 /* TFCStations.swift */; };
 		ECF3C59C1AC92FB2006F5745 /* TFCURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF3C59B1AC92FB2006F5745 /* TFCURLSession.swift */; };
 		ECFDA0B31AC00DD30019AA4E /* TFCDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFDA0B21AC00DD30019AA4E /* TFCDataStore.swift */; };
@@ -226,6 +228,8 @@
 		ECD871941A9BAE18003CCCB3 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ECDAB3A51AAA42A300EB352B /* PagedStationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagedStationsViewController.swift; sourceTree = "<group>"; };
 		ECE864A51ADBF3AA004392B2 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		ECEA2F091B33171400117F0F /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		ECEA2F0A1B33171400117F0F /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		ECF100AC1A9D9BAE00056510 /* TFCStations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCStations.swift; sourceTree = "<group>"; };
 		ECF100AE1A9DBDAF00056510 /* Time for Coffee!.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Time for Coffee!.entitlements"; sourceTree = "<group>"; };
 		ECF3C59B1AC92FB2006F5745 /* TFCURLSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCURLSession.swift; sourceTree = "<group>"; };
@@ -264,9 +268,11 @@
 			files = (
 				EC93E36F1AC6F50000A0DA46 /* Foundation.framework in Frameworks */,
 				EC2C317C1A9E1F3300690397 /* CoreTelephony.framework in Frameworks */,
+				ECEA2F0C1B33171400117F0F /* Crashlytics.framework in Frameworks */,
 				EC93E36E1AC6F4F200A0DA46 /* UIKit.framework in Frameworks */,
 				EC93E36D1AC6F4EA00A0DA46 /* QuartzCore.framework in Frameworks */,
 				EC93E36B1AC6F4E200A0DA46 /* OpenGLES.framework in Frameworks */,
+				ECEA2F0B1B33171400117F0F /* Fabric.framework in Frameworks */,
 				EC93E3691AC6F4DC00A0DA46 /* CoreText.framework in Frameworks */,
 				EC93E3671AC6F4CC00A0DA46 /* libxml2.dylib in Frameworks */,
 				EC93E3651AC6F4C500A0DA46 /* CoreGraphics.framework in Frameworks */,
@@ -367,6 +373,8 @@
 		EC6EDCF01A9B9F390098CAE0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				ECEA2F091B33171400117F0F /* Fabric.framework */,
+				ECEA2F0A1B33171400117F0F /* Crashlytics.framework */,
 				EC93E36C1AC6F4EA00A0DA46 /* QuartzCore.framework */,
 				EC93E36A1AC6F4E200A0DA46 /* OpenGLES.framework */,
 				EC93E3681AC6F4DC00A0DA46 /* CoreText.framework */,
@@ -600,6 +608,7 @@
 				EC6EDD241A9BA33C0098CAE0 /* Embed Frameworks */,
 				A180F513FBCE68D152777704 /* Embed Pods Frameworks */,
 				4A33FD3CC8DCA65BD4628E06 /* Copy Pods Resources */,
+				ECEA2F081B3316D300117F0F /* Run Script for Fabric */,
 			);
 			buildRules = (
 			);
@@ -767,6 +776,20 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		ECEA2F081B3316D300117F0F /* Run Script for Fabric */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script for Fabric";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run b9072c25bac9bcbbf5b67a47a62e3fe5ba2dfd9c 068a9eea6c1c7d863442998099cf24aa642353268854d0f82fb20b049031c525";
 		};
 /* End PBXShellScriptBuildPhase section */
 

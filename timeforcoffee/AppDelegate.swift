@@ -9,6 +9,8 @@
 import UIKit
 import timeforcoffeeKit
 import CoreLocation
+import Fabric
+import Crashlytics
 
 @UIApplicationMain
 final class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -23,6 +25,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             TFCDataStore.sharedInstance.registerForNotifications()
             TFCDataStore.sharedInstance.synchronize()
         }
+        Fabric.with([Crashlytics()])
+
         let gtracker = GAI.sharedInstance()
         gtracker.trackUncaughtExceptions = true
         gtracker.dispatchInterval = 20;
