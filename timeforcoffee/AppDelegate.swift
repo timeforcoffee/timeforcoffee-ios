@@ -25,13 +25,13 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             TFCDataStore.sharedInstance.registerForNotifications()
             TFCDataStore.sharedInstance.synchronize()
         }
-        Fabric.with([Crashlytics()])
 
         let gtracker = GAI.sharedInstance()
         gtracker.trackUncaughtExceptions = true
         gtracker.dispatchInterval = 20;
         //GAI.sharedInstance().logger.logLevel = GAILogLevel.Verbose
         gtracker.trackerWithTrackingId("UA-37092982-2")
+        Fabric.with([Crashlytics()])
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
 
