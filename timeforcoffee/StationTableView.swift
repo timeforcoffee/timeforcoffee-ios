@@ -68,7 +68,7 @@ final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataS
 
     func updateSearchResultsForSearchController(searchController: UISearchController) {
         let whitespaceCharacterSet = NSCharacterSet.whitespaceCharacterSet()
-        let strippedString = searchController.searchBar.text.stringByTrimmingCharactersInSet(whitespaceCharacterSet)
+        let strippedString = searchController.searchBar.text!.stringByTrimmingCharactersInSet(whitespaceCharacterSet)
         if (strippedString != "") {
             self.stations.updateStations(searchFor: strippedString)
         }

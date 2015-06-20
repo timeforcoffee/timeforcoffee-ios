@@ -80,8 +80,8 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
             self.mapView.showsUserLocation = true
         }
         self.navigationController?.setNavigationBarHidden(true, animated: false)
-        gestureRecognizer = self.navigationController?.interactivePopGestureRecognizer.delegate
-        self.navigationController?.interactivePopGestureRecognizer.delegate = nil
+        gestureRecognizer = self.navigationController?.interactivePopGestureRecognizer!.delegate
+        self.navigationController?.interactivePopGestureRecognizer!.delegate = nil
     }
 
     override func viewDidLoad() {
@@ -160,7 +160,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
 
     override func viewDidDisappear(animated: Bool) {
         station = nil
-        self.navigationController?.interactivePopGestureRecognizer.delegate = gestureRecognizer
+        self.navigationController?.interactivePopGestureRecognizer!.delegate = gestureRecognizer
         NSNotificationCenter.defaultCenter().removeObserver(self)
         dispatch_sync(updateOnceQueue) {
             [unowned self] in
@@ -241,7 +241,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
 
     func drawStationAndWay() {
         self.destinationPlacemark = MKPlacemark(coordinate: (station?.coord?.coordinate)!, addressDictionary: nil)
-        self.mapView.addAnnotation(destinationPlacemark)
+        self.mapView.addAnnotation(destinationPlacemark!)
         self.mapView.showsUserLocation = true
 
         let currentLocation = TFCLocationManager.getCurrentLocation()
@@ -253,25 +253,26 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         var sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
 
         var sourceMapItem = MKMapItem(placemark: sourcePlacemark)
-        var destinationMapItem = MKMapItem(placemark: destinationPlacemark)
+        var destinationMapItem = MKMapItem(placemark: destinationPlacemark!)
         var directionRequest:MKDirectionsRequest = MKDirectionsRequest()
 
-        directionRequest.setSource = sourceMapItem
-        directionRequest.setDestination = destinationMapItem
+        directionRequest.source = sourceMapItem
+        directionRequest.destination = destinationMapItem
         directionRequest.transportType = MKDirectionsTransportType.Walking
         directionRequest.requestsAlternateRoutes = false
 
         var directions:MKDirections = MKDirections(request: directionRequest)
+
         directions.calculateDirectionsWithCompletionHandler({
-            (response: MKDirectionsResponse!, error: NSError?) in
+            (response: MKDirectionsResponse?, error: NSError?) in
             if error != nil{
                 NSLog("Error")
             }
             if response != nil{
 //                for r in response.routes { NSLog("route = \(r)") }
-                var route: MKRoute = response.routes[0] as! MKRoute;
+                var route: MKRoute = response!.routes[0] as! MKRoute;
                 self.mapDirectionOverlay = route.polyline
-                self.mapView.addOverlay(self.mapDirectionOverlay)
+                self.mapView.addOverlay(self.mapDirectionOverlay!)
             }
             else{
                 NSLog("No response")
@@ -290,7 +291,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         return nil
     }
 
-    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView! {
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
 
         if (annotation.isKindOfClass(MKUserLocation)) {
             return nil
@@ -303,11 +304,11 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
             annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
         }
 
-        annotationView.image = getIconViewAsImage(self.stationIconView)
-        annotationView.opaque = false
-        annotationView.alpha = 1.0
-        annotationView.frame.size.height = 30
-        annotationView.frame.size.width = 30
+        annotationView!.image = getIconViewAsImage(self.stationIconView)
+        annotationView!.opaque = false
+        annotationView!.alpha = 1.0
+        annotationView!.frame.size.height = 30
+        annotationView!.frame.size.width = 30
 
         return annotationView;
 
@@ -369,8 +370,8 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
                 return
             }, completion: { (finished:Bool) in
                 if (self.destinationPlacemark != nil) {
-                    self.mapView.removeAnnotation(self.destinationPlacemark)
-                    self.mapView.removeOverlay(self.mapDirectionOverlay)
+                    self.mapView.removeAnnotation(self.destinationPlacemark!)
+                    self.mapView.removeOverlay(self.mapDirectionOverlay!)
                     self.mapView.showsUserLocation = false
                     self.destinationPlacemark = nil
                 }
@@ -506,7 +507,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell:MGSwipeTableCell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as! MGSwipeTableCell
+        let cell:MGSwipeTableCell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as! MGSwipeTableCell
 
         cell.delegate = self
         cell.tag = indexPath.row

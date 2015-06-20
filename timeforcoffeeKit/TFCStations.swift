@@ -141,7 +141,7 @@ public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelega
         favorite.s.repopulateFavorites()
 
         for (st_id, station) in favorite.s.stations {
-            let distance = location.distanceFromLocation(station.coord)
+            let distance = location.distanceFromLocation(station.coord!)
             if (distance < favDistance) {
                 hasNearbyFavs = true
                 if (inStationsArrayAsFavorite[station.st_id] != true) {
@@ -175,7 +175,7 @@ public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelega
         TFCFavorites.sharedInstance.repopulateFavorites()
         for (st_id, station) in favorite.s.stations {
             if (location != nil) {
-                let distance = Int(location?.distanceFromLocation(station.coord) as Double!)
+                let distance = Int(location?.distanceFromLocation(station.coord!) as Double!)
                 station.calculatedDistance = distance
             }
             self._stations?.append(station)

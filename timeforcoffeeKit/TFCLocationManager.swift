@@ -52,7 +52,6 @@ public final class TFCLocationManager: NSObject, CLLocationManagerDelegate {
     
     public func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         dispatch_async(dispatch_get_main_queue(), {
-            if ((error) != nil) {
                 NSLog("LocationManager Error \(error) with code \(error.code)")
                 #if !((arch(i386) || arch(x86_64)) && os(iOS))
                     if (error.code == CLError.LocationUnknown.rawValue) {
@@ -80,7 +79,6 @@ public final class TFCLocationManager: NSObject, CLLocationManagerDelegate {
                     #endif
 
                 }
-            }
         })
     }
     

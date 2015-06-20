@@ -45,7 +45,7 @@ final class AboutPagedViewController: UIViewController, SwipeViewDataSource, Swi
                 htmlString = nil
             }
 
-            webview.loadHTMLString(htmlString, baseURL: nil)
+            webview.loadHTMLString(htmlString!, baseURL: nil)
 
             let chatbutton = aboutview?.viewWithTag(20) as! UIButton
             chatbutton.addTarget(self, action: "startChat", forControlEvents: UIControlEvents.TouchUpInside

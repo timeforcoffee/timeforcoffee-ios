@@ -55,7 +55,7 @@ final public class TFCFavorites: NSObject {
         let cache = TFCCache.objects.stations
         if (st != nil) {
             // get if from the cache, if it's already there.
-            for (st_id, station) in st! {
+            for (st_id, _) in st! {
                 let newStation: TFCStation? = cache.objectForKey(st_id) as? TFCStation
                 if (newStation != nil && newStation?.coord != nil) {
                     st![st_id] = newStation
@@ -112,11 +112,11 @@ final public class TFCFavorites: NSObject {
 
 
     private func saveFavorites() {
-        for (id, station) in stations {
+        for (_, station) in stations {
             station.serializeDepartures = false
         }
         let archivedFavorites = NSKeyedArchiver.archivedDataWithRootObject(stations)
-        for (id, station) in stations {
+        for (_, station) in stations {
             station.serializeDepartures = true
         }
         objects.dataStore?.setObject(archivedFavorites , forKey: "favorites2")
@@ -136,7 +136,7 @@ extension Array {
     }
 
     func getObject(includedElement: T -> Bool) -> T? {
-        for (idx, element) in self.enumerate() {
+        for (_, element) in self.enumerate() {
             if includedElement(element) {
                 return element
             }

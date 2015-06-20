@@ -145,7 +145,7 @@ public final class TFCDeparture: NSObject, NSCoding {
     public func getTimeString() -> String {
         var timestring = "";
         let minutes = getMinutes()
-        let (departureTimeAttr, departureTimeString) = getDepartureTime(true)
+        let (_, departureTimeString) = getDepartureTime(true)
 
         if (minutes != nil) {
             timestring = "In \(minutes!) / \(departureTimeString!)"

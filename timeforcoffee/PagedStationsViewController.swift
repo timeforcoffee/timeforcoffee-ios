@@ -80,7 +80,7 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
 
     private func refreshLocation() {
         if (self.searchController == nil) {
-            let currentView: StationsViewController  = self.viewControllers[0] as! StationsViewController
+            let currentView: StationsViewController  = self.viewControllers!.first as! StationsViewController
             currentView.appsTableView?.refreshLocation()
         }
     }
@@ -172,7 +172,7 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
                     setPageControlDot()
                 }
             }
-            let currentView: StationsViewController  = pageViewController.viewControllers[0] as! StationsViewController
+            let currentView: StationsViewController  = pageViewController.viewControllers!.first as! StationsViewController
         }
     }
 
@@ -197,7 +197,7 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
     }
 
     private func getCurrentView() -> StationsViewController {
-        return self.viewControllers[0] as! StationsViewController
+        return self.viewControllers?.first as! StationsViewController
     }
 
     private func setSearchButton() {

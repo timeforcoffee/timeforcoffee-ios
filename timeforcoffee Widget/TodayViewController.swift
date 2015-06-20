@@ -248,7 +248,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                 // and the distance is not much more (200m), just show it again
                 if (self.dataIsFromInitCache && showStations == false) {
                     if (lastUsedViewUpdatedInterval() > -(60 * 30)) {
-                        let distance2lastViewedStationNow: CLLocationDistance? = locManager?.currentLocation?.distanceFromLocation(lastViewedStation?.coord)
+                        let distance2lastViewedStationNow: CLLocationDistance? = locManager?.currentLocation?.distanceFromLocation((lastViewedStation?.coord)!)
                         let distance2lastViewedStationLasttime: CLLocationDistance? = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedStationDistance") as! CLLocationDistance?
                         if (distance2lastViewedStationNow != nil && distance2lastViewedStationLasttime != nil && distance2lastViewedStationNow! < distance2lastViewedStationLasttime! + 200) {
                             dataIsFromInitCache = false
@@ -330,7 +330,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                 // FIXME, use NSCoding serialisation ..
                 // and maybe one object for all these values
                 userDefaults?.setObject(self.currentStation?.getAsDict(), forKey: "lastUsedStation")
-                userDefaults?.setObject(self.locManager?.currentLocation?.distanceFromLocation(self.currentStation?.coord), forKey: "lastUsedStationDistance")
+                userDefaults?.setObject(self.locManager?.currentLocation?.distanceFromLocation((self.currentStation?.coord)!), forKey: "lastUsedStationDistance")
             } else {
                 userDefaults?.removeObjectForKey("lastUsedView")
                 userDefaults?.removeObjectForKey("lastUsedStation")
@@ -385,7 +385,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         if (showStations) {
             cell = tableView.dequeueReusableCellWithIdentifier("NearbyStationsCell") as! NearbyStationsTableViewCell
         } else {
-            cell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as! UITableViewCell
+            cell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as UITableViewCell!
         }
         cell.layoutMargins = UIEdgeInsetsZero
         cell.preservesSuperviewLayoutMargins = false

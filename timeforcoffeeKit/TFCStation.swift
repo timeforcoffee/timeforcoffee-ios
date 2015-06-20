@@ -356,7 +356,7 @@ public final class TFCStation: NSObject, NSCoding, APIControllerProtocol {
         }
         var i = 0;
         var someRemoved = false
-        for (departure: TFCDeparture) in self.departures! {
+        for departure: TFCDeparture in self.departures! {
             if (departure.getMinutesAsInt() < 0) {
                 someRemoved = true
                 departures?.removeAtIndex(i)
@@ -401,12 +401,12 @@ public final class TFCStation: NSObject, NSCoding, APIControllerProtocol {
     }
 
     public func getDistanceInMeter(location: CLLocation?) -> Int? {
-        return Int(location?.distanceFromLocation(coord) as Double!)
+        return Int(location?.distanceFromLocation(coord!) as Double!)
     }
 
     private func getLastValidWalkingDistanceValid(location: CLLocation?) -> String? {
         if (walkingDistanceLastCoord != nil && walkingDistanceString != nil) {
-            let distanceToLast = location?.distanceFromLocation(walkingDistanceLastCoord)
+            let distanceToLast = location?.distanceFromLocation(walkingDistanceLastCoord!)
             if (distanceToLast < 50) {
                 return walkingDistanceString
             }
@@ -434,19 +434,21 @@ public final class TFCStation: NSObject, NSCoding, APIControllerProtocol {
         let destination:MKMapItem = MKMapItem(placemark: destinationPlacemark)
         let directionRequest:MKDirectionsRequest = MKDirectionsRequest()
 
-        directionRequest.setSource = source
-        directionRequest.setDestination = destination
+        directionRequest.source = source
+        directionRequest.destination = destination
         directionRequest.transportType = MKDirectionsTransportType.Walking
         directionRequest.requestsAlternateRoutes = true
 
         let directions:MKDirections = MKDirections(request: directionRequest)
+
+
         directions.calculateDirectionsWithCompletionHandler({
-            (response: MKDirectionsResponse!, error: NSError?) in
+            (response: MKDirectionsResponse?, error: NSError?) in
             if error != nil{
                 NSLog("Error")
             }
             if response != nil {
-                let route: MKRoute = response.routes[0] as! MKRoute;
+                let route: MKRoute = response!.routes[0] as MKRoute;
                 let time =  Int(round(route.expectedTravelTime / 60))
                 let meters = Int(route.distance);
                 self.walkingDistanceString = "\(meters) m, \(time) min "
@@ -478,7 +480,7 @@ public final class TFCStation: NSObject, NSCoding, APIControllerProtocol {
         let snapshotter = MKMapSnapshotter(options: options)
         snapshotter.startWithCompletionHandler({
             snapshot, error in
-            let image = snapshot.image
+            let image = snapshot!.image
             completion(image)
         })
     }

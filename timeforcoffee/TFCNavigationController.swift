@@ -12,7 +12,7 @@ import Foundation
 class TFCNavigationController: UINavigationController {
 
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return Int(UIInterfaceOrientationMask.All.rawValue)
+        return UIInterfaceOrientationMask.All
     }
 
     override func viewDidLoad() {
