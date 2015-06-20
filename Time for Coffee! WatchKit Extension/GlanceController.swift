@@ -30,7 +30,7 @@ class GlanceController: WKInterfaceController {
         super.awakeWithContext(context)
         
         // Configure interface objects here.
-        println("are we here??")
+        print("are we here??")
     }
     
     override func willActivate() {

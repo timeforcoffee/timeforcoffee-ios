@@ -19,7 +19,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     
     override init () {
         super.init()
-        println("init page")
+        print("init page")
         
     }
     override func awakeWithContext(context: AnyObject?) {

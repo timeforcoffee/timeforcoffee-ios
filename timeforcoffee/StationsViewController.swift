@@ -55,7 +55,7 @@ class StationsViewController: TFCBaseViewController, TFCLocationManagerDelegate 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         var detailsViewController: DeparturesViewController = segue.destinationViewController as! DeparturesViewController
 
-        var index = appsTableView?.indexPathForSelectedRow()?.row
+        var index = appsTableView?.indexPathForSelectedRow?.row
         if (index != nil) {
             var station = appsTableView?.stations.getStation(index!)
             detailsViewController.setStation(station: station!);

@@ -37,7 +37,7 @@ class DepartureLineLabel: UILabel, UITableViewDelegate {
         self.text = departure.getLine()
         self.layer.borderWidth = 0
         
-        if (contains(linesWithSymbol, departure.getLine()) == true) {
+        if (linesWithSymbol.contains(departure.getLine().characters) == true) {
             self.font = UIFont(name: "trainsymbol", size: 20)
             self.textColor = UIColor.whiteColor()
             self.backgroundColor = UIColor.redColor()

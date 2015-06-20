@@ -56,7 +56,7 @@ public final class TFCStation: NSObject, NSCoding, APIControllerProtocol {
         self.coord = coord
     }
 
-    public required init(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         self.name = aDecoder.decodeObjectForKey("name") as! String
         self.st_id = aDecoder.decodeObjectForKey("st_id") as! String
         self.coord = aDecoder.decodeObjectForKey("coord") as! CLLocation?
@@ -298,7 +298,7 @@ public final class TFCStation: NSObject, NSCoding, APIControllerProtocol {
                     dontUpdate = true
                 }
             }
-            var settingsLastUpdated: NSDate? = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("settingsLastUpdate") as! NSDate?
+            let settingsLastUpdated: NSDate? = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("settingsLastUpdate") as! NSDate?
             if (force ||
                     (!dontUpdate &&
                         (self.lastDepartureUpdate == nil ||
@@ -434,8 +434,8 @@ public final class TFCStation: NSObject, NSCoding, APIControllerProtocol {
         let destination:MKMapItem = MKMapItem(placemark: destinationPlacemark)
         let directionRequest:MKDirectionsRequest = MKDirectionsRequest()
 
-        directionRequest.setSource(source)
-        directionRequest.setDestination(destination)
+        directionRequest.setSource = source
+        directionRequest.setDestination = destination
         directionRequest.transportType = MKDirectionsTransportType.Walking
         directionRequest.requestsAlternateRoutes = true
 
@@ -457,7 +457,7 @@ public final class TFCStation: NSObject, NSCoding, APIControllerProtocol {
                 self.walkingDistanceString = nil
                 NSLog("No response")
                 completion(nil)
-                println(error?.description)
+                print(error?.description)
             }
 
         })

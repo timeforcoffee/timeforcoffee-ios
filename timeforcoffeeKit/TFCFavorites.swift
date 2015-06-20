@@ -83,7 +83,7 @@ final public class TFCFavorites: NSObject {
         self.saveFavorites()
     }
 
-    func unset(#station: TFCStation?) {
+    func unset(station station: TFCStation?) {
         unset(station?.st_id)
     }
 
@@ -127,7 +127,7 @@ final public class TFCFavorites: NSObject {
 extension Array {
     //  stations.find{($0 as TFCStation).st_id == st_id}
     func indexOf(includedElement: T -> Bool) -> Int? {
-        for (idx, element) in enumerate(self) {
+        for (idx, element) in self.enumerate() {
             if includedElement(element) {
                 return idx
             }
@@ -136,7 +136,7 @@ extension Array {
     }
 
     func getObject(includedElement: T -> Bool) -> T? {
-        for (idx, element) in enumerate(self) {
+        for (idx, element) in self.enumerate() {
             if includedElement(element) {
                 return element
             }

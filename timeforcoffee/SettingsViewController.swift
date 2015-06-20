@@ -44,7 +44,7 @@ class SettingsViewController: UIViewController {
     }
 
     @IBAction func sliderChangedValue(sender: AnyObject) {
-        var sliderValue = lroundf(numberCellsTodaySlider.value)
+        let sliderValue = lroundf(numberCellsTodaySlider.value)
         numberCellsTodayValue.text = String(sliderValue)
     }
 
@@ -59,7 +59,7 @@ class SettingsViewController: UIViewController {
     }
 
     private func getRadiusSliderValueInMeters() -> Float {
-        var sliderValue = pow(10,favoritesRadiusSlider.value)
+        let sliderValue = pow(10,favoritesRadiusSlider.value)
         return Float(roundf(sliderValue / 100)) * 100
     }
 

@@ -87,7 +87,7 @@ final class StationsSearchViewController: StationsViewController, UISearchBarDel
         if (self.searchController != nil) {
             self.searchController?.searchBar.resignFirstResponder()
         }
-        var index = appsTableView2?.indexPathForSelectedRow()?.row
+        var index = appsTableView2?.indexPathForSelectedRow?.row
         if (index != nil) {
             var station = appsTableView2?.stations.getStation(index!)
             detailsViewController.setStation(station: station!);

@@ -50,7 +50,7 @@ public final class TFCLocationManager: NSObject, CLLocationManagerDelegate {
         return lm
     }
     
-    public func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
+    public func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         dispatch_async(dispatch_get_main_queue(), {
             if ((error) != nil) {
                 NSLog("LocationManager Error \(error) with code \(error.code)")
@@ -84,7 +84,7 @@ public final class TFCLocationManager: NSObject, CLLocationManagerDelegate {
         })
     }
     
-    public func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+    public func locationManager(manager: CLLocationManager, didUpdateLocations locations: [AnyObject]) {
         dispatch_async(dispatch_get_main_queue(), {
             if (self.currentLocation == nil || self.locationFixAchieved == false) {
                 self.locationFixAchieved = true
@@ -100,7 +100,7 @@ public final class TFCLocationManager: NSObject, CLLocationManagerDelegate {
     }
     
     // authorization status
-    public func locationManager(manager: CLLocationManager!,
+    public func locationManager(manager: CLLocationManager,
         didChangeAuthorizationStatus status: CLAuthorizationStatus) {
             var shouldIAllow = false
             switch status {

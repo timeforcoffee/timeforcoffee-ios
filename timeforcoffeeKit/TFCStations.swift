@@ -81,9 +81,9 @@ public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelega
             var stationsAdded:[String: Bool] = [:]
             if let results = allResults?["stations"].array {
                 for result in results {
-                    var id = String(result["id"].string!)
+                    let id = String(result["id"].string!)
                     if (inStationsArrayAsFavorite[id] == nil && stationsAdded[id] == nil) {
-                        var name = result["name"].string
+                        let name = result["name"].string
                         // the DB has all the uppercased short Strings as well, we don't want to display them
                         // just don't add them
                         if (name == name?.uppercaseString) {
@@ -102,7 +102,7 @@ public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelega
                         if (longitude != nil && latitude != nil) {
                             Clocation = CLLocation(latitude: latitude!, longitude: longitude!)
                         }
-                        var newStation = TFCStation.initWithCache(name!, id: id, coord: Clocation)
+                        let newStation = TFCStation.initWithCache(name!, id: id, coord: Clocation)
                         stationsAdded[id] = true
                         newStations.append(newStation)
                     }
@@ -159,7 +159,7 @@ public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelega
         }
 
         if (hasNearbyFavs) {
-            self.nearbyFavorites!.sort({ $0.calculatedDistance < $1.calculatedDistance })
+            self.nearbyFavorites!.sortInPlace({ $0.calculatedDistance < $1.calculatedDistance })
             return true
         }
         self.nearbyFavorites = nil
@@ -181,11 +181,11 @@ public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelega
             self._stations?.append(station)
         }
         if (location != nil) {
-            self._stations!.sort({ $0.calculatedDistance < $1.calculatedDistance })
+            self._stations!.sortInPlace({ $0.calculatedDistance < $1.calculatedDistance })
         }
     }
 
-    public func updateStations(#searchFor: String) -> Bool {
+    public func updateStations(searchFor searchFor: String) -> Bool {
         isLoading = true
         self.api.searchFor(searchFor)
         return true

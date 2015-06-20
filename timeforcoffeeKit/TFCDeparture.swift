@@ -33,7 +33,7 @@ public final class TFCDeparture: NSObject, NSCoding {
         
     }
 
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         self.name = aDecoder.decodeObjectForKey("name") as! String
         self.type = aDecoder.decodeObjectForKey("type") as! String
         self.accessible = aDecoder.decodeBoolForKey("accessible")

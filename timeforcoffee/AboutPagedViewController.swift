@@ -32,13 +32,18 @@ final class AboutPagedViewController: UIViewController, SwipeViewDataSource, Swi
             
 
             let aboutview = self.storyboard?.instantiateViewControllerWithIdentifier("AboutViewController").view as UIView?
-            aboutview?.autoresizingMask = UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleWidth
+            aboutview?.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
            // aboutview?.frame = self.swipeView.bounds
             let webview = aboutview?.viewWithTag(10) as! UIWebView
             webview.scrollView.scrollEnabled = false;
             webview.delegate = self
             let htmlfile = NSBundle.mainBundle().pathForResource("About", ofType: "html")
-            let htmlString = String(contentsOfFile: htmlfile!, encoding: NSUTF8StringEncoding, error: nil)
+            let htmlString: String?
+            do {
+                htmlString = try String(contentsOfFile: htmlfile!, encoding: NSUTF8StringEncoding)
+            } catch _ {
+                htmlString = nil
+            }
 
             webview.loadHTMLString(htmlString, baseURL: nil)
 
@@ -60,10 +65,10 @@ final class AboutPagedViewController: UIViewController, SwipeViewDataSource, Swi
 
 
         let view = UIView()
-        view.autoresizingMask = UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleWidth
+        view.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
 
         label = UILabel(frame: view.bounds)
-        label.autoresizingMask = UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleWidth
+        label.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
         label.backgroundColor = UIColor.clearColor()
         label.textAlignment = NSTextAlignment.Center;
         label.tag = 1;
@@ -83,7 +88,7 @@ final class AboutPagedViewController: UIViewController, SwipeViewDataSource, Swi
 
     func openSettings() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc: UIViewController! = storyboard.instantiateViewControllerWithIdentifier("SettingsViewController") as! UIViewController
+        let vc: UIViewController! = storyboard.instantiateViewControllerWithIdentifier("SettingsViewController") as UIViewController
         self.presentViewController(vc, animated: true, completion: nil)
     }
 

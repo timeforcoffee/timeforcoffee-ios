@@ -256,8 +256,8 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         var destinationMapItem = MKMapItem(placemark: destinationPlacemark)
         var directionRequest:MKDirectionsRequest = MKDirectionsRequest()
 
-        directionRequest.setSource(sourceMapItem)
-        directionRequest.setDestination(destinationMapItem)
+        directionRequest.setSource = sourceMapItem
+        directionRequest.setDestination = destinationMapItem
         directionRequest.transportType = MKDirectionsTransportType.Walking
         directionRequest.requestsAlternateRoutes = false
 
@@ -276,13 +276,13 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
             else{
                 NSLog("No response")
             }
-            println(error?.description)
+            print(error?.description)
         })
     }
 
-    func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
+    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer! {
         if overlay is MKPolyline {
-            var polylineRenderer = MKPolylineRenderer(overlay: overlay)
+            let polylineRenderer = MKPolylineRenderer(overlay: overlay)
             polylineRenderer.strokeColor = UIColor.blueColor()
             polylineRenderer.lineWidth = 1
             return polylineRenderer
@@ -290,7 +290,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         return nil
     }
 
-    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView! {
 
         if (annotation.isKindOfClass(MKUserLocation)) {
             return nil
@@ -415,7 +415,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         self.stationIconView.alpha = 1 - (offset / 80)
     }
     
-    func mapViewDidFinishRenderingMap(mapView: MKMapView!, fullyRendered: Bool) {
+    func mapViewDidFinishRenderingMap(mapView: MKMapView, fullyRendered: Bool) {
         if(self.mapView.alpha <= 0.6) {
             UIView.animateWithDuration(0.8,
                 delay: 0.0,
@@ -473,7 +473,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         }
     }
 
-    internal func setStation(#station: TFCStation) {
+    internal func setStation(station station: TFCStation) {
         self.station = station
     }
 

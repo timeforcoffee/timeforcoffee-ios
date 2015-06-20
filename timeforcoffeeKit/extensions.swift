@@ -69,20 +69,24 @@ struct Regex {
     
     init(pattern: String) {
         self.pattern = pattern
-        expressionOptions = NSRegularExpressionOptions(0)
-        matchingOptions = NSMatchingOptions(0)
+        expressionOptions = NSRegularExpressionOptions(rawValue: 0)
+        matchingOptions = NSMatchingOptions(rawValue: 0)
         updateRegex()
     }
     
     mutating func updateRegex() {
-        regex = NSRegularExpression(pattern: pattern, options: expressionOptions, error: nil)
+        do {
+            regex = try NSRegularExpression(pattern: pattern, options: expressionOptions)
+        } catch _ {
+            regex = nil
+        }
     }
 }
 
 
 extension String {
     func matchRegex(pattern: Regex) -> Bool {
-        let range: NSRange = NSMakeRange(0, count(self))
+        let range: NSRange = NSMakeRange(0, self.characters.count)
         if pattern.regex != nil {
             let matches: [AnyObject] = pattern.regex!.matchesInString(self, options: pattern.matchingOptions, range: range)
             return matches.count > 0
@@ -96,7 +100,7 @@ extension String {
     
     func replaceRegex(pattern: Regex, template: String) -> String {
         if self.matchRegex(pattern) {
-            let range: NSRange = NSMakeRange(0, count(self))
+            let range: NSRange = NSMakeRange(0, self.characters.count)
             if pattern.regex != nil {
                 return pattern.regex!.stringByReplacingMatchesInString(self, options: pattern.matchingOptions, range: range, withTemplate: template)
             }

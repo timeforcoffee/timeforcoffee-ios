@@ -16,7 +16,7 @@ class InterfaceController: WKInterfaceController {
     @IBOutlet weak var infoGroup: WKInterfaceGroup!
     override init () {
         super.init()
-        println("init InterfaceController")
+        print("init InterfaceController")
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
             TFCDataStore.sharedInstance.registerForNotifications()
             TFCDataStore.sharedInstance.synchronize()
