@@ -97,12 +97,19 @@ final class APIController {
                     if (fetchId == 1) {
                         self.currentFetch[fetchId] = nil
                     }
-                    let jsonResult = JSON(data: data!)
+
+                    let jsonResult:JSON
+                    if (data == nil) {
+                        jsonResult = JSON(NSNull())
+                    } else {
+                        jsonResult = JSON(data: data!)
                     //jsonResult.boolValue is false, when data was not parseable. Don't cache it in that case
                     if (jsonResult.boolValue == true && error == nil && cacheKey != nil) {
                         self.cache.setObject(data!, forKey: cacheKey!)
                     }
+                    }
                     self.delegate?.didReceiveAPIResults(jsonResult, error: error, context: context)
+
                 })
                 dataFetch?.resume()
                 NSLog("dataTask resumed")
