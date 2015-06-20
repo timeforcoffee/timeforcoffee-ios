@@ -124,7 +124,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         topViewProperties(0.0)
         self.mapView?.userInteractionEnabled = false;
         self.mapView?.rotateEnabled = false
-        var region = MKCoordinateRegionMakeWithDistance((station?.coord?.coordinate)! ,450,450);
+        let region = MKCoordinateRegionMakeWithDistance((station?.coord?.coordinate)! ,450,450);
         self.mapView.setRegion(region, animated: false)
         // put it to true when within a few hundred meters
         self.mapView.showsUserLocation = false
@@ -250,18 +250,18 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         if (currentCoordinate == nil || station?.getDistanceInMeter(currentLocation) >= 5000) {
             return
         }
-        var sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
+        let sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
 
-        var sourceMapItem = MKMapItem(placemark: sourcePlacemark)
-        var destinationMapItem = MKMapItem(placemark: destinationPlacemark!)
-        var directionRequest:MKDirectionsRequest = MKDirectionsRequest()
+        let sourceMapItem = MKMapItem(placemark: sourcePlacemark)
+        let destinationMapItem = MKMapItem(placemark: destinationPlacemark!)
+        let directionRequest:MKDirectionsRequest = MKDirectionsRequest()
 
         directionRequest.source = sourceMapItem
         directionRequest.destination = destinationMapItem
         directionRequest.transportType = MKDirectionsTransportType.Walking
         directionRequest.requestsAlternateRoutes = false
 
-        var directions:MKDirections = MKDirections(request: directionRequest)
+        let directions:MKDirections = MKDirections(request: directionRequest)
 
         directions.calculateDirectionsWithCompletionHandler({
             (response: MKDirectionsResponse?, error: NSError?) in
@@ -270,7 +270,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
             }
             if response != nil{
 //                for r in response.routes { NSLog("route = \(r)") }
-                var route: MKRoute = response!.routes[0] as! MKRoute;
+                let route: MKRoute = response!.routes[0] as MKRoute;
                 self.mapDirectionOverlay = route.polyline
                 self.mapView.addOverlay(self.mapDirectionOverlay!)
             }
@@ -281,14 +281,14 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         })
     }
 
-    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer! {
+    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
         if overlay is MKPolyline {
             let polylineRenderer = MKPolylineRenderer(overlay: overlay)
             polylineRenderer.strokeColor = UIColor.blueColor()
             polylineRenderer.lineWidth = 1
             return polylineRenderer
         }
-        return nil
+        return MKPolylineRenderer()
     }
 
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
@@ -602,11 +602,11 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         SKTUser.currentUser().addProperties(["usedFilters": true])
         if (station2.isFiltered(departure)) {
             station2.unsetFilter(departure);
-            var button = cell.rightButtons[0] as! MGSwipeButton
+            let button = cell.rightButtons[0] as! MGSwipeButton
             button.backgroundColor = UIColor.greenColor();
         } else {
             station2.setFilter(departure);
-            var button = cell.rightButtons[0] as! MGSwipeButton
+            let button = cell.rightButtons[0] as! MGSwipeButton
             button.backgroundColor = UIColor.redColor();
         }
         self.appsTableView?.reloadData()
@@ -656,7 +656,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
             let timeInterval = 60.0
             let nextMinute = floor(now / timeInterval) * timeInterval + (timeInterval + Double(arc4random_uniform(10))) //time interval for next minute, plus random 0 - 10 seconds, to avoid server overload
             let delay = max(25.0, nextMinute - now) //don't set the delay to less than 25 seconds
-            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC)))
+          //  let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC)))
             dispatch_sync(dispatch_get_main_queue(), {
                 self.updateInAMinuteTimer = NSTimer.scheduledTimerWithTimeInterval(delay, target: self,  selector: "displayDepartures", userInfo: nil, repeats: false)
             })

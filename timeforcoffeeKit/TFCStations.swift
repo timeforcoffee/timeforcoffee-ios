@@ -173,7 +173,7 @@ public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelega
     public func loadFavorites(location: CLLocation?) {
         self._stations = []
         TFCFavorites.sharedInstance.repopulateFavorites()
-        for (st_id, station) in favorite.s.stations {
+        for (_, station) in favorite.s.stations {
             if (location != nil) {
                 let distance = Int(location?.distanceFromLocation(station.coord!) as Double!)
                 station.calculatedDistance = distance

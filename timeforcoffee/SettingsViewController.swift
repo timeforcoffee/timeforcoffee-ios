@@ -37,7 +37,7 @@ class SettingsViewController: UIViewController {
 
     @IBAction func sliderChanged(sender: AnyObject) {
 
-        var sliderValue = lroundf(numberCellsTodaySlider.value)
+        let sliderValue = lroundf(numberCellsTodaySlider.value)
         numberCellsTodayValue.text = String(sliderValue)
         numberCellsTodaySlider.setValue(Float(sliderValue), animated: true)
         TFCDataStore.sharedInstance.getUserDefaults()?.setInteger(sliderValue, forKey: "numberOfCellsToday")

@@ -39,7 +39,7 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
 
         self.setViewControllers([nearbyStationsView], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
 
-        var aboutButton = UIBarButtonItem(title: "☕︎", style: UIBarButtonItemStyle.Plain, target: self, action: "aboutClicked:")
+        let aboutButton = UIBarButtonItem(title: "☕︎", style: UIBarButtonItemStyle.Plain, target: self, action: "aboutClicked:")
         aboutButton.image = UIImage(named: "icon-coffee")
         aboutButton.tintColor = UIColor(netHexString: "555555")
         let font = UIFont.systemFontOfSize(30)
@@ -172,7 +172,7 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
                     setPageControlDot()
                 }
             }
-            let currentView: StationsViewController  = pageViewController.viewControllers!.first as! StationsViewController
+  //          let currentView: StationsViewController  = pageViewController.viewControllers!.first as! StationsViewController
         }
     }
 
@@ -201,7 +201,7 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
     }
 
     private func setSearchButton() {
-        var searchButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: "searchClicked:")
+        let searchButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: "searchClicked:")
 
         searchButton.image = UIImage(named: "icon-search")
         searchButton.tintColor = UIColor(netHexString: "555555")

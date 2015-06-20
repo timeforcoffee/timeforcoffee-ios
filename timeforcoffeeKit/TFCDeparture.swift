@@ -175,9 +175,9 @@ public final class TFCDeparture: NSObject, NSCoding {
          let fda = fontDescriptor.fontDescriptorWithSymbolicTraits(bi).fontAttributes()
         let fontName = fda["NSFontNameAttribute"] as String
         */
-        let attributesBoldItalic = [
+      /*  let attributesBoldItalic = [
             NSFontAttributeName: UIFont(name: "HelveticaNeue-Bold", size: 13.0)!
-        ]
+        ]*/
 
         var timestringAttr: NSMutableAttributedString?
         var timestring: String?

@@ -49,7 +49,7 @@ class InterfaceController: WKInterfaceController {
             var i = 0;
             for (station) in ctxStations! {
                 pages.append("StationPage")
-                var pc = TFCPageContext()
+                let pc = TFCPageContext()
                 pc.station = station
                 pc.pageNumber = i
                 pageContexts.append(pc)

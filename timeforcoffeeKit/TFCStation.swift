@@ -200,7 +200,7 @@ public final class TFCStation: NSObject, NSCoding, APIControllerProtocol {
     }
     
     public func setFilter(departure: TFCDeparture) {
-        var filteredLine = filteredLines[departure.getLine()]
+        //var filteredLine = filteredLines[departure.getLine()]
         if (filteredLines[departure.getLine()] == nil) {
             filteredLines[departure.getLine()] = [:]
         }
@@ -422,7 +422,7 @@ public final class TFCStation: NSObject, NSCoding, APIControllerProtocol {
         }
 
         let currentCoordinate = location?.coordinate
-        var sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
+        let sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
 
         if (self.coord == nil) {
             completion(nil)

@@ -300,12 +300,12 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
     func handleTap(recognizer: UITapGestureRecognizer) {
         if (showStations) {
-            var urlstring = "timeforcoffee://nearby"
+            let urlstring = "timeforcoffee://nearby"
             let url: NSURL = NSURL(string: urlstring)!
             self.extensionContext?.openURL(url, completionHandler: nil);
         } else if (currentStation != nil && currentStation?.st_id != "0000") {
             let station = currentStation!
-            var name = station.name.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
+            let name = station.name.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
             let long = station.getLongitude()
             let lat = station.getLatitude()
             var urlstring = "timeforcoffee://station?id=\(station.st_id)&name=\(name)"
