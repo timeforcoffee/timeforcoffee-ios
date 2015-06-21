@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="8121.17" systemVersion="14E36b" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8101.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="8066.14"/>
     </dependencies>
     <scenes>
         <!--Time for Coffee!-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller title="Time for Coffee!" id="AgC-eL-Hgc" userLabel="Time for Coffee!" customClass="InterfaceController" customModule="Time_for_Coffee__WatchKit_App" customModuleProvider="target">
+                <controller title="Time for Coffee!" id="AgC-eL-Hgc" userLabel="Time for Coffee!" customClass="InterfaceController" customModule="Time_for_Coffee__WatchKit_App2" customModuleProvider="target">
                     <items>
                         <group width="1" alignment="left" hidden="YES" id="V60-Ai-Gni" userLabel="info Group">
                             <items>
@@ -151,7 +151,7 @@
         <!--Glance Interface Controller-->
         <scene sceneID="rjY-Ar-IMT">
             <objects>
-                <glanceController spacing="0.0" id="Sv0-Ai-Zie" customClass="GlanceController" customModule="Time_for_Coffee__WatchKit_App" customModuleProvider="target">
+                <glanceController spacing="0.0" id="Sv0-Ai-Zie" customClass="GlanceController" customModule="Time_for_Coffee__WatchKit_App2" customModuleProvider="target">
                     <items>
                         <group alignment="left" id="gv7-I2-MZq">
                             <items>
@@ -202,7 +202,6 @@
                                                         </items>
                                                     </group>
                                                 </items>
-                                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                                             </group>
                                             <connections>
