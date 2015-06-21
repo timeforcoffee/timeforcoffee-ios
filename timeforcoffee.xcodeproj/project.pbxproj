@@ -452,17 +452,17 @@
 			name = gpx;
 			sourceTree = "<group>";
 		};
-		EC445D711B36048D000DAC44 /* Time for Coffee! WatchKit App2 */ = {
+		EC445D711B36048D000DAC44 /* Time for Coffee! WatchKit App */ = {
 			isa = PBXGroup;
 			children = (
 				EC445D721B36048D000DAC44 /* Interface.storyboard */,
 				EC445D751B36048D000DAC44 /* Assets.xcassets */,
 				EC445D771B36048D000DAC44 /* Info.plist */,
 			);
-			path = "Time for Coffee! WatchKit App2";
+			path = "Time for Coffee! WatchKit App";
 			sourceTree = "<group>";
 		};
-		EC445D801B36048D000DAC44 /* Time for Coffee! WatchKit App2 Extension */ = {
+		EC445D801B36048D000DAC44 /* Time for Coffee! WatchKit Extension */ = {
 			isa = PBXGroup;
 			children = (
 				EC84D1AA1B36E07100369432 /* Time for Coffee! WatchKit App2 Extension.entitlements */,
@@ -478,7 +478,7 @@
 				EC445D8B1B36048D000DAC44 /* Info.plist */,
 				EC84D1A41B36DFE200369432 /* MapViewController.swift */,
 			);
-			path = "Time for Coffee! WatchKit App2 Extension";
+			path = "Time for Coffee! WatchKit Extension";
 			sourceTree = "<group>";
 		};
 		EC445D9D1B3604A7000DAC44 /* timeforcoffeeWatchKit */ = {
@@ -604,8 +604,8 @@
 				EC6EDD2E1A9BA36F0098CAE0 /* timeforcoffeeKit */,
 				EC6EDD3D1A9BA36F0098CAE0 /* timeforcoffeeKitTests */,
 				EC2C312A1A9DEA1F00690397 /* gpx */,
-				EC445D711B36048D000DAC44 /* Time for Coffee! WatchKit App2 */,
-				EC445D801B36048D000DAC44 /* Time for Coffee! WatchKit App2 Extension */,
+				EC445D711B36048D000DAC44 /* Time for Coffee! WatchKit App */,
+				EC445D801B36048D000DAC44 /* Time for Coffee! WatchKit Extension */,
 				EC445D9D1B3604A7000DAC44 /* timeforcoffeeWatchKit */,
 				EC6EDCF01A9B9F390098CAE0 /* Frameworks */,
 				EC7A517419C427CA000F5E7C /* Products */,
