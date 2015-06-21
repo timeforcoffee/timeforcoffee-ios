@@ -8,7 +8,7 @@
 
 import WatchKit
 import Foundation
-import timeforcoffeeKit
+import timeforcoffeeWatchKit
 
 class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol {
     @IBOutlet weak var stationsTable: WKInterfaceTable!
@@ -16,14 +16,14 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     var pageNumber: Int?
     @IBOutlet weak var infoGroup: WKInterfaceGroup!
     @IBOutlet weak var infoLabel: WKInterfaceLabel!
-    
+
     override init () {
         super.init()
         print("init page")
-        
+
     }
     override func awakeWithContext(context: AnyObject?) {
-      super.awakeWithContext(context)
+        super.awakeWithContext(context)
         NSLog("awake page")
         let c = context as! TFCPageContext
         self.station = c.station
@@ -35,7 +35,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             name: "TFCWatchkitSelectStation",
             object: nil)
     }
-    
+
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
@@ -100,7 +100,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     func departuresStillCached(context: Any?, forStation: TFCStation?) {
         departuresUpdated(nil, context: context, forStation: forStation)
     }
-    
+
     override func didDeactivate() {
         // This method is called when watch view controller is no longer visible
         super.didDeactivate()

@@ -15,7 +15,6 @@
 		31979D751AB5BC7B00525165 /* DepartureLineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31979D741AB5BC7B00525165 /* DepartureLineLabel.swift */; };
 		31979D761AB5BC7B00525165 /* DepartureLineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31979D741AB5BC7B00525165 /* DepartureLineLabel.swift */; };
 		4BA86C17986B70448BEAD6EA /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 965B2A36D479CA86DF62E63F /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		C7D7B69A7D7BC7DE3BC6BA59 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 965B2A36D479CA86DF62E63F /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		EC046D631A9C563D00C2C1B3 /* TFCLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC046D621A9C563D00C2C1B3 /* TFCLocationManager.swift */; };
 		EC0530871AB01153008439E9 /* gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0530861AB01153008439E9 /* gradient.png */; };
 		EC069DE31AC885C90017D345 /* SupportKitLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC069DE21AC885C90017D345 /* SupportKitLocalizable.strings */; };
@@ -59,15 +58,6 @@
 		EC2C317D1A9E1F3D00690397 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C31731A9E1EE400690397 /* libc++.dylib */; };
 		EC2C317E1A9E1F4400690397 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C31751A9E1EEB00690397 /* libz.dylib */; };
 		EC31F5481AAE3AED00771585 /* DeparturesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC31F5471AAE3AED00771585 /* DeparturesViewController.swift */; };
-		EC4344B31AA5080A009438C7 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4344B21AA5080A009438C7 /* InterfaceController.swift */; };
-		EC4344B51AA5080A009438C7 /* GlanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4344B41AA5080A009438C7 /* GlanceController.swift */; };
-		EC4344B71AA5080A009438C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC4344B61AA5080A009438C7 /* Images.xcassets */; };
-		EC4344BB1AA5080A009438C7 /* Time for Coffee! WatchKit App.app in Resources */ = {isa = PBXBuildFile; fileRef = EC4344BA1AA5080A009438C7 /* Time for Coffee! WatchKit App.app */; };
-		EC4344C31AA5080A009438C7 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC4344C11AA5080A009438C7 /* Interface.storyboard */; };
-		EC4344C51AA5080A009438C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC4344C41AA5080A009438C7 /* Images.xcassets */; };
-		EC4344C81AA5080A009438C7 /* Time for Coffee! WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EC4344AE1AA5080A009438C7 /* Time for Coffee! WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		EC4344D01AA508FF009438C7 /* StationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4344CF1AA508FF009438C7 /* StationRow.swift */; };
-		EC4344D21AA5890F009438C7 /* StationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4344D11AA5890F009438C7 /* StationViewController.swift */; };
 		EC445D741B36048D000DAC44 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC445D721B36048D000DAC44 /* Interface.storyboard */; };
 		EC445D761B36048D000DAC44 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC445D751B36048D000DAC44 /* Assets.xcassets */; };
 		EC445D7D1B36048D000DAC44 /* Time for Coffee! WatchKit App2 Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EC445D7C1B36048D000DAC44 /* Time for Coffee! WatchKit App2 Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -107,6 +97,10 @@
 		EC84D19D1B36DCDA00369432 /* TFCStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC84D19C1B36DCDA00369432 /* TFCStation.swift */; };
 		EC84D19E1B36DDE600369432 /* TFCWatchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9010A01AA73A9E00F328E9 /* TFCWatchData.swift */; };
 		EC84D1A11B36DE7C00369432 /* StationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC84D1A01B36DE7C00369432 /* StationRow.swift */; };
+		EC84D1A31B36DFC600369432 /* StationsRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC84D1A21B36DFC600369432 /* StationsRow.swift */; };
+		EC84D1A51B36DFE200369432 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC84D1A41B36DFE200369432 /* MapViewController.swift */; };
+		EC84D1A71B36E00300369432 /* StationsOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC84D1A61B36E00300369432 /* StationsOverviewViewController.swift */; };
+		EC84D1A91B36E01A00369432 /* StationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC84D1A81B36E01A00369432 /* StationViewController.swift */; };
 		EC87B6581AB95348005A053E /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B6571AB95348005A053E /* libGoogleAnalyticsServices.a */; };
 		EC87B6591AB95348005A053E /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B6571AB95348005A053E /* libGoogleAnalyticsServices.a */; };
 		EC87B65B1AB95365005A053E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B65A1AB95365005A053E /* CoreData.framework */; };
@@ -123,18 +117,14 @@
 		EC93E36F1AC6F50000A0DA46 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C316F1A9E1EC700690397 /* Foundation.framework */; };
 		EC95714F1A9CACB70061F8B4 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC95714E1A9CACB70061F8B4 /* extensions.swift */; };
 		EC9571511A9CCEC00061F8B4 /* TFCBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9571501A9CCEC00061F8B4 /* TFCBaseViewController.swift */; };
-		EC994D7E1ADC240000354014 /* StationsOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC994D7D1ADC240000354014 /* StationsOverviewViewController.swift */; };
-		EC994D801ADC283000354014 /* StationsRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC994D7F1ADC283000354014 /* StationsRow.swift */; };
 		ECA1F3BE1B2893C500C8711B /* SupportKit.bundle in Resources */ = {isa = PBXBuildFile; fileRef = ECA1F3BC1B2893C500C8711B /* SupportKit.bundle */; };
 		ECA1F3BF1B2893C500C8711B /* SupportKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECA1F3BD1B2893C500C8711B /* SupportKit.framework */; };
 		ECAD8C3B1ABD849B00704974 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECAD8C3A1ABD849B00704974 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		ECAD8C3F1ABD861000704974 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECAD8C3E1ABD861000704974 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		ECC163D71AA36924006BC3E9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC2195ED1AA35B2D005E16EF /* Localizable.strings */; };
-		ECC1EDB61B132FF8009B0D53 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC1EDB51B132FF8009B0D53 /* MapViewController.swift */; };
 		ECD871961A9BB2F7003CCCB3 /* timeforcoffeeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */; };
 		ECDAB3A61AAA42A300EB352B /* PagedStationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDAB3A51AAA42A300EB352B /* PagedStationsViewController.swift */; };
 		ECE864A61ADBF3AA004392B2 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE864A51ADBF3AA004392B2 /* SettingsViewController.swift */; };
-		ECEA097A1AA596EF007827AD /* launchicon.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30EB1AA344100043B8F8 /* launchicon.png */; };
 		ECEA2F0B1B33171400117F0F /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECEA2F091B33171400117F0F /* Fabric.framework */; };
 		ECEA2F0C1B33171400117F0F /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECEA2F0A1B33171400117F0F /* Crashlytics.framework */; };
 		ECF100AD1A9D9BAE00056510 /* TFCStations.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF100AC1A9D9BAE00056510 /* TFCStations.swift */; };
@@ -143,20 +133,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		EC4344BC1AA5080A009438C7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EC7A516B19C427CA000F5E7C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = EC4344B91AA5080A009438C7;
-			remoteInfo = "Time for Coffee! WatchKit App";
-		};
-		EC4344C61AA5080A009438C7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EC7A516B19C427CA000F5E7C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = EC4344AD1AA5080A009438C7;
-			remoteInfo = "Time for Coffee! WatchKit Extension";
-		};
 		EC445D7E1B36048D000DAC44 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = EC7A516B19C427CA000F5E7C /* Project object */;
@@ -179,13 +155,6 @@
 			remoteInfo = "timeforcoffee Widget";
 		};
 		EC6EDD421A9BA36F0098CAE0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EC7A516B19C427CA000F5E7C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = EC6EDD2C1A9BA36F0098CAE0;
-			remoteInfo = timeforcoffeeKit;
-		};
-		EC9452961AC132EF0006B284 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = EC7A516B19C427CA000F5E7C /* Project object */;
 			proxyType = 1;
@@ -223,7 +192,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				EC4344C81AA5080A009438C7 /* Time for Coffee! WatchKit Extension.appex in Embed App Extensions */,
 				EC6EDCFC1A9B9F390098CAE0 /* timeforcoffee Widget.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
@@ -281,17 +249,6 @@
 		EC2C31751A9E1EEB00690397 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		EC31F5471AAE3AED00771585 /* DeparturesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeparturesViewController.swift; sourceTree = "<group>"; };
 		EC3252DF1A9CE0800056AF11 /* timeforcoffee-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "timeforcoffee-Bridging-Header.h"; sourceTree = "<group>"; };
-		EC4344AE1AA5080A009438C7 /* Time for Coffee! WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Time for Coffee! WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		EC4344B11AA5080A009438C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EC4344B21AA5080A009438C7 /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
-		EC4344B41AA5080A009438C7 /* GlanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlanceController.swift; sourceTree = "<group>"; };
-		EC4344B61AA5080A009438C7 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		EC4344BA1AA5080A009438C7 /* Time for Coffee! WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Time for Coffee! WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		EC4344C01AA5080A009438C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EC4344C21AA5080A009438C7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
-		EC4344C41AA5080A009438C7 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		EC4344CF1AA508FF009438C7 /* StationRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationRow.swift; sourceTree = "<group>"; };
-		EC4344D11AA5890F009438C7 /* StationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationViewController.swift; sourceTree = "<group>"; };
 		EC445D701B36048D000DAC44 /* Time for Coffee! WatchKit App2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Time for Coffee! WatchKit App2.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC445D731B36048D000DAC44 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		EC445D751B36048D000DAC44 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -308,7 +265,6 @@
 		EC445DA01B3604A7000DAC44 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC48438C1ABB917D002B3BB5 /* timeforcoffeeKit-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "timeforcoffeeKit-Bridging-Header.h"; sourceTree = "<group>"; };
 		EC4A37261AC0811D005D7546 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
-		EC522E741AA611A40011A992 /* HelveticaNeueBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HelveticaNeueBold.ttf; sourceTree = "<group>"; };
 		EC6B1FB71AC152FF0070783C /* AboutPagedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutPagedViewController.swift; sourceTree = "<group>"; };
 		EC6CD8DC1AC17C57002488DC /* About.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = About.html; sourceTree = "<group>"; };
 		EC6CD8E01AC18C43002488DC /* Zuerich2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Zuerich2.jpg; path = _assets/Zuerich2.jpg; sourceTree = "<group>"; };
@@ -334,6 +290,11 @@
 		EC84D19A1B36DB4800369432 /* TFCStation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCStation.swift; sourceTree = "<group>"; };
 		EC84D19C1B36DCDA00369432 /* TFCStation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCStation.swift; sourceTree = "<group>"; };
 		EC84D1A01B36DE7C00369432 /* StationRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationRow.swift; sourceTree = "<group>"; };
+		EC84D1A21B36DFC600369432 /* StationsRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationsRow.swift; sourceTree = "<group>"; };
+		EC84D1A41B36DFE200369432 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		EC84D1A61B36E00300369432 /* StationsOverviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationsOverviewViewController.swift; sourceTree = "<group>"; };
+		EC84D1A81B36E01A00369432 /* StationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationViewController.swift; sourceTree = "<group>"; };
+		EC84D1AA1B36E07100369432 /* Time for Coffee! WatchKit App2 Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Time for Coffee! WatchKit App2 Extension.entitlements"; sourceTree = "<group>"; };
 		EC87B64E1AB95310005A053E /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
 		EC87B64F1AB95310005A053E /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIDictionaryBuilder.h; sourceTree = "<group>"; };
 		EC87B6501AB95310005A053E /* GAIEcommerceProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceProduct.h; sourceTree = "<group>"; };
@@ -354,18 +315,14 @@
 		EC93E36C1AC6F4EA00A0DA46 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		EC95714E1A9CACB70061F8B4 /* extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
 		EC9571501A9CCEC00061F8B4 /* TFCBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCBaseViewController.swift; sourceTree = "<group>"; };
-		EC994D7D1ADC240000354014 /* StationsOverviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationsOverviewViewController.swift; sourceTree = "<group>"; };
-		EC994D7F1ADC283000354014 /* StationsRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationsRow.swift; sourceTree = "<group>"; };
 		ECA1F3BC1B2893C500C8711B /* SupportKit.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SupportKit.bundle; sourceTree = "<group>"; };
 		ECA1F3BD1B2893C500C8711B /* SupportKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SupportKit.framework; sourceTree = "<group>"; };
 		ECAD8C3A1ABD849B00704974 /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
 		ECAD8C3C1ABD84A600704974 /* PINCache.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PINCache.framework; path = "Pods/../build/Debug-iphoneos/Pods/PINCache.framework"; sourceTree = "<group>"; };
 		ECAD8C3E1ABD861000704974 /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
 		ECAD8C401ABD861D00704974 /* PINCache.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PINCache.framework; path = "Pods/../build/Debug-iphoneos/Pods/PINCache.framework"; sourceTree = "<group>"; };
-		ECBCF0041ACB506400957A4F /* Time for Coffee! WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Time for Coffee! WatchKit Extension.entitlements"; sourceTree = "<group>"; };
 		ECC163D91AA369ED006BC3E9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		ECC163DB1AA36A35006BC3E9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MainInterface.strings; sourceTree = "<group>"; };
-		ECC1EDB51B132FF8009B0D53 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		ECD871941A9BAE18003CCCB3 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ECDAB3A51AAA42A300EB352B /* PagedStationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagedStationsViewController.swift; sourceTree = "<group>"; };
 		ECE864A51ADBF3AA004392B2 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -378,14 +335,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		EC4344AB1AA5080A009438C7 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C7D7B69A7D7BC7DE3BC6BA59 /* Pods.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		EC445D791B36048D000DAC44 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -499,50 +448,6 @@
 			name = gpx;
 			sourceTree = "<group>";
 		};
-		EC4344AF1AA5080A009438C7 /* Time for Coffee! WatchKit Extension */ = {
-			isa = PBXGroup;
-			children = (
-				ECBCF0041ACB506400957A4F /* Time for Coffee! WatchKit Extension.entitlements */,
-				EC522E701AA60CF30011A992 /* fonts */,
-				EC4344B21AA5080A009438C7 /* InterfaceController.swift */,
-				EC4344D11AA5890F009438C7 /* StationViewController.swift */,
-				EC994D7D1ADC240000354014 /* StationsOverviewViewController.swift */,
-				ECC1EDB51B132FF8009B0D53 /* MapViewController.swift */,
-				EC4344B41AA5080A009438C7 /* GlanceController.swift */,
-				EC4344B61AA5080A009438C7 /* Images.xcassets */,
-				EC4344B01AA5080A009438C7 /* Supporting Files */,
-				EC4344CF1AA508FF009438C7 /* StationRow.swift */,
-				EC994D7F1ADC283000354014 /* StationsRow.swift */,
-			);
-			path = "Time for Coffee! WatchKit Extension";
-			sourceTree = "<group>";
-		};
-		EC4344B01AA5080A009438C7 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				EC4344B11AA5080A009438C7 /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		EC4344BE1AA5080A009438C7 /* Time for Coffee! WatchKit App */ = {
-			isa = PBXGroup;
-			children = (
-				EC4344C11AA5080A009438C7 /* Interface.storyboard */,
-				EC4344C41AA5080A009438C7 /* Images.xcassets */,
-				EC4344BF1AA5080A009438C7 /* Supporting Files */,
-			);
-			path = "Time for Coffee! WatchKit App";
-			sourceTree = "<group>";
-		};
-		EC4344BF1AA5080A009438C7 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				EC4344C01AA5080A009438C7 /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		EC445D711B36048D000DAC44 /* Time for Coffee! WatchKit App2 */ = {
 			isa = PBXGroup;
 			children = (
@@ -556,13 +461,18 @@
 		EC445D801B36048D000DAC44 /* Time for Coffee! WatchKit App2 Extension */ = {
 			isa = PBXGroup;
 			children = (
+				EC84D1AA1B36E07100369432 /* Time for Coffee! WatchKit App2 Extension.entitlements */,
 				EC445D811B36048D000DAC44 /* InterfaceController.swift */,
 				EC445D831B36048D000DAC44 /* ExtensionDelegate.swift */,
+				EC84D1A81B36E01A00369432 /* StationViewController.swift */,
+				EC84D1A61B36E00300369432 /* StationsOverviewViewController.swift */,
 				EC445D851B36048D000DAC44 /* GlanceController.swift */,
 				EC84D1A01B36DE7C00369432 /* StationRow.swift */,
+				EC84D1A21B36DFC600369432 /* StationsRow.swift */,
 				EC445D871B36048D000DAC44 /* ComplicationController.swift */,
 				EC445D891B36048D000DAC44 /* Assets.xcassets */,
 				EC445D8B1B36048D000DAC44 /* Info.plist */,
+				EC84D1A41B36DFE200369432 /* MapViewController.swift */,
 			);
 			path = "Time for Coffee! WatchKit App2 Extension";
 			sourceTree = "<group>";
@@ -575,14 +485,6 @@
 				EC84D19C1B36DCDA00369432 /* TFCStation.swift */,
 			);
 			path = timeforcoffeeWatchKit;
-			sourceTree = "<group>";
-		};
-		EC522E701AA60CF30011A992 /* fonts */ = {
-			isa = PBXGroup;
-			children = (
-				EC522E741AA611A40011A992 /* HelveticaNeueBold.ttf */,
-			);
-			name = fonts;
 			sourceTree = "<group>";
 		};
 		EC6EDCF01A9B9F390098CAE0 /* Frameworks */ = {
@@ -696,8 +598,6 @@
 				EC6EDD2E1A9BA36F0098CAE0 /* timeforcoffeeKit */,
 				EC6EDD3D1A9BA36F0098CAE0 /* timeforcoffeeKitTests */,
 				EC2C312A1A9DEA1F00690397 /* gpx */,
-				EC4344AF1AA5080A009438C7 /* Time for Coffee! WatchKit Extension */,
-				EC4344BE1AA5080A009438C7 /* Time for Coffee! WatchKit App */,
 				EC445D711B36048D000DAC44 /* Time for Coffee! WatchKit App2 */,
 				EC445D801B36048D000DAC44 /* Time for Coffee! WatchKit App2 Extension */,
 				EC445D9D1B3604A7000DAC44 /* timeforcoffeeWatchKit */,
@@ -713,8 +613,6 @@
 				EC7A517319C427CA000F5E7C /* Time for Coffee!.app */,
 				EC6EDCEF1A9B9F390098CAE0 /* timeforcoffee Widget.appex */,
 				EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */,
-				EC4344AE1AA5080A009438C7 /* Time for Coffee! WatchKit Extension.appex */,
-				EC4344BA1AA5080A009438C7 /* Time for Coffee! WatchKit App.app */,
 				EC445D701B36048D000DAC44 /* Time for Coffee! WatchKit App2.app */,
 				EC445D7C1B36048D000DAC44 /* Time for Coffee! WatchKit App2 Extension.appex */,
 				EC445D9C1B3604A7000DAC44 /* timeforcoffeeWatchKit.framework */,
@@ -802,43 +700,6 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		EC4344AD1AA5080A009438C7 /* Time for Coffee! WatchKit Extension */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = EC4344CE1AA5080B009438C7 /* Build configuration list for PBXNativeTarget "Time for Coffee! WatchKit Extension" */;
-			buildPhases = (
-				90C4379F3403BEF76078033E /* Check Pods Manifest.lock */,
-				EC4344AA1AA5080A009438C7 /* Sources */,
-				EC4344AB1AA5080A009438C7 /* Frameworks */,
-				EC4344AC1AA5080A009438C7 /* Resources */,
-				EC4EE31D26DB320664F54A21 /* Embed Pods Frameworks */,
-				2371379BCC51CFE909E19C82 /* Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				EC9452971AC132EF0006B284 /* PBXTargetDependency */,
-				EC4344BD1AA5080A009438C7 /* PBXTargetDependency */,
-			);
-			name = "Time for Coffee! WatchKit Extension";
-			productName = "Time for Coffee! WatchKit Extension";
-			productReference = EC4344AE1AA5080A009438C7 /* Time for Coffee! WatchKit Extension.appex */;
-			productType = "com.apple.product-type.watchkit-extension";
-		};
-		EC4344B91AA5080A009438C7 /* Time for Coffee! WatchKit App */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = EC4344CD1AA5080B009438C7 /* Build configuration list for PBXNativeTarget "Time for Coffee! WatchKit App" */;
-			buildPhases = (
-				EC4344B81AA5080A009438C7 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "Time for Coffee! WatchKit App";
-			productName = "Time for Coffee! WatchKit App";
-			productReference = EC4344BA1AA5080A009438C7 /* Time for Coffee! WatchKit App.app */;
-			productType = "com.apple.product-type.application.watchapp";
-		};
 		EC445D6F1B36048D000DAC44 /* Time for Coffee! WatchKit App2 */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = EC445D951B36048D000DAC44 /* Build configuration list for PBXNativeTarget "Time for Coffee! WatchKit App2" */;
@@ -946,7 +807,6 @@
 			dependencies = (
 				EC6EDCFB1A9B9F390098CAE0 /* PBXTargetDependency */,
 				EC6EDD431A9BA36F0098CAE0 /* PBXTargetDependency */,
-				EC4344C71AA5080A009438C7 /* PBXTargetDependency */,
 				EC445D8D1B36048D000DAC44 /* PBXTargetDependency */,
 			);
 			name = timeforcoffee;
@@ -964,8 +824,12 @@
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = "Christian Stocker";
 				TargetAttributes = {
-					EC4344AD1AA5080A009438C7 = {
-						CreatedOnToolsVersion = 6.2;
+					EC445D6F1B36048D000DAC44 = {
+						CreatedOnToolsVersion = 7.0;
+						DevelopmentTeam = DN76797UYF;
+					};
+					EC445D7B1B36048D000DAC44 = {
+						CreatedOnToolsVersion = 7.0;
 						DevelopmentTeam = DN76797UYF;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
@@ -975,17 +839,6 @@
 								enabled = 1;
 							};
 						};
-					};
-					EC4344B91AA5080A009438C7 = {
-						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = DN76797UYF;
-					};
-					EC445D6F1B36048D000DAC44 = {
-						CreatedOnToolsVersion = 7.0;
-						DevelopmentTeam = DN76797UYF;
-					};
-					EC445D7B1B36048D000DAC44 = {
-						CreatedOnToolsVersion = 7.0;
 					};
 					EC445D9B1B3604A7000DAC44 = {
 						CreatedOnToolsVersion = 7.0;
@@ -1043,8 +896,6 @@
 				EC7A517219C427CA000F5E7C /* timeforcoffee */,
 				EC6EDCEE1A9B9F390098CAE0 /* timeforcoffee Widget */,
 				EC6EDD2C1A9BA36F0098CAE0 /* timeforcoffeeKit */,
-				EC4344AD1AA5080A009438C7 /* Time for Coffee! WatchKit Extension */,
-				EC4344B91AA5080A009438C7 /* Time for Coffee! WatchKit App */,
 				EC445D6F1B36048D000DAC44 /* Time for Coffee! WatchKit App2 */,
 				EC445D7B1B36048D000DAC44 /* Time for Coffee! WatchKit App2 Extension */,
 				EC445D9B1B3604A7000DAC44 /* timeforcoffeeWatchKit */,
@@ -1053,25 +904,6 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		EC4344AC1AA5080A009438C7 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				EC4344B71AA5080A009438C7 /* Images.xcassets in Resources */,
-				EC4344BB1AA5080A009438C7 /* Time for Coffee! WatchKit App.app in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		EC4344B81AA5080A009438C7 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				EC4344C31AA5080A009438C7 /* Interface.storyboard in Resources */,
-				ECEA097A1AA596EF007827AD /* launchicon.png in Resources */,
-				EC4344C51AA5080A009438C7 /* Images.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		EC445D6E1B36048D000DAC44 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1140,21 +972,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2371379BCC51CFE909E19C82 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		4A33FD3CC8DCA65BD4628E06 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1185,37 +1002,7 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		90C4379F3403BEF76078033E /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
 		A180F513FBCE68D152777704 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EC4EE31D26DB320664F54A21 /* Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1247,29 +1034,19 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		EC4344AA1AA5080A009438C7 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				EC4344D01AA508FF009438C7 /* StationRow.swift in Sources */,
-				ECC1EDB61B132FF8009B0D53 /* MapViewController.swift in Sources */,
-				EC994D7E1ADC240000354014 /* StationsOverviewViewController.swift in Sources */,
-				EC4344B31AA5080A009438C7 /* InterfaceController.swift in Sources */,
-				EC994D801ADC283000354014 /* StationsRow.swift in Sources */,
-				EC4344B51AA5080A009438C7 /* GlanceController.swift in Sources */,
-				EC4344D21AA5890F009438C7 /* StationViewController.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		EC445D781B36048D000DAC44 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC84D1A91B36E01A00369432 /* StationViewController.swift in Sources */,
 				EC445D841B36048D000DAC44 /* ExtensionDelegate.swift in Sources */,
 				EC445D881B36048D000DAC44 /* ComplicationController.swift in Sources */,
+				EC84D1A71B36E00300369432 /* StationsOverviewViewController.swift in Sources */,
 				EC84D1A11B36DE7C00369432 /* StationRow.swift in Sources */,
+				EC84D1A31B36DFC600369432 /* StationsRow.swift in Sources */,
 				EC445D821B36048D000DAC44 /* InterfaceController.swift in Sources */,
 				EC445D861B36048D000DAC44 /* GlanceController.swift in Sources */,
+				EC84D1A51B36DFE200369432 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1351,16 +1128,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		EC4344BD1AA5080A009438C7 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = EC4344B91AA5080A009438C7 /* Time for Coffee! WatchKit App */;
-			targetProxy = EC4344BC1AA5080A009438C7 /* PBXContainerItemProxy */;
-		};
-		EC4344C71AA5080A009438C7 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = EC4344AD1AA5080A009438C7 /* Time for Coffee! WatchKit Extension */;
-			targetProxy = EC4344C61AA5080A009438C7 /* PBXContainerItemProxy */;
-		};
 		EC445D7F1B36048D000DAC44 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = EC445D7B1B36048D000DAC44 /* Time for Coffee! WatchKit App2 Extension */;
@@ -1380,11 +1147,6 @@
 			isa = PBXTargetDependency;
 			target = EC6EDD2C1A9BA36F0098CAE0 /* timeforcoffeeKit */;
 			targetProxy = EC6EDD421A9BA36F0098CAE0 /* PBXContainerItemProxy */;
-		};
-		EC9452971AC132EF0006B284 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = EC6EDD2C1A9BA36F0098CAE0 /* timeforcoffeeKit */;
-			targetProxy = EC9452961AC132EF0006B284 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1409,14 +1171,6 @@
 			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
-		EC4344C11AA5080A009438C7 /* Interface.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				EC4344C21AA5080A009438C7 /* Base */,
-			);
-			name = Interface.storyboard;
-			sourceTree = "<group>";
-		};
 		EC445D721B36048D000DAC44 /* Interface.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1428,80 +1182,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		EC4344C91AA5080B009438C7 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3C47D48C04911012125C5428 /* Pods.debug.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "Time for Coffee! WatchKit Extension/Time for Coffee! WatchKit Extension.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = "Time for Coffee! WatchKit Extension/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_NAME = "${TARGET_NAME}";
-				PROVISIONING_PROFILE = "";
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		EC4344CA1AA5080B009438C7 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 648323A7126563DCA991BABD /* Pods.release.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "Time for Coffee! WatchKit Extension/Time for Coffee! WatchKit Extension.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = "Time for Coffee! WatchKit Extension/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_NAME = "${TARGET_NAME}";
-				PROVISIONING_PROFILE = "";
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
-		EC4344CB1AA5080B009438C7 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				IBSC_MODULE = Time_for_Coffee__WatchKit_Extension;
-				INFOPLIST_FILE = "Time for Coffee! WatchKit App/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = 4;
-				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
-			};
-			name = Debug;
-		};
-		EC4344CC1AA5080B009438C7 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
-				IBSC_MODULE = Time_for_Coffee__WatchKit_Extension;
-				INFOPLIST_FILE = "Time for Coffee! WatchKit App/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = 4;
-				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
-			};
-			name = Release;
-		};
 		EC445D8F1B36048D000DAC44 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1550,6 +1230,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_ENTITLEMENTS = "Time for Coffee! WatchKit App2 Extension/Time for Coffee! WatchKit App2 Extension.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_TESTABILITY = YES;
@@ -1558,6 +1240,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -1569,6 +1252,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_ENTITLEMENTS = "Time for Coffee! WatchKit App2 Extension/Time for Coffee! WatchKit App2 Extension.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -1577,6 +1262,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -1903,24 +1589,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		EC4344CD1AA5080B009438C7 /* Build configuration list for PBXNativeTarget "Time for Coffee! WatchKit App" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				EC4344CB1AA5080B009438C7 /* Debug */,
-				EC4344CC1AA5080B009438C7 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		EC4344CE1AA5080B009438C7 /* Build configuration list for PBXNativeTarget "Time for Coffee! WatchKit Extension" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				EC4344C91AA5080B009438C7 /* Debug */,
-				EC4344CA1AA5080B009438C7 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		EC445D931B36048D000DAC44 /* Build configuration list for PBXNativeTarget "Time for Coffee! WatchKit App2 Extension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

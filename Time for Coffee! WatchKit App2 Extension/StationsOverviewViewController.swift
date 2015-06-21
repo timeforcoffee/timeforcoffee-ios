@@ -8,7 +8,7 @@
 
 import WatchKit
 import Foundation
-import timeforcoffeeKit
+import timeforcoffeeWatchKit
 
 class StationsOverviewViewController: WKInterfaceController {
 
@@ -26,7 +26,7 @@ class StationsOverviewViewController: WKInterfaceController {
     }
 
     override func willActivate() {
-        
+
         func handleReply(stations: TFCStations?) {
             infoGroup.setHidden(true)
             if (stations == nil) {
@@ -59,7 +59,7 @@ class StationsOverviewViewController: WKInterfaceController {
         self.dismissController()
 
         NSNotificationCenter.defaultCenter().postNotificationName("TFCWatchkitSelectStation", object: nil, userInfo: ["index": rowIndex])
-
+        
     }
 }
 

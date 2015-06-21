@@ -12,5 +12,5 @@ import WatchKit
 class StationsRow: NSObject {
 
     @IBOutlet weak var stationLabel: WKInterfaceLabel!
-
+    
 }
