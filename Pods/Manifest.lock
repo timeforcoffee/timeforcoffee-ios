@@ -1,26 +1,13 @@
 PODS:
-  - MGSwipeTableCell (1.4.0)
-  - PINCache (2.0)
+  - MGSwipeTableCell (1.4.3)
   - SwipeView (1.3.2)
 
 DEPENDENCIES:
   - MGSwipeTableCell
-  - PINCache (from `https://github.com/pinterest/PINCache`, commit `eecf84426751ae3c3f224411763946427fe3aa5b`)
   - SwipeView
 
-EXTERNAL SOURCES:
-  PINCache:
-    :commit: eecf84426751ae3c3f224411763946427fe3aa5b
-    :git: https://github.com/pinterest/PINCache
-
-CHECKOUT OPTIONS:
-  PINCache:
-    :commit: eecf84426751ae3c3f224411763946427fe3aa5b
-    :git: https://github.com/pinterest/PINCache
-
 SPEC CHECKSUMS:
-  MGSwipeTableCell: 59643a884736a0a2fb0f07258b7a97b4f4f9000f
-  PINCache: ca953ba93ce1edde056fdd99121ee65b295a08c9
-  SwipeView: 0093c212acf3d715b09334c50d568a4418404150
+  MGSwipeTableCell: cb9805df3cc5cad75ad43a5c1eb424be0316f0bf
+  SwipeView: bd67cfaf7760c036438446b3ccb28a3b84fce009
 
-COCOAPODS: 0.36.1
+COCOAPODS: 0.36.3

@@ -8,7 +8,6 @@
 
 import Foundation
 import CoreLocation
-import PINCache
 
 final class APIController {
     

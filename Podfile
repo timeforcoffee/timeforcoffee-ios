@@ -7,7 +7,6 @@ link_with 'timeforcoffeeKit'
 link_with 'Time for Coffee! WatchKit Extension'
 
 pod 'MGSwipeTableCell'
-pod 'PINCache', :git => 'https://github.com/pinterest/PINCache', :commit => 'eecf84426751ae3c3f224411763946427fe3aa5b'
 pod 'SwipeView'
 
 # Needed so that PINCache can be used in the watchkit extension

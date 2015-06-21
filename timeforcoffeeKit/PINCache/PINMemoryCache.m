@@ -79,7 +79,7 @@ NSString * const PINMemoryCachePrefix = @"com.pinterest.PINMemoryCache";
         _removeAllObjectsOnMemoryWarning = YES;
         _removeAllObjectsOnEnteringBackground = YES;
 
-        #if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_4_0
+        #if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_4_0 && !MY_TARGET_OS_WATCHOS == 2
         for (NSString *name in @[UIApplicationDidReceiveMemoryWarningNotification, UIApplicationDidEnterBackgroundNotification]) {
             [[NSNotificationCenter defaultCenter] addObserver:self
                                                      selector:@selector(didObserveApocalypticNotification:)
@@ -111,7 +111,7 @@ NSString * const PINMemoryCachePrefix = @"com.pinterest.PINMemoryCache";
 
 - (void)didObserveApocalypticNotification:(NSNotification *)notification
 {
-    #if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_4_0
+    #if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_4_0  && !MY_TARGET_OS_WATCHOS == 2
 
     if ([[notification name] isEqualToString:UIApplicationDidReceiveMemoryWarningNotification]) {
         if (self.removeAllObjectsOnMemoryWarning)

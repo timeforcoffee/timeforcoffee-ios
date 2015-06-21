@@ -15,12 +15,28 @@
 		31979D751AB5BC7B00525165 /* DepartureLineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31979D741AB5BC7B00525165 /* DepartureLineLabel.swift */; };
 		31979D761AB5BC7B00525165 /* DepartureLineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31979D741AB5BC7B00525165 /* DepartureLineLabel.swift */; };
 		4BA86C17986B70448BEAD6EA /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 965B2A36D479CA86DF62E63F /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		C7D7B69A7D7BC7DE3BC6BA59 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 965B2A36D479CA86DF62E63F /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		EC046D631A9C563D00C2C1B3 /* TFCLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC046D621A9C563D00C2C1B3 /* TFCLocationManager.swift */; };
 		EC0530871AB01153008439E9 /* gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0530861AB01153008439E9 /* gradient.png */; };
 		EC069DE31AC885C90017D345 /* SupportKitLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC069DE21AC885C90017D345 /* SupportKitLocalizable.strings */; };
 		EC0740731AB8C68100452868 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC7A517F19C427CA000F5E7C /* Images.xcassets */; };
 		EC0A30EC1AA344100043B8F8 /* launchicon.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30EB1AA344100043B8F8 /* launchicon.png */; };
 		EC0A30F21AA353CA0043B8F8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30F41AA353CA0043B8F8 /* MainInterface.storyboard */; };
+		EC0CDB371B36D0570081FE4C /* Nullability.h in Headers */ = {isa = PBXBuildFile; fileRef = EC0CDB301B36D0570081FE4C /* Nullability.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EC0CDB381B36D0570081FE4C /* PINCache.h in Headers */ = {isa = PBXBuildFile; fileRef = EC0CDB311B36D0570081FE4C /* PINCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EC0CDB391B36D0570081FE4C /* PINCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC0CDB321B36D0570081FE4C /* PINCache.m */; };
+		EC0CDB3A1B36D0570081FE4C /* PINDiskCache.h in Headers */ = {isa = PBXBuildFile; fileRef = EC0CDB331B36D0570081FE4C /* PINDiskCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EC0CDB3B1B36D0570081FE4C /* PINDiskCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC0CDB341B36D0570081FE4C /* PINDiskCache.m */; };
+		EC0CDB3C1B36D0570081FE4C /* PINMemoryCache.h in Headers */ = {isa = PBXBuildFile; fileRef = EC0CDB351B36D0570081FE4C /* PINMemoryCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EC0CDB3D1B36D0570081FE4C /* PINMemoryCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC0CDB361B36D0570081FE4C /* PINMemoryCache.m */; };
+		EC0CDB3E1B36D1D60081FE4C /* Nullability.h in Headers */ = {isa = PBXBuildFile; fileRef = EC0CDB301B36D0570081FE4C /* Nullability.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EC0CDB3F1B36D1D90081FE4C /* PINCache.h in Headers */ = {isa = PBXBuildFile; fileRef = EC0CDB311B36D0570081FE4C /* PINCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EC0CDB401B36D1D90081FE4C /* PINCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC0CDB321B36D0570081FE4C /* PINCache.m */; };
+		EC0CDB411B36D1D90081FE4C /* PINDiskCache.h in Headers */ = {isa = PBXBuildFile; fileRef = EC0CDB331B36D0570081FE4C /* PINDiskCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EC0CDB421B36D1D90081FE4C /* PINDiskCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC0CDB341B36D0570081FE4C /* PINDiskCache.m */; };
+		EC0CDB431B36D1D90081FE4C /* PINMemoryCache.h in Headers */ = {isa = PBXBuildFile; fileRef = EC0CDB351B36D0570081FE4C /* PINMemoryCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EC0CDB441B36D1D90081FE4C /* PINMemoryCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC0CDB361B36D0570081FE4C /* PINMemoryCache.m */; };
+		EC0CDB521B36D4810081FE4C /* TFCCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0DD8CE1AAEC7CB0089A207 /* TFCCache.swift */; };
 		EC0DD8CF1AAEC7CB0089A207 /* TFCCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0DD8CE1AAEC7CB0089A207 /* TFCCache.swift */; };
 		EC0DD8D11AAF1B5F0089A207 /* StationsSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0DD8D01AAF1B5F0089A207 /* StationsSearchViewController.swift */; };
 		EC21446D1ABCB2AF00B48522 /* TFCFavorites.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC21446C1ABCB2AF00B48522 /* TFCFavorites.swift */; };
@@ -101,7 +117,6 @@
 		ECAD8C3F1ABD861000704974 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECAD8C3E1ABD861000704974 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		ECC163D71AA36924006BC3E9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC2195ED1AA35B2D005E16EF /* Localizable.strings */; };
 		ECC1EDB61B132FF8009B0D53 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC1EDB51B132FF8009B0D53 /* MapViewController.swift */; };
-		ECC2B57C1B3605BE008F2646 /* TFCURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF3C59B1AC92FB2006F5745 /* TFCURLSession.swift */; };
 		ECD871961A9BB2F7003CCCB3 /* timeforcoffeeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */; };
 		ECDAB3A61AAA42A300EB352B /* PagedStationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDAB3A51AAA42A300EB352B /* PagedStationsViewController.swift */; };
 		ECE864A61ADBF3AA004392B2 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE864A51ADBF3AA004392B2 /* SettingsViewController.swift */; };
@@ -228,6 +243,13 @@
 		EC0A30EB1AA344100043B8F8 /* launchicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = launchicon.png; path = _assets/launchicon.png; sourceTree = "<group>"; };
 		EC0A30F51AA353E40043B8F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		EC0A30F61AA354010043B8F8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MainInterface.strings; sourceTree = "<group>"; };
+		EC0CDB301B36D0570081FE4C /* Nullability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Nullability.h; sourceTree = "<group>"; };
+		EC0CDB311B36D0570081FE4C /* PINCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PINCache.h; sourceTree = "<group>"; };
+		EC0CDB321B36D0570081FE4C /* PINCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PINCache.m; sourceTree = "<group>"; };
+		EC0CDB331B36D0570081FE4C /* PINDiskCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PINDiskCache.h; sourceTree = "<group>"; };
+		EC0CDB341B36D0570081FE4C /* PINDiskCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PINDiskCache.m; sourceTree = "<group>"; };
+		EC0CDB351B36D0570081FE4C /* PINMemoryCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PINMemoryCache.h; sourceTree = "<group>"; };
+		EC0CDB361B36D0570081FE4C /* PINMemoryCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PINMemoryCache.m; sourceTree = "<group>"; };
 		EC0DD8CE1AAEC7CB0089A207 /* TFCCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCCache.swift; sourceTree = "<group>"; };
 		EC0DD8D01AAF1B5F0089A207 /* StationsSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationsSearchViewController.swift; sourceTree = "<group>"; };
 		EC21446C1ABCB2AF00B48522 /* TFCFavorites.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCFavorites.swift; sourceTree = "<group>"; };
@@ -343,6 +365,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7D7B69A7D7BC7DE3BC6BA59 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -434,6 +457,20 @@
 				EC0A30EB1AA344100043B8F8 /* launchicon.png */,
 			);
 			name = _assets;
+			sourceTree = "<group>";
+		};
+		EC0CDB2F1B36D0570081FE4C /* PINCache */ = {
+			isa = PBXGroup;
+			children = (
+				EC0CDB301B36D0570081FE4C /* Nullability.h */,
+				EC0CDB311B36D0570081FE4C /* PINCache.h */,
+				EC0CDB321B36D0570081FE4C /* PINCache.m */,
+				EC0CDB331B36D0570081FE4C /* PINDiskCache.h */,
+				EC0CDB341B36D0570081FE4C /* PINDiskCache.m */,
+				EC0CDB351B36D0570081FE4C /* PINMemoryCache.h */,
+				EC0CDB361B36D0570081FE4C /* PINMemoryCache.m */,
+			);
+			path = PINCache;
 			sourceTree = "<group>";
 		};
 		EC2C312A1A9DEA1F00690397 /* gpx */ = {
@@ -599,6 +636,7 @@
 				EC9010A01AA73A9E00F328E9 /* TFCWatchData.swift */,
 				EC95714E1A9CACB70061F8B4 /* extensions.swift */,
 				EC046D621A9C563D00C2C1B3 /* TFCLocationManager.swift */,
+				EC0CDB2F1B36D0570081FE4C /* PINCache */,
 			);
 			path = timeforcoffeeKit;
 			sourceTree = "<group>";
@@ -722,6 +760,10 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC0CDB3F1B36D1D90081FE4C /* PINCache.h in Headers */,
+				EC0CDB3E1B36D1D60081FE4C /* Nullability.h in Headers */,
+				EC0CDB411B36D1D90081FE4C /* PINDiskCache.h in Headers */,
+				EC0CDB431B36D1D90081FE4C /* PINMemoryCache.h in Headers */,
 				EC445D9F1B3604A7000DAC44 /* timeforcoffeeWatchKit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -730,6 +772,10 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC0CDB371B36D0570081FE4C /* Nullability.h in Headers */,
+				EC0CDB381B36D0570081FE4C /* PINCache.h in Headers */,
+				EC0CDB3C1B36D0570081FE4C /* PINMemoryCache.h in Headers */,
+				EC0CDB3A1B36D0570081FE4C /* PINDiskCache.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -740,9 +786,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EC4344CE1AA5080B009438C7 /* Build configuration list for PBXNativeTarget "Time for Coffee! WatchKit Extension" */;
 			buildPhases = (
+				90C4379F3403BEF76078033E /* Check Pods Manifest.lock */,
 				EC4344AA1AA5080A009438C7 /* Sources */,
 				EC4344AB1AA5080A009438C7 /* Frameworks */,
 				EC4344AC1AA5080A009438C7 /* Resources */,
+				EC4EE31D26DB320664F54A21 /* Embed Pods Frameworks */,
+				2371379BCC51CFE909E19C82 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1071,6 +1120,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		2371379BCC51CFE909E19C82 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		4A33FD3CC8DCA65BD4628E06 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1101,7 +1165,37 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		90C4379F3403BEF76078033E /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 		A180F513FBCE68D152777704 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EC4EE31D26DB320664F54A21 /* Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1162,7 +1256,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ECC2B57C1B3605BE008F2646 /* TFCURLSession.swift in Sources */,
+				EC0CDB421B36D1D90081FE4C /* PINDiskCache.m in Sources */,
+				EC0CDB401B36D1D90081FE4C /* PINCache.m in Sources */,
+				EC0CDB521B36D4810081FE4C /* TFCCache.swift in Sources */,
+				EC0CDB441B36D1D90081FE4C /* PINMemoryCache.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1186,13 +1283,16 @@
 				EC9010A11AA73A9E00F328E9 /* TFCWatchData.swift in Sources */,
 				EC6EDD541A9BA79B0098CAE0 /* APIController.swift in Sources */,
 				ECF3C59C1AC92FB2006F5745 /* TFCURLSession.swift in Sources */,
+				EC0CDB391B36D0570081FE4C /* PINCache.m in Sources */,
 				EC6EDD511A9BA5080098CAE0 /* SwiftyJSON.swift in Sources */,
 				EC046D631A9C563D00C2C1B3 /* TFCLocationManager.swift in Sources */,
 				EC6EDD4F1A9BA4820098CAE0 /* TFCStation.swift in Sources */,
 				EC0DD8CF1AAEC7CB0089A207 /* TFCCache.swift in Sources */,
 				ECFDA0B31AC00DD30019AA4E /* TFCDataStore.swift in Sources */,
+				EC0CDB3B1B36D0570081FE4C /* PINDiskCache.m in Sources */,
 				EC21446D1ABCB2AF00B48522 /* TFCFavorites.swift in Sources */,
 				EC6EDD4E1A9BA4820098CAE0 /* TFCDeparture.swift in Sources */,
+				EC0CDB3D1B36D0570081FE4C /* PINMemoryCache.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1461,6 +1561,11 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					"MY_TARGET_WATCH_OS=2",
+				);
 				INFOPLIST_FILE = timeforcoffeeWatchKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1486,6 +1591,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = "MY_TARGET_WATCH_OS=2";
 				INFOPLIST_FILE = timeforcoffeeWatchKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1569,6 +1675,11 @@
 				DYLIB_CURRENT_VERSION = 54;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"PIN_APP_EXTENSIONS=1",
+				);
 				INFOPLIST_FILE = timeforcoffeeKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1594,6 +1705,11 @@
 				DYLIB_CURRENT_VERSION = 54;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"PIN_APP_EXTENSIONS=1",
+				);
 				INFOPLIST_FILE = timeforcoffeeKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
