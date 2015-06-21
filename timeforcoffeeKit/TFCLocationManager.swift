@@ -115,7 +115,7 @@ public final class TFCLocationManager: NSObject, CLLocationManagerDelegate {
             if (shouldIAllow == true) {
                 NSLog("Location is allowed")
                 // Start location services
-                locationManager.startUpdatingLocation()
+                locationManager.requestLocation()
             } else {
                 NSLog("Denied access: \(locationStatus)")
             }
@@ -125,7 +125,7 @@ public final class TFCLocationManager: NSObject, CLLocationManagerDelegate {
         seenError = false
         locationFixAchieved = false
         dispatch_async(dispatch_get_main_queue(), {
-            self.locationManager.startUpdatingLocation()
+            self.locationManager.requestLocation()
         })
     }
 
