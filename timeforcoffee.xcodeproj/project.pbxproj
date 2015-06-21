@@ -15,7 +15,7 @@
 		31979D751AB5BC7B00525165 /* DepartureLineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31979D741AB5BC7B00525165 /* DepartureLineLabel.swift */; };
 		31979D761AB5BC7B00525165 /* DepartureLineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31979D741AB5BC7B00525165 /* DepartureLineLabel.swift */; };
 		4BA86C17986B70448BEAD6EA /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 965B2A36D479CA86DF62E63F /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		EC046D631A9C563D00C2C1B3 /* TFCLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC046D621A9C563D00C2C1B3 /* TFCLocationManager.swift */; };
+		EC046D631A9C563D00C2C1B3 /* TFCLocationManagerBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC046D621A9C563D00C2C1B3 /* TFCLocationManagerBase.swift */; };
 		EC0530871AB01153008439E9 /* gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0530861AB01153008439E9 /* gradient.png */; };
 		EC069DE31AC885C90017D345 /* SupportKitLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC069DE21AC885C90017D345 /* SupportKitLocalizable.strings */; };
 		EC0740731AB8C68100452868 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC7A517F19C427CA000F5E7C /* Images.xcassets */; };
@@ -39,7 +39,7 @@
 		EC0CDB541B36D5110081FE4C /* TFCURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF3C59B1AC92FB2006F5745 /* TFCURLSession.swift */; };
 		EC0CDB551B36D51B0081FE4C /* APIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDD531A9BA79B0098CAE0 /* APIController.swift */; };
 		EC0CDB561B36D5250081FE4C /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDD501A9BA5080098CAE0 /* SwiftyJSON.swift */; };
-		EC0CDB571B36D52E0081FE4C /* TFCLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC046D621A9C563D00C2C1B3 /* TFCLocationManager.swift */; };
+		EC0CDB571B36D52E0081FE4C /* TFCLocationManagerBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC046D621A9C563D00C2C1B3 /* TFCLocationManagerBase.swift */; };
 		EC0DD8CF1AAEC7CB0089A207 /* TFCCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0DD8CE1AAEC7CB0089A207 /* TFCCache.swift */; };
 		EC0DD8D11AAF1B5F0089A207 /* StationsSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0DD8D01AAF1B5F0089A207 /* StationsSearchViewController.swift */; };
 		EC21446D1ABCB2AF00B48522 /* TFCFavorites.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC21446C1ABCB2AF00B48522 /* TFCFavorites.swift */; };
@@ -101,6 +101,8 @@
 		EC84D1A51B36DFE200369432 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC84D1A41B36DFE200369432 /* MapViewController.swift */; };
 		EC84D1A71B36E00300369432 /* StationsOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC84D1A61B36E00300369432 /* StationsOverviewViewController.swift */; };
 		EC84D1A91B36E01A00369432 /* StationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC84D1A81B36E01A00369432 /* StationViewController.swift */; };
+		EC84D1AC1B36E38900369432 /* TFCLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC84D1AB1B36E38900369432 /* TFCLocationManager.swift */; };
+		EC84D1AE1B36E4A600369432 /* TFCLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC84D1AD1B36E4A600369432 /* TFCLocationManager.swift */; };
 		EC87B6581AB95348005A053E /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B6571AB95348005A053E /* libGoogleAnalyticsServices.a */; };
 		EC87B6591AB95348005A053E /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B6571AB95348005A053E /* libGoogleAnalyticsServices.a */; };
 		EC87B65B1AB95365005A053E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B65A1AB95365005A053E /* CoreData.framework */; };
@@ -219,7 +221,7 @@
 		3C47D48C04911012125C5428 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		648323A7126563DCA991BABD /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		965B2A36D479CA86DF62E63F /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		EC046D621A9C563D00C2C1B3 /* TFCLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCLocationManager.swift; sourceTree = "<group>"; };
+		EC046D621A9C563D00C2C1B3 /* TFCLocationManagerBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCLocationManagerBase.swift; sourceTree = "<group>"; };
 		EC0530861AB01153008439E9 /* gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gradient.png; path = _assets/gradient.png; sourceTree = "<group>"; };
 		EC069DE21AC885C90017D345 /* SupportKitLocalizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = SupportKitLocalizable.strings; sourceTree = "<group>"; };
 		EC0A30EB1AA344100043B8F8 /* launchicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = launchicon.png; path = _assets/launchicon.png; sourceTree = "<group>"; };
@@ -295,6 +297,8 @@
 		EC84D1A61B36E00300369432 /* StationsOverviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationsOverviewViewController.swift; sourceTree = "<group>"; };
 		EC84D1A81B36E01A00369432 /* StationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationViewController.swift; sourceTree = "<group>"; };
 		EC84D1AA1B36E07100369432 /* Time for Coffee! WatchKit App2 Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Time for Coffee! WatchKit App2 Extension.entitlements"; sourceTree = "<group>"; };
+		EC84D1AB1B36E38900369432 /* TFCLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCLocationManager.swift; sourceTree = "<group>"; };
+		EC84D1AD1B36E4A600369432 /* TFCLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCLocationManager.swift; sourceTree = "<group>"; };
 		EC87B64E1AB95310005A053E /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
 		EC87B64F1AB95310005A053E /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIDictionaryBuilder.h; sourceTree = "<group>"; };
 		EC87B6501AB95310005A053E /* GAIEcommerceProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceProduct.h; sourceTree = "<group>"; };
@@ -483,6 +487,7 @@
 				EC445D9E1B3604A7000DAC44 /* timeforcoffeeWatchKit.h */,
 				EC445DA01B3604A7000DAC44 /* Info.plist */,
 				EC84D19C1B36DCDA00369432 /* TFCStation.swift */,
+				EC84D1AD1B36E4A600369432 /* TFCLocationManager.swift */,
 			);
 			path = timeforcoffeeWatchKit;
 			sourceTree = "<group>";
@@ -557,7 +562,8 @@
 				EC9571501A9CCEC00061F8B4 /* TFCBaseViewController.swift */,
 				EC9010A01AA73A9E00F328E9 /* TFCWatchData.swift */,
 				EC95714E1A9CACB70061F8B4 /* extensions.swift */,
-				EC046D621A9C563D00C2C1B3 /* TFCLocationManager.swift */,
+				EC046D621A9C563D00C2C1B3 /* TFCLocationManagerBase.swift */,
+				EC84D1AB1B36E38900369432 /* TFCLocationManager.swift */,
 				EC0CDB2F1B36D0570081FE4C /* PINCache */,
 			);
 			path = timeforcoffeeKit;
@@ -1058,9 +1064,10 @@
 				EC0CDB401B36D1D90081FE4C /* PINCache.m in Sources */,
 				EC84D19D1B36DCDA00369432 /* TFCStation.swift in Sources */,
 				EC0CDB551B36D51B0081FE4C /* APIController.swift in Sources */,
+				EC84D1AE1B36E4A600369432 /* TFCLocationManager.swift in Sources */,
 				EC84D1941B36DAE600369432 /* TFCDataStore.swift in Sources */,
 				EC0CDB521B36D4810081FE4C /* TFCCache.swift in Sources */,
-				EC0CDB571B36D52E0081FE4C /* TFCLocationManager.swift in Sources */,
+				EC0CDB571B36D52E0081FE4C /* TFCLocationManagerBase.swift in Sources */,
 				EC84D1971B36DAFF00369432 /* TFCDeparture.swift in Sources */,
 				EC84D1981B36DB0800369432 /* extensions.swift in Sources */,
 				EC84D1991B36DB0D00369432 /* TFCStations.swift in Sources */,
@@ -1096,11 +1103,12 @@
 				EC0CDB391B36D0570081FE4C /* PINCache.m in Sources */,
 				EC6EDD511A9BA5080098CAE0 /* SwiftyJSON.swift in Sources */,
 				EC84D19B1B36DB4800369432 /* TFCStation.swift in Sources */,
-				EC046D631A9C563D00C2C1B3 /* TFCLocationManager.swift in Sources */,
+				EC046D631A9C563D00C2C1B3 /* TFCLocationManagerBase.swift in Sources */,
 				EC6EDD4F1A9BA4820098CAE0 /* TFCStationBase.swift in Sources */,
 				EC0DD8CF1AAEC7CB0089A207 /* TFCCache.swift in Sources */,
 				ECFDA0B31AC00DD30019AA4E /* TFCDataStore.swift in Sources */,
 				EC0CDB3B1B36D0570081FE4C /* PINDiskCache.m in Sources */,
+				EC84D1AC1B36E38900369432 /* TFCLocationManager.swift in Sources */,
 				EC21446D1ABCB2AF00B48522 /* TFCFavorites.swift in Sources */,
 				EC6EDD4E1A9BA4820098CAE0 /* TFCDeparture.swift in Sources */,
 				EC0CDB3D1B36D0570081FE4C /* PINMemoryCache.m in Sources */,
@@ -1342,7 +1350,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "timeforcoffee Widget/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1369,7 +1377,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = "timeforcoffee Widget/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1402,6 +1410,7 @@
 				);
 				INFOPLIST_FILE = timeforcoffeeKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1432,6 +1441,7 @@
 				);
 				INFOPLIST_FILE = timeforcoffeeKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1545,6 +1555,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = timeforcoffee/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1573,6 +1584,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = timeforcoffee/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
