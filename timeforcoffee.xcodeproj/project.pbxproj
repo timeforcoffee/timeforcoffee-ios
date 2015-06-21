@@ -106,6 +106,7 @@
 		EC84D19B1B36DB4800369432 /* TFCStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC84D19A1B36DB4800369432 /* TFCStation.swift */; };
 		EC84D19D1B36DCDA00369432 /* TFCStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC84D19C1B36DCDA00369432 /* TFCStation.swift */; };
 		EC84D19E1B36DDE600369432 /* TFCWatchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9010A01AA73A9E00F328E9 /* TFCWatchData.swift */; };
+		EC84D1A11B36DE7C00369432 /* StationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC84D1A01B36DE7C00369432 /* StationRow.swift */; };
 		EC87B6581AB95348005A053E /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B6571AB95348005A053E /* libGoogleAnalyticsServices.a */; };
 		EC87B6591AB95348005A053E /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B6571AB95348005A053E /* libGoogleAnalyticsServices.a */; };
 		EC87B65B1AB95365005A053E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B65A1AB95365005A053E /* CoreData.framework */; };
@@ -332,6 +333,7 @@
 		EC7B49D51ADABBDA00C79588 /* NearbyStationsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearbyStationsTableViewCell.swift; sourceTree = "<group>"; };
 		EC84D19A1B36DB4800369432 /* TFCStation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCStation.swift; sourceTree = "<group>"; };
 		EC84D19C1B36DCDA00369432 /* TFCStation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCStation.swift; sourceTree = "<group>"; };
+		EC84D1A01B36DE7C00369432 /* StationRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationRow.swift; sourceTree = "<group>"; };
 		EC87B64E1AB95310005A053E /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
 		EC87B64F1AB95310005A053E /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIDictionaryBuilder.h; sourceTree = "<group>"; };
 		EC87B6501AB95310005A053E /* GAIEcommerceProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceProduct.h; sourceTree = "<group>"; };
@@ -557,6 +559,7 @@
 				EC445D811B36048D000DAC44 /* InterfaceController.swift */,
 				EC445D831B36048D000DAC44 /* ExtensionDelegate.swift */,
 				EC445D851B36048D000DAC44 /* GlanceController.swift */,
+				EC84D1A01B36DE7C00369432 /* StationRow.swift */,
 				EC445D871B36048D000DAC44 /* ComplicationController.swift */,
 				EC445D891B36048D000DAC44 /* Assets.xcassets */,
 				EC445D8B1B36048D000DAC44 /* Info.plist */,
@@ -1264,6 +1267,7 @@
 			files = (
 				EC445D841B36048D000DAC44 /* ExtensionDelegate.swift in Sources */,
 				EC445D881B36048D000DAC44 /* ComplicationController.swift in Sources */,
+				EC84D1A11B36DE7C00369432 /* StationRow.swift in Sources */,
 				EC445D821B36048D000DAC44 /* InterfaceController.swift in Sources */,
 				EC445D861B36048D000DAC44 /* GlanceController.swift in Sources */,
 			);
