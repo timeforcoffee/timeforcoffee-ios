@@ -31,8 +31,6 @@ class GlanceController: WKInterfaceController {
 
         // Configure interface objects here.
         self.stationsTable.setNumberOfRows(3, withRowType: "station")
-
-        println("are we here??")
     }
     
     override func willActivate() {
@@ -59,7 +57,7 @@ class GlanceController: WKInterfaceController {
                         }
                         if (i < 3) {
                             for j in i...2 {
-                                if let sr = self.stationsTable.rowControllerAtIndex(i) as! StationRow? {
+                                if let sr = self.stationsTable.rowControllerAtIndex(j) as! StationRow? {
                                     sr.setHidden()
                                 }
                             }
