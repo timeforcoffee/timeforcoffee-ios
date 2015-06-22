@@ -14,6 +14,9 @@ class InterfaceController: WKInterfaceController {
 
     @IBOutlet weak var infoLabel: WKInterfaceLabel!
     @IBOutlet weak var infoGroup: WKInterfaceGroup!
+
+    var userActivity: [String:String]?
+
     override init () {
         super.init()
         print("init InterfaceController")
@@ -45,13 +48,18 @@ class InterfaceController: WKInterfaceController {
             var pages = [String]()
             var pageContexts = [AnyObject]()
             if let station = stations?[0] {
+                var station2 = station
+                if let uA = self.userActivity {
+                    station2 = TFCStation.initWithCache(uA["name"]!, id: uA["st_id"]!, coord: nil)
+                    self.userActivity = nil
+                }
                 pages.append("StationPage")
-                let pc = TFCPageContext()
-                pc.station = station
+                var pc = TFCPageContext()
+                pc.station = station2
                 pc.pageNumber = 0
                 pageContexts.append(pc)
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
-                    station.updateDepartures(nil)
+                    station2.updateDepartures(nil)
                     return
                 }
             }
@@ -74,4 +82,11 @@ class InterfaceController: WKInterfaceController {
     func reloadPages(notification: NSNotification) {
         NSLog("foo")
     }
+
+    override func handleUserActivity(userInfo: [NSObject : AnyObject]!) {
+        let uI:[String:String]? = userInfo as? [String:String]
+        NSLog("handleUserActivity controller")
+        self.userActivity = uI
+    }
+
 }

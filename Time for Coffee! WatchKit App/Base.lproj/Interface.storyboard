@@ -106,7 +106,7 @@
                         <table alignment="left" id="SXg-A1-SPs">
                             <items>
                                 <tableRow identifier="stations" id="4hO-c9-55K" customClass="StationsRow" customModule="Time_for_Coffee__WatchKit_Extension">
-                                    <group key="rootItem" width="1" height="0.0" alignment="left" id="TcE-GW-aim">
+                                    <group key="rootItem" width="1" height="0.0" alignment="left" hidden="YES" id="TcE-GW-aim">
                                         <items>
                                             <group alignment="left" verticalAlignment="center" layout="vertical" spacing="0.0" id="IUf-mO-YCq">
                                                 <items>
@@ -117,7 +117,7 @@
                                             </group>
                                         </items>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <edgeInsets key="margins" left="0.0" right="0.0" top="4" bottom="4"/>
+                                        <edgeInsets key="margins" left="0.0" right="0.0" top="5" bottom="5"/>
                                     </group>
                                     <connections>
                                         <outlet property="stationLabel" destination="k9f-Vh-KpK" id="Ajg-jV-Wzn"/>
@@ -176,7 +176,7 @@
                                 <table alignment="left" id="Lb1-UE-yg4">
                                     <items>
                                         <tableRow identifier="station" selectable="NO" id="kX2-lL-sOt" customClass="StationRow" customModule="Time_for_Coffee__WatchKit_Extension">
-                                            <group key="rootItem" width="1" height="28.5" alignment="left" id="rfn-HQ-lEX">
+                                            <group key="rootItem" width="1" height="28.5" alignment="left" hidden="YES" id="rfn-HQ-lEX">
                                                 <items>
                                                     <group width="26" height="26" alignment="left" verticalAlignment="center" radius="4" id="eh9-nV-NI2">
                                                         <items>
@@ -212,6 +212,7 @@
                                                 <outlet property="minutesLabel" destination="QnM-C5-toj" id="G0S-vM-jAh"/>
                                                 <outlet property="numberGroup" destination="eh9-nV-NI2" id="kbE-dH-5ij"/>
                                                 <outlet property="numberLabel" destination="g9d-wJ-KDh" id="Gzm-hX-Dq3"/>
+                                                <outlet property="topGroup" destination="rfn-HQ-lEX" id="Zer-FN-Q3a"/>
                                             </connections>
                                         </tableRow>
                                     </items>

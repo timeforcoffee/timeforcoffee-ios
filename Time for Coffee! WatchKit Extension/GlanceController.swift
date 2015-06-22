@@ -30,7 +30,9 @@ class GlanceController: WKInterfaceController {
         super.awakeWithContext(context)
 
         // Configure interface objects here.
-        print("are we here??")
+        self.stationsTable.setNumberOfRows(3, withRowType: "station")
+
+        println("are we here??")
     }
 
     override func willActivate() {
@@ -39,24 +41,33 @@ class GlanceController: WKInterfaceController {
         super.willActivate()
         func handleReply(stations: TFCStations?) {
             infoGroup.setHidden(true)
-            for (station) in stations! {
-                station.updateDepartures(nil)
-                let departures = station.getFilteredDepartures()
-                if(departures?.count > 0) {
-                    var i = 0
-                    stationLabel.setText(station.getName(true))
-                    stationsTable.setNumberOfRows(min(3,(departures?.count)!), withRowType: "station")
-                    for (departure) in departures! {
-                        if let sr = stationsTable.rowControllerAtIndex(i) as! StationRow? {
-                            sr.drawCell(departure, station: station)
-                            i++
-                            if (i >= 3) {
-                                break;
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+                for (station) in stations! {
+                    station.updateDepartures(nil)
+                    let departures = station.getFilteredDepartures()
+                    if(departures?.count > 0) {
+                        var i = 0
+                        self.stationLabel.setText(station.getName(true))
+                        for (departure) in departures! {
+                            if let sr = self.stationsTable.rowControllerAtIndex(i) as! StationRow? {
+                                sr.drawCell(departure, station: station)
+                                i++
+                                if (i >= 3) {
+                                    break;
+                                }
                             }
-
                         }
+                        if (i < 3) {
+                            for j in i...2 {
+                                if let sr = self.stationsTable.rowControllerAtIndex(i) as! StationRow? {
+                                    sr.setHidden()
+                                }
+                            }
+                        }
+                        self.updateUserActivity("ch.opendata.timeforcoffee.station", userInfo: ["name": station.name, "st_id": station.st_id], webpageURL: nil)
+
+                        break;
                     }
-                    break;
                 }
             }
         }

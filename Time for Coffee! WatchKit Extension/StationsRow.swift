@@ -20,7 +20,9 @@ class StationsRow: NSObject {
     func drawCell(station: TFCStation) {
         self.stationLabel.setText(station.getName(true))
         self.station = station
-        topGroup.setHidden(false)
+        if (topGroup != nil) {
+            topGroup.setHidden(false)
+        }
     }
 
 }
