@@ -1202,7 +1202,7 @@
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				IBSC_MODULE = Time_for_Coffee__WatchKit_App2_Extension;
-				INFOPLIST_FILE = "Time for Coffee! WatchKit App2/Info.plist";
+				INFOPLIST_FILE = "Time for Coffee! WatchKit App/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -1224,7 +1224,7 @@
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				IBSC_MODULE = Time_for_Coffee__WatchKit_App2_Extension;
-				INFOPLIST_FILE = "Time for Coffee! WatchKit App2/Info.plist";
+				INFOPLIST_FILE = "Time for Coffee! WatchKit App/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -1244,7 +1244,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Time for Coffee! WatchKit App2 Extension/Info.plist";
+				INFOPLIST_FILE = "Time for Coffee! WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
@@ -1266,7 +1266,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Time for Coffee! WatchKit App2 Extension/Info.plist";
+				INFOPLIST_FILE = "Time for Coffee! WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
