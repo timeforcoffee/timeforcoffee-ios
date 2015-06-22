@@ -12,13 +12,12 @@ import timeforcoffeeKit
 
 class StationsOverviewViewController: WKInterfaceController {
 
+    var numberOfRows: Int = 0
+
     @IBOutlet weak var stationsTable: WKInterfaceTable!
 
     @IBOutlet weak var infoGroup: WKInterfaceGroup!
     @IBOutlet weak var infoLabel: WKInterfaceLabel!
-
-
-    var stations:[TFCStation] = []
 
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
@@ -26,7 +25,8 @@ class StationsOverviewViewController: WKInterfaceController {
     }
 
     override func willActivate() {
-        
+        self.setTitle("Nearby Stations")
+
         func handleReply(stations: TFCStations?) {
             infoGroup.setHidden(true)
             if (stations == nil) {
@@ -34,13 +34,14 @@ class StationsOverviewViewController: WKInterfaceController {
             }
             let maxStations = min(5, (stations?.count())! - 1)
             let ctxStations = stations?[0...maxStations]
-            stationsTable.setNumberOfRows(ctxStations!.count, withRowType: "stations")
+            if (self.numberOfRows != ctxStations!.count) {
+                stationsTable.setNumberOfRows(ctxStations!.count, withRowType: "stations")
+                self.numberOfRows = ctxStations!.count
+            }
             var i = 0;
-            self.stations = []
             for (station) in ctxStations! {
-                self.stations.append(station)
                 if let sr = stationsTable.rowControllerAtIndex(i) as! StationsRow? {
-                    sr.stationLabel.setText(station.getName(true))
+                    sr.drawCell(station)
                 }
                 i++
             }
@@ -55,10 +56,10 @@ class StationsOverviewViewController: WKInterfaceController {
     }
 
     override func table(table: WKInterfaceTable, didSelectRowAtIndex rowIndex: Int) {
-        NSLog("station \(stations[rowIndex].st_id)")
-        self.dismissController()
-
-        NSNotificationCenter.defaultCenter().postNotificationName("TFCWatchkitSelectStation", object: nil, userInfo: ["index": rowIndex])
+        let row = table.rowControllerAtIndex(rowIndex) as! StationsRow
+        if let station = row.station {
+            NSNotificationCenter.defaultCenter().postNotificationName("TFCWatchkitSelectStation", object: nil, userInfo: ["st_id": station.st_id, "name": station.name])
+        }
 
     }
 }

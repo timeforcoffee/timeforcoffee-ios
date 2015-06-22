@@ -18,6 +18,7 @@ class StationRow: NSObject {
     
     @IBOutlet weak var numberLabel: WKInterfaceLabel!
     
+    @IBOutlet weak var topGroup: WKInterfaceGroup!
     
     @IBOutlet weak var numberGroup: WKInterfaceGroup!
 
@@ -27,6 +28,14 @@ class StationRow: NSObject {
         let helvetica = UIFont(name: "HelveticaNeue-Bold", size: 18.0)!
         var fontAttrs = [NSFontAttributeName : helvetica]
         var attrString = NSAttributedString(string: name, attributes: fontAttrs)
+        if (departure.colorBg != nil) {
+            if let group = self.numberGroup {
+                group.setBackgroundColor(UIColor(netHexString:(departure.colorBg)!))
+            }
+            if let label = self.numberLabel {
+                label.setTextColor(UIColor(netHexString:(departure.colorFg)!))
+            }
+        }
         if let numberLabel = self.numberLabel {
             numberLabel.setAttributedText(attrString)
         }
@@ -44,13 +53,7 @@ class StationRow: NSObject {
         if let label = self.minutesLabel {
             label.setText(departure.getMinutes())
         }
-        if (departure.colorBg != nil) {
-            if let group = self.numberGroup {
-                group.setBackgroundColor(UIColor(netHexString:(departure.colorBg)!))
-            }
-            if let label = self.numberLabel {
-                label.setTextColor(UIColor(netHexString:(departure.colorFg)!))
-            }
-        }
+
+        topGroup.setHidden(false)
     }
 }
