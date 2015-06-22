@@ -53,7 +53,12 @@ class StationRow: NSObject {
         if let label = self.minutesLabel {
             label.setText(departure.getMinutes())
         }
+        if (topGroup != nil) {
+            topGroup.setHidden(false)
+        }
+    }
 
-        topGroup.setHidden(false)
+    func setHidden() {
+        topGroup.setHidden(true)
     }
 }

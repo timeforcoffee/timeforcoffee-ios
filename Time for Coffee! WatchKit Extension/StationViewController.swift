@@ -16,6 +16,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     var pageNumber: Int?
     var numberOfRows: Int = 0
     var initTable = false
+    var active = false
     @IBOutlet weak var infoGroup: WKInterfaceGroup!
     @IBOutlet weak var infoLabel: WKInterfaceLabel!
     
@@ -42,11 +43,19 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
         NSLog("willActivate page")
+        self.active = true
+
         setStationValues()
     }
 
     private func setStationValues() {
         self.setTitle(station?.getName(true))
+        if (self.initTable == true) {
+            stationsTable.setNumberOfRows(10, withRowType: "station")
+            self.numberOfRows = 10
+            self.initTable = false
+        }
+        
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             self.station?.updateDepartures(self)
             self.displayDepartures(self.station)
@@ -71,6 +80,9 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
                     self.initTable = true
                 }
             }
+        }
+        if (self.active) {
+            self.setStationValues()
         }
         self.becomeCurrentPage()
     }
@@ -107,6 +119,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     override func didDeactivate() {
         // This method is called when watch view controller is no longer visible
         super.didDeactivate()
+        self.active = false
     }
 
     func contextButtonReload() {
@@ -130,4 +143,11 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         self.station?.toggleFavorite()
         setStationValues()
     }
+
+    override func handleUserActivity(userInfo: [NSObject : AnyObject]!) {
+        let uI:[String:String]? = userInfo as? [String:String]
+        NSLog("handleUserActivity StationViewController")
+        NSNotificationCenter.defaultCenter().postNotificationName("TFCWatchkitSelectStation", object: nil, userInfo: uI)
+    }
+
 }
