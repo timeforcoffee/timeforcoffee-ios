@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="8121.17" systemVersion="14E36b" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="7706" systemVersion="14E36b" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8101.14"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="8066.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="7701"/>
     </dependencies>
     <scenes>
         <!--Time for Coffee!-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller title="Time for Coffee!" id="AgC-eL-Hgc" userLabel="Time for Coffee!" customClass="InterfaceController" customModule="Time_for_Coffee__WatchKit_App2" customModuleProvider="target">
+                <controller title="Time for Coffee!" id="AgC-eL-Hgc" userLabel="Time for Coffee!" customClass="InterfaceController" customModule="Time_for_Coffee__WatchKit_App" customModuleProvider="target">
                     <items>
                         <group width="1" alignment="left" hidden="YES" id="V60-Ai-Gni" userLabel="info Group">
                             <items>
@@ -40,7 +40,7 @@
                         <table alignment="left" id="J4B-MA-cdK">
                             <items>
                                 <tableRow identifier="station" selectable="NO" id="Y4q-hS-mJZ" customClass="StationRow" customModule="Time_for_Coffee__WatchKit_Extension">
-                                    <group key="rootItem" width="1" height="28.5" alignment="left" id="UGC-nv-9zx">
+                                    <group key="rootItem" width="1" height="28.5" alignment="left" hidden="YES" id="UGC-nv-9zx">
                                         <items>
                                             <group width="26" height="26" alignment="left" verticalAlignment="center" radius="4" id="cBO-9q-LrM">
                                                 <items>
@@ -77,6 +77,7 @@
                                         <outlet property="minutesLabel" destination="wVu-EU-Rtc" id="ONZ-sL-4T8"/>
                                         <outlet property="numberGroup" destination="cBO-9q-LrM" id="waI-z7-ZRB"/>
                                         <outlet property="numberLabel" destination="dbP-Hm-64x" id="Xdd-I9-Tny"/>
+                                        <outlet property="topGroup" destination="UGC-nv-9zx" id="OxO-a8-C9v"/>
                                     </connections>
                                 </tableRow>
                             </items>
@@ -105,21 +106,22 @@
                         <table alignment="left" id="SXg-A1-SPs">
                             <items>
                                 <tableRow identifier="stations" id="4hO-c9-55K" customClass="StationsRow" customModule="Time_for_Coffee__WatchKit_Extension">
-                                    <group key="rootItem" width="1" height="28.5" alignment="left" id="TcE-GW-aim">
+                                    <group key="rootItem" width="1" height="0.0" alignment="left" id="TcE-GW-aim">
                                         <items>
                                             <group alignment="left" verticalAlignment="center" layout="vertical" spacing="0.0" id="IUf-mO-YCq">
                                                 <items>
-                                                    <label alignment="left" minimumScaleFactor="0.89999999999999991" id="k9f-Vh-KpK">
+                                                    <label alignment="left" text="Zürich, Röntgenstrasse" minimumScaleFactor="0.89999999999999991" id="k9f-Vh-KpK">
                                                         <fontDescription key="font" type="system" pointSize="13"/>
                                                     </label>
                                                 </items>
                                             </group>
                                         </items>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
+                                        <edgeInsets key="margins" left="0.0" right="0.0" top="4" bottom="4"/>
                                     </group>
                                     <connections>
                                         <outlet property="stationLabel" destination="k9f-Vh-KpK" id="Ajg-jV-Wzn"/>
+                                        <outlet property="topGroup" destination="TcE-GW-aim" id="yoY-Uz-oic"/>
                                     </connections>
                                 </tableRow>
                             </items>
@@ -132,7 +134,7 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="762" y="97"/>
+            <point key="canvasLocation" x="632" y="97"/>
         </scene>
         <!--Map-->
         <scene sceneID="Sud-i2-3Rx">
@@ -146,12 +148,12 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="625" y="348"/>
+            <point key="canvasLocation" x="462" y="391"/>
         </scene>
         <!--Glance Interface Controller-->
         <scene sceneID="rjY-Ar-IMT">
             <objects>
-                <glanceController spacing="0.0" id="Sv0-Ai-Zie" customClass="GlanceController" customModule="Time_for_Coffee__WatchKit_App2" customModuleProvider="target">
+                <glanceController spacing="0.0" id="Sv0-Ai-Zie" customClass="GlanceController" customModule="Time_for_Coffee__WatchKit_App" customModuleProvider="target">
                     <items>
                         <group alignment="left" id="gv7-I2-MZq">
                             <items>

@@ -21,7 +21,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIContro
     private var networkErrorMsg: String?
 
     private var replyNearby: replyClosure?
-    public lazy var stations: TFCStations? =  {return TFCStations()}()
+    private lazy var stations: TFCStations? =  {return TFCStations()}()
     private lazy var locManager: TFCLocationManager? = self.lazyInitLocationManager()
 
     private struct replyContext {

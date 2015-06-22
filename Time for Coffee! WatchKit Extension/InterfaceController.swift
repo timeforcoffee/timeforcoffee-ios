@@ -42,23 +42,21 @@ class InterfaceController: WKInterfaceController {
             if (stations == nil) {
                 return
             }
-            let maxStations = min(5, (stations?.count())! - 1)
-            let ctxStations = stations?[0...maxStations]
             var pages = [String]()
             var pageContexts = [AnyObject]()
-            var i = 0;
-            for (station) in ctxStations! {
+            if let station = stations?[0] {
                 pages.append("StationPage")
                 let pc = TFCPageContext()
                 pc.station = station
-                pc.pageNumber = i
+                pc.pageNumber = 0
                 pageContexts.append(pc)
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
                     station.updateDepartures(nil)
                     return
                 }
-                i++
             }
+            pages.append("StationsOverviewPage")
+            pageContexts.append("")
             WKInterfaceController.reloadRootControllersWithNames(pages, contexts: pageContexts)
         }
         func errorReply(text: String) {

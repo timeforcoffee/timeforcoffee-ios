@@ -14,6 +14,8 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     @IBOutlet weak var stationsTable: WKInterfaceTable!
     var station: TFCStation?
     var pageNumber: Int?
+    var numberOfRows: Int = 0
+    var initTable = false
     @IBOutlet weak var infoGroup: WKInterfaceGroup!
     @IBOutlet weak var infoLabel: WKInterfaceLabel!
 
@@ -44,36 +46,33 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     }
 
     private func setStationValues() {
-        let watchdata = TFCWatchData.sharedInstance
-        if let stationFromWatchData = watchdata.stations?.getStation(self.pageNumber!) {
-            if (stationFromWatchData.st_id != self.station?.st_id) {
-                self.station = stationFromWatchData
-            }
-        }
         self.setTitle(station?.getName(true))
-        station?.updateDepartures(self)
-        self.displayDepartures(station)
-        self.clearAllMenuItems()
-        if (station?.isFavorite() == true) {
-            self.addMenuItemWithItemIcon(WKMenuItemIcon.Decline, title: "Unfavorite Station", action: "contextButtonFavorite")
-        } else {
-            self.addMenuItemWithItemIcon(WKMenuItemIcon.Add, title: "Favorite Station", action: "contextButtonFavorite")
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            self.station?.updateDepartures(self)
+            self.displayDepartures(self.station)
+            self.clearAllMenuItems()
+            if (self.station?.isFavorite() == true) {
+                self.addMenuItemWithItemIcon(WKMenuItemIcon.Decline, title: "Unfavorite Station", action: "contextButtonFavorite")
+            } else {
+                self.addMenuItemWithItemIcon(WKMenuItemIcon.Add, title: "Favorite Station", action: "contextButtonFavorite")
+            }
+
+            self.addMenuItemWithItemIcon(WKMenuItemIcon.Resume, title: "Reload", action: "contextButtonReload")
+            self.addMenuItemWithItemIcon(WKMenuItemIcon.Maybe, title: "Map", action: Selector("contextButtonMap"))
         }
-
-        self.addMenuItemWithItemIcon(WKMenuItemIcon.Resume, title: "Reload", action: "contextButtonReload")
-        self.addMenuItemWithItemIcon(WKMenuItemIcon.Maybe, title: "Map", action: Selector("contextButtonMap"))
-
-        self.addMenuItemWithItemIcon(WKMenuItemIcon.More, title: "Stations", action: Selector("contextButtonStations"))
-
     }
+
     func selectStation(notification: NSNotification) {
-        let uI:[String:Int]? = notification.userInfo as? [String:Int]
-        if let st_id = uI?["index"] {
-            if (st_id == self.pageNumber) {
-                setStationValues()
-                self.becomeCurrentPage()
+        let uI:[String:String]? = notification.userInfo as? [String:String]
+        if let st_id = uI?["st_id"] {
+            if let self_st_id = self.station?.st_id {
+                if (self_st_id != st_id) {
+                    self.station = TFCStation.initWithCache((uI?["name"])! , id: st_id, coord: nil)
+                    self.initTable = true
+                }
             }
         }
+        self.becomeCurrentPage()
     }
 
     func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?) {
@@ -87,7 +86,11 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         let departures = station?.getFilteredDepartures(10)
         var i = 0;
         if let departures2 = departures {
-            stationsTable.setNumberOfRows(departures2.count, withRowType: "station")
+            if (self.numberOfRows != departures2.count || self.initTable == true) {
+                stationsTable.setNumberOfRows(departures2.count, withRowType: "station")
+                self.numberOfRows = departures2.count
+                self.initTable = false
+            }
             for (deptstation) in departures2 {
                 if let sr = stationsTable.rowControllerAtIndex(i) as! StationRow? {
                     sr.drawCell(deptstation, station: station!)
@@ -106,10 +109,6 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         super.didDeactivate()
     }
 
-    func contextButtonStations() {
-        self.presentControllerWithName("StationsOverviewPage", context: nil)
-    }
-
     func contextButtonReload() {
         func reload(stations: TFCStations?) {
             infoGroup.setHidden(true)
@@ -125,7 +124,6 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
 
     func contextButtonMap() {
         self.presentControllerWithName("MapPage", context: self.station)
-
     }
 
     func contextButtonFavorite() {
