@@ -54,7 +54,7 @@ class InterfaceController: WKInterfaceController {
                     self.userActivity = nil
                 }
                 pages.append("StationPage")
-                var pc = TFCPageContext()
+                let pc = TFCPageContext()
                 pc.station = station2
                 pc.pageNumber = 0
                 pageContexts.append(pc)

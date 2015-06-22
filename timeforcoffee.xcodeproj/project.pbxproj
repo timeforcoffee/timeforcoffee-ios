@@ -296,7 +296,7 @@
 		EC84D1A41B36DFE200369432 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		EC84D1A61B36E00300369432 /* StationsOverviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationsOverviewViewController.swift; sourceTree = "<group>"; };
 		EC84D1A81B36E01A00369432 /* StationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationViewController.swift; sourceTree = "<group>"; };
-		EC84D1AA1B36E07100369432 /* Time for Coffee! WatchKit App2 Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Time for Coffee! WatchKit App2 Extension.entitlements"; sourceTree = "<group>"; };
+		EC84D1AA1B36E07100369432 /* Time for Coffee! WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Time for Coffee! WatchKit Extension.entitlements"; sourceTree = "<group>"; };
 		EC84D1AB1B36E38900369432 /* TFCLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCLocationManager.swift; sourceTree = "<group>"; };
 		EC84D1AD1B36E4A600369432 /* TFCLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCLocationManager.swift; sourceTree = "<group>"; };
 		EC87B64E1AB95310005A053E /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
@@ -465,7 +465,7 @@
 		EC445D801B36048D000DAC44 /* Time for Coffee! WatchKit Extension */ = {
 			isa = PBXGroup;
 			children = (
-				EC84D1AA1B36E07100369432 /* Time for Coffee! WatchKit App2 Extension.entitlements */,
+				EC84D1AA1B36E07100369432 /* Time for Coffee! WatchKit Extension.entitlements */,
 				EC445D811B36048D000DAC44 /* InterfaceController.swift */,
 				EC445D831B36048D000DAC44 /* ExtensionDelegate.swift */,
 				EC84D1A81B36E01A00369432 /* StationViewController.swift */,
@@ -1238,7 +1238,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
-				CODE_SIGN_ENTITLEMENTS = "Time for Coffee! WatchKit App2 Extension/Time for Coffee! WatchKit App2 Extension.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Time for Coffee! WatchKit Extension/Time for Coffee! WatchKit Extension.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -1260,7 +1260,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
-				CODE_SIGN_ENTITLEMENTS = "Time for Coffee! WatchKit App2 Extension/Time for Coffee! WatchKit App2 Extension.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Time for Coffee! WatchKit Extension/Time for Coffee! WatchKit Extension.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;

@@ -26,8 +26,8 @@ class StationRow: NSObject {
         let to = departure.getDestination(station)
         let name = departure.getLine()                // doesn't work yet  with the font;(
         let helvetica = UIFont(name: "HelveticaNeue-Bold", size: 18.0)!
-        var fontAttrs = [NSFontAttributeName : helvetica]
-        var attrString = NSAttributedString(string: name, attributes: fontAttrs)
+        let fontAttrs = [NSFontAttributeName : helvetica]
+        let attrString = NSAttributedString(string: name, attributes: fontAttrs)
         if (departure.colorBg != nil) {
             if let group = self.numberGroup {
                 group.setBackgroundColor(UIColor(netHexString:(departure.colorBg)!))
