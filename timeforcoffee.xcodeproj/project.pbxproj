@@ -1294,6 +1294,7 @@
 					"$(inherited)",
 					"MY_TARGET_WATCH_OS=2",
 				);
+                 APPLICATION_EXTENSION_API_ONLY = YES;
 				INFOPLIST_FILE = timeforcoffeeWatchKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1321,6 +1322,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "MY_TARGET_WATCH_OS=2";
 				INFOPLIST_FILE = timeforcoffeeWatchKit/Info.plist;
+                 APPLICATION_EXTENSION_API_ONLY = YES;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ch.liip.timeforcofee.timeforcoffeeWatchKit;
