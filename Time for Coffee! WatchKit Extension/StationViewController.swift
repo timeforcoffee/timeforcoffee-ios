@@ -32,32 +32,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         NSLog("awake page")
         if (context == nil) {
 
-            func handleReply(stations: TFCStations?) {
-                if (stations == nil || stations?.count() == nil) {
-                    return
-                }
-                infoGroup.setHidden(true)
-                if let station = stations?[0] {
-                    var station2 = station
-                    if let uA = self.userActivity {
-                        station2 = TFCStation.initWithCache(uA["name"]!, id: uA["st_id"]!, coord: nil)
-                        self.userActivity = nil
-                    }
-                    self.station = station2
-                    self.setStationValues()
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
-                        NSLog("update departures")
-                        return
-                    }
-                }
-            }
-            func errorReply(text: String) {
-                NSLog("errorReply")
-                infoGroup.setHidden(false)
-                infoLabel.setText(text)
-            }
-            
-            TFCWatchData.sharedInstance.getStations(handleReply, errorReply: errorReply, stopWithFavorites: false)
+            getStation()
 
             NSNotificationCenter.defaultCenter().addObserver(
                 self,
@@ -72,7 +47,36 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         }
 
     }
-    
+
+    private func getStation() {
+        func handleReply(stations: TFCStations?) {
+            if (stations == nil || stations?.count() == nil) {
+                return
+            }
+            infoGroup.setHidden(true)
+            if let station = stations?[0] {
+                var station2 = station
+                if let uA = self.userActivity {
+                    station2 = TFCStation.initWithCache(uA["name"]!, id: uA["st_id"]!, coord: nil)
+                    self.userActivity = nil
+                }
+                self.station = station2
+                self.setStationValues()
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
+                    NSLog("update departures")
+                    return
+                }
+            }
+        }
+        func errorReply(text: String) {
+            NSLog("errorReply")
+            infoGroup.setHidden(false)
+            infoLabel.setText(text)
+        }
+
+        TFCWatchData.sharedInstance.getStations(handleReply, errorReply: errorReply, stopWithFavorites: false)
+    }
+
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
@@ -85,7 +89,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     private func setStationValues() {
         if (station == nil) {
            // infoGroup.setHidden(false)
-
+            getStation()
             return
         }
         self.setTitle(station?.getName(true))
@@ -113,7 +117,10 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     func selectStation(notification: NSNotification) {
         let uI:[String:String]? = notification.userInfo as? [String:String]
         if let st_id = uI?["st_id"] {
-            if let self_st_id = self.station?.st_id {
+            if (self.station == nil) {
+                self.station = TFCStation.initWithCache((uI?["name"])! , id: st_id, coord: nil)
+                self.initTable = true
+            } else if let self_st_id = self.station?.st_id {
                 if (self_st_id != st_id) {
                     self.station = TFCStation.initWithCache((uI?["name"])! , id: st_id, coord: nil)
                     self.initTable = true
