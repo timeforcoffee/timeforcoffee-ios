@@ -17,6 +17,8 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     var numberOfRows: Int = 0
     var initTable = false
     var active = false
+    var userActivity: [String:String]?
+
     @IBOutlet weak var infoGroup: WKInterfaceGroup!
     @IBOutlet weak var infoLabel: WKInterfaceLabel!
     
@@ -28,15 +30,47 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     override func awakeWithContext(context: AnyObject?) {
       super.awakeWithContext(context)
         NSLog("awake page")
-        let c = context as! TFCPageContext
-        self.station = c.station
-        self.pageNumber = c.pageNumber
+        if (context == nil) {
 
-        NSNotificationCenter.defaultCenter().addObserver(
-            self,
-            selector: "selectStation:",
-            name: "TFCWatchkitSelectStation",
-            object: nil)
+            func handleReply(stations: TFCStations?) {
+                if (stations == nil || stations?.count() == nil) {
+                    return
+                }
+                infoGroup.setHidden(true)
+                if let station = stations?[0] {
+                    var station2 = station
+                    if let uA = self.userActivity {
+                        station2 = TFCStation.initWithCache(uA["name"]!, id: uA["st_id"]!, coord: nil)
+                        self.userActivity = nil
+                    }
+                    self.station = station2
+                    self.setStationValues()
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
+                        NSLog("update departures")
+                        return
+                    }
+                }
+            }
+            func errorReply(text: String) {
+                NSLog("errorReply")
+                infoGroup.setHidden(false)
+                infoLabel.setText(text)
+            }
+            
+            TFCWatchData.sharedInstance.getStations(handleReply, errorReply: errorReply, stopWithFavorites: false)
+
+            NSNotificationCenter.defaultCenter().addObserver(
+                self,
+                selector: "selectStation:",
+                name: "TFCWatchkitSelectStation",
+                object: nil)
+
+        } else {
+            let c = context as! TFCPageContext
+            self.station = c.station
+            self.pageNumber = c.pageNumber
+        }
+
     }
     
     override func willActivate() {
@@ -49,6 +83,11 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     }
 
     private func setStationValues() {
+        if (station == nil) {
+           // infoGroup.setHidden(false)
+
+            return
+        }
         self.setTitle(station?.getName(true))
         if (self.initTable == true) {
             stationsTable.setNumberOfRows(10, withRowType: "station")

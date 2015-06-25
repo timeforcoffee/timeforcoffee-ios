@@ -28,10 +28,10 @@ class StationsOverviewViewController: WKInterfaceController {
         self.setTitle("Nearby Stations")
 
         func handleReply(stations: TFCStations?) {
-            infoGroup.setHidden(true)
-            if (stations == nil) {
+            if (stations == nil || stations?.count() == nil) {
                 return
             }
+            infoGroup.setHidden(true)
             let maxStations = min(5, (stations?.count())! - 1)
             let ctxStations = stations?[0...maxStations]
             if (self.numberOfRows != ctxStations!.count) {
