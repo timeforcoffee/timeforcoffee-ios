@@ -159,8 +159,8 @@ public final class TFCDeparture: NSObject, NSCoding {
     }
 
     public func getDepartureTime(forceString: Bool) -> (NSMutableAttributedString?, String?) {
-        var realtimeStr: String?
-        var scheduledStr: String?
+        var realtimeStr: String = ""
+        var scheduledStr: String = ""
         let attributesNoStrike = [
             NSStrikethroughStyleAttributeName: 0,
         ]
@@ -191,24 +191,25 @@ public final class TFCDeparture: NSObject, NSCoding {
 
         // we do two different approaches here, since NSMutableAttributedString seems to
         // use a lot of memory for the today widget and it's only needed, when 
-        // there's a dealy
+        // there's a delay
 
         if (self.realtime != nil && self.realtime != self.scheduled) {
             if (forceString) {
-                timestring =  "\(realtimeStr!) / \(scheduledStr!)"
+                timestring =  "\(realtimeStr) / \(scheduledStr)"
             } else {
                 timestringAttr = NSMutableAttributedString(string: "")
 
                 //the nostrike is needed due to an apple bug...
                 // https://stackoverflow.com/questions/25956183/nsmutableattributedstrings-attribute-nsstrikethroughstyleattributename-doesnt
-                timestringAttr?.appendAttributedString(NSAttributedString(string: "\(realtimeStr!) ", attributes: attributesNoStrike))
+                timestringAttr?.appendAttributedString(NSAttributedString(string: "\(realtimeStr) ", attributes: attributesNoStrike))
 
-                timestringAttr?.appendAttributedString(NSAttributedString(string: "\(scheduledStr!)", attributes: attributesStrike))
+                timestringAttr?.appendAttributedString(NSAttributedString(string: "\(scheduledStr)", attributes: attributesStrike))
             }
 
         } else {
-            timestring = "\(scheduledStr!)"
+            timestring = "\(scheduledStr)"
         }
+
         if (accessible) {
             if (timestringAttr != nil) {
                 timestringAttr?.appendAttributedString(NSAttributedString(string: " ♿︎"))
