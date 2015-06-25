@@ -39,7 +39,6 @@
 		EC2C317D1A9E1F3D00690397 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C31731A9E1EE400690397 /* libc++.dylib */; };
 		EC2C317E1A9E1F4400690397 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C31751A9E1EEB00690397 /* libz.dylib */; };
 		EC31F5481AAE3AED00771585 /* DeparturesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC31F5471AAE3AED00771585 /* DeparturesViewController.swift */; };
-		EC4344B31AA5080A009438C7 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4344B21AA5080A009438C7 /* InterfaceController.swift */; };
 		EC4344B51AA5080A009438C7 /* GlanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4344B41AA5080A009438C7 /* GlanceController.swift */; };
 		EC4344B71AA5080A009438C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC4344B61AA5080A009438C7 /* Images.xcassets */; };
 		EC4344BB1AA5080A009438C7 /* Time for Coffee! WatchKit App.app in Resources */ = {isa = PBXBuildFile; fileRef = EC4344BA1AA5080A009438C7 /* Time for Coffee! WatchKit App.app */; };
@@ -199,7 +198,6 @@
 		EC3252DF1A9CE0800056AF11 /* timeforcoffee-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "timeforcoffee-Bridging-Header.h"; sourceTree = "<group>"; };
 		EC4344AE1AA5080A009438C7 /* Time for Coffee! WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Time for Coffee! WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC4344B11AA5080A009438C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EC4344B21AA5080A009438C7 /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
 		EC4344B41AA5080A009438C7 /* GlanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlanceController.swift; sourceTree = "<group>"; };
 		EC4344B61AA5080A009438C7 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		EC4344BA1AA5080A009438C7 /* Time for Coffee! WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Time for Coffee! WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -373,7 +371,6 @@
 			children = (
 				ECBCF0041ACB506400957A4F /* Time for Coffee! WatchKit Extension.entitlements */,
 				EC522E701AA60CF30011A992 /* fonts */,
-				EC4344B21AA5080A009438C7 /* InterfaceController.swift */,
 				EC4344D11AA5890F009438C7 /* StationViewController.swift */,
 				EC994D7D1ADC240000354014 /* StationsOverviewViewController.swift */,
 				ECC1EDB51B132FF8009B0D53 /* MapViewController.swift */,
@@ -925,7 +922,6 @@
 				EC4344D01AA508FF009438C7 /* StationRow.swift in Sources */,
 				ECC1EDB61B132FF8009B0D53 /* MapViewController.swift in Sources */,
 				EC994D7E1ADC240000354014 /* StationsOverviewViewController.swift in Sources */,
-				EC4344B31AA5080A009438C7 /* InterfaceController.swift in Sources */,
 				EC994D801ADC283000354014 /* StationsRow.swift in Sources */,
 				EC4344B51AA5080A009438C7 /* GlanceController.swift in Sources */,
 				EC4344D21AA5890F009438C7 /* StationViewController.swift in Sources */,
