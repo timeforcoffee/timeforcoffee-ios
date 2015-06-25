@@ -31,6 +31,8 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
       super.awakeWithContext(context)
         NSLog("awake page")
         if (context == nil) {
+            stationsTable.setNumberOfRows(10, withRowType: "station")
+            self.numberOfRows = 10
 
             getStation()
 
@@ -150,6 +152,9 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
                 self.initTable = false
             }
             for (deptstation) in departures2 {
+                if (station?.st_id != self.station?.st_id) {
+                    continue
+                }
                 if let sr = stationsTable.rowControllerAtIndex(i) as! StationRow? {
                     sr.drawCell(deptstation, station: station!)
                 }

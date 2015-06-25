@@ -22,9 +22,12 @@ class StationsOverviewViewController: WKInterfaceController {
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
         NSLog("awake StationsOverviewViewController")
+        stationsTable.setNumberOfRows(6, withRowType: "stations")
+        self.numberOfRows = 6
     }
 
     override func willActivate() {
+        super.willActivate()
         self.setTitle("Nearby Stations")
 
         func handleReply(stations: TFCStations?) {

@@ -8,7 +8,7 @@
         <!--Time for Coffee!-->
         <scene sceneID="LqG-bx-ytL">
             <objects>
-                <controller identifier="StationPage" id="3ez-Oj-rei" userLabel="Time for Coffee!" customClass="StationViewController" customModule="Time_for_Coffee__WatchKit_Extension">
+                <controller identifier="StationPage" hidesWhenLoading="NO" id="3ez-Oj-rei" userLabel="Time for Coffee!" customClass="StationViewController" customModule="Time_for_Coffee__WatchKit_Extension">
                     <items>
                         <group width="1" alignment="left" hidden="YES" id="wGr-Fi-lKk" userLabel="info Group">
                             <items>
