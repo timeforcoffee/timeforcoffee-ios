@@ -286,6 +286,7 @@ public final class TFCDeparture: NSObject, NSCoding {
         let format = "yyyy-MM-dd'T'HH:mm:ss.'000'ZZZZZ"
         let dateFmt = NSDateFormatter()
         dateFmt.timeZone = NSTimeZone.defaultTimeZone()
+        dateFmt.locale = NSLocale(localeIdentifier: "de_CH")
         dateFmt.dateFormat = format
         return dateFmt.dateFromString(dateStr)
     }
@@ -294,6 +295,7 @@ public final class TFCDeparture: NSObject, NSCoding {
         let format = "HH:mm"
         let dateFmt = NSDateFormatter()
         dateFmt.timeZone = NSTimeZone.defaultTimeZone()
+        dateFmt.locale = NSLocale(localeIdentifier: "de_CH")
         dateFmt.dateFormat = format
         return dateFmt.stringFromDate(date)
     }
