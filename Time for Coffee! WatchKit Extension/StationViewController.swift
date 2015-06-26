@@ -18,7 +18,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     var initTable = false
     var active = false
     var userActivity: [String:String]?
-
+    var titleString:String?
     @IBOutlet weak var infoGroup: WKInterfaceGroup!
     @IBOutlet weak var infoLabel: WKInterfaceLabel!
     
@@ -76,7 +76,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             infoLabel.setText(text)
         }
 
-        TFCWatchData.sharedInstance.getStations(handleReply, errorReply: errorReply, stopWithFavorites: false)
+        TFCWatchData.sharedInstance.getStations(handleReply, errorReply: errorReply, stopWithFavorites: true)
     }
 
     override func willActivate() {
@@ -94,7 +94,11 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             getStation()
             return
         }
-        self.setTitle(station?.getName(true))
+        let title = station?.getName(true)
+        if (title != self.titleString) {
+            self.setTitle(station?.getName(true))
+            self.titleString = title
+        }
         if (self.initTable == true) {
             stationsTable.setNumberOfRows(10, withRowType: "station")
             self.numberOfRows = 10
@@ -118,6 +122,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
 
     func selectStation(notification: NSNotification) {
         let uI:[String:String]? = notification.userInfo as? [String:String]
+        let st_id2 = uI?["st_id"]
         if let st_id = uI?["st_id"] {
             if (self.station == nil) {
                 self.station = TFCStation.initWithCache((uI?["name"])! , id: st_id, coord: nil)
