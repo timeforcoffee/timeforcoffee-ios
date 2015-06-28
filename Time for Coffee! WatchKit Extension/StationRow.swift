@@ -26,11 +26,18 @@ class StationRow: NSObject {
     var name: String?
     var departureTime: String?
     var minutes: String?
+    var plannedDepartureTime: String?
 
     func drawCell(departure: TFCDeparture, station: TFCStation ) {
         let to = departure.getDestination(station)
-        let name = departure.getLine()                // doesn't work yet  with the font;(
-        if (name != self.name) {
+        let name = departure.getLine()
+        var redrawAll = false
+        let plannedDepartureTime = departure.getScheduledTime()
+        if (plannedDepartureTime != self.plannedDepartureTime) {
+            self.plannedDepartureTime = plannedDepartureTime
+            redrawAll = true
+        }
+        if (redrawAll || name != self.name) {
            /* let helvetica = UIFont(name: "HelveticaNeue-Bold", size: 18.0)!
             var fontAttrs = [NSFontAttributeName : helvetica]
             var attrString = NSAttributedString(string: name, attributes: fontAttrs)*/
@@ -47,7 +54,7 @@ class StationRow: NSObject {
             }
             self.name = name
         }
-        if (self.to != to) {
+        if (redrawAll || self.to != to) {
             if let label = self.destinationLabel {
                 label.setText(to)
             }
@@ -61,7 +68,7 @@ class StationRow: NSObject {
         } else {
             departureTime = departureTimeString
         }
-        if (departureTime != self.departureTime) {
+        if (redrawAll ||  departureTime != self.departureTime) {
             if let label = self.depatureLabel {
                 if (departureTimeAttr != nil) {
                     label.setAttributedText(departureTimeAttr)
@@ -72,7 +79,7 @@ class StationRow: NSObject {
             self.departureTime = departureTime
         }
         let minutes = departure.getMinutes()
-        if (minutes != self.minutes) {
+        if (redrawAll || minutes != self.minutes) {
             if let label = self.minutesLabel {
                 label.setText(minutes)
             }

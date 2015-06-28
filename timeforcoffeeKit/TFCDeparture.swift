@@ -158,6 +158,13 @@ public final class TFCDeparture: NSObject, NSCoding {
         return getDepartureTime(false)
     }
 
+    public func getScheduledTime() -> String? {
+        if let scheduled = self.scheduled {
+            return self.getShortDate(scheduled)
+        }
+        return nil
+    }
+
     public func getDepartureTime(forceString: Bool) -> (NSMutableAttributedString?, String?) {
         var realtimeStr: String = ""
         var scheduledStr: String = ""
