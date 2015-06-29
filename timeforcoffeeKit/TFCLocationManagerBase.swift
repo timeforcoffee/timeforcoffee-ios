@@ -53,7 +53,7 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
     public func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         dispatch_async(dispatch_get_main_queue(), {
                 NSLog("LocationManager Error \(error) with code \(error.code)")
-                #if !((arch(i386) || arch(x86_64)) && os(iOS))
+                #if !((arch(i386) || arch(x86_64)) && (os(iOS) || os(watchOS)))
                     if (error.code == CLError.LocationUnknown.rawValue) {
                         NSLog("LocationManager LocationUnknown")
                         self.delegate.locationStillTrying(manager, err: error)
@@ -65,7 +65,7 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
                     self.seenError = true
                     // we often get errors on the simulator, this just sets the currentCoordinates to the liip office
                     // in zurich when in the simulator
-                    #if (arch(i386) || arch(x86_64)) && os(iOS)
+                    #if (arch(i386) || arch(x86_64)) && (os(iOS) || os(watchOS))
                         NSLog("Set coordinates to Liip ZH...")
                         self.currentLocation = CLLocation(latitude: 47.386142, longitude: 8.529163)
                         //currentLocation = CLLocation(latitude: 46.386142, longitude: 7.529163)
