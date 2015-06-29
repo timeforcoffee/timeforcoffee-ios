@@ -113,30 +113,3 @@ extension String {
     }
 }
 
-public extension UIImage {
-
-func imageByApplyingAlpha(alpha: CGFloat) -> UIImage {
-
-    UIGraphicsBeginImageContextWithOptions(self.size, false, 0.0);
-
-    let ctx = UIGraphicsGetCurrentContext();
-    let area = CGRectMake(0, 0, self.size.width, self.size.height);
-
-    CGContextScaleCTM(ctx, 1, -1);
-    CGContextTranslateCTM(ctx, 0, -area.size.height);
-
-    CGContextSetBlendMode(ctx, kCGBlendModeMultiply);
-
-    CGContextSetAlpha(ctx, alpha);
-
-    CGContextDrawImage(ctx, area, self.CGImage);
-
-    let newImage = UIGraphicsGetImageFromCurrentImageContext();
-
-    UIGraphicsEndImageContext();
-
-    return newImage;
-    }
-
-
-}

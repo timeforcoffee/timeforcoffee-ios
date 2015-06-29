@@ -7,10 +7,15 @@
 //
 
 import Foundation
+import CoreLocation
 
 public final class TFCLocationManager: TFCLocationManagerBase {
 
     override func requestLocation() {
         self.locationManager.requestLocation()
+    }
+
+    public func locationManager(manager: CLLocationManager, didUpdateLocations locations: [AnyObject]) {
+        self.locationManagerBase(manager, didUpdateLocations: locations)
     }
 }

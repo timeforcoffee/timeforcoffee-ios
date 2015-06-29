@@ -81,8 +81,8 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
                 }
         })
     }
-    
-    public func locationManager(manager: CLLocationManager, didUpdateLocations locations: [AnyObject]) {
+
+    public func locationManagerBase(manager: CLLocationManager, didUpdateLocations locations: [AnyObject]) {
         dispatch_async(dispatch_get_main_queue(), {
             if (self.currentLocation == nil || self.locationFixAchieved == false) {
                 self.locationFixAchieved = true

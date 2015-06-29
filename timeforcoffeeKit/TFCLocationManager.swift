@@ -7,14 +7,22 @@
 //
 
 import Foundation
+import CoreLocation
 
 public final class TFCLocationManager: TFCLocationManagerBase {
 
     override func requestLocation() {
+        self.locationManager.startUpdatingLocation()
+
+/*  
         if #available(iOS 9, *) {
             self.locationManager.requestLocation()
         } else {
             self.locationManager.startUpdatingLocation()
-        }
+        }*/
+    }
+
+    public func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        self.locationManagerBase(manager, didUpdateLocations: locations)
     }
 }

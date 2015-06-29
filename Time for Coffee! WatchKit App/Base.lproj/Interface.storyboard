@@ -1,31 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="8121.17" systemVersion="14E36b" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="8121.20" systemVersion="14E36b" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="3ez-Oj-rei">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8101.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8101.16"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="8066.14"/>
     </dependencies>
     <scenes>
-        <!--Time for Coffee!-->
-        <scene sceneID="aou-V4-d1y">
-            <objects>
-                <controller title="Time for Coffee!" id="AgC-eL-Hgc" userLabel="Time for Coffee!" customClass="InterfaceController" customModule="Time_for_Coffee__WatchKit_App2" customModuleProvider="target">
-                    <items>
-                        <group width="1" alignment="left" hidden="YES" id="V60-Ai-Gni" userLabel="info Group">
-                            <items>
-                                <label alignment="left" text="Label" numberOfLines="3" id="gx4-sJ-B8Q" userLabel="info Label"/>
-                            </items>
-                            <edgeInsets key="margins" left="3" right="3" top="0.0" bottom="0.0"/>
-                        </group>
-                        <imageView alignment="left" image="launchicon.png" id="aNd-iq-fZT"/>
-                    </items>
-                    <connections>
-                        <outlet property="infoGroup" destination="V60-Ai-Gni" id="uf7-n0-LtA"/>
-                        <outlet property="infoLabel" destination="gx4-sJ-B8Q" id="RoB-sR-pBM"/>
-                    </connections>
-                </controller>
-            </objects>
-            <point key="canvasLocation" x="313" y="208"/>
-        </scene>
         <!--Time for Coffee!-->
         <scene sceneID="LqG-bx-ytL">
             <objects>
@@ -154,7 +133,7 @@
         <!--Glance Interface Controller-->
         <scene sceneID="rjY-Ar-IMT">
             <objects>
-                <glanceController spacing="0.0" id="Sv0-Ai-Zie" customClass="GlanceController" customModule="Time_for_Coffee__WatchKit_App2" customModuleProvider="target">
+                <glanceController spacing="0.0" id="Sv0-Ai-Zie" customClass="GlanceController" customModule="Time_for_Coffee__WatchKit_App" customModuleProvider="target">
                     <items>
                         <group alignment="left" id="gv7-I2-MZq">
                             <items>
