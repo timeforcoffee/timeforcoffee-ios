@@ -29,11 +29,11 @@
         <!--Time for Coffee!-->
         <scene sceneID="LqG-bx-ytL">
             <objects>
-                <controller identifier="StationPage" id="3ez-Oj-rei" userLabel="Time for Coffee!" customClass="StationViewController" customModule="Time_for_Coffee__WatchKit_Extension">
+                <controller identifier="StationPage" hidesWhenLoading="NO" id="3ez-Oj-rei" userLabel="Time for Coffee!" customClass="StationViewController" customModule="Time_for_Coffee__WatchKit_Extension">
                     <items>
                         <group width="1" alignment="left" hidden="YES" id="wGr-Fi-lKk" userLabel="info Group">
                             <items>
-                                <label alignment="left" text="Label" numberOfLines="3" id="IVN-0O-4Oc" userLabel="info Label"/>
+                                <label alignment="left" numberOfLines="3" id="IVN-0O-4Oc" userLabel="info Label"/>
                             </items>
                             <edgeInsets key="margins" left="3" right="3" top="0.0" bottom="0.0"/>
                         </group>
@@ -87,6 +87,7 @@
                         <outlet property="infoGroup" destination="wGr-Fi-lKk" id="D3p-ED-5Hu"/>
                         <outlet property="infoLabel" destination="IVN-0O-4Oc" id="kR6-gO-Pda"/>
                         <outlet property="stationsTable" destination="J4B-MA-cdK" id="Ck5-NG-9w6"/>
+                        <segue destination="BnD-Gm-YKt" kind="relationship" relationship="nextPage" id="tcV-ex-h0t"/>
                     </connections>
                 </controller>
             </objects>
@@ -99,7 +100,7 @@
                     <items>
                         <group width="1" alignment="left" hidden="YES" id="3HK-HX-8qN" userLabel="info Group">
                             <items>
-                                <label alignment="left" text="Label" numberOfLines="3" id="H2T-Pm-ZC9" userLabel="info Label"/>
+                                <label alignment="left" numberOfLines="3" id="H2T-Pm-ZC9" userLabel="info Label"/>
                             </items>
                             <edgeInsets key="margins" left="3" right="3" top="0.0" bottom="0.0"/>
                         </group>

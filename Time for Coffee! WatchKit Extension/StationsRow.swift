@@ -18,8 +18,9 @@ class StationsRow: NSObject {
     @IBOutlet weak var stationLabel: WKInterfaceLabel!
 
     func drawCell(station: TFCStation) {
-        self.stationLabel.setText(station.getName(true))
         self.station = station
+        let name = station.getName(true)
+        self.stationLabel.setText(name)
         if (topGroup != nil) {
             topGroup.setHidden(false)
         }

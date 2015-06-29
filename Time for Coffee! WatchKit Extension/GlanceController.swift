@@ -25,6 +25,7 @@ class GlanceController: WKInterfaceController {
     @IBOutlet weak var infoGroup: WKInterfaceGroup!
     @IBOutlet weak var infoLabel: WKInterfaceLabel!
 
+    var stationName: String?
 
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
@@ -45,7 +46,12 @@ class GlanceController: WKInterfaceController {
                     let departures = station.getFilteredDepartures()
                     if(departures?.count > 0) {
                         var i = 0
-                        self.stationLabel.setText(station.getName(true))
+                        let stationName = station.getName(true)
+                        self.stationLabel.setText(stationName)
+                        if (stationName != self.stationName) {
+                            self.stationName = stationName
+                            self.stationsTable.setNumberOfRows(3, withRowType: "station")
+                        }
                         for (departure) in departures! {
                             if let sr = self.stationsTable.rowControllerAtIndex(i) as! StationRow? {
                                 sr.drawCell(departure, station: station)

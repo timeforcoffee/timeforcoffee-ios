@@ -18,20 +18,26 @@ class StationsOverviewViewController: WKInterfaceController {
 
     @IBOutlet weak var infoGroup: WKInterfaceGroup!
     @IBOutlet weak var infoLabel: WKInterfaceLabel!
+    var activatedOnce = false
 
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
         NSLog("awake StationsOverviewViewController")
+        stationsTable.setNumberOfRows(6, withRowType: "stations")
+        self.numberOfRows = 6
     }
 
     override func willActivate() {
-        self.setTitle("Nearby Stations")
-
+        super.willActivate()
+        if (!activatedOnce) {
+            self.setTitle("Nearby Stations")
+            activatedOnce = true
+        }
         func handleReply(stations: TFCStations?) {
-            infoGroup.setHidden(true)
-            if (stations == nil) {
+            if (stations == nil || stations?.count() == nil) {
                 return
             }
+            infoGroup.setHidden(true)
             let maxStations = min(5, (stations?.count())! - 1)
             let ctxStations = stations?[0...maxStations]
             if (self.numberOfRows != ctxStations!.count) {
