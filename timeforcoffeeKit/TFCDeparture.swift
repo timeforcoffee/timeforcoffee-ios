@@ -140,22 +140,9 @@ public final class TFCDeparture: NSObject, NSCoding {
     public func getType() -> String {
         return "\(self.type)"
     }
-    
-    
-    public func getTimeString() -> String {
-        var timestring = "";
-        let minutes = getMinutes()
-        let (departureTimeAttr, departureTimeString) = getDepartureTime(true)
-
-        if (minutes != nil) {
-            timestring = "In \(minutes!) / \(departureTimeString!)"
-        }
-        return timestring
-
-    }
 
     public func getDepartureTime() ->  (NSMutableAttributedString?, String?) {
-        return getDepartureTime(false)
+        return getDepartureTime(true)
     }
 
     public func getScheduledTime() -> String? {
@@ -164,11 +151,8 @@ public final class TFCDeparture: NSObject, NSCoding {
         }
         return nil
     }
-    public func getDepartureTime(forceString: Bool) -> (NSMutableAttributedString?, String?) {
-        return self.getDepartureTime(forceString, additionalInfo: true)
-    }
 
-    public func getDepartureTime(forceString: Bool, additionalInfo: Bool) -> (NSMutableAttributedString?, String?) {
+    public func getDepartureTime(additionalInfo: Bool) -> (NSMutableAttributedString?, String?) {
         var realtimeStr: String = ""
         var scheduledStr: String = ""
         let attributesNoStrike = [
@@ -204,18 +188,13 @@ public final class TFCDeparture: NSObject, NSCoding {
         // there's a delay
 
         if (self.realtime != nil && self.realtime != self.scheduled) {
-            if (forceString) {
-                timestring =  "\(realtimeStr) / \(scheduledStr)"
-            } else {
-                timestringAttr = NSMutableAttributedString(string: "")
+            timestringAttr = NSMutableAttributedString(string: "")
 
-                //the nostrike is needed due to an apple bug...
-                // https://stackoverflow.com/questions/25956183/nsmutableattributedstrings-attribute-nsstrikethroughstyleattributename-doesnt
-                timestringAttr?.appendAttributedString(NSAttributedString(string: "\(realtimeStr) ", attributes: attributesNoStrike))
+            //the nostrike is needed due to an apple bug...
+            // https://stackoverflow.com/questions/25956183/nsmutableattributedstrings-attribute-nsstrikethroughstyleattributename-doesnt
+            timestringAttr?.appendAttributedString(NSAttributedString(string: "\(realtimeStr) ", attributes: attributesNoStrike))
 
-                timestringAttr?.appendAttributedString(NSAttributedString(string: "\(scheduledStr)", attributes: attributesStrike))
-            }
-
+            timestringAttr?.appendAttributedString(NSAttributedString(string: "\(scheduledStr)", attributes: attributesStrike))
         } else {
             timestring = "\(scheduledStr)"
         }
