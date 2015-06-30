@@ -164,8 +164,11 @@ public final class TFCDeparture: NSObject, NSCoding {
         }
         return nil
     }
-
     public func getDepartureTime(forceString: Bool) -> (NSMutableAttributedString?, String?) {
+        return self.getDepartureTime(forceString, additionalInfo: true)
+    }
+
+    public func getDepartureTime(forceString: Bool, additionalInfo: Bool) -> (NSMutableAttributedString?, String?) {
         var realtimeStr: String = ""
         var scheduledStr: String = ""
         let attributesNoStrike = [
@@ -224,17 +227,19 @@ public final class TFCDeparture: NSObject, NSCoding {
                 timestring?.extend(" ♿︎")
             }
         }
-        if (self.realtime == nil) {
-            if (timestringAttr != nil) {
-                timestringAttr?.appendAttributedString(NSAttributedString(string: " (no real-time data)"))
-            } else {
-                timestring?.extend(" (no real-time data)")
-            }
-        } else if (self.outdated) {
-            if (timestringAttr != nil) {
-                timestringAttr?.appendAttributedString(NSAttributedString(string: " (not updated)"))
-            } else {
-                timestring?.extend(" (not updated)")
+        if (additionalInfo) {
+            if (self.realtime == nil) {
+                if (timestringAttr != nil) {
+                    timestringAttr?.appendAttributedString(NSAttributedString(string: " (no real-time data)"))
+                } else {
+                    timestring?.extend(" (no real-time data)")
+                }
+            } else if (self.outdated) {
+                if (timestringAttr != nil) {
+                    timestringAttr?.appendAttributedString(NSAttributedString(string: " (not updated)"))
+                } else {
+                    timestring?.extend(" (not updated)")
+                }
             }
         }
         return (timestringAttr, timestring)

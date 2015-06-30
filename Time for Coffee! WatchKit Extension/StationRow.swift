@@ -61,7 +61,7 @@ class StationRow: NSObject {
             self.to = to
         }
 
-        let (departureTimeAttr, departureTimeString) = departure.getDepartureTime()
+        let (departureTimeAttr, departureTimeString) = departure.getDepartureTime(false, additionalInfo: false)
         var departureTime: String?
         if (departureTimeAttr != nil) {
             departureTime = departureTimeAttr?.string
