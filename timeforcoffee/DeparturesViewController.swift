@@ -544,7 +544,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
             
             
             minutesLabel.text = departure.getMinutes()
-            if (station2.isFiltered(departure)) {
+            if (station2.isFilteredDeparture(departure)) {
                 destinationLabel.textColor = UIColor.grayColor()
                 minutesLabel.textColor = UIColor.grayColor()
             } else {
@@ -580,7 +580,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
             if (departures != nil) {
                 if (direction == MGSwipeDirection.RightToLeft) {
                     let departure: TFCDeparture = departures![cell.tag]
-                    if (station2.isFiltered(departure)) {
+                    if (station2.isFilteredDeparture(departure)) {
                         buttons = [MGSwipeButton( title:"Unfilter", backgroundColor: UIColor.redColor())]
                     } else {
                         buttons = [MGSwipeButton( title:"Filter", backgroundColor: UIColor.greenColor())]
@@ -599,12 +599,12 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         let departures: [TFCDeparture] = station2.getDepartures()!
         let departure: TFCDeparture = departures[cell.tag]
         SKTUser.currentUser().addProperties(["usedFilters": true])
-        if (station2.isFiltered(departure)) {
-            station2.unsetFilter(departure);
+        if (station2.isFilteredDeparture(departure)) {
+            station2.unsetFilterDeparture(departure);
             var button = cell.rightButtons[0] as! MGSwipeButton
             button.backgroundColor = UIColor.greenColor();
         } else {
-            station2.setFilter(departure);
+            station2.setFilterDeparture(departure);
             var button = cell.rightButtons[0] as! MGSwipeButton
             button.backgroundColor = UIColor.redColor();
         }
