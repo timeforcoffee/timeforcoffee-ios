@@ -19,11 +19,9 @@ public final class TFCStation: NSObject, NSCoding, APIControllerProtocol {
     private var departures: [TFCDeparture]? = nil {
         didSet {
             filteredDepartures = nil
-            favoriteDepartures = nil
         }
     }
     private var filteredDepartures: [TFCDeparture]?
-    private var favoriteDepartures: [TFCDeparture]?
 
     public var calculatedDistance: Int?
     private var walkingDistanceString: String?
@@ -105,6 +103,7 @@ public final class TFCStation: NSObject, NSCoding, APIControllerProtocol {
                 }
             }
             newStation!.filteredLines = newStation!.getFilteredLines()
+            newStation!.favoriteLines = newStation!.getFavoriteLines()
         }
         return newStation!
     }
@@ -194,7 +193,11 @@ public final class TFCStation: NSObject, NSCoding, APIControllerProtocol {
     }
 
     public func hasFilters() -> Bool {
-        return (filteredLines.count > 0 || favoriteLines.count > 0)
+        return (filteredLines.count > 0 || hasFavoriteDepartures())
+    }
+
+    public func hasFavoriteDepartures() -> Bool {
+        return favoriteLines.count > 0
     }
 
     private func getMarkedLines(favorite: Bool) -> [String: [String: Bool]] {
@@ -220,6 +223,13 @@ public final class TFCStation: NSObject, NSCoding, APIControllerProtocol {
 
     public func isFilteredDeparture(departure: TFCDeparture) -> Bool {
         return isMarkedDeparture(departure, favorite: false)
+    }
+
+    public func showAsFilteredDeparture(departure: TFCDeparture) -> Bool {
+        if (favoriteLines.count > 0) {
+            return !isFavoriteDeparture(departure)
+        }
+        return isFilteredDeparture(departure)
     }
 
     private func setMarkedDeparture(departure: TFCDeparture, favorite: Bool) {
@@ -273,7 +283,7 @@ public final class TFCStation: NSObject, NSCoding, APIControllerProtocol {
 
         let key:String = getDataStoreKey(st_id, favorite: favorite)
         if (lines.count > 0) {
-            objects.dataStore?.setObject(filteredLines, forKey: key)
+            objects.dataStore?.setObject(lines, forKey: key)
         } else {
             objects.dataStore?.removeObjectForKey(key)
         }
@@ -322,7 +332,7 @@ public final class TFCStation: NSObject, NSCoding, APIControllerProtocol {
         if (self.departures != nil) {
             filteredDepartures = []
             for (departure) in self.departures! {
-                if (!self.isFilteredDeparture(departure)) {
+                if (!self.showAsFilteredDeparture(departure)) {
                     filteredDepartures?.append(departure)
                 }
             }

@@ -544,7 +544,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
             
             
             minutesLabel.text = departure.getMinutes()
-            if (station2.isFilteredDeparture(departure)) {
+            if (station2.showAsFilteredDeparture(departure)) {
                 destinationLabel.textColor = UIColor.grayColor()
                 minutesLabel.textColor = UIColor.grayColor()
             } else {
@@ -580,16 +580,19 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
             if (departures != nil) {
                 if (direction == MGSwipeDirection.RightToLeft) {
                     let departure: TFCDeparture = departures![cell.tag]
-                    if (station2.isFilteredDeparture(departure)) {
-                        buttons.append(MGSwipeButton( title:"Unfilter", backgroundColor: UIColor.redColor(), callback: buttonClickCallbackFilter))
-                    } else {
-                        buttons.append(MGSwipeButton( title:"Filter", backgroundColor: UIColor.greenColor(),                        callback: buttonClickCallbackFilter))
-                    }
                     if (station2.isFavoriteDeparture(departure)) {
-                        buttons.append(MGSwipeButton( title:"UnFav", backgroundColor: UIColor.redColor(), callback: buttonClickCallbackFavorite))
+                        buttons.append(MGSwipeButton( title:"Unfavorite", backgroundColor: UIColor.redColor(), callback: buttonClickCallbackFavorite))
                     } else {
-                        buttons.append(MGSwipeButton( title:"Fav", backgroundColor: UIColor.greenColor(), callback: buttonClickCallbackFavorite))
+                        buttons.append(MGSwipeButton( title:"Favorite", backgroundColor: UIColor.greenColor(), callback: buttonClickCallbackFavorite))
                     }
+                    if (!station2.hasFavoriteDepartures()) {
+                        if (station2.isFilteredDeparture(departure)) {
+                            buttons.append(MGSwipeButton( title:"Show", backgroundColor: UIColor.redColor(), callback: buttonClickCallbackFilter))
+                        } else {
+                            buttons.append(MGSwipeButton( title:"Don't show", backgroundColor: UIColor.greenColor(), callback: buttonClickCallbackFilter))
+                        }
+                    }
+
 
                 }
                 expansionSettings.buttonIndex = 0
@@ -605,13 +608,17 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         let departures: [TFCDeparture] = station2.getDepartures()!
         let departure: TFCDeparture = departures[cell.tag]
         SKTUser.currentUser().addProperties(["usedFilters": true])
+        var index = 0
+        if (cell.rightButtons.count == 2) {
+            index = 1
+        }
         if (station2.isFilteredDeparture(departure)) {
             station2.unsetFilterDeparture(departure);
-            var button = cell.rightButtons[0] as! MGSwipeButton
+            var button = cell.rightButtons[index] as! MGSwipeButton
             button.backgroundColor = UIColor.greenColor();
         } else {
             station2.setFilterDeparture(departure);
-            var button = cell.rightButtons[0] as! MGSwipeButton
+            var button = cell.rightButtons[index] as! MGSwipeButton
             button.backgroundColor = UIColor.redColor();
         }
         self.appsTableView?.reloadData()
@@ -623,13 +630,14 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         let departures: [TFCDeparture] = station2.getDepartures()!
         let departure: TFCDeparture = departures[cell.tag]
         SKTUser.currentUser().addProperties(["usedFilters": true])
+        var index = 0
         if (station2.isFavoriteDeparture(departure)) {
             station2.unsetFavoriteDeparture(departure)
-            var button = cell.rightButtons[1] as! MGSwipeButton
+            var button = cell.rightButtons[index] as! MGSwipeButton
             button.backgroundColor = UIColor.greenColor();
         } else {
             station2.setFavoriteDeparture(departure);
-            var button = cell.rightButtons[1] as! MGSwipeButton
+            var button = cell.rightButtons[index] as! MGSwipeButton
             button.backgroundColor = UIColor.redColor();
         }
         self.appsTableView?.reloadData()
