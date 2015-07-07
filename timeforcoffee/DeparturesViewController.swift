@@ -585,13 +585,13 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
                     } else {
                         buttons.append(MGSwipeButton( title:"Favorite", backgroundColor: UIColor.greenColor(), callback: buttonClickCallbackFavorite))
                     }
-                    if (!station2.hasFavoriteDepartures()) {
+                    /*if (!station2.hasFavoriteDepartures()) {
                         if (station2.isFilteredDeparture(departure)) {
                             buttons.append(MGSwipeButton( title:"Show", backgroundColor: UIColor.redColor(), callback: buttonClickCallbackFilter))
                         } else {
                             buttons.append(MGSwipeButton( title:"Don't show", backgroundColor: UIColor.greenColor(), callback: buttonClickCallbackFilter))
                         }
-                    }
+                    }*/
 
 
                 }
