@@ -573,7 +573,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
     }
 
     func swipeTableCell(cell: MGSwipeTableCell!, swipeButtonsForDirection direction: MGSwipeDirection, swipeSettings: MGSwipeSettings!, expansionSettings: MGSwipeExpansionSettings!) -> [AnyObject]! {
-        var buttons = []
+        var buttons:[AnyObject] = []
         if (station != nil) {
             let station2 = station!
             let departures = station2.getDepartures()
@@ -581,10 +581,16 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
                 if (direction == MGSwipeDirection.RightToLeft) {
                     let departure: TFCDeparture = departures![cell.tag]
                     if (station2.isFilteredDeparture(departure)) {
-                        buttons = [MGSwipeButton( title:"Unfilter", backgroundColor: UIColor.redColor())]
+                        buttons.append(MGSwipeButton( title:"Unfilter", backgroundColor: UIColor.redColor(), callback: buttonClickCallbackFilter))
                     } else {
-                        buttons = [MGSwipeButton( title:"Filter", backgroundColor: UIColor.greenColor())]
+                        buttons.append(MGSwipeButton( title:"Filter", backgroundColor: UIColor.greenColor(),                        callback: buttonClickCallbackFilter))
                     }
+                    if (station2.isFavoriteDeparture(departure)) {
+                        buttons.append(MGSwipeButton( title:"UnFav", backgroundColor: UIColor.redColor(), callback: buttonClickCallbackFavorite))
+                    } else {
+                        buttons.append(MGSwipeButton( title:"Fav", backgroundColor: UIColor.greenColor(), callback: buttonClickCallbackFavorite))
+                    }
+
                 }
                 expansionSettings.buttonIndex = 0
                 expansionSettings.fillOnTrigger = true
@@ -594,7 +600,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         return buttons as [AnyObject]
     }
 
-    func swipeTableCell(cell: MGSwipeTableCell!, tappedButtonAtIndex index: Int, direction: MGSwipeDirection, fromExpansion: Bool) -> Bool {
+    private func buttonClickCallbackFilter(cell: MGSwipeTableCell!) -> Bool {
         let station2 = station!
         let departures: [TFCDeparture] = station2.getDepartures()!
         let departure: TFCDeparture = departures[cell.tag]
@@ -609,10 +615,26 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
             button.backgroundColor = UIColor.redColor();
         }
         self.appsTableView?.reloadData()
-
         return true
     }
 
+    private func buttonClickCallbackFavorite(cell: MGSwipeTableCell!) -> Bool {
+        let station2 = station!
+        let departures: [TFCDeparture] = station2.getDepartures()!
+        let departure: TFCDeparture = departures[cell.tag]
+        SKTUser.currentUser().addProperties(["usedFilters": true])
+        if (station2.isFavoriteDeparture(departure)) {
+            station2.unsetFavoriteDeparture(departure)
+            var button = cell.rightButtons[1] as! MGSwipeButton
+            button.backgroundColor = UIColor.greenColor();
+        } else {
+            station2.setFavoriteDeparture(departure);
+            var button = cell.rightButtons[1] as! MGSwipeButton
+            button.backgroundColor = UIColor.redColor();
+        }
+        self.appsTableView?.reloadData()
+        return true
+    }
 
     func getIconViewAsImage(view: UIView) -> UIImage {
         view.opaque = false
