@@ -33,6 +33,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
 
     @IBOutlet weak var distanceLabel: UILabel!
 
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var topView: UIView!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var gradientView: UIImageView!
@@ -389,6 +390,8 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         self.stationIconView.transform = CGAffineTransformMakeScale(1 - offsetForAnimation, 1 - offsetForAnimation)
         self.borderBottomView.alpha = 0.0 + offsetForAnimation
         self.stationNameBottomSpace.constant = -28.0 - offsetForAnimation * 11.0
+        self.distanceLabel.alpha = 0.0 + offsetForAnimation
+        self.segmentedControl.alpha = 1.0 - offsetForAnimation
     }
 
     @IBAction func mapUpAction(sender: AnyObject) {
@@ -413,6 +416,8 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         self.borderBottomView.alpha = offset / 80
         self.mapView?.alpha = min(1 - (offset / 80), 0.5)
         self.stationIconView.alpha = 1 - (offset / 80)
+        self.distanceLabel.alpha =  offset / 80
+        self.segmentedControl.alpha = 1 - (offset / 80)
     }
     
     func mapViewDidFinishRenderingMap(mapView: MKMapView!, fullyRendered: Bool) {

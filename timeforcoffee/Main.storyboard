@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6Gx-yE-V2l">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6Gx-yE-V2l">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -120,7 +120,7 @@
                                                         <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     </imageView>
-                                                    <button opaque="NO" contentMode="center" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3J6-WH-M4V" userLabel="Up Button">
+                                                    <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3J6-WH-M4V" userLabel="Up Button">
                                                         <rect key="frame" x="3" y="23" width="36" height="36"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="36" id="G2C-kr-nrd"/>
@@ -170,19 +170,32 @@
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="534 m / 5 min" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G4Z-yb-SMS" userLabel="534 m / 5 min">
+                                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="534 m / 5 min" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G4Z-yb-SMS" userLabel="534 m / 5 min">
                                                 <rect key="frame" x="0.0" y="55" width="600" height="17"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="VXL-uK-o9G">
+                                                <rect key="frame" x="175" y="52" width="250" height="25"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="24" id="YmI-3l-p1H"/>
+                                                    <constraint firstAttribute="width" constant="250" id="tLH-PI-FXZ"/>
+                                                </constraints>
+                                                <segments>
+                                                    <segment title="All"/>
+                                                    <segment title="Favourites"/>
+                                                </segments>
+                                            </segmentedControl>
                                         </subviews>
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="tiy-IY-zxF" secondAttribute="bottom" id="4uK-d9-7ww"/>
                                             <constraint firstItem="37z-MA-FFU" firstAttribute="top" secondItem="3J6-WH-M4V" secondAttribute="bottom" constant="-29" id="6Cl-LC-Wm3"/>
                                             <constraint firstItem="37z-MA-FFU" firstAttribute="top" secondItem="2ey-js-9pA" secondAttribute="bottom" constant="-31" id="7Q1-bX-Cx9"/>
+                                            <constraint firstAttribute="centerX" secondItem="VXL-uK-o9G" secondAttribute="centerX" id="7kf-bn-WPy"/>
                                             <constraint firstAttribute="height" secondItem="tiy-IY-zxF" secondAttribute="height" id="9CR-pA-3bX"/>
                                             <constraint firstAttribute="width" secondItem="37z-MA-FFU" secondAttribute="width" id="Bwe-NZ-4kT"/>
+                                            <constraint firstItem="VXL-uK-o9G" firstAttribute="top" secondItem="37z-MA-FFU" secondAttribute="bottom" id="FPN-Gm-V6j"/>
                                             <constraint firstAttribute="width" secondItem="G4Z-yb-SMS" secondAttribute="width" id="HF6-LF-XeS"/>
                                             <constraint firstAttribute="height" constant="80" id="Sqn-hC-6jc"/>
                                             <constraint firstAttribute="width" secondItem="tiy-IY-zxF" secondAttribute="width" id="TLj-np-q9m"/>
@@ -316,6 +329,7 @@
                         <outlet property="navBarBackgroundView" destination="tiy-IY-zxF" id="NiI-nL-qLh"/>
                         <outlet property="navBarView" destination="elb-MS-l3n" id="WyB-WQ-1n4"/>
                         <outlet property="releaseToViewLabel" destination="cgy-fE-O9r" id="0Vu-ds-qyA"/>
+                        <outlet property="segmentedControl" destination="VXL-uK-o9G" id="Z9n-sa-saQ"/>
                         <outlet property="stationIconButton" destination="EyP-xR-Nab" id="Kj2-tF-F4A"/>
                         <outlet property="stationIconView" destination="guG-BC-z0w" id="ykk-ny-e5U"/>
                         <outlet property="stationNameBottomSpace" destination="Ufm-GS-sWA" id="x3i-vg-cP9"/>
@@ -792,4 +806,5 @@
     <inferredMetricsTieBreakers>
         <segue reference="c6x-LU-7Kq"/>
     </inferredMetricsTieBreakers>
+    <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
 </document>
