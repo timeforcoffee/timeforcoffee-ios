@@ -104,7 +104,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     }
 
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         NSLog("init")
         super.init(coder: aDecoder)
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {

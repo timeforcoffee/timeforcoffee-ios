@@ -19,7 +19,7 @@ final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataS
     weak var stationsViewController: StationsViewController?
     weak var searchBar: UISearchBar?
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 

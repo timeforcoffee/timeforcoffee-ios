@@ -126,7 +126,7 @@ final public class TFCFavorites: NSObject {
 
 extension Array {
     //  stations.find{($0 as TFCStation).st_id == st_id}
-    func indexOf(includedElement: T -> Bool) -> Int? {
+    func indexOf(includedElement: Element -> Bool) -> Int? {
         for (idx, element) in self.enumerate() {
             if includedElement(element) {
                 return idx
@@ -135,7 +135,7 @@ extension Array {
         return nil
     }
 
-    func getObject(includedElement: T -> Bool) -> T? {
+    func getObject(includedElement: Element -> Bool) -> Element? {
         for (_, element) in self.enumerate() {
             if includedElement(element) {
                 return element

@@ -122,7 +122,6 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
 
     func selectStation(notification: NSNotification) {
         let uI:[String:String]? = notification.userInfo as? [String:String]
-        let st_id2 = uI?["st_id"]
         if let st_id = uI?["st_id"] {
             if (self.station == nil) {
                 self.station = TFCStation.initWithCache((uI?["name"])! , id: st_id, coord: nil)

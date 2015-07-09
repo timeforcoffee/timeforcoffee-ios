@@ -27,7 +27,7 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         return view
     }()
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
