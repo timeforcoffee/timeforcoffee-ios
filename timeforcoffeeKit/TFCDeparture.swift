@@ -140,22 +140,9 @@ public final class TFCDeparture: NSObject, NSCoding {
     public func getType() -> String {
         return "\(self.type)"
     }
-    
-    
-    public func getTimeString() -> String {
-        var timestring = "";
-        let minutes = getMinutes()
-        let (_, departureTimeString) = getDepartureTime(true)
-
-        if (minutes != nil) {
-            timestring = "In \(minutes!) / \(departureTimeString!)"
-        }
-        return timestring
-
-    }
 
     public func getDepartureTime() ->  (NSMutableAttributedString?, String?) {
-        return getDepartureTime(false)
+        return getDepartureTime(true)
     }
 
     public func getScheduledTime() -> String? {
@@ -165,7 +152,7 @@ public final class TFCDeparture: NSObject, NSCoding {
         return nil
     }
 
-    public func getDepartureTime(forceString: Bool) -> (NSMutableAttributedString?, String?) {
+    public func getDepartureTime(additionalInfo: Bool) -> (NSMutableAttributedString?, String?) {
         var realtimeStr: String = ""
         var scheduledStr: String = ""
         let attributesNoStrike = [
@@ -201,18 +188,13 @@ public final class TFCDeparture: NSObject, NSCoding {
         // there's a delay
 
         if (self.realtime != nil && self.realtime != self.scheduled) {
-            if (forceString) {
-                timestring =  "\(realtimeStr) / \(scheduledStr)"
-            } else {
-                timestringAttr = NSMutableAttributedString(string: "")
+            timestringAttr = NSMutableAttributedString(string: "")
 
-                //the nostrike is needed due to an apple bug...
-                // https://stackoverflow.com/questions/25956183/nsmutableattributedstrings-attribute-nsstrikethroughstyleattributename-doesnt
-                timestringAttr?.appendAttributedString(NSAttributedString(string: "\(realtimeStr) ", attributes: attributesNoStrike))
+            //the nostrike is needed due to an apple bug...
+            // https://stackoverflow.com/questions/25956183/nsmutableattributedstrings-attribute-nsstrikethroughstyleattributename-doesnt
+            timestringAttr?.appendAttributedString(NSAttributedString(string: "\(realtimeStr) ", attributes: attributesNoStrike))
 
-                timestringAttr?.appendAttributedString(NSAttributedString(string: "\(scheduledStr)", attributes: attributesStrike))
-            }
-
+            timestringAttr?.appendAttributedString(NSAttributedString(string: "\(scheduledStr)", attributes: attributesStrike))
         } else {
             timestring = "\(scheduledStr)"
         }
@@ -224,17 +206,19 @@ public final class TFCDeparture: NSObject, NSCoding {
                 timestring?.extend(" ♿︎")
             }
         }
-        if (self.realtime == nil) {
-            if (timestringAttr != nil) {
-                timestringAttr?.appendAttributedString(NSAttributedString(string: " (no real-time data)"))
-            } else {
-                timestring?.extend(" (no real-time data)")
-            }
-        } else if (self.outdated) {
-            if (timestringAttr != nil) {
-                timestringAttr?.appendAttributedString(NSAttributedString(string: " (not updated)"))
-            } else {
-                timestring?.extend(" (not updated)")
+        if (additionalInfo) {
+            if (self.realtime == nil) {
+                if (timestringAttr != nil) {
+                    timestringAttr?.appendAttributedString(NSAttributedString(string: " (no real-time data)"))
+                } else {
+                    timestring?.extend(" (no real-time data)")
+                }
+            } else if (self.outdated) {
+                if (timestringAttr != nil) {
+                    timestringAttr?.appendAttributedString(NSAttributedString(string: " (not updated)"))
+                } else {
+                    timestring?.extend(" (not updated)")
+                }
             }
         }
         return (timestringAttr, timestring)
