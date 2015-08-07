@@ -58,6 +58,21 @@
 		EC2C317D1A9E1F3D00690397 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C31731A9E1EE400690397 /* libc++.dylib */; };
 		EC2C317E1A9E1F4400690397 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C31751A9E1EEB00690397 /* libz.dylib */; };
 		EC31F5481AAE3AED00771585 /* DeparturesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC31F5471AAE3AED00771585 /* DeparturesViewController.swift */; };
+		EC41A77E1B7535A100289143 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC41A77D1B7535A100289143 /* InterfaceController.swift */; };
+		EC41A7801B7535A100289143 /* GlanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC41A77F1B7535A100289143 /* GlanceController.swift */; };
+		EC41A7821B7535A100289143 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC41A7811B7535A100289143 /* Assets.xcassets */; };
+		EC41A7871B7535A100289143 /* Time for Coffee! WatchKit 1 App.app in Resources */ = {isa = PBXBuildFile; fileRef = EC41A7861B7535A100289143 /* Time for Coffee! WatchKit 1 App.app */; };
+		EC41A78D1B7535A100289143 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC41A78B1B7535A100289143 /* Interface.storyboard */; };
+		EC41A78F1B7535A100289143 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC41A78E1B7535A100289143 /* Assets.xcassets */; };
+		EC41A7931B7535A100289143 /* Time for Coffee! WatchKit 1 Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EC41A77B1B7535A100289143 /* Time for Coffee! WatchKit 1 Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		EC41A7A11B75367300289143 /* HelveticaNeueBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EC41A79A1B75367300289143 /* HelveticaNeueBold.ttf */; };
+		EC41A7A21B75367300289143 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC41A79B1B75367300289143 /* MapViewController.swift */; };
+		EC41A7A31B75367300289143 /* StationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC41A79C1B75367300289143 /* StationRow.swift */; };
+		EC41A7A41B75367300289143 /* StationsOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC41A79D1B75367300289143 /* StationsOverviewViewController.swift */; };
+		EC41A7A51B75367300289143 /* StationsRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC41A79E1B75367300289143 /* StationsRow.swift */; };
+		EC41A7A61B75367300289143 /* StationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC41A79F1B75367300289143 /* StationViewController.swift */; };
+		EC41A7A71B75367300289143 /* Time for Coffee! WatchKit Extension.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = EC41A7A01B75367300289143 /* Time for Coffee! WatchKit Extension.entitlements */; };
+		EC41A7A91B75380800289143 /* timeforcoffeeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */; };
 		EC445D741B36048D000DAC44 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC445D721B36048D000DAC44 /* Interface.storyboard */; };
 		EC445D761B36048D000DAC44 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC445D751B36048D000DAC44 /* Assets.xcassets */; };
 		EC445D7D1B36048D000DAC44 /* Time for Coffee! WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EC445D7C1B36048D000DAC44 /* Time for Coffee! WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -134,6 +149,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		EC41A7881B7535A100289143 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EC7A516B19C427CA000F5E7C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EC41A7851B7535A100289143;
+			remoteInfo = "Time for Coffee! WatchKit 1 App";
+		};
+		EC41A7911B7535A100289143 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EC7A516B19C427CA000F5E7C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EC41A77A1B7535A100289143;
+			remoteInfo = "Time for Coffee! WatchKit 1 Extension";
+		};
 		EC445D7E1B36048D000DAC44 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = EC7A516B19C427CA000F5E7C /* Project object */;
@@ -194,6 +223,7 @@
 			dstSubfolderSpec = 13;
 			files = (
 				EC6EDCFC1A9B9F390098CAE0 /* timeforcoffee Widget.appex in Embed App Extensions */,
+				EC41A7931B7535A100289143 /* Time for Coffee! WatchKit 1 Extension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -250,6 +280,23 @@
 		EC2C31751A9E1EEB00690397 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		EC31F5471AAE3AED00771585 /* DeparturesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeparturesViewController.swift; sourceTree = "<group>"; };
 		EC3252DF1A9CE0800056AF11 /* timeforcoffee-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "timeforcoffee-Bridging-Header.h"; sourceTree = "<group>"; };
+		EC41A77B1B7535A100289143 /* Time for Coffee! WatchKit 1 Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Time for Coffee! WatchKit 1 Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC41A77D1B7535A100289143 /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
+		EC41A77F1B7535A100289143 /* GlanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlanceController.swift; sourceTree = "<group>"; };
+		EC41A7811B7535A100289143 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EC41A7831B7535A100289143 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EC41A7861B7535A100289143 /* Time for Coffee! WatchKit 1 App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Time for Coffee! WatchKit 1 App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC41A78C1B7535A100289143 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		EC41A78E1B7535A100289143 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EC41A7901B7535A100289143 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EC41A79A1B75367300289143 /* HelveticaNeueBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HelveticaNeueBold.ttf; sourceTree = "<group>"; };
+		EC41A79B1B75367300289143 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		EC41A79C1B75367300289143 /* StationRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationRow.swift; sourceTree = "<group>"; };
+		EC41A79D1B75367300289143 /* StationsOverviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationsOverviewViewController.swift; sourceTree = "<group>"; };
+		EC41A79E1B75367300289143 /* StationsRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationsRow.swift; sourceTree = "<group>"; };
+		EC41A79F1B75367300289143 /* StationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationViewController.swift; sourceTree = "<group>"; };
+		EC41A7A01B75367300289143 /* Time for Coffee! WatchKit Extension.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Time for Coffee! WatchKit Extension.entitlements"; sourceTree = "<group>"; };
+		EC41A7A81B7537C400289143 /* Time for Coffee! WatchKit 1 Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Time for Coffee! WatchKit 1 Extension.entitlements"; sourceTree = "<group>"; };
 		EC445D701B36048D000DAC44 /* Time for Coffee! WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Time for Coffee! WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC445D731B36048D000DAC44 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		EC445D751B36048D000DAC44 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -337,6 +384,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		EC41A7781B7535A100289143 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC41A7A91B75380800289143 /* timeforcoffeeKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EC445D791B36048D000DAC44 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -448,6 +503,35 @@
 				EC2C31261A9DE8B000690397 /* home.gpx */,
 			);
 			name = gpx;
+			sourceTree = "<group>";
+		};
+		EC41A77C1B7535A100289143 /* Time for Coffee! WatchKit 1 Extension */ = {
+			isa = PBXGroup;
+			children = (
+				EC41A7A81B7537C400289143 /* Time for Coffee! WatchKit 1 Extension.entitlements */,
+				EC41A77D1B7535A100289143 /* InterfaceController.swift */,
+				EC41A79A1B75367300289143 /* HelveticaNeueBold.ttf */,
+				EC41A79B1B75367300289143 /* MapViewController.swift */,
+				EC41A79C1B75367300289143 /* StationRow.swift */,
+				EC41A79D1B75367300289143 /* StationsOverviewViewController.swift */,
+				EC41A79E1B75367300289143 /* StationsRow.swift */,
+				EC41A79F1B75367300289143 /* StationViewController.swift */,
+				EC41A7A01B75367300289143 /* Time for Coffee! WatchKit Extension.entitlements */,
+				EC41A77F1B7535A100289143 /* GlanceController.swift */,
+				EC41A7811B7535A100289143 /* Assets.xcassets */,
+				EC41A7831B7535A100289143 /* Info.plist */,
+			);
+			path = "Time for Coffee! WatchKit 1 Extension";
+			sourceTree = "<group>";
+		};
+		EC41A78A1B7535A100289143 /* Time for Coffee! WatchKit 1 App */ = {
+			isa = PBXGroup;
+			children = (
+				EC41A78B1B7535A100289143 /* Interface.storyboard */,
+				EC41A78E1B7535A100289143 /* Assets.xcassets */,
+				EC41A7901B7535A100289143 /* Info.plist */,
+			);
+			path = "Time for Coffee! WatchKit 1 App";
 			sourceTree = "<group>";
 		};
 		EC445D711B36048D000DAC44 /* Time for Coffee! WatchKit App */ = {
@@ -604,6 +688,8 @@
 				EC445D711B36048D000DAC44 /* Time for Coffee! WatchKit App */,
 				EC445D801B36048D000DAC44 /* Time for Coffee! WatchKit Extension */,
 				EC445D9D1B3604A7000DAC44 /* timeforcoffeeWatchKit */,
+				EC41A77C1B7535A100289143 /* Time for Coffee! WatchKit 1 Extension */,
+				EC41A78A1B7535A100289143 /* Time for Coffee! WatchKit 1 App */,
 				EC6EDCF01A9B9F390098CAE0 /* Frameworks */,
 				EC7A517419C427CA000F5E7C /* Products */,
 				D9E9ACCF061DCAE672C25E77 /* Pods */,
@@ -619,6 +705,8 @@
 				EC445D701B36048D000DAC44 /* Time for Coffee! WatchKit App.app */,
 				EC445D7C1B36048D000DAC44 /* Time for Coffee! WatchKit Extension.appex */,
 				EC445D9C1B3604A7000DAC44 /* timeforcoffeeWatchKit.framework */,
+				EC41A77B1B7535A100289143 /* Time for Coffee! WatchKit 1 Extension.appex */,
+				EC41A7861B7535A100289143 /* Time for Coffee! WatchKit 1 App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -703,6 +791,39 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		EC41A77A1B7535A100289143 /* Time for Coffee! WatchKit 1 Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EC41A7991B7535A200289143 /* Build configuration list for PBXNativeTarget "Time for Coffee! WatchKit 1 Extension" */;
+			buildPhases = (
+				EC41A7771B7535A100289143 /* Sources */,
+				EC41A7781B7535A100289143 /* Frameworks */,
+				EC41A7791B7535A100289143 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EC41A7891B7535A100289143 /* PBXTargetDependency */,
+			);
+			name = "Time for Coffee! WatchKit 1 Extension";
+			productName = "Time for Coffee! WatchKit 1 Extension";
+			productReference = EC41A77B1B7535A100289143 /* Time for Coffee! WatchKit 1 Extension.appex */;
+			productType = "com.apple.product-type.watchkit-extension";
+		};
+		EC41A7851B7535A100289143 /* Time for Coffee! WatchKit 1 App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EC41A7981B7535A200289143 /* Build configuration list for PBXNativeTarget "Time for Coffee! WatchKit 1 App" */;
+			buildPhases = (
+				EC41A7841B7535A100289143 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Time for Coffee! WatchKit 1 App";
+			productName = "Time for Coffee! WatchKit 1 App";
+			productReference = EC41A7861B7535A100289143 /* Time for Coffee! WatchKit 1 App.app */;
+			productType = "com.apple.product-type.application.watchapp";
+		};
 		EC445D6F1B36048D000DAC44 /* Time for Coffee! WatchKit App */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = EC445D951B36048D000DAC44 /* Build configuration list for PBXNativeTarget "Time for Coffee! WatchKit App" */;
@@ -811,6 +932,7 @@
 				EC6EDCFB1A9B9F390098CAE0 /* PBXTargetDependency */,
 				EC6EDD431A9BA36F0098CAE0 /* PBXTargetDependency */,
 				EC445D8D1B36048D000DAC44 /* PBXTargetDependency */,
+				EC41A7921B7535A100289143 /* PBXTargetDependency */,
 			);
 			name = timeforcoffee;
 			productName = timeforcoffee;
@@ -827,6 +949,22 @@
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Christian Stocker";
 				TargetAttributes = {
+					EC41A77A1B7535A100289143 = {
+						CreatedOnToolsVersion = 7.0;
+						DevelopmentTeam = DN76797UYF;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
+					};
+					EC41A7851B7535A100289143 = {
+						CreatedOnToolsVersion = 7.0;
+						DevelopmentTeam = DN76797UYF;
+					};
 					EC445D6F1B36048D000DAC44 = {
 						CreatedOnToolsVersion = 7.0;
 						DevelopmentTeam = DN76797UYF;
@@ -902,11 +1040,33 @@
 				EC445D6F1B36048D000DAC44 /* Time for Coffee! WatchKit App */,
 				EC445D7B1B36048D000DAC44 /* Time for Coffee! WatchKit Extension */,
 				EC445D9B1B3604A7000DAC44 /* timeforcoffeeWatchKit */,
+				EC41A77A1B7535A100289143 /* Time for Coffee! WatchKit 1 Extension */,
+				EC41A7851B7535A100289143 /* Time for Coffee! WatchKit 1 App */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		EC41A7791B7535A100289143 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC41A7A11B75367300289143 /* HelveticaNeueBold.ttf in Resources */,
+				EC41A7A71B75367300289143 /* Time for Coffee! WatchKit Extension.entitlements in Resources */,
+				EC41A7871B7535A100289143 /* Time for Coffee! WatchKit 1 App.app in Resources */,
+				EC41A7821B7535A100289143 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EC41A7841B7535A100289143 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC41A78F1B7535A100289143 /* Assets.xcassets in Resources */,
+				EC41A78D1B7535A100289143 /* Interface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EC445D6E1B36048D000DAC44 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1037,6 +1197,20 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		EC41A7771B7535A100289143 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC41A77E1B7535A100289143 /* InterfaceController.swift in Sources */,
+				EC41A7A41B75367300289143 /* StationsOverviewViewController.swift in Sources */,
+				EC41A7A31B75367300289143 /* StationRow.swift in Sources */,
+				EC41A7A51B75367300289143 /* StationsRow.swift in Sources */,
+				EC41A7A61B75367300289143 /* StationViewController.swift in Sources */,
+				EC41A7A21B75367300289143 /* MapViewController.swift in Sources */,
+				EC41A7801B7535A100289143 /* GlanceController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EC445D781B36048D000DAC44 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1132,6 +1306,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		EC41A7891B7535A100289143 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EC41A7851B7535A100289143 /* Time for Coffee! WatchKit 1 App */;
+			targetProxy = EC41A7881B7535A100289143 /* PBXContainerItemProxy */;
+		};
+		EC41A7921B7535A100289143 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EC41A77A1B7535A100289143 /* Time for Coffee! WatchKit 1 Extension */;
+			targetProxy = EC41A7911B7535A100289143 /* PBXContainerItemProxy */;
+		};
 		EC445D7F1B36048D000DAC44 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = EC445D7B1B36048D000DAC44 /* Time for Coffee! WatchKit Extension */;
@@ -1175,6 +1359,14 @@
 			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
+		EC41A78B1B7535A100289143 /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EC41A78C1B7535A100289143 /* Base */,
+			);
+			name = Interface.storyboard;
+			sourceTree = "<group>";
+		};
 		EC445D721B36048D000DAC44 /* Interface.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1186,6 +1378,76 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		EC41A7941B7535A100289143 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Time for Coffee! WatchKit 1 Extension/Time for Coffee! WatchKit 1 Extension.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Time for Coffee! WatchKit 1 Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		EC41A7951B7535A100289143 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Time for Coffee! WatchKit 1 Extension/Time for Coffee! WatchKit 1 Extension.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Time for Coffee! WatchKit 1 Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		EC41A7961B7535A100289143 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_NO_COMMON_BLOCKS = YES;
+				IBSC_MODULE = Time_for_Coffee__WatchKit_1_Extension;
+				INFOPLIST_FILE = "Time for Coffee! WatchKit 1 App/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
+			};
+			name = Debug;
+		};
+		EC41A7971B7535A100289143 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_NO_COMMON_BLOCKS = YES;
+				IBSC_MODULE = Time_for_Coffee__WatchKit_1_Extension;
+				INFOPLIST_FILE = "Time for Coffee! WatchKit 1 App/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
+			};
+			name = Release;
+		};
 		EC445D8F1B36048D000DAC44 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1195,6 +1457,7 @@
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				ENABLE_BITCODE = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				IBSC_MODULE = Time_for_Coffee__WatchKit_App2_Extension;
@@ -1218,6 +1481,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				ENABLE_BITCODE = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				IBSC_MODULE = Time_for_Coffee__WatchKit_App2_Extension;
 				INFOPLIST_FILE = "Time for Coffee! WatchKit App/Info.plist";
@@ -1238,6 +1502,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_BITCODE = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Time for Coffee! WatchKit Extension/Info.plist";
@@ -1261,6 +1526,7 @@
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Time for Coffee! WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
@@ -1278,12 +1544,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
-				CURRENT_PROJECT_VERSION = 55;
+				CURRENT_PROJECT_VERSION = 67;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 55;
+				DYLIB_CURRENT_VERSION = 67;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1310,12 +1577,13 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 55;
+				CURRENT_PROJECT_VERSION = 67;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 55;
+				DYLIB_CURRENT_VERSION = 67;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "MY_TARGET_WATCH_OS=2";
 				INFOPLIST_FILE = timeforcoffeeWatchKit/Info.plist;
@@ -1475,6 +1743,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 67;
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1523,6 +1792,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: opendata.ch (DN76797UYF)";
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 67;
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1606,6 +1876,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		EC41A7981B7535A200289143 /* Build configuration list for PBXNativeTarget "Time for Coffee! WatchKit 1 App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EC41A7961B7535A100289143 /* Debug */,
+				EC41A7971B7535A100289143 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EC41A7991B7535A200289143 /* Build configuration list for PBXNativeTarget "Time for Coffee! WatchKit 1 Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EC41A7941B7535A100289143 /* Debug */,
+				EC41A7951B7535A100289143 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		EC445D931B36048D000DAC44 /* Build configuration list for PBXNativeTarget "Time for Coffee! WatchKit Extension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
