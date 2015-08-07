@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="7706" systemVersion="14E36b" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="3ez-Oj-rei">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="8164.2" systemVersion="14E46" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="3ez-Oj-rei">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8135.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="8083.2"/>
     </dependencies>
     <scenes>
         <!--Time for Coffee!-->
         <scene sceneID="LqG-bx-ytL">
             <objects>
-                <controller identifier="StationPage" hidesWhenLoading="NO" id="3ez-Oj-rei" userLabel="Time for Coffee!" customClass="StationViewController" customModule="Time_for_Coffee__WatchKit_Extension">
+                <controller identifier="StationPage" hidesWhenLoading="NO" id="3ez-Oj-rei" userLabel="Time for Coffee!" customClass="StationViewController" customModule="Time_for_Coffee__WatchKit_1_Extension">
                     <items>
                         <group width="1" alignment="left" hidden="YES" id="wGr-Fi-lKk" userLabel="info Group">
                             <items>
@@ -75,7 +75,7 @@
         <!--StationsOverview-->
         <scene sceneID="ihE-BX-ciu">
             <objects>
-                <controller identifier="StationsOverviewPage" hidesWhenLoading="NO" id="BnD-Gm-YKt" userLabel="StationsOverview" customClass="StationsOverviewViewController" customModule="Time_for_Coffee__WatchKit_Extension">
+                <controller identifier="StationsOverviewPage" hidesWhenLoading="NO" id="BnD-Gm-YKt" userLabel="StationsOverview" customClass="StationsOverviewViewController" customModule="Time_for_Coffee__WatchKit_1_Extension">
                     <items>
                         <group width="1" alignment="left" hidden="YES" id="3HK-HX-8qN" userLabel="info Group">
                             <items>
@@ -119,7 +119,7 @@
         <!--Map-->
         <scene sceneID="Sud-i2-3Rx">
             <objects>
-                <controller identifier="MapPage" title="Map" id="cCd-lg-BUO" customClass="MapViewController" customModule="Time_for_Coffee__WatchKit_Extension">
+                <controller identifier="MapPage" title="Map" id="cCd-lg-BUO" customClass="MapViewController" customModule="Time_for_Coffee__WatchKit_1_Extension">
                     <items>
                         <map width="1" height="1" alignment="left" id="cn0-SD-YfA"/>
                     </items>
@@ -133,7 +133,7 @@
         <!--Glance Interface Controller-->
         <scene sceneID="rjY-Ar-IMT">
             <objects>
-                <glanceController spacing="0.0" id="Sv0-Ai-Zie" customClass="GlanceController" customModule="Time_for_Coffee__WatchKit_App" customModuleProvider="target">
+                <glanceController spacing="0.0" id="Sv0-Ai-Zie" customClass="GlanceController" customModule="Time_for_Coffee__WatchKit_1_Extension">
                     <items>
                         <group alignment="left" id="gv7-I2-MZq">
                             <items>
