@@ -186,6 +186,9 @@
                                                     <segment title="All"/>
                                                     <segment title="Favourites"/>
                                                 </segments>
+                                                <connections>
+                                                    <action selector="segmentedViewChanged:" destination="COk-7g-JfJ" eventType="valueChanged" id="joN-3M-k1U"/>
+                                                </connections>
                                             </segmentedControl>
                                         </subviews>
                                         <constraints>
@@ -330,6 +333,7 @@
                         <outlet property="navBarView" destination="elb-MS-l3n" id="WyB-WQ-1n4"/>
                         <outlet property="releaseToViewLabel" destination="cgy-fE-O9r" id="0Vu-ds-qyA"/>
                         <outlet property="segmentedControl" destination="VXL-uK-o9G" id="Z9n-sa-saQ"/>
+                        <outlet property="segmentedView" destination="VXL-uK-o9G" id="3JX-tr-4Ej"/>
                         <outlet property="stationIconButton" destination="EyP-xR-Nab" id="Kj2-tF-F4A"/>
                         <outlet property="stationIconView" destination="guG-BC-z0w" id="ykk-ny-e5U"/>
                         <outlet property="stationNameBottomSpace" destination="Ufm-GS-sWA" id="x3i-vg-cP9"/>

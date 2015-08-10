@@ -1,4 +1,4 @@
-//
+ //
 //  StationViewController
 //
 //
@@ -64,6 +64,12 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
 
     @IBAction func iconTouchUp(sender: UIButton) {
         favoriteClicked(nil)
+    }
+
+    @IBOutlet weak var segmentedView: UISegmentedControl!
+
+    @IBAction func segmentedViewChanged(sender: AnyObject) {
+        displayDepartures()
     }
 
     required init(coder aDecoder: NSCoder) {
@@ -132,6 +138,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         self.mapView.delegate = self
         displayDepartures()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeInactive:", name: "UIApplicationDidEnterBackgroundNotification", object: nil)
+
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -474,6 +481,11 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         if (self.station != nil) {
             updateInAMinute()
             self.station?.updateDepartures(self)
+            if (station?.hasFavoriteDepartures() != true) {
+                segmentedView.setTitle("Favourites?", forSegmentAtIndex: 1)
+            } else {
+                segmentedView.setTitle("Favourites", forSegmentAtIndex: 1)
+            }
             self.appsTableView?.reloadData()
         }
     }
@@ -502,8 +514,24 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         self.refreshControl.endRefreshing()
     }
 
+    private func getDeparturesDependentOnView(station: TFCStation?) -> [TFCDeparture]? {
+        let departures:[TFCDeparture]?
+        // FIXME
+        // if only show favorites:
+        if (segmentedView.selectedSegmentIndex == 1) {
+            if (station?.hasFavoriteDepartures() == true) {
+                departures = station?.getFilteredDepartures()
+            } else {
+                departures = []
+            }
+        } else {
+            departures = station?.getDepartures()
+        }
+        return departures
+    }
+
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let departures = station?.getDepartures()
+        let departures = getDeparturesDependentOnView(station)
         if (departures == nil || departures!.count == 0) {
             return 1
         }
@@ -523,7 +551,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         let minutesLabel = cell.viewWithTag(400) as! UILabel
         if (station != nil) {
             let station2 = station!
-            let departures = station2.getDepartures()
+            let departures = getDeparturesDependentOnView(station2)
             if (departures == nil || departures!.count == 0) {
                 departureLabel.text = nil
                 minutesLabel.text = nil
@@ -531,7 +559,12 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
                 if (departures == nil) {
                     destinationLabel.text = NSLocalizedString("Loading", comment: "Loading ..")
                 } else {
-                    destinationLabel.text = NSLocalizedString("No departures found.", comment: "")
+                    if (segmentedView.selectedSegmentIndex == 0 ||  station?.hasFavoriteDepartures() == true) {
+                        destinationLabel.text = NSLocalizedString("No departures found.", comment: "")
+                    } else {
+                        destinationLabel.text = NSLocalizedString("No favourites found.", comment: "")
+
+                    }
                     if (self.networkErrorMsg != nil) {
                         departureLabel.text = self.networkErrorMsg
                     }
@@ -581,7 +614,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         var buttons:[AnyObject] = []
         if (station != nil) {
             let station2 = station!
-            let departures = station2.getDepartures()
+            let departures = getDeparturesDependentOnView(station2)
             if (departures != nil) {
                 if (direction == MGSwipeDirection.RightToLeft) {
                     let departure: TFCDeparture = departures![cell.tag]
@@ -610,7 +643,8 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
 
     private func buttonClickCallbackFilter(cell: MGSwipeTableCell!) -> Bool {
         let station2 = station!
-        let departures: [TFCDeparture] = station2.getDepartures()!
+        let departures: [TFCDeparture] = getDeparturesDependentOnView(station2)!
+
         let departure: TFCDeparture = departures[cell.tag]
         SKTUser.currentUser().addProperties(["usedFilters": true])
         var index = 0
@@ -632,7 +666,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
 
     private func buttonClickCallbackFavorite(cell: MGSwipeTableCell!) -> Bool {
         let station2 = station!
-        let departures: [TFCDeparture] = station2.getDepartures()!
+        let departures: [TFCDeparture] = getDeparturesDependentOnView(station2)!
         let departure: TFCDeparture = departures[cell.tag]
         SKTUser.currentUser().addProperties(["usedFilters": true])
         var index = 0
