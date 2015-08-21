@@ -49,6 +49,11 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         return self.getFilteredLines()
     }()
 
+    private lazy var favoriteLines:[String: [String: Bool]] = {
+        [unowned self] in
+        return self.getFavoriteLines()
+    }()
+    
     public init(name: String, id: String, coord: CLLocation?) {
         self.name = name
         self.st_id = id
@@ -97,6 +102,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                 }
             }
             newStation!.filteredLines = newStation!.getFilteredLines()
+            newStation!.favoriteLines = newStation!.getFavoriteLines()
         }
         return newStation!
     }
@@ -186,53 +192,118 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     }
     
     public func hasFilters() -> Bool {
-        return (filteredLines.count > 0)
+        return (filteredLines.count > 0 || hasFavoriteDepartures())
     }
-    
-    public func isFiltered(departure: TFCDeparture) -> Bool {
-        if (filteredLines[departure.getLine()] != nil) {
-            if (filteredLines[departure.getLine()]?[departure.getDestination()] != nil) {
+    public func hasFavoriteDepartures() -> Bool {
+        return favoriteLines.count > 0
+    }
+
+    private func getMarkedLines(favorite: Bool) -> [String: [String: Bool]] {
+        if (favorite) {
+            return favoriteLines
+        }
+        return filteredLines
+    }
+
+    private func isMarkedDeparture(departure: TFCDeparture, favorite: Bool) -> Bool {
+        var lines = getMarkedLines(favorite)
+        if (lines[departure.getLine()] != nil) {
+            if (lines[departure.getLine()]?[departure.getDestination()] != nil) {
                 return true
             }
         }
         return false
     }
-    
-    public func setFilter(departure: TFCDeparture) {
-        //var filteredLine = filteredLines[departure.getLine()]
-        if (filteredLines[departure.getLine()] == nil) {
-            filteredLines[departure.getLine()] = [:]
-        }
 
-        filteredLines[departure.getLine()]?[departure.getDestination()] = true
-        saveFilteredLines()
+    public func isFavoriteDeparture(departure: TFCDeparture) -> Bool {
+        return isMarkedDeparture(departure, favorite: true)
+    }
+
+    public func isFilteredDeparture(departure: TFCDeparture) -> Bool {
+        return isMarkedDeparture(departure, favorite: false)
+    }
+
+    public func showAsFilteredDeparture(departure: TFCDeparture) -> Bool {
+        if (favoriteLines.count > 0) {
+            return !isFavoriteDeparture(departure)
+        }
+        return isFilteredDeparture(departure)
+    }
+
+    private func setMarkedDeparture(departure: TFCDeparture, favorite: Bool) {
+        var lines = getMarkedLines(favorite)
+        if (lines[departure.getLine()] == nil) {
+            lines[departure.getLine()] = [:]
+        }
+        lines[departure.getLine()]?[departure.getDestination()] = true
+        saveMarkedLines(lines, favorite: favorite)
+    }
+
+    public func setFavoriteDeparture(departure: TFCDeparture) {
+        setMarkedDeparture(departure, favorite: true)
+    }
+
+    public func setFilterDeparture(departure: TFCDeparture) {
+        setMarkedDeparture(departure, favorite: false)
+    }
+
+    private func unsetMarkedDeparture(departure: TFCDeparture, favorite: Bool) {
+        var lines = getMarkedLines(favorite)
+        lines[departure.getLine()]?[departure.getDestination()] = nil
+        if((lines[departure.getLine()] as [String: Bool]!).count == 0) {
+            lines[departure.getLine()] = nil
+        }
+        saveMarkedLines(lines, favorite: favorite)
+
+    }
+
+    public func unsetFavoriteDeparture(departure: TFCDeparture) {
+        unsetMarkedDeparture(departure, favorite: true)
     }
     
-    public func unsetFilter(departure: TFCDeparture) {
-        filteredLines[departure.getLine()]?[departure.getDestination()] = nil
-        if((filteredLines[departure.getLine()] as [String: Bool]!).count == 0) {
-            filteredLines[departure.getLine()] = nil
-        }
-        saveFilteredLines()
-
+    public func unsetFilterDeparture(departure: TFCDeparture) {
+        unsetMarkedDeparture(departure, favorite: false)
     }
-        
-    private func saveFilteredLines() {
-        if (filteredLines.count > 0) {
-            objects.dataStore?.setObject(filteredLines, forKey: "filtered\(st_id)")
+
+    private func getDataStoreKey(id: String, favorite: Bool) -> String {
+        if (favorite) {
+            return "favorite\(id)"
+        }
+        return "filtered\(id)"
+    }
+
+    private func saveMarkedLines(lines: [String: [String: Bool]], favorite: Bool) {
+        if (favorite) {
+            favoriteLines = lines
         } else {
-            objects.dataStore?.removeObjectForKey("filtered\(st_id)")
+            filteredLines = lines
+        }
+
+        let key:String = getDataStoreKey(st_id, favorite: favorite)
+        if (lines.count > 0) {
+            objects.dataStore?.setObject(lines, forKey: key)
+        } else {
+            objects.dataStore?.removeObjectForKey(key)
         }
         TFCDataStore.sharedInstance.getUserDefaults()?.setObject(NSDate(), forKey: "settingsLastUpdate")
     }
-    
-    private func getFilteredLines() -> [String: [String: Bool]] {
-        var filteredDestinationsShared: [String: [String: Bool]]? = objects.dataStore?.objectForKey("filtered\(st_id)")?.mutableCopy() as! [String: [String: Bool]]?
-        
-        if (filteredDestinationsShared == nil) {
-            filteredDestinationsShared = [:]
+
+    private func getMarkedLinesShared(favorite: Bool) -> [String: [String: Bool]] {
+        let key = getDataStoreKey(st_id, favorite: favorite)
+        var markedDestinationsShared: [String: [String: Bool]]? = objects.dataStore?.objectForKey(key)?.mutableCopy() as! [String: [String: Bool]]?
+
+        if (markedDestinationsShared == nil) {
+            markedDestinationsShared = [:]
         }
-        return filteredDestinationsShared!
+        return markedDestinationsShared!
+    }
+
+    private func getFavoriteLines() -> [String: [String: Bool]] {
+        return getMarkedLinesShared(true)
+    }
+
+    private func getFilteredLines() -> [String: [String: Bool]] {
+        return getMarkedLinesShared(false)
     }
 
     private func addDepartures(departures: [TFCDeparture]?) {
@@ -259,7 +330,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         if (self.departures != nil) {
             filteredDepartures = []
             for (departure) in self.departures! {
-                if (!self.isFiltered(departure)) {
+                if (!self.showAsFilteredDeparture(departure)) {
                     filteredDepartures?.append(departure)
                 }
             }

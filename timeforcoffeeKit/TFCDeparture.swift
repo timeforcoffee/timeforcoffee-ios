@@ -265,7 +265,7 @@ public final class TFCDeparture: NSObject, NSCoding {
             } else {
                 destination = getDestination(station)
             }
-            if (station.isFiltered(self)) {
+            if (station.showAsFilteredDeparture(self)) {
                 return "\(destination) ✗"
             }
             return destination

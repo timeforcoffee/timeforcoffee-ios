@@ -42,6 +42,8 @@
 		EC0CDB571B36D52E0081FE4C /* TFCLocationManagerBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC046D621A9C563D00C2C1B3 /* TFCLocationManagerBase.swift */; };
 		EC0DD8CF1AAEC7CB0089A207 /* TFCCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0DD8CE1AAEC7CB0089A207 /* TFCCache.swift */; };
 		EC0DD8D11AAF1B5F0089A207 /* StationsSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0DD8D01AAF1B5F0089A207 /* StationsSearchViewController.swift */; };
+		EC14CD511B7E7979002F686C /* SupportKit.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EC14CD4F1B7E7979002F686C /* SupportKit.bundle */; };
+		EC14CD521B7E7979002F686C /* SupportKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC14CD501B7E7979002F686C /* SupportKit.framework */; };
 		EC21446D1ABCB2AF00B48522 /* TFCFavorites.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC21446C1ABCB2AF00B48522 /* TFCFavorites.swift */; };
 		EC2195EB1AA35B2D005E16EF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC2195ED1AA35B2D005E16EF /* Localizable.strings */; };
 		EC271DC41AA365BE00A7A75E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC271DC31AA365BE00A7A75E /* Main.storyboard */; };
@@ -133,8 +135,8 @@
 		EC93E36F1AC6F50000A0DA46 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C316F1A9E1EC700690397 /* Foundation.framework */; };
 		EC95714F1A9CACB70061F8B4 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC95714E1A9CACB70061F8B4 /* extensions.swift */; };
 		EC9571511A9CCEC00061F8B4 /* TFCBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9571501A9CCEC00061F8B4 /* TFCBaseViewController.swift */; };
-		ECA1F3BE1B2893C500C8711B /* SupportKit.bundle in Resources */ = {isa = PBXBuildFile; fileRef = ECA1F3BC1B2893C500C8711B /* SupportKit.bundle */; };
-		ECA1F3BF1B2893C500C8711B /* SupportKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECA1F3BD1B2893C500C8711B /* SupportKit.framework */; };
+		EC994D7E1ADC240000354014 /* StationsOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC994D7D1ADC240000354014 /* StationsOverviewViewController.swift */; };
+		EC994D801ADC283000354014 /* StationsRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC994D7F1ADC283000354014 /* StationsRow.swift */; };
 		ECAD8C3B1ABD849B00704974 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECAD8C3A1ABD849B00704974 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		ECAD8C3F1ABD861000704974 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECAD8C3E1ABD861000704974 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		ECC163D71AA36924006BC3E9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC2195ED1AA35B2D005E16EF /* Localizable.strings */; };
@@ -265,6 +267,8 @@
 		EC0CDB361B36D0570081FE4C /* PINMemoryCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PINMemoryCache.m; sourceTree = "<group>"; };
 		EC0DD8CE1AAEC7CB0089A207 /* TFCCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCCache.swift; sourceTree = "<group>"; };
 		EC0DD8D01AAF1B5F0089A207 /* StationsSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationsSearchViewController.swift; sourceTree = "<group>"; };
+		EC14CD4F1B7E7979002F686C /* SupportKit.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SupportKit.bundle; sourceTree = "<group>"; };
+		EC14CD501B7E7979002F686C /* SupportKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SupportKit.framework; sourceTree = "<group>"; };
 		EC21446C1ABCB2AF00B48522 /* TFCFavorites.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCFavorites.swift; sourceTree = "<group>"; };
 		EC2195EC1AA35B2D005E16EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EC2195EF1AA35B4B005E16EF /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -364,8 +368,8 @@
 		EC93E36C1AC6F4EA00A0DA46 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		EC95714E1A9CACB70061F8B4 /* extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
 		EC9571501A9CCEC00061F8B4 /* TFCBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCBaseViewController.swift; sourceTree = "<group>"; };
-		ECA1F3BC1B2893C500C8711B /* SupportKit.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SupportKit.bundle; sourceTree = "<group>"; };
-		ECA1F3BD1B2893C500C8711B /* SupportKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SupportKit.framework; sourceTree = "<group>"; };
+		EC994D7D1ADC240000354014 /* StationsOverviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationsOverviewViewController.swift; sourceTree = "<group>"; };
+		EC994D7F1ADC283000354014 /* StationsRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationsRow.swift; sourceTree = "<group>"; };
 		ECAD8C3A1ABD849B00704974 /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
 		ECAD8C3C1ABD84A600704974 /* PINCache.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PINCache.framework; path = "Pods/../build/Debug-iphoneos/Pods/PINCache.framework"; sourceTree = "<group>"; };
 		ECAD8C3E1ABD861000704974 /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
@@ -446,9 +450,9 @@
 				EC93E3691AC6F4DC00A0DA46 /* CoreText.framework in Frameworks */,
 				EC93E3671AC6F4CC00A0DA46 /* libxml2.dylib in Frameworks */,
 				EC93E3651AC6F4C500A0DA46 /* CoreGraphics.framework in Frameworks */,
+				EC14CD521B7E7979002F686C /* SupportKit.framework in Frameworks */,
 				EC87B65D1AB95373005A053E /* libsqlite3.dylib in Frameworks */,
 				EC87B65B1AB95365005A053E /* CoreData.framework in Frameworks */,
-				ECA1F3BF1B2893C500C8711B /* SupportKit.framework in Frameworks */,
 				EC2C317E1A9E1F4400690397 /* libz.dylib in Frameworks */,
 				EC2C317D1A9E1F3D00690397 /* libc++.dylib in Frameworks */,
 				EC87B6581AB95348005A053E /* libGoogleAnalyticsServices.a in Frameworks */,
@@ -584,9 +588,9 @@
 				EC93E3661AC6F4CC00A0DA46 /* libxml2.dylib */,
 				EC93E3641AC6F4C500A0DA46 /* CoreGraphics.framework */,
 				ECAD8C401ABD861D00704974 /* PINCache.framework */,
-				ECA1F3BC1B2893C500C8711B /* SupportKit.bundle */,
-				ECA1F3BD1B2893C500C8711B /* SupportKit.framework */,
 				ECAD8C3E1ABD861000704974 /* Pods.framework */,
+				EC14CD4F1B7E7979002F686C /* SupportKit.bundle */,
+				EC14CD501B7E7979002F686C /* SupportKit.framework */,
 				ECAD8C3C1ABD84A600704974 /* PINCache.framework */,
 				ECAD8C3A1ABD849B00704974 /* Pods.framework */,
 				EC87B65C1AB95373005A053E /* libsqlite3.dylib */,
@@ -1121,7 +1125,7 @@
 				314AFBD21AA7633D00C176FE /* StationTableViewCell.xib in Resources */,
 				EC4A37271AC0811D005D7546 /* LaunchScreen.xib in Resources */,
 				EC2C31271A9DE8B000690397 /* home.gpx in Resources */,
-				ECA1F3BE1B2893C500C8711B /* SupportKit.bundle in Resources */,
+				EC14CD511B7E7979002F686C /* SupportKit.bundle in Resources */,
 				ECC163D71AA36924006BC3E9 /* Localizable.strings in Resources */,
 				EC069DE31AC885C90017D345 /* SupportKitLocalizable.strings in Resources */,
 				EC6CD8E11AC18C43002488DC /* Zuerich2.jpg in Resources */,
@@ -1665,10 +1669,10 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 67;
+				CURRENT_PROJECT_VERSION = 69;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 67;
+				DYLIB_CURRENT_VERSION = 69;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1697,10 +1701,10 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: opendata.ch (DN76797UYF)";
-				CURRENT_PROJECT_VERSION = 67;
+				CURRENT_PROJECT_VERSION = 69;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 67;
+				DYLIB_CURRENT_VERSION = 69;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
