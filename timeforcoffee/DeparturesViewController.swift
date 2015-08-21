@@ -691,7 +691,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         //view.backgroundColor = UIColor.blueColor();
 
         UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.opaque, 0.0);
-        view.layer.renderInContext(UIGraphicsGetCurrentContext())
+        view.layer.renderInContext(UIGraphicsGetCurrentContext()!)
         let img = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         //view.backgroundColor = oldBG
