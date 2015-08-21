@@ -612,6 +612,25 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
     }
 
     func swipeTableCell(cell: MGSwipeTableCell!, swipeButtonsForDirection direction: MGSwipeDirection, swipeSettings: MGSwipeSettings!, expansionSettings: MGSwipeExpansionSettings!) -> [AnyObject]! {
+
+        let buttonClickCallbackFavorite : MGSwipeButtonCallback = { (cell: MGSwipeTableCell!) in
+            let station2 = self.station!
+            let departures: [TFCDeparture] = self.getDeparturesDependentOnView(station2)!
+            let departure: TFCDeparture = departures[cell.tag]
+            SKTUser.currentUser().addProperties(["usedFilters": true])
+            var index = 0
+            if (station2.isFavoriteDeparture(departure)) {
+                station2.unsetFavoriteDeparture(departure)
+                var button = cell.rightButtons[index] as! MGSwipeButton
+                button.backgroundColor = UIColor.greenColor();
+            } else {
+                station2.setFavoriteDeparture(departure);
+                var button = cell.rightButtons[index] as! MGSwipeButton
+                button.backgroundColor = UIColor.redColor();
+            }
+            self.appsTableView?.reloadData()
+            return true
+        }
         var buttons:[AnyObject] = []
         if (station != nil) {
             let station2 = station!
@@ -658,25 +677,6 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
             button.backgroundColor = UIColor.greenColor();
         } else {
             station2.setFilterDeparture(departure);
-            var button = cell.rightButtons[index] as! MGSwipeButton
-            button.backgroundColor = UIColor.redColor();
-        }
-        self.appsTableView?.reloadData()
-        return true
-    }
-
-    private func buttonClickCallbackFavorite(cell: MGSwipeTableCell!) -> Bool {
-        let station2 = station!
-        let departures: [TFCDeparture] = getDeparturesDependentOnView(station2)!
-        let departure: TFCDeparture = departures[cell.tag]
-        SKTUser.currentUser().addProperties(["usedFilters": true])
-        var index = 0
-        if (station2.isFavoriteDeparture(departure)) {
-            station2.unsetFavoriteDeparture(departure)
-            var button = cell.rightButtons[index] as! MGSwipeButton
-            button.backgroundColor = UIColor.greenColor();
-        } else {
-            station2.setFavoriteDeparture(departure);
             var button = cell.rightButtons[index] as! MGSwipeButton
             button.backgroundColor = UIColor.redColor();
         }
