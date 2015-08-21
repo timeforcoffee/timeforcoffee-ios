@@ -2,7 +2,7 @@
 CONFIGURATION_BUILD_DIR = $PODS_FRAMEWORK_BUILD_PATH
 FRAMEWORK_SEARCH_PATHS = "$PODS_FRAMEWORK_BUILD_PATH"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/MGSwipeTableCell" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/MGSwipeTableCell" "${PODS_ROOT}/Headers/Public/PINCache" "${PODS_ROOT}/Headers/Public/SwipeView"
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/MGSwipeTableCell" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/MGSwipeTableCell" "${PODS_ROOT}/Headers/Public/SwipeView"
 OTHER_LDFLAGS = -ObjC
 PODS_FRAMEWORK_BUILD_PATH = $(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Pods
 PODS_ROOT = ${SRCROOT}

@@ -49,11 +49,9 @@ code_sign() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'MGSwipeTableCell.framework'
-  install_framework 'PINCache.framework'
   install_framework 'SwipeView.framework'
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'MGSwipeTableCell.framework'
-  install_framework 'PINCache.framework'
   install_framework 'SwipeView.framework'
 fi
