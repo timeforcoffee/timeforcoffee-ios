@@ -118,7 +118,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                     // Get the parameter name
                     var value = qs.componentsSeparatedByString("=")[1]
                     value = value.stringByReplacingOccurrencesOfString("+", withString: " ")
-                    value = value.stringByReplacingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
+                    value = value.stringByRemovingPercentEncoding!
+
                     
                     queryStrings[key] = value
                 }

@@ -618,14 +618,14 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
             let departures: [TFCDeparture] = self.getDeparturesDependentOnView(station2)!
             let departure: TFCDeparture = departures[cell.tag]
             SKTUser.currentUser().addProperties(["usedFilters": true])
-            var index = 0
+            let index = 0
             if (station2.isFavoriteDeparture(departure)) {
                 station2.unsetFavoriteDeparture(departure)
-                var button = cell.rightButtons[index] as! MGSwipeButton
+                let button = cell.rightButtons[index] as! MGSwipeButton
                 button.backgroundColor = UIColor.greenColor();
             } else {
                 station2.setFavoriteDeparture(departure);
-                var button = cell.rightButtons[index] as! MGSwipeButton
+                let button = cell.rightButtons[index] as! MGSwipeButton
                 button.backgroundColor = UIColor.redColor();
             }
             self.appsTableView?.reloadData()
@@ -673,11 +673,11 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         }
         if (station2.isFilteredDeparture(departure)) {
             station2.unsetFilterDeparture(departure);
-            var button = cell.rightButtons[index] as! MGSwipeButton
+            let button = cell.rightButtons[index] as! MGSwipeButton
             button.backgroundColor = UIColor.greenColor();
         } else {
             station2.setFilterDeparture(departure);
-            var button = cell.rightButtons[index] as! MGSwipeButton
+            let button = cell.rightButtons[index] as! MGSwipeButton
             button.backgroundColor = UIColor.redColor();
         }
         self.appsTableView?.reloadData()
