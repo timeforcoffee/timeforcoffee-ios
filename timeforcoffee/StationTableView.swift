@@ -19,7 +19,7 @@ final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataS
     weak var stationsViewController: StationsViewController?
     weak var searchBar: UISearchBar?
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
@@ -68,7 +68,7 @@ final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataS
 
     func updateSearchResultsForSearchController(searchController: UISearchController) {
         let whitespaceCharacterSet = NSCharacterSet.whitespaceCharacterSet()
-        let strippedString = searchController.searchBar.text.stringByTrimmingCharactersInSet(whitespaceCharacterSet)
+        let strippedString = searchController.searchBar.text!.stringByTrimmingCharactersInSet(whitespaceCharacterSet)
         if (strippedString != "") {
             self.stations.updateStations(searchFor: strippedString)
         }

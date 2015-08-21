@@ -8,7 +8,6 @@
 
 import Foundation
 import CoreLocation
-import PINCache
 
 final class APIController {
     
@@ -67,9 +66,9 @@ final class APIController {
                 self.delegate?.didReceiveAPIResults(result, error: nil, context: context)
             } else {
                 let url: NSURL = NSURL(string: urlPath)!
-                if let absUrl = url.absoluteString {
-                    NSLog("Start fetching data %@", absUrl)
-                }
+                let absUrl = url.absoluteString
+                NSLog("Start fetching data %@", absUrl)
+
 
                 if (fetchId == 1 && self.currentFetch[fetchId] != nil) {
                     NSLog("cancel current fetch")
@@ -82,9 +81,9 @@ final class APIController {
                     NSLog("Task completed")
                     if(error != nil) {
                         // If there is an error in the web request, print it to the console
-                        NSLog(error.localizedDescription)
+                        NSLog(error!.localizedDescription)
                         // 1001 == timeout => just retry
-                        if (error.code == -1001) {
+                        if (error!.code == -1001) {
                             let newcounter = counter + 1
                             // don't do it more than 5 times
                             if (newcounter <= 5) {
@@ -97,12 +96,19 @@ final class APIController {
                     if (fetchId == 1) {
                         self.currentFetch[fetchId] = nil
                     }
-                    let jsonResult = JSON(data: data)
+
+                    let jsonResult:JSON
+                    if (data == nil) {
+                        jsonResult = JSON(NSNull())
+                    } else {
+                        jsonResult = JSON(data: data!)
                     //jsonResult.boolValue is false, when data was not parseable. Don't cache it in that case
                     if (jsonResult.boolValue == true && error == nil && cacheKey != nil) {
-                        self.cache.setObject(data, forKey: cacheKey!)
+                        self.cache.setObject(data!, forKey: cacheKey!)
+                    }
                     }
                     self.delegate?.didReceiveAPIResults(jsonResult, error: error, context: context)
+
                 })
                 dataFetch?.resume()
                 NSLog("dataTask resumed")

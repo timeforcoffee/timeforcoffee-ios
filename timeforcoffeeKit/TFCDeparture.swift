@@ -33,7 +33,7 @@ public final class TFCDeparture: NSObject, NSCoding {
         
     }
 
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         self.name = aDecoder.decodeObjectForKey("name") as! String
         self.type = aDecoder.decodeObjectForKey("type") as! String
         self.accessible = aDecoder.decodeBoolForKey("accessible")
@@ -169,9 +169,9 @@ public final class TFCDeparture: NSObject, NSCoding {
          let fda = fontDescriptor.fontDescriptorWithSymbolicTraits(bi).fontAttributes()
         let fontName = fda["NSFontNameAttribute"] as String
         */
-        let attributesBoldItalic = [
+      /*  let attributesBoldItalic = [
             NSFontAttributeName: UIFont(name: "HelveticaNeue-Bold", size: 13.0)!
-        ]
+        ]*/
 
         var timestringAttr: NSMutableAttributedString?
         var timestring: String?

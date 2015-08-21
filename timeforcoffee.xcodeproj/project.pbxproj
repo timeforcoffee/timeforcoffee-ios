@@ -15,17 +15,14 @@
 		31979D751AB5BC7B00525165 /* DepartureLineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31979D741AB5BC7B00525165 /* DepartureLineLabel.swift */; };
 		31979D761AB5BC7B00525165 /* DepartureLineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31979D741AB5BC7B00525165 /* DepartureLineLabel.swift */; };
 		4BA86C17986B70448BEAD6EA /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 965B2A36D479CA86DF62E63F /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		EC046D631A9C563D00C2C1B3 /* TFCLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC046D621A9C563D00C2C1B3 /* TFCLocationManager.swift */; };
 		EC0530871AB01153008439E9 /* gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0530861AB01153008439E9 /* gradient.png */; };
 		EC069DE31AC885C90017D345 /* SupportKitLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC069DE21AC885C90017D345 /* SupportKitLocalizable.strings */; };
 		EC0740731AB8C68100452868 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC7A517F19C427CA000F5E7C /* Images.xcassets */; };
 		EC0A30EC1AA344100043B8F8 /* launchicon.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30EB1AA344100043B8F8 /* launchicon.png */; };
 		EC0A30F21AA353CA0043B8F8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30F41AA353CA0043B8F8 /* MainInterface.storyboard */; };
-		EC0DD8CF1AAEC7CB0089A207 /* TFCCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0DD8CE1AAEC7CB0089A207 /* TFCCache.swift */; };
 		EC0DD8D11AAF1B5F0089A207 /* StationsSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0DD8D01AAF1B5F0089A207 /* StationsSearchViewController.swift */; };
 		EC14CD511B7E7979002F686C /* SupportKit.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EC14CD4F1B7E7979002F686C /* SupportKit.bundle */; };
 		EC14CD521B7E7979002F686C /* SupportKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC14CD501B7E7979002F686C /* SupportKit.framework */; };
-		EC21446D1ABCB2AF00B48522 /* TFCFavorites.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC21446C1ABCB2AF00B48522 /* TFCFavorites.swift */; };
 		EC2195EB1AA35B2D005E16EF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC2195ED1AA35B2D005E16EF /* Localizable.strings */; };
 		EC271DC41AA365BE00A7A75E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC271DC31AA365BE00A7A75E /* Main.storyboard */; };
 		EC2C31271A9DE8B000690397 /* home.gpx in Resources */ = {isa = PBXBuildFile; fileRef = EC2C31261A9DE8B000690397 /* home.gpx */; };
@@ -50,6 +47,29 @@
 		EC4344D01AA508FF009438C7 /* StationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4344CF1AA508FF009438C7 /* StationRow.swift */; };
 		EC4344D21AA5890F009438C7 /* StationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4344D11AA5890F009438C7 /* StationViewController.swift */; };
 		EC4A37271AC0811D005D7546 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC4A37261AC0811D005D7546 /* LaunchScreen.xib */; };
+		EC5901561B87CBD400628D77 /* APIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5901461B87CBD400628D77 /* APIController.swift */; };
+		EC5901571B87CBD400628D77 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5901471B87CBD400628D77 /* extensions.swift */; };
+		EC5901581B87CBD400628D77 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5901481B87CBD400628D77 /* SwiftyJSON.swift */; };
+		EC5901591B87CBD400628D77 /* TFCBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5901491B87CBD400628D77 /* TFCBaseViewController.swift */; };
+		EC59015A1B87CBD400628D77 /* TFCCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC59014A1B87CBD400628D77 /* TFCCache.swift */; };
+		EC59015B1B87CBD400628D77 /* TFCDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC59014B1B87CBD400628D77 /* TFCDataStore.swift */; };
+		EC59015C1B87CBD400628D77 /* TFCDeparture.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC59014C1B87CBD400628D77 /* TFCDeparture.swift */; };
+		EC59015D1B87CBD400628D77 /* TFCFavorites.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC59014D1B87CBD400628D77 /* TFCFavorites.swift */; };
+		EC59015E1B87CBD400628D77 /* TFCLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC59014E1B87CBD400628D77 /* TFCLocationManager.swift */; };
+		EC59015F1B87CBD400628D77 /* TFCLocationManagerBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC59014F1B87CBD400628D77 /* TFCLocationManagerBase.swift */; };
+		EC5901601B87CBD400628D77 /* TFCStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5901501B87CBD400628D77 /* TFCStation.swift */; };
+		EC5901611B87CBD400628D77 /* TFCStationBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5901511B87CBD400628D77 /* TFCStationBase.swift */; };
+		EC5901621B87CBD400628D77 /* TFCStations.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5901521B87CBD400628D77 /* TFCStations.swift */; };
+		EC5901631B87CBD400628D77 /* TFCURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5901531B87CBD400628D77 /* TFCURLSession.swift */; };
+		EC5901641B87CBD400628D77 /* TFCWatchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5901541B87CBD400628D77 /* TFCWatchData.swift */; };
+		EC5901651B87CBD400628D77 /* timeforcoffeeKit-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = EC5901551B87CBD400628D77 /* timeforcoffeeKit-Bridging-Header.h */; };
+		EC59016E1B87CBDB00628D77 /* Nullability.h in Headers */ = {isa = PBXBuildFile; fileRef = EC5901671B87CBDB00628D77 /* Nullability.h */; };
+		EC59016F1B87CBDB00628D77 /* PINCache.h in Headers */ = {isa = PBXBuildFile; fileRef = EC5901681B87CBDB00628D77 /* PINCache.h */; };
+		EC5901701B87CBDB00628D77 /* PINCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC5901691B87CBDB00628D77 /* PINCache.m */; };
+		EC5901711B87CBDB00628D77 /* PINDiskCache.h in Headers */ = {isa = PBXBuildFile; fileRef = EC59016A1B87CBDB00628D77 /* PINDiskCache.h */; };
+		EC5901721B87CBDB00628D77 /* PINDiskCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC59016B1B87CBDB00628D77 /* PINDiskCache.m */; };
+		EC5901731B87CBDB00628D77 /* PINMemoryCache.h in Headers */ = {isa = PBXBuildFile; fileRef = EC59016C1B87CBDB00628D77 /* PINMemoryCache.h */; };
+		EC5901741B87CBDB00628D77 /* PINMemoryCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC59016D1B87CBDB00628D77 /* PINMemoryCache.m */; };
 		EC6B1FB81AC152FF0070783C /* AboutPagedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6B1FB71AC152FF0070783C /* AboutPagedViewController.swift */; };
 		EC6CD8DD1AC17C57002488DC /* About.html in Resources */ = {isa = PBXBuildFile; fileRef = EC6CD8DC1AC17C57002488DC /* About.html */; };
 		EC6CD8E11AC18C43002488DC /* Zuerich2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = EC6CD8E01AC18C43002488DC /* Zuerich2.jpg */; };
@@ -58,10 +78,6 @@
 		EC6EDCFC1A9B9F390098CAE0 /* timeforcoffee Widget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EC6EDCEF1A9B9F390098CAE0 /* timeforcoffee Widget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		EC6EDD441A9BA36F0098CAE0 /* timeforcoffeeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */; };
 		EC6EDD451A9BA36F0098CAE0 /* timeforcoffeeKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		EC6EDD4E1A9BA4820098CAE0 /* TFCDeparture.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDD4C1A9BA4820098CAE0 /* TFCDeparture.swift */; };
-		EC6EDD4F1A9BA4820098CAE0 /* TFCStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDD4D1A9BA4820098CAE0 /* TFCStation.swift */; };
-		EC6EDD511A9BA5080098CAE0 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDD501A9BA5080098CAE0 /* SwiftyJSON.swift */; };
-		EC6EDD541A9BA79B0098CAE0 /* APIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EDD531A9BA79B0098CAE0 /* APIController.swift */; };
 		EC7A517919C427CA000F5E7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A517819C427CA000F5E7C /* AppDelegate.swift */; };
 		EC7A517B19C427CA000F5E7C /* StationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7A517A19C427CA000F5E7C /* StationsViewController.swift */; };
 		EC7A518019C427CA000F5E7C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC7A517F19C427CA000F5E7C /* Images.xcassets */; };
@@ -73,7 +89,6 @@
 		EC87B65D1AB95373005A053E /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B65C1AB95373005A053E /* libsqlite3.dylib */; };
 		EC87B65E1AB95380005A053E /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B65C1AB95373005A053E /* libsqlite3.dylib */; };
 		EC87B65F1AB95386005A053E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B65A1AB95365005A053E /* CoreData.framework */; };
-		EC9010A11AA73A9E00F328E9 /* TFCWatchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9010A01AA73A9E00F328E9 /* TFCWatchData.swift */; };
 		EC93E3651AC6F4C500A0DA46 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC93E3641AC6F4C500A0DA46 /* CoreGraphics.framework */; };
 		EC93E3671AC6F4CC00A0DA46 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EC93E3661AC6F4CC00A0DA46 /* libxml2.dylib */; };
 		EC93E3691AC6F4DC00A0DA46 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC93E3681AC6F4DC00A0DA46 /* CoreText.framework */; };
@@ -81,8 +96,6 @@
 		EC93E36D1AC6F4EA00A0DA46 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC93E36C1AC6F4EA00A0DA46 /* QuartzCore.framework */; };
 		EC93E36E1AC6F4F200A0DA46 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C316D1A9E1EC000690397 /* UIKit.framework */; };
 		EC93E36F1AC6F50000A0DA46 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C316F1A9E1EC700690397 /* Foundation.framework */; };
-		EC95714F1A9CACB70061F8B4 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC95714E1A9CACB70061F8B4 /* extensions.swift */; };
-		EC9571511A9CCEC00061F8B4 /* TFCBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9571501A9CCEC00061F8B4 /* TFCBaseViewController.swift */; };
 		EC994D7E1ADC240000354014 /* StationsOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC994D7D1ADC240000354014 /* StationsOverviewViewController.swift */; };
 		EC994D801ADC283000354014 /* StationsRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC994D7F1ADC283000354014 /* StationsRow.swift */; };
 		ECAD8C3B1ABD849B00704974 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECAD8C3A1ABD849B00704974 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -95,9 +108,6 @@
 		ECEA097A1AA596EF007827AD /* launchicon.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30EB1AA344100043B8F8 /* launchicon.png */; };
 		ECEA2F0B1B33171400117F0F /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECEA2F091B33171400117F0F /* Fabric.framework */; };
 		ECEA2F0C1B33171400117F0F /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECEA2F0A1B33171400117F0F /* Crashlytics.framework */; };
-		ECF100AD1A9D9BAE00056510 /* TFCStations.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF100AC1A9D9BAE00056510 /* TFCStations.swift */; };
-		ECF3C59C1AC92FB2006F5745 /* TFCURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF3C59B1AC92FB2006F5745 /* TFCURLSession.swift */; };
-		ECFDA0B31AC00DD30019AA4E /* TFCDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFDA0B21AC00DD30019AA4E /* TFCDataStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -173,17 +183,14 @@
 		3C47D48C04911012125C5428 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		648323A7126563DCA991BABD /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		965B2A36D479CA86DF62E63F /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		EC046D621A9C563D00C2C1B3 /* TFCLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCLocationManager.swift; sourceTree = "<group>"; };
 		EC0530861AB01153008439E9 /* gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gradient.png; path = _assets/gradient.png; sourceTree = "<group>"; };
 		EC069DE21AC885C90017D345 /* SupportKitLocalizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = SupportKitLocalizable.strings; sourceTree = "<group>"; };
 		EC0A30EB1AA344100043B8F8 /* launchicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = launchicon.png; path = _assets/launchicon.png; sourceTree = "<group>"; };
 		EC0A30F51AA353E40043B8F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		EC0A30F61AA354010043B8F8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MainInterface.strings; sourceTree = "<group>"; };
-		EC0DD8CE1AAEC7CB0089A207 /* TFCCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCCache.swift; sourceTree = "<group>"; };
 		EC0DD8D01AAF1B5F0089A207 /* StationsSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationsSearchViewController.swift; sourceTree = "<group>"; };
 		EC14CD4F1B7E7979002F686C /* SupportKit.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SupportKit.bundle; sourceTree = "<group>"; };
 		EC14CD501B7E7979002F686C /* SupportKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SupportKit.framework; sourceTree = "<group>"; };
-		EC21446C1ABCB2AF00B48522 /* TFCFavorites.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCFavorites.swift; sourceTree = "<group>"; };
 		EC2195EC1AA35B2D005E16EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EC2195EF1AA35B4B005E16EF /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EC250B0C1AA8684F00F8B3C4 /* timeforcoffee Widget-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "timeforcoffee Widget-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -208,9 +215,31 @@
 		EC4344C41AA5080A009438C7 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		EC4344CF1AA508FF009438C7 /* StationRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationRow.swift; sourceTree = "<group>"; };
 		EC4344D11AA5890F009438C7 /* StationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationViewController.swift; sourceTree = "<group>"; };
-		EC48438C1ABB917D002B3BB5 /* timeforcoffeeKit-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "timeforcoffeeKit-Bridging-Header.h"; sourceTree = "<group>"; };
 		EC4A37261AC0811D005D7546 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		EC522E741AA611A40011A992 /* HelveticaNeueBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HelveticaNeueBold.ttf; sourceTree = "<group>"; };
+		EC5901461B87CBD400628D77 /* APIController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIController.swift; sourceTree = "<group>"; };
+		EC5901471B87CBD400628D77 /* extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
+		EC5901481B87CBD400628D77 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
+		EC5901491B87CBD400628D77 /* TFCBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCBaseViewController.swift; sourceTree = "<group>"; };
+		EC59014A1B87CBD400628D77 /* TFCCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCCache.swift; sourceTree = "<group>"; };
+		EC59014B1B87CBD400628D77 /* TFCDataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCDataStore.swift; sourceTree = "<group>"; };
+		EC59014C1B87CBD400628D77 /* TFCDeparture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCDeparture.swift; sourceTree = "<group>"; };
+		EC59014D1B87CBD400628D77 /* TFCFavorites.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCFavorites.swift; sourceTree = "<group>"; };
+		EC59014E1B87CBD400628D77 /* TFCLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCLocationManager.swift; sourceTree = "<group>"; };
+		EC59014F1B87CBD400628D77 /* TFCLocationManagerBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCLocationManagerBase.swift; sourceTree = "<group>"; };
+		EC5901501B87CBD400628D77 /* TFCStation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCStation.swift; sourceTree = "<group>"; };
+		EC5901511B87CBD400628D77 /* TFCStationBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCStationBase.swift; sourceTree = "<group>"; };
+		EC5901521B87CBD400628D77 /* TFCStations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCStations.swift; sourceTree = "<group>"; };
+		EC5901531B87CBD400628D77 /* TFCURLSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCURLSession.swift; sourceTree = "<group>"; };
+		EC5901541B87CBD400628D77 /* TFCWatchData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCWatchData.swift; sourceTree = "<group>"; };
+		EC5901551B87CBD400628D77 /* timeforcoffeeKit-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "timeforcoffeeKit-Bridging-Header.h"; sourceTree = "<group>"; };
+		EC5901671B87CBDB00628D77 /* Nullability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Nullability.h; sourceTree = "<group>"; };
+		EC5901681B87CBDB00628D77 /* PINCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PINCache.h; sourceTree = "<group>"; };
+		EC5901691B87CBDB00628D77 /* PINCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PINCache.m; sourceTree = "<group>"; };
+		EC59016A1B87CBDB00628D77 /* PINDiskCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PINDiskCache.h; sourceTree = "<group>"; };
+		EC59016B1B87CBDB00628D77 /* PINDiskCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PINDiskCache.m; sourceTree = "<group>"; };
+		EC59016C1B87CBDB00628D77 /* PINMemoryCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PINMemoryCache.h; sourceTree = "<group>"; };
+		EC59016D1B87CBDB00628D77 /* PINMemoryCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PINMemoryCache.m; sourceTree = "<group>"; };
 		EC6B1FB71AC152FF0070783C /* AboutPagedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutPagedViewController.swift; sourceTree = "<group>"; };
 		EC6CD8DC1AC17C57002488DC /* About.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = About.html; sourceTree = "<group>"; };
 		EC6CD8E01AC18C43002488DC /* Zuerich2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Zuerich2.jpg; path = _assets/Zuerich2.jpg; sourceTree = "<group>"; };
@@ -222,10 +251,6 @@
 		EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = timeforcoffeeKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC6EDD3F1A9BA36F0098CAE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC6EDD401A9BA36F0098CAE0 /* timeforcoffeeKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = timeforcoffeeKitTests.swift; sourceTree = "<group>"; };
-		EC6EDD4C1A9BA4820098CAE0 /* TFCDeparture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCDeparture.swift; sourceTree = "<group>"; };
-		EC6EDD4D1A9BA4820098CAE0 /* TFCStation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCStation.swift; sourceTree = "<group>"; };
-		EC6EDD501A9BA5080098CAE0 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
-		EC6EDD531A9BA79B0098CAE0 /* APIController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIController.swift; sourceTree = "<group>"; };
 		EC7A517319C427CA000F5E7C /* Time for Coffee!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Time for Coffee!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC7A517719C427CA000F5E7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC7A517819C427CA000F5E7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -245,14 +270,11 @@
 		EC87B6571AB95348005A053E /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
 		EC87B65A1AB95365005A053E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		EC87B65C1AB95373005A053E /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
-		EC9010A01AA73A9E00F328E9 /* TFCWatchData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCWatchData.swift; sourceTree = "<group>"; };
 		EC93E3641AC6F4C500A0DA46 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		EC93E3661AC6F4CC00A0DA46 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		EC93E3681AC6F4DC00A0DA46 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		EC93E36A1AC6F4E200A0DA46 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		EC93E36C1AC6F4EA00A0DA46 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		EC95714E1A9CACB70061F8B4 /* extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
-		EC9571501A9CCEC00061F8B4 /* TFCBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCBaseViewController.swift; sourceTree = "<group>"; };
 		EC994D7D1ADC240000354014 /* StationsOverviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationsOverviewViewController.swift; sourceTree = "<group>"; };
 		EC994D7F1ADC283000354014 /* StationsRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationsRow.swift; sourceTree = "<group>"; };
 		ECAD8C3A1ABD849B00704974 /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
@@ -268,10 +290,7 @@
 		ECE864A51ADBF3AA004392B2 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		ECEA2F091B33171400117F0F /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		ECEA2F0A1B33171400117F0F /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
-		ECF100AC1A9D9BAE00056510 /* TFCStations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCStations.swift; sourceTree = "<group>"; };
 		ECF100AE1A9DBDAF00056510 /* Time for Coffee!.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Time for Coffee!.entitlements"; sourceTree = "<group>"; };
-		ECF3C59B1AC92FB2006F5745 /* TFCURLSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCURLSession.swift; sourceTree = "<group>"; };
-		ECFDA0B21AC00DD30019AA4E /* TFCDataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCDataStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -417,6 +436,20 @@
 			name = fonts;
 			sourceTree = "<group>";
 		};
+		EC5901661B87CBDB00628D77 /* PINCache */ = {
+			isa = PBXGroup;
+			children = (
+				EC5901671B87CBDB00628D77 /* Nullability.h */,
+				EC5901681B87CBDB00628D77 /* PINCache.h */,
+				EC5901691B87CBDB00628D77 /* PINCache.m */,
+				EC59016A1B87CBDB00628D77 /* PINDiskCache.h */,
+				EC59016B1B87CBDB00628D77 /* PINDiskCache.m */,
+				EC59016C1B87CBDB00628D77 /* PINMemoryCache.h */,
+				EC59016D1B87CBDB00628D77 /* PINMemoryCache.m */,
+			);
+			path = PINCache;
+			sourceTree = "<group>";
+		};
 		EC6EDCF01A9B9F390098CAE0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -472,21 +505,24 @@
 		EC6EDD2E1A9BA36F0098CAE0 /* timeforcoffeeKit */ = {
 			isa = PBXGroup;
 			children = (
-				EC6EDD501A9BA5080098CAE0 /* SwiftyJSON.swift */,
-				EC6EDD4C1A9BA4820098CAE0 /* TFCDeparture.swift */,
-				EC6EDD4D1A9BA4820098CAE0 /* TFCStation.swift */,
-				ECF100AC1A9D9BAE00056510 /* TFCStations.swift */,
-				EC21446C1ABCB2AF00B48522 /* TFCFavorites.swift */,
-				EC48438C1ABB917D002B3BB5 /* timeforcoffeeKit-Bridging-Header.h */,
-				EC0DD8CE1AAEC7CB0089A207 /* TFCCache.swift */,
-				ECFDA0B21AC00DD30019AA4E /* TFCDataStore.swift */,
-				EC6EDD531A9BA79B0098CAE0 /* APIController.swift */,
-				ECF3C59B1AC92FB2006F5745 /* TFCURLSession.swift */,
+				EC5901461B87CBD400628D77 /* APIController.swift */,
+				EC5901471B87CBD400628D77 /* extensions.swift */,
+				EC5901481B87CBD400628D77 /* SwiftyJSON.swift */,
+				EC5901491B87CBD400628D77 /* TFCBaseViewController.swift */,
+				EC59014A1B87CBD400628D77 /* TFCCache.swift */,
+				EC59014B1B87CBD400628D77 /* TFCDataStore.swift */,
+				EC59014C1B87CBD400628D77 /* TFCDeparture.swift */,
+				EC5901661B87CBDB00628D77 /* PINCache */,
+				EC59014D1B87CBD400628D77 /* TFCFavorites.swift */,
+				EC59014E1B87CBD400628D77 /* TFCLocationManager.swift */,
+				EC59014F1B87CBD400628D77 /* TFCLocationManagerBase.swift */,
+				EC5901501B87CBD400628D77 /* TFCStation.swift */,
+				EC5901511B87CBD400628D77 /* TFCStationBase.swift */,
+				EC5901521B87CBD400628D77 /* TFCStations.swift */,
+				EC5901531B87CBD400628D77 /* TFCURLSession.swift */,
+				EC5901541B87CBD400628D77 /* TFCWatchData.swift */,
+				EC5901551B87CBD400628D77 /* timeforcoffeeKit-Bridging-Header.h */,
 				EC6EDD2F1A9BA36F0098CAE0 /* Supporting Files */,
-				EC9571501A9CCEC00061F8B4 /* TFCBaseViewController.swift */,
-				EC9010A01AA73A9E00F328E9 /* TFCWatchData.swift */,
-				EC95714E1A9CACB70061F8B4 /* extensions.swift */,
-				EC046D621A9C563D00C2C1B3 /* TFCLocationManager.swift */,
 			);
 			path = timeforcoffeeKit;
 			sourceTree = "<group>";
@@ -604,6 +640,11 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC59016F1B87CBDB00628D77 /* PINCache.h in Headers */,
+				EC59016E1B87CBDB00628D77 /* Nullability.h in Headers */,
+				EC5901711B87CBDB00628D77 /* PINDiskCache.h in Headers */,
+				EC5901731B87CBDB00628D77 /* PINMemoryCache.h in Headers */,
+				EC5901651B87CBD400628D77 /* timeforcoffeeKit-Bridging-Header.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -711,6 +752,7 @@
 		EC7A516B19C427CA000F5E7C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = "Christian Stocker";
 				TargetAttributes = {
@@ -942,19 +984,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC95714F1A9CACB70061F8B4 /* extensions.swift in Sources */,
-				ECF100AD1A9D9BAE00056510 /* TFCStations.swift in Sources */,
-				EC9571511A9CCEC00061F8B4 /* TFCBaseViewController.swift in Sources */,
-				EC9010A11AA73A9E00F328E9 /* TFCWatchData.swift in Sources */,
-				EC6EDD541A9BA79B0098CAE0 /* APIController.swift in Sources */,
-				ECF3C59C1AC92FB2006F5745 /* TFCURLSession.swift in Sources */,
-				EC6EDD511A9BA5080098CAE0 /* SwiftyJSON.swift in Sources */,
-				EC046D631A9C563D00C2C1B3 /* TFCLocationManager.swift in Sources */,
-				EC6EDD4F1A9BA4820098CAE0 /* TFCStation.swift in Sources */,
-				EC0DD8CF1AAEC7CB0089A207 /* TFCCache.swift in Sources */,
-				ECFDA0B31AC00DD30019AA4E /* TFCDataStore.swift in Sources */,
-				EC21446D1ABCB2AF00B48522 /* TFCFavorites.swift in Sources */,
-				EC6EDD4E1A9BA4820098CAE0 /* TFCDeparture.swift in Sources */,
+				EC5901721B87CBDB00628D77 /* PINDiskCache.m in Sources */,
+				EC5901701B87CBDB00628D77 /* PINCache.m in Sources */,
+				EC5901581B87CBD400628D77 /* SwiftyJSON.swift in Sources */,
+				EC5901611B87CBD400628D77 /* TFCStationBase.swift in Sources */,
+				EC5901641B87CBD400628D77 /* TFCWatchData.swift in Sources */,
+				EC5901591B87CBD400628D77 /* TFCBaseViewController.swift in Sources */,
+				EC5901561B87CBD400628D77 /* APIController.swift in Sources */,
+				EC59015C1B87CBD400628D77 /* TFCDeparture.swift in Sources */,
+				EC59015B1B87CBD400628D77 /* TFCDataStore.swift in Sources */,
+				EC59015E1B87CBD400628D77 /* TFCLocationManager.swift in Sources */,
+				EC59015D1B87CBD400628D77 /* TFCFavorites.swift in Sources */,
+				EC59015F1B87CBD400628D77 /* TFCLocationManagerBase.swift in Sources */,
+				EC59015A1B87CBD400628D77 /* TFCCache.swift in Sources */,
+				EC5901741B87CBDB00628D77 /* PINMemoryCache.m in Sources */,
+				EC5901571B87CBD400628D77 /* extensions.swift in Sources */,
+				EC5901621B87CBD400628D77 /* TFCStations.swift in Sources */,
+				EC5901631B87CBD400628D77 /* TFCURLSession.swift in Sources */,
+				EC5901601B87CBD400628D77 /* TFCStation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1135,6 +1182,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.timeforcoffee;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
@@ -1162,6 +1210,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.timeforcoffee;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
@@ -1174,6 +1223,7 @@
 			baseConfigurationReference = 3C47D48C04911012125C5428 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 69;
@@ -1186,10 +1236,12 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.timeforcoffeeKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "$(SRCROOT)/timeforcoffeeKit/timeforcoffeeKit-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_WHOLE_MODULE_OPTIMIZATION = NO;
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1200,6 +1252,7 @@
 			baseConfigurationReference = 648323A7126563DCA991BABD /* Pods.release.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: opendata.ch (DN76797UYF)";
 				CURRENT_PROJECT_VERSION = 69;
 				DEFINES_MODULE = YES;
@@ -1211,6 +1264,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.timeforcoffeeKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
@@ -1240,6 +1294,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 69;
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1286,6 +1341,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: opendata.ch (DN76797UYF)";
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 69;
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1326,6 +1382,7 @@
 					"$(PROJECT_DIR)",
 				);
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee;
 				PRODUCT_MODULE_NAME = timeforcoffee;
 				PRODUCT_NAME = "Time for Coffee!";
 				PROVISIONING_PROFILE = "";
@@ -1354,6 +1411,7 @@
 					"$(PROJECT_DIR)",
 				);
 				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee;
 				PRODUCT_MODULE_NAME = timeforcoffee;
 				PRODUCT_NAME = "Time for Coffee!";
 				PROVISIONING_PROFILE = "";

@@ -27,7 +27,7 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         return view
     }()
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
@@ -39,7 +39,7 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
 
         self.setViewControllers([nearbyStationsView], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
 
-        var aboutButton = UIBarButtonItem(title: "☕︎", style: UIBarButtonItemStyle.Plain, target: self, action: "aboutClicked:")
+        let aboutButton = UIBarButtonItem(title: "☕︎", style: UIBarButtonItemStyle.Plain, target: self, action: "aboutClicked:")
         aboutButton.image = UIImage(named: "icon-coffee")
         aboutButton.tintColor = UIColor(netHexString: "555555")
         let font = UIFont.systemFontOfSize(30)
@@ -80,7 +80,7 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
 
     private func refreshLocation() {
         if (self.searchController == nil) {
-            let currentView: StationsViewController  = self.viewControllers[0] as! StationsViewController
+            let currentView: StationsViewController  = self.viewControllers!.first as! StationsViewController
             currentView.appsTableView?.refreshLocation()
         }
     }
@@ -88,21 +88,21 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
     private func setTitleView () {
         scrollViewWidth = UIScreen.mainScreen().bounds.size.width
         
-        var titleView = UIView(frame: CGRect(x: 0, y: 0, width: scrollViewWidth! / 3, height: 30))
+        let titleView = UIView(frame: CGRect(x: 0, y: 0, width: scrollViewWidth! / 3, height: 30))
 
-        var labelContainer = UIView(frame: CGRect(x: 0, y: 0, width: (scrollViewWidth! / 3) * 2, height: 20))
+        let labelContainer = UIView(frame: CGRect(x: 0, y: 0, width: (scrollViewWidth! / 3) * 2, height: 20))
         labelContainer.tag = 100
         
         
         let labelFont = UIFont(name: "HelveticaNeue-Bold", size: 14.0)
 
-        var pageLabel1 = UILabel(frame: CGRect(x: 0, y: 0, width: scrollViewWidth! / 3, height: 20))
+        let pageLabel1 = UILabel(frame: CGRect(x: 0, y: 0, width: scrollViewWidth! / 3, height: 20))
         pageLabel1.text = "Nearby Stations"
         pageLabel1.font = labelFont
         pageLabel1.textAlignment = NSTextAlignment.Center
         pageLabel1.tag = 1
 
-        var pageLabel2 = UILabel(frame: CGRect(x: scrollViewWidth! / 3, y: 0, width: scrollViewWidth! / 3, height: 20))
+        let pageLabel2 = UILabel(frame: CGRect(x: scrollViewWidth! / 3, y: 0, width: scrollViewWidth! / 3, height: 20))
         pageLabel2.text = "Favorites"
         pageLabel2.font = labelFont
         pageLabel2.textAlignment = NSTextAlignment.Center
@@ -113,7 +113,7 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         labelContainer.addSubview(pageLabel2)
 
         titleView.addSubview(labelContainer)
-        var titlePageControl = UIPageControl(frame: CGRect(x: 0, y: 20, width: scrollViewWidth! / 3, height: 10))
+        let titlePageControl = UIPageControl(frame: CGRect(x: 0, y: 20, width: scrollViewWidth! / 3, height: 10))
         titlePageControl.tag = 50
         titlePageControl.numberOfPages = 2
         titlePageControl.currentPage = 0
@@ -148,7 +148,7 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         if (vc.pageIndex == 1) {
             return nil;
         }
-        var newVc: StationsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("StationsView") as! StationsViewController
+        let newVc: StationsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("StationsView") as! StationsViewController
         newVc.pageIndex = 1
         newVc.showFavorites = true
         return newVc
@@ -165,14 +165,14 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         return nearbyStationsView
     }
     
-    func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [AnyObject], transitionCompleted completed: Bool) {
+    func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if (completed == true && finished == true) {
             if let currentViewController = pageViewController.viewControllers?.first as? StationsViewController {
                 if (currentViewController.pageIndex != currentPageIndex) {
                     setPageControlDot()
                 }
             }
-            let currentView: StationsViewController  = pageViewController.viewControllers[0] as! StationsViewController
+  //          let currentView: StationsViewController  = pageViewController.viewControllers!.first as! StationsViewController
         }
     }
 
@@ -197,11 +197,11 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
     }
 
     private func getCurrentView() -> StationsViewController {
-        return self.viewControllers[0] as! StationsViewController
+        return self.viewControllers?.first as! StationsViewController
     }
 
     private func setSearchButton() {
-        var searchButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: "searchClicked:")
+        let searchButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: "searchClicked:")
 
         searchButton.image = UIImage(named: "icon-search")
         searchButton.tintColor = UIColor(netHexString: "555555")
@@ -218,7 +218,7 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
 
     func aboutClicked(sender: UIBarButtonItem) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc: UIViewController! = storyboard.instantiateViewControllerWithIdentifier("AboutPagedViewController") as! UIViewController
+        let vc: UIViewController! = storyboard.instantiateViewControllerWithIdentifier("AboutPagedViewController") as UIViewController
         self.navigationController?.presentViewController(vc, animated: true, completion: nil)
 
     }

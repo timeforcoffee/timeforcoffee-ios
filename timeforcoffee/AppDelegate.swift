@@ -35,7 +35,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
 
-            var settings = SKTSettings(appToken: "7n3aaqyp9fr5kr7y1wjssd231")
+            let settings = SKTSettings(appToken: "7n3aaqyp9fr5kr7y1wjssd231")
             settings.knowledgeBaseURL = "https://timeforcoffee.zendesk.com"
             SupportKit.initWithSettings(settings)
             let userdefaults = TFCDataStore.sharedInstance.getUserDefaults()
@@ -97,7 +97,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
 
         if (url.host == "nearby") {
             if let rootView = self.window?.rootViewController as! UINavigationController? {
@@ -129,7 +129,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                     Clocation = CLLocation(latitude: NSString(string: queryStrings["lat"]!).doubleValue, longitude: NSString(string: queryStrings["long"]!).doubleValue)
                 }
                 let station = TFCStation.initWithCache(name, id: queryStrings["id"]!, coord: Clocation)
-                let stations = TFCStations()
+       //         let stations = TFCStations()
                 let rootView = self.window?.rootViewController as! UINavigationController
                 let detailViewController = rootView.storyboard?.instantiateViewControllerWithIdentifier("DeparturesViewController") as! DeparturesViewController
 

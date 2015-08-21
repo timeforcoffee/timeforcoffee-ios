@@ -1,4 +1,4 @@
- //
+//
 //  StationViewController
 //
 //
@@ -72,7 +72,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         displayDepartures()
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
@@ -87,8 +87,8 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
             self.mapView.showsUserLocation = true
         }
         self.navigationController?.setNavigationBarHidden(true, animated: false)
-        gestureRecognizer = self.navigationController?.interactivePopGestureRecognizer.delegate
-        self.navigationController?.interactivePopGestureRecognizer.delegate = nil
+        gestureRecognizer = self.navigationController?.interactivePopGestureRecognizer!.delegate
+        self.navigationController?.interactivePopGestureRecognizer!.delegate = nil
     }
 
     override func viewDidLoad() {
@@ -131,7 +131,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         topViewProperties(0.0)
         self.mapView?.userInteractionEnabled = false;
         self.mapView?.rotateEnabled = false
-        var region = MKCoordinateRegionMakeWithDistance((station?.coord?.coordinate)! ,450,450);
+        let region = MKCoordinateRegionMakeWithDistance((station?.coord?.coordinate)! ,450,450);
         self.mapView.setRegion(region, animated: false)
         // put it to true when within a few hundred meters
         self.mapView.showsUserLocation = false
@@ -168,7 +168,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
 
     override func viewDidDisappear(animated: Bool) {
         station = nil
-        self.navigationController?.interactivePopGestureRecognizer.delegate = gestureRecognizer
+        self.navigationController?.interactivePopGestureRecognizer!.delegate = gestureRecognizer
         NSNotificationCenter.defaultCenter().removeObserver(self)
         dispatch_sync(updateOnceQueue) {
             [unowned self] in
@@ -249,7 +249,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
 
     func drawStationAndWay() {
         self.destinationPlacemark = MKPlacemark(coordinate: (station?.coord?.coordinate)!, addressDictionary: nil)
-        self.mapView.addAnnotation(destinationPlacemark)
+        self.mapView.addAnnotation(destinationPlacemark!)
         self.mapView.showsUserLocation = true
 
         let currentLocation = TFCLocationManager.getCurrentLocation()
@@ -258,47 +258,48 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         if (currentCoordinate == nil || station?.getDistanceInMeter(currentLocation) >= 5000) {
             return
         }
-        var sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
+        let sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
 
-        var sourceMapItem = MKMapItem(placemark: sourcePlacemark)
-        var destinationMapItem = MKMapItem(placemark: destinationPlacemark)
-        var directionRequest:MKDirectionsRequest = MKDirectionsRequest()
+        let sourceMapItem = MKMapItem(placemark: sourcePlacemark)
+        let destinationMapItem = MKMapItem(placemark: destinationPlacemark!)
+        let directionRequest:MKDirectionsRequest = MKDirectionsRequest()
 
-        directionRequest.setSource(sourceMapItem)
-        directionRequest.setDestination(destinationMapItem)
+        directionRequest.source = sourceMapItem
+        directionRequest.destination = destinationMapItem
         directionRequest.transportType = MKDirectionsTransportType.Walking
         directionRequest.requestsAlternateRoutes = false
 
-        var directions:MKDirections = MKDirections(request: directionRequest)
+        let directions:MKDirections = MKDirections(request: directionRequest)
+
         directions.calculateDirectionsWithCompletionHandler({
-            (response: MKDirectionsResponse!, error: NSError?) in
+            (response: MKDirectionsResponse?, error: NSError?) in
             if error != nil{
                 NSLog("Error")
             }
             if response != nil{
 //                for r in response.routes { NSLog("route = \(r)") }
-                var route: MKRoute = response.routes[0] as! MKRoute;
+                let route: MKRoute = response!.routes[0] as MKRoute;
                 self.mapDirectionOverlay = route.polyline
-                self.mapView.addOverlay(self.mapDirectionOverlay)
+                self.mapView.addOverlay(self.mapDirectionOverlay!)
             }
             else{
                 NSLog("No response")
             }
-            println(error?.description)
+            print(error?.description)
         })
     }
 
-    func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
+    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
         if overlay is MKPolyline {
-            var polylineRenderer = MKPolylineRenderer(overlay: overlay)
+            let polylineRenderer = MKPolylineRenderer(overlay: overlay)
             polylineRenderer.strokeColor = UIColor.blueColor()
             polylineRenderer.lineWidth = 1
             return polylineRenderer
         }
-        return nil
+        return MKPolylineRenderer()
     }
 
-    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
 
         if (annotation.isKindOfClass(MKUserLocation)) {
             return nil
@@ -311,11 +312,11 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
             annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
         }
 
-        annotationView.image = getIconViewAsImage(self.stationIconView)
-        annotationView.opaque = false
-        annotationView.alpha = 1.0
-        annotationView.frame.size.height = 30
-        annotationView.frame.size.width = 30
+        annotationView!.image = getIconViewAsImage(self.stationIconView)
+        annotationView!.opaque = false
+        annotationView!.alpha = 1.0
+        annotationView!.frame.size.height = 30
+        annotationView!.frame.size.width = 30
 
         return annotationView;
 
@@ -377,8 +378,8 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
                 return
             }, completion: { (finished:Bool) in
                 if (self.destinationPlacemark != nil) {
-                    self.mapView.removeAnnotation(self.destinationPlacemark)
-                    self.mapView.removeOverlay(self.mapDirectionOverlay)
+                    self.mapView.removeAnnotation(self.destinationPlacemark!)
+                    self.mapView.removeOverlay(self.mapDirectionOverlay!)
                     self.mapView.showsUserLocation = false
                     self.destinationPlacemark = nil
                 }
@@ -427,7 +428,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         self.segmentedControl.alpha = 1 - (offset / 80)
     }
     
-    func mapViewDidFinishRenderingMap(mapView: MKMapView!, fullyRendered: Bool) {
+    func mapViewDidFinishRenderingMap(mapView: MKMapView, fullyRendered: Bool) {
         if(self.mapView.alpha <= 0.6) {
             UIView.animateWithDuration(0.8,
                 delay: 0.0,
@@ -490,7 +491,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         }
     }
 
-    internal func setStation(#station: TFCStation) {
+    internal func setStation(station station: TFCStation) {
         self.station = station
     }
 
@@ -539,7 +540,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell:MGSwipeTableCell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as! MGSwipeTableCell
+        let cell:MGSwipeTableCell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as! MGSwipeTableCell
 
         cell.delegate = self
         cell.tag = indexPath.row
@@ -690,7 +691,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         //view.backgroundColor = UIColor.blueColor();
 
         UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.opaque, 0.0);
-        view.layer.renderInContext(UIGraphicsGetCurrentContext())
+        view.layer.renderInContext(UIGraphicsGetCurrentContext()!)
         let img = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         //view.backgroundColor = oldBG
@@ -724,7 +725,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
             let timeInterval = 60.0
             let nextMinute = floor(now / timeInterval) * timeInterval + (timeInterval + Double(arc4random_uniform(10))) //time interval for next minute, plus random 0 - 10 seconds, to avoid server overload
             let delay = max(25.0, nextMinute - now) //don't set the delay to less than 25 seconds
-            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC)))
+          //  let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC)))
             dispatch_sync(dispatch_get_main_queue(), {
                 self.updateInAMinuteTimer = NSTimer.scheduledTimerWithTimeInterval(delay, target: self,  selector: "displayDepartures", userInfo: nil, repeats: false)
             })

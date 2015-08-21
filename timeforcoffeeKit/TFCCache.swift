@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import PINCache
 
 final class TFCCache {
     struct objects {

@@ -104,7 +104,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     }
 
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         NSLog("init")
         super.init(coder: aDecoder)
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
@@ -205,7 +205,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         TFCURLSession.sharedInstance.cancelURLSession()
 
     }
-    func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)!) {
+    func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)) {
         // Perform any setup necessary in order to update the view.
         // If an error is encountered, use NCUpdateResult.Failed
         // If there's no update required, use NCUpdateResult.NoData
@@ -248,7 +248,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                 // and the distance is not much more (200m), just show it again
                 if (self.dataIsFromInitCache && showStations == false) {
                     if (lastUsedViewUpdatedInterval() > -(60 * 30)) {
-                        let distance2lastViewedStationNow: CLLocationDistance? = locManager?.currentLocation?.distanceFromLocation(lastViewedStation?.coord)
+                        let distance2lastViewedStationNow: CLLocationDistance? = locManager?.currentLocation?.distanceFromLocation((lastViewedStation?.coord)!)
                         let distance2lastViewedStationLasttime: CLLocationDistance? = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedStationDistance") as! CLLocationDistance?
                         if (distance2lastViewedStationNow != nil && distance2lastViewedStationLasttime != nil && distance2lastViewedStationNow! < distance2lastViewedStationLasttime! + 200) {
                             dataIsFromInitCache = false
@@ -300,12 +300,12 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
     func handleTap(recognizer: UITapGestureRecognizer) {
         if (showStations) {
-            var urlstring = "timeforcoffee://nearby"
+            let urlstring = "timeforcoffee://nearby"
             let url: NSURL = NSURL(string: urlstring)!
             self.extensionContext?.openURL(url, completionHandler: nil);
         } else if (currentStation != nil && currentStation?.st_id != "0000") {
             let station = currentStation!
-            var name = station.name.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
+            let name = station.name.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
             let long = station.getLongitude()
             let lat = station.getLatitude()
             var urlstring = "timeforcoffee://station?id=\(station.st_id)&name=\(name)"
@@ -330,7 +330,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                 // FIXME, use NSCoding serialisation ..
                 // and maybe one object for all these values
                 userDefaults?.setObject(self.currentStation?.getAsDict(), forKey: "lastUsedStation")
-                userDefaults?.setObject(self.locManager?.currentLocation?.distanceFromLocation(self.currentStation?.coord), forKey: "lastUsedStationDistance")
+                userDefaults?.setObject(self.locManager?.currentLocation?.distanceFromLocation((self.currentStation?.coord)!), forKey: "lastUsedStationDistance")
             } else {
                 userDefaults?.removeObjectForKey("lastUsedView")
                 userDefaults?.removeObjectForKey("lastUsedStation")
@@ -385,7 +385,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         if (showStations) {
             cell = tableView.dequeueReusableCellWithIdentifier("NearbyStationsCell") as! NearbyStationsTableViewCell
         } else {
-            cell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as! UITableViewCell
+            cell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as UITableViewCell!
         }
         cell.layoutMargins = UIEdgeInsetsZero
         cell.preservesSuperviewLayoutMargins = false
