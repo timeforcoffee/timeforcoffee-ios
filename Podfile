@@ -13,8 +13,9 @@ pod 'SwipeView'
 # Needed so that PINCache can be used in the watchkit extension
 
 post_install do |installer_representation|
-  installer_representation.project.targets.each do |target|
-    if target.name == 'Pods-PINCache'
+  installer_representation.pods_project.targets.each do |target|
+    print target.name
+    if target.name == 'PINCache'
       target.build_configurations.each do |config|
         config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= ['$(inherited)']
         config.build_settings['GCC_PREPROCESSOR_DEFINITIONS']  << 'PIN_APP_EXTENSIONS=1'
