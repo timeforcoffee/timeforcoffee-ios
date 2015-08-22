@@ -25,6 +25,9 @@
 		EC0DD8D11AAF1B5F0089A207 /* StationsSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0DD8D01AAF1B5F0089A207 /* StationsSearchViewController.swift */; };
 		EC14CD511B7E7979002F686C /* SupportKit.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EC14CD4F1B7E7979002F686C /* SupportKit.bundle */; };
 		EC14CD521B7E7979002F686C /* SupportKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC14CD501B7E7979002F686C /* SupportKit.framework */; };
+		EC18082D1B8877440034ECFD /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC18082C1B8877440034ECFD /* AssetsLibrary.framework */; };
+		EC18082F1B88774D0034ECFD /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC18082E1B88774D0034ECFD /* Photos.framework */; };
+		EC1808311B8877540034ECFD /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC1808301B8877540034ECFD /* AVFoundation.framework */; };
 		EC21446D1ABCB2AF00B48522 /* TFCFavorites.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC21446C1ABCB2AF00B48522 /* TFCFavorites.swift */; };
 		EC2195EB1AA35B2D005E16EF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC2195ED1AA35B2D005E16EF /* Localizable.strings */; };
 		EC271DC41AA365BE00A7A75E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC271DC31AA365BE00A7A75E /* Main.storyboard */; };
@@ -183,6 +186,9 @@
 		EC0DD8D01AAF1B5F0089A207 /* StationsSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationsSearchViewController.swift; sourceTree = "<group>"; };
 		EC14CD4F1B7E7979002F686C /* SupportKit.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SupportKit.bundle; sourceTree = "<group>"; };
 		EC14CD501B7E7979002F686C /* SupportKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SupportKit.framework; sourceTree = "<group>"; };
+		EC18082C1B8877440034ECFD /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		EC18082E1B88774D0034ECFD /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
+		EC1808301B8877540034ECFD /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		EC21446C1ABCB2AF00B48522 /* TFCFavorites.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCFavorites.swift; sourceTree = "<group>"; };
 		EC2195EC1AA35B2D005E16EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EC2195EF1AA35B4B005E16EF /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -311,6 +317,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC1808311B8877540034ECFD /* AVFoundation.framework in Frameworks */,
+				EC18082F1B88774D0034ECFD /* Photos.framework in Frameworks */,
+				EC18082D1B8877440034ECFD /* AssetsLibrary.framework in Frameworks */,
 				EC93E36F1AC6F50000A0DA46 /* Foundation.framework in Frameworks */,
 				EC2C317C1A9E1F3300690397 /* CoreTelephony.framework in Frameworks */,
 				ECEA2F0C1B33171400117F0F /* Crashlytics.framework in Frameworks */,
@@ -420,6 +429,9 @@
 		EC6EDCF01A9B9F390098CAE0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EC1808301B8877540034ECFD /* AVFoundation.framework */,
+				EC18082E1B88774D0034ECFD /* Photos.framework */,
+				EC18082C1B8877440034ECFD /* AssetsLibrary.framework */,
 				ECEA2F091B33171400117F0F /* Fabric.framework */,
 				ECEA2F0A1B33171400117F0F /* Crashlytics.framework */,
 				EC93E36C1AC6F4EA00A0DA46 /* QuartzCore.framework */,
