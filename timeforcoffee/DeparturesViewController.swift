@@ -61,6 +61,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
     @IBOutlet weak var stationNameBottomSpace: NSLayoutConstraint!
 
     var mapOnBottom: Bool = false
+    var viewAppeared: Bool = false
 
     @IBAction func iconTouchUp(sender: UIButton) {
         favoriteClicked(nil)
@@ -70,6 +71,10 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
 
     @IBAction func segmentedViewChanged(sender: AnyObject) {
         displayDepartures()
+    }
+
+    @IBAction func segementedViewTouched(sender: AnyObject) {
+        TFCDataStore.sharedInstance.getUserDefaults()?.setObject(segmentedView.selectedSegmentIndex, forKey: "segmentedViewDepartures")
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -89,6 +94,11 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         gestureRecognizer = self.navigationController?.interactivePopGestureRecognizer!.delegate
         self.navigationController?.interactivePopGestureRecognizer!.delegate = nil
+
+        if let segmentedViewIndex = TFCDataStore.sharedInstance.getUserDefaults()?.integerForKey("segmentedViewDepartures") {
+            segmentedView.selectedSegmentIndex = segmentedViewIndex
+        }
+
     }
 
     override func viewDidLoad() {
@@ -148,6 +158,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
             gtracker.set(kGAIScreenName, value: "departures")
             gtracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject]!)
         }
+        viewAppeared = true
     }
 
 
@@ -523,6 +534,10 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
             if (station?.hasFavoriteDepartures() == true) {
                 departures = station?.getFilteredDepartures()
             } else {
+                if (viewAppeared == false) {
+                    segmentedView.selectedSegmentIndex = 0
+                    displayDepartures()
+                }
                 departures = []
             }
         } else {
