@@ -770,7 +770,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Christian Stocker";
 				TargetAttributes = {
 					EC4344AD1AA5080A009438C7 = {
@@ -1158,6 +1158,7 @@
 				INFOPLIST_FILE = "Time for Coffee! WatchKit Extension/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
@@ -1176,6 +1177,7 @@
 				INFOPLIST_FILE = "Time for Coffee! WatchKit Extension/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
@@ -1195,6 +1197,7 @@
 				IBSC_MODULE = Time_for_Coffee__WatchKit_Extension;
 				INFOPLIST_FILE = "Time for Coffee! WatchKit App/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
@@ -1213,6 +1216,7 @@
 				IBSC_MODULE = Time_for_Coffee__WatchKit_Extension;
 				INFOPLIST_FILE = "Time for Coffee! WatchKit App/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
@@ -1304,7 +1308,6 @@
 				SKIP_INSTALL = YES;
 				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "$(SRCROOT)/timeforcoffeeKit/timeforcoffeeKit-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_WHOLE_MODULE_OPTIMIZATION = NO;
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
@@ -1331,7 +1334,6 @@
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "$(SRCROOT)/timeforcoffeeKit/timeforcoffeeKit-Bridging-Header.h";
-				SWIFT_WHOLE_MODULE_OPTIMIZATION = NO;
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
@@ -1358,6 +1360,7 @@
 				CURRENT_PROJECT_VERSION = 70;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;

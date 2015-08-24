@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
-	<string>ch.opendata.timeforcoffee.watchkitextension</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -22,22 +22,6 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>70</string>
-	<key>NSExtension</key>
-	<dict>
-		<key>NSExtensionAttributes</key>
-		<dict>
-			<key>WKAppBundleIdentifier</key>
-			<string>ch.opendata.timeforcoffee.watchkitapp</string>
-		</dict>
-		<key>NSExtensionPointIdentifier</key>
-		<string>com.apple.watchkit</string>
-	</dict>
-	<key>RemoteInterfacePrincipalClass</key>
-	<string>$(PRODUCT_MODULE_NAME).InterfaceController</string>
-	<key>UIAppFonts</key>
-	<array>
-		<string>HelveticaNeueBold.ttf</string>
-	</array>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -56,5 +40,21 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSExtension</key>
+	<dict>
+		<key>NSExtensionAttributes</key>
+		<dict>
+			<key>WKAppBundleIdentifier</key>
+			<string>ch.opendata.timeforcoffee.watchkitapp</string>
+		</dict>
+		<key>NSExtensionPointIdentifier</key>
+		<string>com.apple.watchkit</string>
+	</dict>
+	<key>RemoteInterfacePrincipalClass</key>
+	<string>$(PRODUCT_MODULE_NAME).InterfaceController</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>HelveticaNeueBold.ttf</string>
+	</array>
 </dict>
 </plist>
