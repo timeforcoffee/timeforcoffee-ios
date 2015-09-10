@@ -203,7 +203,7 @@ public final class TFCDeparture: NSObject, NSCoding {
             if (timestringAttr != nil) {
                 timestringAttr?.appendAttributedString(NSAttributedString(string: " ♿︎"))
             } else {
-                timestring?.extend(" ♿︎")
+                timestring? += " ♿︎"
             }
         }
         if (additionalInfo) {
@@ -211,13 +211,13 @@ public final class TFCDeparture: NSObject, NSCoding {
                 if (timestringAttr != nil) {
                     timestringAttr?.appendAttributedString(NSAttributedString(string: " (no real-time data)"))
                 } else {
-                    timestring?.extend(" (no real-time data)")
+                    timestring? += " (no real-time data)"
                 }
             } else if (self.outdated) {
                 if (timestringAttr != nil) {
                     timestringAttr?.appendAttributedString(NSAttributedString(string: " (not updated)"))
                 } else {
-                    timestring?.extend(" (not updated)")
+                    timestring? += " (not updated)"
                 }
             }
         }
