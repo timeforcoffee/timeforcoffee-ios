@@ -29,7 +29,7 @@ public extension UIColor {
         var cString:String = netHexString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet() as NSCharacterSet).uppercaseString
         
         if (cString.hasPrefix("#")) {
-            cString = cString.substringFromIndex(advance(cString.startIndex, 1))
+            cString = (cString as NSString).substringFromIndex(1)
         }
         var rgbValue:UInt32 = 0
         NSScanner(string: cString).scanHexInt(&rgbValue)

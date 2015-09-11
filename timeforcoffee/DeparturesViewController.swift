@@ -61,6 +61,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
     @IBOutlet weak var stationNameBottomSpace: NSLayoutConstraint!
 
     var mapOnBottom: Bool = false
+    var viewAppeared: Bool = false
 
     @IBAction func iconTouchUp(sender: UIButton) {
         favoriteClicked(nil)
@@ -70,6 +71,10 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
 
     @IBAction func segmentedViewChanged(sender: AnyObject) {
         displayDepartures()
+    }
+
+    @IBAction func segementedViewTouched(sender: AnyObject) {
+        TFCDataStore.sharedInstance.getUserDefaults()?.setObject(segmentedView.selectedSegmentIndex, forKey: "segmentedViewDepartures")
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -89,6 +94,11 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         gestureRecognizer = self.navigationController?.interactivePopGestureRecognizer!.delegate
         self.navigationController?.interactivePopGestureRecognizer!.delegate = nil
+
+        if let segmentedViewIndex = TFCDataStore.sharedInstance.getUserDefaults()?.integerForKey("segmentedViewDepartures") {
+            segmentedView.selectedSegmentIndex = segmentedViewIndex
+        }
+
     }
 
     override func viewDidLoad() {
@@ -148,6 +158,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
             gtracker.set(kGAIScreenName, value: "departures")
             gtracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject]!)
         }
+        viewAppeared = true
     }
 
 
@@ -482,7 +493,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         if (self.station != nil) {
             updateInAMinute()
             self.station?.updateDepartures(self)
-            if (station?.hasFavoriteDepartures() != true) {
+            if (station?.hasFavoriteDepartures() != true && station?.hasFilters() != true) {
                 segmentedView.setTitle("Favourites?", forSegmentAtIndex: 1)
             } else {
                 segmentedView.setTitle("Favourites", forSegmentAtIndex: 1)
@@ -517,12 +528,14 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
 
     private func getDeparturesDependentOnView(station: TFCStation?) -> [TFCDeparture]? {
         let departures:[TFCDeparture]?
-        // FIXME
-        // if only show favorites:
         if (segmentedView.selectedSegmentIndex == 1) {
-            if (station?.hasFavoriteDepartures() == true) {
+            if (station?.hasFavoriteDepartures() == true || station?.hasFilters() == true) {
                 departures = station?.getFilteredDepartures()
             } else {
+                if (viewAppeared == false) {
+                    segmentedView.selectedSegmentIndex = 0
+                    displayDepartures()
+                }
                 departures = []
             }
         } else {
@@ -579,17 +592,15 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
             if (UIDeviceOrientationIsLandscape(UIDevice.currentDevice().orientation)) {
                 unabridged = true
             }
-            destinationLabel.text = departure.getDestinationWithSign(station, unabridged: unabridged)
-            
-            
-            minutesLabel.text = departure.getMinutes()
-            if (station2.showAsFilteredDeparture(departure)) {
-                destinationLabel.textColor = UIColor.grayColor()
-                minutesLabel.textColor = UIColor.grayColor()
+            if (segmentedView.selectedSegmentIndex == 1) {
+                destinationLabel.text = departure.getDestination(station, unabridged: unabridged)
             } else {
-                destinationLabel.textColor = UIColor.blackColor()
-                minutesLabel.textColor = UIColor.blackColor()
+                destinationLabel.text = departure.getDestinationWithSign(station, unabridged: unabridged)
             }
+
+            minutesLabel.text = departure.getMinutes()
+            destinationLabel.textColor = UIColor.blackColor()
+            minutesLabel.textColor = UIColor.blackColor()
 
             let (departureTimeAttr, departureTimeString) = departure.getDepartureTime()
             if (departureTimeAttr != nil) {
@@ -628,7 +639,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
                 let button = cell.rightButtons[index] as! MGSwipeButton
                 button.backgroundColor = UIColor.redColor();
             }
-            self.appsTableView?.reloadData()
+            self.displayDepartures()
             return true
         }
         var buttons:[AnyObject] = []

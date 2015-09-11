@@ -203,7 +203,7 @@ public final class TFCDeparture: NSObject, NSCoding {
             if (timestringAttr != nil) {
                 timestringAttr?.appendAttributedString(NSAttributedString(string: " ♿︎"))
             } else {
-                timestring?.extend(" ♿︎")
+                timestring? += " ♿︎"
             }
         }
         if (additionalInfo) {
@@ -211,13 +211,13 @@ public final class TFCDeparture: NSObject, NSCoding {
                 if (timestringAttr != nil) {
                     timestringAttr?.appendAttributedString(NSAttributedString(string: " (no real-time data)"))
                 } else {
-                    timestring?.extend(" (no real-time data)")
+                    timestring? += " (no real-time data)"
                 }
             } else if (self.outdated) {
                 if (timestringAttr != nil) {
                     timestringAttr?.appendAttributedString(NSAttributedString(string: " (not updated)"))
                 } else {
-                    timestring?.extend(" (not updated)")
+                    timestring? += " (not updated)"
                 }
             }
         }
@@ -259,14 +259,22 @@ public final class TFCDeparture: NSObject, NSCoding {
     
     public func getDestinationWithSign(station: TFCStation?, unabridged: Bool) -> String {
         if let station = station {
+            let destination: String = getDestination(station, unabridged: unabridged)
+            if (station.showAsFavoriteDeparture(self)) {
+                return "\(destination) ★"
+            }
+            return destination
+        }
+        return getDestination()
+    }
+
+    public func getDestination(station: TFCStation?, unabridged: Bool) -> String {
+        if let station = station {
             var destination: String = ""
             if (unabridged) {
                 destination = getDestination()
             } else {
                 destination = getDestination(station)
-            }
-            if (station.showAsFilteredDeparture(self)) {
-                return "\(destination) ✗"
             }
             return destination
         }

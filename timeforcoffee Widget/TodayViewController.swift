@@ -453,7 +453,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         if (UIDeviceOrientationIsLandscape(UIDevice.currentDevice().orientation)) {
             unabridged = true
         }
-        destinationLabel.text = departure.getDestinationWithSign(station, unabridged: unabridged)
+        destinationLabel.text = departure.getDestination(station, unabridged: unabridged)
 
         let (departureTimeAttr, departureTimeString) = departure.getDepartureTime()
         if (departureTimeAttr != nil) {

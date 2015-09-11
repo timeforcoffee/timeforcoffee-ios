@@ -223,11 +223,14 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         return isMarkedDeparture(departure, favorite: false)
     }
 
-    public func showAsFilteredDeparture(departure: TFCDeparture) -> Bool {
+    public func showAsFavoriteDeparture(departure: TFCDeparture) -> Bool {
         if (favoriteLines.count > 0) {
-            return !isFavoriteDeparture(departure)
+            return isFavoriteDeparture(departure)
         }
-        return isFilteredDeparture(departure)
+        if (filteredLines.count > 0) {
+            return !isFilteredDeparture(departure)
+        }
+        return false
     }
 
     private func setMarkedDeparture(departure: TFCDeparture, favorite: Bool) {
@@ -237,6 +240,14 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         }
         lines[departure.getLine()]?[departure.getDestination()] = true
         saveMarkedLines(lines, favorite: favorite)
+        // remove filtered lines once we set a favorite line
+        if (favorite) {
+            var filteredLines = getMarkedLines(false)
+            if (filteredLines.count > 0) {
+                filteredLines = [:]
+                saveMarkedLines(filteredLines, favorite: false)
+            }
+        }
     }
 
     public func setFavoriteDeparture(departure: TFCDeparture) {
@@ -330,7 +341,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         if (self.departures != nil) {
             filteredDepartures = []
             for (departure) in self.departures! {
-                if (!self.showAsFilteredDeparture(departure)) {
+                if (self.showAsFavoriteDeparture(departure)) {
                     filteredDepartures?.append(departure)
                 }
             }

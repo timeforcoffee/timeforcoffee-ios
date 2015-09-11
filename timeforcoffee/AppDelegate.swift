@@ -31,13 +31,15 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         gtracker.dispatchInterval = 20;
         //GAI.sharedInstance().logger.logLevel = GAILogLevel.Verbose
         gtracker.trackerWithTrackingId("UA-37092982-2")
+        #if !((arch(i386) || arch(x86_64)) && os(iOS))
         Fabric.with([Crashlytics()])
-
+        #endif
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
-
+            #if !((arch(i386) || arch(x86_64)) && os(iOS))
             let settings = SKTSettings(appToken: "7n3aaqyp9fr5kr7y1wjssd231")
             settings.knowledgeBaseURL = "https://timeforcoffee.zendesk.com"
             SupportKit.initWithSettings(settings)
+            #endif
             let userdefaults = TFCDataStore.sharedInstance.getUserDefaults()
             let lastusedTodayScreen: NSDate? = userdefaults?.objectForKey("lastUsedViewUpdate") as! NSDate?
             var recommendations: [String] = []
