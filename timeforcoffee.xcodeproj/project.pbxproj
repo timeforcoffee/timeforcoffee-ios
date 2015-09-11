@@ -67,12 +67,12 @@
 		EC5901631B87CBD400628D77 /* TFCURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5901531B87CBD400628D77 /* TFCURLSession.swift */; };
 		EC5901641B87CBD400628D77 /* TFCWatchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5901541B87CBD400628D77 /* TFCWatchData.swift */; };
 		EC5901651B87CBD400628D77 /* timeforcoffeeKit-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = EC5901551B87CBD400628D77 /* timeforcoffeeKit-Bridging-Header.h */; };
-		EC59016E1B87CBDB00628D77 /* Nullability.h in Headers */ = {isa = PBXBuildFile; fileRef = EC5901671B87CBDB00628D77 /* Nullability.h */; };
-		EC59016F1B87CBDB00628D77 /* PINCache.h in Headers */ = {isa = PBXBuildFile; fileRef = EC5901681B87CBDB00628D77 /* PINCache.h */; };
+		EC59016E1B87CBDB00628D77 /* Nullability.h in Headers */ = {isa = PBXBuildFile; fileRef = EC5901671B87CBDB00628D77 /* Nullability.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EC59016F1B87CBDB00628D77 /* PINCache.h in Headers */ = {isa = PBXBuildFile; fileRef = EC5901681B87CBDB00628D77 /* PINCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EC5901701B87CBDB00628D77 /* PINCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC5901691B87CBDB00628D77 /* PINCache.m */; };
-		EC5901711B87CBDB00628D77 /* PINDiskCache.h in Headers */ = {isa = PBXBuildFile; fileRef = EC59016A1B87CBDB00628D77 /* PINDiskCache.h */; };
+		EC5901711B87CBDB00628D77 /* PINDiskCache.h in Headers */ = {isa = PBXBuildFile; fileRef = EC59016A1B87CBDB00628D77 /* PINDiskCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EC5901721B87CBDB00628D77 /* PINDiskCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC59016B1B87CBDB00628D77 /* PINDiskCache.m */; };
-		EC5901731B87CBDB00628D77 /* PINMemoryCache.h in Headers */ = {isa = PBXBuildFile; fileRef = EC59016C1B87CBDB00628D77 /* PINMemoryCache.h */; };
+		EC5901731B87CBDB00628D77 /* PINMemoryCache.h in Headers */ = {isa = PBXBuildFile; fileRef = EC59016C1B87CBDB00628D77 /* PINMemoryCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EC5901741B87CBDB00628D77 /* PINMemoryCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC59016D1B87CBDB00628D77 /* PINMemoryCache.m */; };
 		EC6B1FB81AC152FF0070783C /* AboutPagedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6B1FB71AC152FF0070783C /* AboutPagedViewController.swift */; };
 		EC6CD8DD1AC17C57002488DC /* About.html in Resources */ = {isa = PBXBuildFile; fileRef = EC6CD8DC1AC17C57002488DC /* About.html */; };
@@ -105,6 +105,25 @@
 		EC8330C91BA2C0AB00E0F4CB /* StationsOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8330C41BA2C0AB00E0F4CB /* StationsOverviewViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		EC8330CA1BA2C0AB00E0F4CB /* StationsRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8330C51BA2C0AB00E0F4CB /* StationsRow.swift */; settings = {ASSET_TAGS = (); }; };
 		EC8330CB1BA2C0AB00E0F4CB /* StationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8330C61BA2C0AB00E0F4CB /* StationViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		EC8330D31BA2C38400E0F4CB /* TFCLocationManagerBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC59014F1B87CBD400628D77 /* TFCLocationManagerBase.swift */; settings = {ASSET_TAGS = (); }; };
+		EC8330D51BA2C3A400E0F4CB /* TFCStationBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5901511B87CBD400628D77 /* TFCStationBase.swift */; settings = {ASSET_TAGS = (); }; };
+		EC8330D61BA2C3AF00E0F4CB /* APIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5901461B87CBD400628D77 /* APIController.swift */; settings = {ASSET_TAGS = (); }; };
+		EC8330D71BA2C3BB00E0F4CB /* TFCDeparture.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC59014C1B87CBD400628D77 /* TFCDeparture.swift */; settings = {ASSET_TAGS = (); }; };
+		EC8330D81BA2C3C800E0F4CB /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5901481B87CBD400628D77 /* SwiftyJSON.swift */; settings = {ASSET_TAGS = (); }; };
+		EC8330D91BA2C3CB00E0F4CB /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5901471B87CBD400628D77 /* extensions.swift */; settings = {ASSET_TAGS = (); }; };
+		EC8330DA1BA2C3D400E0F4CB /* TFCDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC59014B1B87CBD400628D77 /* TFCDataStore.swift */; settings = {ASSET_TAGS = (); }; };
+		EC8330DB1BA2C3D700E0F4CB /* TFCURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5901531B87CBD400628D77 /* TFCURLSession.swift */; settings = {ASSET_TAGS = (); }; };
+		EC8330DC1BA2C3E100E0F4CB /* TFCStations.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5901521B87CBD400628D77 /* TFCStations.swift */; settings = {ASSET_TAGS = (); }; };
+		EC8330DD1BA2C3E600E0F4CB /* TFCFavorites.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC59014D1B87CBD400628D77 /* TFCFavorites.swift */; settings = {ASSET_TAGS = (); }; };
+		EC8330DE1BA2C3EE00E0F4CB /* Nullability.h in Headers */ = {isa = PBXBuildFile; fileRef = EC5901671B87CBDB00628D77 /* Nullability.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EC8330DF1BA2C3EE00E0F4CB /* PINCache.h in Headers */ = {isa = PBXBuildFile; fileRef = EC5901681B87CBDB00628D77 /* PINCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EC8330E01BA2C3EE00E0F4CB /* PINCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC5901691B87CBDB00628D77 /* PINCache.m */; settings = {ASSET_TAGS = (); }; };
+		EC8330E11BA2C3EE00E0F4CB /* PINDiskCache.h in Headers */ = {isa = PBXBuildFile; fileRef = EC59016A1B87CBDB00628D77 /* PINDiskCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EC8330E21BA2C3EE00E0F4CB /* PINDiskCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC59016B1B87CBDB00628D77 /* PINDiskCache.m */; settings = {ASSET_TAGS = (); }; };
+		EC8330E31BA2C3EE00E0F4CB /* PINMemoryCache.h in Headers */ = {isa = PBXBuildFile; fileRef = EC59016C1B87CBDB00628D77 /* PINMemoryCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EC8330E41BA2C3EE00E0F4CB /* PINMemoryCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC59016D1B87CBDB00628D77 /* PINMemoryCache.m */; settings = {ASSET_TAGS = (); }; };
+		EC8330E51BA2C3FD00E0F4CB /* TFCCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC59014A1B87CBD400628D77 /* TFCCache.swift */; settings = {ASSET_TAGS = (); }; };
+		EC8330E61BA2C63F00E0F4CB /* TFCWatchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5901541B87CBD400628D77 /* TFCWatchData.swift */; settings = {ASSET_TAGS = (); }; };
 		EC87B6581AB95348005A053E /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B6571AB95348005A053E /* libGoogleAnalyticsServices.a */; };
 		EC87B6591AB95348005A053E /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B6571AB95348005A053E /* libGoogleAnalyticsServices.a */; };
 		EC87B65B1AB95365005A053E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B65A1AB95365005A053E /* CoreData.framework */; };
@@ -188,13 +207,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = EC8330AF1BA2BFE600E0F4CB;
 			remoteInfo = timeforcoffeeWatchKit;
-		};
-		EC8330D01BA2C1C100E0F4CB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EC7A516B19C427CA000F5E7C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = EC6EDD2C1A9BA36F0098CAE0;
-			remoteInfo = timeforcoffeeKit;
 		};
 		EC9452961AC132EF0006B284 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -838,6 +850,10 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC8330DF1BA2C3EE00E0F4CB /* PINCache.h in Headers */,
+				EC8330DE1BA2C3EE00E0F4CB /* Nullability.h in Headers */,
+				EC8330E11BA2C3EE00E0F4CB /* PINDiskCache.h in Headers */,
+				EC8330E31BA2C3EE00E0F4CB /* PINMemoryCache.h in Headers */,
 				EC8330B31BA2BFE600E0F4CB /* timeforcoffeeWatchKit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -993,7 +1009,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				EC8330D11BA2C1C100E0F4CB /* PBXTargetDependency */,
 			);
 			name = timeforcoffeeWatchKit;
 			productName = timeforcoffeeWatchKit;
@@ -1066,6 +1081,7 @@
 					};
 					EC8330911BA2BF3000E0F4CB = {
 						CreatedOnToolsVersion = 7.0;
+						DevelopmentTeam = DN76797UYF;
 					};
 					EC8330AF1BA2BFE600E0F4CB = {
 						CreatedOnToolsVersion = 7.0;
@@ -1349,8 +1365,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC8330D71BA2C3BB00E0F4CB /* TFCDeparture.swift in Sources */,
+				EC8330DC1BA2C3E100E0F4CB /* TFCStations.swift in Sources */,
 				EC8330C11BA2C01D00E0F4CB /* TFCStation.swift in Sources */,
+				EC8330D51BA2C3A400E0F4CB /* TFCStationBase.swift in Sources */,
+				EC8330DA1BA2C3D400E0F4CB /* TFCDataStore.swift in Sources */,
+				EC8330D91BA2C3CB00E0F4CB /* extensions.swift in Sources */,
 				EC8330C01BA2C01D00E0F4CB /* TFCLocationManager.swift in Sources */,
+				EC8330D31BA2C38400E0F4CB /* TFCLocationManagerBase.swift in Sources */,
+				EC8330E61BA2C63F00E0F4CB /* TFCWatchData.swift in Sources */,
+				EC8330E01BA2C3EE00E0F4CB /* PINCache.m in Sources */,
+				EC8330E21BA2C3EE00E0F4CB /* PINDiskCache.m in Sources */,
+				EC8330E51BA2C3FD00E0F4CB /* TFCCache.swift in Sources */,
+				EC8330D81BA2C3C800E0F4CB /* SwiftyJSON.swift in Sources */,
+				EC8330DD1BA2C3E600E0F4CB /* TFCFavorites.swift in Sources */,
+				EC8330DB1BA2C3D700E0F4CB /* TFCURLSession.swift in Sources */,
+				EC8330E41BA2C3EE00E0F4CB /* PINMemoryCache.m in Sources */,
+				EC8330D61BA2C3AF00E0F4CB /* APIController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1396,11 +1427,6 @@
 			isa = PBXTargetDependency;
 			target = EC8330AF1BA2BFE600E0F4CB /* timeforcoffeeWatchKit */;
 			targetProxy = EC8330CE1BA2C17000E0F4CB /* PBXContainerItemProxy */;
-		};
-		EC8330D11BA2C1C100E0F4CB /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = EC6EDD2C1A9BA36F0098CAE0 /* timeforcoffeeKit */;
-			targetProxy = EC8330D01BA2C1C100E0F4CB /* PBXContainerItemProxy */;
 		};
 		EC9452971AC132EF0006B284 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1796,6 +1822,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				ENABLE_BITCODE = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				IBSC_MODULE = Time_for_Coffee__WatchOS_2_App_Extension;
@@ -1819,6 +1846,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				ENABLE_BITCODE = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				IBSC_MODULE = Time_for_Coffee__WatchOS_2_App_Extension;
 				INFOPLIST_FILE = "Time for Coffee! WatchOS 2 App/Info.plist";
@@ -1835,12 +1863,14 @@
 		EC8330A51BA2BF3000E0F4CB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_BITCODE = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Time for Coffee! WatchOS 2 App Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.watchkitapp.watchkitextension;
+				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.watchkitapp.extension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1852,12 +1882,14 @@
 		EC8330A61BA2BF3000E0F4CB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Time for Coffee! WatchOS 2 App Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.watchkitapp.watchkitextension;
+				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.watchkitapp.extension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1878,6 +1910,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = timeforcoffeeWatchKit/Info.plist;
@@ -1907,6 +1940,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = timeforcoffeeWatchKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -2003,6 +2037,7 @@
 				EC8330BB1BA2BFE600E0F4CB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

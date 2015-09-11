@@ -8,7 +8,7 @@
 
 import WatchKit
 import Foundation
-import timeforcoffeeKit
+import timeforcoffeeWatchKit
 
 class StationsOverviewViewController: WKInterfaceController {
 
@@ -66,7 +66,7 @@ class StationsOverviewViewController: WKInterfaceController {
         if let station = row.station {
             NSNotificationCenter.defaultCenter().postNotificationName("TFCWatchkitSelectStation", object: nil, userInfo: ["st_id": station.st_id, "name": station.name])
         }
-
+        
     }
 }
 

@@ -8,7 +8,7 @@
 
 import WatchKit
 import Foundation
-import timeforcoffeeKit
+import timeforcoffeeWatchKit
 
 class MapViewController: WKInterfaceController {
 
@@ -37,9 +37,9 @@ class MapViewController: WKInterfaceController {
                 }
             }
         }
-
+        
     }
-
-
+    
+    
 }
 

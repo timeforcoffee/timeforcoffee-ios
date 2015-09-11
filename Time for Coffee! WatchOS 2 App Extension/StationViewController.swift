@@ -8,7 +8,7 @@
 
 import WatchKit
 import Foundation
-import timeforcoffeeKit
+import timeforcoffeeWatchKit
 
 class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol {
     @IBOutlet weak var stationsTable: WKInterfaceTable!
@@ -21,14 +21,14 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     var titleString:String?
     @IBOutlet weak var infoGroup: WKInterfaceGroup!
     @IBOutlet weak var infoLabel: WKInterfaceLabel!
-    
+
     override init () {
         super.init()
         print("init page")
-        
+
     }
     override func awakeWithContext(context: AnyObject?) {
-      super.awakeWithContext(context)
+        super.awakeWithContext(context)
         NSLog("awake page")
         if (context == nil) {
             stationsTable.setNumberOfRows(10, withRowType: "station")
@@ -90,7 +90,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
 
     private func setStationValues() {
         if (station == nil) {
-           // infoGroup.setHidden(false)
+            // infoGroup.setHidden(false)
             getStation()
             return
         }
@@ -104,7 +104,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             self.numberOfRows = 10
             self.initTable = false
         }
-        
+
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             self.station?.updateDepartures(self)
             self.displayDepartures(self.station)
@@ -122,7 +122,6 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
 
     func selectStation(notification: NSNotification) {
         let uI:[String:String]? = notification.userInfo as? [String:String]
-        let st_id2 = uI?["st_id"]
         if let st_id = uI?["st_id"] {
             if (self.station == nil) {
                 self.station = TFCStation.initWithCache((uI?["name"])! , id: st_id, coord: nil)
@@ -171,7 +170,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     func departuresStillCached(context: Any?, forStation: TFCStation?) {
         departuresUpdated(nil, context: context, forStation: forStation)
     }
-    
+
     override func didDeactivate() {
         // This method is called when watch view controller is no longer visible
         super.didDeactivate()
@@ -205,5 +204,5 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         NSLog("handleUserActivity StationViewController")
         NSNotificationCenter.defaultCenter().postNotificationName("TFCWatchkitSelectStation", object: nil, userInfo: uI)
     }
-
+    
 }

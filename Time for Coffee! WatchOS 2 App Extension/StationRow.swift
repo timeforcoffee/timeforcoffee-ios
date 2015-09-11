@@ -8,18 +8,18 @@
 
 import Foundation
 import WatchKit
-import timeforcoffeeKit
+import timeforcoffeeWatchKit
 
 class StationRow: NSObject {
-    
+
     @IBOutlet weak var destinationLabel: WKInterfaceLabel!
     @IBOutlet weak var depatureLabel: WKInterfaceLabel!
     @IBOutlet weak var minutesLabel: WKInterfaceLabel!
-    
+
     @IBOutlet weak var numberLabel: WKInterfaceLabel!
-    
+
     @IBOutlet weak var topGroup: WKInterfaceGroup!
-    
+
     @IBOutlet weak var numberGroup: WKInterfaceGroup!
 
     var to: String?
@@ -38,7 +38,7 @@ class StationRow: NSObject {
             redrawAll = true
         }
         if (redrawAll || name != self.name) {
-           /* let helvetica = UIFont(name: "HelveticaNeue-Bold", size: 18.0)!
+            /* let helvetica = UIFont(name: "HelveticaNeue-Bold", size: 18.0)!
             var fontAttrs = [NSFontAttributeName : helvetica]
             var attrString = NSAttributedString(string: name, attributes: fontAttrs)*/
             if (departure.colorBg != nil) {

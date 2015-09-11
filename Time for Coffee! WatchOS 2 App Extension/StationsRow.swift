@@ -8,7 +8,7 @@
 
 import Foundation
 import WatchKit
-import timeforcoffeeKit
+import timeforcoffeeWatchKit
 
 class StationsRow: NSObject {
 
@@ -25,5 +25,5 @@ class StationsRow: NSObject {
             topGroup.setHidden(false)
         }
     }
-
+    
 }
