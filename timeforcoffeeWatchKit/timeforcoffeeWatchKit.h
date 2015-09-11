@@ -2,7 +2,7 @@
 //  timeforcoffeeWatchKit.h
 //  timeforcoffeeWatchKit
 //
-//  Created by Christian Stocker on 22.08.15.
+//  Created by Christian Stocker on 11.09.15.
 //  Copyright © 2015 Christian Stocker. All rights reserved.
 //
 

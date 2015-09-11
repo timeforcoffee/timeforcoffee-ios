@@ -1,8 +1,8 @@
 //
 //  ExtensionDelegate.swift
-//  Time for Coffee! WatchKit App2 Extension
+//  Time for Coffee! WatchOS 2 App Extension
 //
-//  Created by Christian Stocker on 20.06.15.
+//  Created by Christian Stocker on 11.09.15.
 //  Copyright © 2015 Christian Stocker. All rights reserved.
 //
 

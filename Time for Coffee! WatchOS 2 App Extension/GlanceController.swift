@@ -8,11 +8,11 @@
 
 import WatchKit
 import Foundation
-import timeforcoffeeWatchKit
+import timeforcoffeeKit
 
 
 class GlanceController: WKInterfaceController {
-
+    
     @IBOutlet weak var minutesLabel: WKInterfaceLabel!
     @IBOutlet weak var destinationLabel: WKInterfaceLabel!
     @IBOutlet weak var numberGroup: WKInterfaceGroup!
@@ -33,10 +33,10 @@ class GlanceController: WKInterfaceController {
         // Configure interface objects here.
         self.stationsTable.setNumberOfRows(3, withRowType: "station")
     }
-
+    
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
-
+        
         super.willActivate()
         func handleReply(stations: TFCStations?) {
             infoGroup.setHidden(true)
@@ -86,13 +86,13 @@ class GlanceController: WKInterfaceController {
         stationLabel.setText("Loading ...");
         //stationsTable.setNumberOfRows(0, withRowType: "station")
 
-        /*   minutesLabel.setText("")
+     /*   minutesLabel.setText("")
         destinationLabel.setText("")
         departureLabel.setText("");
         numberLabel.setText("")
         numberLabel.setTextColor(UIColor.whiteColor())
         numberGroup.setBackgroundColor(UIColor.clearColor())*/
-
+        
     }
 
     override func didDeactivate() {
