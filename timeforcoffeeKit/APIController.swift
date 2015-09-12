@@ -102,8 +102,8 @@ final class APIController {
                         jsonResult = JSON(NSNull())
                     } else {
                         jsonResult = JSON(data: data!)
-                    //jsonResult.boolValue is false, when data was not parseable. Don't cache it in that case
-                    if (jsonResult.boolValue == true && error == nil && cacheKey != nil) {
+                        //jsonResult.rawValue is NSNull, when data was not parseable. Don't cache it in that case
+                        if (!(jsonResult.rawValue is NSNull) && error == nil && cacheKey != nil) {
                         self.cache.setObject(data!, forKey: cacheKey!)
                     }
                     }
