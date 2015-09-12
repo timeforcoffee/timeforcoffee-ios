@@ -114,8 +114,8 @@
 		EC87B65D1AB95373005A053E /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B65C1AB95373005A053E /* libsqlite3.dylib */; };
 		EC87B65E1AB95380005A053E /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B65C1AB95373005A053E /* libsqlite3.dylib */; };
 		EC87B65F1AB95386005A053E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B65A1AB95365005A053E /* CoreData.framework */; };
-		EC8C23F01BA463970070B213 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 965B2A36D479CA86DF62E63F /* Pods.framework */; settings = {ASSET_TAGS = (); }; };
-		EC8C23F11BA463980070B213 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 965B2A36D479CA86DF62E63F /* Pods.framework */; settings = {ASSET_TAGS = (); }; };
+		EC8C23F01BA463970070B213 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 965B2A36D479CA86DF62E63F /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		EC8C23F11BA463980070B213 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 965B2A36D479CA86DF62E63F /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		EC8C24441BA46B0C0070B213 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC8C24421BA46B0C0070B213 /* Interface.storyboard */; };
 		EC8C24461BA46B0C0070B213 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC8C24451BA46B0C0070B213 /* Assets.xcassets */; };
 		EC8C244D1BA46B0D0070B213 /* Time for Coffee! WatchOS 2 App Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EC8C244C1BA46B0C0070B213 /* Time for Coffee! WatchOS 2 App Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -878,6 +878,7 @@
 				EC4344AA1AA5080A009438C7 /* Sources */,
 				EC4344AB1AA5080A009438C7 /* Frameworks */,
 				EC4344AC1AA5080A009438C7 /* Resources */,
+				16573C13853B87433608FBD2 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1209,6 +1210,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		16573C13853B87433608FBD2 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		4A33FD3CC8DCA65BD4628E06 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
