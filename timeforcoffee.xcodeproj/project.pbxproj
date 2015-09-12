@@ -14,7 +14,6 @@
 		314AFBD61AA778F400C176FE /* StationTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314AFBD51AA778F400C176FE /* StationTableView.swift */; };
 		31979D751AB5BC7B00525165 /* DepartureLineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31979D741AB5BC7B00525165 /* DepartureLineLabel.swift */; };
 		31979D761AB5BC7B00525165 /* DepartureLineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31979D741AB5BC7B00525165 /* DepartureLineLabel.swift */; };
-		37D3EF3774D3AD93DED051D5 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 965B2A36D479CA86DF62E63F /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		4BA86C17986B70448BEAD6EA /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 965B2A36D479CA86DF62E63F /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		EC0530871AB01153008439E9 /* gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0530861AB01153008439E9 /* gradient.png */; };
 		EC069DE31AC885C90017D345 /* SupportKitLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC069DE21AC885C90017D345 /* SupportKitLocalizable.strings */; };
@@ -130,6 +129,8 @@
 		EC87B65D1AB95373005A053E /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B65C1AB95373005A053E /* libsqlite3.dylib */; };
 		EC87B65E1AB95380005A053E /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B65C1AB95373005A053E /* libsqlite3.dylib */; };
 		EC87B65F1AB95386005A053E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC87B65A1AB95365005A053E /* CoreData.framework */; };
+		EC8C23F01BA463970070B213 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 965B2A36D479CA86DF62E63F /* Pods.framework */; settings = {ASSET_TAGS = (); }; };
+		EC8C23F11BA463980070B213 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 965B2A36D479CA86DF62E63F /* Pods.framework */; settings = {ASSET_TAGS = (); }; };
 		EC93E3651AC6F4C500A0DA46 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC93E3641AC6F4C500A0DA46 /* CoreGraphics.framework */; };
 		EC93E3671AC6F4CC00A0DA46 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EC93E3661AC6F4CC00A0DA46 /* libxml2.dylib */; };
 		EC93E3691AC6F4DC00A0DA46 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC93E3681AC6F4DC00A0DA46 /* CoreText.framework */; };
@@ -139,8 +140,6 @@
 		EC93E36F1AC6F50000A0DA46 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2C316F1A9E1EC700690397 /* Foundation.framework */; };
 		EC994D7E1ADC240000354014 /* StationsOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC994D7D1ADC240000354014 /* StationsOverviewViewController.swift */; };
 		EC994D801ADC283000354014 /* StationsRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC994D7F1ADC283000354014 /* StationsRow.swift */; };
-		ECAD8C3B1ABD849B00704974 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECAD8C3A1ABD849B00704974 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		ECAD8C3F1ABD861000704974 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECAD8C3E1ABD861000704974 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		ECC163D71AA36924006BC3E9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC2195ED1AA35B2D005E16EF /* Localizable.strings */; };
 		ECC1EDB61B132FF8009B0D53 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC1EDB51B132FF8009B0D53 /* MapViewController.swift */; };
 		ECD871961A9BB2F7003CCCB3 /* timeforcoffeeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */; };
@@ -402,10 +401,6 @@
 		EC93E36C1AC6F4EA00A0DA46 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		EC994D7D1ADC240000354014 /* StationsOverviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationsOverviewViewController.swift; sourceTree = "<group>"; };
 		EC994D7F1ADC283000354014 /* StationsRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationsRow.swift; sourceTree = "<group>"; };
-		ECAD8C3A1ABD849B00704974 /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
-		ECAD8C3C1ABD84A600704974 /* PINCache.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PINCache.framework; path = "Pods/../build/Debug-iphoneos/Pods/PINCache.framework"; sourceTree = "<group>"; };
-		ECAD8C3E1ABD861000704974 /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
-		ECAD8C401ABD861D00704974 /* PINCache.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PINCache.framework; path = "Pods/../build/Debug-iphoneos/Pods/PINCache.framework"; sourceTree = "<group>"; };
 		ECBCF0041ACB506400957A4F /* Time for Coffee! WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Time for Coffee! WatchKit Extension.entitlements"; sourceTree = "<group>"; };
 		ECC163D91AA369ED006BC3E9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		ECC163DB1AA36A35006BC3E9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MainInterface.strings; sourceTree = "<group>"; };
@@ -423,7 +418,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				37D3EF3774D3AD93DED051D5 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -431,12 +425,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ECAD8C3F1ABD861000704974 /* Pods.framework in Frameworks */,
 				EC87B65F1AB95386005A053E /* CoreData.framework in Frameworks */,
 				EC87B65E1AB95380005A053E /* libsqlite3.dylib in Frameworks */,
 				EC2C317A1A9E1F2500690397 /* SystemConfiguration.framework in Frameworks */,
 				EC2C31791A9E1F1900690397 /* CoreTelephony.framework in Frameworks */,
 				EC2C31781A9E1F1000690397 /* libz.dylib in Frameworks */,
+				EC8C23F01BA463970070B213 /* Pods.framework in Frameworks */,
 				EC87B6591AB95348005A053E /* libGoogleAnalyticsServices.a in Frameworks */,
 				EC2C31771A9E1F0A00690397 /* libc++.dylib in Frameworks */,
 				ECD871961A9BB2F7003CCCB3 /* timeforcoffeeKit.framework in Frameworks */,
@@ -448,7 +442,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ECAD8C3B1ABD849B00704974 /* Pods.framework in Frameworks */,
+				EC8C23F11BA463980070B213 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -614,12 +608,8 @@
 				EC93E3681AC6F4DC00A0DA46 /* CoreText.framework */,
 				EC93E3661AC6F4CC00A0DA46 /* libxml2.dylib */,
 				EC93E3641AC6F4C500A0DA46 /* CoreGraphics.framework */,
-				ECAD8C401ABD861D00704974 /* PINCache.framework */,
-				ECAD8C3E1ABD861000704974 /* Pods.framework */,
 				EC14CD4F1B7E7979002F686C /* SupportKit.bundle */,
 				EC14CD501B7E7979002F686C /* SupportKit.framework */,
-				ECAD8C3C1ABD84A600704974 /* PINCache.framework */,
-				ECAD8C3A1ABD849B00704974 /* Pods.framework */,
 				EC87B65C1AB95373005A053E /* libsqlite3.dylib */,
 				EC87B65A1AB95365005A053E /* CoreData.framework */,
 				EC87B6571AB95348005A053E /* libGoogleAnalyticsServices.a */,
