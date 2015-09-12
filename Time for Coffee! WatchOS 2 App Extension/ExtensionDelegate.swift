@@ -7,11 +7,18 @@
 //
 
 import WatchKit
+import timeforcoffeeWatchKit
 
 class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
     func applicationDidFinishLaunching() {
-        // Perform any final initialization of your application.
+        TFCDataStore.sharedInstance.registerWatchConnectivity()
+
+        // iCLoud not supported by watchOS :(
+    /*    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
+            TFCDataStore.sharedInstance.registerForNotifications()
+            TFCDataStore.sharedInstance.synchronize()
+        }*/
     }
 
     func applicationDidBecomeActive() {
@@ -22,5 +29,5 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, etc.
     }
-
 }
+

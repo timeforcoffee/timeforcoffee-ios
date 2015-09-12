@@ -10,8 +10,7 @@ import Foundation
 import CoreLocation
 import MapKit
 
-
-public final class TFCStation: TFCStationBase {
+public class TFCStation: TFCStationBase {
 
     private func getWalkingDistance(location: CLLocation?, completion: (String?) -> Void ) {
         let walkingDistanceValidString = getLastValidWalkingDistanceValid(location)

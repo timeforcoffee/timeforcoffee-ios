@@ -7,9 +7,9 @@
 //
 
 import Foundation
+import WatchConnectivity
 
-
-final public class TFCDataStore: NSObject {
+public class TFCDataStore: NSObject, WCSessionDelegate {
 
     public class var sharedInstance: TFCDataStore {
         struct Static {
@@ -24,9 +24,19 @@ final public class TFCDataStore: NSObject {
     private let keyvaluestore: NSUbiquitousKeyValueStore? = NSUbiquitousKeyValueStore.defaultStore()
     private var notificationObserver: AnyObject?
 
-    func setObject(anObject: AnyObject?, forKey: String) {
+    func setObject(anObject: AnyObject?, forKey: String, withWCTransfer: Bool) {
         userDefaults?.setObject(anObject , forKey: forKey)
         keyvaluestore?.setObject(anObject, forKey: forKey)
+        if #available(iOS 9, *) {
+            if (withWCTransfer != false) {
+                let applicationDict = [forKey: anObject!]
+                WCSession.defaultSession().transferUserInfo(applicationDict)
+            }
+        }
+    }
+
+    func setObject(anObject: AnyObject?, forKey: String) {
+        self.setObject(anObject, forKey: forKey, withWCTransfer: true)
     }
 
     func objectForKey(forKey: String) -> AnyObject? {
@@ -34,13 +44,33 @@ final public class TFCDataStore: NSObject {
     }
 
     func removeObjectForKey(forKey: String) {
+        self.removeObjectForKey(forKey, withWCTransfer: true)
+    }
+
+    func removeObjectForKey(forKey: String, withWCTransfer: Bool) {
         userDefaults?.removeObjectForKey(forKey)
         keyvaluestore?.removeObjectForKey(forKey)
+        if #available(iOS 9, *) {
+            if (withWCTransfer != false) {
+                let applicationDict = ["___remove___": forKey]
+                WCSession.defaultSession().transferUserInfo(applicationDict)
+            }
+        }
     }
 
     public func synchronize() {
         userDefaults?.synchronize()
         keyvaluestore?.synchronize()
+    }
+
+    public func registerWatchConnectivity() {
+        if #available(iOS 9, *) {
+            if (WCSession.isSupported()) {
+                let session = WCSession.defaultSession()
+                session.delegate = self
+                session.activateSession()
+            }
+        }
     }
 
     public func registerForNotifications() {
@@ -94,5 +124,19 @@ final public class TFCDataStore: NSObject {
     public func getUserDefaults() -> NSUserDefaults? {
         return userDefaults
     }
+
+    @available(iOSApplicationExtension 9.0, *)
+    public func session(session: WCSession, didReceiveUserInfo userInfo: [String : AnyObject]) {
+        for (myKey,myValue) in userInfo {
+            if (myKey == "___remove___") {
+                if let key = myValue as? String {
+                    self.removeObjectForKey(key, withWCTransfer: false)
+                }
+            } else {
+                self.setObject(myValue, forKey: myKey, withWCTransfer: false)
+            }
+        }
+    }
+
 
 }
