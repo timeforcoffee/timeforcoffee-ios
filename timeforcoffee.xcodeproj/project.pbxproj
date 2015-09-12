@@ -131,7 +131,6 @@
 		EC8C24681BA46BC00070B213 /* StationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8330C61BA2C0AB00E0F4CB /* StationViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		EC8C24691BA46BE70070B213 /* timeforcoffeeWatchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC8330B01BA2BFE600E0F4CB /* timeforcoffeeWatchKit.framework */; };
 		EC8C246A1BA46BE70070B213 /* timeforcoffeeWatchKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EC8330B01BA2BFE600E0F4CB /* timeforcoffeeWatchKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		EC8C246E1BA46D210070B213 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC83309D1BA2BF3000E0F4CB /* Assets.xcassets */; settings = {ASSET_TAGS = (); }; };
 		EC93E3651AC6F4C500A0DA46 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC93E3641AC6F4C500A0DA46 /* CoreGraphics.framework */; };
 		EC93E3671AC6F4CC00A0DA46 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EC93E3661AC6F4CC00A0DA46 /* libxml2.dylib */; };
 		EC93E3691AC6F4DC00A0DA46 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC93E3681AC6F4DC00A0DA46 /* CoreText.framework */; };
@@ -356,14 +355,6 @@
 		EC7A517F19C427CA000F5E7C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		EC7B49D31ADABAA000C79588 /* TFCNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCNavigationController.swift; sourceTree = "<group>"; };
 		EC7B49D51ADABBDA00C79588 /* NearbyStationsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearbyStationsTableViewCell.swift; sourceTree = "<group>"; };
-		EC8330891BA2BF3000E0F4CB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
-		EC83308B1BA2BF3000E0F4CB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		EC83308D1BA2BF3000E0F4CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EC8330971BA2BF3000E0F4CB /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
-		EC8330991BA2BF3000E0F4CB /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
-		EC83309B1BA2BF3000E0F4CB /* GlanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlanceController.swift; sourceTree = "<group>"; };
-		EC83309D1BA2BF3000E0F4CB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		EC83309F1BA2BF3000E0F4CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC8330B01BA2BFE600E0F4CB /* timeforcoffeeWatchKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = timeforcoffeeWatchKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC8330B21BA2BFE600E0F4CB /* timeforcoffeeWatchKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = timeforcoffeeWatchKit.h; sourceTree = "<group>"; };
 		EC8330B41BA2BFE600E0F4CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -396,6 +387,8 @@
 		EC8C24551BA46B0D0070B213 /* GlanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlanceController.swift; sourceTree = "<group>"; };
 		EC8C24571BA46B0D0070B213 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EC8C24591BA46B0D0070B213 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EC8C24731BA472A20070B213 /* Time for Coffee! WatchOS 2 App Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Time for Coffee! WatchOS 2 App Extension.entitlements"; sourceTree = "<group>"; };
+		EC8C24741BA472B00070B213 /* Time for Coffee! WatchOS 2 App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Time for Coffee! WatchOS 2 App.entitlements"; sourceTree = "<group>"; };
 		EC93E3641AC6F4C500A0DA46 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		EC93E3661AC6F4CC00A0DA46 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		EC93E3681AC6F4DC00A0DA46 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
@@ -703,8 +696,6 @@
 				EC2C312A1A9DEA1F00690397 /* gpx */,
 				EC4344AF1AA5080A009438C7 /* Time for Coffee! WatchKit Extension */,
 				EC4344BE1AA5080A009438C7 /* Time for Coffee! WatchKit App */,
-				EC8330871BA2BF3000E0F4CB /* Time for Coffee! WatchOS 2 App */,
-				EC8330961BA2BF3000E0F4CB /* Time for Coffee! WatchOS 2 App Extension */,
 				EC8330B11BA2BFE600E0F4CB /* timeforcoffeeWatchKit */,
 				EC8C24411BA46B0C0070B213 /* Time for Coffee! WatchOS 2 App */,
 				EC8C24501BA46B0D0070B213 /* Time for Coffee! WatchOS 2 App Extension */,
@@ -764,33 +755,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		EC8330871BA2BF3000E0F4CB /* Time for Coffee! WatchOS 2 App */ = {
-			isa = PBXGroup;
-			children = (
-				EC8330881BA2BF3000E0F4CB /* Interface.storyboard */,
-				EC83308B1BA2BF3000E0F4CB /* Assets.xcassets */,
-				EC83308D1BA2BF3000E0F4CB /* Info.plist */,
-			);
-			path = "Time for Coffee! WatchOS 2 App";
-			sourceTree = "<group>";
-		};
-		EC8330961BA2BF3000E0F4CB /* Time for Coffee! WatchOS 2 App Extension */ = {
-			isa = PBXGroup;
-			children = (
-				EC8330971BA2BF3000E0F4CB /* InterfaceController.swift */,
-				EC8330991BA2BF3000E0F4CB /* ExtensionDelegate.swift */,
-				EC83309B1BA2BF3000E0F4CB /* GlanceController.swift */,
-				EC8330C21BA2C0AB00E0F4CB /* MapViewController.swift */,
-				EC8330C31BA2C0AB00E0F4CB /* StationRow.swift */,
-				EC8330C41BA2C0AB00E0F4CB /* StationsOverviewViewController.swift */,
-				EC8330C51BA2C0AB00E0F4CB /* StationsRow.swift */,
-				EC8330C61BA2C0AB00E0F4CB /* StationViewController.swift */,
-				EC83309D1BA2BF3000E0F4CB /* Assets.xcassets */,
-				EC83309F1BA2BF3000E0F4CB /* Info.plist */,
-			);
-			path = "Time for Coffee! WatchOS 2 App Extension";
-			sourceTree = "<group>";
-		};
 		EC8330B11BA2BFE600E0F4CB /* timeforcoffeeWatchKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -821,6 +785,7 @@
 		EC8C24411BA46B0C0070B213 /* Time for Coffee! WatchOS 2 App */ = {
 			isa = PBXGroup;
 			children = (
+				EC8C24741BA472B00070B213 /* Time for Coffee! WatchOS 2 App.entitlements */,
 				EC8C24421BA46B0C0070B213 /* Interface.storyboard */,
 				EC8C24451BA46B0C0070B213 /* Assets.xcassets */,
 				EC8C24471BA46B0C0070B213 /* Info.plist */,
@@ -831,8 +796,14 @@
 		EC8C24501BA46B0D0070B213 /* Time for Coffee! WatchOS 2 App Extension */ = {
 			isa = PBXGroup;
 			children = (
+				EC8C24731BA472A20070B213 /* Time for Coffee! WatchOS 2 App Extension.entitlements */,
 				EC8C24511BA46B0D0070B213 /* InterfaceController.swift */,
 				EC8C24531BA46B0D0070B213 /* ExtensionDelegate.swift */,
+				EC8330C21BA2C0AB00E0F4CB /* MapViewController.swift */,
+				EC8330C31BA2C0AB00E0F4CB /* StationRow.swift */,
+				EC8330C41BA2C0AB00E0F4CB /* StationsOverviewViewController.swift */,
+				EC8330C51BA2C0AB00E0F4CB /* StationsRow.swift */,
+				EC8330C61BA2C0AB00E0F4CB /* StationViewController.swift */,
 				EC8C24551BA46B0D0070B213 /* GlanceController.swift */,
 				EC8C24571BA46B0D0070B213 /* Assets.xcassets */,
 				EC8C24591BA46B0D0070B213 /* Info.plist */,
@@ -1089,9 +1060,23 @@
 					EC8C243F1BA46B0C0070B213 = {
 						CreatedOnToolsVersion = 7.0;
 						DevelopmentTeam = DN76797UYF;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					EC8C244B1BA46B0C0070B213 = {
 						CreatedOnToolsVersion = 7.0;
+						DevelopmentTeam = DN76797UYF;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -1194,7 +1179,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC8C24461BA46B0C0070B213 /* Assets.xcassets in Resources */,
-				EC8C246E1BA46D210070B213 /* Assets.xcassets in Resources */,
 				EC8C24441BA46B0C0070B213 /* Interface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1477,14 +1461,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				EC4344C21AA5080A009438C7 /* Base */,
-			);
-			name = Interface.storyboard;
-			sourceTree = "<group>";
-		};
-		EC8330881BA2BF3000E0F4CB /* Interface.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				EC8330891BA2BF3000E0F4CB /* Base */,
 			);
 			name = Interface.storyboard;
 			sourceTree = "<group>";
@@ -1901,6 +1877,7 @@
 		EC8C245E1BA46B0D0070B213 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Time for Coffee! WatchOS 2 App Extension/Time for Coffee! WatchOS 2 App Extension.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -1921,6 +1898,7 @@
 		EC8C245F1BA46B0D0070B213 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Time for Coffee! WatchOS 2 App Extension/Time for Coffee! WatchOS 2 App Extension.entitlements";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
@@ -1941,8 +1919,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Time for Coffee! WatchOS 2 App/Time for Coffee! WatchOS 2 App.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_BITCODE = YES;
@@ -1951,6 +1931,7 @@
 				INFOPLIST_FILE = "Time for Coffee! WatchOS 2 App/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -1962,8 +1943,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Time for Coffee! WatchOS 2 App/Time for Coffee! WatchOS 2 App.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
@@ -1973,6 +1956,7 @@
 				INFOPLIST_FILE = "Time for Coffee! WatchOS 2 App/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
