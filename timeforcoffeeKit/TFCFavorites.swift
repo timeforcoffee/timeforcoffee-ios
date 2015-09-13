@@ -50,6 +50,9 @@ final public class TFCFavorites: NSObject {
     private func getCurrentFavoritesFromDefaults() -> [String: TFCStation] {
         var st: [String: TFCStation]?
         if let unarchivedObject = objects.dataStore?.objectForKey("favorites2") as? NSData {
+            
+            NSKeyedUnarchiver.setClass(TFCStation.classForKeyedUnarchiver(), forClassName: "timeforcoffeeKit.TFCStation")
+            NSKeyedUnarchiver.setClass(TFCStation.classForKeyedUnarchiver(), forClassName: "timeforcoffeeWatchKit.TFCStation")
             st = NSKeyedUnarchiver.unarchiveObjectWithData(unarchivedObject) as? [String: TFCStation]
         }
         let cache = TFCCache.objects.stations
