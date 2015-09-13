@@ -156,15 +156,27 @@ public class TFCDataStore: NSObject, WCSessionDelegate {
     @available(iOSApplicationExtension 9.0, *)
     private func sendAllData() {
         if let allData = userDefaults?.dictionaryRepresentation() {
-            for (myKey, myValue) in allData {
-                // only send key starting with favorite
-                if (myKey.hasPrefix("favorite") || myKey.hasPrefix("filtered")) {
-                    let applicationDict = [myKey: myValue]
-                    WCSession.defaultSession().transferUserInfo(applicationDict)
+            // only send allData if the last request was longer than 10 minutes ago
+            // This prevents multiple data sends, when requests for it pile up in the queue
+            let lastRequest = self.lastRequestForAllData()
+            if (lastRequest == nil || lastRequest < -(10 * 60)) {
+                TFCDataStore.sharedInstance.getUserDefaults()?.setObject(NSDate(), forKey: "lastRequestForAllDataToBeSent")
+                for (myKey, myValue) in allData {
+                    // only send key starting with favorite
+                    if (myKey.hasPrefix("favorite") || myKey.hasPrefix("filtered")) {
+                        let applicationDict = [myKey: myValue]
+                        WCSession.defaultSession().transferUserInfo(applicationDict)
+                    }
                 }
             }
         }
     }
+
+    private func lastRequestForAllData() -> NSTimeInterval? {
+        let lastUpdate: NSDate? = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastRequestForAllDataToBeSent") as! NSDate?
+        return lastUpdate?.timeIntervalSinceNow
+    }
+
 
 
 }
