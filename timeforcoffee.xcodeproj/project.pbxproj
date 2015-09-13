@@ -119,7 +119,6 @@
 		EC8C24441BA46B0C0070B213 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC8C24421BA46B0C0070B213 /* Interface.storyboard */; };
 		EC8C24461BA46B0C0070B213 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC8C24451BA46B0C0070B213 /* Assets.xcassets */; };
 		EC8C244D1BA46B0D0070B213 /* Time for Coffee! WatchOS 2 App Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EC8C244C1BA46B0C0070B213 /* Time for Coffee! WatchOS 2 App Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		EC8C24521BA46B0D0070B213 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8C24511BA46B0D0070B213 /* InterfaceController.swift */; };
 		EC8C24541BA46B0D0070B213 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8C24531BA46B0D0070B213 /* ExtensionDelegate.swift */; };
 		EC8C24561BA46B0D0070B213 /* GlanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8C24551BA46B0D0070B213 /* GlanceController.swift */; };
 		EC8C24581BA46B0D0070B213 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC8C24571BA46B0D0070B213 /* Assets.xcassets */; };
@@ -382,7 +381,6 @@
 		EC8C24451BA46B0C0070B213 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EC8C24471BA46B0C0070B213 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC8C244C1BA46B0C0070B213 /* Time for Coffee! WatchOS 2 App Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Time for Coffee! WatchOS 2 App Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		EC8C24511BA46B0D0070B213 /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
 		EC8C24531BA46B0D0070B213 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
 		EC8C24551BA46B0D0070B213 /* GlanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlanceController.swift; sourceTree = "<group>"; };
 		EC8C24571BA46B0D0070B213 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -797,7 +795,6 @@
 			isa = PBXGroup;
 			children = (
 				EC8C24731BA472A20070B213 /* Time for Coffee! WatchOS 2 App Extension.entitlements */,
-				EC8C24511BA46B0D0070B213 /* InterfaceController.swift */,
 				EC8C24531BA46B0D0070B213 /* ExtensionDelegate.swift */,
 				EC8330C21BA2C0AB00E0F4CB /* MapViewController.swift */,
 				EC8330C31BA2C0AB00E0F4CB /* StationRow.swift */,
@@ -1368,7 +1365,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC8C24541BA46B0D0070B213 /* ExtensionDelegate.swift in Sources */,
-				EC8C24521BA46B0D0070B213 /* InterfaceController.swift in Sources */,
 				EC8C24661BA46BC00070B213 /* StationsOverviewViewController.swift in Sources */,
 				EC8C24671BA46BC00070B213 /* StationsRow.swift in Sources */,
 				EC8C24651BA46BC00070B213 /* StationRow.swift in Sources */,
