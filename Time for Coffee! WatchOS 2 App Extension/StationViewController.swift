@@ -24,7 +24,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
 
     override init () {
         super.init()
-        print("init page")
+        NSLog("init page")
 
     }
     override func awakeWithContext(context: AnyObject?) {
@@ -84,10 +84,11 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         super.willActivate()
         NSLog("willActivate page")
         self.active = true
-
-        setStationValues()
     }
 
+    override func didAppear() {
+        setStationValues()
+    }
     private func setStationValues() {
         if (station == nil) {
             // infoGroup.setHidden(false)

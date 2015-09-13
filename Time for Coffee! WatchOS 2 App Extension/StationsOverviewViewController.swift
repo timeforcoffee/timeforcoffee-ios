@@ -33,6 +33,9 @@ class StationsOverviewViewController: WKInterfaceController {
             self.setTitle("Nearby Stations")
             activatedOnce = true
         }
+    }
+
+    override func didAppear() {
         func handleReply(stations: TFCStations?) {
             if (stations == nil || stations?.count() == nil) {
                 return
