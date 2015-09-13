@@ -155,7 +155,7 @@
                                 </group>
                                 <table alignment="left" id="Lb1-UE-yg4">
                                     <items>
-                                        <tableRow identifier="station" selectable="NO" id="kX2-lL-sOt" customClass="StationRow" customModule="Time_for_Coffee__WatchKit_Extension">
+                                        <tableRow identifier="station" selectable="NO" id="kX2-lL-sOt" customClass="StationRow" customModule="Time_for_Coffee__WatchOS_2_App_Extension">
                                             <group key="rootItem" width="1" height="28.5" alignment="left" hidden="YES" id="rfn-HQ-lEX">
                                                 <items>
                                                     <group width="26" height="26" alignment="left" verticalAlignment="center" radius="4" id="eh9-nV-NI2">
