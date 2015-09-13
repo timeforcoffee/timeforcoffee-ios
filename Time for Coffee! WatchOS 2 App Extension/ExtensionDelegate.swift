@@ -12,9 +12,9 @@ import timeforcoffeeWatchKit
 class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
     func applicationDidFinishLaunching() {
-        TFCDataStore.sharedInstance.registerWatchConnectivity()
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
+            TFCDataStore.sharedInstance.registerWatchConnectivity()
             TFCDataStore.sharedInstance.requestAllDataFromPhone()
         }
         // iCLoud not supported by watchOS :(
