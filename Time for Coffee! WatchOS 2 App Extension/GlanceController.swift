@@ -13,11 +13,7 @@ import timeforcoffeeWatchKit
 
 class GlanceController: WKInterfaceController {
 
-    @IBOutlet weak var minutesLabel: WKInterfaceLabel!
-    @IBOutlet weak var destinationLabel: WKInterfaceLabel!
-    @IBOutlet weak var numberGroup: WKInterfaceGroup!
-    @IBOutlet weak var departureLabel: WKInterfaceLabel!
-    @IBOutlet weak var numberLabel: WKInterfaceLabel!
+
     @IBOutlet weak var stationLabel: WKInterfaceLabel!
 
     @IBOutlet weak var stationsTable: WKInterfaceTable!
