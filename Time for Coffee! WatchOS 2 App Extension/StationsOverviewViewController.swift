@@ -19,6 +19,7 @@ class StationsOverviewViewController: WKInterfaceController {
     @IBOutlet weak var infoGroup: WKInterfaceGroup!
     @IBOutlet weak var infoLabel: WKInterfaceLabel!
     var activatedOnce = false
+    var appeared = false
 
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
@@ -33,9 +34,21 @@ class StationsOverviewViewController: WKInterfaceController {
             self.setTitle("Nearby Stations")
             activatedOnce = true
         }
+        if (self.appeared) {
+            getStations()
+        }
     }
 
     override func didAppear() {
+        self.appeared = true
+        getStations()
+   }
+
+    override func willDisappear() {
+        self.appeared = false
+    }
+
+    private func getStations() {
         func handleReply(stations: TFCStations?) {
             if (stations == nil || stations?.count() == nil) {
                 return

@@ -17,6 +17,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     var numberOfRows: Int = 0
     var initTable = false
     var active = false
+    var appeared = false
     var userActivity: [String:String]?
     var titleString:String?
     @IBOutlet weak var infoGroup: WKInterfaceGroup!
@@ -84,10 +85,19 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         super.willActivate()
         NSLog("willActivate page")
         self.active = true
+        if (self.appeared) {
+            setStationValues()
+        }
     }
 
+
     override func didAppear() {
+        self.appeared = true
         setStationValues()
+    }
+
+    override func willDisappear() {
+        self.appeared = false
     }
     private func setStationValues() {
         if (station == nil) {
