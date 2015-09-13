@@ -100,6 +100,13 @@ public class TFCDataStore: NSObject, WCSessionDelegate {
                                     if (key == "favorites2") {
                                         TFCFavorites.sharedInstance.repopulateFavorites()
                                     }
+                                    if #available(iOS 9, *) {
+                                        if let value = self.keyvaluestore?.objectForKey(key) {
+                                            WCSession.defaultSession().transferUserInfo([key: value])
+                                        } else {
+                                            WCSession.defaultSession().transferUserInfo(["___remove___": key])
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -126,14 +133,35 @@ public class TFCDataStore: NSObject, WCSessionDelegate {
     }
 
     @available(iOSApplicationExtension 9.0, *)
+    public func requestAllDataFromPhone() {
+        WCSession.defaultSession().transferUserInfo(["__giveMeTheData__": NSDate()])
+
+    }
+
+    @available(iOSApplicationExtension 9.0, *)
     public func session(session: WCSession, didReceiveUserInfo userInfo: [String : AnyObject]) {
         for (myKey,myValue) in userInfo {
-            if (myKey == "___remove___") {
+            if (myKey == "__giveMeTheData__") {
+                sendAllData()
+            } else if (myKey == "___remove___") {
                 if let key = myValue as? String {
                     self.removeObjectForKey(key, withWCTransfer: false)
                 }
             } else {
                 self.setObject(myValue, forKey: myKey, withWCTransfer: false)
+            }
+        }
+    }
+
+    @available(iOSApplicationExtension 9.0, *)
+    private func sendAllData() {
+        if let allData = userDefaults?.dictionaryRepresentation() {
+            for (myKey, myValue) in allData {
+                // only send key starting with favorite
+                if (myKey.hasPrefix("favorite") || myKey.hasPrefix("filtered")) {
+                    let applicationDict = [myKey: myValue]
+                    WCSession.defaultSession().transferUserInfo(applicationDict)
+                }
             }
         }
     }
