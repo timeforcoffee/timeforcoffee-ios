@@ -1,0 +1,9 @@
+** Had to switch back to the old (non watchOS 2) app, since the new one didn't install on testflight... Will investigate
+
+* Therefore also built against iOS 9 and the latest SDK.
+* We changed the filtering of departures to "favouriting" departures  (swipe to left on a departure to have that option). So instead of saying which departures you're not interested with, you now define, which departures you favourite. Those favourites are then shown on the today screen (and the watch app) while the others are not. Your old filter preferences are still used until you first favourite a departure.
+* In the app, there's the option now to only show those favourite departures at a station.
+
+
+* Native watchOS 2 support! Snappier than ever! No more going through your iPhone for UI updates (watchOS 1 should still be supported, but due to the lack of a device, I couldn't really test it, feedback would be appreciated)
+
