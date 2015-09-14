@@ -9,9 +9,7 @@
 import Foundation
 
 public class TFCDataStore: TFCDataStoreBase {
+    // not supported in watchOS yet, set it to nil
     override var keyvaluestore: NSUbiquitousKeyValueStore? {
-        return NSUbiquitousKeyValueStore.defaultStore()
-    }
-
-}
-
+        return nil
+    }}

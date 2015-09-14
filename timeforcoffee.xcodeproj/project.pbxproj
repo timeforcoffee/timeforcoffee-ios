@@ -55,7 +55,7 @@
 		EC5901581B87CBD400628D77 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5901481B87CBD400628D77 /* SwiftyJSON.swift */; };
 		EC5901591B87CBD400628D77 /* TFCBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5901491B87CBD400628D77 /* TFCBaseViewController.swift */; };
 		EC59015A1B87CBD400628D77 /* TFCCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC59014A1B87CBD400628D77 /* TFCCache.swift */; };
-		EC59015B1B87CBD400628D77 /* TFCDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC59014B1B87CBD400628D77 /* TFCDataStore.swift */; };
+		EC59015B1B87CBD400628D77 /* TFCDataStoreBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC59014B1B87CBD400628D77 /* TFCDataStoreBase.swift */; };
 		EC59015C1B87CBD400628D77 /* TFCDeparture.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC59014C1B87CBD400628D77 /* TFCDeparture.swift */; };
 		EC59015D1B87CBD400628D77 /* TFCFavorites.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC59014D1B87CBD400628D77 /* TFCFavorites.swift */; };
 		EC59015E1B87CBD400628D77 /* TFCLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC59014E1B87CBD400628D77 /* TFCLocationManager.swift */; };
@@ -95,7 +95,7 @@
 		EC8330D71BA2C3BB00E0F4CB /* TFCDeparture.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC59014C1B87CBD400628D77 /* TFCDeparture.swift */; settings = {ASSET_TAGS = (); }; };
 		EC8330D81BA2C3C800E0F4CB /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5901481B87CBD400628D77 /* SwiftyJSON.swift */; settings = {ASSET_TAGS = (); }; };
 		EC8330D91BA2C3CB00E0F4CB /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5901471B87CBD400628D77 /* extensions.swift */; settings = {ASSET_TAGS = (); }; };
-		EC8330DA1BA2C3D400E0F4CB /* TFCDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC59014B1B87CBD400628D77 /* TFCDataStore.swift */; settings = {ASSET_TAGS = (); }; };
+		EC8330DA1BA2C3D400E0F4CB /* TFCDataStoreBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC59014B1B87CBD400628D77 /* TFCDataStoreBase.swift */; settings = {ASSET_TAGS = (); }; };
 		EC8330DB1BA2C3D700E0F4CB /* TFCURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5901531B87CBD400628D77 /* TFCURLSession.swift */; settings = {ASSET_TAGS = (); }; };
 		EC8330DC1BA2C3E100E0F4CB /* TFCStations.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5901521B87CBD400628D77 /* TFCStations.swift */; settings = {ASSET_TAGS = (); }; };
 		EC8330DD1BA2C3E600E0F4CB /* TFCFavorites.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC59014D1B87CBD400628D77 /* TFCFavorites.swift */; settings = {ASSET_TAGS = (); }; };
@@ -140,7 +140,8 @@
 		EC994D7E1ADC240000354014 /* StationsOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC994D7D1ADC240000354014 /* StationsOverviewViewController.swift */; };
 		EC994D801ADC283000354014 /* StationsRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC994D7F1ADC283000354014 /* StationsRow.swift */; };
 		ECC163D71AA36924006BC3E9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC2195ED1AA35B2D005E16EF /* Localizable.strings */; };
-		ECC1EDB61B132FF8009B0D53 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC1EDB51B132FF8009B0D53 /* MapViewController.swift */; };
+		ECCDE4941BA7616C00C1D2D1 /* TFCDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCDE4931BA7616C00C1D2D1 /* TFCDataStore.swift */; settings = {ASSET_TAGS = (); }; };
+		ECCDE4961BA761A000C1D2D1 /* TFCDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCDE4951BA761A000C1D2D1 /* TFCDataStore.swift */; settings = {ASSET_TAGS = (); }; };
 		ECD871961A9BB2F7003CCCB3 /* timeforcoffeeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC6EDD2D1A9BA36F0098CAE0 /* timeforcoffeeKit.framework */; };
 		ECDAB3A61AAA42A300EB352B /* PagedStationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDAB3A51AAA42A300EB352B /* PagedStationsViewController.swift */; };
 		ECE864A61ADBF3AA004392B2 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE864A51ADBF3AA004392B2 /* SettingsViewController.swift */; };
@@ -318,7 +319,7 @@
 		EC5901481B87CBD400628D77 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		EC5901491B87CBD400628D77 /* TFCBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCBaseViewController.swift; sourceTree = "<group>"; };
 		EC59014A1B87CBD400628D77 /* TFCCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCCache.swift; sourceTree = "<group>"; };
-		EC59014B1B87CBD400628D77 /* TFCDataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCDataStore.swift; sourceTree = "<group>"; };
+		EC59014B1B87CBD400628D77 /* TFCDataStoreBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCDataStoreBase.swift; sourceTree = "<group>"; };
 		EC59014C1B87CBD400628D77 /* TFCDeparture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCDeparture.swift; sourceTree = "<group>"; };
 		EC59014D1B87CBD400628D77 /* TFCFavorites.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCFavorites.swift; sourceTree = "<group>"; };
 		EC59014E1B87CBD400628D77 /* TFCLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCLocationManager.swift; sourceTree = "<group>"; };
@@ -397,7 +398,8 @@
 		ECBCF0041ACB506400957A4F /* Time for Coffee! WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Time for Coffee! WatchKit Extension.entitlements"; sourceTree = "<group>"; };
 		ECC163D91AA369ED006BC3E9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		ECC163DB1AA36A35006BC3E9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MainInterface.strings; sourceTree = "<group>"; };
-		ECC1EDB51B132FF8009B0D53 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		ECCDE4931BA7616C00C1D2D1 /* TFCDataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCDataStore.swift; sourceTree = "<group>"; };
+		ECCDE4951BA761A000C1D2D1 /* TFCDataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCDataStore.swift; sourceTree = "<group>"; };
 		ECD871941A9BAE18003CCCB3 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ECDAB3A51AAA42A300EB352B /* PagedStationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagedStationsViewController.swift; sourceTree = "<group>"; };
 		ECE864A51ADBF3AA004392B2 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -640,7 +642,8 @@
 				EC5901481B87CBD400628D77 /* SwiftyJSON.swift */,
 				EC5901491B87CBD400628D77 /* TFCBaseViewController.swift */,
 				EC59014A1B87CBD400628D77 /* TFCCache.swift */,
-				EC59014B1B87CBD400628D77 /* TFCDataStore.swift */,
+				EC59014B1B87CBD400628D77 /* TFCDataStoreBase.swift */,
+				ECCDE4931BA7616C00C1D2D1 /* TFCDataStore.swift */,
 				EC59014C1B87CBD400628D77 /* TFCDeparture.swift */,
 				EC5901661B87CBDB00628D77 /* PINCache */,
 				EC59014D1B87CBD400628D77 /* TFCFavorites.swift */,
@@ -757,6 +760,7 @@
 			isa = PBXGroup;
 			children = (
 				EC8330B21BA2BFE600E0F4CB /* timeforcoffeeWatchKit.h */,
+				ECCDE4951BA761A000C1D2D1 /* TFCDataStore.swift */,
 				EC8330BE1BA2C01D00E0F4CB /* TFCLocationManager.swift */,
 				EC8330BF1BA2C01D00E0F4CB /* TFCStation.swift */,
 				EC8330B41BA2BFE600E0F4CB /* Info.plist */,
@@ -1305,7 +1309,7 @@
 				EC5901591B87CBD400628D77 /* TFCBaseViewController.swift in Sources */,
 				EC5901561B87CBD400628D77 /* APIController.swift in Sources */,
 				EC59015C1B87CBD400628D77 /* TFCDeparture.swift in Sources */,
-				EC59015B1B87CBD400628D77 /* TFCDataStore.swift in Sources */,
+				EC59015B1B87CBD400628D77 /* TFCDataStoreBase.swift in Sources */,
 				EC59015E1B87CBD400628D77 /* TFCLocationManager.swift in Sources */,
 				EC59015D1B87CBD400628D77 /* TFCFavorites.swift in Sources */,
 				EC59015F1B87CBD400628D77 /* TFCLocationManagerBase.swift in Sources */,
@@ -1313,6 +1317,7 @@
 				EC5901741B87CBDB00628D77 /* PINMemoryCache.m in Sources */,
 				EC5901571B87CBD400628D77 /* extensions.swift in Sources */,
 				EC5901621B87CBD400628D77 /* TFCStations.swift in Sources */,
+				ECCDE4941BA7616C00C1D2D1 /* TFCDataStore.swift in Sources */,
 				EC5901631B87CBD400628D77 /* TFCURLSession.swift in Sources */,
 				EC5901601B87CBD400628D77 /* TFCStation.swift in Sources */,
 			);
@@ -1343,8 +1348,9 @@
 				EC8330D71BA2C3BB00E0F4CB /* TFCDeparture.swift in Sources */,
 				EC8330DC1BA2C3E100E0F4CB /* TFCStations.swift in Sources */,
 				EC8330C11BA2C01D00E0F4CB /* TFCStation.swift in Sources */,
+				ECCDE4961BA761A000C1D2D1 /* TFCDataStore.swift in Sources */,
 				EC8330D51BA2C3A400E0F4CB /* TFCStationBase.swift in Sources */,
-				EC8330DA1BA2C3D400E0F4CB /* TFCDataStore.swift in Sources */,
+				EC8330DA1BA2C3D400E0F4CB /* TFCDataStoreBase.swift in Sources */,
 				EC8330D91BA2C3CB00E0F4CB /* extensions.swift in Sources */,
 				EC8330C01BA2C01D00E0F4CB /* TFCLocationManager.swift in Sources */,
 				EC8330D31BA2C38400E0F4CB /* TFCLocationManagerBase.swift in Sources */,
