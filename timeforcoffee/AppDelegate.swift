@@ -55,7 +55,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             if (SKTUser.currentUser().signedUpAt == nil) {
                 SKTUser.currentUser().signedUpAt = NSDate()
                 SKTUser.currentUser().addProperties(["signedUpDate" : NSDate()])
-                SKTUser.currentUser().addProperties(["language": NSLocale.preferredLanguages().first as! NSString])
+                if let lang =  NSLocale.preferredLanguages().first {
+                    SKTUser.currentUser().addProperties(["language": lang])
+                }
                 if (userdefaults?.objectForKey("favorites2") != nil) {
                     SKTUser.currentUser().addProperties(["usedFavorites": true])
                 } else {
