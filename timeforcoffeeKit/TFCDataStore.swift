@@ -156,10 +156,10 @@ public class TFCDataStore: NSObject, WCSessionDelegate {
     @available(iOSApplicationExtension 9.0, *)
     private func sendAllData() {
         if let allData = userDefaults?.dictionaryRepresentation() {
-            // only send allData if the last request was longer than 10 minutes ago
+            // only send allData if the last request was longer than 1 minute ago
             // This prevents multiple data sends, when requests for it pile up in the queue
             let lastRequest = self.lastRequestForAllData()
-            if (lastRequest == nil || lastRequest < -(10 * 60)) {
+            if (lastRequest == nil || lastRequest < -60) {
                 TFCDataStore.sharedInstance.getUserDefaults()?.setObject(NSDate(), forKey: "lastRequestForAllDataToBeSent")
                 for (myKey, myValue) in allData {
                     // only send key starting with favorite
