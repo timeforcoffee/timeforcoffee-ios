@@ -19,6 +19,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     var active = false
     var appeared = false
     var userActivity: [String:String]?
+
     @IBOutlet weak var infoGroup: WKInterfaceGroup!
     @IBOutlet weak var infoLabel: WKInterfaceLabel!
 
@@ -48,6 +49,10 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             self.pageNumber = c.pageNumber
         }
 
+    }
+
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "TFCWatchkitSelectStation", object: nil)
     }
 
     private func getStation() {
