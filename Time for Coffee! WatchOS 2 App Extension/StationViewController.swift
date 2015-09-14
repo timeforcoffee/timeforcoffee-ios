@@ -19,7 +19,6 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     var active = false
     var appeared = false
     var userActivity: [String:String]?
-    var titleString:String?
     @IBOutlet weak var infoGroup: WKInterfaceGroup!
     @IBOutlet weak var infoLabel: WKInterfaceLabel!
 
@@ -105,11 +104,11 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             getStation()
             return
         }
-        let title = station?.getName(true)
-        if (title != self.titleString) {
-            self.setTitle(station?.getName(true))
-            self.titleString = title
+
+        if let title = station?.getName(true) {
+            self.setTitle(title)
         }
+
         if (self.initTable == true) {
             stationsTable.setNumberOfRows(10, withRowType: "station")
             self.numberOfRows = 10
