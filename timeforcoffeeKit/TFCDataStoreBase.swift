@@ -148,6 +148,8 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate {
                 if let key = myValue as? String {
                     self.removeObjectForKey(key, withWCTransfer: false)
                 }
+            } else if (myKey == "__allDataResponseSent__") {
+                self.userDefaults?.setBool(true, forKey: "allDataResponseSent")
             } else {
                 self.setObject(myValue, forKey: myKey, withWCTransfer: false)
             }
@@ -169,6 +171,10 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate {
                         WCSession.defaultSession().transferUserInfo(applicationDict)
                     }
                 }
+                // this is so that we can check, if an allData request was sent to the watch
+                //  until this is done, the watch will keep asking for it
+                //  This is to avoid haveing no favourites on the watch to start with
+                WCSession.defaultSession().transferUserInfo(["__allDataResponseSent__": true])
             }
         }
     }

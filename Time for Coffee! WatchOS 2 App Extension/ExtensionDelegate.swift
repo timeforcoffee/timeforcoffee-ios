@@ -19,9 +19,12 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 I'm not sure, how reliable the WatchConnectivity is and if never
                 gets a message lost, so let's sync every 24 hours. Shouldn't be
                 that much data anyway
+            
+                Or if we never did get a allDataResponse, do it every time until we get one.
             */
             let lastRequest = self.lastRequestForAllData()
-            if (lastRequest == nil || lastRequest < -(24 * 60 * 60)) {
+            let allDataResponseSent = TFCDataStore.sharedInstance.getUserDefaults()?.boolForKey("allDataResponseSent")
+            if (allDataResponseSent != true || lastRequest == nil || lastRequest < -(24 * 60 * 60)) {
                 TFCDataStore.sharedInstance.requestAllDataFromPhone()
                 TFCDataStore.sharedInstance.getUserDefaults()?.setObject(NSDate(), forKey: "lastRequestForAllData")
             }
