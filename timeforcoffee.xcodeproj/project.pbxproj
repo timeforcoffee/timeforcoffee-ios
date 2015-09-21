@@ -788,7 +788,7 @@
 					};
 					EC4344B91AA5080A009438C7 = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = 6EMM22S2YK;
+						DevelopmentTeam = DN76797UYF;
 					};
 					EC6EDCEE1A9B9F390098CAE0 = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -804,7 +804,7 @@
 					};
 					EC6EDD2C1A9BA36F0098CAE0 = {
 						CreatedOnToolsVersion = 6.1.1;
-						DevelopmentTeam = 6EMM22S2YK;
+						DevelopmentTeam = DN76797UYF;
 					};
 					EC7A517219C427CA000F5E7C = {
 						CreatedOnToolsVersion = 6.0;
