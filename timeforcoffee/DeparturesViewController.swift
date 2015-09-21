@@ -259,45 +259,52 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
     }
 
     func drawStationAndWay() {
-        self.destinationPlacemark = MKPlacemark(coordinate: (station?.coord?.coordinate)!, addressDictionary: nil)
-        self.mapView.addAnnotation(destinationPlacemark!)
-        self.mapView.showsUserLocation = true
+        
+        mapView.removeAnnotations(mapView.annotations)
 
-        let currentLocation = TFCLocationManager.getCurrentLocation()
-        let currentCoordinate = currentLocation?.coordinate
-
-        if (currentCoordinate == nil || station?.getDistanceInMeter(currentLocation) >= 5000) {
-            return
+        if let stationCoordinate = station?.coord?.coordinate, let stationName = station?.name, let stationDistance = distanceLabel.text {
+            
+            let annotation = StationAnnotation(title: stationName, distance: stationDistance, coordinate: stationCoordinate)
+            mapView.addAnnotation(annotation)
+            destinationPlacemark = MKPlacemark(coordinate: annotation.coordinate, addressDictionary: nil)
+            self.mapView.showsUserLocation = true
+            
+            let currentLocation = TFCLocationManager.getCurrentLocation()
+            let currentCoordinate = currentLocation?.coordinate
+            
+            if (currentCoordinate == nil || station?.getDistanceInMeter(currentLocation) >= 5000) {
+                return
+            }
+            let sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
+            
+            let sourceMapItem = MKMapItem(placemark: sourcePlacemark)
+            let destinationMapItem = MKMapItem(placemark: destinationPlacemark!)
+            let directionRequest:MKDirectionsRequest = MKDirectionsRequest()
+            
+            directionRequest.source = sourceMapItem
+            directionRequest.destination = destinationMapItem
+            directionRequest.transportType = MKDirectionsTransportType.Walking
+            directionRequest.requestsAlternateRoutes = false
+            
+            let directions:MKDirections = MKDirections(request: directionRequest)
+            
+            directions.calculateDirectionsWithCompletionHandler({
+                (response: MKDirectionsResponse?, error: NSError?) in
+                if error != nil{
+                    NSLog("Error")
+                }
+                if response != nil{
+                    //                for r in response.routes { NSLog("route = \(r)") }
+                    let route: MKRoute = response!.routes[0] as MKRoute;
+                    self.mapDirectionOverlay = route.polyline
+                    self.mapView.addOverlay(self.mapDirectionOverlay!)
+                }
+                else{
+                    NSLog("No response")
+                }
+                print(error?.description)
+            })
         }
-        let sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
-
-        let sourceMapItem = MKMapItem(placemark: sourcePlacemark)
-        let destinationMapItem = MKMapItem(placemark: destinationPlacemark!)
-        let directionRequest:MKDirectionsRequest = MKDirectionsRequest()
-
-        directionRequest.source = sourceMapItem
-        directionRequest.destination = destinationMapItem
-        directionRequest.transportType = MKDirectionsTransportType.Walking
-        directionRequest.requestsAlternateRoutes = false
-
-        let directions:MKDirections = MKDirections(request: directionRequest)
-
-        directions.calculateDirectionsWithCompletionHandler({
-            (response: MKDirectionsResponse?, error: NSError?) in
-            if error != nil{
-                NSLog("Error")
-            }
-            if response != nil{
-//                for r in response.routes { NSLog("route = \(r)") }
-                let route: MKRoute = response!.routes[0] as MKRoute;
-                self.mapDirectionOverlay = route.polyline
-                self.mapView.addOverlay(self.mapDirectionOverlay!)
-            }
-            else{
-                NSLog("No response")
-            }
-            print(error?.description)
-        })
     }
 
     func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
@@ -322,6 +329,12 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         if (annotationView == nil) {
             annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
         }
+        
+        annotationView?.canShowCallout = true
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        let buttonImage = UIImage(named: "Walking")
+        button.setImage(buttonImage, forState: UIControlState.Normal)
+        annotationView?.leftCalloutAccessoryView = button
 
         annotationView!.image = getIconViewAsImage(self.stationIconView)
         annotationView!.opaque = false
@@ -332,6 +345,18 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         return annotationView;
 
     }
+    
+    // Launch Maps app when the left accessory button is tapped
+    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        if let stationAnnotation = view.annotation as? StationAnnotation {
+            if control == view.leftCalloutAccessoryView {
+                let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeWalking]
+                stationAnnotation.mapItem().openInMapsWithLaunchOptions(launchOptions)
+                mapView.deselectAnnotation(view.annotation, animated: false)
+            }
+        }
+    }
+    
     func moveMapViewDown(velocity: Double?) {
         let height = UIScreen.mainScreen().bounds.size.height
         self.releaseToViewLabel.hidden = true
@@ -744,4 +769,5 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
     }
     
 
+    
 }

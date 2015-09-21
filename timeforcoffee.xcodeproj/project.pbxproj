@@ -112,6 +112,7 @@
 		ECEA097A1AA596EF007827AD /* launchicon.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0A30EB1AA344100043B8F8 /* launchicon.png */; };
 		ECEA2F0B1B33171400117F0F /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECEA2F091B33171400117F0F /* Fabric.framework */; };
 		ECEA2F0C1B33171400117F0F /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECEA2F0A1B33171400117F0F /* Crashlytics.framework */; };
+		F6DF9D041BB0458200BC5E5D /* StationAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DF9D031BB0458200BC5E5D /* StationAnnotation.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -298,6 +299,7 @@
 		ECEA2F091B33171400117F0F /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		ECEA2F0A1B33171400117F0F /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		ECF100AE1A9DBDAF00056510 /* Time for Coffee!.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Time for Coffee!.entitlements"; sourceTree = "<group>"; };
+		F6DF9D031BB0458200BC5E5D /* StationAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationAnnotation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -615,6 +617,7 @@
 				EC4A37261AC0811D005D7546 /* LaunchScreen.xib */,
 				EC6B1FB71AC152FF0070783C /* AboutPagedViewController.swift */,
 				EC7B49D31ADABAA000C79588 /* TFCNavigationController.swift */,
+				F6DF9D031BB0458200BC5E5D /* StationAnnotation.swift */,
 				EC6CD8DC1AC17C57002488DC /* About.html */,
 				EC7A517F19C427CA000F5E7C /* Images.xcassets */,
 				EC7A517619C427CA000F5E7C /* Supporting Files */,
@@ -1046,6 +1049,7 @@
 				31979D751AB5BC7B00525165 /* DepartureLineLabel.swift in Sources */,
 				EC0DD8D11AAF1B5F0089A207 /* StationsSearchViewController.swift in Sources */,
 				EC6B1FB81AC152FF0070783C /* AboutPagedViewController.swift in Sources */,
+				F6DF9D041BB0458200BC5E5D /* StationAnnotation.swift in Sources */,
 				EC7A517919C427CA000F5E7C /* AppDelegate.swift in Sources */,
 				314AFBD41AA766DC00C176FE /* StationTableViewCell.swift in Sources */,
 				ECDAB3A61AAA42A300EB352B /* PagedStationsViewController.swift in Sources */,
