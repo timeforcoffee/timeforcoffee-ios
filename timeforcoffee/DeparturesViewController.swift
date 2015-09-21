@@ -332,7 +332,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         
         annotationView?.canShowCallout = true
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-        let buttonImage = UIImage(named: "walking")
+        let buttonImage = UIImage(named: "Walking")
         button.setImage(buttonImage, forState: UIControlState.Normal)
         annotationView?.leftCalloutAccessoryView = button
 
