@@ -399,8 +399,8 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         self.topBarHeight.constant = height
         let maxDuration = 0.5
         var duration: NSTimeInterval = maxDuration
-        if (velocity != nil) {
-            duration = min(maxDuration, 600.0 / abs(velocity!))
+        if let velo = velocity {
+            duration = min(maxDuration, 600.0 / abs(velo))
         }
         self.mapView.userInteractionEnabled = false
         NSLayoutConstraint.deactivateConstraints([self.topBarBottomSpace])
@@ -413,9 +413,11 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
                 self.mapOnBottom = false
                 return
             }, completion: { (finished:Bool) in
-                if (self.destinationPlacemark != nil) {
-                    self.mapView.removeAnnotation(self.destinationPlacemark!)
-                    self.mapView.removeOverlay(self.mapDirectionOverlay!)
+                if let destinationPlacemark2 = self.destinationPlacemark {
+                    self.mapView.removeAnnotation(destinationPlacemark2)
+                    if let mapDirectionOverlay2 = self.mapDirectionOverlay {
+                        self.mapView.removeOverlay(mapDirectionOverlay2)
+                    }
                     self.mapView.showsUserLocation = false
                     self.destinationPlacemark = nil
                 }
