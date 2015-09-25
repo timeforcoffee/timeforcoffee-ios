@@ -4,15 +4,75 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Glance - Time for Coffee! WatchOS 2 App.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>5</integer>
+		</dict>
+		<key>Notification - Time for Coffee! WatchOS 2 App.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>4</integer>
+		</dict>
+		<key>Time for Coffee! WatchOS 2 App.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
+		<key>timeforcoffeKit.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+		<key>timeforcoffee Widget.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
 		<key>timeforcoffee.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>timeforcoffeeKit.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>7</integer>
+		</dict>
+		<key>timeforcoffeeWatchKit.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>6</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>EC46C4DA1BB5C69800F2A963</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EC46C4F61BB5C6E000F2A963</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EC46C5071BB5C71100F2A963</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EC46C51B1BB5C78A00F2A963</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EC46C5451BB5C7FD00F2A963</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EC46C5581BB5C82800F2A963</key>
 		<dict>
 			<key>primary</key>
 			<true/>
