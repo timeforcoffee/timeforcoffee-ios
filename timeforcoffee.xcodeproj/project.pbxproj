@@ -9,11 +9,8 @@
 /* Begin PBXBuildFile section */
 		E479BE31D82E625238C78115 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B61A0764380F93D8793B8C0 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		EC46C4DF1BB5C69800F2A963 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC46C4DE1BB5C69800F2A963 /* AppDelegate.swift */; };
-		EC46C4E11BB5C69800F2A963 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC46C4E01BB5C69800F2A963 /* MasterViewController.swift */; };
-		EC46C4E31BB5C69800F2A963 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC46C4E21BB5C69800F2A963 /* DetailViewController.swift */; };
 		EC46C4E61BB5C69800F2A963 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC46C4E41BB5C69800F2A963 /* Main.storyboard */; };
 		EC46C4E81BB5C69800F2A963 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC46C4E71BB5C69800F2A963 /* Assets.xcassets */; };
-		EC46C4EB1BB5C69800F2A963 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC46C4E91BB5C69800F2A963 /* LaunchScreen.storyboard */; };
 		EC46C50B1BB5C71100F2A963 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC46C50A1BB5C71100F2A963 /* NotificationCenter.framework */; settings = {ASSET_TAGS = (); }; };
 		EC46C50E1BB5C71100F2A963 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC46C50D1BB5C71100F2A963 /* TodayViewController.swift */; };
 		EC46C5111BB5C71100F2A963 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC46C50F1BB5C71100F2A963 /* MainInterface.storyboard */; };
@@ -32,6 +29,45 @@
 		EC46C55C1BB5C82800F2A963 /* timeforcoffeeKit.h in Headers */ = {isa = PBXBuildFile; fileRef = EC46C55B1BB5C82800F2A963 /* timeforcoffeeKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EC46C5601BB5C82800F2A963 /* timeforcoffeeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC46C5591BB5C82800F2A963 /* timeforcoffeeKit.framework */; };
 		EC46C5611BB5C82800F2A963 /* timeforcoffeeKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EC46C5591BB5C82800F2A963 /* timeforcoffeeKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EC9BCAFA1BB5CB7700623F1A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC9BCAF81BB5CB7700623F1A /* LaunchScreen.xib */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB0A1BB5CC3500623F1A /* About.html in Resources */ = {isa = PBXBuildFile; fileRef = EC9BCAFB1BB5CC3500623F1A /* About.html */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB0B1BB5CC3500623F1A /* AboutPagedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCAFC1BB5CC3500623F1A /* AboutPagedViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB0C1BB5CC3500623F1A /* DepartureLineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCAFD1BB5CC3500623F1A /* DepartureLineLabel.swift */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB0D1BB5CC3500623F1A /* DeparturesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCAFE1BB5CC3500623F1A /* DeparturesViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB0E1BB5CC3500623F1A /* PagedStationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCAFF1BB5CC3500623F1A /* PagedStationsViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB0F1BB5CC3500623F1A /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB001BB5CC3500623F1A /* SettingsViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB101BB5CC3500623F1A /* StationAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB011BB5CC3500623F1A /* StationAnnotation.swift */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB111BB5CC3500623F1A /* StationsSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB021BB5CC3500623F1A /* StationsSearchViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB121BB5CC3500623F1A /* StationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB031BB5CC3500623F1A /* StationsViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB131BB5CC3500623F1A /* StationTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB041BB5CC3500623F1A /* StationTableView.swift */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB141BB5CC3500623F1A /* StationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB051BB5CC3500623F1A /* StationTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB151BB5CC3500623F1A /* StationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC9BCB061BB5CC3500623F1A /* StationTableViewCell.xib */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB161BB5CC3500623F1A /* TFCNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB071BB5CC3500623F1A /* TFCNavigationController.swift */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB171BB5CC3500623F1A /* Time for Coffee!.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = EC9BCB081BB5CC3500623F1A /* Time for Coffee!.entitlements */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB291BB5CCD300623F1A /* APIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB181BB5CCD300623F1A /* APIController.swift */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB2A1BB5CCD300623F1A /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB191BB5CCD300623F1A /* extensions.swift */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB2B1BB5CCD300623F1A /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB1A1BB5CCD300623F1A /* SwiftyJSON.swift */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB2C1BB5CCD300623F1A /* TFCBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB1B1BB5CCD300623F1A /* TFCBaseViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB2D1BB5CCD300623F1A /* TFCCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB1C1BB5CCD300623F1A /* TFCCache.swift */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB2E1BB5CCD300623F1A /* TFCDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB1D1BB5CCD300623F1A /* TFCDataStore.swift */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB2F1BB5CCD300623F1A /* TFCDataStoreBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB1E1BB5CCD300623F1A /* TFCDataStoreBase.swift */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB301BB5CCD300623F1A /* TFCDeparture.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB1F1BB5CCD300623F1A /* TFCDeparture.swift */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB311BB5CCD300623F1A /* TFCFavorites.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB201BB5CCD300623F1A /* TFCFavorites.swift */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB321BB5CCD300623F1A /* TFCLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB211BB5CCD300623F1A /* TFCLocationManager.swift */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB331BB5CCD300623F1A /* TFCLocationManagerBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB221BB5CCD300623F1A /* TFCLocationManagerBase.swift */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB341BB5CCD300623F1A /* TFCStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB231BB5CCD300623F1A /* TFCStation.swift */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB351BB5CCD300623F1A /* TFCStationBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB241BB5CCD300623F1A /* TFCStationBase.swift */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB361BB5CCD300623F1A /* TFCStations.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB251BB5CCD300623F1A /* TFCStations.swift */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB371BB5CCD300623F1A /* TFCURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB261BB5CCD300623F1A /* TFCURLSession.swift */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB381BB5CCD300623F1A /* TFCWatchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB271BB5CCD300623F1A /* TFCWatchData.swift */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB391BB5CCD300623F1A /* timeforcoffeeKit-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = EC9BCB281BB5CCD300623F1A /* timeforcoffeeKit-Bridging-Header.h */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB421BB5CD4D00623F1A /* Nullability.h in Headers */ = {isa = PBXBuildFile; fileRef = EC9BCB3B1BB5CD4D00623F1A /* Nullability.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EC9BCB431BB5CD4D00623F1A /* PINCache.h in Headers */ = {isa = PBXBuildFile; fileRef = EC9BCB3C1BB5CD4D00623F1A /* PINCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EC9BCB441BB5CD4D00623F1A /* PINCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB3D1BB5CD4D00623F1A /* PINCache.m */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB451BB5CD4D00623F1A /* PINDiskCache.h in Headers */ = {isa = PBXBuildFile; fileRef = EC9BCB3E1BB5CD4D00623F1A /* PINDiskCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EC9BCB461BB5CD4D00623F1A /* PINDiskCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB3F1BB5CD4D00623F1A /* PINDiskCache.m */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB471BB5CD4D00623F1A /* PINMemoryCache.h in Headers */ = {isa = PBXBuildFile; fileRef = EC9BCB401BB5CD4D00623F1A /* PINMemoryCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EC9BCB481BB5CD4D00623F1A /* PINMemoryCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB411BB5CD4D00623F1A /* PINMemoryCache.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -136,11 +172,8 @@
 		C0B6931A87875286CA995428 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		EC46C4DB1BB5C69800F2A963 /* timeforcoffee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = timeforcoffee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC46C4DE1BB5C69800F2A963 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		EC46C4E01BB5C69800F2A963 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
-		EC46C4E21BB5C69800F2A963 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		EC46C4E51BB5C69800F2A963 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EC46C4E71BB5C69800F2A963 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		EC46C4EA1BB5C69800F2A963 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EC46C4EC1BB5C69800F2A963 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC46C5081BB5C71100F2A963 /* timeforcoffee Widget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "timeforcoffee Widget.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC46C50A1BB5C71100F2A963 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
@@ -163,6 +196,46 @@
 		EC46C5591BB5C82800F2A963 /* timeforcoffeeKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = timeforcoffeeKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC46C55B1BB5C82800F2A963 /* timeforcoffeeKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = timeforcoffeeKit.h; sourceTree = "<group>"; };
 		EC46C55D1BB5C82800F2A963 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EC9BCAF91BB5CB7700623F1A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		EC9BCAFB1BB5CC3500623F1A /* About.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = About.html; sourceTree = "<group>"; };
+		EC9BCAFC1BB5CC3500623F1A /* AboutPagedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutPagedViewController.swift; sourceTree = "<group>"; };
+		EC9BCAFD1BB5CC3500623F1A /* DepartureLineLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DepartureLineLabel.swift; sourceTree = "<group>"; };
+		EC9BCAFE1BB5CC3500623F1A /* DeparturesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeparturesViewController.swift; sourceTree = "<group>"; };
+		EC9BCAFF1BB5CC3500623F1A /* PagedStationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagedStationsViewController.swift; sourceTree = "<group>"; };
+		EC9BCB001BB5CC3500623F1A /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		EC9BCB011BB5CC3500623F1A /* StationAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationAnnotation.swift; sourceTree = "<group>"; };
+		EC9BCB021BB5CC3500623F1A /* StationsSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationsSearchViewController.swift; sourceTree = "<group>"; };
+		EC9BCB031BB5CC3500623F1A /* StationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationsViewController.swift; sourceTree = "<group>"; };
+		EC9BCB041BB5CC3500623F1A /* StationTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationTableView.swift; sourceTree = "<group>"; };
+		EC9BCB051BB5CC3500623F1A /* StationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationTableViewCell.swift; sourceTree = "<group>"; };
+		EC9BCB061BB5CC3500623F1A /* StationTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StationTableViewCell.xib; sourceTree = "<group>"; };
+		EC9BCB071BB5CC3500623F1A /* TFCNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCNavigationController.swift; sourceTree = "<group>"; };
+		EC9BCB081BB5CC3500623F1A /* Time for Coffee!.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Time for Coffee!.entitlements"; sourceTree = "<group>"; };
+		EC9BCB091BB5CC3500623F1A /* timeforcoffee-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "timeforcoffee-Bridging-Header.h"; sourceTree = "<group>"; };
+		EC9BCB181BB5CCD300623F1A /* APIController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIController.swift; sourceTree = "<group>"; };
+		EC9BCB191BB5CCD300623F1A /* extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
+		EC9BCB1A1BB5CCD300623F1A /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
+		EC9BCB1B1BB5CCD300623F1A /* TFCBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCBaseViewController.swift; sourceTree = "<group>"; };
+		EC9BCB1C1BB5CCD300623F1A /* TFCCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCCache.swift; sourceTree = "<group>"; };
+		EC9BCB1D1BB5CCD300623F1A /* TFCDataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCDataStore.swift; sourceTree = "<group>"; };
+		EC9BCB1E1BB5CCD300623F1A /* TFCDataStoreBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCDataStoreBase.swift; sourceTree = "<group>"; };
+		EC9BCB1F1BB5CCD300623F1A /* TFCDeparture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCDeparture.swift; sourceTree = "<group>"; };
+		EC9BCB201BB5CCD300623F1A /* TFCFavorites.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCFavorites.swift; sourceTree = "<group>"; };
+		EC9BCB211BB5CCD300623F1A /* TFCLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCLocationManager.swift; sourceTree = "<group>"; };
+		EC9BCB221BB5CCD300623F1A /* TFCLocationManagerBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCLocationManagerBase.swift; sourceTree = "<group>"; };
+		EC9BCB231BB5CCD300623F1A /* TFCStation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCStation.swift; sourceTree = "<group>"; };
+		EC9BCB241BB5CCD300623F1A /* TFCStationBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCStationBase.swift; sourceTree = "<group>"; };
+		EC9BCB251BB5CCD300623F1A /* TFCStations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCStations.swift; sourceTree = "<group>"; };
+		EC9BCB261BB5CCD300623F1A /* TFCURLSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCURLSession.swift; sourceTree = "<group>"; };
+		EC9BCB271BB5CCD300623F1A /* TFCWatchData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCWatchData.swift; sourceTree = "<group>"; };
+		EC9BCB281BB5CCD300623F1A /* timeforcoffeeKit-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "timeforcoffeeKit-Bridging-Header.h"; sourceTree = "<group>"; };
+		EC9BCB3B1BB5CD4D00623F1A /* Nullability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Nullability.h; sourceTree = "<group>"; };
+		EC9BCB3C1BB5CD4D00623F1A /* PINCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PINCache.h; sourceTree = "<group>"; };
+		EC9BCB3D1BB5CD4D00623F1A /* PINCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PINCache.m; sourceTree = "<group>"; };
+		EC9BCB3E1BB5CD4D00623F1A /* PINDiskCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PINDiskCache.h; sourceTree = "<group>"; };
+		EC9BCB3F1BB5CD4D00623F1A /* PINDiskCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PINDiskCache.m; sourceTree = "<group>"; };
+		EC9BCB401BB5CD4D00623F1A /* PINMemoryCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PINMemoryCache.h; sourceTree = "<group>"; };
+		EC9BCB411BB5CD4D00623F1A /* PINMemoryCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PINMemoryCache.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -256,11 +329,24 @@
 			isa = PBXGroup;
 			children = (
 				EC46C4DE1BB5C69800F2A963 /* AppDelegate.swift */,
-				EC46C4E01BB5C69800F2A963 /* MasterViewController.swift */,
-				EC46C4E21BB5C69800F2A963 /* DetailViewController.swift */,
 				EC46C4E41BB5C69800F2A963 /* Main.storyboard */,
 				EC46C4E71BB5C69800F2A963 /* Assets.xcassets */,
-				EC46C4E91BB5C69800F2A963 /* LaunchScreen.storyboard */,
+				EC9BCAF81BB5CB7700623F1A /* LaunchScreen.xib */,
+				EC9BCAFB1BB5CC3500623F1A /* About.html */,
+				EC9BCAFC1BB5CC3500623F1A /* AboutPagedViewController.swift */,
+				EC9BCAFD1BB5CC3500623F1A /* DepartureLineLabel.swift */,
+				EC9BCAFE1BB5CC3500623F1A /* DeparturesViewController.swift */,
+				EC9BCAFF1BB5CC3500623F1A /* PagedStationsViewController.swift */,
+				EC9BCB001BB5CC3500623F1A /* SettingsViewController.swift */,
+				EC9BCB011BB5CC3500623F1A /* StationAnnotation.swift */,
+				EC9BCB021BB5CC3500623F1A /* StationsSearchViewController.swift */,
+				EC9BCB031BB5CC3500623F1A /* StationsViewController.swift */,
+				EC9BCB041BB5CC3500623F1A /* StationTableView.swift */,
+				EC9BCB051BB5CC3500623F1A /* StationTableViewCell.swift */,
+				EC9BCB061BB5CC3500623F1A /* StationTableViewCell.xib */,
+				EC9BCB071BB5CC3500623F1A /* TFCNavigationController.swift */,
+				EC9BCB081BB5CC3500623F1A /* Time for Coffee!.entitlements */,
+				EC9BCB091BB5CC3500623F1A /* timeforcoffee-Bridging-Header.h */,
 				EC46C4EC1BB5C69800F2A963 /* Info.plist */,
 			);
 			path = timeforcoffee;
@@ -319,10 +405,42 @@
 		EC46C55A1BB5C82800F2A963 /* timeforcoffeeKit */ = {
 			isa = PBXGroup;
 			children = (
+				EC9BCB181BB5CCD300623F1A /* APIController.swift */,
+				EC9BCB191BB5CCD300623F1A /* extensions.swift */,
+				EC9BCB1A1BB5CCD300623F1A /* SwiftyJSON.swift */,
+				EC9BCB1B1BB5CCD300623F1A /* TFCBaseViewController.swift */,
+				EC9BCB1C1BB5CCD300623F1A /* TFCCache.swift */,
+				EC9BCB1D1BB5CCD300623F1A /* TFCDataStore.swift */,
+				EC9BCB1E1BB5CCD300623F1A /* TFCDataStoreBase.swift */,
+				EC9BCB3A1BB5CD4D00623F1A /* PINCache */,
+				EC9BCB1F1BB5CCD300623F1A /* TFCDeparture.swift */,
+				EC9BCB201BB5CCD300623F1A /* TFCFavorites.swift */,
+				EC9BCB211BB5CCD300623F1A /* TFCLocationManager.swift */,
+				EC9BCB221BB5CCD300623F1A /* TFCLocationManagerBase.swift */,
+				EC9BCB231BB5CCD300623F1A /* TFCStation.swift */,
+				EC9BCB241BB5CCD300623F1A /* TFCStationBase.swift */,
+				EC9BCB251BB5CCD300623F1A /* TFCStations.swift */,
+				EC9BCB261BB5CCD300623F1A /* TFCURLSession.swift */,
+				EC9BCB271BB5CCD300623F1A /* TFCWatchData.swift */,
+				EC9BCB281BB5CCD300623F1A /* timeforcoffeeKit-Bridging-Header.h */,
 				EC46C55B1BB5C82800F2A963 /* timeforcoffeeKit.h */,
 				EC46C55D1BB5C82800F2A963 /* Info.plist */,
 			);
 			path = timeforcoffeeKit;
+			sourceTree = "<group>";
+		};
+		EC9BCB3A1BB5CD4D00623F1A /* PINCache */ = {
+			isa = PBXGroup;
+			children = (
+				EC9BCB3B1BB5CD4D00623F1A /* Nullability.h */,
+				EC9BCB3C1BB5CD4D00623F1A /* PINCache.h */,
+				EC9BCB3D1BB5CD4D00623F1A /* PINCache.m */,
+				EC9BCB3E1BB5CD4D00623F1A /* PINDiskCache.h */,
+				EC9BCB3F1BB5CD4D00623F1A /* PINDiskCache.m */,
+				EC9BCB401BB5CD4D00623F1A /* PINMemoryCache.h */,
+				EC9BCB411BB5CD4D00623F1A /* PINMemoryCache.m */,
+			);
+			path = PINCache;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -340,7 +458,12 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC9BCB471BB5CD4D00623F1A /* PINMemoryCache.h in Headers */,
+				EC9BCB421BB5CD4D00623F1A /* Nullability.h in Headers */,
 				EC46C55C1BB5C82800F2A963 /* timeforcoffeeKit.h in Headers */,
+				EC9BCB451BB5CD4D00623F1A /* PINDiskCache.h in Headers */,
+				EC9BCB391BB5CCD300623F1A /* timeforcoffeeKit-Bridging-Header.h in Headers */,
+				EC9BCB431BB5CD4D00623F1A /* PINCache.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -468,6 +591,7 @@
 		EC46C4D31BB5C69800F2A963 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = opendata.ch;
 				TargetAttributes = {
@@ -525,8 +649,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC46C4EB1BB5C69800F2A963 /* LaunchScreen.storyboard in Resources */,
+				EC9BCB0A1BB5CC3500623F1A /* About.html in Resources */,
 				EC46C4E81BB5C69800F2A963 /* Assets.xcassets in Resources */,
+				EC9BCB151BB5CC3500623F1A /* StationTableViewCell.xib in Resources */,
+				EC9BCAFA1BB5CB7700623F1A /* LaunchScreen.xib in Resources */,
+				EC9BCB171BB5CC3500623F1A /* Time for Coffee!.entitlements in Resources */,
 				EC46C4E61BB5C69800F2A963 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -610,9 +737,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC46C4E31BB5C69800F2A963 /* DetailViewController.swift in Sources */,
-				EC46C4E11BB5C69800F2A963 /* MasterViewController.swift in Sources */,
+				EC9BCB131BB5CC3500623F1A /* StationTableView.swift in Sources */,
+				EC9BCB0C1BB5CC3500623F1A /* DepartureLineLabel.swift in Sources */,
+				EC9BCB121BB5CC3500623F1A /* StationsViewController.swift in Sources */,
+				EC9BCB141BB5CC3500623F1A /* StationTableViewCell.swift in Sources */,
+				EC9BCB0B1BB5CC3500623F1A /* AboutPagedViewController.swift in Sources */,
+				EC9BCB161BB5CC3500623F1A /* TFCNavigationController.swift in Sources */,
+				EC9BCB0E1BB5CC3500623F1A /* PagedStationsViewController.swift in Sources */,
+				EC9BCB111BB5CC3500623F1A /* StationsSearchViewController.swift in Sources */,
 				EC46C4DF1BB5C69800F2A963 /* AppDelegate.swift in Sources */,
+				EC9BCB0D1BB5CC3500623F1A /* DeparturesViewController.swift in Sources */,
+				EC9BCB101BB5CC3500623F1A /* StationAnnotation.swift in Sources */,
+				EC9BCB0F1BB5CC3500623F1A /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -645,6 +781,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC9BCB321BB5CCD300623F1A /* TFCLocationManager.swift in Sources */,
+				EC9BCB2F1BB5CCD300623F1A /* TFCDataStoreBase.swift in Sources */,
+				EC9BCB341BB5CCD300623F1A /* TFCStation.swift in Sources */,
+				EC9BCB461BB5CD4D00623F1A /* PINDiskCache.m in Sources */,
+				EC9BCB2B1BB5CCD300623F1A /* SwiftyJSON.swift in Sources */,
+				EC9BCB2C1BB5CCD300623F1A /* TFCBaseViewController.swift in Sources */,
+				EC9BCB311BB5CCD300623F1A /* TFCFavorites.swift in Sources */,
+				EC9BCB481BB5CD4D00623F1A /* PINMemoryCache.m in Sources */,
+				EC9BCB291BB5CCD300623F1A /* APIController.swift in Sources */,
+				EC9BCB2E1BB5CCD300623F1A /* TFCDataStore.swift in Sources */,
+				EC9BCB361BB5CCD300623F1A /* TFCStations.swift in Sources */,
+				EC9BCB2D1BB5CCD300623F1A /* TFCCache.swift in Sources */,
+				EC9BCB301BB5CCD300623F1A /* TFCDeparture.swift in Sources */,
+				EC9BCB381BB5CCD300623F1A /* TFCWatchData.swift in Sources */,
+				EC9BCB441BB5CD4D00623F1A /* PINCache.m in Sources */,
+				EC9BCB331BB5CCD300623F1A /* TFCLocationManagerBase.swift in Sources */,
+				EC9BCB351BB5CCD300623F1A /* TFCStationBase.swift in Sources */,
+				EC9BCB371BB5CCD300623F1A /* TFCURLSession.swift in Sources */,
+				EC9BCB2A1BB5CCD300623F1A /* extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -687,14 +842,6 @@
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		EC46C4E91BB5C69800F2A963 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				EC46C4EA1BB5C69800F2A963 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
 		EC46C50F1BB5C71100F2A963 /* MainInterface.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -709,6 +856,14 @@
 				EC46C51F1BB5C78A00F2A963 /* Base */,
 			);
 			name = Interface.storyboard;
+			sourceTree = "<group>";
+		};
+		EC9BCAF81BB5CB7700623F1A /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EC9BCAF91BB5CB7700623F1A /* Base */,
+			);
+			name = LaunchScreen.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -963,6 +1118,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 95BFFF0BE2743D2FB45240EA /* Pods.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -975,6 +1131,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.timeforcoffeeKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -984,6 +1141,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C0B6931A87875286CA995428 /* Pods.release.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;

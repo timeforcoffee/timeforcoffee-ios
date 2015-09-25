@@ -2,24 +2,81 @@
 //  AppDelegate.swift
 //  timeforcoffee
 //
-//  Created by Christian Stocker on 25.09.15.
-//  Copyright © 2015 opendata.ch. All rights reserved.
+//  Created by Christian Stocker on 13.09.14.
+//  Copyright (c) 2014 Christian Stocker. All rights reserved.
 //
 
 import UIKit
+import timeforcoffeeKit
+import CoreLocation
+//import Fabric
+//import Crashlytics
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate {
+final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var watchData: TFCWatchData?
+
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
-        let splitViewController = self.window!.rootViewController as! UISplitViewController
-        let navigationController = splitViewController.viewControllers[splitViewController.viewControllers.count-1] as! UINavigationController
-        navigationController.topViewController!.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem()
-        splitViewController.delegate = self
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
+            TFCDataStore.sharedInstance.registerForNotifications()
+            TFCDataStore.sharedInstance.synchronize()
+            TFCDataStore.sharedInstance.registerWatchConnectivity()
+        }
+
+        let gtracker = GAI.sharedInstance()
+        gtracker.trackUncaughtExceptions = true
+        gtracker.dispatchInterval = 20;
+        //GAI.sharedInstance().logger.logLevel = GAILogLevel.Verbose
+        gtracker.trackerWithTrackingId("UA-37092982-2")
+        #if !((arch(i386) || arch(x86_64)) && os(iOS))
+       // Fabric.with([Crashlytics()])
+        #endif
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
+            #if !((arch(i386) || arch(x86_64)) && os(iOS))
+            let settings = SKTSettings(appToken: "7n3aaqyp9fr5kr7y1wjssd231")
+            settings.knowledgeBaseURL = "https://timeforcoffee.zendesk.com"
+            SupportKit.initWithSettings(settings)
+            #endif
+            let userdefaults = TFCDataStore.sharedInstance.getUserDefaults()
+            let lastusedTodayScreen: NSDate? = userdefaults?.objectForKey("lastUsedViewUpdate") as! NSDate?
+            var recommendations: [String] = []
+            recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202701502-How-to-use-the-favourite-station-feature-")
+            recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202701512-Can-I-exclude-some-destinations-from-a-station-")
+            recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202775921-Is-there-a-map-view-somewhere-")
+            recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202772511-Who-is-behind-Time-for-Coffee-")
+
+            if (lastusedTodayScreen != nil) {
+                SKTUser.currentUser().addProperties(["usedTodayScreen": true])
+            }
+            if (SKTUser.currentUser().signedUpAt == nil) {
+                SKTUser.currentUser().signedUpAt = NSDate()
+                SKTUser.currentUser().addProperties(["signedUpDate" : NSDate()])
+                if let lang =  NSLocale.preferredLanguages().first {
+                    SKTUser.currentUser().addProperties(["language": lang])
+                }
+                if (userdefaults?.objectForKey("favorites2") != nil) {
+                    SKTUser.currentUser().addProperties(["usedFavorites": true])
+                } else {
+                    SKTUser.currentUser().addProperties(["usedFavorites": false])
+                }
+                if (lastusedTodayScreen != nil) {
+                    SKTUser.currentUser().addProperties(["lastUsedTodayScreen": lastusedTodayScreen!])
+                    SKTUser.currentUser().addProperties(["usedTodayScreen": true])
+                } else {
+                    SKTUser.currentUser().addProperties(["usedTodayScreen": false])
+                }
+            }
+
+            SupportKit.setDefaultRecommendations(recommendations)
+            if (lastusedTodayScreen == nil) {
+                SupportKit.setTopRecommendation("https://timeforcoffee.zendesk.com/hc/en-us/articles/202698032-How-to-add-Time-for-Coffee-to-the-Today-Screen-")
+
+            }
+        }
         return true
     }
 
@@ -44,18 +101,51 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
+    
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
 
-    // MARK: - Split view
+        if (url.host == "nearby") {
+            if let rootView = self.window?.rootViewController as! UINavigationController? {
+                rootView.dismissViewControllerAnimated(false, completion: nil)
+                rootView.popToRootViewControllerAnimated(false)
+                if let pagedView:PagedStationsViewController = rootView.viewControllers.first as! PagedStationsViewController? {
+                    pagedView.moveToNearbyStations()
+                }
+            }
 
-    func splitViewController(splitViewController: UISplitViewController, collapseSecondaryViewController secondaryViewController:UIViewController, ontoPrimaryViewController primaryViewController:UIViewController) -> Bool {
-        guard let secondaryAsNavController = secondaryViewController as? UINavigationController else { return false }
-        guard let topAsDetailController = secondaryAsNavController.topViewController as? DetailViewController else { return false }
-        if topAsDetailController.detailItem == nil {
-            // Return true to indicate that we have handled the collapse by doing nothing; the secondary controller will be discarded.
-            return true
+        } else if (url.host == "station" && url.query != nil) {
+         
+            var queryStrings = [String: String]()
+            if let query = url.query {
+                for qs in query.componentsSeparatedByString("&") {
+                    // Get the parameter name
+                    let key = qs.componentsSeparatedByString("=")[0]
+                    // Get the parameter name
+                    var value = qs.componentsSeparatedByString("=")[1]
+                    value = value.stringByReplacingOccurrencesOfString("+", withString: " ")
+                    value = value.stringByRemovingPercentEncoding!
+
+                    
+                    queryStrings[key] = value
+                }
+            }
+            if let name = queryStrings["name"] as String? {
+                var Clocation: CLLocation? = nil
+                if (queryStrings["lat"] != nil) {
+                    Clocation = CLLocation(latitude: NSString(string: queryStrings["lat"]!).doubleValue, longitude: NSString(string: queryStrings["long"]!).doubleValue)
+                }
+                let station = TFCStation.initWithCache(name, id: queryStrings["id"]!, coord: Clocation)
+       //         let stations = TFCStations()
+                let rootView = self.window?.rootViewController as! UINavigationController
+                let detailViewController = rootView.storyboard?.instantiateViewControllerWithIdentifier("DeparturesViewController") as! DeparturesViewController
+
+                rootView.dismissViewControllerAnimated(false, completion: nil)
+                rootView.popToRootViewControllerAnimated(false)
+                detailViewController.setStation(station: station)
+                rootView.pushViewController(detailViewController, animated: false)
+            }
         }
-        return false
+        return true
     }
-
 }
 
