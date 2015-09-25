@@ -184,6 +184,9 @@
 		EC46C5591BB5C82800F2A963 /* timeforcoffeeKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = timeforcoffeeKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC46C55B1BB5C82800F2A963 /* timeforcoffeeKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = timeforcoffeeKit.h; sourceTree = "<group>"; };
 		EC46C55D1BB5C82800F2A963 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EC4AB2251BB5E3F500DA9759 /* timeforcoffee.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = timeforcoffee.entitlements; sourceTree = "<group>"; };
+		EC4AB2261BB5E40200DA9759 /* timeforcoffee Widget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "timeforcoffee Widget.entitlements"; sourceTree = "<group>"; };
+		EC4AB2271BB5E41400DA9759 /* Time for Coffee! WatchOS 2 App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Time for Coffee! WatchOS 2 App.entitlements"; sourceTree = "<group>"; };
 		EC4F0C861BB5D06700CE7C24 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		EC4F0C881BB5D54B00CE7C24 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		EC9BCAF91BB5CB7700623F1A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -305,6 +308,7 @@
 		EC46C4DD1BB5C69800F2A963 /* timeforcoffee */ = {
 			isa = PBXGroup;
 			children = (
+				EC4AB2251BB5E3F500DA9759 /* timeforcoffee.entitlements */,
 				EC46C4DE1BB5C69800F2A963 /* AppDelegate.swift */,
 				EC46C4E41BB5C69800F2A963 /* Main.storyboard */,
 				EC9BCAF81BB5CB7700623F1A /* LaunchScreen.xib */,
@@ -342,6 +346,7 @@
 		EC46C50C1BB5C71100F2A963 /* timeforcoffee Widget */ = {
 			isa = PBXGroup;
 			children = (
+				EC4AB2261BB5E40200DA9759 /* timeforcoffee Widget.entitlements */,
 				EC46C50D1BB5C71100F2A963 /* TodayViewController.swift */,
 				EC46C50F1BB5C71100F2A963 /* MainInterface.storyboard */,
 				EC46C5121BB5C71100F2A963 /* Info.plist */,
@@ -352,6 +357,7 @@
 		EC46C51D1BB5C78A00F2A963 /* Time for Coffee! WatchOS 2 App */ = {
 			isa = PBXGroup;
 			children = (
+				EC4AB2271BB5E41400DA9759 /* Time for Coffee! WatchOS 2 App.entitlements */,
 				EC46C51E1BB5C78A00F2A963 /* Interface.storyboard */,
 				EC46C5211BB5C78A00F2A963 /* Assets.xcassets */,
 				EC46C5231BB5C78A00F2A963 /* Info.plist */,
@@ -576,14 +582,38 @@
 					EC46C4DA1BB5C69800F2A963 = {
 						CreatedOnToolsVersion = 7.0;
 						DevelopmentTeam = DN76797UYF;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 					EC46C5071BB5C71100F2A963 = {
 						CreatedOnToolsVersion = 7.0;
 						DevelopmentTeam = DN76797UYF;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 					EC46C51B1BB5C78A00F2A963 = {
 						CreatedOnToolsVersion = 7.0;
 						DevelopmentTeam = DN76797UYF;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					EC46C5271BB5C78A00F2A963 = {
 						CreatedOnToolsVersion = 7.0;
@@ -980,6 +1010,7 @@
 			baseConfigurationReference = 95BFFF0BE2743D2FB45240EA /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = timeforcoffee/timeforcoffee.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_BITCODE = NO;
@@ -996,6 +1027,7 @@
 			baseConfigurationReference = C0B6931A87875286CA995428 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = timeforcoffee/timeforcoffee.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_BITCODE = NO;
@@ -1010,6 +1042,7 @@
 		EC46C5171BB5C71100F2A963 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "timeforcoffee Widget/timeforcoffee Widget.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "timeforcoffee Widget/Info.plist";
@@ -1023,6 +1056,7 @@
 		EC46C5181BB5C71100F2A963 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "timeforcoffee Widget/timeforcoffee Widget.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "timeforcoffee Widget/Info.plist";
@@ -1067,6 +1101,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Time for Coffee! WatchOS 2 App/Time for Coffee! WatchOS 2 App.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				IBSC_MODULE = Time_for_Coffee__WatchOS_2_App_Extension;
 				INFOPLIST_FILE = "Time for Coffee! WatchOS 2 App/Info.plist";
@@ -1084,6 +1119,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Time for Coffee! WatchOS 2 App/Time for Coffee! WatchOS 2 App.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				IBSC_MODULE = Time_for_Coffee__WatchOS_2_App_Extension;
 				INFOPLIST_FILE = "Time for Coffee! WatchOS 2 App/Info.plist";
