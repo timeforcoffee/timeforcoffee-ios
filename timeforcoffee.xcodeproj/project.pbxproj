@@ -525,8 +525,6 @@
 			buildPhases = (
 				EC46C51A1BB5C78A00F2A963 /* Resources */,
 				EC46C53C1BB5C78A00F2A963 /* Embed App Extensions */,
-				EC46C5521BB5C7FE00F2A963 /* Frameworks */,
-				EC46C5531BB5C7FE00F2A963 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -544,7 +542,6 @@
 			buildConfigurationList = EC46C5391BB5C78A00F2A963 /* Build configuration list for PBXNativeTarget "Time for Coffee! WatchOS 2 App Extension" */;
 			buildPhases = (
 				EC46C5241BB5C78A00F2A963 /* Sources */,
-				EC46C5251BB5C78A00F2A963 /* Frameworks */,
 				EC46C5261BB5C78A00F2A963 /* Resources */,
 			);
 			buildRules = (
@@ -1095,7 +1092,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				IBSC_MODULE = Time_for_Coffee__WatchOS_2_App_Extension;
 				INFOPLIST_FILE = "Time for Coffee! WatchOS 2 App/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1113,7 +1109,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				IBSC_MODULE = Time_for_Coffee__WatchOS_2_App_Extension;
 				INFOPLIST_FILE = "Time for Coffee! WatchOS 2 App/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1129,6 +1124,7 @@
 		EC46C5501BB5C7FE00F2A963 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -1152,6 +1148,7 @@
 		EC46C5511BB5C7FE00F2A963 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -1176,6 +1173,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 95BFFF0BE2743D2FB45240EA /* Pods.debug.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
@@ -1199,6 +1197,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C0B6931A87875286CA995428 /* Pods.release.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
