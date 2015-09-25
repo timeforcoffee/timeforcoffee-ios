@@ -40,6 +40,7 @@
 		EC4AB2471BB5F4B100DA9759 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EC4AB23E1BB5F42300DA9759 /* libz.tbd */; };
 		EC4AB2481BB5F4BA00DA9759 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC4AB2441BB5F46E00DA9759 /* CoreData.framework */; };
 		EC4AB2491BB5F4C100DA9759 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC4AB2421BB5F46700DA9759 /* SystemConfiguration.framework */; };
+		EC4AB24A1BB5F5BB00DA9759 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC4F0C881BB5D54B00CE7C24 /* Images.xcassets */; settings = {ASSET_TAGS = (); }; };
 		EC4F0C871BB5D06700CE7C24 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC4F0C861BB5D06700CE7C24 /* UIKit.framework */; };
 		EC4F0C891BB5D54B00CE7C24 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC4F0C881BB5D54B00CE7C24 /* Images.xcassets */; settings = {ASSET_TAGS = (); }; };
 		EC9BCAFA1BB5CB7700623F1A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC9BCAF81BB5CB7700623F1A /* LaunchScreen.xib */; settings = {ASSET_TAGS = (); }; };
@@ -739,6 +740,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC46C5111BB5C71100F2A963 /* MainInterface.storyboard in Resources */,
+				EC4AB24A1BB5F5BB00DA9759 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
