@@ -4,6 +4,7 @@ use_frameworks!
 platform :ios, '8.0'
 
 link_with 'timeforcoffeeKit'
+link_with 'timeforcoffee Widget'
 link_with 'timeforcoffee'
 #link_with 'Time for Coffee! WatchKit Extension'
 
