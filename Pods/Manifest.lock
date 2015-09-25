@@ -1,13 +1,35 @@
 PODS:
+  - Google/Analytics (1.0.7):
+    - Google/Core
+    - GoogleAnalytics (~> 3.12)
+  - Google/Core (1.0.7):
+    - GoogleNetworkingUtilities (~> 1.0)
+    - GoogleSymbolUtilities (~> 1.0)
+    - GoogleUtilities (~> 1.0)
+  - GoogleAnalytics (3.13.0)
+  - GoogleNetworkingUtilities (1.0.0):
+    - GoogleSymbolUtilities (~> 1.0)
+  - GoogleSymbolUtilities (1.0.0)
+  - GoogleUtilities (1.1.0):
+    - GoogleSymbolUtilities (~> 1.0.0)
   - MGSwipeTableCell (1.5.1)
+  - SupportKit (2.10.2)
   - SwipeView (1.3.2)
 
 DEPENDENCIES:
+  - Google/Analytics (~> 1.0.0)
   - MGSwipeTableCell
+  - SupportKit
   - SwipeView
 
 SPEC CHECKSUMS:
+  Google: 875f5a8ade86dd02e36586e4a54814843938c7f6
+  GoogleAnalytics: fcf1f1cad57ae1a9a53520018f0f680ceeeb8b49
+  GoogleNetworkingUtilities: 292992ab31b7b4ba32809a0e8b40e324cdfb2c0c
+  GoogleSymbolUtilities: a7b0feed1fe667c8d5e647177938d0ecd62d6948
+  GoogleUtilities: 8ed9134debe11719097881711464752900668f10
   MGSwipeTableCell: a51fa670c01f0aa048f12af040acebf315223137
+  SupportKit: 7ec8dab8cdd2468a74901a7e88c647f504d265e4
   SwipeView: bd67cfaf7760c036438446b3ccb28a3b84fce009
 
 COCOAPODS: 0.38.2

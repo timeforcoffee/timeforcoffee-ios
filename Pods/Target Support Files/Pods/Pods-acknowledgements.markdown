@@ -1,6 +1,26 @@
 # Acknowledgements
 This application makes use of the following third party libraries:
 
+## Google
+
+Copyright 2015 Google Inc.
+
+## GoogleAnalytics
+
+Copyright 2015 Google Inc.
+
+## GoogleNetworkingUtilities
+
+Copyright 2015 Google Inc.
+
+## GoogleSymbolUtilities
+
+Copyright 2015 Google Inc.
+
+## GoogleUtilities
+
+Copyright 2015 Google Inc.
+
 ## MGSwipeTableCell
 
 The MIT License (MIT)
@@ -25,6 +45,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
+
+## SupportKit
+
+Radialpoint.  All rights reserved.
 
 ## SwipeView
 

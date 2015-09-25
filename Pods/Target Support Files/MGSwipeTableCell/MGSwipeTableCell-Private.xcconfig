@@ -1,5 +1,5 @@
 #include "MGSwipeTableCell.xcconfig"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/MGSwipeTableCell" "${PODS_ROOT}/Headers/Public"
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/MGSwipeTableCell" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/Google" "${PODS_ROOT}/Headers/Public/Google/Google" "${PODS_ROOT}/Headers/Public/GoogleAnalytics" "${PODS_ROOT}/Headers/Public/GoogleNetworkingUtilities" "${PODS_ROOT}/Headers/Public/GoogleSymbolUtilities" "${PODS_ROOT}/Headers/Public/GoogleUtilities" "${PODS_ROOT}/Headers/Public/SupportKit" "${PODS_ROOT}/Headers/Public/SupportKit/SupportKit"
 PODS_ROOT = ${SRCROOT}
 SKIP_INSTALL = YES

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B7AC4D419E5E42C1EE84391 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B61A0764380F93D8793B8C0 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		E479BE31D82E625238C78115 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B61A0764380F93D8793B8C0 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		EC46C4DF1BB5C69800F2A963 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC46C4DE1BB5C69800F2A963 /* AppDelegate.swift */; };
 		EC46C4E61BB5C69800F2A963 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC46C4E41BB5C69800F2A963 /* Main.storyboard */; };
@@ -29,6 +30,7 @@
 		EC46C55C1BB5C82800F2A963 /* timeforcoffeeKit.h in Headers */ = {isa = PBXBuildFile; fileRef = EC46C55B1BB5C82800F2A963 /* timeforcoffeeKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EC46C5601BB5C82800F2A963 /* timeforcoffeeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC46C5591BB5C82800F2A963 /* timeforcoffeeKit.framework */; };
 		EC46C5611BB5C82800F2A963 /* timeforcoffeeKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EC46C5591BB5C82800F2A963 /* timeforcoffeeKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EC4F0C871BB5D06700CE7C24 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC4F0C861BB5D06700CE7C24 /* UIKit.framework */; };
 		EC9BCAFA1BB5CB7700623F1A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC9BCAF81BB5CB7700623F1A /* LaunchScreen.xib */; settings = {ASSET_TAGS = (); }; };
 		EC9BCB0A1BB5CC3500623F1A /* About.html in Resources */ = {isa = PBXBuildFile; fileRef = EC9BCAFB1BB5CC3500623F1A /* About.html */; settings = {ASSET_TAGS = (); }; };
 		EC9BCB0B1BB5CC3500623F1A /* AboutPagedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCAFC1BB5CC3500623F1A /* AboutPagedViewController.swift */; settings = {ASSET_TAGS = (); }; };
@@ -196,6 +198,7 @@
 		EC46C5591BB5C82800F2A963 /* timeforcoffeeKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = timeforcoffeeKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC46C55B1BB5C82800F2A963 /* timeforcoffeeKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = timeforcoffeeKit.h; sourceTree = "<group>"; };
 		EC46C55D1BB5C82800F2A963 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EC4F0C861BB5D06700CE7C24 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		EC9BCAF91BB5CB7700623F1A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		EC9BCAFB1BB5CC3500623F1A /* About.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = About.html; sourceTree = "<group>"; };
 		EC9BCAFC1BB5CC3500623F1A /* AboutPagedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutPagedViewController.swift; sourceTree = "<group>"; };
@@ -243,7 +246,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC4F0C871BB5D06700CE7C24 /* UIKit.framework in Frameworks */,
 				EC46C5601BB5C82800F2A963 /* timeforcoffeeKit.framework in Frameworks */,
+				5B7AC4D419E5E42C1EE84391 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -355,6 +360,7 @@
 		EC46C5091BB5C71100F2A963 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EC4F0C861BB5D06700CE7C24 /* UIKit.framework */,
 				EC46C50A1BB5C71100F2A963 /* NotificationCenter.framework */,
 				8B61A0764380F93D8793B8C0 /* Pods.framework */,
 			);
@@ -474,12 +480,15 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EC46C4EF1BB5C69800F2A963 /* Build configuration list for PBXNativeTarget "timeforcoffee" */;
 			buildPhases = (
+				FC8E6B3C3254701DC2BF4B49 /* Check Pods Manifest.lock */,
 				EC46C4D71BB5C69800F2A963 /* Sources */,
 				EC46C4D81BB5C69800F2A963 /* Frameworks */,
 				EC46C4D91BB5C69800F2A963 /* Resources */,
 				EC46C5031BB5C6E000F2A963 /* Embed Frameworks */,
 				EC46C5191BB5C71100F2A963 /* Embed App Extensions */,
 				EC46C5401BB5C78A00F2A963 /* Embed Watch Content */,
+				527726AD19846D9ABE3AA50C /* Embed Pods Frameworks */,
+				5ED81DEBC1A7BDEB3E485550 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -715,7 +724,52 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		527726AD19846D9ABE3AA50C /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5ED81DEBC1A7BDEB3E485550 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		D6FCB53F4E39ABC8B15DD4BF /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		FC8E6B3C3254701DC2BF4B49 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -954,6 +1008,7 @@
 		};
 		EC46C4F01BB5C69800F2A963 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 95BFFF0BE2743D2FB45240EA /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -962,11 +1017,13 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "timeforcoffee/timeforcoffee-Bridging-Header.h";
 			};
 			name = Debug;
 		};
 		EC46C4F11BB5C69800F2A963 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C0B6931A87875286CA995428 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -975,6 +1032,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "timeforcoffee/timeforcoffee-Bridging-Header.h";
 			};
 			name = Release;
 		};
