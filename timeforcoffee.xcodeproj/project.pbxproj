@@ -28,6 +28,18 @@
 		EC46C5601BB5C82800F2A963 /* timeforcoffeeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC46C5591BB5C82800F2A963 /* timeforcoffeeKit.framework */; };
 		EC46C5611BB5C82800F2A963 /* timeforcoffeeKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EC46C5591BB5C82800F2A963 /* timeforcoffeeKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EC4AB2291BB5E74100DA9759 /* NearbyStationsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4AB2281BB5E74100DA9759 /* NearbyStationsTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
+		EC4AB2381BB5F11600DA9759 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC4AB2371BB5F11600DA9759 /* libGoogleAnalyticsServices.a */; settings = {ASSET_TAGS = (); }; };
+		EC4AB2391BB5F18600DA9759 /* timeforcoffeeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC46C5591BB5C82800F2A963 /* timeforcoffeeKit.framework */; };
+		EC4AB23A1BB5F3C000DA9759 /* DepartureLineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCAFD1BB5CC3500623F1A /* DepartureLineLabel.swift */; settings = {ASSET_TAGS = (); }; };
+		EC4AB23B1BB5F40000DA9759 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC4AB2371BB5F11600DA9759 /* libGoogleAnalyticsServices.a */; };
+		EC4AB23D1BB5F41200DA9759 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EC4AB23C1BB5F41200DA9759 /* libsqlite3.tbd */; };
+		EC4AB23F1BB5F42300DA9759 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EC4AB23E1BB5F42300DA9759 /* libz.tbd */; };
+		EC4AB2431BB5F46700DA9759 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC4AB2421BB5F46700DA9759 /* SystemConfiguration.framework */; };
+		EC4AB2451BB5F46E00DA9759 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC4AB2441BB5F46E00DA9759 /* CoreData.framework */; };
+		EC4AB2461BB5F4AC00DA9759 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EC4AB23C1BB5F41200DA9759 /* libsqlite3.tbd */; };
+		EC4AB2471BB5F4B100DA9759 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EC4AB23E1BB5F42300DA9759 /* libz.tbd */; };
+		EC4AB2481BB5F4BA00DA9759 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC4AB2441BB5F46E00DA9759 /* CoreData.framework */; };
+		EC4AB2491BB5F4C100DA9759 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC4AB2421BB5F46700DA9759 /* SystemConfiguration.framework */; };
 		EC4F0C871BB5D06700CE7C24 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC4F0C861BB5D06700CE7C24 /* UIKit.framework */; };
 		EC4F0C891BB5D54B00CE7C24 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC4F0C881BB5D54B00CE7C24 /* Images.xcassets */; settings = {ASSET_TAGS = (); }; };
 		EC9BCAFA1BB5CB7700623F1A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC9BCAF81BB5CB7700623F1A /* LaunchScreen.xib */; settings = {ASSET_TAGS = (); }; };
@@ -191,6 +203,21 @@
 		EC4AB2281BB5E74100DA9759 /* NearbyStationsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearbyStationsTableViewCell.swift; sourceTree = "<group>"; };
 		EC4AB22A1BB5E79E00DA9759 /* timeforcoffee Widget-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "timeforcoffee Widget-Bridging-Header.h"; sourceTree = "<group>"; };
 		EC4AB22B1BB5E81600DA9759 /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
+		EC4AB22E1BB5F0FE00DA9759 /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
+		EC4AB22F1BB5F0FE00DA9759 /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIDictionaryBuilder.h; sourceTree = "<group>"; };
+		EC4AB2301BB5F0FE00DA9759 /* GAIEcommerceProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceProduct.h; sourceTree = "<group>"; };
+		EC4AB2311BB5F0FE00DA9759 /* GAIEcommerceProductAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceProductAction.h; sourceTree = "<group>"; };
+		EC4AB2321BB5F0FE00DA9759 /* GAIEcommercePromotion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommercePromotion.h; sourceTree = "<group>"; };
+		EC4AB2331BB5F0FE00DA9759 /* GAIFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIFields.h; sourceTree = "<group>"; };
+		EC4AB2341BB5F0FE00DA9759 /* GAILogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAILogger.h; sourceTree = "<group>"; };
+		EC4AB2351BB5F0FE00DA9759 /* GAITrackedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITrackedViewController.h; sourceTree = "<group>"; };
+		EC4AB2361BB5F0FE00DA9759 /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
+		EC4AB2371BB5F11600DA9759 /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
+		EC4AB23C1BB5F41200DA9759 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		EC4AB23E1BB5F42300DA9759 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		EC4AB2401BB5F42E00DA9759 /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
+		EC4AB2421BB5F46700DA9759 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		EC4AB2441BB5F46E00DA9759 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		EC4F0C861BB5D06700CE7C24 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		EC4F0C881BB5D54B00CE7C24 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		EC9BCAF91BB5CB7700623F1A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -240,9 +267,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC4AB2491BB5F4C100DA9759 /* SystemConfiguration.framework in Frameworks */,
+				EC4AB2481BB5F4BA00DA9759 /* CoreData.framework in Frameworks */,
+				EC4AB2471BB5F4B100DA9759 /* libz.tbd in Frameworks */,
+				EC4AB2461BB5F4AC00DA9759 /* libsqlite3.tbd in Frameworks */,
 				EC4F0C871BB5D06700CE7C24 /* UIKit.framework in Frameworks */,
 				EC46C5601BB5C82800F2A963 /* timeforcoffeeKit.framework in Frameworks */,
 				5B7AC4D419E5E42C1EE84391 /* Pods.framework in Frameworks */,
+				EC4AB2381BB5F11600DA9759 /* libGoogleAnalyticsServices.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,7 +282,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC4AB2451BB5F46E00DA9759 /* CoreData.framework in Frameworks */,
+				EC4AB2431BB5F46700DA9759 /* SystemConfiguration.framework in Frameworks */,
+				EC4AB23F1BB5F42300DA9759 /* libz.tbd in Frameworks */,
+				EC4AB23D1BB5F41200DA9759 /* libsqlite3.tbd in Frameworks */,
+				EC4AB2391BB5F18600DA9759 /* timeforcoffeeKit.framework in Frameworks */,
 				EC46C50B1BB5C71100F2A963 /* NotificationCenter.framework in Frameworks */,
+				EC4AB23B1BB5F40000DA9759 /* libGoogleAnalyticsServices.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -325,6 +363,7 @@
 				EC9BCB001BB5CC3500623F1A /* SettingsViewController.swift */,
 				EC9BCB011BB5CC3500623F1A /* StationAnnotation.swift */,
 				EC9BCB021BB5CC3500623F1A /* StationsSearchViewController.swift */,
+				EC4AB22D1BB5F0E500DA9759 /* GoogleAnalytics */,
 				EC9BCB031BB5CC3500623F1A /* StationsViewController.swift */,
 				EC9BCB041BB5CC3500623F1A /* StationTableView.swift */,
 				EC9BCB051BB5CC3500623F1A /* StationTableViewCell.swift */,
@@ -340,6 +379,12 @@
 		EC46C5091BB5C71100F2A963 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EC4AB2441BB5F46E00DA9759 /* CoreData.framework */,
+				EC4AB2421BB5F46700DA9759 /* SystemConfiguration.framework */,
+				EC4AB2401BB5F42E00DA9759 /* NetworkExtension.framework */,
+				EC4AB23E1BB5F42300DA9759 /* libz.tbd */,
+				EC4AB23C1BB5F41200DA9759 /* libsqlite3.tbd */,
+				EC4AB2371BB5F11600DA9759 /* libGoogleAnalyticsServices.a */,
 				EC4AB22B1BB5E81600DA9759 /* Pods.framework */,
 				EC4F0C861BB5D06700CE7C24 /* UIKit.framework */,
 				EC46C50A1BB5C71100F2A963 /* NotificationCenter.framework */,
@@ -418,6 +463,22 @@
 				EC46C55D1BB5C82800F2A963 /* Info.plist */,
 			);
 			path = timeforcoffeeKit;
+			sourceTree = "<group>";
+		};
+		EC4AB22D1BB5F0E500DA9759 /* GoogleAnalytics */ = {
+			isa = PBXGroup;
+			children = (
+				EC4AB22E1BB5F0FE00DA9759 /* GAI.h */,
+				EC4AB22F1BB5F0FE00DA9759 /* GAIDictionaryBuilder.h */,
+				EC4AB2301BB5F0FE00DA9759 /* GAIEcommerceProduct.h */,
+				EC4AB2311BB5F0FE00DA9759 /* GAIEcommerceProductAction.h */,
+				EC4AB2321BB5F0FE00DA9759 /* GAIEcommercePromotion.h */,
+				EC4AB2331BB5F0FE00DA9759 /* GAIFields.h */,
+				EC4AB2341BB5F0FE00DA9759 /* GAILogger.h */,
+				EC4AB2351BB5F0FE00DA9759 /* GAITrackedViewController.h */,
+				EC4AB2361BB5F0FE00DA9759 /* GAITracker.h */,
+			);
+			name = GoogleAnalytics;
 			sourceTree = "<group>";
 		};
 		EC9BCB3A1BB5CD4D00623F1A /* PINCache */ = {
@@ -816,6 +877,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC4AB23A1BB5F3C000DA9759 /* DepartureLineLabel.swift in Sources */,
 				EC46C50E1BB5C71100F2A963 /* TodayViewController.swift in Sources */,
 				EC4AB2291BB5E74100DA9759 /* NearbyStationsTableViewCell.swift in Sources */,
 			);
@@ -1025,6 +1087,10 @@
 				FRAMEWORK_SEARCH_PATHS = "\"$(PODS_ROOT)/SupportKit\"";
 				INFOPLIST_FILE = timeforcoffee/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "timeforcoffee/timeforcoffee-Bridging-Header.h";
@@ -1043,6 +1109,10 @@
 				FRAMEWORK_SEARCH_PATHS = "\"$(PODS_ROOT)/SupportKit\"";
 				INFOPLIST_FILE = timeforcoffee/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "timeforcoffee/timeforcoffee-Bridging-Header.h";
@@ -1061,6 +1131,10 @@
 				);
 				INFOPLIST_FILE = "timeforcoffee Widget/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "ch.opendata.timeforcoffee.timeforcoffee-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1080,6 +1154,10 @@
 				);
 				INFOPLIST_FILE = "timeforcoffee Widget/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "ch.opendata.timeforcoffee.timeforcoffee-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

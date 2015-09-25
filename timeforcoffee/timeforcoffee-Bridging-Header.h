@@ -8,6 +8,8 @@
 
 #ifndef timeforcoffee_timeforcoffee_Bridging_Header_h
 #define timeforcoffee_timeforcoffee_Bridging_Header_h
-#import <Google/Analytics.h>
+#import "GAI.h"
+#import "GAIDictionaryBuilder.h"
+#import "GAIFields.h"
 #import <SupportKit/SupportKit.h>
 #endif
