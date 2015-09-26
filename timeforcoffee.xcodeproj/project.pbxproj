@@ -117,6 +117,7 @@
 		EC9BCB461BB5CD4D00623F1A /* PINDiskCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB3F1BB5CD4D00623F1A /* PINDiskCache.m */; settings = {ASSET_TAGS = (); }; };
 		EC9BCB471BB5CD4D00623F1A /* PINMemoryCache.h in Headers */ = {isa = PBXBuildFile; fileRef = EC9BCB401BB5CD4D00623F1A /* PINMemoryCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EC9BCB481BB5CD4D00623F1A /* PINMemoryCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB411BB5CD4D00623F1A /* PINMemoryCache.m */; settings = {ASSET_TAGS = (); }; };
+		ECA109D91BB6C00000FDB6F9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC0AD1641BB69539004217FD /* Localizable.strings */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -852,6 +853,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC60B01B1BB680FD00D10238 /* trainsymbol.otf in Resources */,
+				ECA109D91BB6C00000FDB6F9 /* Localizable.strings in Resources */,
 				EC46C5111BB5C71100F2A963 /* MainInterface.storyboard in Resources */,
 				EC4AB24A1BB5F5BB00DA9759 /* Images.xcassets in Resources */,
 			);
@@ -1469,8 +1471,8 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 90;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CURRENT_PROJECT_VERSION = 90;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 90;
