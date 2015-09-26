@@ -96,7 +96,6 @@
 		EC9BCB361BB5CCD300623F1A /* TFCStations.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB251BB5CCD300623F1A /* TFCStations.swift */; settings = {ASSET_TAGS = (); }; };
 		EC9BCB371BB5CCD300623F1A /* TFCURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB261BB5CCD300623F1A /* TFCURLSession.swift */; settings = {ASSET_TAGS = (); }; };
 		EC9BCB381BB5CCD300623F1A /* TFCWatchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB271BB5CCD300623F1A /* TFCWatchData.swift */; settings = {ASSET_TAGS = (); }; };
-		EC9BCB391BB5CCD300623F1A /* timeforcoffeeKit-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = EC9BCB281BB5CCD300623F1A /* timeforcoffeeKit-Bridging-Header.h */; settings = {ASSET_TAGS = (); }; };
 		EC9BCB421BB5CD4D00623F1A /* Nullability.h in Headers */ = {isa = PBXBuildFile; fileRef = EC9BCB3B1BB5CD4D00623F1A /* Nullability.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EC9BCB431BB5CD4D00623F1A /* PINCache.h in Headers */ = {isa = PBXBuildFile; fileRef = EC9BCB3C1BB5CD4D00623F1A /* PINCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EC9BCB441BB5CD4D00623F1A /* PINCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB3D1BB5CD4D00623F1A /* PINCache.m */; settings = {ASSET_TAGS = (); }; };
@@ -278,7 +277,6 @@
 		EC9BCB251BB5CCD300623F1A /* TFCStations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCStations.swift; sourceTree = "<group>"; };
 		EC9BCB261BB5CCD300623F1A /* TFCURLSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCURLSession.swift; sourceTree = "<group>"; };
 		EC9BCB271BB5CCD300623F1A /* TFCWatchData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCWatchData.swift; sourceTree = "<group>"; };
-		EC9BCB281BB5CCD300623F1A /* timeforcoffeeKit-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "timeforcoffeeKit-Bridging-Header.h"; sourceTree = "<group>"; };
 		EC9BCB3B1BB5CD4D00623F1A /* Nullability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Nullability.h; sourceTree = "<group>"; };
 		EC9BCB3C1BB5CD4D00623F1A /* PINCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PINCache.h; sourceTree = "<group>"; };
 		EC9BCB3D1BB5CD4D00623F1A /* PINCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PINCache.m; sourceTree = "<group>"; };
@@ -487,7 +485,6 @@
 				EC9BCB251BB5CCD300623F1A /* TFCStations.swift */,
 				EC9BCB261BB5CCD300623F1A /* TFCURLSession.swift */,
 				EC9BCB271BB5CCD300623F1A /* TFCWatchData.swift */,
-				EC9BCB281BB5CCD300623F1A /* timeforcoffeeKit-Bridging-Header.h */,
 				EC46C55B1BB5C82800F2A963 /* timeforcoffeeKit.h */,
 				EC46C55D1BB5C82800F2A963 /* Info.plist */,
 			);
@@ -547,7 +544,6 @@
 				EC9BCB421BB5CD4D00623F1A /* Nullability.h in Headers */,
 				EC46C55C1BB5C82800F2A963 /* timeforcoffeeKit.h in Headers */,
 				EC9BCB451BB5CD4D00623F1A /* PINDiskCache.h in Headers */,
-				EC9BCB391BB5CCD300623F1A /* timeforcoffeeKit-Bridging-Header.h in Headers */,
 				EC9BCB431BB5CD4D00623F1A /* PINCache.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
