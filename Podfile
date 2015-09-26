@@ -4,10 +4,15 @@ use_frameworks!
 platform :ios, '8.0'
 
 link_with 'timeforcoffeeKit'
-link_with 'Time for Coffee! WatchKit Extension'
+link_with 'timeforcoffee Widget'
+link_with 'timeforcoffee'
+#link_with 'Time for Coffee! WatchKit Extension'
 
 pod 'MGSwipeTableCell'
 pod 'SwipeView'
+pod 'SupportKit'
+pod 'Fabric'
+pod 'Crashlytics'
 
 # Needed so that PINCache can be used in the watchkit extension
 

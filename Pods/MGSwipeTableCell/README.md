@@ -2,7 +2,7 @@ MGSwipeTableCell
 ================
 
 
-MGSwipeTableCell is an easy to use UITableViewCell subclass that allows to display swippable buttons with a variety of transitions. 
+MGSwipeTableCell is an easy to use UITableViewCell subclass that allows to display swipeable buttons with a variety of transitions. 
 
 
 This library is compatible with all the different ways to create a UITableViewCell: system predefined styles, programmatically created cells, cells loaded from a xib and prototype cells within a storyboard. You can use autolayout if you want.
@@ -36,6 +36,8 @@ See [`MGSwipeTableCell.h`](MGSwipeTableCell/MGSwipeTableCell.h) header file for 
 
 
 See [`MailAppDemo`](demo/MailAppDemo) for a complete project which mimics iOS 8.0 Mail App
+
+See [`SpotifyDemo`](demo/SpotifyDemo) for a complete project which mimics Spotify App swipe style
 
 See [`MGSwipeDemo`](demo/MGSwipeDemo) for a complete project where you can test the variety of transitions on a real device/simulator.
 

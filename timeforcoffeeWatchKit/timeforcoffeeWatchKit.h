@@ -2,8 +2,8 @@
 //  timeforcoffeeWatchKit.h
 //  timeforcoffeeWatchKit
 //
-//  Created by Christian Stocker on 11.09.15.
-//  Copyright © 2015 Christian Stocker. All rights reserved.
+//  Created by Christian Stocker on 25.09.15.
+//  Copyright © 2015 opendata.ch. All rights reserved.
 //
 
 #import <WatchKit/WatchKit.h>

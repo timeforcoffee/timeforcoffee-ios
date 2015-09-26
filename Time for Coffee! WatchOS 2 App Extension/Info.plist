@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Time for Coffee! WatchKit Extension</string>
+	<string>Time for Coffee!</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -17,15 +17,31 @@
 	<key>CFBundlePackageType</key>
 	<string>XPC!</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.4</string>
+	<string>1.5</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>87</string>
+	<string>90</string>
+	<key>NSExtension</key>
+	<dict>
+		<key>NSExtensionAttributes</key>
+		<dict>
+			<key>WKAppBundleIdentifier</key>
+			<string>ch.opendata.timeforcoffee.watchkitapp</string>
+		</dict>
+		<key>NSExtensionPointIdentifier</key>
+		<string>com.apple.watchkit</string>
+	</dict>
+	<key>RemoteInterfacePrincipalClass - 2</key>
+	<string>$(PRODUCT_MODULE_NAME).StationViewController</string>
+	<key>WKExtensionDelegateClassName - 2</key>
+	<string>$(PRODUCT_MODULE_NAME).ExtensionDelegate</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string> We need the location to show you nearby stations. We’re only accessing this, when the app or the Today extension is in use and for as short as possible.</string>
+	<key>NSLocationUsageDescription</key>
+	<string> We need the location to show you nearby stations. We’re only accessing this, when the app or the Today extension is in use and for as short as possible.</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
 			<key>transport.opendata.ch</key>
@@ -40,27 +56,5 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSExtension</key>
-	<dict>
-		<key>NSExtensionAttributes</key>
-		<dict>
-			<key>WKAppBundleIdentifier</key>
-			<string>ch.opendata.timeforcoffee.watchkitapp</string>
-		</dict>
-		<key>NSExtensionPointIdentifier</key>
-		<string>com.apple.watchkit</string>
-	</dict>
-	<key>RemoteInterfacePrincipalClass</key>
-	<string>$(PRODUCT_MODULE_NAME).StationViewController</string>
-	<key>UIAppFonts</key>
-	<array>
-		<string>HelveticaNeueBold.ttf</string>
-	</array>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string> We need the location to show you nearby stations. We’re only accessing this, when the app or the Today extension is in use and for as short as possible.</string>
-	<key>NSLocationUsageDescription</key>
-	<string> We need the location to show you nearby stations. We’re only accessing this, when the app or the Today extension is in use and for as short as possible.</string>
-	<key>WKExtensionDelegateClassName</key>
-	<string>$(PRODUCT_MODULE_NAME).ExtensionDelegate</string>
 </dict>
 </plist>
