@@ -11,6 +11,8 @@ link_with 'timeforcoffee'
 pod 'MGSwipeTableCell'
 pod 'SwipeView'
 pod 'SupportKit'
+pod 'Fabric'
+pod 'Crashlytics'
 
 # Needed so that PINCache can be used in the watchkit extension
 

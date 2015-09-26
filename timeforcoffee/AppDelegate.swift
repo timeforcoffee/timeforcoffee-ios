@@ -9,8 +9,8 @@
 import UIKit
 import timeforcoffeeKit
 import CoreLocation
-//import Fabric
-//import Crashlytics
+import Fabric
+import Crashlytics
 
 @UIApplicationMain
 final class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -33,7 +33,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         //GAI.sharedInstance().logger.logLevel = GAILogLevel.Verbose
         gtracker.trackerWithTrackingId("UA-37092982-2")
         #if !((arch(i386) || arch(x86_64)) && os(iOS))
-       // Fabric.with([Crashlytics()])
+        Fabric.with([Crashlytics()])
         #endif
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
             #if !((arch(i386) || arch(x86_64)) && os(iOS))
