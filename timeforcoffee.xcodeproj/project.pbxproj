@@ -18,7 +18,6 @@
 		EC46C5201BB5C78A00F2A963 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC46C51E1BB5C78A00F2A963 /* Interface.storyboard */; };
 		EC46C5221BB5C78A00F2A963 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC46C5211BB5C78A00F2A963 /* Assets.xcassets */; };
 		EC46C5291BB5C78A00F2A963 /* Time for Coffee! WatchOS 2 App Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EC46C5281BB5C78A00F2A963 /* Time for Coffee! WatchOS 2 App Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		EC46C52E1BB5C78A00F2A963 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC46C52D1BB5C78A00F2A963 /* InterfaceController.swift */; };
 		EC46C5301BB5C78A00F2A963 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC46C52F1BB5C78A00F2A963 /* ExtensionDelegate.swift */; };
 		EC46C5321BB5C78A00F2A963 /* GlanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC46C5311BB5C78A00F2A963 /* GlanceController.swift */; };
 		EC46C5341BB5C78A00F2A963 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC46C5331BB5C78A00F2A963 /* Assets.xcassets */; };
@@ -63,6 +62,11 @@
 		EC4AB2651BB6718700DA9759 /* TFCStations.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB251BB5CCD300623F1A /* TFCStations.swift */; settings = {ASSET_TAGS = (); }; };
 		EC4AB2661BB6718700DA9759 /* TFCURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB261BB5CCD300623F1A /* TFCURLSession.swift */; settings = {ASSET_TAGS = (); }; };
 		EC4AB2671BB6718700DA9759 /* TFCWatchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB271BB5CCD300623F1A /* TFCWatchData.swift */; settings = {ASSET_TAGS = (); }; };
+		EC4AB26D1BB6787600DA9759 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4AB2681BB6787600DA9759 /* MapViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		EC4AB26E1BB6787600DA9759 /* StationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4AB2691BB6787600DA9759 /* StationRow.swift */; settings = {ASSET_TAGS = (); }; };
+		EC4AB26F1BB6787600DA9759 /* StationsOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4AB26A1BB6787600DA9759 /* StationsOverviewViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		EC4AB2701BB6787600DA9759 /* StationsRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4AB26B1BB6787600DA9759 /* StationsRow.swift */; settings = {ASSET_TAGS = (); }; };
+		EC4AB2711BB6787600DA9759 /* StationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4AB26C1BB6787600DA9759 /* StationViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		EC4F0C871BB5D06700CE7C24 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC4F0C861BB5D06700CE7C24 /* UIKit.framework */; };
 		EC4F0C891BB5D54B00CE7C24 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC4F0C881BB5D54B00CE7C24 /* Images.xcassets */; settings = {ASSET_TAGS = (); }; };
 		EC9BCAFA1BB5CB7700623F1A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC9BCAF81BB5CB7700623F1A /* LaunchScreen.xib */; settings = {ASSET_TAGS = (); }; };
@@ -141,6 +145,13 @@
 			remoteGlobalIDString = EC46C5581BB5C82800F2A963;
 			remoteInfo = timeforcoffeeKit;
 		};
+		EC4AB2721BB6797600DA9759 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EC46C4D31BB5C69800F2A963 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EC46C5451BB5C7FD00F2A963;
+			remoteInfo = timeforcoffeeWatchKit;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -208,7 +219,6 @@
 		EC46C5211BB5C78A00F2A963 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EC46C5231BB5C78A00F2A963 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC46C5281BB5C78A00F2A963 /* Time for Coffee! WatchOS 2 App Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Time for Coffee! WatchOS 2 App Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		EC46C52D1BB5C78A00F2A963 /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
 		EC46C52F1BB5C78A00F2A963 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
 		EC46C5311BB5C78A00F2A963 /* GlanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlanceController.swift; sourceTree = "<group>"; };
 		EC46C5331BB5C78A00F2A963 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -224,7 +234,6 @@
 		EC4AB2271BB5E41400DA9759 /* Time for Coffee! WatchOS 2 App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Time for Coffee! WatchOS 2 App.entitlements"; sourceTree = "<group>"; };
 		EC4AB2281BB5E74100DA9759 /* NearbyStationsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearbyStationsTableViewCell.swift; sourceTree = "<group>"; };
 		EC4AB22A1BB5E79E00DA9759 /* timeforcoffee Widget-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "timeforcoffee Widget-Bridging-Header.h"; sourceTree = "<group>"; };
-		EC4AB22B1BB5E81600DA9759 /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
 		EC4AB22E1BB5F0FE00DA9759 /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
 		EC4AB22F1BB5F0FE00DA9759 /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIDictionaryBuilder.h; sourceTree = "<group>"; };
 		EC4AB2301BB5F0FE00DA9759 /* GAIEcommerceProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceProduct.h; sourceTree = "<group>"; };
@@ -243,6 +252,11 @@
 		EC4AB24B1BB6712200DA9759 /* TFCDataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCDataStore.swift; sourceTree = "<group>"; };
 		EC4AB24C1BB6712200DA9759 /* TFCLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCLocationManager.swift; sourceTree = "<group>"; };
 		EC4AB24D1BB6712200DA9759 /* TFCStation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCStation.swift; sourceTree = "<group>"; };
+		EC4AB2681BB6787600DA9759 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		EC4AB2691BB6787600DA9759 /* StationRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationRow.swift; sourceTree = "<group>"; };
+		EC4AB26A1BB6787600DA9759 /* StationsOverviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationsOverviewViewController.swift; sourceTree = "<group>"; };
+		EC4AB26B1BB6787600DA9759 /* StationsRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationsRow.swift; sourceTree = "<group>"; };
+		EC4AB26C1BB6787600DA9759 /* StationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationViewController.swift; sourceTree = "<group>"; };
 		EC4F0C861BB5D06700CE7C24 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		EC4F0C881BB5D54B00CE7C24 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		EC9BCAF91BB5CB7700623F1A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -409,7 +423,6 @@
 				EC4AB23E1BB5F42300DA9759 /* libz.tbd */,
 				EC4AB23C1BB5F41200DA9759 /* libsqlite3.tbd */,
 				EC4AB2371BB5F11600DA9759 /* libGoogleAnalyticsServices.a */,
-				EC4AB22B1BB5E81600DA9759 /* Pods.framework */,
 				EC4F0C861BB5D06700CE7C24 /* UIKit.framework */,
 				EC46C50A1BB5C71100F2A963 /* NotificationCenter.framework */,
 				8B61A0764380F93D8793B8C0 /* Pods.framework */,
@@ -444,10 +457,14 @@
 		EC46C52C1BB5C78A00F2A963 /* Time for Coffee! WatchOS 2 App Extension */ = {
 			isa = PBXGroup;
 			children = (
-				EC46C52D1BB5C78A00F2A963 /* InterfaceController.swift */,
 				EC46C52F1BB5C78A00F2A963 /* ExtensionDelegate.swift */,
 				EC46C5311BB5C78A00F2A963 /* GlanceController.swift */,
 				EC46C5331BB5C78A00F2A963 /* Assets.xcassets */,
+				EC4AB2681BB6787600DA9759 /* MapViewController.swift */,
+				EC4AB2691BB6787600DA9759 /* StationRow.swift */,
+				EC4AB26A1BB6787600DA9759 /* StationsOverviewViewController.swift */,
+				EC4AB26B1BB6787600DA9759 /* StationsRow.swift */,
+				EC4AB26C1BB6787600DA9759 /* StationViewController.swift */,
 				EC46C5351BB5C78A00F2A963 /* Info.plist */,
 			);
 			path = "Time for Coffee! WatchOS 2 App Extension";
@@ -622,6 +639,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				EC4AB2731BB6797600DA9759 /* PBXTargetDependency */,
 			);
 			name = "Time for Coffee! WatchOS 2 App Extension";
 			productName = "Time for Coffee! WatchOS 2 App Extension";
@@ -918,8 +936,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC46C5301BB5C78A00F2A963 /* ExtensionDelegate.swift in Sources */,
-				EC46C52E1BB5C78A00F2A963 /* InterfaceController.swift in Sources */,
+				EC4AB26F1BB6787600DA9759 /* StationsOverviewViewController.swift in Sources */,
+				EC4AB2701BB6787600DA9759 /* StationsRow.swift in Sources */,
+				EC4AB26E1BB6787600DA9759 /* StationRow.swift in Sources */,
 				EC46C5321BB5C78A00F2A963 /* GlanceController.swift in Sources */,
+				EC4AB26D1BB6787600DA9759 /* MapViewController.swift in Sources */,
+				EC4AB2711BB6787600DA9759 /* StationViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1001,6 +1023,11 @@
 			isa = PBXTargetDependency;
 			target = EC46C5581BB5C82800F2A963 /* timeforcoffeeKit */;
 			targetProxy = EC46C55E1BB5C82800F2A963 /* PBXContainerItemProxy */;
+		};
+		EC4AB2731BB6797600DA9759 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EC46C5451BB5C7FD00F2A963 /* timeforcoffeeWatchKit */;
+			targetProxy = EC4AB2721BB6797600DA9759 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1253,6 +1280,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Time for Coffee! WatchOS 2 App/Time for Coffee! WatchOS 2 App.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				IBSC_MODULE = Time_for_Coffee__WatchOS_2_App_Extension;
 				INFOPLIST_FILE = "Time for Coffee! WatchOS 2 App/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1271,6 +1299,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Time for Coffee! WatchOS 2 App/Time for Coffee! WatchOS 2 App.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				IBSC_MODULE = Time_for_Coffee__WatchOS_2_App_Extension;
 				INFOPLIST_FILE = "Time for Coffee! WatchOS 2 App/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1301,6 +1330,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 4;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1327,6 +1357,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
 				TARGETED_DEVICE_FAMILY = 4;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
