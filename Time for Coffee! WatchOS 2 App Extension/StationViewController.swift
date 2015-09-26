@@ -202,6 +202,8 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             infoLabel.setText(text)
         }
 
+        TFCDataStore.sharedInstance.requestAllDataFromPhone()
+        NSLog("send requestAllDataFromPhone")
         TFCWatchData.sharedInstance.getStations(reload, errorReply: errorReply, stopWithFavorites: false)
     }
 

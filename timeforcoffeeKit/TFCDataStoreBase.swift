@@ -143,12 +143,14 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate {
     public func session(session: WCSession, didReceiveUserInfo userInfo: [String : AnyObject]) {
         for (myKey,myValue) in userInfo {
             if (myKey == "__giveMeTheData__") {
+                NSLog("Got __giveMeTheData__");
                 sendAllData()
             } else if (myKey == "___remove___") {
                 if let key = myValue as? String {
                     self.removeObjectForKey(key, withWCTransfer: false)
                 }
             } else if (myKey == "__allDataResponseSent__") {
+                NSLog("Got __allDataResponseSent__");
                 self.userDefaults?.setBool(true, forKey: "allDataResponseSent")
             } else {
                 self.setObject(myValue, forKey: myKey, withWCTransfer: false)
@@ -175,6 +177,8 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate {
                 //  until this is done, the watch will keep asking for it
                 //  This is to avoid haveing no favourites on the watch to start with
                 WCSession.defaultSession().transferUserInfo(["__allDataResponseSent__": true])
+                NSLog("Sent __allDataResponseSent__");
+
             }
         }
     }
