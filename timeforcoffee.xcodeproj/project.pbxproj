@@ -69,6 +69,14 @@
 		EC4AB2711BB6787600DA9759 /* StationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4AB26C1BB6787600DA9759 /* StationViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		EC4F0C871BB5D06700CE7C24 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC4F0C861BB5D06700CE7C24 /* UIKit.framework */; };
 		EC4F0C891BB5D54B00CE7C24 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC4F0C881BB5D54B00CE7C24 /* Images.xcassets */; settings = {ASSET_TAGS = (); }; };
+		EC60B0081BB67F7700D10238 /* timeforcoffeeWatchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC46C5461BB5C7FD00F2A963 /* timeforcoffeeWatchKit.framework */; };
+		EC60B0091BB67F7700D10238 /* timeforcoffeeWatchKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EC46C5461BB5C7FD00F2A963 /* timeforcoffeeWatchKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EC60B0121BB680B600D10238 /* gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = EC60B00D1BB680B600D10238 /* gradient.png */; settings = {ASSET_TAGS = (); }; };
+		EC60B0141BB680B600D10238 /* launchicon.png in Resources */ = {isa = PBXBuildFile; fileRef = EC60B00F1BB680B600D10238 /* launchicon.png */; settings = {ASSET_TAGS = (); }; };
+		EC60B0161BB680B600D10238 /* Zuerich2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = EC60B0111BB680B600D10238 /* Zuerich2.jpg */; settings = {ASSET_TAGS = (); }; };
+		EC60B0181BB680DE00D10238 /* launchicon.png in Resources */ = {isa = PBXBuildFile; fileRef = EC60B00F1BB680B600D10238 /* launchicon.png */; settings = {ASSET_TAGS = (); }; };
+		EC60B01A1BB680FD00D10238 /* trainsymbol.otf in Resources */ = {isa = PBXBuildFile; fileRef = EC60B0191BB680FD00D10238 /* trainsymbol.otf */; settings = {ASSET_TAGS = (); }; };
+		EC60B01B1BB680FD00D10238 /* trainsymbol.otf in Resources */ = {isa = PBXBuildFile; fileRef = EC60B0191BB680FD00D10238 /* trainsymbol.otf */; settings = {ASSET_TAGS = (); }; };
 		EC9BCAFA1BB5CB7700623F1A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC9BCAF81BB5CB7700623F1A /* LaunchScreen.xib */; settings = {ASSET_TAGS = (); }; };
 		EC9BCB0A1BB5CC3500623F1A /* About.html in Resources */ = {isa = PBXBuildFile; fileRef = EC9BCAFB1BB5CC3500623F1A /* About.html */; settings = {ASSET_TAGS = (); }; };
 		EC9BCB0B1BB5CC3500623F1A /* AboutPagedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCAFC1BB5CC3500623F1A /* AboutPagedViewController.swift */; settings = {ASSET_TAGS = (); }; };
@@ -199,6 +207,17 @@
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		EC60B00B1BB67F7800D10238 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				EC60B0091BB67F7700D10238 /* timeforcoffeeWatchKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -259,6 +278,12 @@
 		EC4AB26C1BB6787600DA9759 /* StationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationViewController.swift; sourceTree = "<group>"; };
 		EC4F0C861BB5D06700CE7C24 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		EC4F0C881BB5D54B00CE7C24 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		EC60B00D1BB680B600D10238 /* gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradient.png; sourceTree = "<group>"; };
+		EC60B00E1BB680B600D10238 /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
+		EC60B00F1BB680B600D10238 /* launchicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launchicon.png; sourceTree = "<group>"; };
+		EC60B0101BB680B600D10238 /* time-for-coffee-icon_1024.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = "time-for-coffee-icon_1024.psd"; sourceTree = "<group>"; };
+		EC60B0111BB680B600D10238 /* Zuerich2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Zuerich2.jpg; sourceTree = "<group>"; };
+		EC60B0191BB680FD00D10238 /* trainsymbol.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = trainsymbol.otf; sourceTree = "<group>"; };
 		EC9BCAF91BB5CB7700623F1A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		EC9BCAFB1BB5CC3500623F1A /* About.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = About.html; sourceTree = "<group>"; };
 		EC9BCAFC1BB5CC3500623F1A /* AboutPagedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutPagedViewController.swift; sourceTree = "<group>"; };
@@ -345,6 +370,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		EC60B00A1BB67F7800D10238 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC60B0081BB67F7700D10238 /* timeforcoffeeWatchKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -360,6 +393,7 @@
 		EC46C4D21BB5C69800F2A963 = {
 			isa = PBXGroup;
 			children = (
+				EC60B00C1BB680B600D10238 /* _assets */,
 				EC46C4DD1BB5C69800F2A963 /* timeforcoffee */,
 				EC46C50C1BB5C71100F2A963 /* timeforcoffee Widget */,
 				EC46C55A1BB5C82800F2A963 /* timeforcoffeeKit */,
@@ -524,6 +558,19 @@
 			name = GoogleAnalytics;
 			sourceTree = "<group>";
 		};
+		EC60B00C1BB680B600D10238 /* _assets */ = {
+			isa = PBXGroup;
+			children = (
+				EC60B00D1BB680B600D10238 /* gradient.png */,
+				EC60B00E1BB680B600D10238 /* iTunesArtwork@2x.png */,
+				EC60B00F1BB680B600D10238 /* launchicon.png */,
+				EC60B0191BB680FD00D10238 /* trainsymbol.otf */,
+				EC60B0101BB680B600D10238 /* time-for-coffee-icon_1024.psd */,
+				EC60B0111BB680B600D10238 /* Zuerich2.jpg */,
+			);
+			path = _assets;
+			sourceTree = "<group>";
+		};
 		EC9BCB3A1BB5CD4D00623F1A /* PINCache */ = {
 			isa = PBXGroup;
 			children = (
@@ -635,6 +682,8 @@
 			buildPhases = (
 				EC46C5241BB5C78A00F2A963 /* Sources */,
 				EC46C5261BB5C78A00F2A963 /* Resources */,
+				EC60B00A1BB67F7800D10238 /* Frameworks */,
+				EC60B00B1BB67F7800D10238 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -775,8 +824,12 @@
 				EC9BCB0A1BB5CC3500623F1A /* About.html in Resources */,
 				EC4F0C891BB5D54B00CE7C24 /* Images.xcassets in Resources */,
 				EC9BCB151BB5CC3500623F1A /* StationTableViewCell.xib in Resources */,
+				EC60B0121BB680B600D10238 /* gradient.png in Resources */,
+				EC60B0161BB680B600D10238 /* Zuerich2.jpg in Resources */,
 				EC9BCAFA1BB5CB7700623F1A /* LaunchScreen.xib in Resources */,
+				EC60B01A1BB680FD00D10238 /* trainsymbol.otf in Resources */,
 				EC9BCB171BB5CC3500623F1A /* Time for Coffee!.entitlements in Resources */,
+				EC60B0141BB680B600D10238 /* launchicon.png in Resources */,
 				EC46C4E61BB5C69800F2A963 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -785,6 +838,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC60B01B1BB680FD00D10238 /* trainsymbol.otf in Resources */,
 				EC46C5111BB5C71100F2A963 /* MainInterface.storyboard in Resources */,
 				EC4AB24A1BB5F5BB00DA9759 /* Images.xcassets in Resources */,
 			);
@@ -795,6 +849,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC46C5221BB5C78A00F2A963 /* Assets.xcassets in Resources */,
+				EC60B0181BB680DE00D10238 /* launchicon.png in Resources */,
 				EC46C5201BB5C78A00F2A963 /* Interface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1248,6 +1303,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = "Time for Coffee! WatchOS 2 App Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.watchkitapp.watchkitextension;
@@ -1263,6 +1319,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = "Time for Coffee! WatchOS 2 App Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.watchkitapp.watchkitextension;
