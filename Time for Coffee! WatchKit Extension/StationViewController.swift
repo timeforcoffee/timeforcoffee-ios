@@ -114,7 +114,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             self.addMenuItemWithItemIcon(WKMenuItemIcon.Resume, title: "Reload", action: "contextButtonReload")
             self.addMenuItemWithItemIcon(WKMenuItemIcon.Maybe, title: "Map", action: Selector("contextButtonMap"))
             if let station2 = self.station {
-                self.updateUserActivity("ch.opendata.timeforcoffee.station", userInfo: station2.getAsDict(), webpageURL: nil)
+            self.updateUserActivity("ch.opendata.timeforcoffee.station", userInfo: station2.getAsDict(), webpageURL: NSURL(string: "http://www.timeforcoffee.ch/#/stationboard/\(station2.st_id)"))
             }
         }
     }
