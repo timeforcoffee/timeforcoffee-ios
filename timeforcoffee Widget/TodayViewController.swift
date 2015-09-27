@@ -514,6 +514,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                 if (self.currentStation != nil) {
                     if let title = self.currentStation?.getNameWithStarAndFilters() {
                         self.titleLabel.text = title
+                        self.currentStation?.setStationActivity()
                     }
                     self.displayDepartures()
                 }
