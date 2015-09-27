@@ -1297,9 +1297,9 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "ch.opendata.timeforcoffee.timeforcoffee-Widget";
+				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.timeforcoffee;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "9b6c53f1-9737-4484-b17c-1da3b6e00c1b";
+				PROVISIONING_PROFILE = "4a1dea98-12a8-42ac-be63-6eed2b2fff8f";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "timeforcoffee Widget/timeforcoffee Widget-Bridging-Header.h";
 			};
@@ -1317,9 +1317,9 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "ch.opendata.timeforcoffee.timeforcoffee-Widget";
+				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.timeforcoffee;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "9b6c53f1-9737-4484-b17c-1da3b6e00c1b";
+				PROVISIONING_PROFILE = "4a1dea98-12a8-42ac-be63-6eed2b2fff8f";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "timeforcoffee Widget/timeforcoffee Widget-Bridging-Header.h";
 			};
