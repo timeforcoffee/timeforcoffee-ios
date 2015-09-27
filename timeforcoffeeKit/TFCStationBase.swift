@@ -498,6 +498,19 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     }
     public func setStationSearchIndex() {
     }
+
+
+    public func getWebLink() -> NSURL? {
+        //        {:location-id :ch_zh, :stops {"008591195" {:id "008591195", :name "Zürich, Höfliweg", :location {:lat 47.367569, :lng 8.51095}, :known-destinations ()}}, :stops-order ["008591195"]
+        if let lat = self.getLatitude() {
+            let hash = "{:location-id :ch_zh, :stops {\"\(self.st_id)\" {:id \"\", :name \"\(self.name)\", :location {:lat \(lat), :lng \(self.getLongitude()!)}, :known-destinations ()}}, :stops-order [\"\(self.st_id)\"]}"
+            let utf8hash = hash.dataUsingEncoding(NSISOLatin1StringEncoding)
+            if let base64 = utf8hash?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0)) {
+                return NSURL(string: "http://www.timeforcoffee.ch/#/link/\(base64)")
+            }
+        }
+        return nil
+    }
 }
 
 public protocol TFCDeparturesUpdatedProtocol {
