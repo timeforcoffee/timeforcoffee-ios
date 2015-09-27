@@ -1362,7 +1362,7 @@
 		EC46C53E1BB5C78A00F2A963 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconWatch;
 				CODE_SIGN_ENTITLEMENTS = "Time for Coffee! WatchOS 2 App/Time for Coffee! WatchOS 2 App.entitlements";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				IBSC_MODULE = Time_for_Coffee__WatchOS_2_App_Extension;
@@ -1381,7 +1381,7 @@
 		EC46C53F1BB5C78A00F2A963 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconWatch;
 				CODE_SIGN_ENTITLEMENTS = "Time for Coffee! WatchOS 2 App/Time for Coffee! WatchOS 2 App.entitlements";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				IBSC_MODULE = Time_for_Coffee__WatchOS_2_App_Extension;
