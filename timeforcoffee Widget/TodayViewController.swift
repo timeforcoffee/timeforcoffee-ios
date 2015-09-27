@@ -78,6 +78,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
                     if let stationName = self.currentStation?.getNameWithStarAndFilters() {
                         self.titleLabel.text = stationName
+                        self.currentStation?.setStationActivity()
                     }
                 }
                 self.actionLabel.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)

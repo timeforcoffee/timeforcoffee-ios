@@ -106,6 +106,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         self.edgesForExtendedLayout = UIRectEdge.None;
 
         nameLabel.text = self.station?.name
+        self.station?.setStationActivity()
         let currentLocation = TFCLocationManager.getCurrentLocation()
         if (self.station?.coord != nil) {
             self.distanceLabel.text = self.station?.getDistanceForDisplay(currentLocation, completion: {
@@ -141,8 +142,10 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         topViewProperties(0.0)
         self.mapView?.userInteractionEnabled = false;
         self.mapView?.rotateEnabled = false
-        let region = MKCoordinateRegionMakeWithDistance((station?.coord?.coordinate)! ,450,450);
-        self.mapView.setRegion(region, animated: false)
+        if let coordinate = station?.coord?.coordinate {
+            let region = MKCoordinateRegionMakeWithDistance(coordinate ,450,450);
+            self.mapView.setRegion(region, animated: false)
+        }
         // put it to true when within a few hundred meters
         self.mapView.showsUserLocation = false
         self.mapView.delegate = self

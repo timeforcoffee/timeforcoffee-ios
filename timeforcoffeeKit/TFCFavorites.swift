@@ -121,6 +121,8 @@ final public class TFCFavorites: NSObject {
         let archivedFavorites = NSKeyedArchiver.archivedDataWithRootObject(stations)
         for (_, station) in stations {
             station.serializeDepartures = true
+            //make sure all favorites are indexed
+            station.setStationSearchIndex()
         }
         objects.dataStore?.setObject(archivedFavorites , forKey: "favorites2")
     }
