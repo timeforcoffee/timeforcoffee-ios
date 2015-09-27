@@ -170,6 +170,7 @@ public class TFCStation: TFCStationBase {
             activity.userInfo = self.getAsDict()
             activity.eligibleForSearch = true
             activity.eligibleForPublicIndexing = true
+            activity.webpageURL = NSURL(string: "http://www.timeforcoffee.ch/#/stationboard/\(self.st_id)")
             activity.becomeCurrent()
         }
     }

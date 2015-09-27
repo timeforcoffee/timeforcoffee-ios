@@ -106,7 +106,6 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         self.edgesForExtendedLayout = UIRectEdge.None;
 
         nameLabel.text = self.station?.name
-        self.station?.setStationActivity()
         let currentLocation = TFCLocationManager.getCurrentLocation()
         if (self.station?.coord != nil) {
             self.distanceLabel.text = self.station?.getDistanceForDisplay(currentLocation, completion: {
@@ -162,6 +161,8 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
             gtracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject]!)
         }
         viewAppeared = true
+        self.station?.setStationActivity()
+
     }
 
 
@@ -494,6 +495,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
     }
     
     func applicationDidBecomeActive(notification: NSNotification) {
+        self.station?.setStationActivity()
         NSNotificationCenter.defaultCenter().removeObserver(self)
           NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeInactive:", name: "UIApplicationDidEnterBackgroundNotification", object: nil)
         displayDepartures()
