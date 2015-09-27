@@ -11,6 +11,8 @@ import timeforcoffeeKit
 import CoreLocation
 import Fabric
 import Crashlytics
+import CoreSpotlight
+import MobileCoreServices
 
 @UIApplicationMain
 final class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -135,17 +137,46 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                     Clocation = CLLocation(latitude: NSString(string: queryStrings["lat"]!).doubleValue, longitude: NSString(string: queryStrings["long"]!).doubleValue)
                 }
                 let station = TFCStation.initWithCache(name, id: queryStrings["id"]!, coord: Clocation)
-       //         let stations = TFCStations()
-                let rootView = self.window?.rootViewController as! UINavigationController
-                let detailViewController = rootView.storyboard?.instantiateViewControllerWithIdentifier("DeparturesViewController") as! DeparturesViewController
-
-                rootView.dismissViewControllerAnimated(false, completion: nil)
-                rootView.popToRootViewControllerAnimated(false)
-                detailViewController.setStation(station: station)
-                rootView.pushViewController(detailViewController, animated: false)
+                popUpStation(station)
             }
         }
         return true
     }
-}
+    func application(_: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: [AnyObject]? -> Void) -> Bool {
+        if #available(iOS 9, *) {
 
+            if userActivity.activityType == "ch.opendata.timeforcoffee.station" {
+                NSLog("here")
+                if let ua: [String: String] = userActivity.userInfo as? [String: String] {
+                    let station = TFCStation.initWithCache(ua)
+                    popUpStation(station)
+                }
+
+            }
+            if userActivity.activityType == CSSearchableItemActionType {
+                // This activity represents an item indexed using Core Spotlight, so restore the context related to the unique identifier.
+                // Note that the unique identifier of the Core Spotlight item is set in the activity’s userInfo property for the key CSSearchableItemActivityIdentifier.
+                if let uniqueIdentifier = userActivity.userInfo?[CSSearchableItemActivityIdentifier] as? String {
+                // Next, find and open the item specified by uniqueIdentifer.
+                    let station = TFCStation.initWithCache("", id: uniqueIdentifier, coord: nil)
+                    popUpStation(station)
+
+                }
+            }
+
+
+        }
+        return true
+
+    }
+
+    private func popUpStation(station: TFCStation) {
+        let rootView = self.window?.rootViewController as! UINavigationController
+        let detailViewController = rootView.storyboard?.instantiateViewControllerWithIdentifier("DeparturesViewController") as! DeparturesViewController
+
+        rootView.dismissViewControllerAnimated(false, completion: nil)
+        rootView.popToRootViewControllerAnimated(false)
+        detailViewController.setStation(station: station)
+        rootView.pushViewController(detailViewController, animated: false)
+    }
+}

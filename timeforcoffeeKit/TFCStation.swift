@@ -9,8 +9,14 @@
 import Foundation
 import CoreLocation
 import MapKit
+import CoreSpotlight
+import MobileCoreServices
 
 public class TFCStation: TFCStationBase {
+    private lazy var activity : NSUserActivity = {
+        [unowned self] in
+        NSUserActivity(activityType: "ch.opendata.timeforcoffee.station")
+    }()
 
     private func getWalkingDistance(location: CLLocation?, completion: (String?) -> Void ) {
         let walkingDistanceValidString = getLastValidWalkingDistanceValid(location)
@@ -153,5 +159,38 @@ public class TFCStation: TFCStationBase {
                 })
         })
         
+    }
+
+    override public func setStationActivity() {
+        if #available(iOS 9, *) {
+            self.setStationSearchIndex()
+
+            activity.contentAttributeSet = getAttributeSet()
+            activity.title = self.getName(false)
+            activity.userInfo = self.getAsDict()
+            activity.eligibleForSearch = true
+            activity.eligibleForPublicIndexing = true
+            activity.becomeCurrent()
+        }
+    }
+
+    override public func setStationSearchIndex() {
+        if #available(iOS 9, *) {
+        let item = CSSearchableItem(uniqueIdentifier: self.st_id, domainIdentifier: "stations", attributeSet: getAttributeSet())
+            CSSearchableIndex.defaultSearchableIndex().indexSearchableItems([item], completionHandler: { (error) -> Void in
+
+            })
+        }
+    }
+
+    @available(iOSApplicationExtension 9.0, *)
+    private func getAttributeSet() -> CSSearchableItemAttributeSet {
+        let attributeSet = CSSearchableItemAttributeSet(itemContentType: kUTTypeText as String)
+        attributeSet.title = self.getName(false)
+        attributeSet.supportsNavigation = 1
+        attributeSet.latitude = self.getLatitude()
+        attributeSet.longitude = self.getLongitude()
+        attributeSet.relatedUniqueIdentifier = self.st_id
+        return attributeSet
     }
 }

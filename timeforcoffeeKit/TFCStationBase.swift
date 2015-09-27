@@ -92,7 +92,12 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         var newStation: TFCStation? = cache.objectForKey(id) as? TFCStation
         if (newStation == nil || newStation?.coord == nil) {
             newStation = TFCStation(name: name, id: id, coord: coord)
-            cache.setObject(newStation!, forKey: newStation!.st_id)
+            //only cache it when name is != "" otherwise it comes
+            // from something with only the id
+            if (name != "" && newStation?.coord != nil) {
+                cache.setObject(newStation!, forKey: newStation!.st_id)
+                newStation!.setStationSearchIndex()
+            }
         } else {
             let countBefore = newStation!.departures?.count
             if (countBefore > 0) {
@@ -486,6 +491,11 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
     private func getNormalIcon() -> UIImage {
         return UIImage(named: "stationicon-pin")!
+    }
+
+    public func setStationActivity() {
+    }
+    public func setStationSearchIndex() {
     }
 }
 

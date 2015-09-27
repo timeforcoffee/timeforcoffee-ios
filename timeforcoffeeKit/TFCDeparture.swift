@@ -57,7 +57,10 @@ public final class TFCDeparture: NSObject, NSCoding {
 
     
     public class func getStationNameFromJson(result: JSON) -> String? {
-        return result["meta"]["station_name"].string
+        if let name = result["meta"]["station_name"].string {
+            return name
+        }
+        return ""
     }
     
     public class func withJSON(allResults: JSON?) -> [TFCDeparture]? {
