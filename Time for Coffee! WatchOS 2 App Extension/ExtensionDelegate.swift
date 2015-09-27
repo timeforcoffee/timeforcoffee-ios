@@ -7,7 +7,6 @@
 //
 
 import WatchKit
-import timeforcoffeeWatchKit
 
 class ExtensionDelegate: NSObject, WKExtensionDelegate {
 

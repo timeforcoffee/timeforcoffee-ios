@@ -9,6 +9,7 @@
 import Foundation
 import CoreLocation
 import MapKit
+import UIKit
 
 public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     public var name: String

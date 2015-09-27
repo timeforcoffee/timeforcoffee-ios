@@ -8,7 +8,6 @@
 
 import Foundation
 import WatchKit
-import timeforcoffeeWatchKit
 
 class StationsRow: NSObject {
 
