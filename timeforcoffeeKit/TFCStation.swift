@@ -186,7 +186,7 @@ public class TFCStation: TFCStationBase {
                 toDate: NSDate(),
                 options: [])!
             activity.expirationDate = OneWeekFromNow
-            activity.keywords = ["Fahrplan", "Timetable", "ZVV", "SBB"]
+            activity.keywords = Set(getKeywords())
             activity.becomeCurrent()
         }
     }
@@ -208,8 +208,17 @@ public class TFCStation: TFCStationBase {
         attributeSet.latitude = self.getLatitude()
         attributeSet.longitude = self.getLongitude()
         attributeSet.relatedUniqueIdentifier = self.st_id
-        attributeSet.keywords = ["Fahrplan", "Timetable", "ZVV", "SBB"]
+        attributeSet.keywords = getKeywords()
         return attributeSet
+    }
+
+    private func getKeywords() -> [String] {
+        let abridged = self.getNameAbridged()
+        var keywords = ["Fahrplan", "Timetable", "ZVV", "SBB"]
+        if abridged != self.name {
+            keywords.append(abridged)
+        }
+        return keywords
     }
 
 }

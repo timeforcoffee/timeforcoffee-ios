@@ -195,7 +195,11 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         }
         return name
     }
-    
+
+    public func getNameAbridged() -> String {
+        return self.name.replace(".*,[ ]*", template: "")
+    }
+
     public func getNameWithStar() -> String {
         return getNameWithStar(false)
     }
