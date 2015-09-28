@@ -88,10 +88,31 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     }
 
     public class func initWithCache(name: String, id: String, coord: CLLocation?) -> TFCStation {
+        let trimmed_id = id.replace("^0*", template: "")
         let cache: PINCache = TFCCache.objects.stations
-        var newStation: TFCStation? = cache.objectForKey(id) as? TFCStation
+        var newStation: TFCStation? = cache.objectForKey(trimmed_id) as? TFCStation
         if (newStation == nil || newStation?.coord == nil) {
-            newStation = TFCStation(name: name, id: id, coord: coord)
+            //if name is unknown, fetch it from opendata
+            // this is done synchronously, so butt ugly, but we have a timeout of 5 seconds
+            if (name == "") {
+                let api = APIController(delegate: nil)
+                NSLog("Station Name missing. Fetch station info from opendata.ch for \(trimmed_id)")
+                if let result = api.getStationInfo(trimmed_id) {
+                    if let name = result["stations"][0]["name"].string {
+                        if let id = result["stations"][0]["id"].string?.replace("^0*", template: "") {
+                            var location:CLLocation? = nil
+                            if let lat = result["stations"][0]["coordinate"]["x"].double {
+                                if let long = result["stations"][0]["coordinate"]["y"].double {
+                                location = CLLocation(latitude: lat, longitude: long)
+                                }
+                            }
+                            // try again, this time with a name
+                            return TFCStation.initWithCache(name, id: id, coord: location)
+                        }
+                    }
+                }
+            }
+            newStation = TFCStation(name: name, id: trimmed_id, coord: coord)
             //only cache it when name is != "" otherwise it comes
             // from something with only the id
             if (name != "" && newStation?.coord != nil) {
