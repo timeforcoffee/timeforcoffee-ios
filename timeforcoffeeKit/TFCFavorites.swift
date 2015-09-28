@@ -26,7 +26,7 @@ final public class TFCFavorites: NSObject {
     }
 
     private var temporarlyRemovedStations = false
-
+    private var idsWereTrimmed = false
 
     override init() {
         super.init()
@@ -35,6 +35,11 @@ final public class TFCFavorites: NSObject {
     func repopulateFavorites() {
         temporarlyRemovedStations = false
         self.stations = getCurrentFavoritesFromDefaults()
+        //the following trimmed can be removed later, maybe in 1.7 or so (needed in 1.5)
+        if (idsWereTrimmed) {
+            saveFavorites()
+            idsWereTrimmed = false
+        }
     }
 
     public func getSearchRadius() -> Int {
@@ -59,9 +64,19 @@ final public class TFCFavorites: NSObject {
         if (st != nil) {
             // get if from the cache, if it's already there.
             for (st_id, _) in st! {
-                let newStation: TFCStation? = cache.objectForKey(st_id) as? TFCStation
+                // trim id since we sometimes saved this wrong
+
+                let trimmed_id = st_id.replace("^0*", template: "")
+                if (trimmed_id != st_id) {
+                    NSLog("Trim favourite ID \(st_id)")
+                    st![trimmed_id] = st![st_id]
+                    st![trimmed_id]!.st_id = trimmed_id
+                    st!.removeValueForKey(st_id)
+                    idsWereTrimmed = true
+                }
+                let newStation: TFCStation? = cache.objectForKey(trimmed_id) as? TFCStation
                 if (newStation != nil && newStation?.coord != nil) {
-                    st![st_id] = newStation
+                    st![trimmed_id] = newStation
                 }
             }
             return st!

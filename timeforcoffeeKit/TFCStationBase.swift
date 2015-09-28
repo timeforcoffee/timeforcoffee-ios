@@ -57,7 +57,15 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     public init(name: String, id: String, coord: CLLocation?) {
         self.name = name
         self.st_id = id
-        self.coord = coord
+        self.coord = nil
+
+        if let c = coord?.coordinate {
+            // round coordinates to 6 places to make sure they are the same with different sources
+            // to avoid double entries in Spotlight search
+            let lat = c.latitude.roundToPlaces(6);
+            let long = c.longitude.roundToPlaces(6);
+            self.coord = CLLocation(latitude: lat, longitude: long)
+        }
     }
 
     public required init?(coder aDecoder: NSCoder) {

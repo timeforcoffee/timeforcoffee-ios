@@ -175,6 +175,7 @@ public class TFCStation: TFCStationBase {
             activity.contentAttributeSet = getAttributeSet()
             activity.title = self.getName(false)
             activity.userInfo = uI
+            activity.requiredUserInfoKeys = ["st_id", "name", "longitude", "latitude"]
             activity.eligibleForSearch = true
             activity.eligibleForPublicIndexing = true
             activity.webpageURL = self.getWebLink()
