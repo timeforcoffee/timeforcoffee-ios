@@ -171,6 +171,13 @@ public class TFCStation: TFCStationBase {
             activity.eligibleForSearch = true
             activity.eligibleForPublicIndexing = true
             activity.webpageURL = self.getWebLink()
+            let userCalendar = NSCalendar.currentCalendar()
+            let OneWeekFromNow = userCalendar.dateByAddingUnit(
+                [.Day],
+                value: 7,
+                toDate: NSDate(),
+                options: [])!
+            activity.expirationDate = OneWeekFromNow
             activity.becomeCurrent()
         }
     }
