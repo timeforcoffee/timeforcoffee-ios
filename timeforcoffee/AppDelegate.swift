@@ -148,8 +148,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             if userActivity.activityType == "ch.opendata.timeforcoffee.station" {
                 NSLog("here")
                 if let ua: [String: String] = userActivity.userInfo as? [String: String] {
-                    let station = TFCStation.initWithCache(ua)
-                    popUpStation(station)
+                    if (ua["st_id"] != nil) {
+                        let station = TFCStation.initWithCache(ua)
+                        popUpStation(station)
+                    }
                 }
 
             }

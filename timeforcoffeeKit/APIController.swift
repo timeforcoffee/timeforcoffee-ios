@@ -18,7 +18,7 @@ final class APIController {
         return TFCCache.objects.apicalls
      }()
 
-    init(delegate: APIControllerProtocol) {
+    init(delegate: APIControllerProtocol?) {
         self.delegate = delegate
     }
 
@@ -49,6 +49,12 @@ final class APIController {
         let urlPath = "http://www.timeforcoffee.ch/api/zvv/stationboard/\(id)"
         self.fetchUrl(urlPath, fetchId: 2, context: context, cacheKey: nil)
     }
+
+    func getStationInfo(id: String!) -> JSON? {
+        let urlPath = "http://transport.opendata.ch/v1/locations?query=\(id)"
+        let cacheKey = "stationsinfo/\(id)"
+        return self.fetchUrlSync(urlPath, cacheKey: cacheKey)
+    }
     
     private func fetchUrl(urlPath: String, fetchId: Int, cacheKey: String?) {
         fetchUrl(urlPath, fetchId: fetchId, context: nil, cacheKey: cacheKey, counter: 0)
@@ -61,8 +67,7 @@ final class APIController {
     private func fetchUrl(urlPath: String, fetchId: Int, context: Any?, cacheKey: String?, counter: Int) {
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            if (cacheKey != nil && self.cache.objectForKey(cacheKey!) as? NSData != nil) {
-                let result = JSON(data: self.cache.objectForKey(cacheKey!) as! NSData);
+            if let result = self.getFromCache(cacheKey) {
                 self.delegate?.didReceiveAPIResults(result, error: nil, context: context)
             } else {
                 let url: NSURL = NSURL(string: urlPath)!
@@ -118,6 +123,54 @@ final class APIController {
             }
 
         }
+    }
+    /* only use this if you know what you're doing
+        we use it in TFCStationBase to get the name and coords of a station
+        if it's not known yet */
+    private func fetchUrlSync(urlPath: String, cacheKey: String?) -> JSON? {
+        if let result = self.getFromCache(cacheKey) {
+            NSLog("Sync fetch was still in cache")
+            return result
+        }
+        let semaphore = dispatch_semaphore_create(0)
+        let url: NSURL = NSURL(string: urlPath)!
+        let absUrl = url.absoluteString
+        NSLog("Start fetching sync data %@", absUrl)
+        var jsonResult:JSON? = nil
+        let session2 = TFCURLSession.sharedInstance.session
+        let dataFetch: NSURLSessionDataTask? = session2.dataTaskWithURL(url, completionHandler: {data , response, error -> Void in
+
+            NSLog("Task Sync completed")
+            if(error != nil) {
+                jsonResult = nil
+            }
+            if (data == nil) {
+                jsonResult = JSON(NSNull())
+            } else {
+                jsonResult = JSON(data: data!)
+                //jsonResult.rawValue is NSNull, when data was not parseable. Don't cache it in that case
+                if (!(jsonResult!.rawValue is NSNull) && error == nil && cacheKey != nil) {
+                    self.cache.setObject(data!, forKey: cacheKey!)
+                }
+            }
+            dispatch_semaphore_signal(semaphore)
+
+        })
+        dataFetch?.resume()
+
+        let timeout =  dispatch_time(DISPATCH_TIME_NOW, 5000000000) // 5 seconds
+        if dispatch_semaphore_wait(semaphore, timeout) != 0 {
+            NSLog("stationInfo sync call timed out.")
+        }
+
+        return jsonResult
+    }
+
+    private func getFromCache(cacheKey: String?) -> JSON? {
+        if (cacheKey != nil && self.cache.objectForKey(cacheKey!) as? NSData != nil) {
+            return JSON(data: self.cache.objectForKey(cacheKey!) as! NSData);
+        }
+        return nil;
     }
 }
 

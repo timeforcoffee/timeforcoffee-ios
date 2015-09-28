@@ -163,11 +163,18 @@ public class TFCStation: TFCStationBase {
 
     override public func setStationActivity() {
         if #available(iOS 9, *) {
+            let uI = self.getAsDict()
+
+            if (uI["st_id"] == nil) {
+                NSLog("station dict seems EMPTY")
+                return
+            }
+            
             self.setStationSearchIndex()
 
             activity.contentAttributeSet = getAttributeSet()
             activity.title = self.getName(false)
-            activity.userInfo = self.getAsDict()
+            activity.userInfo = uI
             activity.eligibleForSearch = true
             activity.eligibleForPublicIndexing = true
             activity.webpageURL = self.getWebLink()
@@ -178,6 +185,7 @@ public class TFCStation: TFCStationBase {
                 toDate: NSDate(),
                 options: [])!
             activity.expirationDate = OneWeekFromNow
+            activity.keywords = ["Fahrplan", "Timetable", "ZVV", "SBB"]
             activity.becomeCurrent()
         }
     }
@@ -199,6 +207,7 @@ public class TFCStation: TFCStationBase {
         attributeSet.latitude = self.getLatitude()
         attributeSet.longitude = self.getLongitude()
         attributeSet.relatedUniqueIdentifier = self.st_id
+        attributeSet.keywords = ["Fahrplan", "Timetable", "ZVV", "SBB"]
         return attributeSet
     }
 
