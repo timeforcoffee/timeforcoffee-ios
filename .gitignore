@@ -10,7 +10,7 @@ build/
 *.perspectivev3
 !default.perspectivev3
 *.xcworkspace
-!default.xcworkspace
+!timeforcoffee.xcworkspace
 xcuserdata
 profile
 *.moved-aside

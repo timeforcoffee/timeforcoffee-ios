@@ -15,15 +15,11 @@
 	<key>CFBundlePackageType</key>
 	<string>FMWK</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.5</string>
+	<string>1.6</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>102</string>
-	<key>NSLocationUsageDescription</key>
-	<string>We need that</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>When in use</string>
+	<string>103</string>
 	<key>NSPrincipalClass</key>
 	<string></string>
 </dict>

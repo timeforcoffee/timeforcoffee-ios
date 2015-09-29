@@ -9,6 +9,7 @@
 import Foundation
 import CoreLocation
 import MapKit
+import UIKit
 
 public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     public var name: String
@@ -194,7 +195,11 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         }
         return name
     }
-    
+
+    public func getNameAbridged() -> String {
+        return self.name.replace(".*,[ ]*", template: "")
+    }
+
     public func getNameWithStar() -> String {
         return getNameWithStar(false)
     }
