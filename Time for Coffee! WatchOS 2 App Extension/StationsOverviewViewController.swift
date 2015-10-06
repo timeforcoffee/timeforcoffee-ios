@@ -73,7 +73,6 @@ class StationsOverviewViewController: WKInterfaceController {
             infoLabel.setText(text)
         }
 
-
         TFCWatchData.sharedInstance.getStations(handleReply, errorReply: errorReply, stopWithFavorites: false)
     }
 

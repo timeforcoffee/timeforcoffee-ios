@@ -110,6 +110,8 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         }
 
         if (self.initTable == true) {
+            infoGroup.setHidden(false)
+            infoLabel.setText("Loading ...")
             stationsTable.setNumberOfRows(10, withRowType: "station")
             self.numberOfRows = 10
             self.initTable = false
@@ -169,6 +171,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
                 self.numberOfRows = departures2.count
                 self.initTable = false
             }
+            infoGroup.setHidden(true)
             for (deptstation) in departures2 {
                 if (station?.st_id != self.station?.st_id) {
                     continue
@@ -193,7 +196,6 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
 
     func contextButtonReload() {
         func reload(stations: TFCStations?) {
-            infoGroup.setHidden(true)
             setStationValues()
         }
         func errorReply(text: String) {
