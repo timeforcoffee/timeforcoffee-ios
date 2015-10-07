@@ -35,8 +35,13 @@ final class APIController {
     func searchFor(location: String) {
         let name = location.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
         let cacheKey = "stations/\(name)"
-        let urlPath = "http://www.timeforcoffee.ch/api/zvv/stations/\(name)*";
-        //let urlPath = "http://transport.opendata.ch/v1/locations?query=\(name)*";
+        let urlPath:String
+        // search over all possible locations if outside of switzerland
+        if (TFCLocationManager.getISOCountry() != "CH") {
+            urlPath = "http://transport.opendata.ch/v1/locations?query=\(name)*";
+        } else {
+            urlPath = "http://www.timeforcoffee.ch/api/zvv/stations/\(name)*"
+        }
 
         self.fetchUrl(urlPath, fetchId: 1, cacheKey: cacheKey)
     }
