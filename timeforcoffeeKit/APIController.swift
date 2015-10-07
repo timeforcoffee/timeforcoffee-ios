@@ -46,7 +46,17 @@ final class APIController {
     }
     
     func getDepartures(id: String!, context: Any?) {
-        let urlPath = "http://www.timeforcoffee.ch/api/zvv/stationboard/\(id)"
+        let urlPath:String
+        // we return date from opendata, when we're not in switzerland (TFC only has
+        //  data for switzerland, but transport.opendata.ch may have for other stations
+        //  as well)
+        //  but actually each station should know, if it's in switzerland or not, but that
+        //  needs a whole different infrastructure
+        if (TFCLocationManager.getISOCountry() != "CH") {
+            urlPath = "http://transport.opendata.ch/v1/stationboard?id=\(id)&limit=40"
+        } else {
+            urlPath = "http://www.timeforcoffee.ch/api/zvv/stationboard/\(id)"
+        }
         self.fetchUrl(urlPath, fetchId: 2, context: context, cacheKey: nil)
     }
 

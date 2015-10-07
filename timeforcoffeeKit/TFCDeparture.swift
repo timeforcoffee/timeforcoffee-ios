@@ -70,17 +70,21 @@ public final class TFCDeparture: NSObject, NSCoding {
         if (allResults == nil) {
             return nil
         }
+
+        if (allResults?["stationboard"].array != nil) {
+            return TFCDeparture.withJSONFromTransport2TFC(allResults)
+        }
         if let results = allResults?["departures"].array {
             departures = [TFCDeparture]()
             for result in results {
-                let name = result["name"].string
-                let type = result["type"].string
+                let name = result["name"].stringValue
+                let type = result["type"].stringValue
                 let accessibleOpt = result["accessible"].bool
                 var accessible = true
                 if (accessibleOpt == nil || accessibleOpt == false) {
                     accessible = false
                 }
-                let to = result["to"].string
+                let to = result["to"].stringValue
                 let scheduledStr = result["departure"]["scheduled"].string
                 let realtimeStr = result["departure"]["realtime"].string
                 var colorFg = result["colors"]["fg"].string
@@ -104,13 +108,72 @@ public final class TFCDeparture: NSObject, NSCoding {
                     realtime = nil
                 }
                 
-                let newDeparture = TFCDeparture(name: name!, type: type!, accessible: accessible, to: to!, scheduled: scheduled, realtime: realtime, colorFg: colorFg, colorBg: colorBg)
+                let newDeparture = TFCDeparture(name: name, type: type, accessible: accessible, to: to, scheduled: scheduled, realtime: realtime, colorFg: colorFg, colorBg: colorBg)
                 departures?.append(newDeparture)
             }
             return departures
         }
         return nil
     }
+
+
+    private class func withJSONFromTransport2TFC(allResults: JSON?) -> [TFCDeparture]? {
+        var newResults:[String: AnyObject] = [String: AnyObject]()
+
+        if let results = allResults {
+            newResults["meta"] = ["station_id": results["station"]["id"].stringValue, "station_name": results["station"]["name"].stringValue]
+
+            var departures = [AnyObject]()
+            for (_,subJson):(String, JSON) in results["stationboard"] {
+                //Do something you want
+                if let stop = subJson["stop"].dictionary {
+                    var newstop:[String: AnyObject] = [String: AnyObject]()
+                    if (subJson["categoryCode"] < 5) {
+                        newstop["name"] = subJson["category"].stringValue
+
+                    } else if (subJson["categoryCode"] == 5) {
+                        newstop["name"] = subJson["name"].stringValue
+                    } else {
+                        newstop["name"] = subJson["number"].stringValue
+
+                    }
+                    newstop["type"] = subJson["category"].string
+                    newstop["accessible"] = false
+                    newstop["color"] = ["fg": "#000000", "bg":  "#FFFFFF"]
+                    newstop["to"] = subJson["to"].string
+                    newstop["departure"] = [];
+                    var departure:[String: AnyObject] = [String: AnyObject]()
+                    departure["scheduled"] = stop["departure"]?.string
+                    departure["realtime"] = stop["prognosis"]?["departure"].string;
+                    newstop["departure"] = departure
+                    departures.append(newstop)
+                }
+            }
+            newResults["departures"] = departures as [AnyObject]
+            return TFCDeparture.withJSON(JSON(newResults))
+        }
+
+        return nil
+/*
+        $data["meta"] = ["station_id" => $data["station"]["id"], "station_name" => $data["station"]["name"]];
+        $data["departures"] = array();
+        foreach ($data["stationboard"] as $stop) {
+            $newstop = array();
+            $newstop["name"] = $stop["name"];
+            $newstop["name"] = trim(str_replace($stop["subcategory"],"",$newstop["name"]));
+            $newstop["type"] = $stop["category"];
+            $newstop["accessible"] = false;
+            $newstop["colors"] = array("fg" =>"#000000", "bg" => "#FFFFFF");
+            $newstop["to"] = $stop["to"];
+            $newstop["departure"] = array();
+            $newstop["departure"]["scheduled"] = $stop["stop"]["departure"];
+            $newstop["departure"]["realtime"] = null;
+            $data["departures"][] = $newstop;
+        }
+        unset($data["stationboard"]);
+        unset($data["station"]);*/
+    }
+
 
     public func getDestination(station: TFCStation) -> String {
         let fullName = self.to
@@ -285,10 +348,16 @@ public final class TFCDeparture: NSObject, NSCoding {
     }
 
     private class func parseDate(dateStr:String) -> NSDate? {
-        let format = "yyyy-MM-dd'T'HH:mm:ss.'000'ZZZZZ"
+        var format = "yyyy-MM-dd'T'HH:mm:ss.'000'ZZZZZ"
         let dateFmt = NSDateFormatter()
         dateFmt.timeZone = NSTimeZone.defaultTimeZone()
         dateFmt.locale = NSLocale(localeIdentifier: "de_CH")
+        dateFmt.dateFormat = format
+        if let date =  dateFmt.dateFromString(dateStr) {
+            return date
+        }
+        //used by transport.opendata.ch, if the one above fails
+        format = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         dateFmt.dateFormat = format
         return dateFmt.dateFromString(dateStr)
     }

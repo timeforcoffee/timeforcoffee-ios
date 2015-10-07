@@ -9,7 +9,6 @@
 import UIKit
 import MapKit
 import timeforcoffeeKit
-import CoreLocation
 
 final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, TFCStationsUpdatedProtocol {
     

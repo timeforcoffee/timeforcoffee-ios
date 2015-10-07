@@ -9,7 +9,6 @@
 import UIKit
 import MapKit
 import timeforcoffeeKit
-import CoreLocation
 
 class StationsViewController: TFCBaseViewController {
     @IBOutlet weak var appsTableView : StationTableView?

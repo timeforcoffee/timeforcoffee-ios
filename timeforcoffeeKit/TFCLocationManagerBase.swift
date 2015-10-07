@@ -27,6 +27,7 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
 
     private struct classvar {
         static var currentLocation: CLLocation?
+        static var currentPlacemark: CLPlacemark?
     }
 
     public struct k {
@@ -72,6 +73,10 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
                         // random location in zurich
                         // currentLocation = CLLocation(latitude: 47.33 + (Double(arc4random_uniform(100)) / 1000.0), longitude: 8.5 + (Double(arc4random_uniform(100)) / 1000.0))
                         self.locationManager.stopUpdatingLocation()
+                        if (classvar.currentPlacemark == nil || classvar.currentPlacemark?.location?.distanceFromLocation(self.currentLocation!) > 1000) {
+                            self.updateGeocodedPlacemark()
+                        }
+
                         self.delegate.locationFixed(self.currentLocation)
                         //self.delegate.locationDenied(manager)
                     #else
@@ -89,6 +94,10 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
                 let locationArray = locations as NSArray
                 let locationObj = locationArray.lastObject as! CLLocation
                 self.currentLocation = locationObj;
+                //Update reverse geolocation placemark only when we moved 2km away from last one
+                if (classvar.currentPlacemark == nil || classvar.currentPlacemark?.location?.distanceFromLocation(self.currentLocation!) > 2000) {
+                    self.updateGeocodedPlacemark()
+                }
                 self.delegate.locationFixed(self.currentLocation)
             } else {
                 self.delegate.locationFixed(nil)
@@ -135,6 +144,19 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
     
     func requestLocation() {
 
+    }
+
+    public func updateGeocodedPlacemark() {
+        let geocoder = CLGeocoder()
+        geocoder.reverseGeocodeLocation(classvar.currentLocation!) { (places:[CLPlacemark]?, error:NSError?) -> Void in
+            if let place = places?.first {
+                classvar.currentPlacemark = place
+            }
+        }
+    }
+
+    public class func getISOCountry() -> String? {
+        return classvar.currentPlacemark?.ISOcountryCode
     }
 }
 
