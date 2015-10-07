@@ -156,7 +156,12 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
     }
 
     public class func getISOCountry() -> String? {
-        return classvar.currentPlacemark?.ISOcountryCode
+        if let pm = classvar.currentPlacemark {
+            return pm.ISOcountryCode
+        } else {
+            //default to CH, if no placemark is set
+            return "CH"
+        }
     }
 }
 
