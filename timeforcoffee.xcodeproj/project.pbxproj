@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5B7AC4D419E5E42C1EE84391 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B61A0764380F93D8793B8C0 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		E479BE31D82E625238C78115 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B61A0764380F93D8793B8C0 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		96DD166B9346E9C6C7A0AD72 /* Pods_timeforcoffee_Widget.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4DAEC3B840788F055DF7339 /* Pods_timeforcoffee_Widget.framework */; };
+		A45A9EF246329212F1819CB9 /* Pods_timeforcoffee.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC2EE2BCBDED56A401893E5C /* Pods_timeforcoffee.framework */; };
 		EC050CE81BB84D4700ECB533 /* APIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB181BB5CCD300623F1A /* APIController.swift */; settings = {ASSET_TAGS = (); }; };
 		EC050CE91BB84D4700ECB533 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB191BB5CCD300623F1A /* extensions.swift */; settings = {ASSET_TAGS = (); }; };
 		EC050CEA1BB84D4700ECB533 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB1A1BB5CCD300623F1A /* SwiftyJSON.swift */; settings = {ASSET_TAGS = (); }; };
@@ -202,9 +202,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		8B61A0764380F93D8793B8C0 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0D2DC66041E4A77B6A3B07E4 /* Pods-timeforcoffee Widget.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-timeforcoffee Widget.debug.xcconfig"; path = "Pods/Target Support Files/Pods-timeforcoffee Widget/Pods-timeforcoffee Widget.debug.xcconfig"; sourceTree = "<group>"; };
+		41AE3C8766A742BA00387ABF /* Pods-timeforcoffee.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-timeforcoffee.debug.xcconfig"; path = "Pods/Target Support Files/Pods-timeforcoffee/Pods-timeforcoffee.debug.xcconfig"; sourceTree = "<group>"; };
+		7976222C367990B42F3C4EB8 /* Pods-timeforcoffee.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-timeforcoffee.release.xcconfig"; path = "Pods/Target Support Files/Pods-timeforcoffee/Pods-timeforcoffee.release.xcconfig"; sourceTree = "<group>"; };
 		95BFFF0BE2743D2FB45240EA /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		B4DAEC3B840788F055DF7339 /* Pods_timeforcoffee_Widget.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_timeforcoffee_Widget.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0B6931A87875286CA995428 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		CCD4D3B37D83AB83CB7207D7 /* Pods-timeforcoffee Widget.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-timeforcoffee Widget.release.xcconfig"; path = "Pods/Target Support Files/Pods-timeforcoffee Widget/Pods-timeforcoffee Widget.release.xcconfig"; sourceTree = "<group>"; };
+		DC2EE2BCBDED56A401893E5C /* Pods_timeforcoffee.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_timeforcoffee.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC050CF71BB84D8100ECB533 /* watch-extension-bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "watch-extension-bridging-Header.h"; sourceTree = "<group>"; };
 		EC0AD15E1BB694CC004217FD /* SupportKitLocalizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = SupportKitLocalizable.strings; sourceTree = "<group>"; };
 		EC0AD1631BB69539004217FD /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -324,8 +329,8 @@
 				EC4AB2461BB5F4AC00DA9759 /* libsqlite3.tbd in Frameworks */,
 				EC4F0C871BB5D06700CE7C24 /* UIKit.framework in Frameworks */,
 				EC46C5601BB5C82800F2A963 /* timeforcoffeeKit.framework in Frameworks */,
-				5B7AC4D419E5E42C1EE84391 /* Pods.framework in Frameworks */,
 				EC4AB2381BB5F11600DA9759 /* libGoogleAnalyticsServices.a in Frameworks */,
+				A45A9EF246329212F1819CB9 /* Pods_timeforcoffee.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,6 +345,7 @@
 				EC4AB2391BB5F18600DA9759 /* timeforcoffeeKit.framework in Frameworks */,
 				EC46C50B1BB5C71100F2A963 /* NotificationCenter.framework in Frameworks */,
 				EC4AB23B1BB5F40000DA9759 /* libGoogleAnalyticsServices.a in Frameworks */,
+				96DD166B9346E9C6C7A0AD72 /* Pods_timeforcoffee_Widget.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -347,7 +353,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E479BE31D82E625238C78115 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -366,6 +371,10 @@
 			children = (
 				95BFFF0BE2743D2FB45240EA /* Pods.debug.xcconfig */,
 				C0B6931A87875286CA995428 /* Pods.release.xcconfig */,
+				41AE3C8766A742BA00387ABF /* Pods-timeforcoffee.debug.xcconfig */,
+				7976222C367990B42F3C4EB8 /* Pods-timeforcoffee.release.xcconfig */,
+				0D2DC66041E4A77B6A3B07E4 /* Pods-timeforcoffee Widget.debug.xcconfig */,
+				CCD4D3B37D83AB83CB7207D7 /* Pods-timeforcoffee Widget.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -439,7 +448,8 @@
 				EC4AB2371BB5F11600DA9759 /* libGoogleAnalyticsServices.a */,
 				EC4F0C861BB5D06700CE7C24 /* UIKit.framework */,
 				EC46C50A1BB5C71100F2A963 /* NotificationCenter.framework */,
-				8B61A0764380F93D8793B8C0 /* Pods.framework */,
+				DC2EE2BCBDED56A401893E5C /* Pods_timeforcoffee.framework */,
+				B4DAEC3B840788F055DF7339 /* Pods_timeforcoffee_Widget.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -617,9 +627,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EC46C5161BB5C71100F2A963 /* Build configuration list for PBXNativeTarget "timeforcoffee Widget" */;
 			buildPhases = (
+				891134A4E1FCF221FEB82764 /* Check Pods Manifest.lock */,
 				EC46C5041BB5C71100F2A963 /* Sources */,
 				EC46C5051BB5C71100F2A963 /* Frameworks */,
 				EC46C5061BB5C71100F2A963 /* Resources */,
+				1532417E68EB989857A420C9 /* Embed Pods Frameworks */,
+				7641C291DCA2EB0BD2233EBE /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -669,7 +682,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EC46C5621BB5C82800F2A963 /* Build configuration list for PBXNativeTarget "timeforcoffeeKit" */;
 			buildPhases = (
-				D6FCB53F4E39ABC8B15DD4BF /* Check Pods Manifest.lock */,
 				EC46C5541BB5C82800F2A963 /* Sources */,
 				EC46C5551BB5C82800F2A963 /* Frameworks */,
 				EC46C5561BB5C82800F2A963 /* Headers */,
@@ -827,6 +839,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		1532417E68EB989857A420C9 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-timeforcoffee Widget/Pods-timeforcoffee Widget-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		527726AD19846D9ABE3AA50C /* Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -839,7 +866,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-timeforcoffee/Pods-timeforcoffee-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		5ED81DEBC1A7BDEB3E485550 /* Copy Pods Resources */ = {
@@ -854,10 +881,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-timeforcoffee/Pods-timeforcoffee-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D6FCB53F4E39ABC8B15DD4BF /* Check Pods Manifest.lock */ = {
+		7641C291DCA2EB0BD2233EBE /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-timeforcoffee Widget/Pods-timeforcoffee Widget-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		891134A4E1FCF221FEB82764 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1150,7 +1192,7 @@
 		};
 		EC46C4F01BB5C69800F2A963 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 95BFFF0BE2743D2FB45240EA /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 41AE3C8766A742BA00387ABF /* Pods-timeforcoffee.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = timeforcoffee/timeforcoffee.entitlements;
@@ -1173,7 +1215,7 @@
 		};
 		EC46C4F11BB5C69800F2A963 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C0B6931A87875286CA995428 /* Pods.release.xcconfig */;
+			baseConfigurationReference = 7976222C367990B42F3C4EB8 /* Pods-timeforcoffee.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = timeforcoffee/timeforcoffee.entitlements;
@@ -1196,6 +1238,7 @@
 		};
 		EC46C5171BB5C71100F2A963 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0D2DC66041E4A77B6A3B07E4 /* Pods-timeforcoffee Widget.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "timeforcoffee Widget/timeforcoffee Widget.entitlements";
 				ENABLE_BITCODE = NO;
@@ -1216,6 +1259,7 @@
 		};
 		EC46C5181BB5C71100F2A963 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CCD4D3B37D83AB83CB7207D7 /* Pods-timeforcoffee Widget.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "timeforcoffee Widget/timeforcoffee Widget.entitlements";
 				ENABLE_BITCODE = NO;
@@ -1308,7 +1352,6 @@
 		};
 		EC46C5631BB5C82800F2A963 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 95BFFF0BE2743D2FB45240EA /* Pods.debug.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
@@ -1334,7 +1377,6 @@
 		};
 		EC46C5641BB5C82800F2A963 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C0B6931A87875286CA995428 /* Pods.release.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;

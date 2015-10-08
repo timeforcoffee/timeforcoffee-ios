@@ -1,5 +1,0 @@
-#include "SwipeView.xcconfig"
-GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/SwipeView" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/Crashlytics" "${PODS_ROOT}/Headers/Public/Crashlytics/Crashlytics" "${PODS_ROOT}/Headers/Public/Fabric" "${PODS_ROOT}/Headers/Public/Fabric/Fabric" "${PODS_ROOT}/Headers/Public/SupportKit" "${PODS_ROOT}/Headers/Public/SupportKit/SupportKit"
-PODS_ROOT = ${SRCROOT}
-SKIP_INSTALL = YES
