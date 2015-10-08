@@ -34,33 +34,47 @@ final class APIController {
     
     func searchFor(location: String) {
         let name = location.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
-        let cacheKey = "stations/\(name)"
         let urlPath:String
+        let cacheKey:String
         // search over all possible locations if outside of switzerland
         if (TFCLocationManager.getISOCountry() != "CH") {
+            cacheKey = "stations/trnsprt/\(name)"
             urlPath = "http://transport.opendata.ch/v1/locations?query=\(name)*";
         } else {
+            cacheKey = "stations/\(name)"
             urlPath = "http://www.timeforcoffee.ch/api/zvv/stations/\(name)*"
         }
 
         self.fetchUrl(urlPath, fetchId: 1, cacheKey: cacheKey)
     }
 
-    func getDepartures(id: String!) {
-        getDepartures(id, context: nil)
+    func getDepartures(station: TFCStation) {
+        getDepartures(station, context: nil)
     }
     
-    func getDepartures(id: String!, context: Any?) {
+    func getDepartures(station: TFCStation, context: Any?) {
         let urlPath:String
         // we return date from opendata, when we're not in switzerland (TFC only has
         //  data for switzerland, but transport.opendata.ch may have for other stations
         //  as well)
         //  but actually each station should know, if it's in switzerland or not, but that
         //  needs a whole different infrastructure
-        if (TFCLocationManager.getISOCountry() != "CH") {
-            urlPath = "http://transport.opendata.ch/v1/stationboard?id=\(id)&limit=40"
-        } else {
-            urlPath = "http://www.timeforcoffee.ch/api/zvv/stationboard/\(id)"
+
+        let country = station.getCountryISO()
+        let opendataURL = "http://transport.opendata.ch/v1/stationboard?id=\(station.st_id)&limit=40"
+        let tfcURL = "http://www.timeforcoffee.ch/api/zvv/stationboard/\(station.st_id)"
+
+        if (country == "CH") {
+            urlPath = tfcURL
+        } else if (country != "") { //something else than CH, but not ""
+            urlPath = opendataURL
+        } else { // if country is "" (equals undefined)
+            let locCountry = TFCLocationManager.getISOCountry()
+            if (locCountry != "CH" && locCountry != "") {
+                urlPath = opendataURL
+            } else {
+                urlPath = tfcURL
+            }
         }
         self.fetchUrl(urlPath, fetchId: 2, context: context, cacheKey: nil)
     }

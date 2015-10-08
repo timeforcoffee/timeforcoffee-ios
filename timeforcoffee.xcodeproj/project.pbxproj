@@ -72,6 +72,8 @@
 		EC60B0181BB680DE00D10238 /* launchicon.png in Resources */ = {isa = PBXBuildFile; fileRef = EC60B00F1BB680B600D10238 /* launchicon.png */; settings = {ASSET_TAGS = (); }; };
 		EC60B01A1BB680FD00D10238 /* trainsymbol.otf in Resources */ = {isa = PBXBuildFile; fileRef = EC60B0191BB680FD00D10238 /* trainsymbol.otf */; settings = {ASSET_TAGS = (); }; };
 		EC60B01B1BB680FD00D10238 /* trainsymbol.otf in Resources */ = {isa = PBXBuildFile; fileRef = EC60B0191BB680FD00D10238 /* trainsymbol.otf */; settings = {ASSET_TAGS = (); }; };
+		EC810B061BC7963C0007B874 /* DataModels.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EC810B041BC7963C0007B874 /* DataModels.xcdatamodeld */; settings = {ASSET_TAGS = (); }; };
+		EC810B071BC7963C0007B874 /* DataModels.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EC810B041BC7963C0007B874 /* DataModels.xcdatamodeld */; settings = {ASSET_TAGS = (); }; };
 		EC9BCAFA1BB5CB7700623F1A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC9BCAF81BB5CB7700623F1A /* LaunchScreen.xib */; settings = {ASSET_TAGS = (); }; };
 		EC9BCB0A1BB5CC3500623F1A /* About.html in Resources */ = {isa = PBXBuildFile; fileRef = EC9BCAFB1BB5CC3500623F1A /* About.html */; settings = {ASSET_TAGS = (); }; };
 		EC9BCB0B1BB5CC3500623F1A /* AboutPagedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCAFC1BB5CC3500623F1A /* AboutPagedViewController.swift */; settings = {ASSET_TAGS = (); }; };
@@ -111,6 +113,10 @@
 		EC9BCB471BB5CD4D00623F1A /* PINMemoryCache.h in Headers */ = {isa = PBXBuildFile; fileRef = EC9BCB401BB5CD4D00623F1A /* PINMemoryCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EC9BCB481BB5CD4D00623F1A /* PINMemoryCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB411BB5CD4D00623F1A /* PINMemoryCache.m */; settings = {ASSET_TAGS = (); }; };
 		ECA109D91BB6C00000FDB6F9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC0AD1641BB69539004217FD /* Localizable.strings */; settings = {ASSET_TAGS = (); }; };
+		ECEBB7FC1BC7238C00AB83B9 /* TFCStationModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FA1BC7238C00AB83B9 /* TFCStationModel+CoreDataProperties.swift */; settings = {ASSET_TAGS = (); }; };
+		ECEBB7FD1BC7238C00AB83B9 /* TFCStationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FB1BC7238C00AB83B9 /* TFCStationModel.swift */; settings = {ASSET_TAGS = (); }; };
+		ECEBB7FE1BC7241A00AB83B9 /* TFCStationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FB1BC7238C00AB83B9 /* TFCStationModel.swift */; settings = {ASSET_TAGS = (); }; };
+		ECEBB7FF1BC7241D00AB83B9 /* TFCStationModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FA1BC7238C00AB83B9 /* TFCStationModel+CoreDataProperties.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -276,6 +282,7 @@
 		EC60B0101BB680B600D10238 /* time-for-coffee-icon_1024.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = "time-for-coffee-icon_1024.psd"; sourceTree = "<group>"; };
 		EC60B0111BB680B600D10238 /* Zuerich2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Zuerich2.jpg; sourceTree = "<group>"; };
 		EC60B0191BB680FD00D10238 /* trainsymbol.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = trainsymbol.otf; sourceTree = "<group>"; };
+		EC810B051BC7963C0007B874 /* DataModels.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModels.xcdatamodel; sourceTree = "<group>"; };
 		EC9BCAF91BB5CB7700623F1A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		EC9BCAFB1BB5CC3500623F1A /* About.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = About.html; sourceTree = "<group>"; };
 		EC9BCAFC1BB5CC3500623F1A /* AboutPagedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutPagedViewController.swift; sourceTree = "<group>"; };
@@ -316,6 +323,8 @@
 		EC9BCB401BB5CD4D00623F1A /* PINMemoryCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PINMemoryCache.h; sourceTree = "<group>"; };
 		EC9BCB411BB5CD4D00623F1A /* PINMemoryCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PINMemoryCache.m; sourceTree = "<group>"; };
 		ECA72B7B1BB6D23E00506300 /* Time for Coffee! WatchOS 2 App Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Time for Coffee! WatchOS 2 App Extension.entitlements"; sourceTree = "<group>"; };
+		ECEBB7FA1BC7238C00AB83B9 /* TFCStationModel+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TFCStationModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		ECEBB7FB1BC7238C00AB83B9 /* TFCStationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCStationModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -511,6 +520,9 @@
 		EC46C55A1BB5C82800F2A963 /* timeforcoffeeKit */ = {
 			isa = PBXGroup;
 			children = (
+				ECEBB7FA1BC7238C00AB83B9 /* TFCStationModel+CoreDataProperties.swift */,
+				ECEBB7FB1BC7238C00AB83B9 /* TFCStationModel.swift */,
+				EC810B041BC7963C0007B874 /* DataModels.xcdatamodeld */,
 				EC9BCB181BB5CCD300623F1A /* APIController.swift */,
 				EC9BCB191BB5CCD300623F1A /* extensions.swift */,
 				EC9BCB1A1BB5CCD300623F1A /* SwiftyJSON.swift */,
@@ -954,8 +966,10 @@
 				EC4AB26E1BB6787600DA9759 /* StationRow.swift in Sources */,
 				EC050CF41BB84D5B00ECB533 /* TFCStations.swift in Sources */,
 				EC050CFA1BB84DD200ECB533 /* TFCStation.swift in Sources */,
+				ECEBB7FE1BC7241A00AB83B9 /* TFCStationModel.swift in Sources */,
 				EC050CF61BB84D5B00ECB533 /* TFCWatchData.swift in Sources */,
 				EC050CF81BB84DC700ECB533 /* TFCLocationManager.swift in Sources */,
+				ECEBB7FF1BC7241D00AB83B9 /* TFCStationModel+CoreDataProperties.swift in Sources */,
 				EC050CF91BB84DD200ECB533 /* TFCDataStore.swift in Sources */,
 				EC050CF01BB84D5B00ECB533 /* TFCDeparture.swift in Sources */,
 				EC050CE81BB84D4700ECB533 /* APIController.swift in Sources */,
@@ -965,6 +979,7 @@
 				EC050CED1BB84D4F00ECB533 /* PINCache.m in Sources */,
 				EC050CEE1BB84D4F00ECB533 /* PINDiskCache.m in Sources */,
 				EC050CE91BB84D4700ECB533 /* extensions.swift in Sources */,
+				EC810B071BC7963C0007B874 /* DataModels.xcdatamodeld in Sources */,
 				EC46C5321BB5C78A00F2A963 /* GlanceController.swift in Sources */,
 				EC4AB26D1BB6787600DA9759 /* MapViewController.swift in Sources */,
 				EC050CEF1BB84D4F00ECB533 /* PINMemoryCache.m in Sources */,
@@ -979,7 +994,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC9BCB321BB5CCD300623F1A /* TFCLocationManager.swift in Sources */,
+				EC810B061BC7963C0007B874 /* DataModels.xcdatamodeld in Sources */,
 				EC9BCB2F1BB5CCD300623F1A /* TFCDataStoreBase.swift in Sources */,
+				ECEBB7FD1BC7238C00AB83B9 /* TFCStationModel.swift in Sources */,
+				ECEBB7FC1BC7238C00AB83B9 /* TFCStationModel+CoreDataProperties.swift in Sources */,
 				EC9BCB341BB5CCD300623F1A /* TFCStation.swift in Sources */,
 				EC9BCB461BB5CD4D00623F1A /* PINDiskCache.m in Sources */,
 				EC9BCB2B1BB5CCD300623F1A /* SwiftyJSON.swift in Sources */,
@@ -1425,6 +1443,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		EC810B041BC7963C0007B874 /* DataModels.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				EC810B051BC7963C0007B874 /* DataModels.xcdatamodel */,
+			);
+			currentVersion = EC810B051BC7963C0007B874 /* DataModels.xcdatamodel */;
+			path = DataModels.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = EC46C4D31BB5C69800F2A963 /* Project object */;
 }
