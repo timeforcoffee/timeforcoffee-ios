@@ -121,7 +121,6 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         self.st_id = id
         super.init()
         self.name = name
-        self.coord = nil
 
         if let c = coord?.coordinate {
             // round coordinates to 6 places to make sure they are the same with different sources
@@ -130,6 +129,11 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             let long = c.longitude.roundToPlaces(6);
             self.coord = CLLocation(latitude: lat, longitude: long)
         }
+    }
+
+    public init(id: String) {
+        self.st_id = id
+        super.init()
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -168,9 +172,19 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         let cache: PINCache = TFCCache.objects.stations
         var newStation: TFCStation? = cache.objectForKey(trimmed_id) as? TFCStation
         if (newStation == nil || newStation?.coord == nil) {
-            //if name is unknown, fetch it from opendata
-            // this is done synchronously, so butt ugly, but we have a timeout of 5 seconds
             if (name == "") {
+                // try to get it from core data
+                let tryStation = TFCStation(id: id)
+                if (tryStation.name != "") {
+                    if (tryStation.coord != nil) {
+                        cache.setObject(newStation!, forKey: newStation!.st_id)
+                        newStation!.setStationSearchIndex()
+                    }
+                    return tryStation
+                }
+                //if name is unknown, fetch it from opendata
+                // this is done synchronously, so butt ugly, but we have a timeout of 5 seconds
+
                 let api = APIController(delegate: nil)
                 NSLog("Station Name missing. Fetch station info from opendata.ch for \(trimmed_id)")
                 if let result = api.getStationInfo(trimmed_id) {
@@ -221,6 +235,10 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         }
         let station = initWithCache(dict["name"] as String!, id: dict["st_id"] as String!, coord: location)
         return station
+    }
+
+    public class func initWithCacheId(id:String)-> TFCStation {
+        return initWithCache("", id: id, coord: nil)
     }
 
     public class func isStations(results: JSON) -> Bool {
