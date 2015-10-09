@@ -52,7 +52,9 @@ class StationsOverviewViewController: WKInterfaceController {
             if (stations == nil || stations?.count() == nil) {
                 return
             }
-            WKInterfaceDevice.currentDevice().playHaptic(WKHapticType.Click)
+            if (self.appeared) {
+                WKInterfaceDevice.currentDevice().playHaptic(WKHapticType.Click)
+            }
             infoGroup.setHidden(true)
             let maxStations = min(5, (stations?.count())! - 1)
             let ctxStations = stations?[0...maxStations]

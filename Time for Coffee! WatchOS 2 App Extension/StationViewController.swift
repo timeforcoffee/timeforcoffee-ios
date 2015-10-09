@@ -156,7 +156,9 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
 
     func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?) {
         self.displayDepartures(forStation)
-        WKInterfaceDevice.currentDevice().playHaptic(WKHapticType.Click)
+        if (self.appeared) {
+            WKInterfaceDevice.currentDevice().playHaptic(WKHapticType.Click)
+        }
     }
 
     private func displayDepartures(station: TFCStation?) {
