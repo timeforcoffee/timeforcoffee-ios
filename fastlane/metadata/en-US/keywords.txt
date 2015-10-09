@@ -1,0 +1,1 @@
+train, bus, tram, timetable, switzerland, sbb, cff, ffs, vbz, zvv, watch, fahrplan, schweiz, zurich
