@@ -631,8 +631,6 @@
 				EC46C5041BB5C71100F2A963 /* Sources */,
 				EC46C5051BB5C71100F2A963 /* Frameworks */,
 				EC46C5061BB5C71100F2A963 /* Resources */,
-				1532417E68EB989857A420C9 /* Embed Pods Frameworks */,
-				7641C291DCA2EB0BD2233EBE /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -839,21 +837,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1532417E68EB989857A420C9 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-timeforcoffee Widget/Pods-timeforcoffee Widget-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		527726AD19846D9ABE3AA50C /* Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -866,7 +849,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-timeforcoffee/Pods-timeforcoffee-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-timeforcoffee/Pods-timeforcoffee-frameworks.sh\"\n\"${SRCROOT}/Pods/Target Support Files/Pods-timeforcoffee Widget/Pods-timeforcoffee Widget-frameworks.sh\"\n\n";
 			showEnvVarsInLog = 0;
 		};
 		5ED81DEBC1A7BDEB3E485550 /* Copy Pods Resources */ = {
@@ -881,22 +864,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-timeforcoffee/Pods-timeforcoffee-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7641C291DCA2EB0BD2233EBE /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-timeforcoffee Widget/Pods-timeforcoffee Widget-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-timeforcoffee/Pods-timeforcoffee-resources.sh\"\n\"${SRCROOT}/Pods/Target Support Files/Pods-timeforcoffee Widget/Pods-timeforcoffee Widget-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		891134A4E1FCF221FEB82764 /* Check Pods Manifest.lock */ = {
