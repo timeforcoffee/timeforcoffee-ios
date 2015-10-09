@@ -110,21 +110,9 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             print("Could not fetch \(error), \(error.userInfo)")
         }
 
-
         let obj = NSEntityDescription.insertNewObjectForEntityForName("TFCStationModel", inManagedObjectContext: TFCDataStoreBase.sharedInstance.managedObjectContext) as! TFCStationModel
         obj.id = self.st_id
         return obj
-
-        /*
-        let objs = self.realm.objects(TFCStationRealm).filter("id = %@", self.st_id)
-        if let obj = objs.first {
-            return obj
-        }
-        var obj:TFCStationRealm? = nil
-        self.realm.write {
-            obj = self.realm.create(TFCStationRealm.self, value: ["id": self.st_id], update:true)
-        }
-        return obj!*/
     }()
 
 
@@ -173,7 +161,6 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     }
 
     deinit {
-        NSLog("TFCStation deinit!")
         self.realmObject.save()
     }
     public class func initWithCache(name: String, id: String, coord: CLLocation?) -> TFCStation {
@@ -217,6 +204,10 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                 }
             }
             newStation!.filteredLines = newStation!.getFilteredLines()
+            // if country is not set, try updating it
+            if (newStation!.getCountryISO() == "") {
+                newStation!.updateGeolocationInfo()
+            }
             newStation!.favoriteLines = newStation!.getFavoriteLines()
         }
         return newStation!
@@ -615,6 +606,9 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
     public func getWebLink() -> NSURL? {
         //        {:location-id :ch_zh, :stops {"008591195" {:id "008591195", :name "Zürich, Höfliweg", :location {:lat 47.367569, :lng 8.51095}, :known-destinations ()}}, :stops-order ["008591195"]
+        if (self.getCountryISO() != "CH" && self.getCountryISO() != "") {
+            return NSURL(string: "http://fahrplan.sbb.ch/bin/stboard.exe/dn?input=\(self.st_id)&REQTrain_name=&boardType=dep&time=now&productsFilter=1111111111&selectDate=today&maxJourneys=20&start=yes")
+        }
         if let lat = self.getLatitude() {
             let hash = "{:location-id :ch_zh, :stops {\"\(self.st_id)\" {:id \"\", :name \"\(self.name)\", :location {:lat \(lat), :lng \(self.getLongitude()!)}, :known-destinations ()}}, :stops-order [\"\(self.st_id)\"]}"
             let utf8hash = hash.dataUsingEncoding(NSISOLatin1StringEncoding)
@@ -634,7 +628,6 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                     if let place = places?.first {
                         if let iso = place.ISOcountryCode {
                             self.realmObject.countryISO = iso
-                            NSLog("\(self.name) is in \(iso)")
                         }
                         if let city = place.locality {
                             self.realmObject.city = city
@@ -642,6 +635,10 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
                         if let county = place.administrativeArea {
                             self.realmObject.county = county
+                        }
+                    } else {
+                        if (error != nil) {
+                            NSLog("\(self.name) error getting Location: \(error!.userInfo)")
                         }
                     }
                 }
