@@ -233,7 +233,13 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             let long: String = (dict["longitude"] as String?) {
                 location = CLLocation(latitude: (lat as NSString).doubleValue, longitude: (long as NSString).doubleValue)
         }
-        let station = initWithCache(dict["name"] as String!, id: dict["st_id"] as String!, coord: location)
+        let name: String
+        if let name2 = dict["name"] as String? {
+            name = name2
+        } else {
+            name = ""
+        }
+        let station = initWithCache(name, id: dict["st_id"] as String!, coord: location)
         return station
     }
 

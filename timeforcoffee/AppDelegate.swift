@@ -31,8 +31,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     enum ShortcutIdentifier: String {
         case favorites
         case search
-        case Third
-        case Fourth
+        case station
 
         // MARK: Initializers
 
@@ -193,13 +192,16 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             handled = true
             break
-        case ShortcutIdentifier.Third.type:
+        case ShortcutIdentifier.station.type:
             // Handle shortcut 3 (dynamic).
             handled = true
-            break
-        case ShortcutIdentifier.Fourth.type:
-            // Handle shortcut 4 (dynamic).
-            handled = true
+            if let ua: [String: String] = shortcutItem.userInfo as? [String: String] {
+                if (ua["st_id"] != nil) {
+                    let station = TFCStation.initWithCache(ua)
+                    popUpStation(station)
+                }
+            }
+
             break
         default:
             break

@@ -161,8 +161,31 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
             gtracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject]!)
         }
         viewAppeared = true
-        self.station?.setStationActivity()
+        if let station2 = self.station {
+            station2.setStationActivity()
+            if #available(iOS 9.0, *) {
+                // in 9.1 make it UIApplicationShortcutIcon(type: .MarkLocation)
+                let shortcut = UIMutableApplicationShortcutItem(type: "ch.opendata.timeforcoffee.station", localizedTitle: station2.name, localizedSubtitle: nil, icon: nil, userInfo: ["st_id": station2.st_id, "name": station2.name])
+                var shortCuts = [shortcut]
+                let existingShortcutItems = UIApplication.sharedApplication().shortcutItems ?? []
+                if let firstExistingShortcutItem = existingShortcutItems.first {
+                    if let ua: [String: String] = firstExistingShortcutItem.userInfo as? [String: String] {
+                        if ua["st_id"] != station2.st_id {
+                            let oldShortcutItem = firstExistingShortcutItem.mutableCopy() as! UIMutableApplicationShortcutItem
+                            shortCuts.append(oldShortcutItem)
+                        } else {
+                            if let lastExistingShortcutItem = existingShortcutItems.last {
+                                let oldShortcutItem = lastExistingShortcutItem.mutableCopy() as! UIMutableApplicationShortcutItem
+                                shortCuts.append(oldShortcutItem)
+                            }
+                        }
+                    }
+                }
 
+                UIApplication.sharedApplication().shortcutItems = shortCuts
+            }
+        }
+        
     }
 
 
