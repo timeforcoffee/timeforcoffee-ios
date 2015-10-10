@@ -101,11 +101,9 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
 
     internal func locationDenied(manager: CLLocationManager, err: NSError) {
         moveToFavorites()
-        locManager = nil
     }
     internal func locationFixed(coord: CLLocation?) {
         moveToFavorites()
-        locManager = nil
     }
 
     internal func locationStillTrying(manager: CLLocationManager, err: NSError) {
