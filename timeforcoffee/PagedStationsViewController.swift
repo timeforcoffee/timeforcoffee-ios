@@ -28,6 +28,13 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         return view
     }()
 
+    lazy var favoritesView: StationsViewController = {
+        let newVc: StationsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("StationsView") as! StationsViewController
+        newVc.pageIndex = 1
+        newVc.showFavorites = true
+        return newVc
+    }()
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -36,9 +43,7 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         super.viewDidLoad()
         self.dataSource = self
         self.delegate = self
-        currentPageIndex = 0
-
-        self.setViewControllers([nearbyStationsView], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
+        moveToNearbyStations()
 
         let aboutButton = UIBarButtonItem(title: "☕︎", style: UIBarButtonItemStyle.Plain, target: self, action: "aboutClicked:")
         aboutButton.image = UIImage(named: "icon-coffee")
@@ -75,6 +80,11 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         if (!registeredObserver) {
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeActive:", name: "UIApplicationDidBecomeActiveNotification", object: nil)
             registeredObserver = true
+        }
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        if (appDelegate.startedWithShortcut == "ch.opendata.timeforcoffee.favorites") {
+            moveToFavorites()
+            appDelegate.startedWithShortcut = nil
         }
         refreshLocation()
     }
@@ -149,10 +159,7 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         if (vc.pageIndex == 1) {
             return nil;
         }
-        let newVc: StationsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("StationsView") as! StationsViewController
-        newVc.pageIndex = 1
-        newVc.showFavorites = true
-        return newVc
+        return favoritesView
     }
 
     func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
@@ -160,9 +167,6 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         if (vc.pageIndex == 0) {
             return nil;
         }
-        nearbyStationsView = self.storyboard?.instantiateViewControllerWithIdentifier("StationsView") as! StationsViewController
-        nearbyStationsView.pageIndex = 0
-        nearbyStationsView.showFavorites = false
         return nearbyStationsView
     }
     
@@ -187,10 +191,20 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
     }
 
     func moveToNearbyStations() {
+        moveTo(nearbyStationsView)
+    }
 
-        self.setViewControllers( [self.nearbyStationsView], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil
+    func moveToFavorites() {
+        moveTo(favoritesView)
+    }
+
+    func moveTo(view: StationsViewController) {
+
+        self.setViewControllers( [view], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: {(finished:Bool) -> Void in
+
+            }
         )
-        currentPageIndex = 0
+        currentPageIndex = view.pageIndex
         if (self.scrollView != nil) {
             scrollViewDidScroll(self.scrollView!)
         }
@@ -211,6 +225,10 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
     }
     
     func searchClicked(sender: UIBarButtonItem) {
+        searchClicked()
+    }
+
+    func searchClicked() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let ssv: StationsSearchViewController = storyboard.instantiateViewControllerWithIdentifier("StationsSearchView") as! StationsSearchViewController;
 

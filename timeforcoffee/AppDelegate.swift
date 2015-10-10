@@ -22,9 +22,50 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var watchData: TFCWatchData?
 
+    // when the app starts from scratch, we can't move to favorites
+    //  from the AppDelegate but have to do it later in the ViewController
+    //
+    var startedWithShortcut: String?
+    var launchedShortcutItem: AnyObject?
 
+    enum ShortcutIdentifier: String {
+        case favorites
+        case search
+        case Third
+        case Fourth
+
+        // MARK: Initializers
+
+        init?(fullType: String) {
+            guard let last = fullType.componentsSeparatedByString(".").last else { return nil }
+
+            self.init(rawValue: last)
+        }
+
+        // MARK: Properties
+
+        var type: String {
+            return NSBundle.mainBundle().bundleIdentifier! + ".\(self.rawValue)"
+        }
+    }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+
+        // Override point for customization after application launch.
+        var shouldPerformAdditionalDelegateHandling = true
+
+        // If a shortcut was launched, display its information and take the appropriate action
+        if #available(iOS 9.0, *) {
+            if let shortcutItem = launchOptions?[UIApplicationLaunchOptionsShortcutItemKey] as? UIApplicationShortcutItem {
+    
+                launchedShortcutItem = shortcutItem
+    
+                // This will block "performActionForShortcutItem:completionHandler" from being called.
+                shouldPerformAdditionalDelegateHandling = false
+            }
+        }
+
+
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
             TFCDataStore.sharedInstance.registerForNotifications()
             TFCDataStore.sharedInstance.synchronize()
@@ -81,7 +122,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
             }
         }
-        return true
+        return shouldPerformAdditionalDelegateHandling
     }
 
     func applicationWillResignActive(application: UIApplication) {
@@ -102,6 +143,11 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        if #available(iOS 9.0, *) {
+            guard let shortcut = launchedShortcutItem else { return }
+            handleShortCutItem(shortcut as! UIApplicationShortcutItem)
+            launchedShortcutItem = nil
+        }
     }
 
     func applicationWillTerminate(application: UIApplication) {
@@ -109,6 +155,59 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         self.saveContext()
 
     }
+    @available(iOS 9.0, *)
+    func application(application: UIApplication, performActionForShortcutItem shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void) {
+
+        let handledShortCutItem = handleShortCutItem(shortcutItem)
+        completionHandler(handledShortCutItem)
+    }
+
+    @available(iOS 9.0, *)
+    func handleShortCutItem(shortcutItem: UIApplicationShortcutItem) -> Bool {
+        // Verify that the provided `shortcutItem`'s `type` is one handled by the application.
+        var handled = false
+        guard ShortcutIdentifier(fullType: shortcutItem.type) != nil else { return false }
+
+        guard let shortCutType = shortcutItem.type as String? else { return false }
+        startedWithShortcut = shortCutType
+        switch (shortCutType) {
+        case ShortcutIdentifier.favorites.type:
+            // Handle shortcut 1 (static).
+            if let rootView = self.window?.rootViewController as! UINavigationController? {
+                rootView.dismissViewControllerAnimated(false, completion: nil)
+                rootView.popToRootViewControllerAnimated(false)
+                if let pagedView:PagedStationsViewController = rootView.viewControllers.first as! PagedStationsViewController? {
+                    pagedView.moveToFavorites()
+                }
+            }
+            handled = true
+            break
+        case ShortcutIdentifier.search.type:
+            // Handle shortcut 2 (static).
+            if let rootView = self.window?.rootViewController as! UINavigationController? {
+                rootView.dismissViewControllerAnimated(false, completion: nil)
+                rootView.popToRootViewControllerAnimated(false)
+                if let pagedView:PagedStationsViewController = rootView.viewControllers.first as! PagedStationsViewController? {
+                    pagedView.searchClicked()
+                }
+            }
+            handled = true
+            break
+        case ShortcutIdentifier.Third.type:
+            // Handle shortcut 3 (dynamic).
+            handled = true
+            break
+        case ShortcutIdentifier.Fourth.type:
+            // Handle shortcut 4 (dynamic).
+            handled = true
+            break
+        default:
+            break
+        }
+        return handled
+
+    }
+
 
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
 
