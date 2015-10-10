@@ -103,11 +103,11 @@
 	<array>
 		<dict>
 			<key>UIApplicationShortcutItemTitle</key>
-			<string>Search</string>
+			<string>Favorites</string>
 			<key>UIApplicationShortcutItemIconType</key>
-			<string>UIApplicationShortcutIconTypeSearch</string>
+			<string>UIApplicationShortcutIconTypeFavorite</string>
 			<key>UIApplicationShortcutItemType</key>
-			<string>ch.opendata.timeforcoffee.search</string>
+			<string>ch.opendata.timeforcoffee.favorites</string>
 			<key>UIApplicationShortcutItemUserInfo</key>
 			<dict>
 				<key>key1</key>
@@ -116,11 +116,11 @@
 		</dict>
 		<dict>
 			<key>UIApplicationShortcutItemTitle</key>
-			<string>Favorites</string>
+			<string>Search</string>
 			<key>UIApplicationShortcutItemIconType</key>
-			<string>UIApplicationShortcutIconTypeFavorite</string>
+			<string>UIApplicationShortcutIconTypeSearch</string>
 			<key>UIApplicationShortcutItemType</key>
-			<string>ch.opendata.timeforcoffee.favorites</string>
+			<string>ch.opendata.timeforcoffee.search</string>
 			<key>UIApplicationShortcutItemUserInfo</key>
 			<dict>
 				<key>key1</key>
