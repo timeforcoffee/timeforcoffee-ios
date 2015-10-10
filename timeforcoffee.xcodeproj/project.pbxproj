@@ -74,6 +74,9 @@
 		EC60B01B1BB680FD00D10238 /* trainsymbol.otf in Resources */ = {isa = PBXBuildFile; fileRef = EC60B0191BB680FD00D10238 /* trainsymbol.otf */; settings = {ASSET_TAGS = (); }; };
 		EC810B061BC7963C0007B874 /* DataModels.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EC810B041BC7963C0007B874 /* DataModels.xcdatamodeld */; settings = {ASSET_TAGS = (); }; };
 		EC810B071BC7963C0007B874 /* DataModels.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EC810B041BC7963C0007B874 /* DataModels.xcdatamodeld */; settings = {ASSET_TAGS = (); }; };
+		EC855BA31BC99649001ABD35 /* StreamReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC855BA21BC99649001ABD35 /* StreamReader.swift */; settings = {ASSET_TAGS = (); }; };
+		EC855BA81BC99A4D001ABD35 /* BFKOORD_GEO in Resources */ = {isa = PBXBuildFile; fileRef = EC855BA41BC99767001ABD35 /* BFKOORD_GEO */; settings = {ASSET_TAGS = (); }; };
+		EC855BB21BC9A2BF001ABD35 /* data.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC855BB11BC9A2BF001ABD35 /* data.swift */; settings = {ASSET_TAGS = (); }; };
 		EC9BCAFA1BB5CB7700623F1A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC9BCAF81BB5CB7700623F1A /* LaunchScreen.xib */; settings = {ASSET_TAGS = (); }; };
 		EC9BCB0A1BB5CC3500623F1A /* About.html in Resources */ = {isa = PBXBuildFile; fileRef = EC9BCAFB1BB5CC3500623F1A /* About.html */; settings = {ASSET_TAGS = (); }; };
 		EC9BCB0B1BB5CC3500623F1A /* AboutPagedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCAFC1BB5CC3500623F1A /* AboutPagedViewController.swift */; settings = {ASSET_TAGS = (); }; };
@@ -117,6 +120,10 @@
 		ECEBB7FD1BC7238C00AB83B9 /* TFCStationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FB1BC7238C00AB83B9 /* TFCStationModel.swift */; settings = {ASSET_TAGS = (); }; };
 		ECEBB7FE1BC7241A00AB83B9 /* TFCStationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FB1BC7238C00AB83B9 /* TFCStationModel.swift */; settings = {ASSET_TAGS = (); }; };
 		ECEBB7FF1BC7241D00AB83B9 /* TFCStationModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FA1BC7238C00AB83B9 /* TFCStationModel+CoreDataProperties.swift */; settings = {ASSET_TAGS = (); }; };
+		ECEDDAD21BC991800088AFB2 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEDDAD11BC991800088AFB2 /* main.swift */; };
+		ECEDDAD61BC992240088AFB2 /* TFCStationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FB1BC7238C00AB83B9 /* TFCStationModel.swift */; settings = {ASSET_TAGS = (); }; };
+		ECEDDAD71BC992270088AFB2 /* TFCStationModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FA1BC7238C00AB83B9 /* TFCStationModel+CoreDataProperties.swift */; settings = {ASSET_TAGS = (); }; };
+		ECEDDAD81BC9922A0088AFB2 /* DataModels.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EC810B041BC7963C0007B874 /* DataModels.xcdatamodeld */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -205,6 +212,15 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		ECEDDACD1BC991800088AFB2 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -283,6 +299,9 @@
 		EC60B0111BB680B600D10238 /* Zuerich2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Zuerich2.jpg; sourceTree = "<group>"; };
 		EC60B0191BB680FD00D10238 /* trainsymbol.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = trainsymbol.otf; sourceTree = "<group>"; };
 		EC810B051BC7963C0007B874 /* DataModels.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModels.xcdatamodel; sourceTree = "<group>"; };
+		EC855BA21BC99649001ABD35 /* StreamReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamReader.swift; sourceTree = "<group>"; };
+		EC855BA41BC99767001ABD35 /* BFKOORD_GEO */ = {isa = PBXFileReference; explicitFileType = text; fileEncoding = 4; path = BFKOORD_GEO; sourceTree = "<group>"; };
+		EC855BB11BC9A2BF001ABD35 /* data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = data.swift; sourceTree = "<group>"; };
 		EC9BCAF91BB5CB7700623F1A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		EC9BCAFB1BB5CC3500623F1A /* About.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = About.html; sourceTree = "<group>"; };
 		EC9BCAFC1BB5CC3500623F1A /* AboutPagedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutPagedViewController.swift; sourceTree = "<group>"; };
@@ -325,6 +344,8 @@
 		ECA72B7B1BB6D23E00506300 /* Time for Coffee! WatchOS 2 App Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Time for Coffee! WatchOS 2 App Extension.entitlements"; sourceTree = "<group>"; };
 		ECEBB7FA1BC7238C00AB83B9 /* TFCStationModel+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TFCStationModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		ECEBB7FB1BC7238C00AB83B9 /* TFCStationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCStationModel.swift; sourceTree = "<group>"; };
+		ECEDDACF1BC991800088AFB2 /* stations-importer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "stations-importer"; sourceTree = BUILT_PRODUCTS_DIR; };
+		ECEDDAD11BC991800088AFB2 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -372,6 +393,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		ECEDDACC1BC991800088AFB2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -399,6 +427,7 @@
 				EC46C51D1BB5C78A00F2A963 /* Time for Coffee! WatchOS 2 App */,
 				EC46C52C1BB5C78A00F2A963 /* Time for Coffee! WatchOS 2 App Extension */,
 				EC46C5471BB5C7FD00F2A963 /* timeforcoffeeWatchKit */,
+				ECEDDAD01BC991800088AFB2 /* stations-importer */,
 				EC46C5091BB5C71100F2A963 /* Frameworks */,
 				EC46C4DC1BB5C69800F2A963 /* Products */,
 				7D59A77096091682234C8A4C /* Pods */,
@@ -413,6 +442,7 @@
 				EC46C51C1BB5C78A00F2A963 /* Time for Coffee! WatchOS 2 App.app */,
 				EC46C5281BB5C78A00F2A963 /* Time for Coffee! WatchOS 2 App Extension.appex */,
 				EC46C5591BB5C82800F2A963 /* timeforcoffeeKit.framework */,
+				ECEDDACF1BC991800088AFB2 /* stations-importer */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -590,6 +620,17 @@
 			path = PINCache;
 			sourceTree = "<group>";
 		};
+		ECEDDAD01BC991800088AFB2 /* stations-importer */ = {
+			isa = PBXGroup;
+			children = (
+				ECEDDAD11BC991800088AFB2 /* main.swift */,
+				EC855BA41BC99767001ABD35 /* BFKOORD_GEO */,
+				EC855BA21BC99649001ABD35 /* StreamReader.swift */,
+				EC855BB11BC9A2BF001ABD35 /* data.swift */,
+			);
+			path = "stations-importer";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -706,6 +747,24 @@
 			productReference = EC46C5591BB5C82800F2A963 /* timeforcoffeeKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		ECEDDACE1BC991800088AFB2 /* stations-importer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ECEDDAD51BC991800088AFB2 /* Build configuration list for PBXNativeTarget "stations-importer" */;
+			buildPhases = (
+				ECEDDACB1BC991800088AFB2 /* Sources */,
+				ECEDDACC1BC991800088AFB2 /* Frameworks */,
+				ECEDDACD1BC991800088AFB2 /* CopyFiles */,
+				EC855BA61BC999CC001ABD35 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "stations-importer";
+			productName = "stations-importer";
+			productReference = ECEDDACF1BC991800088AFB2 /* stations-importer */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -765,6 +824,9 @@
 						CreatedOnToolsVersion = 7.0;
 						DevelopmentTeam = DN76797UYF;
 					};
+					ECEDDACE1BC991800088AFB2 = {
+						CreatedOnToolsVersion = 7.0;
+					};
 				};
 			};
 			buildConfigurationList = EC46C4D61BB5C69800F2A963 /* Build configuration list for PBXProject "timeforcoffee" */;
@@ -786,6 +848,7 @@
 				EC46C5581BB5C82800F2A963 /* timeforcoffeeKit */,
 				EC46C51B1BB5C78A00F2A963 /* Time for Coffee! WatchOS 2 App */,
 				EC46C5271BB5C78A00F2A963 /* Time for Coffee! WatchOS 2 App Extension */,
+				ECEDDACE1BC991800088AFB2 /* stations-importer */,
 			);
 		};
 /* End PBXProject section */
@@ -843,6 +906,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EC855BA61BC999CC001ABD35 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC855BA81BC99A4D001ABD35 /* BFKOORD_GEO in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1015,6 +1086,19 @@
 				EC9BCB351BB5CCD300623F1A /* TFCStationBase.swift in Sources */,
 				EC9BCB371BB5CCD300623F1A /* TFCURLSession.swift in Sources */,
 				EC9BCB2A1BB5CCD300623F1A /* extensions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ECEDDACB1BC991800088AFB2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC855BA31BC99649001ABD35 /* StreamReader.swift in Sources */,
+				ECEDDAD61BC992240088AFB2 /* TFCStationModel.swift in Sources */,
+				ECEDDAD81BC9922A0088AFB2 /* DataModels.xcdatamodeld in Sources */,
+				ECEDDAD21BC991800088AFB2 /* main.swift in Sources */,
+				EC855BB21BC9A2BF001ABD35 /* data.swift in Sources */,
+				ECEDDAD71BC992270088AFB2 /* TFCStationModel+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1385,6 +1469,29 @@
 			};
 			name = Release;
 		};
+		ECEDDAD31BC991800088AFB2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		ECEDDAD41BC991800088AFB2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1438,6 +1545,15 @@
 			buildConfigurations = (
 				EC46C5631BB5C82800F2A963 /* Debug */,
 				EC46C5641BB5C82800F2A963 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ECEDDAD51BC991800088AFB2 /* Build configuration list for PBXNativeTarget "stations-importer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ECEDDAD31BC991800088AFB2 /* Debug */,
+				ECEDDAD41BC991800088AFB2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
