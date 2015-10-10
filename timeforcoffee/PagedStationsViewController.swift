@@ -9,8 +9,10 @@
 
 import Foundation
 import UIKit
+import timeforcoffeeKit
+import CoreLocation
 
-final class PagedStationsViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, UIScrollViewDelegate {
+final class PagedStationsViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, UIScrollViewDelegate, TFCLocationManagerDelegate {
 
     @IBOutlet weak var test: UINavigationItem!
 
@@ -34,6 +36,8 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         newVc.showFavorites = true
         return newVc
     }()
+
+     private lazy var locManager: TFCLocationManager? = { return TFCLocationManager(delegate: self)}()
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -83,10 +87,29 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         }
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         if (appDelegate.startedWithShortcut == "ch.opendata.timeforcoffee.favorites") {
-            moveToFavorites()
-            appDelegate.startedWithShortcut = nil
+            // wait somehow until we have a location....
+            if (locManager!.currentLocation != nil) {
+                moveToFavorites()
+                appDelegate.startedWithShortcut = nil
+            } else {
+                locManager!.refreshLocation()
+            }
+        } else {
+            refreshLocation()
         }
-        refreshLocation()
+    }
+
+    internal func locationDenied(manager: CLLocationManager, err: NSError) {
+        moveToFavorites()
+        locManager = nil
+    }
+    internal func locationFixed(coord: CLLocation?) {
+        moveToFavorites()
+        locManager = nil
+    }
+
+    internal func locationStillTrying(manager: CLLocationManager, err: NSError) {
+
     }
 
     private func refreshLocation() {
