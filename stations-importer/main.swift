@@ -36,7 +36,7 @@ if (doReadImportFile) {
         }
         while let line = aStreamReader.nextLine() {
             print(line)
-            let id = getPart(line, start: 0, end: 8)
+            let id = getPart(line, start: 0, end: 8).replace("^0*", template: "")
             let obj = getCDObject(id)
             let lon = Double(getPart(line, start: 8, end: 19))
             if (lon != obj.longitude) {
