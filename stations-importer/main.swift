@@ -64,13 +64,14 @@ if (doReadImportFile) {
 
 
 func processFirst(var results: [TFCStationModel]?) {
-    if let first = results?.removeFirst() {
-        updateGeolocationInfo(first, callback: {processFirst(results)})
-    } else {
-        //try again from start
-        NSLog("try again from start")
-        doUpdateGeolocations()
+    if results?.count > 0 {
+        if let first = results?.removeFirst() {
+            updateGeolocationInfo(first, callback: {processFirst(results)})
+        }
     }
+    //try again from start
+    NSLog("try again from start")
+    doUpdateGeolocations()
 
 }
 func doUpdateGeolocations() {
@@ -80,16 +81,11 @@ func doUpdateGeolocations() {
         fetchRequest.predicate = pred
         if let results = try TFCDataStore.sharedInstance.managedObjectContext.executeFetchRequest(fetchRequest) as? [TFCStationModel] {
             NSLog("Found \(results.count) without geolocation info")
-            processFirst(results)
-        } else {
-            exit(244)
+            if (results.count > 0) {
+                processFirst(results)
+            }
         }
-
-        /*        if (obj.countryISO == nil) {
-        updateGeolocationInfo(obj, callback: {aStreamReader.nextLine()})
-        }
-        */
-
+        exit(0)
     } catch let error as NSError {
         print("Could not fetch \(error), \(error.userInfo)")
     }
