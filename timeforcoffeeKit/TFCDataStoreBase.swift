@@ -208,11 +208,17 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
         // Create the coordinator and store
         let coordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
         let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("SingleViewCoreData.sqlite")
-        if let bundle = NSBundle(identifier: "ch.opendata.timeforcoffee.timeforcoffeeKit" ) {
+        let whichBundle:NSBundle?
+        if (NSBundle.mainBundle().bundleIdentifier == "ch.opendata.timeforcoffee.watchkitapp.watchkitextension") {
+            whichBundle = NSBundle.mainBundle();
+        } else {
+            whichBundle = NSBundle(identifier: "ch.opendata.timeforcoffee.timeforcoffeeKit" )
+        }
+        if let bundle = whichBundle {
 
-            let filePath = bundle.pathForResource("Info", ofType: "plist")!
+            let filePath = bundle.pathForResource("TFC", ofType: "plist")!
             var forceInstall = false
-            let neededDBVersion = NSDictionary(contentsOfFile:filePath)?.valueForKey("TFCdbVersion") as? Int
+            let neededDBVersion = NSDictionary(contentsOfFile:filePath)?.valueForKey("dbVersion") as? Int
             if let neededDBVersion = neededDBVersion {
                 var installedDBVersion = self.userDefaults?.integerForKey("installedDBVersion")
                 if (installedDBVersion == nil || neededDBVersion != installedDBVersion) {
