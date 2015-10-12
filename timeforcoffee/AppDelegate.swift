@@ -174,7 +174,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             // Handle shortcut 1 (static).
             if let rootView = self.window?.rootViewController as! UINavigationController? {
                 rootView.dismissViewControllerAnimated(false, completion: nil)
-                rootView.popToRootViewControllerAnimated(false)
+                rootView.popToRootViewControllerAnimated(true)
                 if let pagedView:PagedStationsViewController = rootView.viewControllers.first as! PagedStationsViewController? {
                     pagedView.moveToFavorites()
                 }
@@ -185,9 +185,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             // Handle shortcut 2 (static).
             if let rootView = self.window?.rootViewController as! UINavigationController? {
                 rootView.dismissViewControllerAnimated(false, completion: nil)
-                rootView.popToRootViewControllerAnimated(false)
+                rootView.popToRootViewControllerAnimated(true)
                 if let pagedView:PagedStationsViewController = rootView.viewControllers.first as! PagedStationsViewController? {
-                    pagedView.searchClicked()
+                   pagedView.searchClicked()
                 }
             }
             handled = true
