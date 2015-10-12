@@ -10,7 +10,7 @@ import Foundation
 import WatchConnectivity
 import CoreData
 
-public class TFCDataStoreBase: NSObject, WCSessionDelegate {
+public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegate {
 
     public class var sharedInstance: TFCDataStore {
         struct Static {
@@ -208,6 +208,24 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate {
         // Create the coordinator and store
         let coordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
         let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("SingleViewCoreData.sqlite")
+        if (!NSFileManager.defaultManager().fileExistsAtPath(url.path!)) {
+
+            if let bundle = NSBundle(identifier: "ch.opendata.timeforcoffee.timeforcoffeeKit" ) {
+                let sourceSqliteURLs = [bundle.URLForResource("SingleViewCoreData", withExtension: "sqlite")!, bundle.URLForResource("SingleViewCoreData", withExtension: "sqlite-wal")!, bundle.URLForResource("SingleViewCoreData", withExtension: "sqlite-shm")!]
+
+                let destSqliteURLs = [self.applicationDocumentsDirectory.URLByAppendingPathComponent("SingleViewCoreData.sqlite"),
+                    self.applicationDocumentsDirectory.URLByAppendingPathComponent("SingleViewCoreData.sqlite-wal"),
+                    self.applicationDocumentsDirectory.URLByAppendingPathComponent("SingleViewCoreData.sqlite-shm")]
+
+                var error:NSError? = nil
+                let filemanager = NSFileManager.defaultManager();
+                filemanager.delegate = self
+                for var index = 0; index < sourceSqliteURLs.count; index++ {
+                    try! filemanager.copyItemAtURL(sourceSqliteURLs[index], toURL: destSqliteURLs[index])
+                }
+            }
+        }
+        var error: NSError? = nil
         var failureReason = "There was an error creating or loading the application's saved data."
         do {
             try coordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: nil)
@@ -238,6 +256,20 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate {
 
     // MARK: - Core Data Saving support
 
+    public func fileManager(fileManager: NSFileManager, shouldProceedAfterError error: NSError, copyingItemAtPath srcPath: String, toPath dstPath: String) -> Bool {
+        if error.code == NSFileWriteFileExistsError {
+            do
+            {
+                try fileManager.removeItemAtPath(dstPath)
+                try fileManager.copyItemAtPath(srcPath, toPath: dstPath)
+            } catch {
+                NSLog("\((error as NSError).localizedDescription) in \(srcPath)")
+            }
 
+            return true
+        } else {
+            return false
+        }
+    }
 
 }
