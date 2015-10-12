@@ -208,9 +208,21 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
         // Create the coordinator and store
         let coordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
         let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("SingleViewCoreData.sqlite")
-        if (!NSFileManager.defaultManager().fileExistsAtPath(url.path!)) {
+        if let bundle = NSBundle(identifier: "ch.opendata.timeforcoffee.timeforcoffeeKit" ) {
 
-            if let bundle = NSBundle(identifier: "ch.opendata.timeforcoffee.timeforcoffeeKit" ) {
+            let filePath = bundle.pathForResource("Info", ofType: "plist")!
+            var forceInstall = false
+            let neededDBVersion = NSDictionary(contentsOfFile:filePath)?.valueForKey("TFCdbVersion") as? Int
+            if let neededDBVersion = neededDBVersion {
+                var installedDBVersion = self.userDefaults?.integerForKey("installedDBVersion")
+                if (installedDBVersion == nil || neededDBVersion != installedDBVersion) {
+                    forceInstall = true
+                }
+            }
+            let filemanager = NSFileManager.defaultManager();
+
+            if (forceInstall || !filemanager.fileExistsAtPath(url.path!)) {
+
                 let sourceSqliteURLs = [bundle.URLForResource("SingleViewCoreData", withExtension: "sqlite")!, bundle.URLForResource("SingleViewCoreData", withExtension: "sqlite-wal")!, bundle.URLForResource("SingleViewCoreData", withExtension: "sqlite-shm")!]
 
                 let destSqliteURLs = [self.applicationDocumentsDirectory.URLByAppendingPathComponent("SingleViewCoreData.sqlite"),
@@ -218,11 +230,14 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                     self.applicationDocumentsDirectory.URLByAppendingPathComponent("SingleViewCoreData.sqlite-shm")]
 
                 var error:NSError? = nil
-                let filemanager = NSFileManager.defaultManager();
                 filemanager.delegate = self
                 for var index = 0; index < sourceSqliteURLs.count; index++ {
                     try! filemanager.copyItemAtURL(sourceSqliteURLs[index], toURL: destSqliteURLs[index])
                 }
+                if let neededDBVersion = neededDBVersion {
+                    self.userDefaults?.setInteger(neededDBVersion, forKey: "installedDBVersion")
+                }
+
             }
         }
         var error: NSError? = nil
@@ -242,9 +257,9 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
             NSLog("Unresolved error \(wrappedError), \(wrappedError.userInfo)")
             abort()
         }
-
+        
         return coordinator
-        }()
+    }()
 
     lazy public var managedObjectContext: NSManagedObjectContext = {
         // Returns the managed object context for the application (which is already bound to the persistent store coordinator for the application.) This property is optional since there are legitimate error conditions that could cause the creation of the context to fail.
