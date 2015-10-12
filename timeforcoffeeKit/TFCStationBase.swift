@@ -679,11 +679,28 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     }
 
     public func getDeparturesURL() -> String {
-        if (self.getCountryISO() != "CH") {
-           return "http://transport.opendata.ch/v1/stationboard?id=\(self.st_id)&limit=40"
-        } else {
-           return "http://www.timeforcoffee.ch/api/zvv/stationboard/\(self.st_id)"
+
+        if  let url = self.realmObject.departuresURL {
+            return url
         }
+
+        let country = self.getCountryISO()
+        let opendataURL = "http://transport.opendata.ch/v1/stationboard?id=\(self.st_id)&limit=40"
+        let tfcURL = "http://www.timeforcoffee.ch/api/zvv/stationboard/\(self.st_id)"
+        let urlPath:String
+        if (country == "CH") {
+            urlPath = tfcURL
+        } else if (country != "") { //something else than CH, but not ""
+            urlPath = opendataURL
+        } else { // if country is "" (equals undefined)
+            let locCountry = TFCLocationManager.getISOCountry()
+            if (locCountry != "CH" && locCountry != "") {
+                urlPath = opendataURL
+            } else {
+                urlPath = tfcURL
+            }
+        }
+        return urlPath
     }
 }
 
