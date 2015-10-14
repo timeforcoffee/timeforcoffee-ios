@@ -16,7 +16,10 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
     public var name: String {
         get {
-            return self.realmObject.name;
+            if let name = self.realmObject.name {
+                return name
+            }
+            return ""
         }
         set(name) {
             if (name != self.realmObject.name) {
@@ -66,6 +69,8 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     var walkingDistanceLastCoord: CLLocation?
     private var lastDepartureUpdate: NSDate?
     private var lastDepartureCount: Int?
+
+    let apiurls = ["gva": "http://www.timeforcoffee.ch/api/gva/stationboard/"]
 
     public var isLastUsed: Bool = false
     public var serializeDepartures: Bool = true
@@ -682,6 +687,12 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
         if  let url = self.realmObject.departuresURL {
             return url
+        }
+
+        if let apikey = self.realmObject.apiKey, let apiid = self.realmObject.apiId {
+            if let apiurl = apiurls[apikey] {
+                return apiurl + apiid
+            }
         }
 
         let country = self.getCountryISO()
