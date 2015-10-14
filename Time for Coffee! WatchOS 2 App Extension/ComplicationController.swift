@@ -15,6 +15,7 @@ import ClockKit
 private struct Constants {
     static let DepartureDuration = NSTimeInterval(60) // 1 minute
     static let FrequencyOfTimelineUpdate = NSTimeInterval(1.5*60*60) // 1.5 hour
+    static let ComplicationColor = UIColor.orangeColor()
 }
 
 class ComplicationController: NSObject, CLKComplicationDataSource {
@@ -185,6 +186,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
         let tmpl = CLKComplicationTemplateModularLargeTable() // Currently supports only ModularLarge
         
         tmpl.headerTextProvider = CLKSimpleTextProvider(text: station.getName(true))
+        tmpl.tintColor = Constants.ComplicationColor // affect only complications setup that allow custom colors
         
         let departureLine = departure.getLine()
         let nextDepartureLine = nextDeparture?.getLine() ?? "-"
