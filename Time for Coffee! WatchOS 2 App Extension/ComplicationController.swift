@@ -185,15 +185,23 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
         let tmpl = CLKComplicationTemplateModularLargeTable() // Currently supports only ModularLarge
         
         tmpl.headerTextProvider = CLKSimpleTextProvider(text: station.getName(true))
+        
         let departureLine = departure.getLine()
         let nextDepartureLine = nextDeparture?.getLine() ?? "-"
-
-        let nextDepartureDestination = nextDeparture?.getDestination() ?? "-"
+        
+        var departureDestination = "-"
+        var nextDepartureDestination = "-"
+        if let tfcStation = station as? TFCStation {
+            departureDestination = departure.getDestination(tfcStation)
+            if let nextDeparture = nextDeparture {
+                nextDepartureDestination = nextDeparture.getDestination(tfcStation)
+            }
+        }
         
         let units: NSCalendarUnit = [.Minute]
         let style: CLKRelativeDateStyle = .Timer
         
-        tmpl.row1Column1TextProvider = CLKSimpleTextProvider(text: "[\(departureLine)] - \(departure.getDestination())")
+        tmpl.row1Column1TextProvider = CLKSimpleTextProvider(text: "[\(departureLine)] - \(departureDestination)")
         
         if let departureDate = departure.getScheduledTimeAsNSDate() {
             tmpl.row1Column2TextProvider = CLKRelativeDateTextProvider(date: departureDate, style: style, units: units)
