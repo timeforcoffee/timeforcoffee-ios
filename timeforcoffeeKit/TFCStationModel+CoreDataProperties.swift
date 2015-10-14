@@ -23,5 +23,7 @@ extension TFCStationModel {
     @NSManaged var city: String?
     @NSManaged var county: String?
     @NSManaged var departuresURL: String?
+    @NSManaged var apiKey: String?
+    @NSManaged var apiId: String?
 
 }
