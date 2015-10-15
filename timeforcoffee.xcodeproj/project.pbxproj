@@ -134,6 +134,7 @@
 		ECEF281B1BCBC999000F4094 /* TFC.plist in Resources */ = {isa = PBXBuildFile; fileRef = ECEF28191BCBC98F000F4094 /* TFC.plist */; settings = {ASSET_TAGS = (); }; };
 		ECEF281C1BCBC9D7000F4094 /* SingleViewCoreData.sqlite-shm in Resources */ = {isa = PBXBuildFile; fileRef = EC0E4D581BCBB09F0046D70C /* SingleViewCoreData.sqlite-shm */; settings = {ASSET_TAGS = (); }; };
 		ECEF281D1BCBC9D9000F4094 /* SingleViewCoreData.sqlite-wal in Resources */ = {isa = PBXBuildFile; fileRef = EC0E4D591BCBB09F0046D70C /* SingleViewCoreData.sqlite-wal */; settings = {ASSET_TAGS = (); }; };
+		F6F721201BCA9C9C0073E0D2 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F7211F1BCA9C9C0073E0D2 /* ComplicationController.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -360,6 +361,7 @@
 		ECEDDACF1BC991800088AFB2 /* stations-importer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "stations-importer"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECEDDAD11BC991800088AFB2 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		ECEF28191BCBC98F000F4094 /* TFC.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TFC.plist; sourceTree = "<group>"; };
+		F6F7211F1BCA9C9C0073E0D2 /* ComplicationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -551,6 +553,7 @@
 				EC4AB2681BB6787600DA9759 /* MapViewController.swift */,
 				EC4AB2691BB6787600DA9759 /* StationRow.swift */,
 				EC4AB26A1BB6787600DA9759 /* StationsOverviewViewController.swift */,
+				F6F7211F1BCA9C9C0073E0D2 /* ComplicationController.swift */,
 				EC4AB26B1BB6787600DA9759 /* StationsRow.swift */,
 				EC4AB26C1BB6787600DA9759 /* StationViewController.swift */,
 				EC050CF71BB84D8100ECB533 /* watch-extension-bridging-Header.h */,
@@ -1070,6 +1073,7 @@
 				EC4AB2701BB6787600DA9759 /* StationsRow.swift in Sources */,
 				EC050CEA1BB84D4700ECB533 /* SwiftyJSON.swift in Sources */,
 				EC050CEC1BB84D4700ECB533 /* TFCDataStoreBase.swift in Sources */,
+				F6F721201BCA9C9C0073E0D2 /* ComplicationController.swift in Sources */,
 				EC4AB26E1BB6787600DA9759 /* StationRow.swift in Sources */,
 				EC050CF41BB84D5B00ECB533 /* TFCStations.swift in Sources */,
 				EC050CFA1BB84DD200ECB533 /* TFCStation.swift in Sources */,
@@ -1387,7 +1391,10 @@
 		EC46C53A1BB5C78A00F2A963 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_ENTITLEMENTS = "Time for Coffee! WatchOS 2 App Extension/Time for Coffee! WatchOS 2 App Extension.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Time for Coffee! WatchOS 2 App Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.watchkitapp.watchkitextension;
@@ -1404,7 +1411,10 @@
 		EC46C53B1BB5C78A00F2A963 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_ENTITLEMENTS = "Time for Coffee! WatchOS 2 App Extension/Time for Coffee! WatchOS 2 App Extension.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Time for Coffee! WatchOS 2 App Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.watchkitapp.watchkitextension;

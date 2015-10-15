@@ -217,6 +217,13 @@ public final class TFCDeparture: NSObject, NSCoding {
         }
         return nil
     }
+    
+    public func getScheduledTimeAsNSDate() -> NSDate? {
+        if let scheduled = self.scheduled {
+            return scheduled
+        }
+        return nil
+    }
 
     public func getDepartureTime(additionalInfo: Bool) -> (NSMutableAttributedString?, String?) {
         var realtimeStr: String = ""
