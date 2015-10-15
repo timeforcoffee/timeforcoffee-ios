@@ -40,12 +40,13 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         set(location) {
             self._coord = location
             if let lat = location?.coordinate.latitude, lon = location?.coordinate.longitude {
-                if (lat != self.realmObject.latitude &&
-                    lon != self.realmObject.longitude) {
-                        self.updateGeolocationInfo()
+                if (self.realmObject.latitude  == nil ||
+                    self.realmObject.longitude == nil ||
+                    coord?.distanceFromLocation(CLLocation(latitude: self.realmObject.latitude as! Double , longitude: self.realmObject.longitude as! Double)) > 10) {
                         self.realmObject.latitude = lat
                         self.realmObject.longitude = lon
                         self.realmObject.lastUpdated = NSDate()
+                        self.updateGeolocationInfo()
                 }
 
             }
