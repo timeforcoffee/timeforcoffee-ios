@@ -227,7 +227,6 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                 }
             }
             let filemanager = NSFileManager.defaultManager();
-NSLog("\(url.path)")
             if (forceInstall || !filemanager.fileExistsAtPath(url.path!)) {
 
                 let sourceSqliteURLs = [bundle.URLForResource("SingleViewCoreData", withExtension: "sqlite")!, bundle.URLForResource("SingleViewCoreData", withExtension: "sqlite-wal")!, bundle.URLForResource("SingleViewCoreData", withExtension: "sqlite-shm")!]
