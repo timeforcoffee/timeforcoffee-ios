@@ -71,7 +71,8 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     private var lastDepartureCount: Int?
 
     let apiurls = ["gva": "http://www.timeforcoffee.ch/api/gva/stationboard/",
-                   "vbl": "http://www.timeforcoffee.ch/api/vbl/stationboard/"
+                   "vbl": "http://www.timeforcoffee.ch/api/vbl/stationboard/",
+                   "bvb": "http://www.timeforcoffee.ch/api/bvb/stationboard/"
     ]
 
     public var isLastUsed: Bool = false
