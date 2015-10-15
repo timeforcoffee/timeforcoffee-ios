@@ -842,7 +842,7 @@
 					};
 					EC46C5271BB5C78A00F2A963 = {
 						CreatedOnToolsVersion = 7.0;
-						DevelopmentTeam = 6EMM22S2YK;
+						DevelopmentTeam = DN76797UYF;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -851,7 +851,7 @@
 					};
 					EC46C5581BB5C82800F2A963 = {
 						CreatedOnToolsVersion = 7.0;
-						DevelopmentTeam = 6EMM22S2YK;
+						DevelopmentTeam = DN76797UYF;
 					};
 					ECEDDACE1BC991800088AFB2 = {
 						CreatedOnToolsVersion = 7.0;
@@ -1399,7 +1399,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "d108b928-5ded-40e0-98b1-e738660c24c1";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Time for Coffee! WatchOS 2 App Extension/watch-extension-bridging-Header.h";
@@ -1419,7 +1419,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "d108b928-5ded-40e0-98b1-e738660c24c1";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Time for Coffee! WatchOS 2 App Extension/watch-extension-bridging-Header.h";
