@@ -22,6 +22,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
     let lockQueue = dispatch_queue_create("group.ch.opendata.timeforcoffee.notificationLock", DISPATCH_QUEUE_SERIAL)
 
     private let userDefaults: NSUserDefaults? = NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee")
+    private let localUserDefaults: NSUserDefaults? = NSUserDefaults(suiteName: "ch.opendata.timeforcoffee.local")
     var keyvaluestore: NSUbiquitousKeyValueStore? { return nil}
     private var notificationObserver: AnyObject?
 
@@ -220,13 +221,13 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
             var forceInstall = false
             let neededDBVersion = NSDictionary(contentsOfFile:filePath)?.valueForKey("dbVersion") as? Int
             if let neededDBVersion = neededDBVersion {
-                var installedDBVersion = self.userDefaults?.integerForKey("installedDBVersion")
+                var installedDBVersion = self.localUserDefaults?.integerForKey("installedDBVersion")
                 if (installedDBVersion == nil || neededDBVersion != installedDBVersion) {
                     forceInstall = true
                 }
             }
             let filemanager = NSFileManager.defaultManager();
-
+NSLog("\(url.path)")
             if (forceInstall || !filemanager.fileExistsAtPath(url.path!)) {
 
                 let sourceSqliteURLs = [bundle.URLForResource("SingleViewCoreData", withExtension: "sqlite")!, bundle.URLForResource("SingleViewCoreData", withExtension: "sqlite-wal")!, bundle.URLForResource("SingleViewCoreData", withExtension: "sqlite-shm")!]
@@ -241,7 +242,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                     try! filemanager.copyItemAtURL(sourceSqliteURLs[index], toURL: destSqliteURLs[index])
                 }
                 if let neededDBVersion = neededDBVersion {
-                    self.userDefaults?.setInteger(neededDBVersion, forKey: "installedDBVersion")
+                    self.localUserDefaults?.setInteger(neededDBVersion, forKey: "installedDBVersion")
                 }
 
             }
