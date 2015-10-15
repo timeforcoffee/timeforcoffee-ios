@@ -18,9 +18,10 @@ public final class TFCDeparture: NSObject, NSCoding {
     private var realtime: NSDate?
     public var colorFg: String?
     public var colorBg: String?
+    public var platform: String?
     var outdated: Bool = false
 
-    init(name: String, type: String, accessible: Bool, to: String, scheduled: NSDate?, realtime: NSDate?, colorFg: String?, colorBg: String? ) {
+    init(name: String, type: String, accessible: Bool, to: String, scheduled: NSDate?, realtime: NSDate?, colorFg: String?, colorBg: String?, platform: String? ) {
         // TODO: strip "Zurich, " from name
         self.name = name
         self.type = type
@@ -30,6 +31,7 @@ public final class TFCDeparture: NSObject, NSCoding {
         self.realtime = realtime
         self.colorFg = colorFg
         self.colorBg = colorBg
+        self.platform = platform
         
     }
 
@@ -42,6 +44,7 @@ public final class TFCDeparture: NSObject, NSCoding {
         self.realtime = aDecoder.decodeObjectForKey("realtime") as! NSDate?
         self.colorFg = aDecoder.decodeObjectForKey("colorFg") as! String?
         self.colorBg = aDecoder.decodeObjectForKey("colorBg") as! String?
+        self.platform = aDecoder.decodeObjectForKey("platform") as! String?
     }
 
     public func encodeWithCoder(aCoder: NSCoder) {
@@ -53,6 +56,7 @@ public final class TFCDeparture: NSObject, NSCoding {
         aCoder.encodeObject(realtime, forKey: "realtime")
         aCoder.encodeObject(colorFg, forKey: "colorFg")
         aCoder.encodeObject(colorBg, forKey: "colorBg")
+        aCoder.encodeObject(platform, forKey: "platform")
     }
 
     
@@ -107,8 +111,10 @@ public final class TFCDeparture: NSObject, NSCoding {
                 } else {
                     realtime = nil
                 }
+
+                let platform = result["platform"].string
                 
-                let newDeparture = TFCDeparture(name: name, type: type, accessible: accessible, to: to, scheduled: scheduled, realtime: realtime, colorFg: colorFg, colorBg: colorBg)
+                let newDeparture = TFCDeparture(name: name, type: type, accessible: accessible, to: to, scheduled: scheduled, realtime: realtime, colorFg: colorFg, colorBg: colorBg, platform: platform)
                 departures?.append(newDeparture)
             }
             return departures
@@ -293,6 +299,15 @@ public final class TFCDeparture: NSObject, NSCoding {
                     timestring? += " (not updated)"
                 }
             }
+        }
+
+        if let platform = self.platform {
+            if (timestringAttr != nil) {
+                timestringAttr?.appendAttributedString(NSAttributedString(string: " - Pl: \(platform)"))
+            } else {
+                timestring? += " - Pl: \(platform)"
+            }
+
         }
         return (timestringAttr, timestring)
     }
