@@ -73,7 +73,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
     let apiurls = ["gva": "http://www.timeforcoffee.ch/api/gva/stationboard/",
                    "vbl": "http://www.timeforcoffee.ch/api/vbl/stationboard/",
-                   "bvb": "http://www.timeforcoffee.ch/api/bvb/stationboard/"
+                   "bvb": "http://www.timeforcoffee.ch/api/zvv/stationboard/"
     ]
 
     public var isLastUsed: Bool = false
@@ -173,9 +173,6 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         self.init(name: "doesn't exist", id: "0000", coord: nil)
     }
 
-    deinit {
-        self.realmObject.save()
-    }
     public class func initWithCache(name: String, id: String, coord: CLLocation?) -> TFCStation {
         let trimmed_id = id.replace("^0*", template: "")
         let cache: PINCache = TFCCache.objects.stations
@@ -186,8 +183,9 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                 let tryStation = TFCStation(id: id)
                 if (tryStation.name != "") {
                     if (tryStation.coord != nil) {
-                        cache.setObject(newStation!, forKey: newStation!.st_id)
-                        newStation!.setStationSearchIndex()
+
+                        cache.setObject(tryStation, forKey: tryStation.st_id)
+                        tryStation.setStationSearchIndex()
                     }
                     return tryStation
                 }
