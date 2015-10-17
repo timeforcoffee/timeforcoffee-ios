@@ -139,10 +139,16 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
     func getNextRequestedUpdateDateWithHandler(handler: (NSDate?) -> Void) {
         // Call the handler with the date when you would next like to be given the opportunity to update your complication content
         let nextUpdateDate:NSDate
+        let maxNextUpdateDate = NSDate().dateByAddingTimeInterval(Constants.FrequencyOfTimelineUpdate)
         if let nextUpdate =  self.lastDepartureTime {
-            nextUpdateDate = nextUpdate.dateByAddingTimeInterval(Constants.TimelineUpdateMinutesBeforeEnd)
+            let lastEntryDate = nextUpdate.dateByAddingTimeInterval(Constants.TimelineUpdateMinutesBeforeEnd)
+            if (maxNextUpdateDate.timeIntervalSinceReferenceDate < lastEntryDate.timeIntervalSinceReferenceDate) {
+                nextUpdateDate = maxNextUpdateDate
+            } else {
+                nextUpdateDate = lastEntryDate
+            }
         } else {
-            nextUpdateDate = NSDate().dateByAddingTimeInterval(Constants.FrequencyOfTimelineUpdate) // request an update each 1.5 hour
+            nextUpdateDate =  maxNextUpdateDate // request an update each 1.5 hour
         }
         handler(nextUpdateDate);
     }
