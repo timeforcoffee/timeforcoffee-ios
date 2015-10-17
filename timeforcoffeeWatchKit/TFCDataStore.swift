@@ -7,9 +7,18 @@
 //
 
 import Foundation
+import ClockKit
 
 public class TFCDataStore: TFCDataStoreBase {
     // not supported in watchOS yet, set it to nil
     override var keyvaluestore: NSUbiquitousKeyValueStore? {
         return nil
-    }}
+    }
+
+    override func updateComplicationData() {
+        let server = CLKComplicationServer.sharedInstance()
+        for complication in server.activeComplications {
+            server.reloadTimelineForComplication(complication)
+        }
+    }
+}

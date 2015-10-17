@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreLocation
+import WatchConnectivity
 
 public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelegate, APIControllerProtocol {
 
@@ -258,6 +259,21 @@ public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelega
                 self.networkErrorMsg = err
             }
             if let dele = self.delegate {
+                #if os(iOS)
+                    if #available(iOS 9, *) {
+                        if (WCSession.isSupported()) {
+                            let wcsession = WCSession.defaultSession()
+                            if (wcsession.complicationEnabled == true) {
+                                if let firstStation = self.stations?.first, let ud = favorite.userDefaults {
+                                    if (ud.stringForKey("lastFirstStationId") != firstStation.st_id) {
+                                        wcsession.transferCurrentComplicationUserInfo(["__updateComplicationData__": "doit"])
+                                        ud.setValue(firstStation.st_id, forKey: "lastFirstStationId")
+                                    }
+                                }
+                            }
+                        }
+                    }
+                #endif
                 dele.stationsUpdated(self.networkErrorMsg, favoritesOnly: favoritesOnly)
             }
         }

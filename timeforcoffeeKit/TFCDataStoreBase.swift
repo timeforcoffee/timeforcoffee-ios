@@ -144,7 +144,9 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
     @available(iOSApplicationExtension 9.0, *)
     public func session(session: WCSession, didReceiveUserInfo userInfo: [String : AnyObject]) {
         for (myKey,myValue) in userInfo {
-            if (myKey == "__giveMeTheData__") {
+            if (myKey == "__updateComplicationData__") {
+                updateComplicationData()
+            } else if (myKey == "__giveMeTheData__") {
                 NSLog("Got __giveMeTheData__");
                 sendAllData()
             } else if (myKey == "___remove___") {
@@ -291,6 +293,10 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
         } else {
             return false
         }
+    }
+
+    func updateComplicationData() {
+        
     }
 
 }
