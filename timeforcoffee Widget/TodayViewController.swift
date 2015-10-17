@@ -10,6 +10,8 @@ import UIKit
 import NotificationCenter
 import CoreLocation
 import timeforcoffeeKit
+import Fabric
+import Crashlytics
 
 final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate,  TFCDeparturesUpdatedProtocol, TFCStationsUpdatedProtocol {
     @IBOutlet weak var titleLabel: UILabel!
@@ -112,6 +114,10 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             TFCDataStore.sharedInstance.registerForNotifications()
             TFCDataStore.sharedInstance.synchronize()
         }
+        #if !((arch(i386) || arch(x86_64)) && os(iOS))
+            Fabric.with([Crashlytics()])
+        #endif
+
     }
 
     deinit {
