@@ -63,12 +63,18 @@ class StationsOverviewViewController: WKInterfaceController {
                 self.numberOfRows = ctxStations!.count
             }
             var i = 0;
-            for (station) in ctxStations! {
-                if let sr = stationsTable.rowControllerAtIndex(i) as! StationsRow? {
-                    sr.drawCell(station)
+            if let ctxStations = ctxStations {
+                for (station) in ctxStations {
+                    if let sr = stationsTable.rowControllerAtIndex(i) as! StationsRow? {
+                        sr.drawCell(station)
+                    }
+                    i++
                 }
-                i++
+                if let stations = stations {
+                    TFCWatchData.sharedInstance.updateComplication(stations)
+                }
             }
+
         }
         func errorReply(text: String) {
             infoGroup.setHidden(false)

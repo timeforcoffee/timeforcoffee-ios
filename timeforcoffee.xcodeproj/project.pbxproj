@@ -111,7 +111,6 @@
 		EC9BCB351BB5CCD300623F1A /* TFCStationBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB241BB5CCD300623F1A /* TFCStationBase.swift */; settings = {ASSET_TAGS = (); }; };
 		EC9BCB361BB5CCD300623F1A /* TFCStations.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB251BB5CCD300623F1A /* TFCStations.swift */; settings = {ASSET_TAGS = (); }; };
 		EC9BCB371BB5CCD300623F1A /* TFCURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB261BB5CCD300623F1A /* TFCURLSession.swift */; settings = {ASSET_TAGS = (); }; };
-		EC9BCB381BB5CCD300623F1A /* TFCWatchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB271BB5CCD300623F1A /* TFCWatchData.swift */; settings = {ASSET_TAGS = (); }; };
 		EC9BCB421BB5CD4D00623F1A /* Nullability.h in Headers */ = {isa = PBXBuildFile; fileRef = EC9BCB3B1BB5CD4D00623F1A /* Nullability.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EC9BCB431BB5CD4D00623F1A /* PINCache.h in Headers */ = {isa = PBXBuildFile; fileRef = EC9BCB3C1BB5CD4D00623F1A /* PINCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EC9BCB441BB5CD4D00623F1A /* PINCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB3D1BB5CD4D00623F1A /* PINCache.m */; settings = {ASSET_TAGS = (); }; };
@@ -1120,7 +1119,6 @@
 				EC9BCB361BB5CCD300623F1A /* TFCStations.swift in Sources */,
 				EC9BCB2D1BB5CCD300623F1A /* TFCCache.swift in Sources */,
 				EC9BCB301BB5CCD300623F1A /* TFCDeparture.swift in Sources */,
-				EC9BCB381BB5CCD300623F1A /* TFCWatchData.swift in Sources */,
 				EC9BCB441BB5CD4D00623F1A /* PINCache.m in Sources */,
 				EC9BCB331BB5CCD300623F1A /* TFCLocationManagerBase.swift in Sources */,
 				EC9BCB351BB5CCD300623F1A /* TFCStationBase.swift in Sources */,

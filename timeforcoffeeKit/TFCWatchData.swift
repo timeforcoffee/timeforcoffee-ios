@@ -9,6 +9,7 @@
 import Foundation
 import CoreLocation
 import WatchKit
+import ClockKit
 
 public final class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIControllerProtocol {
 
@@ -64,6 +65,24 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIContro
         // the data from the API... (in locationFixed)
         self.replyNearby = reply
         locManager?.refreshLocation()
+    }
+
+    public func updateComplication(stations: TFCStations) {
+        if let firstStation = stations.stations!.first {
+            if let ud =  NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee") {
+                if (ud.stringForKey("lastFirstStationId") != firstStation.st_id) {
+                    updateComplicationData()
+                    ud.setValue(firstStation.st_id, forKey: "lastFirstStationId")
+                }
+            }
+        }
+    }
+
+    public func updateComplicationData() {
+        let server = CLKComplicationServer.sharedInstance()
+        for complication in server.activeComplications {
+            server.reloadTimelineForComplication(complication)
+        }
     }
 
     public func getStations(reply: replyStations?, errorReply: ((String) -> Void)?, stopWithFavorites: Bool?) {

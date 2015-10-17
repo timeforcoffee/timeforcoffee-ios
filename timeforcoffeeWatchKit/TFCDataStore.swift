@@ -16,9 +16,6 @@ public class TFCDataStore: TFCDataStoreBase {
     }
 
     override func updateComplicationData() {
-        let server = CLKComplicationServer.sharedInstance()
-        for complication in server.activeComplications {
-            server.reloadTimelineForComplication(complication)
-        }
+        TFCWatchData.sharedInstance.updateComplicationData()
     }
 }

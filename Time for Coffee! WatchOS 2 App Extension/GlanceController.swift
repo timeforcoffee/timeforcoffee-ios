@@ -64,7 +64,7 @@ class GlanceController: WKInterfaceController {
                             }
                         }
                         self.updateUserActivity("ch.opendata.timeforcoffee.station", userInfo: ["name": station.name, "st_id": station.st_id], webpageURL: nil)
-
+                        TFCWatchData.sharedInstance.updateComplication(stations!)
                         break;
                     }
                 }

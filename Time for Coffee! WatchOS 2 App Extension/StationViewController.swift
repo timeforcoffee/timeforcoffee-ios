@@ -68,6 +68,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
                 }
                 self.station = station2
                 self.setStationValues()
+                TFCWatchData.sharedInstance.updateComplication(stations!)
             }
         }
         func errorReply(text: String) {

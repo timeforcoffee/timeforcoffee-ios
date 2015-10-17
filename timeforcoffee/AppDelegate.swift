@@ -20,7 +20,6 @@ import CoreData
 final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var watchData: TFCWatchData?
 
     // when the app starts from scratch, we can't move to favorites
     //  from the AppDelegate but have to do it later in the ViewController
