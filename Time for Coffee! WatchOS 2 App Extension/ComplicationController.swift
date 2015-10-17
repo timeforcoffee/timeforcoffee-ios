@@ -15,6 +15,7 @@ import ClockKit
 private struct Constants {
     static let DepartureDuration = NSTimeInterval(60) // 1 minute
     static let FrequencyOfTimelineUpdate = NSTimeInterval(1.5*60*60) // 1.5 hour
+    static let TimelineUpdateMinutesBeforeEnd = NSTimeInterval(-15*60) // 15 minutes
     static let ComplicationColor = UIColor.orangeColor()
 }
 
@@ -22,6 +23,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
     
     // MARK: - Timeline Configuration
     
+    private var lastDepartureTime:NSDate?
     func getSupportedTimeTravelDirectionsForComplication(complication: CLKComplication, withHandler handler: (CLKComplicationTimeTravelDirections) -> Void) {
         handler([.Forward]) // supports only forward time travel
     }
@@ -100,7 +102,8 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
         
         func handleReply(stations: TFCStations?) {
             var entries = [CLKComplicationTimelineEntry]()
-            
+
+            self.lastDepartureTime = nil
             if let station = stations?.stations?.first { // corresponds to the favorited/closest station
                 if let departures = station.getFilteredDepartures() {
                     
@@ -115,6 +118,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
                             let tmpl = templateForStationDepartures(station, departure: thisDeparture, nextDeparture: nextDeparture, complication: complication)
                             let entry = CLKComplicationTimelineEntry(date: thisEntryDate, complicationTemplate: tmpl)
                             entries.append(entry)
+                            lastDepartureTime = thisEntryDate
                             if entries.count == limit {break} // break if we reached the limit of entries
                         }
                         index++
@@ -134,7 +138,12 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
     
     func getNextRequestedUpdateDateWithHandler(handler: (NSDate?) -> Void) {
         // Call the handler with the date when you would next like to be given the opportunity to update your complication content
-        let nextUpdateDate = NSDate().dateByAddingTimeInterval(Constants.FrequencyOfTimelineUpdate) // request an update each 1.5 hour
+        let nextUpdateDate:NSDate
+        if let nextUpdate =  self.lastDepartureTime {
+            nextUpdateDate = nextUpdate.dateByAddingTimeInterval(Constants.TimelineUpdateMinutesBeforeEnd)
+        } else {
+            nextUpdateDate = NSDate().dateByAddingTimeInterval(Constants.FrequencyOfTimelineUpdate) // request an update each 1.5 hour
+        }
         handler(nextUpdateDate);
     }
     
