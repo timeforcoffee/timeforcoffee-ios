@@ -151,6 +151,11 @@ public final class TFCDeparture: NSObject, NSCoding {
                     var departure:[String: AnyObject] = [String: AnyObject]()
                     departure["scheduled"] = stop["departure"]?.string
                     departure["realtime"] = stop["prognosis"]?["departure"].string;
+                    if let platform = stop["prognosis"]?["platform"].string {
+                        departure["platform"] = platform
+                    } else {
+                        departure["platform"] = stop["platform"]?.string
+                    }
                     newstop["departure"] = departure
                     departures.append(newstop)
                 }
