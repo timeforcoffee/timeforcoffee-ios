@@ -71,9 +71,9 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     private var lastDepartureUpdate: NSDate?
     private var lastDepartureCount: Int?
 
-    let apiurls = ["gva": "http://www.timeforcoffee.ch/api/gva/stationboard/",
-                   "vbl": "http://www.timeforcoffee.ch/api/vbl/stationboard/",
-                   "bvb": "http://www.timeforcoffee.ch/api/zvv/stationboard/"
+    let apiurls = ["gva": "http://staging.timeforcoffee.ch/api/ch/stationboard/",
+                   "vbl": "http://staging.timeforcoffee.ch/api/ch/stationboard/",
+                   "bvb": "http://staging.timeforcoffee.ch/api/ch/stationboard/"
     ]
 
     public var isLastUsed: Bool = false
@@ -691,15 +691,15 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             return url
         }
 
-        if let apikey = self.realmObject.apiKey, let apiid = self.realmObject.apiId {
+    /*    if let apikey = self.realmObject.apiKey, let apiid = self.realmObject.apiId {
             if let apiurl = apiurls[apikey] {
-                return apiurl + apiid
+                return apiurl + self.st_id
             }
-        }
+        }*/
 
         let country = self.getCountryISO()
         let opendataURL = "http://transport.opendata.ch/v1/stationboard?id=\(self.st_id)&limit=40"
-        let tfcURL = "http://www.timeforcoffee.ch/api/zvv/stationboard/\(self.st_id)"
+        let tfcURL = "http://staging.timeforcoffee.ch/api/ch/stationboard/\(self.st_id)"
         let urlPath:String
         if (country == "CH") {
             urlPath = tfcURL
