@@ -137,20 +137,24 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     }
 
     func selectStation(notification: NSNotification) {
-        let uI:[String:String]? = notification.userInfo as? [String:String]
-        if let st_id = uI?["st_id"] {
-            if (self.station == nil) {
-                self.station = TFCStation.initWithCache((uI?["name"])! , id: st_id, coord: nil)
-                self.initTable = true
-            } else if let self_st_id = self.station?.st_id {
-                if (self_st_id != st_id) {
+        if (notification.userInfo == nil) {
+            self.getStation()
+        } else {
+            let uI:[String:String]? = notification.userInfo as? [String:String]
+            if let st_id = uI?["st_id"] {
+                if (self.station == nil) {
                     self.station = TFCStation.initWithCache((uI?["name"])! , id: st_id, coord: nil)
                     self.initTable = true
+                } else if let self_st_id = self.station?.st_id {
+                    if (self_st_id != st_id) {
+                        self.station = TFCStation.initWithCache((uI?["name"])! , id: st_id, coord: nil)
+                        self.initTable = true
+                    }
                 }
             }
-        }
-        if (self.active) {
-            self.setStationValues()
+            if (self.active) {
+                self.setStationValues()
+            }
         }
         self.becomeCurrentPage()
     }
@@ -221,9 +225,13 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     }
 
     override func handleUserActivity(userInfo: [NSObject : AnyObject]!) {
-        let uI:[String:String]? = userInfo as? [String:String]
-        NSLog("handleUserActivity StationViewController")
-        NSNotificationCenter.defaultCenter().postNotificationName("TFCWatchkitSelectStation", object: nil, userInfo: uI)
+        if (userInfo.keys.first == "CLKLaunchedTimelineEntryDateKey") {
+            NSNotificationCenter.defaultCenter().postNotificationName("TFCWatchkitSelectStation", object: nil, userInfo: nil)
+        } else {
+            let uI:[String:String]? = userInfo as? [String:String]
+            NSLog("handleUserActivity StationViewController")
+            NSNotificationCenter.defaultCenter().postNotificationName("TFCWatchkitSelectStation", object: nil, userInfo: uI)
+        }
     }
     
 }
