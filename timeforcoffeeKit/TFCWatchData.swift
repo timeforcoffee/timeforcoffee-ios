@@ -11,7 +11,7 @@ import CoreLocation
 import WatchKit
 import ClockKit
 
-public final class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIControllerProtocol {
+public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStationsUpdatedProtocol {
 
     public class var sharedInstance: TFCWatchData {
         struct Static {
@@ -22,18 +22,13 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIContro
     private var networkErrorMsg: String?
 
     private var replyNearby: replyClosure?
-    private lazy var stations: TFCStations? =  {return TFCStations()}()
+    private lazy var stations: TFCStations? =  {return TFCStations(delegate: self)}()
     private lazy var locManager: TFCLocationManager? = self.lazyInitLocationManager()
 
     private struct replyContext {
         var reply: replyStations?
         var errorReply: ((String) -> Void)?
     }
-
-    private lazy var api : APIController? = {
-        [unowned self] in
-        return APIController(delegate: self)
-        }()
 
     public override init () {
         super.init()
@@ -97,7 +92,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIContro
                 var replyC:replyContext = replyContext()
                 replyC.reply = reply
                 replyC.errorReply = errorReply
-                self.api?.searchFor(loc.coordinate, context: replyC)
+                self.stations?.searchForStationsInDB(loc.coordinate, context: replyC)
             } else {
                 if let err = replyInfo["error"] as? NSError {
                     if (err.code == CLError.LocationUnknown.rawValue) {
@@ -112,38 +107,16 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIContro
         TFCWatchData.sharedInstance.getLocation(handleReply)
     }
 
-    public func didReceiveAPIResults(results: JSON?, error: NSError?, context: Any?) {
-        let reply:replyContext = context as! replyContext
-        if (!(error != nil && error?.code == -999)) {
-            let errorReply = reply.errorReply
-            if (error != nil || results == nil) {
-                self.networkErrorMsg = NSLocalizedString("Network error. Please try again", comment: "")
-                if (errorReply != nil) {
-                    errorReply!(self.networkErrorMsg!)
+    public func stationsUpdated(error: String?, favoritesOnly: Bool, context: Any?) {
+        if let reply:replyContext = context as? replyContext {
+            if (error != nil) {
+                if let reply = reply.errorReply {
+                    reply(error!)
                 }
-
             } else {
-                self.networkErrorMsg = nil
-            }
-            if (results != nil && TFCStation.isStations(results!)) {
-                if let stations = self.stations {
-                    stations.addWithJSON(results)
-                    if (!(stations.count() > 0)) {
-                        if (errorReply != nil) {
-                            let reason = stations.getReasonForNoStationFound()
-                            if (reason != nil)  {
-                                errorReply!("No stations found. \(reason!)")
-                            } else {
-                                errorReply!("No stations found.")
-                            }
-                            return
-                        }
-                    }
+                if let reply:replyStations = reply.reply {
+                    reply(self.stations)
                 }
-
-            }
-            if let reply:replyStations = reply.reply {
-                reply(self.stations)
             }
         }
     }

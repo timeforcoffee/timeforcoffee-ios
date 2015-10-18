@@ -57,7 +57,7 @@ final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataS
         }
     }
 
-    func stationsUpdated(err: String?, favoritesOnly: Bool) {
+    func stationsUpdated(err: String?, favoritesOnly: Bool, context: Any?) {
         dispatch_async(dispatch_get_main_queue(), {
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             self.refreshControl?.endRefreshing()

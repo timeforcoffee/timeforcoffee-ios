@@ -252,6 +252,7 @@
 		EC0E4D581BCBB09F0046D70C /* SingleViewCoreData.sqlite-shm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "SingleViewCoreData.sqlite-shm"; sourceTree = "<group>"; };
 		EC0E4D591BCBB09F0046D70C /* SingleViewCoreData.sqlite-wal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "SingleViewCoreData.sqlite-wal"; sourceTree = "<group>"; };
 		EC1834D81BCADA0E008B44F3 /* SingleViewCoreData.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = SingleViewCoreData.sqlite; sourceTree = "<group>"; };
+		EC28EA451BD3E3F0004977B0 /* DataModels 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DataModels 2.xcdatamodel"; sourceTree = "<group>"; };
 		EC46C4DB1BB5C69800F2A963 /* timeforcoffee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = timeforcoffee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC46C4DE1BB5C69800F2A963 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EC46C4E51BB5C69800F2A963 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -1608,9 +1609,10 @@
 		EC810B041BC7963C0007B874 /* DataModels.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				EC28EA451BD3E3F0004977B0 /* DataModels 2.xcdatamodel */,
 				EC810B051BC7963C0007B874 /* DataModels.xcdatamodel */,
 			);
-			currentVersion = EC810B051BC7963C0007B874 /* DataModels.xcdatamodel */;
+			currentVersion = EC28EA451BD3E3F0004977B0 /* DataModels 2.xcdatamodel */;
 			path = DataModels.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

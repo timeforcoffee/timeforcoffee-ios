@@ -511,7 +511,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         // do nothing
     }
 
-    func stationsUpdated(error: String?, favoritesOnly: Bool) {
+    func stationsUpdated(error: String?, favoritesOnly: Bool, context: Any?) {
         dispatch_async(dispatch_get_main_queue(), {
             // if we show a single station, but it's not determined which one
             //   try to get one from the stations array

@@ -65,7 +65,25 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
     private var filteredDepartures: [TFCDeparture]?
 
-    public var calculatedDistance: Int?
+    public var calculatedDistance: Double? {
+        get {
+
+            if let currentLoc = TFCLocationManager.getCurrentLocation() {
+                if (currentLoc != _calculatedDistanceLastCoord) {
+                    _calculatedDistanceLastCoord = currentLoc
+                    if let coord = self.coord {
+                        _calculatedDistance = currentLoc.distanceFromLocation(coord)
+                    }
+                }
+                return _calculatedDistance
+            }
+            return nil
+        }
+    }
+
+    private var _calculatedDistance: Double? = nil
+    var _calculatedDistanceLastCoord: CLLocation?
+
     var walkingDistanceString: String?
     var walkingDistanceLastCoord: CLLocation?
     private var lastDepartureUpdate: NSDate?
@@ -156,6 +174,8 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         }
         self.walkingDistanceString = aDecoder.decodeObjectForKey("walkingDistanceString") as! String?
         self.walkingDistanceLastCoord = aDecoder.decodeObjectForKey("walkingDistanceLastCoord") as! CLLocation?
+        self._calculatedDistance = aDecoder.decodeObjectForKey("_calculatedDistance") as! Double?
+        self._calculatedDistanceLastCoord = aDecoder.decodeObjectForKey("_calculatedDistanceLastCoord") as! CLLocation?
     }
 
     public func encodeWithCoder(aCoder: NSCoder) {
@@ -167,6 +187,8 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         }
         aCoder.encodeObject(walkingDistanceString, forKey: "walkingDistanceString")
         aCoder.encodeObject(walkingDistanceLastCoord, forKey: "walkingDistanceLastCoord")
+        aCoder.encodeObject(_calculatedDistance, forKey: "_calculatedDistance")
+        aCoder.encodeObject(_calculatedDistanceLastCoord, forKey: "_calculatedDistanceLastCoord")
     }
 
     override public convenience init() {
