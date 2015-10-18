@@ -19,7 +19,7 @@ private struct Constants {
     static let ComplicationColor = UIColor.orangeColor()
 }
 
-class ComplicationController: NSObject, CLKComplicationDataSource {
+class ComplicationController: NSObject, CLKComplicationDataSource, TFCDeparturesUpdatedProtocol {
     
     // MARK: - Timeline Configuration
     
@@ -31,10 +31,15 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
     func getTimelineStartDateForComplication(complication: CLKComplication, withHandler handler: (NSDate?) -> Void) {
         func handleReply(stations: TFCStations?) {
             if let station = stations?.stations?.first {
-                if let departure = station.getFilteredDepartures()?.first {
-                    let startDate = timelineEntryDateForDeparture(departure, previousDeparture: nil)
-                    handler(startDate)
+                func handleReply2(station: TFCStation?) {
+                    if let station = station {
+                        if let departure = station.getFilteredDepartures()?.first {
+                            let startDate = timelineEntryDateForDeparture(departure, previousDeparture: nil)
+                            handler(startDate)
+                        }
+                    }
                 }
+                station.updateDepartures(self, force: false, context: handleReply2)
             }
         }
         TFCWatchData.sharedInstance.getStations(handleReply, errorReply: nil, stopWithFavorites: true)
@@ -43,8 +48,13 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
     func getTimelineEndDateForComplication(complication: CLKComplication, withHandler handler: (NSDate?) -> Void) {
         func handleReply(stations: TFCStations?) {
             if let station = stations?.stations?.first {
-                let endDate = station.getFilteredDepartures()?.last?.getScheduledTimeAsNSDate()
-                handler(endDate)
+                func handleReply2(station: TFCStation?) {
+                    if let station = station {
+                        let endDate = station.getFilteredDepartures()?.last?.getScheduledTimeAsNSDate()
+                        handler(endDate)
+                    }
+                }
+                station.updateDepartures(self, force: false, context: handleReply2)
             }
         }
         TFCWatchData.sharedInstance.getStations(handleReply, errorReply: nil, stopWithFavorites: true)
@@ -70,27 +80,20 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
             var entries = [CLKComplicationTimelineEntry]()
             
             if let station = stations?.stations?.first { // corresponds to the last favorited station or closest station
-                if let departures = station.getFilteredDepartures() {
-                    var index = departures.count - 1
-                    var nextDeparture: TFCDeparture? = nil
-                    var departure: TFCDeparture? = departures.last
-                    var previousDeparture: TFCDeparture? = (departures.count >= 2 ) ? departures[index - 1] : nil
-                    
-                    while let thisDeparture = departure {
-                        let thisEntryDate = timelineEntryDateForDeparture(thisDeparture, previousDeparture: previousDeparture)
-                        if date.compare(thisEntryDate) == .OrderedDescending { // check if the entry date is "correctly" before the given date
-                            let tmpl = templateForStationDepartures(station, departure: thisDeparture, nextDeparture: nextDeparture, complication: complication)
+                func handleReply2(station:TFCStation?) {
+                    if let station = station {
+                        //just take the first entry here... It's the one we want to display
+                        if let stations = station.getFilteredDepartures(),
+                                departure = stations.first {
+                            let thisEntryDate = timelineEntryDateForDeparture(departure, previousDeparture: nil)
+                            let tmpl = templateForStationDepartures(station, departure: departure, nextDeparture: stations[1], complication: complication)
                             let entry = CLKComplicationTimelineEntry(date: thisEntryDate, complicationTemplate: tmpl)
                             entries.append(entry)
-                            if entries.count == limit {break} // break if we reached the limit of entries
                         }
-                        index--
-                        nextDeparture = departure
-                        departure = previousDeparture
-                        previousDeparture = (index > 0 ) ? departures[index - 1] : nil
+                        handler(entries)
                     }
-                    handler(entries)
                 }
+                station.updateDepartures(self, force: false, context: handleReply2)
             }
         }
         
@@ -105,30 +108,40 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
 
             self.lastDepartureTime = nil
             if let station = stations?.stations?.first { // corresponds to the favorited/closest station
-                if let departures = station.getFilteredDepartures() {
-                    
-                    var index = 0
-                    var previousDeparture: TFCDeparture? = nil
-                    var departure: TFCDeparture? = departures.first
-                    var nextDeparture: TFCDeparture? = (departures.count >= 2) ? departures[1] : nil
-                    
-                    while let thisDeparture = departure {
-                        let thisEntryDate = timelineEntryDateForDeparture(thisDeparture, previousDeparture: previousDeparture)
-                        if date.compare(thisEntryDate) == .OrderedAscending { // check if the entry date is "correctly" after the given date
-                            let tmpl = templateForStationDepartures(station, departure: thisDeparture, nextDeparture: nextDeparture, complication: complication)
-                            let entry = CLKComplicationTimelineEntry(date: thisEntryDate, complicationTemplate: tmpl)
-                            entries.append(entry)
-                            lastDepartureTime = thisEntryDate
-                            if entries.count == limit {break} // break if we reached the limit of entries
-                        }
-                        index++
-                        previousDeparture = thisDeparture
-                        departure = (departures.count - 1 >= index) ? departures[index] : nil
-                        nextDeparture = (departures.count > index + 1) ? departures[index + 1] : nil
+                func handleReply2(station: TFCStation?) {
+                    if let station = station,
+                        departures = station.getFilteredDepartures() {
+
+                            var index = 0
+                            var previousDeparture: TFCDeparture? = nil
+                            var departure: TFCDeparture? = departures.first
+                            var nextDeparture: TFCDeparture? = (departures.count >= 2) ? departures[1] : nil
+
+                            while let thisDeparture = departure {
+                                let thisEntryDate = timelineEntryDateForDeparture(thisDeparture, previousDeparture: previousDeparture)
+                                if date.compare(thisEntryDate) == .OrderedAscending { // check if the entry date is "correctly" after the given date
+                                    let tmpl = templateForStationDepartures(station, departure: thisDeparture, nextDeparture: nextDeparture, complication: complication)
+                                    let entry = CLKComplicationTimelineEntry(date: thisEntryDate, complicationTemplate: tmpl)
+                                    entries.append(entry)
+                                    lastDepartureTime = thisEntryDate
+                                    if entries.count == limit {break} // break if we reached the limit of entries
+                                }
+                                index++
+                                previousDeparture = thisDeparture
+                                departure = (departures.count - 1 >= index) ? departures[index] : nil
+                                nextDeparture = (departures.count > index + 1) ? departures[index + 1] : nil
+                            }
+                            if let ud =  NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee") {
+                                ud.setValue(station.st_id, forKey: "lastFirstStationId")
+                            }
+
+
+                            handler(entries)
                     }
                     
-                handler(entries)
                 }
+                station.updateDepartures(self, force: false, context: handleReply2)
+
             }
         }
         TFCWatchData.sharedInstance.getStations(handleReply, errorReply: nil, stopWithFavorites: true)
@@ -218,7 +231,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
         let units: NSCalendarUnit = [.Minute]
         let style: CLKRelativeDateStyle = .Timer
         
-        tmpl.row1Column1TextProvider = CLKSimpleTextProvider(text: "[\(departureLine)] - \(departureDestination)")
+        tmpl.row1Column1TextProvider = CLKSimpleTextProvider(text: "\(departureLine) \(departureDestination)")
         
         if let departureDate = departure.getScheduledTimeAsNSDate() {
             tmpl.row1Column2TextProvider = CLKRelativeDateTextProvider(date: departureDate, style: style, units: units)
@@ -226,7 +239,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
             tmpl.row1Column2TextProvider = CLKSimpleTextProvider(text: "-")
         }
         
-        tmpl.row2Column1TextProvider = CLKSimpleTextProvider(text: "[\(nextDepartureLine)] - \(nextDepartureDestination)")
+        tmpl.row2Column1TextProvider = CLKSimpleTextProvider(text: "\(nextDepartureLine) \(nextDepartureDestination)")
         
         if let nextDepartureDate = nextDeparture?.getScheduledTimeAsNSDate() {
             tmpl.row2Column2TextProvider = CLKRelativeDateTextProvider(date: nextDepartureDate, style: style, units: units)
@@ -245,6 +258,21 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
             return date.dateByAddingTimeInterval(Constants.DepartureDuration)
         } else {
             return departure.getScheduledTimeAsNSDate()!.dateByAddingTimeInterval(-6*60*60) // If no previous departure, show the departure 6 hours in advance
+        }
+    }
+
+    func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?) {
+        departuresUpdatedCallback(context, forStation: forStation)
+    }
+    func departuresStillCached(context: Any?, forStation: TFCStation?) {
+        departuresUpdatedCallback(context, forStation: forStation)
+    }
+
+    private func departuresUpdatedCallback(context: Any?, forStation: TFCStation?) {
+        if let contextInfo: TFCStationBase.contextData = context as! TFCStationBase.contextData? {
+            if let reply = contextInfo.context as? replyStation {
+                reply(forStation)
+            }
         }
     }
 }
