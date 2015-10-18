@@ -541,7 +541,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
     func refresh(sender:AnyObject)
     {
         // Code to refresh table view
-        self.station?.updateDepartures(self, force: true)
+        self.station?.updateDepartures(self, force: true, context: nil)
     }
 
     func displayDepartures() {

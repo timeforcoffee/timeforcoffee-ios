@@ -108,6 +108,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
     struct contextData {
         var completionDelegate: TFCDeparturesUpdatedProtocol? = nil
+        var context: Any? = nil
     }
 
     private lazy var filteredLines:[String: [String: Bool]] = {
@@ -522,16 +523,16 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     }
 
     public func updateDepartures(completionDelegate: TFCDeparturesUpdatedProtocol?) {
-        updateDepartures(completionDelegate, force: false)
+        updateDepartures(completionDelegate, force: false, context: nil)
     }
     
-    public func updateDepartures(completionDelegate: TFCDeparturesUpdatedProtocol?, force: Bool) {
+    public func updateDepartures(completionDelegate: TFCDeparturesUpdatedProtocol?, force: Bool, context: Any?) {
 
         let removedDepartures = removeObsoleteDepartures()
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            var context: contextData = contextData()
-
-            context.completionDelegate = completionDelegate
+            var context2: contextData = contextData()
+            context2.completionDelegate = completionDelegate
+            context2.context = context
             var dontUpdate = false
             if let first = self.departures?.first {
                 // don't update if the next departure is more than 30 minutes away,
@@ -555,11 +556,11 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                 )
             {
                 self.lastDepartureUpdate = NSDate()
-                self.api.getDepartures(self as! TFCStation, context: context)
+                self.api.getDepartures(self as! TFCStation, context: context2)
 
             } else {
                 dispatch_async(dispatch_get_main_queue(), {
-                    completionDelegate?.departuresStillCached(context, forStation: self as? TFCStation)
+                    completionDelegate?.departuresStillCached(context2, forStation: self as? TFCStation)
                     return  
                 })
             }
