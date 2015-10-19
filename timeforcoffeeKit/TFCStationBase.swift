@@ -69,7 +69,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         get {
 
             if let currentLoc = TFCLocationManager.getCurrentLocation() {
-                if (currentLoc.coordinate.longitude != _calculatedDistanceLastCoord!.coordinate.longitude) {
+                if (currentLoc.coordinate.longitude != _calculatedDistanceLastCoord?.coordinate.longitude) {
                     _calculatedDistanceLastCoord = currentLoc
                     if let coord = self.coord {
                         _calculatedDistance = currentLoc.distanceFromLocation(coord)
