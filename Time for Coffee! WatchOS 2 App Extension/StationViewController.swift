@@ -172,6 +172,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         if (station == nil) {
             return false
         }
+        var returnValue = false
         let departures = station?.getFilteredDepartures(10)
         var i = 0;
         if let departures2 = departures {
@@ -185,13 +186,14 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
                 if (station?.st_id != self.station?.st_id) {
                     continue
                 }
+                returnValue = true
                 if let sr = stationsTable.rowControllerAtIndex(i) as! StationRow? {
                     sr.drawCell(deptstation, station: station!)
                 }
                 i++
             }
         }
-        return true
+        return returnValue
     }
 
     func departuresStillCached(context: Any?, forStation: TFCStation?) {
