@@ -662,10 +662,10 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             return NSURL(string: "http://fahrplan.sbb.ch/bin/stboard.exe/dn?input=\(self.st_id)&REQTrain_name=&boardType=dep&time=now&productsFilter=1111111111&selectDate=today&maxJourneys=20&start=yes")
         }
         if let lat = self.getLatitude() {
-            let hash = "{:location-id :ch_zh, :stops {\"\(self.st_id)\" {:id \"\", :name \"\(self.name)\", :location {:lat \(lat), :lng \(self.getLongitude()!)}, :known-destinations ()}}, :stops-order [\"\(self.st_id)\"]}"
+            let hash = "{:location-id :ch, :stops {\"\(self.st_id)\" {:id \"\", :name \"\(self.name)\", :location {:lat \(lat), :lng \(self.getLongitude()!)}, :known-destinations ()}}, :stops-order [\"\(self.st_id)\"]}"
             let utf8hash = hash.dataUsingEncoding(NSISOLatin1StringEncoding)
             if let base64 = utf8hash?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0)) {
-                return NSURL(string: "http://www.timeforcoffee.ch/#/link/\(base64)")
+                return NSURL(string: "http://staging.timeforcoffee.ch/#/link/\(base64)")
             }
         }
         return nil
