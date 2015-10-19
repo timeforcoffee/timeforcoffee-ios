@@ -33,14 +33,12 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         if (context == nil) {
             stationsTable.setNumberOfRows(10, withRowType: "station")
             self.numberOfRows = 10
-
-            getStation()
-
             NSNotificationCenter.defaultCenter().addObserver(
                 self,
                 selector: "selectStation:",
                 name: "TFCWatchkitSelectStation",
                 object: nil)
+            getStation()
 
         } else {
             let c = context as! TFCPageContext
@@ -65,6 +63,9 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
                 if let uA = self.userActivity {
                     station2 = TFCStation.initWithCache(uA["name"]!, id: uA["st_id"]!, coord: nil)
                     self.userActivity = nil
+                }
+                if (self.station?.st_id != station2.st_id) {
+                    self.initTable = true
                 }
                 self.station = station2
                 self.setStationValues()
@@ -110,7 +111,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             self.setTitle(title)
         }
 
-        if (self.initTable == true) {
+        if (self.initTable || !(station?.getDepartures()?.count > 0)) {
             infoGroup.setHidden(false)
             infoLabel.setText("Loading ...")
             stationsTable.setNumberOfRows(10, withRowType: "station")
@@ -138,6 +139,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
 
     func selectStation(notification: NSNotification) {
         if (notification.userInfo == nil) {
+            self.initTable = true
             self.getStation()
         } else {
             let uI:[String:String]? = notification.userInfo as? [String:String]
@@ -160,15 +162,15 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     }
 
     func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?) {
-        self.displayDepartures(forStation)
-        if (self.appeared) {
+        let displayed = self.displayDepartures(forStation)
+        if (displayed && self.appeared) {
             WKInterfaceDevice.currentDevice().playHaptic(WKHapticType.Click)
         }
     }
 
-    private func displayDepartures(station: TFCStation?) {
+    private func displayDepartures(station: TFCStation?) -> Bool {
         if (station == nil) {
-            return
+            return false
         }
         let departures = station?.getFilteredDepartures(10)
         var i = 0;
@@ -189,6 +191,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
                 i++
             }
         }
+        return true
     }
 
     func departuresStillCached(context: Any?, forStation: TFCStation?) {
