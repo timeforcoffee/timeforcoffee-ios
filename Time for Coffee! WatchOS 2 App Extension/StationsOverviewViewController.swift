@@ -31,6 +31,7 @@ class StationsOverviewViewController: WKInterfaceController {
         super.willActivate()
         if (!activatedOnce) {
             self.setTitle("Nearby Stations")
+            self.addMenuItemWithItemIcon(WKMenuItemIcon.Resume, title: "Reload", action: "contextButtonReload")
             activatedOnce = true
         }
         if (self.appeared) {
@@ -46,7 +47,11 @@ class StationsOverviewViewController: WKInterfaceController {
     override func willDisappear() {
         self.appeared = false
     }
+    private func contextButtonReload() {
+        getStations()
+        TFCDataStore.sharedInstance.requestAllDataFromPhone()
 
+    }
     private func getStations() {
         func handleReply(stations: TFCStations?) {
             if (stations == nil || stations?.count() == nil) {
