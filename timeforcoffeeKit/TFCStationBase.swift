@@ -69,10 +69,12 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         get {
 
             if let currentLoc = TFCLocationManager.getCurrentLocation() {
-                if (currentLoc != _calculatedDistanceLastCoord) {
+                if (currentLoc.coordinate.longitude != _calculatedDistanceLastCoord!.coordinate.longitude) {
                     _calculatedDistanceLastCoord = currentLoc
                     if let coord = self.coord {
                         _calculatedDistance = currentLoc.distanceFromLocation(coord)
+                        let cache: PINCache = TFCCache.objects.stations
+                        cache.setObject(self, forKey: st_id)
                     }
                 }
                 return _calculatedDistance
@@ -167,8 +169,6 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     public required init?(coder aDecoder: NSCoder) {
         self.st_id = aDecoder.decodeObjectForKey("st_id") as! String
         super.init()
-        self.name = aDecoder.decodeObjectForKey("name") as! String
-        self.coord = aDecoder.decodeObjectForKey("coord") as! CLLocation?
         self.departures = aDecoder.decodeObjectForKey("departures") as! [TFCDeparture]?
         if (self.departures?.count == 0) {
             self.departures = nil
@@ -180,9 +180,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     }
 
     public func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(name, forKey: "name")
         aCoder.encodeObject(st_id, forKey: "st_id")
-        aCoder.encodeObject(coord, forKey: "coord")
         if (serializeDepartures) {
             aCoder.encodeObject(departures, forKey: "departures")
         }
