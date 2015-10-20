@@ -15,16 +15,16 @@ while ($row = $results->fetchArray()) {
         print " ". $stop['stopName'];
         print "\n";
         if ($distance < 50) {
-            $handle->exec("update ZTFCSTATIONMODEL set ZDEPARTURESURL = 'http://www.timeforcoffee.ch/api/gva/stationboard/". $stop['stopCode'] . "' where ZID = '". $row['ZID'] ."'");
+            $handle->exec("update ZTFCSTATIONMODEL set ZAPIKEY = 'gva', ZAPIID = '". $stop['stopCode'] . "' where ZID = '". $row['ZID'] ."'");
         } if ($distance < 250) {
             if ($row['ZNAME'] ==  $stop['stopName']) {
-                $handle->exec("update ZTFCSTATIONMODEL set ZDEPARTURESURL = 'http://www.timeforcoffee.ch/api/gva/stationboard/". $stop['stopCode'] . "' where ZID = '". $row['ZID'] ."'");
+                $handle->exec("update ZTFCSTATIONMODEL set ZAPIKEY = 'gva', ZAPIID = '". $stop['stopCode'] . "' where ZID = '". $row['ZID'] ."'");
                 
             } else {
                 $parts = explode(",", $row['ZNAME']);
                 if (isset($parts[1])) {
                     if (trim($parts[1]) == $stop['stopName']) {
-                        $handle->exec("update ZTFCSTATIONMODEL set ZDEPARTURESURL = 'http://www.timeforcoffee.ch/api/gva/stationboard/". $stop['stopCode'] . "' where ZID = '". $row['ZID'] ."'");
+                        $handle->exec("update ZTFCSTATIONMODEL set ZAPIKEY = 'gva', ZAPIID = '". $stop['stopCode'] . "' where ZID = '". $row['ZID'] ."'");
                         print $parts[1] . ' == ' . $stop['stopName'] ."\n";
                     }
                 } else {

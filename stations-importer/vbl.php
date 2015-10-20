@@ -41,7 +41,7 @@ while ($row = $results->fetchArray()) {
          
         if ($res->length > 0) {
             print " ! has realtime data";
-            $handle->exec("update ZTFCSTATIONMODEL set ZORINAME = '" .  SQLite3::escapeString($oriname) . "', ZAPIKEY = 'vbl', ZAPIID =  '". $id  . "' where ZID = '". $row['ZID'] . "'");
+            $handle->exec("update ZTFCSTATIONMODEL set ZAPIKEY = 'vbl', ZAPIID =  '". $id  . "' where ZID = '". $row['ZID'] . "'");
         } else {
             print " - no realtime data ($id)";
         }
