@@ -35,8 +35,10 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                 func handleReply2(station: TFCStation?) {
                     if let departure = station?.getFilteredDepartures()?.first {
                         let startDate = timelineEntryDateForDeparture(departure, previousDeparture: nil)
+                        NSLog("startDate: \(startDate)")
                         handler(startDate)
                     } else {
+                        NSLog("no Departure, startDate: \(NSDate())")
                         handler(NSDate())
                     }
                 }
@@ -52,9 +54,12 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
             if let station = stations?.stations?.first {
                 func handleReply2(station: TFCStation?) {
                     if let endDate = station?.getFilteredDepartures()?.last?.getScheduledTimeAsNSDate() {
+                        NSLog("last Departure: \(endDate)")
                         handler(endDate)
                     } else {
-                        handler(NSDate().dateByAddingTimeInterval(60))
+                        let endDate = NSDate().dateByAddingTimeInterval(60)
+                        NSLog("no last Departure, set it to \(endDate)")
+                        handler(endDate)
                     }
                 }
                 station.updateDepartures(self, force: false, context: handleReply2)
@@ -198,6 +203,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
         } else {
             nextUpdateDate =  NSDate().dateByAddingTimeInterval(5 * 60) // request an update in 5 minutes, if no lastDepartureTime was set.
         }
+        NSLog("getNextRequestedUpdateDateWithHandler: \(nextUpdateDate)")
         handler(nextUpdateDate);
     }
     
