@@ -16,10 +16,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
     public var name: String {
         get {
-            if let name = self.realmObject.name {
-                return name
-            }
-            return ""
+            return self.realmObject.name
         }
         set(name) {
             if (name != self.realmObject.name) {
@@ -194,7 +191,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         let cache: PINCache = TFCCache.objects.stations
         var newStation: TFCStation? = cache.objectForKey(trimmed_id) as? TFCStation
         if (newStation == nil || newStation?.coord == nil) {
-            if (name == "") {
+            if (name == "" || name == "unknown") {
                 // try to get it from core data
                 let tryStation = TFCStation(id: id)
                 if (tryStation.name != "") {
@@ -685,7 +682,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                         }
                     } else {
                         if (error != nil) {
-                            NSLog("\(self.name) error getting Location: \(error!.userInfo)")
+                            NSLog("\(self.name) error getting Location data: \(error!.userInfo)")
                         }
                     }
                 }

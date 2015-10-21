@@ -77,55 +77,61 @@ final class APIController {
             if let result = self.getFromCache(cacheKey) {
                 self.delegate?.didReceiveAPIResults(result, error: nil, context: context)
             } else {
-                let url: NSURL = NSURL(string: urlPath)!
-                let absUrl = url.absoluteString
-                NSLog("Start fetching data %@", absUrl)
+                if let url: NSURL = NSURL(string: urlPath) {
+                    let absUrl = url.absoluteString
+                    NSLog("Start fetching data %@", absUrl)
 
 
-                if (fetchId == 1 && self.currentFetch[fetchId] != nil) {
-                    NSLog("cancel current fetch")
-                    self.currentFetch[fetchId]?.cancel()
-                }
-                
-                let session2 = TFCURLSession.sharedInstance.session
-                let dataFetch: NSURLSessionDataTask? = session2.dataTaskWithURL(url, completionHandler: {data , response, error -> Void in
+                    if (fetchId == 1 && self.currentFetch[fetchId] != nil) {
+                        NSLog("cancel current fetch")
+                        self.currentFetch[fetchId]?.cancel()
+                    }
 
-                    NSLog("Task completed")
-                    if(error != nil) {
-                        // If there is an error in the web request, print it to the console
-                        NSLog(error!.localizedDescription)
-                        // 1001 == timeout => just retry
-                        if (error!.code == -1001) {
-                            let newcounter = counter + 1
-                            // don't do it more than 5 times
-                            if (newcounter <= 5) {
-                                self.delegate?.didReceiveAPIResults(nil, error: error, context: context)
-                                NSLog("Retry #\(newcounter) fetching \(urlPath)")
-                                self.fetchUrl(urlPath, fetchId: fetchId, context: context, cacheKey: cacheKey, counter: newcounter)
+                    let session2 = TFCURLSession.sharedInstance.session
+                    let dataFetch: NSURLSessionDataTask? = session2.dataTaskWithURL(url, completionHandler: {data , response, error -> Void in
+
+                        NSLog("Task completed")
+                        if(error != nil) {
+                            // If there is an error in the web request, print it to the console
+                            NSLog(error!.localizedDescription)
+                            // 1001 == timeout => just retry
+                            if (error!.code == -1001) {
+                                let newcounter = counter + 1
+                                // don't do it more than 5 times
+                                if (newcounter <= 5) {
+                                    self.delegate?.didReceiveAPIResults(nil, error: error, context: context)
+                                    NSLog("Retry #\(newcounter) fetching \(urlPath)")
+                                    self.fetchUrl(urlPath, fetchId: fetchId, context: context, cacheKey: cacheKey, counter: newcounter)
+                                }
                             }
                         }
-                    }
-                    if (fetchId == 1) {
-                        self.currentFetch[fetchId] = nil
-                    }
+                        if (fetchId == 1) {
+                            self.currentFetch[fetchId] = nil
+                        }
 
-                    let jsonResult:JSON
-                    if (data == nil) {
-                        jsonResult = JSON(NSNull())
-                    } else {
-                        jsonResult = JSON(data: data!)
-                        //jsonResult.rawValue is NSNull, when data was not parseable. Don't cache it in that case
-                        if (!(jsonResult.rawValue is NSNull) && error == nil && cacheKey != nil) {
-                        self.cache.setObject(data!, forKey: cacheKey!)
+                        let jsonResult:JSON
+                        if (data == nil) {
+                            jsonResult = JSON(NSNull())
+                        } else {
+                            jsonResult = JSON(data: data!)
+                            //jsonResult.rawValue is NSNull, when data was not parseable. Don't cache it in that case
+                            if (!(jsonResult.rawValue is NSNull) && error == nil && cacheKey != nil) {
+                                self.cache.setObject(data!, forKey: cacheKey!)
+                            }
+                        }
+                        self.delegate?.didReceiveAPIResults(jsonResult, error: error, context: context)
+                        
+                    })
+                    dataFetch?.resume()
+                    NSLog("dataTask resumed")
+                    if (dataFetch != nil) {
+                        self.currentFetch[fetchId] = dataFetch
                     }
-                    }
-                    self.delegate?.didReceiveAPIResults(jsonResult, error: error, context: context)
+                } else {
+                    NSLog("\(urlPath) could not be parsed")
+                    let error = NSError(domain: "ch.opendata.timeforcoffee", code: 9, userInfo: nil);
+                    self.delegate?.didReceiveAPIResults(JSON(NSNull()), error: error, context: context)
 
-                })
-                dataFetch?.resume()
-                NSLog("dataTask resumed")
-                if (dataFetch != nil) {
-                    self.currentFetch[fetchId] = dataFetch
                 }
             }
 

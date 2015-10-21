@@ -22,7 +22,7 @@ extension TFCStationModel {
     @NSManaged var lastUpdated: NSDate?
     @NSManaged var latitude: NSNumber?
     @NSManaged var longitude: NSNumber?
-    @NSManaged var name: String?
+    @NSManaged var name: String
     @NSManaged var apiKey: String?
     @NSManaged var apiId: String?
 

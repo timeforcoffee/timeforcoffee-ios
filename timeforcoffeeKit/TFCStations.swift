@@ -84,7 +84,7 @@ public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelega
             var stationsAdded:[String: Bool] = [:]
             if let results = allResults?["stations"].array {
                 for result in results {
-                    let id = String(result["id"].string)
+                    let id = String(result["id"].stringValue)
                     if (inStationsArrayAsFavorite[id] == nil && stationsAdded[id] == nil) {
                         let name = result["name"].string
                         // the DB has all the uppercased short Strings as well, we don't want to display them
