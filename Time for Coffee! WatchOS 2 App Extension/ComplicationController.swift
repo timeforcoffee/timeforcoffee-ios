@@ -29,14 +29,15 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     }
     
     func getTimelineStartDateForComplication(complication: CLKComplication, withHandler handler: (NSDate?) -> Void) {
+        NSLog("getTimelineStartDateForComplication")
         func handleReply(stations: TFCStations?) {
             if let station = stations?.stations?.first {
                 func handleReply2(station: TFCStation?) {
-                    if let station = station {
-                        if let departure = station.getFilteredDepartures()?.first {
-                            let startDate = timelineEntryDateForDeparture(departure, previousDeparture: nil)
-                            handler(startDate)
-                        }
+                    if let departure = station?.getFilteredDepartures()?.first {
+                        let startDate = timelineEntryDateForDeparture(departure, previousDeparture: nil)
+                        handler(startDate)
+                    } else {
+                        handler(NSDate())
                     }
                 }
                 station.updateDepartures(self, force: false, context: handleReply2)
@@ -46,18 +47,21 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     }
     
     func getTimelineEndDateForComplication(complication: CLKComplication, withHandler handler: (NSDate?) -> Void) {
+        NSLog("getTimelineEndDateForComplication")
         func handleReply(stations: TFCStations?) {
             if let station = stations?.stations?.first {
                 func handleReply2(station: TFCStation?) {
-                    if let station = station {
-                        let endDate = station.getFilteredDepartures()?.last?.getScheduledTimeAsNSDate()
+                    if let endDate = station?.getFilteredDepartures()?.last?.getScheduledTimeAsNSDate() {
                         handler(endDate)
+                    } else {
+                        handler(NSDate().dateByAddingTimeInterval(60))
                     }
                 }
                 station.updateDepartures(self, force: false, context: handleReply2)
             }
         }
-        TFCWatchData.sharedInstance.getStations(handleReply, errorReply: nil, stopWithFavorites: true)
+
+        TFCWatchData.sharedInstance.getStations(handleReply, errorReply: nil,stopWithFavorites: true)
     }
     
     func getPrivacyBehaviorForComplication(complication: CLKComplication, withHandler handler: (CLKComplicationPrivacyBehavior) -> Void) {
@@ -75,25 +79,25 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     
     func getTimelineEntriesForComplication(complication: CLKComplication, beforeDate date: NSDate, limit: Int, withHandler handler: (([CLKComplicationTimelineEntry]?) -> Void)) {
         // Call the handler with the timeline entries after to the given date
-        
+        NSLog("getTimelineEntriesForComplication beforeDate")
         func handleReply(stations: TFCStations?) {
             var entries = [CLKComplicationTimelineEntry]()
             
             if let station = stations?.stations?.first { // corresponds to the last favorited station or closest station
                 func handleReply2(station:TFCStation?) {
-                    if let station = station {
-                        //just take the first entry here... It's the one we want to display
-                        if let stations = station.getFilteredDepartures(),
-                                departure = stations.first {
+                    //just take the first entry here... It's the one we want to display
+                    if let stations = station?.getFilteredDepartures(),
+                        departure = stations.first {
                             let thisEntryDate = timelineEntryDateForDeparture(departure, previousDeparture: nil)
-                            let tmpl = templateForStationDepartures(station, departure: departure, nextDeparture: stations[1], complication: complication)
+                            let tmpl = templateForStationDepartures(station!, departure: departure, nextDeparture: stations[1], complication: complication)
                             let entry = CLKComplicationTimelineEntry(date: thisEntryDate, complicationTemplate: tmpl!)
                             entries.append(entry)
-                        }
-                        handler(entries)
                     }
+                    handler(entries)
                 }
                 station.updateDepartures(self, force: false, context: handleReply2)
+            } else {
+                handler(entries)
             }
         }
         
@@ -102,15 +106,14 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     
     func getTimelineEntriesForComplication(complication: CLKComplication, afterDate date: NSDate, limit: Int, withHandler handler: (([CLKComplicationTimelineEntry]?) -> Void)) {
         // Call the handler with the timeline entries after to the given date
-        
+        NSLog("getTimelineEntriesForComplication afterDate")
         func handleReply(stations: TFCStations?) {
             var entries = [CLKComplicationTimelineEntry]()
-
-            self.lastDepartureTime = nil
+            var lastDepartureTime:NSDate? = nil
             if let station = stations?.stations?.first { // corresponds to the favorited/closest station
                 func handleReply2(station: TFCStation?) {
                     if let station = station,
-                        departures = station.getFilteredDepartures() {
+                        departures = station.getFilteredDepartures(limit) {
 
                             var index = 0
                             var previousDeparture: TFCDeparture? = nil
@@ -124,24 +127,52 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                                     let entry = CLKComplicationTimelineEntry(date: thisEntryDate, complicationTemplate: tmpl!)
                                     entries.append(entry)
                                     lastDepartureTime = thisEntryDate
-                                    if entries.count == limit {break} // break if we reached the limit of entries
+                                    if entries.count >= limit {break} // break if we reached the limit of entries
                                 }
                                 index++
                                 previousDeparture = thisDeparture
                                 departure = (departures.count - 1 >= index) ? departures[index] : nil
                                 nextDeparture = (departures.count > index + 1) ? departures[index + 1] : nil
                             }
+                            //append a last entry with no departure info one minute later
+                            NSLog("entries count: \(entries.count) limit \(limit)")
+                            if (entries.count > 0) {
+                                //remove all entries until we're one below the limit
+                                while (entries.count >= limit) {                                
+                                    entries.popLast()
+                                }
+                                if (lastDepartureTime != nil) {
+                                    let tmpl = templateForStationDepartures(station, departure: nil, nextDeparture: nil, complication: complication)
+                                    let entry = CLKComplicationTimelineEntry(date: (lastDepartureTime!.dateByAddingTimeInterval(60)), complicationTemplate: tmpl!)
+                                    entries.append(entry)
+                                }
+                            }
                             if let ud =  NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee") {
                                 ud.setValue(station.st_id, forKey: "lastFirstStationId")
                             }
-
-
-                            handler(entries)
                     }
-                    
+                    NSUserDefaults().setValue(lastDepartureTime, forKey: "lastDepartureTime")
+                    handler(entries)
                 }
-                station.updateDepartures(self, force: false, context: handleReply2)
+                if let lastDepartureTime =  NSUserDefaults().valueForKey("lastDepartureTime") as? NSDate,
+                    lastFirstStationId = NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee")?.stringForKey("lastFirstStationId") {
+                        // if lastDepartureTime is more than 4 hours away and we're in the same place
+                        // and we still have at least 5 departures, just use the departures from the cache
+                        if ((lastDepartureTime.dateByAddingTimeInterval(4 * -3600).timeIntervalSinceNow < 0)
+                             && lastFirstStationId == station.st_id
+                             && station.getFilteredDepartures()?.count > 5
+                            ) {
+                                handleReply2(station)
+                                return
+                        }
+                }
+                    
+                
 
+                station.updateDepartures(self, force: false, context: handleReply2)
+            } else {
+                NSUserDefaults().setValue(nil, forKey: "lastDepartureTime")
+                handler(entries)
             }
         }
         TFCWatchData.sharedInstance.getStations(handleReply, errorReply: nil, stopWithFavorites: true)
@@ -151,17 +182,21 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     
     func getNextRequestedUpdateDateWithHandler(handler: (NSDate?) -> Void) {
         // Call the handler with the date when you would next like to be given the opportunity to update your complication content
-        let nextUpdateDate:NSDate
+        let nextUpdateDate:NSDate?
         let maxNextUpdateDate = NSDate().dateByAddingTimeInterval(Constants.FrequencyOfTimelineUpdate)
-        if let nextUpdate =  self.lastDepartureTime {
+        if let nextUpdate =  NSUserDefaults().valueForKey("lastDepartureTime") as? NSDate {
             let lastEntryDate = nextUpdate.dateByAddingTimeInterval(Constants.TimelineUpdateMinutesBeforeEnd)
-            if (maxNextUpdateDate.timeIntervalSinceReferenceDate < lastEntryDate.timeIntervalSinceReferenceDate) {
+            //if lastEntryDate is before now, update again in 5 minutes
+            if (lastEntryDate.timeIntervalSinceNow < NSDate().timeIntervalSinceNow) {
+                nextUpdateDate = NSDate().dateByAddingTimeInterval(5 * 60)
+            //if lastEntryDate is more in the future than 1.5 hours
+            } else if (maxNextUpdateDate.timeIntervalSinceReferenceDate < lastEntryDate.timeIntervalSinceReferenceDate) {
                 nextUpdateDate = maxNextUpdateDate
             } else {
-                nextUpdateDate = lastEntryDate
+                nextUpdateDate = lastEntryDate 
             }
         } else {
-            nextUpdateDate =  maxNextUpdateDate // request an update each 1.5 hour
+            nextUpdateDate =  NSDate().dateByAddingTimeInterval(5 * 60) // request an update in 5 minutes, if no lastDepartureTime was set.
         }
         handler(nextUpdateDate);
     }
@@ -170,42 +205,41 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     
     func getPlaceholderTemplateForComplication(complication: CLKComplication, withHandler handler: (CLKComplicationTemplate?) -> Void) {
 
-        switch complication.family {
-            
+        let templ = getPlaceholderTemplateForComplication(complication.family)
+        handler(templ)
+
+    }
+
+    private func getPlaceholderTemplateForComplication(family: CLKComplicationFamily) -> CLKComplicationTemplate {
+        switch family {
+
         case CLKComplicationFamily.ModularLarge:
             let tmpl = CLKComplicationTemplateModularLargeTable()
-            
+
             tmpl.headerTextProvider = CLKSimpleTextProvider(text: "Station")
-            tmpl.row1Column1TextProvider = CLKSimpleTextProvider(text: "29: Holzwil", shortText: nil)
-            tmpl.row1Column2TextProvider = CLKSimpleTextProvider(text: "9", shortText: nil)
-            tmpl.row2Column1TextProvider = CLKSimpleTextProvider(text: "29: Holzwil", shortText: nil)
-            tmpl.row2Column2TextProvider = CLKSimpleTextProvider(text: "18", shortText: nil)
-            
-            handler(tmpl)
-            break
+            tmpl.row1Column1TextProvider = CLKSimpleTextProvider(text: "--: ------", shortText: nil)
+            tmpl.row1Column2TextProvider = CLKSimpleTextProvider(text: "-", shortText: nil)
+            tmpl.row2Column1TextProvider = CLKSimpleTextProvider(text: "--: ------", shortText: nil)
+            tmpl.row2Column2TextProvider = CLKSimpleTextProvider(text: "--", shortText: nil)
+            return tmpl
         case CLKComplicationFamily.ModularSmall:
             let tmpl = CLKComplicationTemplateModularSmallStackText()
-            tmpl.line1TextProvider = CLKSimpleTextProvider(text: "29:");
-            tmpl.line2TextProvider = CLKSimpleTextProvider(text: "9");
-            handler(tmpl)
-            break
+            tmpl.line1TextProvider = CLKSimpleTextProvider(text: "--:");
+            tmpl.line2TextProvider = CLKSimpleTextProvider(text: "-");
+            return tmpl
         case CLKComplicationFamily.UtilitarianLarge:
             let tmpl = CLKComplicationTemplateUtilitarianLargeFlat()
-            let shortDate = self.getShortDate(NSDate().dateByAddingTimeInterval(9 * 60))
-            tmpl.textProvider = CLKSimpleTextProvider(text: "29: \(shortDate) Holzwil")
-            handler(tmpl)
-            break
+            tmpl.textProvider = CLKSimpleTextProvider(text: "--: --:-- ------")
+            return tmpl
         case CLKComplicationFamily.UtilitarianSmall:
             let tmpl = CLKComplicationTemplateUtilitarianSmallFlat()
-            tmpl.textProvider = CLKSimpleTextProvider(text: "29: 9");
-            handler(tmpl)
-            break
+            tmpl.textProvider = CLKSimpleTextProvider(text: "--: -");
+            return tmpl
         case CLKComplicationFamily.CircularSmall:
             let tmpl = CLKComplicationTemplateCircularSmallStackText()
-            tmpl.line1TextProvider = CLKSimpleTextProvider(text: "29:");
-            tmpl.line2TextProvider = CLKSimpleTextProvider(text: "9");
-            handler(tmpl)
-            break
+            tmpl.line1TextProvider = CLKSimpleTextProvider(text: "--:");
+            tmpl.line2TextProvider = CLKSimpleTextProvider(text: "-");
+            return tmpl
         }
     }
     
@@ -231,7 +265,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     
     //MARK: - Convenience
     
-    private func templateForStationDepartures(station: TFCStation, departure: TFCDeparture, nextDeparture: TFCDeparture?, complication: CLKComplication) -> CLKComplicationTemplate? {
+    private func templateForStationDepartures(station: TFCStation, departure: TFCDeparture?, nextDeparture: TFCDeparture?, complication: CLKComplication) -> CLKComplicationTemplate? {
 
         switch (complication.family) {
         case CLKComplicationFamily.ModularLarge:
@@ -248,89 +282,99 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     }
 
 
-    private func getCircularSmallTemplate(station: TFCStation, departure: TFCDeparture, nextDeparture: TFCDeparture?) -> CLKComplicationTemplateCircularSmallStackText {
-        let tmpl = CLKComplicationTemplateCircularSmallStackText()
+    private func getCircularSmallTemplate(station: TFCStation, departure: TFCDeparture?, nextDeparture: TFCDeparture?) -> CLKComplicationTemplateCircularSmallStackText {
 
-        tmpl.tintColor = Constants.ComplicationColor
-
-        let departureLine = departure.getLine()
-        if let departureTime = departure.getScheduledTimeAsNSDate() {
+        if let departureTime = departure?.getScheduledTimeAsNSDate() {
+            let tmpl = CLKComplicationTemplateCircularSmallStackText()
+            tmpl.tintColor = Constants.ComplicationColor
+            let departureLine = departure!.getLine()
             tmpl.line1TextProvider = CLKSimpleTextProvider(text: "\(departureLine):")
             tmpl.line2TextProvider = getDateProvider(departureTime)
+            return tmpl
+
         }
-        return tmpl
+        return getPlaceholderTemplateForComplication(CLKComplicationFamily.CircularSmall) as! CLKComplicationTemplateCircularSmallStackText
     }
 
-    private func getUtilitarianLargeTemplate(station: TFCStation, departure: TFCDeparture, nextDeparture: TFCDeparture?) -> CLKComplicationTemplateUtilitarianLargeFlat {
-            let tmpl = CLKComplicationTemplateUtilitarianLargeFlat()
+    private func getUtilitarianLargeTemplate(station: TFCStation, departure: TFCDeparture?, nextDeparture: TFCDeparture?) -> CLKComplicationTemplateUtilitarianLargeFlat {
 
+        if let departureTime = departure?.getScheduledTime() {
+
+            let tmpl = CLKComplicationTemplateUtilitarianLargeFlat()
             tmpl.tintColor = Constants.ComplicationColor
 
-            let departureLine = departure.getLine()
-            let departureDestination = departure.getDestination(station)
-            if let departureTime = departure.getScheduledTime() {
-                tmpl.textProvider = CLKSimpleTextProvider(text: "\(departureLine): \(departureTime) \(departureDestination)")
-            }
+            let departureLine = departure!.getLine()
+            let departureDestination = departure!.getDestination(station)
+            tmpl.textProvider = CLKSimpleTextProvider(text: "\(departureLine): \(departureTime) \(departureDestination)")
             return tmpl
-    }
-
-    private func getUtilitarianSmallTemplate(station: TFCStation, departure: TFCDeparture, nextDeparture: TFCDeparture?) -> CLKComplicationTemplateUtilitarianSmallFlat {
-        let tmpl = CLKComplicationTemplateUtilitarianSmallFlat()
-
-        tmpl.tintColor = Constants.ComplicationColor
-
-        let departureLine = departure.getLine()
-        if let departureTime = departure.getScheduledTime() {
-            tmpl.textProvider = CLKSimpleTextProvider(text: "\(departureLine): \(departureTime)")
         }
-        return tmpl
+        return getPlaceholderTemplateForComplication(CLKComplicationFamily.UtilitarianLarge) as! CLKComplicationTemplateUtilitarianLargeFlat
+
     }
 
-    private func getModularSmallTemplate(station: TFCStation, departure: TFCDeparture, nextDeparture: TFCDeparture?) -> CLKComplicationTemplateModularSmallStackText {
-        let tmpl = CLKComplicationTemplateModularSmallStackText()
+    private func getUtilitarianSmallTemplate(station: TFCStation, departure: TFCDeparture?, nextDeparture: TFCDeparture?) -> CLKComplicationTemplateUtilitarianSmallFlat {
 
-        tmpl.tintColor = Constants.ComplicationColor
+        if let departureTime = departure?.getScheduledTime() {
+            let tmpl = CLKComplicationTemplateUtilitarianSmallFlat()
+            tmpl.tintColor = Constants.ComplicationColor
+            let departureLine = departure!.getLine()
+            tmpl.textProvider = CLKSimpleTextProvider(text: "\(departureLine): \(departureTime)")
+            return tmpl
+        }
+        return getPlaceholderTemplateForComplication(CLKComplicationFamily.UtilitarianSmall) as! CLKComplicationTemplateUtilitarianSmallFlat
+    }
 
-        let departureLine = departure.getLine()
-        if let departureTime = departure.getScheduledTimeAsNSDate() {
+    private func getModularSmallTemplate(station: TFCStation, departure: TFCDeparture?, nextDeparture: TFCDeparture?) -> CLKComplicationTemplateModularSmallStackText {
+
+        if let departureTime = departure?.getScheduledTimeAsNSDate() {
+            let tmpl = CLKComplicationTemplateModularSmallStackText()
+            tmpl.tintColor = Constants.ComplicationColor
+            let departureLine = departure!.getLine()
             tmpl.line1TextProvider = CLKSimpleTextProvider(text: "\(departureLine):")
             tmpl.line2TextProvider = getDateProvider(departureTime)
+            return tmpl
         }
-        return tmpl
+        return getPlaceholderTemplateForComplication(CLKComplicationFamily.ModularSmall) as! CLKComplicationTemplateModularSmallStackText
+
     }
 
-    private func getModularLargeTemplate(station: TFCStation, departure: TFCDeparture, nextDeparture: TFCDeparture?) -> CLKComplicationTemplateModularLargeTable {
-        let tmpl = CLKComplicationTemplateModularLargeTable() // Currently supports only ModularLarge
+    private func getModularLargeTemplate(station: TFCStation, departure: TFCDeparture?, nextDeparture: TFCDeparture?) -> CLKComplicationTemplateModularLargeTable {
 
-        tmpl.headerTextProvider = CLKSimpleTextProvider(text: station.getName(true))
-        tmpl.tintColor = Constants.ComplicationColor // affect only complications setup that allow custom colors
+        if let departure = departure {
+            let tmpl = CLKComplicationTemplateModularLargeTable() // Currently supports only ModularLarge
 
-        let departureLine = departure.getLine()
-        let nextDepartureLine = nextDeparture?.getLine() ?? "-"
+            tmpl.headerTextProvider = CLKSimpleTextProvider(text: station.getName(true))
+            tmpl.tintColor = Constants.ComplicationColor // affect only complications setup that allow custom colors
 
-        var departureDestination = "-"
-        var nextDepartureDestination = "-"
-        departureDestination = departure.getDestination(station)
-        if let nextDeparture = nextDeparture {
-            nextDepartureDestination = nextDeparture.getDestination(station)
+            let departureLine = departure.getLine()
+            let nextDepartureLine = nextDeparture?.getLine() ?? "-"
+
+            var departureDestination = "-"
+            var nextDepartureDestination = "-"
+            departureDestination = departure.getDestination(station)
+            if let nextDeparture = nextDeparture {
+                nextDepartureDestination = nextDeparture.getDestination(station)
+            }
+
+            tmpl.row1Column1TextProvider = CLKSimpleTextProvider(text: "\(departureLine): \(departureDestination)")
+
+            if let departureDate = departure.getScheduledTimeAsNSDate() {
+                tmpl.row1Column2TextProvider = getDateProvider(departureDate)
+            } else {
+                tmpl.row1Column2TextProvider = CLKSimpleTextProvider(text: "-")
+            }
+
+            tmpl.row2Column1TextProvider = CLKSimpleTextProvider(text: "\(nextDepartureLine): \(nextDepartureDestination)")
+
+            if let nextDepartureDate = nextDeparture?.getScheduledTimeAsNSDate() {
+                tmpl.row2Column2TextProvider = getDateProvider(nextDepartureDate)
+            } else {
+                tmpl.row2Column2TextProvider = CLKSimpleTextProvider(text: "-")
+            }
+            return tmpl
         }
+        return getPlaceholderTemplateForComplication(CLKComplicationFamily.ModularLarge) as! CLKComplicationTemplateModularLargeTable
 
-        tmpl.row1Column1TextProvider = CLKSimpleTextProvider(text: "\(departureLine): \(departureDestination)")
-
-        if let departureDate = departure.getScheduledTimeAsNSDate() {
-            tmpl.row1Column2TextProvider = getDateProvider(departureDate)
-        } else {
-            tmpl.row1Column2TextProvider = CLKSimpleTextProvider(text: "-")
-        }
-
-        tmpl.row2Column1TextProvider = CLKSimpleTextProvider(text: "\(nextDepartureLine): \(nextDepartureDestination)")
-
-        if let nextDepartureDate = nextDeparture?.getScheduledTimeAsNSDate() {
-            tmpl.row2Column2TextProvider = getDateProvider(nextDepartureDate)
-        } else {
-            tmpl.row2Column2TextProvider = CLKSimpleTextProvider(text: "-")
-        }
-        return tmpl
     }
 
     private func getDateProvider(date: NSDate) -> CLKRelativeDateTextProvider {
