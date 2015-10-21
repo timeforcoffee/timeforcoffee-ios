@@ -165,7 +165,13 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
             station2.setStationActivity()
             if #available(iOS 9.0, *) {
                 // in 9.1 make it UIApplicationShortcutIcon(type: .MarkLocation)
-                let shortcut = UIMutableApplicationShortcutItem(type: "ch.opendata.timeforcoffee.station", localizedTitle: station2.name, localizedSubtitle: nil, icon: nil, userInfo: ["st_id": station2.st_id, "name": station2.name])
+                let icon:UIApplicationShortcutIcon?
+                if #available(iOS 9.1, *) {
+                    icon = UIApplicationShortcutIcon(type: .MarkLocation)
+                } else {
+                    icon = nil
+                }
+                let shortcut = UIMutableApplicationShortcutItem(type: "ch.opendata.timeforcoffee.station", localizedTitle: station2.name, localizedSubtitle: nil, icon: icon, userInfo: ["st_id": station2.st_id, "name": station2.name])
                 var shortCuts = [shortcut]
                 let existingShortcutItems = UIApplication.sharedApplication().shortcutItems ?? []
                 if let firstExistingShortcutItem = existingShortcutItems.first {
