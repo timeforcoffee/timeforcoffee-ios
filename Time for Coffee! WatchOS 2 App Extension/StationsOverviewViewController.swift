@@ -48,9 +48,12 @@ class StationsOverviewViewController: WKInterfaceController {
         self.appeared = false
     }
     private func contextButtonReload() {
+        if let ud =  NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee") {
+            ud.setValue(nil, forKey: "lastFirstStationId")
+        }
         getStations()
         TFCDataStore.sharedInstance.requestAllDataFromPhone()
-
+        TFCWatchData.sharedInstance.updateComplicationData()
     }
     private func getStations() {
         func handleReply(stations: TFCStations?) {
