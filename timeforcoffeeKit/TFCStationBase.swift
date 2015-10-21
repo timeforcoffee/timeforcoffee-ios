@@ -91,11 +91,6 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     private var lastDepartureUpdate: NSDate?
     private var lastDepartureCount: Int?
 
-    let apiurls = ["gva": "http://staging.timeforcoffee.ch/api/ch/stationboard/",
-                   "vbl": "http://staging.timeforcoffee.ch/api/ch/stationboard/",
-                   "bvb": "http://staging.timeforcoffee.ch/api/ch/stationboard/"
-    ]
-
     public var isLastUsed: Bool = false
     public var serializeDepartures: Bool = true
 
@@ -665,7 +660,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             let hash = "{:location-id :ch, :stops {\"\(self.st_id)\" {:id \"\", :name \"\(self.name)\", :location {:lat \(lat), :lng \(self.getLongitude()!)}, :known-destinations ()}}, :stops-order [\"\(self.st_id)\"]}"
             let utf8hash = hash.dataUsingEncoding(NSISOLatin1StringEncoding)
             if let base64 = utf8hash?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0)) {
-                return NSURL(string: "http://staging.timeforcoffee.ch/#/link/\(base64)")
+                return NSURL(string: "http://www.timeforcoffee.ch/#/link/\(base64)")
             }
         }
         return nil
@@ -720,7 +715,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
         let country = self.getCountryISO()
         let opendataURL = "http://transport.opendata.ch/v1/stationboard?id=\(self.st_id)&limit=40"
-        let tfcURL = "http://staging.timeforcoffee.ch/api/ch/stationboard/\(self.st_id)"
+        let tfcURL = "http://tfc.chregu.tv/api/ch/stationboard/\(self.st_id)"
         let urlPath:String
         if (country == "CH") {
             urlPath = tfcURL
