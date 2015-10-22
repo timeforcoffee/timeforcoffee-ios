@@ -190,12 +190,12 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         let trimmed_id = id.replace("^0*", template: "")
         let cache: PINCache = TFCCache.objects.stations
         var newStation: TFCStation? = cache.objectForKey(trimmed_id) as? TFCStation
-        if (newStation == nil || newStation?.coord == nil) {
+        if (newStation == nil || newStation?.coord == nil || newStation?.name == "unknown") {
             if (name == "" || name == "unknown") {
                 // try to get it from core data
                 let tryStation = TFCStation(id: id)
-                if (tryStation.name != "") {
-                    if (tryStation.coord != nil) {
+                if (tryStation.name != "" && tryStation.name != "unknown") {
+                    if (tryStation.coord != nil && tryStation.st_id != "") {
 
                         cache.setObject(tryStation, forKey: tryStation.st_id)
                         tryStation.setStationSearchIndex()
@@ -225,9 +225,9 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             newStation = TFCStation(name: name, id: trimmed_id, coord: coord)
             //only cache it when name is != "" otherwise it comes
             // from something with only the id
-            if (name != "" && newStation?.coord != nil) {
-                cache.setObject(newStation!, forKey: newStation!.st_id)
-                newStation!.setStationSearchIndex()
+            if (name != "" && name != "unknown" && newStation?.st_id != "" && newStation?.coord != nil) {
+                    cache.setObject(newStation!, forKey: newStation!.st_id)
+                    newStation!.setStationSearchIndex()
             }
         } else {
             let countBefore = newStation!.departures?.count
@@ -704,29 +704,11 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             return url
         }
 
-    /*    if let apikey = self.realmObject.apiKey, let apiid = self.realmObject.apiId {
-            if let apiurl = apiurls[apikey] {
-                return apiurl + self.st_id
-            }
-        }*/
-
         let country = self.getCountryISO()
-        let opendataURL = "http://transport.opendata.ch/v1/stationboard?id=\(self.st_id)&limit=40"
-        let tfcURL = "http://tfc.chregu.tv/api/ch/stationboard/\(self.st_id)"
-        let urlPath:String
         if (country == "CH") {
-            urlPath = tfcURL
-        } else if (country != "") { //something else than CH, but not ""
-            urlPath = opendataURL
-        } else { // if country is "" (equals undefined)
-            let locCountry = TFCLocationManager.getISOCountry()
-            if (locCountry != "CH" && locCountry != "") {
-                urlPath = opendataURL
-            } else {
-                urlPath = tfcURL
-            }
+            return "http://tfc.chregu.tv/api/ch/stationboard/\(self.st_id)"
         }
-        return urlPath
+        return "http://transport.opendata.ch/v1/stationboard?id=\(self.st_id)&limit=40"
     }
 }
 
