@@ -54,7 +54,6 @@ class StationsOverviewViewController: WKInterfaceController {
         }
         getStations()
         TFCDataStore.sharedInstance.requestAllDataFromPhone()
-        TFCWatchData.sharedInstance.updateComplicationData()
     }
     private func getStations() {
         func handleReply(stations: TFCStations?) {
