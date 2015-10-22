@@ -212,7 +212,11 @@ public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelega
                 self.callStationsUpdatedDelegate(nil, favoritesOnly: true)
             }
             let coord = loc.coordinate
-            self.searchForStationsInDB(coord)
+            if (TFCLocationManager.getISOCountry() == "CH") {
+                self.searchForStationsInDB(coord)
+            } else {
+                self.api.searchFor(coord)
+            }
         }
     }
 

@@ -27,7 +27,21 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
 
     private struct classvar {
         static var currentLocation: CLLocation?
-        static var currentPlacemark: CLPlacemark?
+        static var currentPlacemark: CLPlacemark? {
+            get {
+                return _currentPlacemark;
+            }
+            set (placemark) {
+                if let country = placemark?.ISOcountryCode {
+                    if (country != _currentCountry) {
+                        NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee")?.setValue(country, forKey: "currentCountry")
+                    }
+                    _currentPlacemark = placemark
+                }
+            }
+        }
+        static var _currentPlacemark: CLPlacemark?
+        static var _currentCountry: String?
     }
 
     public struct k {
@@ -156,11 +170,10 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
     }
 
     public class func getISOCountry() -> String? {
-        if let pm = classvar.currentPlacemark {
-            return pm.ISOcountryCode
+        if let country = NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee")?.stringForKey("currentCountry") {
+            return country
         } else {
-            //default to CH, if no placemark is set
-            return "CH"
+            return "unknown"
         }
     }
 }
