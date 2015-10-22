@@ -143,7 +143,11 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         self.mapView?.rotateEnabled = false
         if let coordinate = station?.coord?.coordinate {
             let region = MKCoordinateRegionMakeWithDistance(coordinate ,450,450);
-            self.mapView.setRegion(region, animated: false)
+            //with some regions, this fails, so check if it does and only then show a map
+            let newRegion = self.mapView.regionThatFits(region)
+            if (!(newRegion.span.latitudeDelta.isNaN)) {
+                self.mapView.setRegion(newRegion, animated: false)
+            }
         }
         // put it to true when within a few hundred meters
         self.mapView.showsUserLocation = false
