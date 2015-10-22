@@ -55,7 +55,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                 func handleReply2(station: TFCStation?) {
                     if let endDate = station?.getFilteredDepartures()?.last?.getScheduledTimeAsNSDate() {
                         NSLog("last Departure: \(endDate)")
-                        handler(endDate)
+                        handler(endDate.dateByAddingTimeInterval(60))
                     } else {
                         let endDate = NSDate().dateByAddingTimeInterval(60)
                         NSLog("no last Departure, set it to \(endDate)")
