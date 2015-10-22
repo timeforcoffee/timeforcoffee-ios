@@ -23,7 +23,6 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     
     // MARK: - Timeline Configuration
     
-    private var lastDepartureTime:NSDate?
     func getSupportedTimeTravelDirectionsForComplication(complication: CLKComplication, withHandler handler: (CLKComplicationTimeTravelDirections) -> Void) {
         handler([.Forward]) // supports only forward time travel
     }
@@ -55,7 +54,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                 func handleReply2(station: TFCStation?) {
                     if let endDate = station?.getFilteredDepartures()?.last?.getScheduledTimeAsNSDate() {
                         NSLog("last Departure: \(endDate)")
-                        handler(endDate.dateByAddingTimeInterval(60))
+                        handler(endDate.dateByAddingTimeInterval(70))
                     } else {
                         let endDate = NSDate().dateByAddingTimeInterval(60)
                         NSLog("no last Departure, set it to \(endDate)")
@@ -145,9 +144,9 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                                 while (entries.count >= limit) {                                
                                     entries.popLast()
                                 }
-                                if (lastDepartureTime != nil) {
+                                if (lastDepartureTimeNew != nil) {
                                     let tmpl = templateForStationDepartures(station, departure: nil, nextDeparture: nil, complication: complication)
-                                    let entry = CLKComplicationTimelineEntry(date: (lastDepartureTime!.dateByAddingTimeInterval(60)), complicationTemplate: tmpl!)
+                                    let entry = CLKComplicationTimelineEntry(date: (lastDepartureTimeNew!.dateByAddingTimeInterval(60)), complicationTemplate: tmpl!)
                                     entries.append(entry)
                                 }
                             }
