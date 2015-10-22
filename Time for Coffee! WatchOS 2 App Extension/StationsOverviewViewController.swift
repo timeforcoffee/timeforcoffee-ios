@@ -47,7 +47,8 @@ class StationsOverviewViewController: WKInterfaceController {
     override func willDisappear() {
         self.appeared = false
     }
-    private func contextButtonReload() {
+
+    func contextButtonReload() {
         if let ud =  NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee") {
             ud.setValue(nil, forKey: "lastFirstStationId")
         }
