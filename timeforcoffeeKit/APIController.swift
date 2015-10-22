@@ -33,19 +33,27 @@ final class APIController {
     }
     
     func searchFor(location: String) {
-        let name = location.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
+        var name = location.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
+        var country = TFCLocationManager.getISOCountry()
         let urlPath:String
         let cacheKey:String
-        // search over all possible locations if outside of switzerland
-        if (TFCLocationManager.getISOCountry() != "CH") {
+        if (name.hasPrefix("!")) {
+            country = "all"
+            name = name.substringFromIndex(name.startIndex.advancedBy(1))
+            //(advancedBy(name.startIndex, 1))
+        }
+        // search over all possible locations if outside of switzerland or starts with ! (for testing purposes)
+        if (country != "CH") {
             cacheKey = "stations/trnsprt/\(name)"
             urlPath = "http://transport.opendata.ch/v1/locations?query=\(name)*";
+
         } else {
             cacheKey = "stations/\(name)"
             urlPath = "http://www.timeforcoffee.ch/api/zvv/stations/\(name)*"
         }
-
-        self.fetchUrl(urlPath, fetchId: 1, cacheKey: cacheKey)
+        if (name != "") {
+            self.fetchUrl(urlPath, fetchId: 1, cacheKey: cacheKey)
+        }
     }
 
     func getDepartures(station: TFCStation) {
