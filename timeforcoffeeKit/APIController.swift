@@ -24,7 +24,7 @@ final class APIController {
 
     func searchFor(coord: CLLocationCoordinate2D, context: Any?) {
         let cacheKey: String = String(format: "locations?x=%.3f&y=%.3f", coord.latitude, coord.longitude)
-        let urlPath: String = "http://transport.opendata.ch/v1/locations?x=\(coord.latitude)&y=\(coord.longitude)"
+        let urlPath: String = "http://transport.opendata.ch/v1/locations?type=station&x=\(coord.latitude)&y=\(coord.longitude)"
         self.fetchUrl(urlPath, fetchId: 1, context: context, cacheKey: cacheKey)
     }
 
@@ -45,7 +45,7 @@ final class APIController {
         // search over all possible locations if outside of switzerland or starts with ! (for testing purposes)
         if (country != "CH") {
             cacheKey = "stations/trnsprt/\(name)"
-            urlPath = "http://transport.opendata.ch/v1/locations?query=\(name)*";
+            urlPath = "http://transport.opendata.ch/v1/locations?type=station&query=\(name)*";
 
         } else {
             cacheKey = "stations/\(name)"
