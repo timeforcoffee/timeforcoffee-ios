@@ -14,7 +14,7 @@ import ClockKit
 
 private struct Constants {
     static let DepartureDuration = NSTimeInterval(60) // 1 minute
-    static let FrequencyOfTimelineUpdate = NSTimeInterval(1.5*60*60) // 1.5 hour
+    static let FrequencyOfTimelineUpdate = NSTimeInterval(45*60) // 45 minutes
     static let TimelineUpdateMinutesBeforeEnd = NSTimeInterval(-15*60) // 15 minutes
     static let ComplicationColor = UIColor.orangeColor()
 }
@@ -163,18 +163,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                     }
                     handler(entries)
                 }
-                if let lastDepartureTime =  NSUserDefaults().valueForKey("lastDepartureTime") as? NSDate,
-                    lastFirstStationId = NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee")?.stringForKey("lastFirstStationId") {
-                        // if lastDepartureTime is more than 4 hours away and we're in the same place
-                        // and we still have at least 5 departures, just use the departures from the cache
-                        if ((lastDepartureTime.dateByAddingTimeInterval(4 * -3600).timeIntervalSinceNow < 0)
-                             && lastFirstStationId == station.st_id
-                             && station.getFilteredDepartures()?.count > 5
-                            ) {
-                                handleReply2(station)
-                                return
-                        }
-                }
+
                 station.updateDepartures(self, force: false, context: handleReply2)
             } else {
                 NSUserDefaults().setValue(nil, forKey: "lastDepartureTime")
@@ -253,17 +242,26 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     func requestedUpdateDidBegin() {
         // get the shared instance
         let server = CLKComplicationServer.sharedInstance()
-        
-        // reload the timeline for all complications
-        for complication in server.activeComplications {
-            server.reloadTimelineForComplication(complication)
+        NSLog("requestedUpdateDidBegin")
+        func handleReply(stations: TFCStations?) {
+            if let station = stations?.stations?.first {
+                if (self.needsDeparturesUpdate(station)) {
+                    // reload the timeline for all complications
+                    for complication in server.activeComplications {
+                        server.reloadTimelineForComplication(complication)
+                    }
+                }
+            }
         }
+        TFCWatchData.sharedInstance.getStations(handleReply, errorReply: nil, stopWithFavorites: true)
+
     }
     
     func requestedUpdateBudgetExhausted() {
         // get the shared instance
         let server = CLKComplicationServer.sharedInstance()
-        
+        NSLog("requestedUpdateBudgetExhausted");
+        //do a last full update if budget is exhausted
         // reload the timeline for all complications
         for complication in server.activeComplications {
             server.reloadTimelineForComplication(complication)
@@ -423,5 +421,20 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
         dateFmt.locale = NSLocale(localeIdentifier: "de_CH")
         dateFmt.dateFormat = format
         return dateFmt.stringFromDate(date)
+    }
+
+    private func needsDeparturesUpdate(station: TFCStation) -> Bool {
+        if let lastDepartureTime =  NSUserDefaults().valueForKey("lastDepartureTime") as? NSDate,
+            lastFirstStationId = NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee")?.stringForKey("lastFirstStationId") {
+                // if lastDepartureTime is more than 4 hours away and we're in the same place
+                // and we still have at least 5 departures, just use the departures from the cache
+                if ((lastDepartureTime.dateByAddingTimeInterval(4 * -3600).timeIntervalSinceNow < 0)
+                    && lastFirstStationId == station.st_id
+                    && station.getFilteredDepartures()?.count > 5
+                    ) {
+                        return true
+                }
+        }
+        return false
     }
 }
