@@ -23,6 +23,10 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     
     // MARK: - Timeline Configuration
     
+    lazy var watchdata: TFCWatchData = { 
+        return TFCWatchData()
+        }()
+
     func getSupportedTimeTravelDirectionsForComplication(complication: CLKComplication, withHandler handler: (CLKComplicationTimeTravelDirections) -> Void) {
         handler([.Forward]) // supports only forward time travel
     }
@@ -44,7 +48,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                 station.updateDepartures(self, force: false, context: handleReply2)
             }
         }
-        TFCWatchData.sharedInstance.getStations(handleReply, errorReply: nil, stopWithFavorites: true)
+        watchdata.getStations(handleReply, errorReply: nil, stopWithFavorites: true)
     }
     
     func getTimelineEndDateForComplication(complication: CLKComplication, withHandler handler: (NSDate?) -> Void) {
@@ -65,7 +69,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
             }
         }
 
-        TFCWatchData.sharedInstance.getStations(handleReply, errorReply: nil,stopWithFavorites: true)
+        watchdata.getStations(handleReply, errorReply: nil,stopWithFavorites: true)
     }
     
     func getPrivacyBehaviorForComplication(complication: CLKComplication, withHandler handler: (CLKComplicationPrivacyBehavior) -> Void) {
@@ -105,7 +109,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
             }
         }
         
-        TFCWatchData.sharedInstance.getStations(handleReply, errorReply: nil, stopWithFavorites: true)
+        watchdata.getStations(handleReply, errorReply: nil, stopWithFavorites: true)
     }
     
     func getTimelineEntriesForComplication(complication: CLKComplication, afterDate date: NSDate, limit: Int, withHandler handler: (([CLKComplicationTimelineEntry]?) -> Void)) {
@@ -169,7 +173,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                 handler(entries)
             }
         }
-        TFCWatchData.sharedInstance.getStations(handleReply, errorReply: nil, stopWithFavorites: true)
+        watchdata.getStations(handleReply, errorReply: nil, stopWithFavorites: true)
     }
     
     // MARK: - Update Scheduling
@@ -213,7 +217,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
 
             tmpl.headerTextProvider = CLKSimpleTextProvider(text: "Station")
             tmpl.row1Column1TextProvider = CLKSimpleTextProvider(text: "--: ------", shortText: nil)
-            tmpl.row1Column2TextProvider = CLKSimpleTextProvider(text: "-", shortText: nil)
+            tmpl.row1Column2TextProvider = CLKSimpleTextProvider(text: "--", shortText: nil)
             tmpl.row2Column1TextProvider = CLKSimpleTextProvider(text: "--: ------", shortText: nil)
             tmpl.row2Column2TextProvider = CLKSimpleTextProvider(text: "--", shortText: nil)
             return tmpl
@@ -252,7 +256,10 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                 }
             }
         }
-        TFCWatchData.sharedInstance.getStations(handleReply, errorReply: nil, stopWithFavorites: true)
+        func handleReply2(err: String) {
+            NSLog("location error in requestedUpdateDidBegin with \(err)")
+        }
+        watchdata.getStations(handleReply, errorReply: handleReply2, stopWithFavorites: true)
 
     }
     

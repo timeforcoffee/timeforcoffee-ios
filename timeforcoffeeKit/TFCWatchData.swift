@@ -53,6 +53,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
 
     public func locationStillTrying(manager: CLLocationManager, err: NSError) {
         
+        //replyNearby!(["error": err]);
     }
 
     public func getLocation(reply: replyClosure?) {
@@ -99,11 +100,19 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
                     } else {
                         self.networkErrorMsg = "Location not available"
                     }
-                    errorReply!(self.networkErrorMsg!)
+                    if let errorReply = errorReply, networkErrorMsg = self.networkErrorMsg {
+                       errorReply(networkErrorMsg)
+                    }
                 }
             }
         }
-        TFCWatchData.sharedInstance.getLocation(handleReply)
+        // check if we now a last location, and take that if it's not older than 15 seconds
+        //  to avoid multiple location lookups
+        if let cachedLoc = locManager?.getLastLocation(15)?.coordinate {
+            handleReply(["lat" : cachedLoc.latitude, "long": cachedLoc.longitude])
+        } else {
+            self.getLocation(handleReply)
+        }
     }
 
     public func stationsUpdated(error: String?, favoritesOnly: Bool, context: Any?) {
