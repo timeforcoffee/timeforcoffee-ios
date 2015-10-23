@@ -57,7 +57,7 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
         locationFixAchieved = false
         let lm = CLLocationManager()
         lm.delegate = self
-        lm.desiredAccuracy = kCLLocationAccuracyKilometer
+        lm.desiredAccuracy = kCLLocationAccuracyHundredMeters
         if (CLLocationManager.locationServicesEnabled()) {
  //           lm.requestAlwaysAuthorization()
             lm.requestWhenInUseAuthorization()
