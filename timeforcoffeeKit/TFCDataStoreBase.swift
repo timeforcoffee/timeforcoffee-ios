@@ -241,6 +241,8 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                 filemanager.delegate = self
                 for var index = 0; index < sourceSqliteURLs.count; index++ {
                     try! filemanager.copyItemAtURL(sourceSqliteURLs[index], toURL: destSqliteURLs[index])
+                    let _ = try? destSqliteURLs[index].setResourceValue(true, forKey: NSURLIsExcludedFromBackupKey)
+
                 }
                 if let neededDBVersion = neededDBVersion {
                     self.localUserDefaults?.setInteger(neededDBVersion, forKey: "installedDBVersion")
