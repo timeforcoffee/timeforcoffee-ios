@@ -22,14 +22,14 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
         }
         set (location) {
             classvar.currentLocation = location
-            _lastUpdateCurrentLocation = NSDate()
+            classvar._lastUpdateCurrentLocation = NSDate()
         }
     }
 
-    private var _lastUpdateCurrentLocation: NSDate?
-
     private struct classvar {
         static var currentLocation: CLLocation?
+        static var _lastUpdateCurrentLocation: NSDate?
+
         static var currentPlacemark: CLPlacemark? {
             get {
                 return _currentPlacemark;
@@ -181,10 +181,10 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
     }
 
     public func getLastLocation(notOlderThanSeconds: Int) -> CLLocation? {
-        if (_lastUpdateCurrentLocation?.timeIntervalSinceNow < NSTimeInterval(-notOlderThanSeconds)) {
+        if (classvar._lastUpdateCurrentLocation?.timeIntervalSinceNow < NSTimeInterval(-notOlderThanSeconds)) {
             return nil
         }
-        NSLog("still cached since \(_lastUpdateCurrentLocation)")
+        NSLog("still cached since \(classvar._lastUpdateCurrentLocation)")
         return currentLocation
     }
 }

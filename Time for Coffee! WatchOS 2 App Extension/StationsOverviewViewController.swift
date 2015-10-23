@@ -18,6 +18,7 @@ class StationsOverviewViewController: WKInterfaceController {
     @IBOutlet weak var infoGroup: WKInterfaceGroup!
     @IBOutlet weak var infoLabel: WKInterfaceLabel!
     var activatedOnce = false
+    var active = false
     var appeared = false
 
     lazy var watchdata: TFCWatchData = {
@@ -38,6 +39,7 @@ class StationsOverviewViewController: WKInterfaceController {
             self.addMenuItemWithItemIcon(WKMenuItemIcon.Resume, title: "Reload", action: "contextButtonReload")
             activatedOnce = true
         }
+        self.active = true
         if (self.appeared) {
             getStations()
         }
@@ -50,6 +52,10 @@ class StationsOverviewViewController: WKInterfaceController {
 
     override func willDisappear() {
         self.appeared = false
+    }
+
+    override func didDeactivate() {
+        self.active = false
     }
 
     func contextButtonReload() {
@@ -65,28 +71,28 @@ class StationsOverviewViewController: WKInterfaceController {
             if (stations == nil || stations?.count() == nil) {
                 return
             }
-            if (self.appeared) {
-                WKInterfaceDevice.currentDevice().playHaptic(WKHapticType.Click)
-            }
-            infoGroup.setHidden(true)
-            let maxStations = min(5, (stations?.count())! - 1)
-            let ctxStations = stations?[0...maxStations]
-            if (self.numberOfRows != ctxStations!.count) {
-                stationsTable.setNumberOfRows(ctxStations!.count, withRowType: "stations")
-                self.numberOfRows = ctxStations!.count
-            }
-            var i = 0;
-            if let ctxStations = ctxStations {
-                for (station) in ctxStations {
-                    if let sr = stationsTable.rowControllerAtIndex(i) as! StationsRow? {
-                        sr.drawCell(station)
-                    }
-                    i++
-                }
-                if let stations = stations {
-                    watchdata.updateComplication(stations)
-                }
-            }
+            if (self.appeared && self.active) {
+                 WKInterfaceDevice.currentDevice().playHaptic(WKHapticType.Click)
+                 infoGroup.setHidden(true)
+                 let maxStations = min(5, (stations?.count())! - 1)
+                 let ctxStations = stations?[0...maxStations]
+                 if (self.numberOfRows != ctxStations!.count) {
+                     stationsTable.setNumberOfRows(ctxStations!.count, withRowType: "stations")
+                     self.numberOfRows = ctxStations!.count
+                  }
+                 var i = 0;
+                 if let ctxStations = ctxStations {
+                     for (station) in ctxStations {
+                         if let sr = stationsTable.rowControllerAtIndex(i) as! StationsRow? {
+                             sr.drawCell(station)
+                         }
+                         i++
+                     }
+                     if let stations = stations {
+                         watchdata.updateComplication(stations)
+                     }
+                  }
+              }
 
         }
         func errorReply(text: String) {

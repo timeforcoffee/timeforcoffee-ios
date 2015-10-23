@@ -13,12 +13,6 @@ import ClockKit
 
 public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStationsUpdatedProtocol {
 
-    public class var sharedInstance: TFCWatchData {
-        struct Static {
-            static let instance: TFCWatchData = TFCWatchData()
-        }
-        return Static.instance
-    }
     private var networkErrorMsg: String?
 
     private var replyNearby: replyClosure?

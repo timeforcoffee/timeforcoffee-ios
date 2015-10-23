@@ -12,6 +12,7 @@ import Foundation
 class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol {
     @IBOutlet weak var stationsTable: WKInterfaceTable!
     var station: TFCStation?
+    var lastShownStationId: String?
     var pageNumber: Int?
     var numberOfRows: Int = 0
     var initTable = false
@@ -95,7 +96,6 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         }
     }
 
-
     override func didAppear() {
         self.appeared = true
         setStationValues()
@@ -104,6 +104,15 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     override func willDisappear() {
         self.appeared = false
     }
+
+    override func didDeactivate() {
+        // This method is called when watch view controller is no longer visible
+        NSLog("StationView: didDeactivate")
+
+        super.didDeactivate()
+        self.active = false
+    }
+
     private func setStationValues() {
         if (station == nil) {
             // infoGroup.setHidden(false)
@@ -113,16 +122,16 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
 
         if let title = station?.getName(true) {
             self.setTitle(title)
+            self.lastShownStationId = station?.st_id
         }
 
-        if (self.initTable || !(station?.getDepartures()?.count > 0)) {
+        if (self.lastShownStationId != station?.st_id || self.initTable || !(station?.getDepartures()?.count > 0)) {
             infoGroup.setHidden(false)
             infoLabel.setText("Loading ...")
             stationsTable.setNumberOfRows(10, withRowType: "station")
             self.numberOfRows = 10
-            self.initTable = false
         }
-
+        self.initTable = false
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             self.station?.updateDepartures(self)
             self.displayDepartures(self.station)
@@ -143,7 +152,6 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
 
     func selectStation(notification: NSNotification) {
         if (notification.userInfo == nil) {
-            self.initTable = true
             self.getStation()
         } else {
             let uI:[String:String]? = notification.userInfo as? [String:String]
@@ -166,9 +174,12 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     }
 
     func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?) {
-        let displayed = self.displayDepartures(forStation)
-        if (displayed && self.appeared) {
-            WKInterfaceDevice.currentDevice().playHaptic(WKHapticType.Click)
+        if (self.appeared && self.active) {
+            let displayed = self.displayDepartures(forStation)
+            if (displayed) {
+                WKInterfaceDevice.currentDevice().playHaptic(WKHapticType.Click)
+                NSLog("played haptic in Stations \(self.appeared)")
+            }
         }
     }
 
@@ -202,12 +213,6 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
 
     func departuresStillCached(context: Any?, forStation: TFCStation?) {
         departuresUpdated(nil, context: context, forStation: forStation)
-    }
-
-    override func didDeactivate() {
-        // This method is called when watch view controller is no longer visible
-        super.didDeactivate()
-        self.active = false
     }
 
     func contextButtonReload() {
