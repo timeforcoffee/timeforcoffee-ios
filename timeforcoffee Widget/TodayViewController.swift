@@ -210,6 +210,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
     override func viewDidDisappear(animated: Bool) {
         TFCURLSession.sharedInstance.cancelURLSession()
+        TFCDataStore.sharedInstance.saveContext()
 
     }
     func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)) {
