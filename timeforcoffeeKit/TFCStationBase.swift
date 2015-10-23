@@ -57,6 +57,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                         self.realmObject.latitude = lat
                         self.realmObject.longitude = lon
                         self.realmObject.lastUpdated = NSDate()
+                        DLog("updateGeolocationInfo for \(self.name)")
                         self.updateGeolocationInfo()
                 }
 
@@ -687,15 +688,19 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             if let coordinates = self.coord {
                 geocoder.reverseGeocodeLocation(coordinates) { (places:[CLPlacemark]?, error:NSError?) -> Void in
                     if let place = places?.first {
-                        if let iso = place.ISOcountryCode {
-                            self.realmObject.countryISO = iso
-                        }
-                        if let city = place.locality {
-                            self.realmObject.city = city
-                        }
+                        if self.realmObject.fault == false {
+                            if let city = place.locality {
+                                self.realmObject.city = city
+                            }
 
-                        if let county = place.administrativeArea {
-                            self.realmObject.county = county
+                            if let county = place.administrativeArea {
+                                self.realmObject.county = county
+                            }
+                            if let iso = place.ISOcountryCode {
+                                self.realmObject.countryISO = iso
+                            }
+                        } else {
+                            DLog("object \(self.name) could not be saved: \(self.realmObject.faultingState)")
                         }
                     } else {
                         if (error != nil) {
