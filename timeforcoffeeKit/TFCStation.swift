@@ -193,10 +193,12 @@ public class TFCStation: TFCStationBase {
 
     override public func setStationSearchIndex() {
         if #available(iOS 9, *) {
-        let item = CSSearchableItem(uniqueIdentifier: self.st_id, domainIdentifier: "stations", attributeSet: getAttributeSet())
-            CSSearchableIndex.defaultSearchableIndex().indexSearchableItems([item], completionHandler: { (error) -> Void in
+            if (NSBundle.mainBundle().bundleIdentifier == "ch.opendata.timeforcoffee") {
+                let item = CSSearchableItem(uniqueIdentifier: self.st_id, domainIdentifier: "stations", attributeSet: getAttributeSet())
+                CSSearchableIndex.defaultSearchableIndex().indexSearchableItems([item], completionHandler: { (error) -> Void in
 
-            })
+                })
+            }
         }
     }
 
