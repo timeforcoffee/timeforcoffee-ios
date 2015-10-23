@@ -53,7 +53,7 @@
 	<dict>
 		<key>NSExceptionDomains</key>
 		<dict>
-			<key>transport.opendata.ch</key>
+			<key>staging.timeforcoffee.ch</key>
 			<dict>
 				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
@@ -63,34 +63,67 @@
 				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 			</dict>
-			<key>www.timeforcoffee.ch</key>
+			<key>transport.opendata.ch</key>
 			<dict>
 				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 			</dict>
-			<key>staging.timeforcoffee.ch</key>
+			<key>www.timeforcoffee.ch</key>
 			<dict>
 				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 			</dict>
 		</dict>
 	</dict>
-	<key>NSLocationUsageDescription</key>
-	<string> We need the location to show you nearby stations. We’re only accessing this, when the app or the Today extension is in use and for as short as possible.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Complications visits updates etc..</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string> We need the location to show you nearby stations. We’re only accessing this, when the app or the Today extension is in use and for as short as possible.</string>
+	<key>NSUserActivityTypes</key>
+	<array>
+		<string>ch.opendata.timeforcoffee.station</string>
+	</array>
 	<key>UIAppFonts</key>
 	<array>
 		<string>trainsymbol.otf</string>
+	</array>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeFavorite</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Favorites</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>ch.opendata.timeforcoffee.favorites</string>
+			<key>UIApplicationShortcutItemUserInfo</key>
+			<dict>
+				<key>key1</key>
+				<string>value1</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeSearch</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Search</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>ch.opendata.timeforcoffee.search</string>
+			<key>UIApplicationShortcutItemUserInfo</key>
+			<dict>
+				<key>key1</key>
+				<string>value1</string>
+			</dict>
+		</dict>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
-	<key>NSUserActivityTypes</key>
-	<array>
-		<string>ch.opendata.timeforcoffee.station</string>
-	</array>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
@@ -108,35 +141,6 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UIApplicationShortcutItems</key>
-	<array>
-		<dict>
-			<key>UIApplicationShortcutItemTitle</key>
-			<string>Favorites</string>
-			<key>UIApplicationShortcutItemIconType</key>
-			<string>UIApplicationShortcutIconTypeFavorite</string>
-			<key>UIApplicationShortcutItemType</key>
-			<string>ch.opendata.timeforcoffee.favorites</string>
-			<key>UIApplicationShortcutItemUserInfo</key>
-			<dict>
-				<key>key1</key>
-				<string>value1</string>
-			</dict>
-		</dict>
-		<dict>
-			<key>UIApplicationShortcutItemTitle</key>
-			<string>Search</string>
-			<key>UIApplicationShortcutItemIconType</key>
-			<string>UIApplicationShortcutIconTypeSearch</string>
-			<key>UIApplicationShortcutItemType</key>
-			<string>ch.opendata.timeforcoffee.search</string>
-			<key>UIApplicationShortcutItemUserInfo</key>
-			<dict>
-				<key>key1</key>
-				<string>value1</string>
-			</dict>
-		</dict>
 	</array>
 </dict>
 </plist>

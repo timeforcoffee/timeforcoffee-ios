@@ -14,7 +14,7 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
     private var locationFixAchieved : Bool = false
     private var locationStatus : NSString = "Not Started"
     private var seenError : Bool = false
-    private unowned var delegate: TFCLocationManagerDelegate
+    unowned var delegate: TFCLocationManagerDelegate
 
     public var currentLocation: CLLocation? {
         get {
@@ -62,12 +62,15 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
         lm.delegate = self
         lm.desiredAccuracy = kCLLocationAccuracyHundredMeters
         if (CLLocationManager.locationServicesEnabled()) {
- //           lm.requestAlwaysAuthorization()
-            lm.requestWhenInUseAuthorization()
+            self.getLocationRequest(lm)
         }
         return lm
     }
-    
+
+    func getLocationRequest(lm: CLLocationManager) {
+        lm.requestWhenInUseAuthorization()
+    }
+
     public func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         dispatch_async(dispatch_get_main_queue(), {
                 DLog("LocationManager Error \(error) with code \(error.code)")
@@ -189,8 +192,9 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
     }
 }
 
-public protocol TFCLocationManagerDelegate: class {
+@objc public protocol TFCLocationManagerDelegate: class {
     func locationFixed(coord: CLLocation?)
     func locationDenied(manager: CLLocationManager, err: NSError)
     func locationStillTrying(manager: CLLocationManager, err: NSError)
+    optional func locationVisit(coord: CLLocationCoordinate2D, date: NSDate, arrival: Bool) -> Bool
 }
