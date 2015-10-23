@@ -298,7 +298,24 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
     }
 
     func updateComplicationData() {
-        
+    }
+
+    public func sendComplicationUpdate(station: TFCStation?) {
+        #if os(iOS)
+            if #available(iOS 9, *) {
+                if (WCSession.isSupported()) {
+                    let wcsession = WCSession.defaultSession()
+                    if (wcsession.complicationEnabled == true) {
+                        if let firstStation = station, ud = TFCDataStore.sharedInstance.getUserDefaults() {
+                            if (ud.stringForKey("lastFirstStationId") != firstStation.st_id) {
+                                wcsession.transferCurrentComplicationUserInfo(["__updateComplicationData__": "doit"])
+                                ud.setValue(firstStation.st_id, forKey: "lastFirstStationId")
+                            }
+                        }
+                    }
+                }
+            }
+        #endif
     }
 
 }
