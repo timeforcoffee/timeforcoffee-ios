@@ -16,15 +16,29 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
     public var name: String {
         get {
-            return self.realmObject.name
+            if (_name == nil) {
+                _name = self.realmObject.name
+                if (_name == "" || _name == nil) {
+                    _name = "unknown"
+                }
+            }
+            return _name!
         }
         set(name) {
             if (name != self.realmObject.name) {
-                self.realmObject.name = name
+                var name2 = name
+                if (name2 == "") {
+                    name2 = "unknown"
+                }
+                NSLog("set new name in DB for \(name2) \(st_id)")
+                self.realmObject.name = name2
                 self.realmObject.lastUpdated = NSDate()
+                _name = name2
             }
         }
     }
+
+    private var _name: String?
 
     public var coord: CLLocation? {
         get {
@@ -123,7 +137,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         do {
             let pred = NSPredicate(format: "id == %@", self.st_id)
             fetchRequest.predicate = pred
-            if let results = try TFCDataStoreBase.sharedInstance.managedObjectContext.executeFetchRequest(fetchRequest) as? [TFCStationModel] {
+            if let results = try TFCDataStore.sharedInstance.managedObjectContext.executeFetchRequest(fetchRequest) as? [TFCStationModel] {
                 if let first = results.first {
                     return first
                 }
@@ -132,7 +146,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             print("Could not fetch \(error), \(error.userInfo)")
         }
 
-        let obj = NSEntityDescription.insertNewObjectForEntityForName("TFCStationModel", inManagedObjectContext: TFCDataStoreBase.sharedInstance.managedObjectContext) as! TFCStationModel
+        let obj = NSEntityDescription.insertNewObjectForEntityForName("TFCStationModel", inManagedObjectContext: TFCDataStore.sharedInstance.managedObjectContext) as! TFCStationModel
         obj.id = self.st_id
         return obj
     }()
@@ -189,22 +203,25 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     public class func initWithCache(name: String, id: String, coord: CLLocation?) -> TFCStation {
         let trimmed_id = id.replace("^0*", template: "")
         let cache: PINCache = TFCCache.objects.stations
+        // try to find it in the cache
         var newStation: TFCStation? = cache.objectForKey(trimmed_id) as? TFCStation
+        //if not in the cache, or no coordinates set or the name is "unknown"
         if (newStation == nil || newStation?.coord == nil || newStation?.name == "unknown") {
-            if (name == "" || name == "unknown") {
+            //if name is not set, we only have the id, try to get it from the DB or from a server
+            if (name == "") {
                 // try to get it from core data
                 let tryStation = TFCStation(id: id)
-                if (tryStation.name != "" && tryStation.name != "unknown") {
+                //if the name from the DB is not "unknown", return it
+                if (tryStation.name != "unknown") {
+                    //if coords are set and the id is not empty, set it to the cache
                     if (tryStation.coord != nil && tryStation.st_id != "") {
-
                         cache.setObject(tryStation, forKey: tryStation.st_id)
                         tryStation.setStationSearchIndex()
                     }
                     return tryStation
                 }
-                //if name is unknown, fetch it from opendata
+                // if we couldn't get it from the DB, fetch it from opendata
                 // this is done synchronously, so butt ugly, but we have a timeout of 5 seconds
-
                 let api = APIController(delegate: nil)
                 NSLog("Station Name missing. Fetch station info from opendata.ch for \(trimmed_id)")
                 if let result = api.getStationInfo(trimmed_id) {
@@ -225,7 +242,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             newStation = TFCStation(name: name, id: trimmed_id, coord: coord)
             //only cache it when name is != "" otherwise it comes
             // from something with only the id
-            if (name != "" && name != "unknown" && newStation?.st_id != "" && newStation?.coord != nil) {
+            if (name != "" && newStation?.st_id != "" && newStation?.coord != nil) {
                     cache.setObject(newStation!, forKey: newStation!.st_id)
                     newStation!.setStationSearchIndex()
             }
