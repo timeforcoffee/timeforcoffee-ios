@@ -22,6 +22,10 @@ class GlanceController: WKInterfaceController {
 
     var stationName: String?
 
+    lazy var watchdata: TFCWatchData = {
+        return TFCWatchData()
+    }()
+
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
 
@@ -64,7 +68,7 @@ class GlanceController: WKInterfaceController {
                             }
                         }
                         self.updateUserActivity("ch.opendata.timeforcoffee.station", userInfo: ["name": station.name, "st_id": station.st_id], webpageURL: nil)
-                        TFCWatchData.sharedInstance.updateComplication(stations!)
+                        self.watchdata.updateComplication(stations!)
                         break;
                     }
                 }
@@ -76,7 +80,7 @@ class GlanceController: WKInterfaceController {
             infoGroup.setHidden(false)
             infoLabel.setText(text)
         }
-        TFCWatchData.sharedInstance.getStations(handleReply, errorReply: errorReply, stopWithFavorites: true)
+        watchdata.getStations(handleReply, errorReply: errorReply, stopWithFavorites: true)
 
         stationLabel.setText("Loading ...");
         //stationsTable.setNumberOfRows(0, withRowType: "station")

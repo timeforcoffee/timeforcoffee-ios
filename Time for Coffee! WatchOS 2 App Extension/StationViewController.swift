@@ -22,6 +22,10 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     @IBOutlet weak var infoGroup: WKInterfaceGroup!
     @IBOutlet weak var infoLabel: WKInterfaceLabel!
 
+    lazy var watchdata: TFCWatchData = {
+        return TFCWatchData()
+    }()
+
     override init () {
         super.init()
         NSLog("init page")
@@ -69,7 +73,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
                 }
                 self.station = station2
                 self.setStationValues()
-                TFCWatchData.sharedInstance.updateComplication(stations!)
+                watchdata.updateComplication(stations!)
             }
         }
         func errorReply(text: String) {
@@ -78,7 +82,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             infoLabel.setText(text)
         }
 
-        TFCWatchData.sharedInstance.getStations(handleReply, errorReply: errorReply, stopWithFavorites: true)
+        watchdata.getStations(handleReply, errorReply: errorReply, stopWithFavorites: true)
     }
 
     override func willActivate() {
@@ -217,7 +221,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
 
         TFCDataStore.sharedInstance.requestAllDataFromPhone()
         NSLog("send requestAllDataFromPhone")
-        TFCWatchData.sharedInstance.getStations(reload, errorReply: errorReply, stopWithFavorites: false)
+        watchdata.getStations(reload, errorReply: errorReply, stopWithFavorites: false)
     }
 
     func contextButtonMap() {

@@ -20,6 +20,10 @@ class StationsOverviewViewController: WKInterfaceController {
     var activatedOnce = false
     var appeared = false
 
+    lazy var watchdata: TFCWatchData = {
+        return TFCWatchData()
+    }()
+
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
         NSLog("awake StationsOverviewViewController")
@@ -55,6 +59,7 @@ class StationsOverviewViewController: WKInterfaceController {
         getStations()
         TFCDataStore.sharedInstance.requestAllDataFromPhone()
     }
+
     private func getStations() {
         func handleReply(stations: TFCStations?) {
             if (stations == nil || stations?.count() == nil) {
@@ -79,7 +84,7 @@ class StationsOverviewViewController: WKInterfaceController {
                     i++
                 }
                 if let stations = stations {
-                    TFCWatchData.sharedInstance.updateComplication(stations)
+                    watchdata.updateComplication(stations)
                 }
             }
 
@@ -89,7 +94,7 @@ class StationsOverviewViewController: WKInterfaceController {
             infoLabel.setText(text)
         }
 
-        TFCWatchData.sharedInstance.getStations(handleReply, errorReply: errorReply, stopWithFavorites: false)
+        watchdata.getStations(handleReply, errorReply: errorReply, stopWithFavorites: false)
     }
 
     override func table(table: WKInterfaceTable, didSelectRowAtIndex rowIndex: Int) {

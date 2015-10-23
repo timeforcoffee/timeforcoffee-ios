@@ -10,12 +10,17 @@ import Foundation
 import ClockKit
 
 public class TFCDataStore: TFCDataStoreBase {
+
+    lazy var watchdata: TFCWatchData = {
+        return TFCWatchData()
+    }()
+
     // not supported in watchOS yet, set it to nil
     override var keyvaluestore: NSUbiquitousKeyValueStore? {
         return nil
     }
 
     override func updateComplicationData() {
-        TFCWatchData.sharedInstance.updateComplicationData()
+        watchdata.updateComplicationData()
     }
 }
