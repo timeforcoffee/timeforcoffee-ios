@@ -87,7 +87,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                     if (reasonForChange == nil) {
                         return
                     }
-                    NSLog("got icloud sync")
+                    DLog("got icloud sync")
 
                     let reason = reasonForChange?.integerValue
                     if ((reason == NSUbiquitousKeyValueStoreServerChange) ||
@@ -147,14 +147,14 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
             if (myKey == "__updateComplicationData__") {
                 updateComplicationData()
             } else if (myKey == "__giveMeTheData__") {
-                NSLog("Got __giveMeTheData__");
+                DLog("Got __giveMeTheData__");
                 sendAllData()
             } else if (myKey == "___remove___") {
                 if let key = myValue as? String {
                     self.removeObjectForKey(key, withWCTransfer: false)
                 }
             } else if (myKey == "__allDataResponseSent__") {
-                NSLog("Got __allDataResponseSent__");
+                DLog("Got __allDataResponseSent__");
                 self.userDefaults?.setBool(true, forKey: "allDataResponseSent")
             } else {
                 self.setObject(myValue, forKey: myKey, withWCTransfer: false)
@@ -181,7 +181,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                 //  until this is done, the watch will keep asking for it
                 //  This is to avoid haveing no favourites on the watch to start with
                 WCSession.defaultSession().transferUserInfo(["__allDataResponseSent__": true])
-                NSLog("Sent __allDataResponseSent__");
+                DLog("Sent __allDataResponseSent__");
 
             }
         }
@@ -264,7 +264,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
             let wrappedError = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
             // Replace this with code to handle the error appropriately.
             // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            NSLog("Unresolved error \(wrappedError), \(wrappedError.userInfo)")
+            DLog("Unresolved error \(wrappedError), \(wrappedError.userInfo)")
             abort()
         }
         
@@ -288,7 +288,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                 try fileManager.removeItemAtPath(dstPath)
                 try fileManager.copyItemAtPath(srcPath, toPath: dstPath)
             } catch {
-                NSLog("\((error as NSError).localizedDescription) in \(srcPath)")
+                DLog("\((error as NSError).localizedDescription) in \(srcPath)")
             }
 
             return true

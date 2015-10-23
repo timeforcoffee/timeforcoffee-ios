@@ -9,33 +9,33 @@
 /* Begin PBXBuildFile section */
 		96DD166B9346E9C6C7A0AD72 /* Pods_timeforcoffee_Widget.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4DAEC3B840788F055DF7339 /* Pods_timeforcoffee_Widget.framework */; };
 		A45A9EF246329212F1819CB9 /* Pods_timeforcoffee.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC2EE2BCBDED56A401893E5C /* Pods_timeforcoffee.framework */; };
-		EC050CE81BB84D4700ECB533 /* APIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB181BB5CCD300623F1A /* APIController.swift */; settings = {ASSET_TAGS = (); }; };
-		EC050CE91BB84D4700ECB533 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB191BB5CCD300623F1A /* extensions.swift */; settings = {ASSET_TAGS = (); }; };
-		EC050CEA1BB84D4700ECB533 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB1A1BB5CCD300623F1A /* SwiftyJSON.swift */; settings = {ASSET_TAGS = (); }; };
-		EC050CEB1BB84D4700ECB533 /* TFCCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB1C1BB5CCD300623F1A /* TFCCache.swift */; settings = {ASSET_TAGS = (); }; };
-		EC050CEC1BB84D4700ECB533 /* TFCDataStoreBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB1E1BB5CCD300623F1A /* TFCDataStoreBase.swift */; settings = {ASSET_TAGS = (); }; };
-		EC050CED1BB84D4F00ECB533 /* PINCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB3D1BB5CD4D00623F1A /* PINCache.m */; settings = {ASSET_TAGS = (); }; };
-		EC050CEE1BB84D4F00ECB533 /* PINDiskCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB3F1BB5CD4D00623F1A /* PINDiskCache.m */; settings = {ASSET_TAGS = (); }; };
-		EC050CEF1BB84D4F00ECB533 /* PINMemoryCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB411BB5CD4D00623F1A /* PINMemoryCache.m */; settings = {ASSET_TAGS = (); }; };
-		EC050CF01BB84D5B00ECB533 /* TFCDeparture.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB1F1BB5CCD300623F1A /* TFCDeparture.swift */; settings = {ASSET_TAGS = (); }; };
-		EC050CF11BB84D5B00ECB533 /* TFCFavorites.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB201BB5CCD300623F1A /* TFCFavorites.swift */; settings = {ASSET_TAGS = (); }; };
-		EC050CF21BB84D5B00ECB533 /* TFCLocationManagerBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB221BB5CCD300623F1A /* TFCLocationManagerBase.swift */; settings = {ASSET_TAGS = (); }; };
-		EC050CF31BB84D5B00ECB533 /* TFCStationBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB241BB5CCD300623F1A /* TFCStationBase.swift */; settings = {ASSET_TAGS = (); }; };
-		EC050CF41BB84D5B00ECB533 /* TFCStations.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB251BB5CCD300623F1A /* TFCStations.swift */; settings = {ASSET_TAGS = (); }; };
-		EC050CF51BB84D5B00ECB533 /* TFCURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB261BB5CCD300623F1A /* TFCURLSession.swift */; settings = {ASSET_TAGS = (); }; };
-		EC050CF61BB84D5B00ECB533 /* TFCWatchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB271BB5CCD300623F1A /* TFCWatchData.swift */; settings = {ASSET_TAGS = (); }; };
-		EC050CF81BB84DC700ECB533 /* TFCLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4AB24C1BB6712200DA9759 /* TFCLocationManager.swift */; settings = {ASSET_TAGS = (); }; };
-		EC050CF91BB84DD200ECB533 /* TFCDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4AB24B1BB6712200DA9759 /* TFCDataStore.swift */; settings = {ASSET_TAGS = (); }; };
-		EC050CFA1BB84DD200ECB533 /* TFCStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4AB24D1BB6712200DA9759 /* TFCStation.swift */; settings = {ASSET_TAGS = (); }; };
-		EC0AD15F1BB694CC004217FD /* SupportKitLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC0AD15E1BB694CC004217FD /* SupportKitLocalizable.strings */; settings = {ASSET_TAGS = (); }; };
+		EC050CE81BB84D4700ECB533 /* APIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB181BB5CCD300623F1A /* APIController.swift */; };
+		EC050CE91BB84D4700ECB533 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB191BB5CCD300623F1A /* extensions.swift */; };
+		EC050CEA1BB84D4700ECB533 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB1A1BB5CCD300623F1A /* SwiftyJSON.swift */; };
+		EC050CEB1BB84D4700ECB533 /* TFCCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB1C1BB5CCD300623F1A /* TFCCache.swift */; };
+		EC050CEC1BB84D4700ECB533 /* TFCDataStoreBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB1E1BB5CCD300623F1A /* TFCDataStoreBase.swift */; };
+		EC050CED1BB84D4F00ECB533 /* PINCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB3D1BB5CD4D00623F1A /* PINCache.m */; };
+		EC050CEE1BB84D4F00ECB533 /* PINDiskCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB3F1BB5CD4D00623F1A /* PINDiskCache.m */; };
+		EC050CEF1BB84D4F00ECB533 /* PINMemoryCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB411BB5CD4D00623F1A /* PINMemoryCache.m */; };
+		EC050CF01BB84D5B00ECB533 /* TFCDeparture.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB1F1BB5CCD300623F1A /* TFCDeparture.swift */; };
+		EC050CF11BB84D5B00ECB533 /* TFCFavorites.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB201BB5CCD300623F1A /* TFCFavorites.swift */; };
+		EC050CF21BB84D5B00ECB533 /* TFCLocationManagerBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB221BB5CCD300623F1A /* TFCLocationManagerBase.swift */; };
+		EC050CF31BB84D5B00ECB533 /* TFCStationBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB241BB5CCD300623F1A /* TFCStationBase.swift */; };
+		EC050CF41BB84D5B00ECB533 /* TFCStations.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB251BB5CCD300623F1A /* TFCStations.swift */; };
+		EC050CF51BB84D5B00ECB533 /* TFCURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB261BB5CCD300623F1A /* TFCURLSession.swift */; };
+		EC050CF61BB84D5B00ECB533 /* TFCWatchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB271BB5CCD300623F1A /* TFCWatchData.swift */; };
+		EC050CF81BB84DC700ECB533 /* TFCLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4AB24C1BB6712200DA9759 /* TFCLocationManager.swift */; };
+		EC050CF91BB84DD200ECB533 /* TFCDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4AB24B1BB6712200DA9759 /* TFCDataStore.swift */; };
+		EC050CFA1BB84DD200ECB533 /* TFCStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4AB24D1BB6712200DA9759 /* TFCStation.swift */; };
+		EC0AD15F1BB694CC004217FD /* SupportKitLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC0AD15E1BB694CC004217FD /* SupportKitLocalizable.strings */; };
 		EC0AD1621BB69539004217FD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC0AD1641BB69539004217FD /* Localizable.strings */; };
-		EC0E4D5A1BCBB09F0046D70C /* SingleViewCoreData.sqlite-shm in Resources */ = {isa = PBXBuildFile; fileRef = EC0E4D581BCBB09F0046D70C /* SingleViewCoreData.sqlite-shm */; settings = {ASSET_TAGS = (); }; };
-		EC0E4D5B1BCBB09F0046D70C /* SingleViewCoreData.sqlite-wal in Resources */ = {isa = PBXBuildFile; fileRef = EC0E4D591BCBB09F0046D70C /* SingleViewCoreData.sqlite-wal */; settings = {ASSET_TAGS = (); }; };
-		EC1834DB1BCADA0E008B44F3 /* SingleViewCoreData.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = EC1834D81BCADA0E008B44F3 /* SingleViewCoreData.sqlite */; settings = {ASSET_TAGS = (); }; };
-		EC1834DF1BCADA29008B44F3 /* SingleViewCoreData.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = EC1834D81BCADA0E008B44F3 /* SingleViewCoreData.sqlite */; settings = {ASSET_TAGS = (); }; };
+		EC0E4D5A1BCBB09F0046D70C /* SingleViewCoreData.sqlite-shm in Resources */ = {isa = PBXBuildFile; fileRef = EC0E4D581BCBB09F0046D70C /* SingleViewCoreData.sqlite-shm */; };
+		EC0E4D5B1BCBB09F0046D70C /* SingleViewCoreData.sqlite-wal in Resources */ = {isa = PBXBuildFile; fileRef = EC0E4D591BCBB09F0046D70C /* SingleViewCoreData.sqlite-wal */; };
+		EC1834DB1BCADA0E008B44F3 /* SingleViewCoreData.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = EC1834D81BCADA0E008B44F3 /* SingleViewCoreData.sqlite */; };
+		EC1834DF1BCADA29008B44F3 /* SingleViewCoreData.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = EC1834D81BCADA0E008B44F3 /* SingleViewCoreData.sqlite */; };
 		EC46C4DF1BB5C69800F2A963 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC46C4DE1BB5C69800F2A963 /* AppDelegate.swift */; };
 		EC46C4E61BB5C69800F2A963 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC46C4E41BB5C69800F2A963 /* Main.storyboard */; };
-		EC46C50B1BB5C71100F2A963 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC46C50A1BB5C71100F2A963 /* NotificationCenter.framework */; settings = {ASSET_TAGS = (); }; };
+		EC46C50B1BB5C71100F2A963 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC46C50A1BB5C71100F2A963 /* NotificationCenter.framework */; };
 		EC46C50E1BB5C71100F2A963 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC46C50D1BB5C71100F2A963 /* TodayViewController.swift */; };
 		EC46C5111BB5C71100F2A963 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC46C50F1BB5C71100F2A963 /* MainInterface.storyboard */; };
 		EC46C5151BB5C71100F2A963 /* timeforcoffee Widget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EC46C5081BB5C71100F2A963 /* timeforcoffee Widget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -49,10 +49,10 @@
 		EC46C55C1BB5C82800F2A963 /* timeforcoffeeKit.h in Headers */ = {isa = PBXBuildFile; fileRef = EC46C55B1BB5C82800F2A963 /* timeforcoffeeKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EC46C5601BB5C82800F2A963 /* timeforcoffeeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC46C5591BB5C82800F2A963 /* timeforcoffeeKit.framework */; };
 		EC46C5611BB5C82800F2A963 /* timeforcoffeeKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EC46C5591BB5C82800F2A963 /* timeforcoffeeKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		EC4AB2291BB5E74100DA9759 /* NearbyStationsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4AB2281BB5E74100DA9759 /* NearbyStationsTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
-		EC4AB2381BB5F11600DA9759 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC4AB2371BB5F11600DA9759 /* libGoogleAnalyticsServices.a */; settings = {ASSET_TAGS = (); }; };
+		EC4AB2291BB5E74100DA9759 /* NearbyStationsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4AB2281BB5E74100DA9759 /* NearbyStationsTableViewCell.swift */; };
+		EC4AB2381BB5F11600DA9759 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC4AB2371BB5F11600DA9759 /* libGoogleAnalyticsServices.a */; };
 		EC4AB2391BB5F18600DA9759 /* timeforcoffeeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC46C5591BB5C82800F2A963 /* timeforcoffeeKit.framework */; };
-		EC4AB23A1BB5F3C000DA9759 /* DepartureLineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCAFD1BB5CC3500623F1A /* DepartureLineLabel.swift */; settings = {ASSET_TAGS = (); }; };
+		EC4AB23A1BB5F3C000DA9759 /* DepartureLineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCAFD1BB5CC3500623F1A /* DepartureLineLabel.swift */; };
 		EC4AB23B1BB5F40000DA9759 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC4AB2371BB5F11600DA9759 /* libGoogleAnalyticsServices.a */; };
 		EC4AB23D1BB5F41200DA9759 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EC4AB23C1BB5F41200DA9759 /* libsqlite3.tbd */; };
 		EC4AB23F1BB5F42300DA9759 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EC4AB23E1BB5F42300DA9759 /* libz.tbd */; };
@@ -62,78 +62,82 @@
 		EC4AB2471BB5F4B100DA9759 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EC4AB23E1BB5F42300DA9759 /* libz.tbd */; };
 		EC4AB2481BB5F4BA00DA9759 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC4AB2441BB5F46E00DA9759 /* CoreData.framework */; };
 		EC4AB2491BB5F4C100DA9759 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC4AB2421BB5F46700DA9759 /* SystemConfiguration.framework */; };
-		EC4AB24A1BB5F5BB00DA9759 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC4F0C881BB5D54B00CE7C24 /* Images.xcassets */; settings = {ASSET_TAGS = (); }; };
-		EC4AB26D1BB6787600DA9759 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4AB2681BB6787600DA9759 /* MapViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		EC4AB26E1BB6787600DA9759 /* StationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4AB2691BB6787600DA9759 /* StationRow.swift */; settings = {ASSET_TAGS = (); }; };
-		EC4AB26F1BB6787600DA9759 /* StationsOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4AB26A1BB6787600DA9759 /* StationsOverviewViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		EC4AB2701BB6787600DA9759 /* StationsRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4AB26B1BB6787600DA9759 /* StationsRow.swift */; settings = {ASSET_TAGS = (); }; };
-		EC4AB2711BB6787600DA9759 /* StationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4AB26C1BB6787600DA9759 /* StationViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		EC4AB24A1BB5F5BB00DA9759 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC4F0C881BB5D54B00CE7C24 /* Images.xcassets */; };
+		EC4AB26D1BB6787600DA9759 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4AB2681BB6787600DA9759 /* MapViewController.swift */; };
+		EC4AB26E1BB6787600DA9759 /* StationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4AB2691BB6787600DA9759 /* StationRow.swift */; };
+		EC4AB26F1BB6787600DA9759 /* StationsOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4AB26A1BB6787600DA9759 /* StationsOverviewViewController.swift */; };
+		EC4AB2701BB6787600DA9759 /* StationsRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4AB26B1BB6787600DA9759 /* StationsRow.swift */; };
+		EC4AB2711BB6787600DA9759 /* StationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4AB26C1BB6787600DA9759 /* StationViewController.swift */; };
 		EC4F0C871BB5D06700CE7C24 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC4F0C861BB5D06700CE7C24 /* UIKit.framework */; };
-		EC4F0C891BB5D54B00CE7C24 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC4F0C881BB5D54B00CE7C24 /* Images.xcassets */; settings = {ASSET_TAGS = (); }; };
-		EC60B0121BB680B600D10238 /* gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = EC60B00D1BB680B600D10238 /* gradient.png */; settings = {ASSET_TAGS = (); }; };
-		EC60B0141BB680B600D10238 /* launchicon.png in Resources */ = {isa = PBXBuildFile; fileRef = EC60B00F1BB680B600D10238 /* launchicon.png */; settings = {ASSET_TAGS = (); }; };
-		EC60B0161BB680B600D10238 /* Zuerich2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = EC60B0111BB680B600D10238 /* Zuerich2.jpg */; settings = {ASSET_TAGS = (); }; };
-		EC60B0181BB680DE00D10238 /* launchicon.png in Resources */ = {isa = PBXBuildFile; fileRef = EC60B00F1BB680B600D10238 /* launchicon.png */; settings = {ASSET_TAGS = (); }; };
-		EC60B01A1BB680FD00D10238 /* trainsymbol.otf in Resources */ = {isa = PBXBuildFile; fileRef = EC60B0191BB680FD00D10238 /* trainsymbol.otf */; settings = {ASSET_TAGS = (); }; };
-		EC60B01B1BB680FD00D10238 /* trainsymbol.otf in Resources */ = {isa = PBXBuildFile; fileRef = EC60B0191BB680FD00D10238 /* trainsymbol.otf */; settings = {ASSET_TAGS = (); }; };
-		EC810B061BC7963C0007B874 /* DataModels.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EC810B041BC7963C0007B874 /* DataModels.xcdatamodeld */; settings = {ASSET_TAGS = (); }; };
-		EC810B071BC7963C0007B874 /* DataModels.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EC810B041BC7963C0007B874 /* DataModels.xcdatamodeld */; settings = {ASSET_TAGS = (); }; };
-		EC855BA31BC99649001ABD35 /* StreamReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC855BA21BC99649001ABD35 /* StreamReader.swift */; settings = {ASSET_TAGS = (); }; };
-		EC855BA81BC99A4D001ABD35 /* BFKOORD_GEO in Resources */ = {isa = PBXBuildFile; fileRef = EC855BA41BC99767001ABD35 /* BFKOORD_GEO */; settings = {ASSET_TAGS = (); }; };
-		EC855BB21BC9A2BF001ABD35 /* data.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC855BB11BC9A2BF001ABD35 /* data.swift */; settings = {ASSET_TAGS = (); }; };
-		EC9BCAFA1BB5CB7700623F1A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC9BCAF81BB5CB7700623F1A /* LaunchScreen.xib */; settings = {ASSET_TAGS = (); }; };
-		EC9BCB0A1BB5CC3500623F1A /* About.html in Resources */ = {isa = PBXBuildFile; fileRef = EC9BCAFB1BB5CC3500623F1A /* About.html */; settings = {ASSET_TAGS = (); }; };
-		EC9BCB0B1BB5CC3500623F1A /* AboutPagedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCAFC1BB5CC3500623F1A /* AboutPagedViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		EC9BCB0C1BB5CC3500623F1A /* DepartureLineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCAFD1BB5CC3500623F1A /* DepartureLineLabel.swift */; settings = {ASSET_TAGS = (); }; };
-		EC9BCB0D1BB5CC3500623F1A /* DeparturesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCAFE1BB5CC3500623F1A /* DeparturesViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		EC9BCB0E1BB5CC3500623F1A /* PagedStationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCAFF1BB5CC3500623F1A /* PagedStationsViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		EC9BCB0F1BB5CC3500623F1A /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB001BB5CC3500623F1A /* SettingsViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		EC9BCB101BB5CC3500623F1A /* StationAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB011BB5CC3500623F1A /* StationAnnotation.swift */; settings = {ASSET_TAGS = (); }; };
-		EC9BCB111BB5CC3500623F1A /* StationsSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB021BB5CC3500623F1A /* StationsSearchViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		EC9BCB121BB5CC3500623F1A /* StationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB031BB5CC3500623F1A /* StationsViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		EC9BCB131BB5CC3500623F1A /* StationTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB041BB5CC3500623F1A /* StationTableView.swift */; settings = {ASSET_TAGS = (); }; };
-		EC9BCB141BB5CC3500623F1A /* StationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB051BB5CC3500623F1A /* StationTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
-		EC9BCB151BB5CC3500623F1A /* StationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC9BCB061BB5CC3500623F1A /* StationTableViewCell.xib */; settings = {ASSET_TAGS = (); }; };
-		EC9BCB161BB5CC3500623F1A /* TFCNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB071BB5CC3500623F1A /* TFCNavigationController.swift */; settings = {ASSET_TAGS = (); }; };
-		EC9BCB171BB5CC3500623F1A /* Time for Coffee!.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = EC9BCB081BB5CC3500623F1A /* Time for Coffee!.entitlements */; settings = {ASSET_TAGS = (); }; };
-		EC9BCB291BB5CCD300623F1A /* APIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB181BB5CCD300623F1A /* APIController.swift */; settings = {ASSET_TAGS = (); }; };
-		EC9BCB2A1BB5CCD300623F1A /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB191BB5CCD300623F1A /* extensions.swift */; settings = {ASSET_TAGS = (); }; };
-		EC9BCB2B1BB5CCD300623F1A /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB1A1BB5CCD300623F1A /* SwiftyJSON.swift */; settings = {ASSET_TAGS = (); }; };
-		EC9BCB2C1BB5CCD300623F1A /* TFCBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB1B1BB5CCD300623F1A /* TFCBaseViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		EC9BCB2D1BB5CCD300623F1A /* TFCCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB1C1BB5CCD300623F1A /* TFCCache.swift */; settings = {ASSET_TAGS = (); }; };
-		EC9BCB2E1BB5CCD300623F1A /* TFCDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB1D1BB5CCD300623F1A /* TFCDataStore.swift */; settings = {ASSET_TAGS = (); }; };
-		EC9BCB2F1BB5CCD300623F1A /* TFCDataStoreBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB1E1BB5CCD300623F1A /* TFCDataStoreBase.swift */; settings = {ASSET_TAGS = (); }; };
-		EC9BCB301BB5CCD300623F1A /* TFCDeparture.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB1F1BB5CCD300623F1A /* TFCDeparture.swift */; settings = {ASSET_TAGS = (); }; };
-		EC9BCB311BB5CCD300623F1A /* TFCFavorites.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB201BB5CCD300623F1A /* TFCFavorites.swift */; settings = {ASSET_TAGS = (); }; };
-		EC9BCB321BB5CCD300623F1A /* TFCLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB211BB5CCD300623F1A /* TFCLocationManager.swift */; settings = {ASSET_TAGS = (); }; };
-		EC9BCB331BB5CCD300623F1A /* TFCLocationManagerBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB221BB5CCD300623F1A /* TFCLocationManagerBase.swift */; settings = {ASSET_TAGS = (); }; };
-		EC9BCB341BB5CCD300623F1A /* TFCStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB231BB5CCD300623F1A /* TFCStation.swift */; settings = {ASSET_TAGS = (); }; };
-		EC9BCB351BB5CCD300623F1A /* TFCStationBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB241BB5CCD300623F1A /* TFCStationBase.swift */; settings = {ASSET_TAGS = (); }; };
-		EC9BCB361BB5CCD300623F1A /* TFCStations.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB251BB5CCD300623F1A /* TFCStations.swift */; settings = {ASSET_TAGS = (); }; };
-		EC9BCB371BB5CCD300623F1A /* TFCURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB261BB5CCD300623F1A /* TFCURLSession.swift */; settings = {ASSET_TAGS = (); }; };
+		EC4F0C891BB5D54B00CE7C24 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC4F0C881BB5D54B00CE7C24 /* Images.xcassets */; };
+		EC60B0121BB680B600D10238 /* gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = EC60B00D1BB680B600D10238 /* gradient.png */; };
+		EC60B0141BB680B600D10238 /* launchicon.png in Resources */ = {isa = PBXBuildFile; fileRef = EC60B00F1BB680B600D10238 /* launchicon.png */; };
+		EC60B0161BB680B600D10238 /* Zuerich2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = EC60B0111BB680B600D10238 /* Zuerich2.jpg */; };
+		EC60B0181BB680DE00D10238 /* launchicon.png in Resources */ = {isa = PBXBuildFile; fileRef = EC60B00F1BB680B600D10238 /* launchicon.png */; };
+		EC60B01A1BB680FD00D10238 /* trainsymbol.otf in Resources */ = {isa = PBXBuildFile; fileRef = EC60B0191BB680FD00D10238 /* trainsymbol.otf */; };
+		EC60B01B1BB680FD00D10238 /* trainsymbol.otf in Resources */ = {isa = PBXBuildFile; fileRef = EC60B0191BB680FD00D10238 /* trainsymbol.otf */; };
+		EC810B061BC7963C0007B874 /* DataModels.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EC810B041BC7963C0007B874 /* DataModels.xcdatamodeld */; };
+		EC810B071BC7963C0007B874 /* DataModels.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EC810B041BC7963C0007B874 /* DataModels.xcdatamodeld */; };
+		EC855BA31BC99649001ABD35 /* StreamReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC855BA21BC99649001ABD35 /* StreamReader.swift */; };
+		EC855BA81BC99A4D001ABD35 /* BFKOORD_GEO in Resources */ = {isa = PBXBuildFile; fileRef = EC855BA41BC99767001ABD35 /* BFKOORD_GEO */; };
+		EC855BB21BC9A2BF001ABD35 /* data.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC855BB11BC9A2BF001ABD35 /* data.swift */; };
+		EC9BCAFA1BB5CB7700623F1A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC9BCAF81BB5CB7700623F1A /* LaunchScreen.xib */; };
+		EC9BCB0A1BB5CC3500623F1A /* About.html in Resources */ = {isa = PBXBuildFile; fileRef = EC9BCAFB1BB5CC3500623F1A /* About.html */; };
+		EC9BCB0B1BB5CC3500623F1A /* AboutPagedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCAFC1BB5CC3500623F1A /* AboutPagedViewController.swift */; };
+		EC9BCB0C1BB5CC3500623F1A /* DepartureLineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCAFD1BB5CC3500623F1A /* DepartureLineLabel.swift */; };
+		EC9BCB0D1BB5CC3500623F1A /* DeparturesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCAFE1BB5CC3500623F1A /* DeparturesViewController.swift */; };
+		EC9BCB0E1BB5CC3500623F1A /* PagedStationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCAFF1BB5CC3500623F1A /* PagedStationsViewController.swift */; };
+		EC9BCB0F1BB5CC3500623F1A /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB001BB5CC3500623F1A /* SettingsViewController.swift */; };
+		EC9BCB101BB5CC3500623F1A /* StationAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB011BB5CC3500623F1A /* StationAnnotation.swift */; };
+		EC9BCB111BB5CC3500623F1A /* StationsSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB021BB5CC3500623F1A /* StationsSearchViewController.swift */; };
+		EC9BCB121BB5CC3500623F1A /* StationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB031BB5CC3500623F1A /* StationsViewController.swift */; };
+		EC9BCB131BB5CC3500623F1A /* StationTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB041BB5CC3500623F1A /* StationTableView.swift */; };
+		EC9BCB141BB5CC3500623F1A /* StationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB051BB5CC3500623F1A /* StationTableViewCell.swift */; };
+		EC9BCB151BB5CC3500623F1A /* StationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC9BCB061BB5CC3500623F1A /* StationTableViewCell.xib */; };
+		EC9BCB161BB5CC3500623F1A /* TFCNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB071BB5CC3500623F1A /* TFCNavigationController.swift */; };
+		EC9BCB171BB5CC3500623F1A /* Time for Coffee!.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = EC9BCB081BB5CC3500623F1A /* Time for Coffee!.entitlements */; };
+		EC9BCB291BB5CCD300623F1A /* APIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB181BB5CCD300623F1A /* APIController.swift */; };
+		EC9BCB2A1BB5CCD300623F1A /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB191BB5CCD300623F1A /* extensions.swift */; };
+		EC9BCB2B1BB5CCD300623F1A /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB1A1BB5CCD300623F1A /* SwiftyJSON.swift */; };
+		EC9BCB2C1BB5CCD300623F1A /* TFCBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB1B1BB5CCD300623F1A /* TFCBaseViewController.swift */; };
+		EC9BCB2D1BB5CCD300623F1A /* TFCCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB1C1BB5CCD300623F1A /* TFCCache.swift */; };
+		EC9BCB2E1BB5CCD300623F1A /* TFCDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB1D1BB5CCD300623F1A /* TFCDataStore.swift */; };
+		EC9BCB2F1BB5CCD300623F1A /* TFCDataStoreBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB1E1BB5CCD300623F1A /* TFCDataStoreBase.swift */; };
+		EC9BCB301BB5CCD300623F1A /* TFCDeparture.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB1F1BB5CCD300623F1A /* TFCDeparture.swift */; };
+		EC9BCB311BB5CCD300623F1A /* TFCFavorites.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB201BB5CCD300623F1A /* TFCFavorites.swift */; };
+		EC9BCB321BB5CCD300623F1A /* TFCLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB211BB5CCD300623F1A /* TFCLocationManager.swift */; };
+		EC9BCB331BB5CCD300623F1A /* TFCLocationManagerBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB221BB5CCD300623F1A /* TFCLocationManagerBase.swift */; };
+		EC9BCB341BB5CCD300623F1A /* TFCStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB231BB5CCD300623F1A /* TFCStation.swift */; };
+		EC9BCB351BB5CCD300623F1A /* TFCStationBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB241BB5CCD300623F1A /* TFCStationBase.swift */; };
+		EC9BCB361BB5CCD300623F1A /* TFCStations.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB251BB5CCD300623F1A /* TFCStations.swift */; };
+		EC9BCB371BB5CCD300623F1A /* TFCURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB261BB5CCD300623F1A /* TFCURLSession.swift */; };
 		EC9BCB421BB5CD4D00623F1A /* Nullability.h in Headers */ = {isa = PBXBuildFile; fileRef = EC9BCB3B1BB5CD4D00623F1A /* Nullability.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EC9BCB431BB5CD4D00623F1A /* PINCache.h in Headers */ = {isa = PBXBuildFile; fileRef = EC9BCB3C1BB5CD4D00623F1A /* PINCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		EC9BCB441BB5CD4D00623F1A /* PINCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB3D1BB5CD4D00623F1A /* PINCache.m */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB441BB5CD4D00623F1A /* PINCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB3D1BB5CD4D00623F1A /* PINCache.m */; };
 		EC9BCB451BB5CD4D00623F1A /* PINDiskCache.h in Headers */ = {isa = PBXBuildFile; fileRef = EC9BCB3E1BB5CD4D00623F1A /* PINDiskCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		EC9BCB461BB5CD4D00623F1A /* PINDiskCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB3F1BB5CD4D00623F1A /* PINDiskCache.m */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB461BB5CD4D00623F1A /* PINDiskCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB3F1BB5CD4D00623F1A /* PINDiskCache.m */; };
 		EC9BCB471BB5CD4D00623F1A /* PINMemoryCache.h in Headers */ = {isa = PBXBuildFile; fileRef = EC9BCB401BB5CD4D00623F1A /* PINMemoryCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		EC9BCB481BB5CD4D00623F1A /* PINMemoryCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB411BB5CD4D00623F1A /* PINMemoryCache.m */; settings = {ASSET_TAGS = (); }; };
-		ECA109D91BB6C00000FDB6F9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC0AD1641BB69539004217FD /* Localizable.strings */; settings = {ASSET_TAGS = (); }; };
-		ECEBB7FC1BC7238C00AB83B9 /* TFCStationModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FA1BC7238C00AB83B9 /* TFCStationModel+CoreDataProperties.swift */; settings = {ASSET_TAGS = (); }; };
-		ECEBB7FD1BC7238C00AB83B9 /* TFCStationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FB1BC7238C00AB83B9 /* TFCStationModel.swift */; settings = {ASSET_TAGS = (); }; };
-		ECEBB7FE1BC7241A00AB83B9 /* TFCStationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FB1BC7238C00AB83B9 /* TFCStationModel.swift */; settings = {ASSET_TAGS = (); }; };
-		ECEBB7FF1BC7241D00AB83B9 /* TFCStationModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FA1BC7238C00AB83B9 /* TFCStationModel+CoreDataProperties.swift */; settings = {ASSET_TAGS = (); }; };
+		EC9BCB481BB5CD4D00623F1A /* PINMemoryCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB411BB5CD4D00623F1A /* PINMemoryCache.m */; };
+		ECA109D91BB6C00000FDB6F9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC0AD1641BB69539004217FD /* Localizable.strings */; };
+		ECEBB7FC1BC7238C00AB83B9 /* TFCStationModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FA1BC7238C00AB83B9 /* TFCStationModel+CoreDataProperties.swift */; };
+		ECEBB7FD1BC7238C00AB83B9 /* TFCStationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FB1BC7238C00AB83B9 /* TFCStationModel.swift */; };
+		ECEBB7FE1BC7241A00AB83B9 /* TFCStationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FB1BC7238C00AB83B9 /* TFCStationModel.swift */; };
+		ECEBB7FF1BC7241D00AB83B9 /* TFCStationModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FA1BC7238C00AB83B9 /* TFCStationModel+CoreDataProperties.swift */; };
+		ECEDA62B1BDAD44F000B63E6 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEDA62A1BDAD44F000B63E6 /* Logging.swift */; };
+		ECEDA62C1BDAD44F000B63E6 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEDA62A1BDAD44F000B63E6 /* Logging.swift */; };
+		ECEDA62D1BDAD44F000B63E6 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEDA62A1BDAD44F000B63E6 /* Logging.swift */; };
+		ECEDA62E1BDAD44F000B63E6 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEDA62A1BDAD44F000B63E6 /* Logging.swift */; };
 		ECEDDAD21BC991800088AFB2 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEDDAD11BC991800088AFB2 /* main.swift */; };
-		ECEDDAD61BC992240088AFB2 /* TFCStationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FB1BC7238C00AB83B9 /* TFCStationModel.swift */; settings = {ASSET_TAGS = (); }; };
-		ECEDDAD71BC992270088AFB2 /* TFCStationModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FA1BC7238C00AB83B9 /* TFCStationModel+CoreDataProperties.swift */; settings = {ASSET_TAGS = (); }; };
-		ECEDDAD81BC9922A0088AFB2 /* DataModels.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EC810B041BC7963C0007B874 /* DataModels.xcdatamodeld */; settings = {ASSET_TAGS = (); }; };
-		ECEF28161BCBC951000F4094 /* (null) in Resources */ = {isa = PBXBuildFile; settings = {ASSET_TAGS = (); }; };
-		ECEF28171BCBC95F000F4094 /* (null) in Resources */ = {isa = PBXBuildFile; settings = {ASSET_TAGS = (); }; };
-		ECEF281A1BCBC98F000F4094 /* TFC.plist in Resources */ = {isa = PBXBuildFile; fileRef = ECEF28191BCBC98F000F4094 /* TFC.plist */; settings = {ASSET_TAGS = (); }; };
-		ECEF281B1BCBC999000F4094 /* TFC.plist in Resources */ = {isa = PBXBuildFile; fileRef = ECEF28191BCBC98F000F4094 /* TFC.plist */; settings = {ASSET_TAGS = (); }; };
-		ECEF281C1BCBC9D7000F4094 /* SingleViewCoreData.sqlite-shm in Resources */ = {isa = PBXBuildFile; fileRef = EC0E4D581BCBB09F0046D70C /* SingleViewCoreData.sqlite-shm */; settings = {ASSET_TAGS = (); }; };
-		ECEF281D1BCBC9D9000F4094 /* SingleViewCoreData.sqlite-wal in Resources */ = {isa = PBXBuildFile; fileRef = EC0E4D591BCBB09F0046D70C /* SingleViewCoreData.sqlite-wal */; settings = {ASSET_TAGS = (); }; };
-		F6F721201BCA9C9C0073E0D2 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F7211F1BCA9C9C0073E0D2 /* ComplicationController.swift */; settings = {ASSET_TAGS = (); }; };
+		ECEDDAD61BC992240088AFB2 /* TFCStationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FB1BC7238C00AB83B9 /* TFCStationModel.swift */; };
+		ECEDDAD71BC992270088AFB2 /* TFCStationModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FA1BC7238C00AB83B9 /* TFCStationModel+CoreDataProperties.swift */; };
+		ECEDDAD81BC9922A0088AFB2 /* DataModels.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EC810B041BC7963C0007B874 /* DataModels.xcdatamodeld */; };
+		ECEF28161BCBC951000F4094 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		ECEF28171BCBC95F000F4094 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		ECEF281A1BCBC98F000F4094 /* TFC.plist in Resources */ = {isa = PBXBuildFile; fileRef = ECEF28191BCBC98F000F4094 /* TFC.plist */; };
+		ECEF281B1BCBC999000F4094 /* TFC.plist in Resources */ = {isa = PBXBuildFile; fileRef = ECEF28191BCBC98F000F4094 /* TFC.plist */; };
+		ECEF281C1BCBC9D7000F4094 /* SingleViewCoreData.sqlite-shm in Resources */ = {isa = PBXBuildFile; fileRef = EC0E4D581BCBB09F0046D70C /* SingleViewCoreData.sqlite-shm */; };
+		ECEF281D1BCBC9D9000F4094 /* SingleViewCoreData.sqlite-wal in Resources */ = {isa = PBXBuildFile; fileRef = EC0E4D591BCBB09F0046D70C /* SingleViewCoreData.sqlite-wal */; };
+		F6F721201BCA9C9C0073E0D2 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F7211F1BCA9C9C0073E0D2 /* ComplicationController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -358,6 +362,7 @@
 		ECA72B7B1BB6D23E00506300 /* Time for Coffee! WatchOS 2 App Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Time for Coffee! WatchOS 2 App Extension.entitlements"; sourceTree = "<group>"; };
 		ECEBB7FA1BC7238C00AB83B9 /* TFCStationModel+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TFCStationModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		ECEBB7FB1BC7238C00AB83B9 /* TFCStationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCStationModel.swift; sourceTree = "<group>"; };
+		ECEDA62A1BDAD44F000B63E6 /* Logging.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
 		ECEDDACF1BC991800088AFB2 /* stations-importer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "stations-importer"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECEDDAD11BC991800088AFB2 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		ECEF28191BCBC98F000F4094 /* TFC.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TFC.plist; sourceTree = "<group>"; };
@@ -583,6 +588,7 @@
 				EC810B041BC7963C0007B874 /* DataModels.xcdatamodeld */,
 				EC9BCB181BB5CCD300623F1A /* APIController.swift */,
 				EC9BCB191BB5CCD300623F1A /* extensions.swift */,
+				ECEDA62A1BDAD44F000B63E6 /* Logging.swift */,
 				EC9BCB1A1BB5CCD300623F1A /* SwiftyJSON.swift */,
 				EC9BCB1B1BB5CCD300623F1A /* TFCBaseViewController.swift */,
 				EC9BCB1C1BB5CCD300623F1A /* TFCCache.swift */,
@@ -1040,6 +1046,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC9BCB131BB5CC3500623F1A /* StationTableView.swift in Sources */,
+				ECEDA62B1BDAD44F000B63E6 /* Logging.swift in Sources */,
 				EC9BCB0C1BB5CC3500623F1A /* DepartureLineLabel.swift in Sources */,
 				EC9BCB121BB5CC3500623F1A /* StationsViewController.swift in Sources */,
 				EC9BCB141BB5CC3500623F1A /* StationTableViewCell.swift in Sources */,
@@ -1061,6 +1068,7 @@
 				EC4AB23A1BB5F3C000DA9759 /* DepartureLineLabel.swift in Sources */,
 				EC46C50E1BB5C71100F2A963 /* TodayViewController.swift in Sources */,
 				EC4AB2291BB5E74100DA9759 /* NearbyStationsTableViewCell.swift in Sources */,
+				ECEDA62C1BDAD44F000B63E6 /* Logging.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1069,6 +1077,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC46C5301BB5C78A00F2A963 /* ExtensionDelegate.swift in Sources */,
+				ECEDA62E1BDAD44F000B63E6 /* Logging.swift in Sources */,
 				EC4AB26F1BB6787600DA9759 /* StationsOverviewViewController.swift in Sources */,
 				EC4AB2701BB6787600DA9759 /* StationsRow.swift in Sources */,
 				EC050CEA1BB84D4700ECB533 /* SwiftyJSON.swift in Sources */,
@@ -1107,6 +1116,7 @@
 				EC9BCB321BB5CCD300623F1A /* TFCLocationManager.swift in Sources */,
 				EC810B061BC7963C0007B874 /* DataModels.xcdatamodeld in Sources */,
 				EC9BCB2F1BB5CCD300623F1A /* TFCDataStoreBase.swift in Sources */,
+				ECEDA62D1BDAD44F000B63E6 /* Logging.swift in Sources */,
 				ECEBB7FD1BC7238C00AB83B9 /* TFCStationModel.swift in Sources */,
 				ECEBB7FC1BC7238C00AB83B9 /* TFCStationModel+CoreDataProperties.swift in Sources */,
 				EC9BCB341BB5CCD300623F1A /* TFCStation.swift in Sources */,
@@ -1253,6 +1263,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "-D DEBUG";
 				PROVISIONING_PROFILE = "4d9abb04-65b8-45ca-b9b1-025c8510c7fc";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1476,6 +1487,7 @@
 				DYLIB_CURRENT_VERSION = 119;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				INFOPLIST_FILE = timeforcoffeeKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;

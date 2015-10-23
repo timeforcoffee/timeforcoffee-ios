@@ -32,16 +32,16 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     }
     
     func getTimelineStartDateForComplication(complication: CLKComplication, withHandler handler: (NSDate?) -> Void) {
-        NSLog("getTimelineStartDateForComplication")
+        DLog("getTimelineStartDateForComplication")
         func handleReply(stations: TFCStations?) {
             if let station = stations?.stations?.first {
                 func handleReply2(station: TFCStation?) {
                     if let departure = station?.getFilteredDepartures()?.first {
                         let startDate = timelineEntryDateForDeparture(departure, previousDeparture: nil)
-                        NSLog("startDate: \(startDate)")
+                        DLog("startDate: \(startDate)")
                         handler(startDate)
                     } else {
-                        NSLog("no Departure, startDate: \(NSDate())")
+                        DLog("no Departure, startDate: \(NSDate())")
                         handler(NSDate())
                     }
                 }
@@ -52,16 +52,16 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     }
     
     func getTimelineEndDateForComplication(complication: CLKComplication, withHandler handler: (NSDate?) -> Void) {
-        NSLog("getTimelineEndDateForComplication")
+        DLog("getTimelineEndDateForComplication")
         func handleReply(stations: TFCStations?) {
             if let station = stations?.stations?.first {
                 func handleReply2(station: TFCStation?) {
                     if let endDate = station?.getFilteredDepartures()?.last?.getScheduledTimeAsNSDate() {
-                        NSLog("last Departure: \(endDate)")
+                        DLog("last Departure: \(endDate)")
                         handler(endDate.dateByAddingTimeInterval(70))
                     } else {
                         let endDate = NSDate().dateByAddingTimeInterval(60)
-                        NSLog("no last Departure, set it to \(endDate)")
+                        DLog("no last Departure, set it to \(endDate)")
                         handler(endDate)
                     }
                 }
@@ -87,7 +87,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     
     func getTimelineEntriesForComplication(complication: CLKComplication, beforeDate date: NSDate, limit: Int, withHandler handler: (([CLKComplicationTimelineEntry]?) -> Void)) {
         // Call the handler with the timeline entries after to the given date
-        NSLog("getTimelineEntriesForComplication beforeDate")
+        DLog("getTimelineEntriesForComplication beforeDate")
         func handleReply(stations: TFCStations?) {
             var entries = [CLKComplicationTimelineEntry]()
             
@@ -114,7 +114,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     
     func getTimelineEntriesForComplication(complication: CLKComplication, afterDate date: NSDate, limit: Int, withHandler handler: (([CLKComplicationTimelineEntry]?) -> Void)) {
         // Call the handler with the timeline entries after to the given date
-        NSLog("getTimelineEntriesForComplication afterDate: \(date)")
+        DLog("getTimelineEntriesForComplication afterDate: \(date)")
         func handleReply(stations: TFCStations?) {
             var entries = [CLKComplicationTimelineEntry]()
             if let station = stations?.stations?.first { // corresponds to the favorited/closest station
@@ -142,7 +142,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                                 nextDeparture = (departures.count > index + 1) ? departures[index + 1] : nil
                             }
                             //append a last entry with no departure info one minute later
-                            NSLog("entries count: \(entries.count) limit \(limit)")
+                            DLog("entries count: \(entries.count) limit \(limit)")
                             if (entries.count > 0) {
                                 //remove all entries until we're one below the limit
                                 while (entries.count >= limit) {                                
@@ -159,7 +159,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                             }
                             if (lastDepartureTimeNew != nil) {
                                 NSUserDefaults().setValue(lastDepartureTimeNew, forKey: "lastDepartureTime")
-                                NSLog("lastDepartureTime: \(lastDepartureTimeNew)")
+                                DLog("lastDepartureTime: \(lastDepartureTimeNew)")
                             }
                     } else {
                         NSUserDefaults().setValue(nil, forKey: "lastDepartureTime")
@@ -196,7 +196,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
         } else {
             nextUpdateDate =  NSDate().dateByAddingTimeInterval(5 * 60) // request an update in 5 minutes, if no lastDepartureTime was set.
         }
-        NSLog("getNextRequestedUpdateDateWithHandler: \(nextUpdateDate)")
+        DLog("getNextRequestedUpdateDateWithHandler: \(nextUpdateDate)")
         handler(nextUpdateDate);
     }
     
@@ -245,7 +245,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     func requestedUpdateDidBegin() {
         // get the shared instance
         let server = CLKComplicationServer.sharedInstance()
-        NSLog("requestedUpdateDidBegin")
+        DLog("requestedUpdateDidBegin")
         func handleReply(stations: TFCStations?) {
             if let station = stations?.stations?.first {
                 if (self.needsDeparturesUpdate(station)) {
@@ -257,7 +257,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
             }
         }
         func handleReply2(err: String) {
-            NSLog("location error in requestedUpdateDidBegin with \(err)")
+            DLog("location error in requestedUpdateDidBegin with \(err)")
         }
         watchdata.getStations(handleReply, errorReply: handleReply2, stopWithFavorites: true)
 
@@ -266,7 +266,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     func requestedUpdateBudgetExhausted() {
         // get the shared instance
         let server = CLKComplicationServer.sharedInstance()
-        NSLog("requestedUpdateBudgetExhausted");
+        DLog("requestedUpdateBudgetExhausted");
         //do a last full update if budget is exhausted
         // reload the timeline for all complications
         for complication in server.activeComplications {

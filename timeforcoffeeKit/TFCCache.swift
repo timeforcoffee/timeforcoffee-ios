@@ -22,7 +22,7 @@ final class TFCCache {
             // cache for max 24 hours
             p.diskCache.ageLimit = 60 * 60 * 24 // 1 day
             p.diskCache.byteLimit = 5 * 1024 * 1024 // 5 MB
-            NSLog("diskByteCount stations: \(p.diskByteCount)")
+            DLog("diskByteCount stations: \(p.diskByteCount)")
             return p
         }()
     }

@@ -68,7 +68,7 @@ final public class TFCFavorites: NSObject {
 
                 let trimmed_id = st_id.replace("^0*", template: "")
                 if (trimmed_id != st_id) {
-                    NSLog("Trim favourite ID \(st_id)")
+                    DLog("Trim favourite ID \(st_id)")
                     st![trimmed_id] = st![st_id]
                     st![trimmed_id]!.st_id = trimmed_id
                     st!.removeValueForKey(st_id)

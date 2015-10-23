@@ -27,7 +27,7 @@ class StationsOverviewViewController: WKInterfaceController {
 
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
-        NSLog("awake StationsOverviewViewController")
+        DLog("awake StationsOverviewViewController")
         stationsTable.setNumberOfRows(6, withRowType: "stations")
         self.numberOfRows = 6
     }

@@ -108,7 +108,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
 
     required init?(coder aDecoder: NSCoder) {
-        NSLog("init")
+        DLog("init")
         super.init(coder: aDecoder)
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
             TFCDataStore.sharedInstance.registerForNotifications()
@@ -121,14 +121,14 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     }
 
     deinit {
-        NSLog("deinit widget")
+        DLog("deinit widget")
         TFCURLSession.sharedInstance.cancelURLSession()
         TFCDataStore.sharedInstance.removeNotifications()
     }
 
     override func viewDidAppear(animated: Bool) {
         //actionLabel.hidden = false
-        NSLog("viewDidAppear")
+        DLog("viewDidAppear")
         viewDidAppear = true
         super.viewDidAppear(animated)
         // adjust containerView height, if it's too big
@@ -170,7 +170,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             }
         }
 
-        NSLog("awakeFromNib")
+        DLog("awakeFromNib")
     }
     private func setPreferredContentSize() {
         let height = CGFloat(33 + (self.numberOfCells * 52))
@@ -217,7 +217,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         // If an error is encountered, use NCUpdateResult.Failed
         // If there's no update required, use NCUpdateResult.NoData
         // If there's an update, use NCUpdateResult.NewData
-        NSLog("widgetPerformUpdateWithCompletionHandler")
+        DLog("widgetPerformUpdateWithCompletionHandler")
         completionHandler(NCUpdateResult.NewData)
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
@@ -248,7 +248,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     }
 
     override func locationFixed(coord: CLLocation?) {
-        NSLog("locationFixed")
+        DLog("locationFixed")
         if (coord != nil) {
             if (locManager?.currentLocation != nil) {
                 // if lastUsedView is a single station and we did look at it no longer than 30 minutes

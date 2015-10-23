@@ -49,7 +49,7 @@ public class TFCStation: TFCStationBase {
         directions.calculateDirectionsWithCompletionHandler({
             (response: MKDirectionsResponse?, error: NSError?) in
             if error != nil{
-                NSLog("Error")
+                DLog("Error")
             }
             if response != nil {
                 let route: MKRoute = response!.routes[0] as MKRoute;
@@ -61,7 +61,7 @@ public class TFCStation: TFCStationBase {
             }  else {
                 self.walkingDistanceLastCoord = nil
                 self.walkingDistanceString = nil
-                NSLog("No response")
+                DLog("No response")
                 completion(nil)
                 print(error?.description)
             }
@@ -166,7 +166,7 @@ public class TFCStation: TFCStationBase {
             let uI = self.getAsDict()
 
             if (uI["st_id"] == nil) {
-                NSLog("station dict seems EMPTY")
+                DLog("station dict seems EMPTY")
                 return
             }
             

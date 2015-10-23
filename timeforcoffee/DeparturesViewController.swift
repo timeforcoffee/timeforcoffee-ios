@@ -82,7 +82,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
     }
 
     deinit {
-        NSLog("deinit DeparturesViewController")
+        DLog("deinit DeparturesViewController")
         NSNotificationCenter.defaultCenter().removeObserver(self)
         self.updateInAMinuteTimer?.invalidate()
     }
@@ -328,16 +328,16 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
             directions.calculateDirectionsWithCompletionHandler({
                 (response: MKDirectionsResponse?, error: NSError?) in
                 if error != nil{
-                    NSLog("Error")
+                    DLog("Error")
                 }
                 if response != nil{
-                    //                for r in response.routes { NSLog("route = \(r)") }
+                    //                for r in response.routes { DLog("route = \(r)") }
                     let route: MKRoute = response!.routes[0] as MKRoute;
                     self.mapDirectionOverlay = route.polyline
                     self.mapView.addOverlay(self.mapDirectionOverlay!)
                 }
                 else{
-                    NSLog("No response")
+                    DLog("No response")
                 }
                 print(error?.description)
             })

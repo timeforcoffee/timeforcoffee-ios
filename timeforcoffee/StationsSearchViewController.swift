@@ -44,7 +44,7 @@ final class StationsSearchViewController: StationsViewController, UISearchBarDel
 
         })
         self.searchController?.removeFromParentViewController()
-        NSLog("deinit StationsSearchViewController")
+        DLog("deinit StationsSearchViewController")
     }
 
     override func viewWillAppear(animated: Bool) {

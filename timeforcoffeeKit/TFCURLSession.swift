@@ -24,7 +24,7 @@ public final class TFCURLSession: NSObject {
     }()
 
     public func cancelURLSession() {
-        NSLog("cancelURLSession")
+        DLog("cancelURLSession")
         session.invalidateAndCancel()
         self.session = getSession()
     }

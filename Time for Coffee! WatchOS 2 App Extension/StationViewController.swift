@@ -29,12 +29,12 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
 
     override init () {
         super.init()
-        NSLog("init page")
+        DLog("init page")
 
     }
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
-        NSLog("awake page")
+        DLog("awake page")
         if (context == nil) {
             stationsTable.setNumberOfRows(10, withRowType: "station")
             self.numberOfRows = 10
@@ -78,7 +78,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             }
         }
         func errorReply(text: String) {
-            NSLog("errorReply")
+            DLog("errorReply")
             infoGroup.setHidden(false)
             infoLabel.setText(text)
         }
@@ -89,7 +89,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
-        NSLog("willActivate page")
+        DLog("willActivate page")
         self.active = true
         if (self.appeared) {
             setStationValues()
@@ -107,7 +107,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
 
     override func didDeactivate() {
         // This method is called when watch view controller is no longer visible
-        NSLog("StationView: didDeactivate")
+        DLog("StationView: didDeactivate")
 
         super.didDeactivate()
         self.active = false
@@ -178,7 +178,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             let displayed = self.displayDepartures(forStation)
             if (displayed) {
                 WKInterfaceDevice.currentDevice().playHaptic(WKHapticType.Click)
-                NSLog("played haptic in Stations \(self.appeared)")
+                DLog("played haptic in Stations \(self.appeared)")
             }
         }
     }
@@ -225,7 +225,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         }
 
         TFCDataStore.sharedInstance.requestAllDataFromPhone()
-        NSLog("send requestAllDataFromPhone")
+        DLog("send requestAllDataFromPhone")
         watchdata.getStations(reload, errorReply: errorReply, stopWithFavorites: false)
     }
 
@@ -243,7 +243,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             NSNotificationCenter.defaultCenter().postNotificationName("TFCWatchkitSelectStation", object: nil, userInfo: nil)
         } else {
             let uI:[String:String]? = userInfo as? [String:String]
-            NSLog("handleUserActivity StationViewController")
+            DLog("handleUserActivity StationViewController")
             NSNotificationCenter.defaultCenter().postNotificationName("TFCWatchkitSelectStation", object: nil, userInfo: uI)
         }
     }

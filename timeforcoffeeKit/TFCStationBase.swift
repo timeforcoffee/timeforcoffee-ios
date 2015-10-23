@@ -30,7 +30,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                 if (name2 == "") {
                     name2 = "unknown"
                 }
-                NSLog("set new name in DB for \(name2) \(st_id)")
+                DLog("set new name in DB for \(name2) \(st_id)")
                 self.realmObject.name = name2
                 self.realmObject.lastUpdated = NSDate()
                 _name = name2
@@ -223,7 +223,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                 // if we couldn't get it from the DB, fetch it from opendata
                 // this is done synchronously, so butt ugly, but we have a timeout of 5 seconds
                 let api = APIController(delegate: nil)
-                NSLog("Station Name missing. Fetch station info from opendata.ch for \(trimmed_id)")
+                DLog("Station Name missing. Fetch station info from opendata.ch for \(trimmed_id)")
                 if let result = api.getStationInfo(trimmed_id) {
                     if let name = result["stations"][0]["name"].string {
                         if let id = result["stations"][0]["id"].string?.replace("^0*", template: "") {
@@ -699,7 +699,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                         }
                     } else {
                         if (error != nil) {
-                            NSLog("\(self.name) error getting Location data: \(error!.userInfo)")
+                            DLog("\(self.name) error getting Location data: \(error!.userInfo)")
                         }
                     }
                 }

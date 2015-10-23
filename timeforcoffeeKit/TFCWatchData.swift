@@ -33,6 +33,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
     }
 
     public func locationFixed(loc: CLLocation?) {
+        DLog("location fixed")
         //do nothing here, you have to overwrite that
         if let coord = loc?.coordinate {
             replyNearby!(["lat" : coord.latitude, "long": coord.longitude]);
@@ -42,17 +43,18 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
     }
 
     public func locationDenied(manager: CLLocationManager, err:NSError) {
+        DLog("location DENIED \(err)")
         replyNearby!(["error": err]);
     }
 
     public func locationStillTrying(manager: CLLocationManager, err: NSError) {
-        
-        //replyNearby!(["error": err]);
+        DLog("location still trying \(err)")
     }
 
     public func getLocation(reply: replyClosure?) {
         // this is a not so nice way to get the reply Closure to later when we actually have
         // the data from the API... (in locationFixed)
+        DLog("get new location in watch")
         self.replyNearby = reply
         locManager?.refreshLocation()
     }
@@ -103,6 +105,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
         // check if we now a last location, and take that if it's not older than 15 seconds
         //  to avoid multiple location lookups
         if let cachedLoc = locManager?.getLastLocation(15)?.coordinate {
+            DLog("still cached location")
             handleReply(["lat" : cachedLoc.latitude, "long": cachedLoc.longitude])
         } else {
             self.getLocation(handleReply)

@@ -87,28 +87,28 @@ final class APIController {
             } else {
                 if let url: NSURL = NSURL(string: urlPath) {
                     let absUrl = url.absoluteString
-                    NSLog("Start fetching data %@", absUrl)
+                    DLog("Start fetching data \(absUrl)")
 
 
                     if (fetchId == 1 && self.currentFetch[fetchId] != nil) {
-                        NSLog("cancel current fetch")
+                        DLog("cancel current fetch")
                         self.currentFetch[fetchId]?.cancel()
                     }
 
                     let session2 = TFCURLSession.sharedInstance.session
                     let dataFetch: NSURLSessionDataTask? = session2.dataTaskWithURL(url, completionHandler: {data , response, error -> Void in
 
-                        NSLog("Task completed")
+                        DLog("Task completed")
                         if(error != nil) {
                             // If there is an error in the web request, print it to the console
-                            NSLog(error!.localizedDescription)
+                            DLog(error!.localizedDescription)
                             // 1001 == timeout => just retry
                             if (error!.code == -1001) {
                                 let newcounter = counter + 1
                                 // don't do it more than 5 times
                                 if (newcounter <= 5) {
                                     self.delegate?.didReceiveAPIResults(nil, error: error, context: context)
-                                    NSLog("Retry #\(newcounter) fetching \(urlPath)")
+                                    DLog("Retry #\(newcounter) fetching \(urlPath)")
                                     self.fetchUrl(urlPath, fetchId: fetchId, context: context, cacheKey: cacheKey, counter: newcounter)
                                 }
                             }
@@ -131,12 +131,12 @@ final class APIController {
                         
                     })
                     dataFetch?.resume()
-                    NSLog("dataTask resumed")
+                    DLog("dataTask resumed")
                     if (dataFetch != nil) {
                         self.currentFetch[fetchId] = dataFetch
                     }
                 } else {
-                    NSLog("\(urlPath) could not be parsed")
+                    DLog("\(urlPath) could not be parsed")
                     let error = NSError(domain: "ch.opendata.timeforcoffee", code: 9, userInfo: nil);
                     self.delegate?.didReceiveAPIResults(JSON(NSNull()), error: error, context: context)
 
@@ -150,18 +150,18 @@ final class APIController {
         if it's not known yet */
     private func fetchUrlSync(urlPath: String, cacheKey: String?) -> JSON? {
         if let result = self.getFromCache(cacheKey) {
-            NSLog("Sync fetch was still in cache")
+            DLog("Sync fetch was still in cache")
             return result
         }
         let semaphore = dispatch_semaphore_create(0)
         let url: NSURL = NSURL(string: urlPath)!
         let absUrl = url.absoluteString
-        NSLog("Start fetching sync data %@", absUrl)
+        DLog("Start fetching sync data \(absUrl)")
         var jsonResult:JSON? = nil
         let session2 = TFCURLSession.sharedInstance.session
         let dataFetch: NSURLSessionDataTask? = session2.dataTaskWithURL(url, completionHandler: {data , response, error -> Void in
 
-            NSLog("Task Sync completed")
+            DLog("Task Sync completed")
             if(error != nil) {
                 jsonResult = nil
             }
@@ -181,7 +181,7 @@ final class APIController {
 
         let timeout =  dispatch_time(DISPATCH_TIME_NOW, 5000000000) // 5 seconds
         if dispatch_semaphore_wait(semaphore, timeout) != 0 {
-            NSLog("stationInfo sync call timed out.")
+            DLog("stationInfo sync call timed out.")
         }
 
         return jsonResult

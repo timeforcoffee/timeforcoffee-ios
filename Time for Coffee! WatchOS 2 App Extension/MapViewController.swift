@@ -18,7 +18,7 @@ class MapViewController: WKInterfaceController {
 
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
-        NSLog("awake StationsOverviewViewController")
+        DLog("awake StationsOverviewViewController")
         self.station = context as? TFCStation
 
     }
