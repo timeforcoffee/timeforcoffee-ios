@@ -251,7 +251,6 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         if #available(iOS 9, *) {
 
             if userActivity.activityType == "ch.opendata.timeforcoffee.station" {
-                DLog("here")
                 if let ua: [String: String] = userActivity.userInfo as? [String: String] {
                     if (ua["st_id"] != nil) {
                         let station = TFCStation.initWithCache(ua)
@@ -276,6 +275,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
 
     }
+
+
 
     private func popUpStation(station: TFCStation) {
         let rootView = self.window?.rootViewController as! UINavigationController

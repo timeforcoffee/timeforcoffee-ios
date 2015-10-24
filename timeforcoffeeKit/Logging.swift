@@ -20,6 +20,33 @@ extension NSDate {
     }
 }
 
+extension String {
+    func appendLineToURL(fileURL: NSURL) throws {
+        try self.stringByAppendingString("\n").appendToURL(fileURL)
+    }
+
+    func appendToURL(fileURL: NSURL) throws {
+        let data = self.dataUsingEncoding(NSUTF8StringEncoding)!
+        try data.appendToURL(fileURL)
+    }
+}
+
+extension NSData {
+    func appendToURL(fileURL: NSURL) throws {
+        if let fileHandle = try? NSFileHandle(forWritingToURL: fileURL) {
+            defer {
+                fileHandle.closeFile()
+            }
+            fileHandle.seekToEndOfFile()
+            fileHandle.writeData(self)
+        }
+        else {
+            try writeToURL(fileURL, options: .DataWritingAtomic)
+        }
+    }
+}
+
+
 /**
 Prints the filename, function name, line number and textual representation of `object` and a newline character into
 the standard output if the build setting for "Other Swift Flags" defines `-D DEBUG`.
@@ -40,11 +67,12 @@ your type. Instead, adopt one of the protocols mentioned above.
 
 let DLogDateFormatter:NSDateFormatter = {
     let formatter = NSDateFormatter()
-    formatter.dateFormat = "H:mm:ss.SSS"
+    formatter.dateFormat = "YYYY-MM-dd H:mm:ss.SSS"
+    formatter.timeZone = NSTimeZone.localTimeZone()
     return formatter
 }()
 
-func DLog<T>(@autoclosure object: () -> T, _ file: String = __FILE__, _ function: String = __FUNCTION__, _ line: Int = __LINE__) {
+func DLog<T>(@autoclosure object: () -> T, toFile: Bool = false, _ file: String = __FILE__, _ function: String = __FUNCTION__, _ line: Int = __LINE__) {
     #if DEBUG
         let value = object()
         let stringRepresentation: String
@@ -62,6 +90,34 @@ func DLog<T>(@autoclosure object: () -> T, _ file: String = __FILE__, _ function
         let queue = NSThread.isMainThread() ? "UI" : "BG"
 
         //print("\(NSDate().formattedWithDateFormatter(DLogDateFormatter)) <\(queue)> \(fileURL) \(function)[\(line)] - " + stringRepresentation)
-        NSLog("<\(queue)> %@  (\(fileURL) \(function)[\(line)])", stringRepresentation)
+        NSLog("<\(queue)> %@ (\(fileURL) \(function)[\(line)])", stringRepresentation)
+        if (toFile) {
+            DLog2File("\(NSDate().formattedWithDateFormatter(DLogDateFormatter)) <\(queue)> \(stringRepresentation)  (\(fileURL) \(function)[\(line)])")
+        }
     #endif
 }
+
+private func DLog2File(text:String) {
+    let file = "log.txt"
+    if let dir : NSString = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.AllDomainsMask, true).first {
+        let path = dir.stringByAppendingPathComponent(file);
+
+        let dtext = "\(text)"
+        let url = NSURL(fileURLWithPath: path)
+        let _ = try? url.setResourceValue(true, forKey: NSURLIsExcludedFromBackupKey)
+        try! dtext.appendLineToURL(url)
+    }
+}
+
+/*private func FLog(text:String) {
+    let file = "log.txt"
+    NSLog(text)
+    if let dir : NSString = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.AllDomainsMask, true).first {
+        let path = dir.stringByAppendingPathComponent(file);
+
+        let dtext = "\(NSDate()) \(text)"
+        let url = NSURL(fileURLWithPath: path)
+        let _ = try? url.setResourceValue(true, forKey: NSURLIsExcludedFromBackupKey)
+        try! dtext.appendLineToURL(url)
+    }
+}*/
