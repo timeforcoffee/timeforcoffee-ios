@@ -68,7 +68,7 @@ your type. Instead, adopt one of the protocols mentioned above.
 let DLogDateFormatter:NSDateFormatter = {
     let formatter = NSDateFormatter()
     formatter.dateFormat = "YYYY-MM-dd H:mm:ss.SSS"
-    formatter.timeZone = NSTimeZone.localTimeZone()
+    formatter.timeZone = NSTimeZone(name: "Europe/Zurich")
     return formatter
 }()
 
