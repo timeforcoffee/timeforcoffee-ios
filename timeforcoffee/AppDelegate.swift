@@ -84,9 +84,11 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         self.visits = TFCVisits(callback: self.receivedNewVisit)
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
+            #if DEBUG
             if (self.visits?.willReceive() == true) {
                 application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Alert, .Sound] , categories: nil))
             }
+            #endif
             #if !((arch(i386) || arch(x86_64)) && os(iOS))
             let settings = SKTSettings(appToken: "7n3aaqyp9fr5kr7y1wjssd231")
             settings.knowledgeBaseURL = "https://timeforcoffee.zendesk.com"
@@ -127,17 +129,17 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 SupportKit.setTopRecommendation("https://timeforcoffee.zendesk.com/hc/en-us/articles/202698032-How-to-add-Time-for-Coffee-to-the-Today-Screen-")
 
             }
-            let _ = TFCVisits()
         }
         return shouldPerformAdditionalDelegateHandling
     }
 
     func receivedNewVisit(text: String) {
+        #if DEBUG
         let noti = UILocalNotification()
         noti.alertBody = text
         noti.soundName = UILocalNotificationDefaultSoundName
         UIApplication.sharedApplication().presentLocalNotificationNow(noti)
-
+        #endif
     }
 
 
