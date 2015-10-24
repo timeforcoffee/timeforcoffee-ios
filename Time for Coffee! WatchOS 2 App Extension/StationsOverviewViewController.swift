@@ -18,7 +18,8 @@ class StationsOverviewViewController: WKInterfaceController {
     @IBOutlet weak var infoGroup: WKInterfaceGroup!
     @IBOutlet weak var infoLabel: WKInterfaceLabel!
     var activatedOnce = false
-    var active = false
+    var appActive = false
+    var appStarted = false
     var appeared = false
 
     lazy var watchdata: TFCWatchData = {
@@ -27,35 +28,67 @@ class StationsOverviewViewController: WKInterfaceController {
 
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
-        DLog("awake StationsOverviewViewController")
+        DLog("awakeWithContext")
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: "appDidBecomeActive:",
+            name: "TFCWatchkitDidBecomeActive",
+            object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: "appDidResignActive:",
+            name: "TFCWatchkitDidResignActive",
+            object: nil)
+
         stationsTable.setNumberOfRows(6, withRowType: "stations")
         self.numberOfRows = 6
+
+    }
+
+    func appDidBecomeActive(notification: NSNotification) {
+        DLog("appDidBecomeActive")
+        self.appActive = true
+        // since this will be called before didAppear on the first run
+        //  let didAppear handle it, otherwise, if we're coming from
+        //  hibernation, do it here
+        if (appStarted && appeared) {
+            getStations()
+        }
+        if (!appStarted) {
+            appStarted = true
+        }
+
+    }
+
+    func appDidResignActive(notification: NSNotification) {
+        self.appActive = false
+        DLog("appDidResignActive")
     }
 
     override func willActivate() {
         super.willActivate()
+        DLog("willActivate")
+    }
+
+    override func didAppear() {
+        DLog("didAppear")
+        super.didAppear()
+        self.appeared = true
         if (!activatedOnce) {
             self.setTitle("Nearby Stations")
             self.addMenuItemWithItemIcon(WKMenuItemIcon.Resume, title: "Reload", action: "contextButtonReload")
             activatedOnce = true
         }
-        self.active = true
-        if (self.appeared) {
-            getStations()
-        }
-    }
-
-    override func didAppear() {
-        self.appeared = true
         getStations()
    }
 
     override func willDisappear() {
+        super.willDisappear()
         self.appeared = false
     }
 
     override func didDeactivate() {
-        self.active = false
+        super.didDeactivate()
     }
 
     func contextButtonReload() {
@@ -71,7 +104,7 @@ class StationsOverviewViewController: WKInterfaceController {
             if (stations == nil || stations?.count() == nil) {
                 return
             }
-            if (self.appeared && self.active) {
+            if (self.appeared && self.appActive) {
                  WKInterfaceDevice.currentDevice().playHaptic(WKHapticType.Click)
                  infoGroup.setHidden(true)
                  let maxStations = min(5, (stations?.count())! - 1)

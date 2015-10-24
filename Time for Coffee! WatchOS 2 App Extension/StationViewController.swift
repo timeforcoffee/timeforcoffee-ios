@@ -16,8 +16,9 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     var pageNumber: Int?
     var numberOfRows: Int = 0
     var initTable = false
-    var active = false
     var appeared = false
+    var appActive = false
+    var appStarted = false
     var userActivity: [String:String]?
 
     @IBOutlet weak var infoGroup: WKInterfaceGroup!
@@ -34,7 +35,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     }
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
-        DLog("awake page")
+        DLog("awakeWithContext")
         if (context == nil) {
             stationsTable.setNumberOfRows(10, withRowType: "station")
             self.numberOfRows = 10
@@ -43,7 +44,18 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
                 selector: "selectStation:",
                 name: "TFCWatchkitSelectStation",
                 object: nil)
-            getStation()
+            NSNotificationCenter.defaultCenter().addObserver(
+                self,
+                selector: "appDidBecomeActive:",
+                name: "TFCWatchkitDidBecomeActive",
+                object: nil)
+            NSNotificationCenter.defaultCenter().addObserver(
+                self,
+                selector: "appDidResignActive:",
+                name: "TFCWatchkitDidResignActive",
+                object: nil)
+
+          //  getStation()
 
         } else {
             let c = context as! TFCPageContext
@@ -56,6 +68,27 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: "TFCWatchkitSelectStation", object: nil)
     }
+
+    func appDidBecomeActive(notification: NSNotification) {
+        DLog("appDidBecomeActive")
+        self.appActive = true
+
+        // since this will be called before didAppear on the first run
+        //  let didAppear handle it, otherwise, if we're coming from
+        //  hibernation, do it here
+        if (appStarted && appeared) {
+            setStationValues()
+        }
+        if (!appStarted) {
+            appStarted = true
+        }
+    }
+
+    func appDidResignActive(notification: NSNotification) {
+        self.appActive = false
+        DLog("appDidResignActive")
+    }
+
 
     private func getStation() {
         func handleReply(stations: TFCStations?) {
@@ -89,28 +122,24 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
-        DLog("willActivate page")
-        self.active = true
-        if (self.appeared) {
-            setStationValues()
-        }
+        DLog("willActivate")
     }
 
     override func didAppear() {
+        DLog("didAppear")
         self.appeared = true
         setStationValues()
     }
 
     override func willDisappear() {
+        DLog("didDisappear")
         self.appeared = false
     }
 
     override func didDeactivate() {
         // This method is called when watch view controller is no longer visible
-        DLog("StationView: didDeactivate")
-
+        DLog("didDeactivate")
         super.didDeactivate()
-        self.active = false
     }
 
     private func setStationValues() {
@@ -119,7 +148,6 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             getStation()
             return
         }
-
         if let title = station?.getName(true) {
             self.setTitle(title)
             self.lastShownStationId = station?.st_id
@@ -151,32 +179,31 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     }
 
     func selectStation(notification: NSNotification) {
+        DLog("selectStation")
         if (notification.userInfo == nil) {
-            self.getStation()
+            station = nil
         } else {
             let uI:[String:String]? = notification.userInfo as? [String:String]
             if let st_id = uI?["st_id"] {
                 if (self.station == nil) {
-                    self.station = TFCStation.initWithCache((uI?["name"])! , id: st_id, coord: nil)
+                    self.station = TFCStation.initWithCacheId(st_id)
                     self.initTable = true
                 } else if let self_st_id = self.station?.st_id {
                     if (self_st_id != st_id) {
-                        self.station = TFCStation.initWithCache((uI?["name"])! , id: st_id, coord: nil)
+                        self.station = TFCStation.initWithCacheId(st_id)
                         self.initTable = true
                     }
                 }
-            }
-            if (self.active) {
-                self.setStationValues()
             }
         }
         self.becomeCurrentPage()
     }
 
     func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?) {
-        if (self.appeared && self.active) {
+        if (self.appeared) {
             let displayed = self.displayDepartures(forStation)
-            if (displayed) {
+            let context2:[String:String]? = context as? [String:String]
+            if (self.appActive && displayed && context2?["cached"] != "true") {
                 WKInterfaceDevice.currentDevice().playHaptic(WKHapticType.Click)
                 DLog("played haptic in Stations \(self.appeared)")
             }
@@ -212,7 +239,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     }
 
     func departuresStillCached(context: Any?, forStation: TFCStation?) {
-        departuresUpdated(nil, context: context, forStation: forStation)
+        departuresUpdated(nil, context: ["cached": "true"], forStation: forStation)
     }
 
     func contextButtonReload() {
@@ -237,15 +264,4 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         self.station?.toggleFavorite()
         setStationValues()
     }
-
-    override func handleUserActivity(userInfo: [NSObject : AnyObject]!) {
-        if (userInfo.keys.first == "CLKLaunchedTimelineEntryDateKey") {
-            NSNotificationCenter.defaultCenter().postNotificationName("TFCWatchkitSelectStation", object: nil, userInfo: nil)
-        } else {
-            let uI:[String:String]? = userInfo as? [String:String]
-            DLog("handleUserActivity StationViewController")
-            NSNotificationCenter.defaultCenter().postNotificationName("TFCWatchkitSelectStation", object: nil, userInfo: uI)
-        }
-    }
-    
 }
