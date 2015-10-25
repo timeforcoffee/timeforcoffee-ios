@@ -611,10 +611,14 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let departures = getDeparturesDependentOnView(station)
-        if (departures == nil || departures!.count == 0) {
-            return 1
+        if let departures = departures {
+            let count = departures.count
+            if count == 0 {
+                return 1
+            }
+            return count
         }
-        return departures!.count
+        return 1
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
