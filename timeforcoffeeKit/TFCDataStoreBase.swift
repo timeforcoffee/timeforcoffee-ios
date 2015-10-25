@@ -193,17 +193,12 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
     }
 
     lazy var applicationDocumentsDirectory: NSURL = {
-        // The directory the application uses to store the Core Data store file. This code uses a directory named "ch.opendata.timeforcoffee.timeforcoffee" in the application's documents Application Support directory.
         let urls = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier("group.ch.opendata.timeforcoffee")
-        DLog(urls)
-
         return urls!
         }()
 
     lazy var managedObjectModel: NSManagedObjectModel = {
         // The managed object model for the application. This property is not optional. It is a fatal error for the application not to be able to find and load its model.
-
-    //    NSBundle(forClass: TFCDataStore.self)
         let modelURL = NSBundle(forClass: TFCDataStore.self).URLForResource("DataModels", withExtension: "momd")!
         return NSManagedObjectModel(contentsOfURL: modelURL)!
         }()
