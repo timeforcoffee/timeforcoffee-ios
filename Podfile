@@ -19,10 +19,6 @@ end
 #    shared_kit_pods
 #end
 
-target 'timeforcoffee Widget' do
-    platform :ios, '8.0'
-    shared_pods
-end
 
 target 'timeforcoffee' do
     platform :ios, '8.0'

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		96DD166B9346E9C6C7A0AD72 /* Pods_timeforcoffee_Widget.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4DAEC3B840788F055DF7339 /* Pods_timeforcoffee_Widget.framework */; };
 		A45A9EF246329212F1819CB9 /* Pods_timeforcoffee.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC2EE2BCBDED56A401893E5C /* Pods_timeforcoffee.framework */; };
 		EC050CE81BB84D4700ECB533 /* APIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB181BB5CCD300623F1A /* APIController.swift */; };
 		EC050CE91BB84D4700ECB533 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB191BB5CCD300623F1A /* extensions.swift */; };
@@ -396,7 +395,6 @@
 				EC4AB2391BB5F18600DA9759 /* timeforcoffeeKit.framework in Frameworks */,
 				EC46C50B1BB5C71100F2A963 /* NotificationCenter.framework in Frameworks */,
 				EC4AB23B1BB5F40000DA9759 /* libGoogleAnalyticsServices.a in Frameworks */,
-				96DD166B9346E9C6C7A0AD72 /* Pods_timeforcoffee_Widget.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -715,7 +713,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EC46C5161BB5C71100F2A963 /* Build configuration list for PBXNativeTarget "timeforcoffee Widget" */;
 			buildPhases = (
-				891134A4E1FCF221FEB82764 /* Check Pods Manifest.lock */,
 				EC46C5041BB5C71100F2A963 /* Sources */,
 				EC46C5051BB5C71100F2A963 /* Frameworks */,
 				EC46C5061BB5C71100F2A963 /* Resources */,
@@ -977,7 +974,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-timeforcoffee/Pods-timeforcoffee-frameworks.sh\"\n\"${SRCROOT}/Pods/Target Support Files/Pods-timeforcoffee Widget/Pods-timeforcoffee Widget-frameworks.sh\"\n\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-timeforcoffee/Pods-timeforcoffee-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		5ED81DEBC1A7BDEB3E485550 /* Copy Pods Resources */ = {
@@ -992,22 +989,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-timeforcoffee/Pods-timeforcoffee-resources.sh\"\n\"${SRCROOT}/Pods/Target Support Files/Pods-timeforcoffee Widget/Pods-timeforcoffee Widget-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		891134A4E1FCF221FEB82764 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-timeforcoffee/Pods-timeforcoffee-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		ECC289121BB6883A00A04CE5 /* ShellScript */ = {
@@ -1358,7 +1340,6 @@
 		};
 		EC46C5171BB5C71100F2A963 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0D2DC66041E4A77B6A3B07E4 /* Pods-timeforcoffee Widget.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "timeforcoffee Widget/timeforcoffee Widget.entitlements";
 				ENABLE_BITCODE = NO;
@@ -1379,7 +1360,6 @@
 		};
 		EC46C5181BB5C71100F2A963 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CCD4D3B37D83AB83CB7207D7 /* Pods-timeforcoffee Widget.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "timeforcoffee Widget/timeforcoffee Widget.entitlements";
 				ENABLE_BITCODE = NO;
