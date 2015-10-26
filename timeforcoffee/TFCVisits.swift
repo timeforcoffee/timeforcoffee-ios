@@ -58,19 +58,21 @@ class TFCVisits: NSObject, TFCLocationManagerDelegate, TFCStationsUpdatedProtoco
         DLog("TFCVisits locationVisit updateStations", toFile: true)
         self.stations.updateStations()
         if let callback = self.callback {
-            callback(text: "location Visit. Date: \(date). Coord: \(coord), arrival: \(arrival) ")
+            callback(text: "Visit. Date: \(date) arrival: \(arrival) lat: \(coord.latitude.roundToPlaces(3)), lng: \(coord.longitude.roundToPlaces(3)) ")
         }
         return true
     }
 
     func stationsUpdated(error: String?, favoritesOnly: Bool, context: Any?) {
-        DLog("TFCVisits stationsUpdate", toFile: true)
-        if self.stations.count() > 0 {
-            DLog("first station is \(self.stations[0].name)", toFile: true)
-            if let callback = self.callback {
-                callback(text:"first station is \(self.stations[0].name)")
+        if (favoritesOnly == false) { // wait for all stations, should be fast anyway with the DB lookup nowadays (in Switzerland at least) and doesn't matter in this case how fast it is
+            DLog("TFCVisits stationsUpdate", toFile: true)
+            if self.stations.count() > 0 {
+                DLog("first station is \(self.stations[0].name)", toFile: true)
+                if let callback = self.callback {
+                    callback(text:"first station is \(self.stations[0].name)")
+                }
+                TFCDataStore.sharedInstance.sendComplicationUpdate(self.stations[0])
             }
-            TFCDataStore.sharedInstance.sendComplicationUpdate(self.stations[0])
         }
 
     }
