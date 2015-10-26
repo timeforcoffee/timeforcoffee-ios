@@ -119,6 +119,8 @@
 		EC9BCB471BB5CD4D00623F1A /* PINMemoryCache.h in Headers */ = {isa = PBXBuildFile; fileRef = EC9BCB401BB5CD4D00623F1A /* PINMemoryCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EC9BCB481BB5CD4D00623F1A /* PINMemoryCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB411BB5CD4D00623F1A /* PINMemoryCache.m */; };
 		ECA109D91BB6C00000FDB6F9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC0AD1641BB69539004217FD /* Localizable.strings */; };
+		ECE74C431BDEAAD8009CB3CA /* WithMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE74C421BDEAAD8009CB3CA /* WithMapViewController.swift */; };
+		ECE74C451BDEAB54009CB3CA /* PasslistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE74C441BDEAB54009CB3CA /* PasslistViewController.swift */; };
 		ECEBB7FC1BC7238C00AB83B9 /* TFCStationModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FA1BC7238C00AB83B9 /* TFCStationModel+CoreDataProperties.swift */; };
 		ECEBB7FD1BC7238C00AB83B9 /* TFCStationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FB1BC7238C00AB83B9 /* TFCStationModel.swift */; };
 		ECEBB7FE1BC7241A00AB83B9 /* TFCStationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FB1BC7238C00AB83B9 /* TFCStationModel.swift */; };
@@ -361,6 +363,8 @@
 		EC9BCB401BB5CD4D00623F1A /* PINMemoryCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PINMemoryCache.h; sourceTree = "<group>"; };
 		EC9BCB411BB5CD4D00623F1A /* PINMemoryCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PINMemoryCache.m; sourceTree = "<group>"; };
 		ECA72B7B1BB6D23E00506300 /* Time for Coffee! WatchOS 2 App Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Time for Coffee! WatchOS 2 App Extension.entitlements"; sourceTree = "<group>"; };
+		ECE74C421BDEAAD8009CB3CA /* WithMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WithMapViewController.swift; sourceTree = "<group>"; };
+		ECE74C441BDEAB54009CB3CA /* PasslistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasslistViewController.swift; sourceTree = "<group>"; };
 		ECEBB7FA1BC7238C00AB83B9 /* TFCStationModel+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TFCStationModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		ECEBB7FB1BC7238C00AB83B9 /* TFCStationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCStationModel.swift; sourceTree = "<group>"; };
 		ECEDA62A1BDAD44F000B63E6 /* Logging.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
@@ -487,8 +491,10 @@
 				EC9BCAF81BB5CB7700623F1A /* LaunchScreen.xib */,
 				EC9BCAFB1BB5CC3500623F1A /* About.html */,
 				EC9BCAFC1BB5CC3500623F1A /* AboutPagedViewController.swift */,
-				EC9BCAFD1BB5CC3500623F1A /* DepartureLineLabel.swift */,
+				ECE74C421BDEAAD8009CB3CA /* WithMapViewController.swift */,
 				EC9BCAFE1BB5CC3500623F1A /* DeparturesViewController.swift */,
+				EC9BCAFD1BB5CC3500623F1A /* DepartureLineLabel.swift */,
+				ECE74C441BDEAB54009CB3CA /* PasslistViewController.swift */,
 				EC9BCAFF1BB5CC3500623F1A /* PagedStationsViewController.swift */,
 				EC4F0C881BB5D54B00CE7C24 /* Images.xcassets */,
 				EC9BCB001BB5CC3500623F1A /* SettingsViewController.swift */,
@@ -1039,8 +1045,10 @@
 				EC84FEC11BD9652400A0F9E3 /* TFCVisits.swift in Sources */,
 				EC9BCB121BB5CC3500623F1A /* StationsViewController.swift in Sources */,
 				EC9BCB141BB5CC3500623F1A /* StationTableViewCell.swift in Sources */,
+				ECE74C431BDEAAD8009CB3CA /* WithMapViewController.swift in Sources */,
 				EC9BCB0B1BB5CC3500623F1A /* AboutPagedViewController.swift in Sources */,
 				EC9BCB161BB5CC3500623F1A /* TFCNavigationController.swift in Sources */,
+				ECE74C451BDEAB54009CB3CA /* PasslistViewController.swift in Sources */,
 				EC9BCB0E1BB5CC3500623F1A /* PagedStationsViewController.swift in Sources */,
 				EC9BCB111BB5CC3500623F1A /* StationsSearchViewController.swift in Sources */,
 				EC46C4DF1BB5C69800F2A963 /* AppDelegate.swift in Sources */,

@@ -11,18 +11,12 @@ import timeforcoffeeKit
 import MapKit
 import MGSwipeTableCell
 
-final class DeparturesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, MGSwipeTableCellDelegate, MKMapViewDelegate, TFCDeparturesUpdatedProtocol {
+final class DeparturesViewController: WithMapViewController, UITableViewDataSource, TFCDeparturesUpdatedProtocol {
 
-    @IBOutlet var appsTableView : UITableView?
     var refreshControl:UIRefreshControl!
     var station: TFCStation?
     var networkErrorMsg: String?
     let kCellIdentifier: String = "DeparturesListCell"
-    var gestureRecognizer: UIGestureRecognizerDelegate?
-    var mapSwipeUpStart: CGFloat?
-    var destinationPlacemark: MKPlacemark?
-    var mapDirectionOverlay: MKOverlay?
-    var startHeight: CGFloat!
     var updateInAMinuteTimer: NSTimer?
     let updateOnceQueue:dispatch_queue_t = dispatch_queue_create(
         "ch.opendata.timeforcoffee.updateinaminute", DISPATCH_QUEUE_SERIAL)
@@ -31,36 +25,14 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
     @IBOutlet weak var BackButton: UIButton!
     @IBOutlet weak var favButton: UIButton!
 
-    @IBOutlet weak var distanceLabel: UILabel!
-
     @IBOutlet weak var segmentedControl: UISegmentedControl!
-    @IBOutlet weak var topView: UIView!
-    @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var gradientView: UIImageView!
-    @IBOutlet weak var borderBottomView: UIView!
-
-    @IBOutlet weak var navBarBackgroundView: UIView!
 
     @IBOutlet weak var stationIconButton: UIButton!
-    @IBOutlet weak var stationIconView: UIView!
-
-    @IBOutlet weak var navBarView: UIView!
-
-    @IBOutlet weak var releaseToViewLabel: UILabel!
 
     @IBAction func BackButtonClicked(sender: UIButton) {
         self.navigationController?.popViewControllerAnimated(true)
     }
 
-    @IBOutlet var topBarHeight: NSLayoutConstraint!
-
-    @IBOutlet weak var mapHeight: NSLayoutConstraint!
-
-    @IBOutlet var topBarBottomSpace: NSLayoutConstraint!
-
-    @IBOutlet weak var stationNameBottomSpace: NSLayoutConstraint!
-
-    var mapOnBottom: Bool = false
     var viewAppeared: Bool = false
 
     @IBAction func iconTouchUp(sender: UIButton) {
@@ -88,13 +60,7 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
     }
 
     override func viewWillAppear(animated: Bool) {
-        if (self.mapOnBottom) {
-            self.mapView.showsUserLocation = true
-        }
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
-        gestureRecognizer = self.navigationController?.interactivePopGestureRecognizer!.delegate
-        self.navigationController?.interactivePopGestureRecognizer!.delegate = nil
-
+        super.viewWillAppear(animated)
         if let segmentedViewIndex = TFCDataStore.sharedInstance.getUserDefaults()?.integerForKey("segmentedViewDepartures") {
             segmentedView.selectedSegmentIndex = segmentedViewIndex
         }
@@ -198,25 +164,9 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         
     }
 
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        if (self.mapOnBottom && self.topBarBottomSpace.active == false) {
-            //needed for example on ration
-            NSLayoutConstraint.deactivateConstraints([self.topBarHeight])
-            NSLayoutConstraint.activateConstraints([self.topBarBottomSpace])
-            self.view.layoutIfNeeded()
-        }
-    }
-
-    override func viewWillDisappear(animated: Bool) {
-        self.mapView.showsUserLocation = false
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
-    }
-
     override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
         station = nil
-        self.navigationController?.interactivePopGestureRecognizer!.delegate = gestureRecognizer
         NSNotificationCenter.defaultCenter().removeObserver(self)
         dispatch_sync(updateOnceQueue) {
             [unowned self] in
@@ -225,296 +175,15 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         }
     }
 
-    @IBAction func panOnTopView(sender: UIPanGestureRecognizer) {
-        let location = sender.locationInView(self.topView)
-        let releasePoint = CGFloat(200.0)
-        var topBarCalculatedHeight = floor(startHeight + (location.y - startHeight) / 3)
-
-        if (mapSwipeUpStart != nil) {
-            topBarCalculatedHeight = floor(location.y + mapSwipeUpStart!)
-        }
-
-        if (topBarCalculatedHeight < startHeight) {
-            topBarCalculatedHeight = 150.0
-        }
-        if (sender.state == UIGestureRecognizerState.Began) {
-            if (self.mapOnBottom == true ) {
-                self.mapSwipeUpStart = UIScreen.mainScreen().bounds.size.height - location.y
-                self.mapView.userInteractionEnabled = false
-                NSLayoutConstraint.deactivateConstraints([self.topBarBottomSpace])
-                NSLayoutConstraint.activateConstraints([self.topBarHeight])
-                self.mapOnBottom = false
-                self.view.layoutIfNeeded()
-            } else {
-                self.mapSwipeUpStart = nil
-            }
-            return
-        }
-        if (sender.state == UIGestureRecognizerState.Ended) {
-            let velocity = sender.velocityInView(self.appsTableView)
-            let yVelocity = Double(velocity.y)
-
-            if (yVelocity < -100) {
-                moveMapViewUp(yVelocity)
-            } else if (yVelocity > 100) {
-                moveMapViewDown(yVelocity)
-            } else if (mapSwipeUpStart != nil) {
-                if ((UIScreen.mainScreen().bounds.size.height - topBarCalculatedHeight)  > 40) {
-                    moveMapViewUp(yVelocity)
-                } else {
-                    moveMapViewDown(yVelocity)
-                }
-            } else if (topBarCalculatedHeight > releasePoint) {
-                moveMapViewDown(yVelocity)
-            } else {
-                moveMapViewUp(yVelocity)
-
-            }
-            return
-        }
-        topBarHeight?.constant = topBarCalculatedHeight
-        if (topBarCalculatedHeight < releasePoint) {
-            let offsetForAnimation: CGFloat = ((topBarCalculatedHeight - startHeight) / (releasePoint - startHeight))
-            topViewProperties(offsetForAnimation)
-            self.releaseToViewLabel.hidden = true
-            if (mapSwipeUpStart == nil) {
-                if (self.destinationPlacemark == nil) {
-                    drawStationAndWay()
-                }
-            }
-        } else {
-            if (mapSwipeUpStart == nil) {
-                self.releaseToViewLabel.hidden = false
-            }
-            topViewProperties(1.0)
-        }
-
-        if (topBarCalculatedHeight > mapHeight.constant) {
-            mapHeight.constant = topBarCalculatedHeight + 300
-            self.view.layoutIfNeeded()
-        }
-    }
-
-    func drawStationAndWay() {
-        
-        mapView.removeAnnotations(mapView.annotations)
-
-        if let stationCoordinate = station?.coord?.coordinate, let stationName = station?.name, let stationDistance = distanceLabel.text {
-            
-            let annotation = StationAnnotation(title: stationName, distance: stationDistance, coordinate: stationCoordinate)
-            mapView.addAnnotation(annotation)
-            destinationPlacemark = MKPlacemark(coordinate: annotation.coordinate, addressDictionary: nil)
-            self.mapView.showsUserLocation = true
-            
-            let currentLocation = TFCLocationManager.getCurrentLocation()
-            let currentCoordinate = currentLocation?.coordinate
-            
-            if (currentCoordinate == nil || station?.getDistanceInMeter(currentLocation) >= 5000) {
-                return
-            }
-            let sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
-            
-            let sourceMapItem = MKMapItem(placemark: sourcePlacemark)
-            let destinationMapItem = MKMapItem(placemark: destinationPlacemark!)
-            let directionRequest:MKDirectionsRequest = MKDirectionsRequest()
-            
-            directionRequest.source = sourceMapItem
-            directionRequest.destination = destinationMapItem
-            directionRequest.transportType = MKDirectionsTransportType.Walking
-            directionRequest.requestsAlternateRoutes = false
-            
-            let directions:MKDirections = MKDirections(request: directionRequest)
-            
-            directions.calculateDirectionsWithCompletionHandler({
-                (response: MKDirectionsResponse?, error: NSError?) in
-                if error != nil{
-                    DLog("Error")
-                }
-                if response != nil{
-                    //                for r in response.routes { DLog("route = \(r)") }
-                    let route: MKRoute = response!.routes[0] as MKRoute;
-                    self.mapDirectionOverlay = route.polyline
-                    self.mapView.addOverlay(self.mapDirectionOverlay!)
-                }
-                else{
-                    DLog("No response")
-                }
-                print(error?.description)
-            })
-        }
-    }
-
-    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
-        if overlay is MKPolyline {
-            let polylineRenderer = MKPolylineRenderer(overlay: overlay)
-            polylineRenderer.strokeColor = UIColor.blueColor()
-            polylineRenderer.lineWidth = 1
-            return polylineRenderer
-        }
-        return MKPolylineRenderer()
-    }
-
-    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-
-        if (annotation.isKindOfClass(MKUserLocation)) {
-            return nil
-        }
-
-        let annotationIdentifier = "CustomViewAnnotation"
-        var annotationView = self.mapView.dequeueReusableAnnotationViewWithIdentifier(annotationIdentifier)
-
-        if (annotationView == nil) {
-            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
-        }
-        
-        annotationView?.canShowCallout = true
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-        let buttonImage = UIImage(named: "Walking")
-        button.setImage(buttonImage, forState: UIControlState.Normal)
-        annotationView?.leftCalloutAccessoryView = button
-
-        annotationView!.image = getIconViewAsImage(self.stationIconView)
-        annotationView!.opaque = false
-        annotationView!.alpha = 1.0
-        annotationView!.frame.size.height = 30
-        annotationView!.frame.size.width = 30
-
-        return annotationView;
-
-    }
-    
-    // Launch Maps app when the left accessory button is tapped
-    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        if let stationAnnotation = view.annotation as? StationAnnotation {
-            if control == view.leftCalloutAccessoryView {
-                let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeWalking]
-                stationAnnotation.mapItem().openInMapsWithLaunchOptions(launchOptions)
-                mapView.deselectAnnotation(view.annotation, animated: false)
-            }
-        }
-    }
-    
-    func moveMapViewDown(velocity: Double?) {
-        let height = UIScreen.mainScreen().bounds.size.height
-        self.releaseToViewLabel.hidden = true
-        self.mapView.userInteractionEnabled = true
-        if (self.mapHeight.constant < height + 200) {
-            self.mapHeight.constant = height + 200
-        }
-        let maxDuration = 0.5
-        var duration: NSTimeInterval = maxDuration
-        if (velocity != nil) {
-            duration = min(maxDuration, 600.0 / abs(velocity!))
-        }
-        NSLayoutConstraint.deactivateConstraints([self.topBarHeight])
-        NSLayoutConstraint.activateConstraints([self.topBarBottomSpace])
-        self.topBarBottomSpace?.constant = 0
-
-        UIView.animateWithDuration(duration,
-            animations: {
-                self.view.layoutIfNeeded()
-                self.topViewProperties(1.0)
-                return
-            }, completion: { (finished:Bool) in
-                if (finished) {
-                    self.mapOnBottom = true
-                    self.topBarHeight?.constant = self.topView.frame.height
-                }
-            }
-        )
-        let gtracker = GAI.sharedInstance().defaultTracker
-        gtracker.set(kGAIScreenName, value: "departuresMap")
-        gtracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject]!)
-
-    }
-
-    func moveMapViewUp(velocity: Double?) {
-
-        let height = CGFloat(startHeight)
-
-        self.mapView.userInteractionEnabled = false
-        self.topBarHeight.constant = height
-        let maxDuration = 0.5
-        var duration: NSTimeInterval = maxDuration
-        if let velo = velocity {
-            duration = min(maxDuration, 600.0 / abs(velo))
-        }
-        self.mapView.userInteractionEnabled = false
-        NSLayoutConstraint.deactivateConstraints([self.topBarBottomSpace])
-        NSLayoutConstraint.activateConstraints([self.topBarHeight])
-        self.releaseToViewLabel.hidden = true
-        UIView.animateWithDuration(duration,
-            animations: {
-                self.topViewProperties(0.0)
-                self.topView.layoutIfNeeded()
-                self.mapOnBottom = false
-                return
-            }, completion: { (finished:Bool) in
-                if let destinationPlacemark2 = self.destinationPlacemark {
-                    self.mapView.removeAnnotation(destinationPlacemark2)
-                    if let mapDirectionOverlay2 = self.mapDirectionOverlay {
-                        self.mapView.removeOverlay(mapDirectionOverlay2)
-                    }
-                    self.mapView.showsUserLocation = false
-                    self.destinationPlacemark = nil
-                }
-                return
-            }
-        )
-    }
-
-
-    func topViewProperties(offsetForAnimation: CGFloat) {
-
-        self.mapView?.alpha        = 0.5 + offsetForAnimation * 0.5
-        self.gradientView.alpha    = 1.0 - offsetForAnimation
-        self.navBarBackgroundView.alpha     = 0.0 + offsetForAnimation
-        self.stationIconView.alpha = 1.0 - offsetForAnimation
-        self.stationIconView.transform = CGAffineTransformMakeScale(1 - offsetForAnimation, 1 - offsetForAnimation)
-        self.borderBottomView.alpha = 0.0 + offsetForAnimation
-        self.stationNameBottomSpace.constant = -28.0 - offsetForAnimation * 11.0
-        self.distanceLabel.alpha = 0.0 + offsetForAnimation
-        self.segmentedControl.alpha = 1.0 - offsetForAnimation
-    }
-
-    @IBAction func mapUpAction(sender: AnyObject) {
-        moveMapViewUp(nil)
-    }
-
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        let offset = scrollView.contentOffset.y + startHeight
-        self.topBarHeight.constant = max(min(self.startHeight - offset, self.startHeight), 64)
-        if (self.topBarHeight.constant < 71) {
-            self.stationNameBottomSpace.constant = -22 - (self.topBarHeight.constant - 64)
-        } else {
-            self.stationNameBottomSpace.constant = -28
-        }
-        // the navbar title view has to be above the icon when we
-        //  make the navbar smaller, but below  when we move the map down
-        if (offset < 10) {
-            self.navBarView.layer.zPosition = 0
-        } else {
-            self.navBarView.layer.zPosition = 2
-        }
-        self.borderBottomView.alpha = offset / 80
-        self.mapView?.alpha = min(1 - (offset / 80), 0.5)
-        self.stationIconView.alpha = 1 - (offset / 80)
-        self.distanceLabel.alpha =  offset / 80
+    override func scrollViewDidScroll(scrollView: UIScrollView) {
+        let offset = super.scrolled(scrollView)
         self.segmentedControl.alpha = 1 - (offset / 80)
     }
-    
-    func mapViewDidFinishRenderingMap(mapView: MKMapView, fullyRendered: Bool) {
-        if(self.mapView.alpha <= 0.6) {
-            UIView.animateWithDuration(0.8,
-                delay: 0.0,
-                options: UIViewAnimationOptions.CurveLinear,
-                animations: {
-                    self.mapView?.alpha = 0.5
-                    return
-                }, completion: { (finished:Bool) in
-                }
-            )
-        }
+
+    override func topViewProperties(offsetForAnimation: CGFloat) {
+        super.topViewProperties(offsetForAnimation)
+        self.segmentedControl.alpha = 1.0 - offsetForAnimation
+
     }
 
     func applicationDidBecomeInactive(notification: NSNotification) {
@@ -626,8 +295,6 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
 
         cell.delegate = self
         cell.tag = indexPath.row
-
-
         let lineNumberLabel = cell.viewWithTag(99100) as! DepartureLineLabel
         let destinationLabel = cell.viewWithTag(99200) as! UILabel
         let departureLabel = cell.viewWithTag(99300) as! UILabel
@@ -764,37 +431,6 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         return true
     }
 
-    func getIconViewAsImage(view: UIView) -> UIImage {
-        view.opaque = false
-        //in case we want a different backgroundColor
-        //let oldBG = view.backgroundColor
-        //view.backgroundColor = UIColor.blueColor();
-
-        UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.opaque, 0.0);
-        view.layer.renderInContext(UIGraphicsGetCurrentContext()!)
-        let img = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        //view.backgroundColor = oldBG
-
-        return img;
-    }
-
-
-    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-        
-        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
-        
-        coordinator.animateAlongsideTransition(
-            {
-                (context) -> Void in
-            },
-            completion: {
-                (context) -> Void in
-                self.appsTableView?.reloadData()
-                return
-        })
-    }
-
     func updateInAMinute() {
         // make sure this only runs serially
         dispatch_async(updateOnceQueue, {
@@ -811,7 +447,73 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
             })
         })
     }
-    
 
+    override func drawStationAndWay() {
+
+        mapView.removeAnnotations(mapView.annotations)
+
+        if let stationCoordinate = station?.coord?.coordinate, let stationName = station?.name, let stationDistance = distanceLabel.text {
+
+            let annotation = StationAnnotation(title: stationName, distance: stationDistance, coordinate: stationCoordinate)
+            mapView.addAnnotation(annotation)
+            destinationPlacemark = MKPlacemark(coordinate: annotation.coordinate, addressDictionary: nil)
+            self.mapView.showsUserLocation = true
+
+            let currentLocation = TFCLocationManager.getCurrentLocation()
+            let currentCoordinate = currentLocation?.coordinate
+
+            if (currentCoordinate == nil || station?.getDistanceInMeter(currentLocation) >= 5000) {
+                return
+            }
+            let sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
+
+            let sourceMapItem = MKMapItem(placemark: sourcePlacemark)
+            let destinationMapItem = MKMapItem(placemark: destinationPlacemark!)
+            let directionRequest:MKDirectionsRequest = MKDirectionsRequest()
+
+            directionRequest.source = sourceMapItem
+            directionRequest.destination = destinationMapItem
+            directionRequest.transportType = MKDirectionsTransportType.Walking
+            directionRequest.requestsAlternateRoutes = false
+
+            let directions:MKDirections = MKDirections(request: directionRequest)
+
+            directions.calculateDirectionsWithCompletionHandler({
+                (response: MKDirectionsResponse?, error: NSError?) in
+                if error != nil{
+                    DLog("Error")
+                }
+                if response != nil{
+                    //                for r in response.routes { DLog("route = \(r)") }
+                    let route: MKRoute = response!.routes[0] as MKRoute;
+                    self.mapDirectionOverlay = route.polyline
+                    self.mapView.addOverlay(self.mapDirectionOverlay!)
+                }
+                else{
+                    DLog("No response")
+                }
+                print(error?.description)
+            })
+        }
+    }
+
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.performSegueWithIdentifier("SegueToPasslistView", sender: nil)
+    }
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+      //  let detailsViewController: DeparturesViewController = segue.destinationViewController as! DeparturesViewController
+
+        let index = appsTableView?.indexPathForSelectedRow?.row
+        if let index = index, departure = self.station?.getDepartures()?[index] {
+
+            DLog(departure)
+//            departure.getDepartureTime()
+            //            let station = appsTableView?.stations.getStation(index!)
+//            detailsViewController.setStation(station: station!);
+        }
+        
+    }
     
 }
