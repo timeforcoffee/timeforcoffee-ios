@@ -46,17 +46,7 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
         self.edgesForExtendedLayout = UIRectEdge.None;
 
         nameLabel.text = self.departure?.getDestination()
-      /* FIXME don't know what to show here
-        let currentLocation = TFCLocationManager.getCurrentLocation()
-        if (self.station?.coord != nil) {
-            self.distanceLabel.text = self.station?.getDistanceForDisplay(currentLocation, completion: {
-                text in
-                if (text != nil) {
-                    self.distanceLabel.text = text
-                }
-            })
-        }*/
-
+        self.distanceLabel.text = ""
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
 
         startHeight = topBarHeight.constant
@@ -182,13 +172,6 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
 */
     }
 
-
-    func refresh(sender:AnyObject)
-    {
-        // Code to refresh table view
-      //  self.station?.updateDepartures(self, force: true, context: nil)
-    }
-
     func displayPasslist() {
         self.appsTableView?.reloadData()
         self.departure?.updatePasslist(self)
@@ -226,8 +209,6 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
         cell.delegate = self
         cell.tag = indexPath.row
 
-
-//        let lineNumberLabel = cell.viewWithTag(99100) as! DepartureLineLabel
         let destinationLabel = cell.viewWithTag(99200) as! UILabel
         let departureLabel = cell.viewWithTag(99300) as! UILabel
         let minutesLabel = cell.viewWithTag(99400) as! UILabel
@@ -274,7 +255,6 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // FIXME
         let detailsViewController: DeparturesViewController = segue.destinationViewController as! DeparturesViewController
         let index = appsTableView?.indexPathForSelectedRow?.row
         if let index = index, station = self.departure?.getPasslist()?[index].getStation() {

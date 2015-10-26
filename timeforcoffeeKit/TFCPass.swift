@@ -28,7 +28,7 @@ public final class TFCPass {
         // Store the results in our table data array
         var passlist: [TFCPass]?
         if (allResults == nil) {
-            return nil
+            return []
         }
 
         if let results = allResults?["passlist"][0].array {
@@ -52,7 +52,7 @@ public final class TFCPass {
             }
             return passlist
         }
-        return nil
+        return []
     }
 
     public func getStation() -> TFCStation {

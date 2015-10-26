@@ -20,6 +20,7 @@ public final class TFCDeparture: NSObject, NSCoding, APIControllerProtocol {
     public var colorBg: String?
     public var platform: String?
     public var st_id: String?
+    private var destination_id: String?
     var outdated: Bool = false
     var passlist: [TFCPass]? = nil
 
@@ -451,7 +452,13 @@ public final class TFCDeparture: NSObject, NSCoding, APIControllerProtocol {
 
     func getPasslistUrl() -> String? {
         if let st_id = st_id, destination = self.getDestination().stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet()), date = getDateForPasslist() {
-        return "http://localhost:3000/api/ch/connections/\(st_id)/\(destination)/\(date)"
+            var dest_name:String?
+            if let destination_id = self.destination_id {
+                dest_name = destination_id
+            } else {
+                dest_name = getDestination()
+            }
+        return "http://localhost:3000/api/ch/connections/\(st_id)/\(dest_name)/\(date)"
         }
         return nil
     }
