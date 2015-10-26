@@ -506,7 +506,7 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
        let detailsViewController: PasslistViewController = segue.destinationViewController as! PasslistViewController
 
         let index = appsTableView?.indexPathForSelectedRow?.row
-        if let index = index, departure = self.station?.getDepartures()?[index] {
+        if let index = index, departure = self.getDeparturesDependentOnView(station)?[index] {
 
             DLog(departure)
 //            departure.getDepartureTime()
