@@ -445,20 +445,21 @@ public final class TFCDeparture: NSObject, NSCoding, APIControllerProtocol {
         if let url = self.getPasslistUrl() {
             self.api.getPasslist(url, context: context2)
         } else {
+            self.passlist = []
             completionDelegate?.passlistUpdated(NSError(domain: "ch.opendata.timeforcoffee", code: 6, userInfo: nil), context: context, forDeparture: nil)
         }
 
     }
 
     func getPasslistUrl() -> String? {
-        if let st_id = st_id, destination = self.getDestination().stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet()), date = getDateForPasslist() {
+        if let st_id = st_id, date = getDateForPasslist() {
             var dest_name:String?
             if let destination_id = self.destination_id {
                 dest_name = destination_id
             } else {
-                dest_name = getDestination()
+                dest_name = getDestination().stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
             }
-        return "http://localhost:3000/api/ch/connections/\(st_id)/\(dest_name)/\(date)"
+        return "http://tfc.chregu.tv/api/ch/connections/\(st_id)/\(dest_name!)/\(date)"
         }
         return nil
     }
