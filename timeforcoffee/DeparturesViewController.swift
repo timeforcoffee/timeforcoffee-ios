@@ -628,10 +628,10 @@ final class DeparturesViewController: UIViewController, UITableViewDataSource, U
         cell.tag = indexPath.row
 
 
-        let lineNumberLabel = cell.viewWithTag(100) as! DepartureLineLabel
-        let destinationLabel = cell.viewWithTag(200) as! UILabel
-        let departureLabel = cell.viewWithTag(300) as! UILabel
-        let minutesLabel = cell.viewWithTag(400) as! UILabel
+        let lineNumberLabel = cell.viewWithTag(99100) as! DepartureLineLabel
+        let destinationLabel = cell.viewWithTag(99200) as! UILabel
+        let departureLabel = cell.viewWithTag(99300) as! UILabel
+        let minutesLabel = cell.viewWithTag(99400) as! UILabel
         if (station != nil) {
             let station2 = station!
             let departures = getDeparturesDependentOnView(station2)
