@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-public final class TFCDeparture: NSObject, NSCoding {
+public final class TFCDeparture: NSObject, NSCoding, APIControllerProtocol {
     private var name: String
     public var type: String
     private var accessible: Bool
@@ -19,9 +19,21 @@ public final class TFCDeparture: NSObject, NSCoding {
     public var colorFg: String?
     public var colorBg: String?
     public var platform: String?
+    public var st_id: String?
     var outdated: Bool = false
+    var passlist: [TFCPass]? = nil
 
-    init(name: String, type: String, accessible: Bool, to: String, scheduled: NSDate?, realtime: NSDate?, colorFg: String?, colorBg: String?, platform: String? ) {
+    struct contextData {
+        var completionDelegate: TFCPasslistUpdatedProtocol? = nil
+        var context: Any? = nil
+    }
+
+    private lazy var api : APIController = {
+        [unowned self] in
+        return APIController(delegate: self)
+        }()
+
+    init(name: String, type: String, accessible: Bool, to: String, scheduled: NSDate?, realtime: NSDate?, colorFg: String?, colorBg: String?, platform: String?, st_id: String? ) {
         // TODO: strip "Zurich, " from name
         self.name = name
         self.type = type
@@ -32,6 +44,7 @@ public final class TFCDeparture: NSObject, NSCoding {
         self.colorFg = colorFg
         self.colorBg = colorBg
         self.platform = platform
+        self.st_id = st_id
         
     }
 
@@ -44,7 +57,8 @@ public final class TFCDeparture: NSObject, NSCoding {
         self.realtime = aDecoder.decodeObjectForKey("realtime") as! NSDate?
         self.colorFg = aDecoder.decodeObjectForKey("colorFg") as! String?
         self.colorBg = aDecoder.decodeObjectForKey("colorBg") as! String?
-        self.platform = aDecoder.decodeObjectForKey("platform") as! String?
+        self.platform = aDecoder.decodeObjectForKey("platform") as? String
+        self.st_id = aDecoder.decodeObjectForKey("st_id") as? String
     }
 
     public func encodeWithCoder(aCoder: NSCoder) {
@@ -57,6 +71,7 @@ public final class TFCDeparture: NSObject, NSCoding {
         aCoder.encodeObject(colorFg, forKey: "colorFg")
         aCoder.encodeObject(colorBg, forKey: "colorBg")
         aCoder.encodeObject(platform, forKey: "platform")
+        aCoder.encodeObject(st_id, forKey: "st_id")
     }
 
     
@@ -67,7 +82,7 @@ public final class TFCDeparture: NSObject, NSCoding {
         return ""
     }
     
-    public class func withJSON(allResults: JSON?) -> [TFCDeparture]? {
+    public class func withJSON(allResults: JSON?, st_id: String) -> [TFCDeparture]? {
         // Create an empty array of Albums to append to from this list
         // Store the results in our table data array
         var departures: [TFCDeparture]?
@@ -76,7 +91,7 @@ public final class TFCDeparture: NSObject, NSCoding {
         }
 
         if (allResults?["stationboard"].array != nil) {
-            return TFCDeparture.withJSONFromTransport2TFC(allResults)
+            return TFCDeparture.withJSONFromTransport2TFC(allResults, st_id: st_id)
         }
         if let results = allResults?["departures"].array {
             departures = [TFCDeparture]()
@@ -114,7 +129,7 @@ public final class TFCDeparture: NSObject, NSCoding {
 
                 let platform = result["platform"].string
                 
-                let newDeparture = TFCDeparture(name: name, type: type, accessible: accessible, to: to, scheduled: scheduled, realtime: realtime, colorFg: colorFg, colorBg: colorBg, platform: platform)
+                let newDeparture = TFCDeparture(name: name, type: type, accessible: accessible, to: to, scheduled: scheduled, realtime: realtime, colorFg: colorFg, colorBg: colorBg, platform: platform, st_id: st_id)
                 departures?.append(newDeparture)
             }
             return departures
@@ -123,7 +138,7 @@ public final class TFCDeparture: NSObject, NSCoding {
     }
 
 
-    private class func withJSONFromTransport2TFC(allResults: JSON?) -> [TFCDeparture]? {
+    private class func withJSONFromTransport2TFC(allResults: JSON?, st_id: String) -> [TFCDeparture]? {
         var newResults:[String: AnyObject] = [String: AnyObject]()
 
         if let results = allResults {
@@ -161,7 +176,7 @@ public final class TFCDeparture: NSObject, NSCoding {
                 }
             }
             newResults["departures"] = departures as [AnyObject]
-            return TFCDeparture.withJSON(JSON(newResults))
+            return TFCDeparture.withJSON(JSON(newResults), st_id: st_id)
         }
 
         return nil
@@ -397,5 +412,53 @@ public final class TFCDeparture: NSObject, NSCoding {
         dateFmt.dateFormat = format
         return dateFmt.stringFromDate(date)
     }
+
+    private func getDateForPasslist() -> String? {
+        return self.scheduled?.formattedWith("yyyy-MM-dd'T'HH:mm")
+    }
+
+    public func didReceiveAPIResults(results: JSON?, error: NSError?, context: Any?) {
+        let contextInfo: contextData? = context as! contextData?
+/*        if (results == nil || (error != nil && self.departures != nil && self.departures?.count > 0)) {
+            self.setDeparturesAsOutdated()
+        } else {*/
+            self.addPasslist(TFCPass.withJSON(results))
+  //      }
+        dispatch_async(dispatch_get_main_queue(), {
+            contextInfo?.completionDelegate?.passlistUpdated(error, context: context, forDeparture: self)
+        })
+    }
+
+    func addPasslist(passlist: [TFCPass]?) {
+        self.passlist = passlist
+    }
+
+    public func getPasslist() -> [TFCPass]? {
+        return self.passlist
+    }
+
+    public func updatePasslist(completionDelegate: TFCPasslistUpdatedProtocol?, context: Any? = nil)  {
+        var context2: contextData = contextData()
+        context2.completionDelegate = completionDelegate
+        context2.context = context
+        if let url = self.getPasslistUrl() {
+            self.api.getPasslist(url, context: context2)
+        } else {
+            completionDelegate?.passlistUpdated(NSError(domain: "ch.opendata.timeforcoffee", code: 6, userInfo: nil), context: context, forDeparture: nil)
+        }
+
+    }
+
+    func getPasslistUrl() -> String? {
+        if let st_id = st_id, destination = self.getDestination().stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet()), date = getDateForPasslist() {
+        return "http://localhost:3000/api/ch/connections/\(st_id)/\(destination)/\(date)"
+        }
+        return nil
+    }
+}
+
+
+public protocol TFCPasslistUpdatedProtocol {
+    func passlistUpdated(error: NSError?, context: Any?, forDeparture: TFCDeparture?)
 }
 

@@ -11,7 +11,7 @@ import timeforcoffeeKit
 import MapKit
 import MGSwipeTableCell
 
-final class PasslistViewController: WithMapViewController, UITableViewDataSource {
+final class PasslistViewController: WithMapViewController, UITableViewDataSource, TFCPasslistUpdatedProtocol {
 
     var departure: TFCDeparture?
     var networkErrorMsg: String?
@@ -38,7 +38,7 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
     }
 
     deinit {
-        DLog("deinit DeparturesViewController")
+        DLog("deinit PasslistViewController")
     }
 
     override func viewDidLoad() {
@@ -95,9 +95,11 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
         self.mapView.showsUserLocation = false
         self.mapView.delegate = self
         displayPasslist()
+        DLog("viewDidLoad")
     }
 
     override func viewDidAppear(animated: Bool) {
+        DLog("viewDidAppear")
         super.viewDidAppear(animated)
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
             let gtracker = GAI.sharedInstance().defaultTracker
@@ -105,8 +107,9 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
             gtracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject]!)
         }
         viewAppeared = true
+
     }
-    
+
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         departure = nil
@@ -188,42 +191,33 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
 
     func displayPasslist() {
         self.appsTableView?.reloadData()
+        self.departure?.updatePasslist(self)
+
     }
 
     internal func setDeparture(departure departure: TFCDeparture) {
         self.departure = departure
     }
 
-    func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?) {
+    func passlistUpdated(error: NSError?, context: Any?, forDeparture: TFCDeparture?) {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-
-        //FIXME use with departures..
-        /*
-        if (forStation?.st_id == station?.st_id) {
-            if (error != nil) {
-                self.networkErrorMsg = NSLocalizedString("Network error. Please try again", comment:"")
-            } else {
-                self.networkErrorMsg = nil
-            }
-            if (self.nameLabel.text == "") {
-                self.nameLabel.text = self.station?.name
-            }
-            self.appsTableView!.reloadData()
-        }*/
+        if (error != nil) {
+            self.networkErrorMsg = NSLocalizedString("Network error. Please try again", comment:"")
+        } else {
+            self.networkErrorMsg = nil
+        }
+        self.appsTableView!.reloadData()
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-     /* FIXME get actual passlist...
-let passlist = departure.getPasslist()
-        if let passlist = passlist {
+        if let passlist = self.departure?.getPasslist() {
             let count = passlist.count
             if count == 0 {
                 return 1
             }
             return count
         }
-*/        return 1
-
+        return 1
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -233,78 +227,59 @@ let passlist = departure.getPasslist()
         cell.tag = indexPath.row
 
 
-        let lineNumberLabel = cell.viewWithTag(99100) as! DepartureLineLabel
+//        let lineNumberLabel = cell.viewWithTag(99100) as! DepartureLineLabel
         let destinationLabel = cell.viewWithTag(99200) as! UILabel
         let departureLabel = cell.viewWithTag(99300) as! UILabel
         let minutesLabel = cell.viewWithTag(99400) as! UILabel
-        /* FIXME ...
-        if (station != nil) {
-            let station2 = station!
-            let departures = getDeparturesDependentOnView(station2)
-            if (departures == nil || departures!.count == 0) {
+
+        if let departure = departure {
+            let passlist = departure.getPasslist()
+            if (passlist == nil || passlist!.count == 0) {
                 departureLabel.text = nil
                 minutesLabel.text = nil
-                lineNumberLabel.hidden = true
-                if (departures == nil) {
+                if (passlist == nil) {
                     destinationLabel.text = NSLocalizedString("Loading", comment: "Loading ..")
                 } else {
-                    if (segmentedView.selectedSegmentIndex == 0 ||  station?.hasFavoriteDepartures() == true) {
-                        destinationLabel.text = NSLocalizedString("No departures found.", comment: "")
-                    } else {
-                        destinationLabel.text = NSLocalizedString("No favourites found.", comment: "")
-
-                    }
+                    destinationLabel.text = NSLocalizedString("No passlist found.", comment: "")
                     if (self.networkErrorMsg != nil) {
                         departureLabel.text = self.networkErrorMsg
                     }
                 }
                 return cell
             }
-            lineNumberLabel.hidden = false
-            let departure: TFCDeparture = departures![indexPath.row]
-            
-            var unabridged = false
-            if (UIDeviceOrientationIsLandscape(UIDevice.currentDevice().orientation)) {
-                unabridged = true
-            }
-            if (segmentedView.selectedSegmentIndex == 1) {
-                destinationLabel.text = departure.getDestination(station, unabridged: unabridged)
-            } else {
-                destinationLabel.text = departure.getDestinationWithSign(station, unabridged: unabridged)
-            }
 
-            minutesLabel.text = departure.getMinutes()
-            destinationLabel.textColor = UIColor.blackColor()
-            minutesLabel.textColor = UIColor.blackColor()
+            if let pass = passlist?[indexPath.row] {
 
-            let (departureTimeAttr, departureTimeString) = departure.getDepartureTime()
-            if (departureTimeAttr != nil) {
-                departureLabel.text = nil
-                departureLabel.attributedText = departureTimeAttr
-            } else {
-                departureLabel.attributedText = nil
-                departureLabel.text = departureTimeString
-            }
-            lineNumberLabel.setStyle("normal", departure: departure)
-        }
+  /*              var unabridged = false
+                if (UIDeviceOrientationIsLandscape(UIDevice.currentDevice().orientation)) {
+                    unabridged = true
+                }
 */
+                destinationLabel.text = pass.name //abridged?
+                if let firstscheduled = passlist?[0].scheduled {
+                    minutesLabel.text = pass.getMinutes(firstscheduled)
+                } else {
+                    minutesLabel.text = ""
+                }
+                minutesLabel.textColor = UIColor.blackColor()
+                departureLabel.text = pass.scheduled?.formattedWith("HH:mm")
+            }
+
+        }
         return cell
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.performSegueWithIdentifier("SegueToPasslistView", sender: nil)
+        self.performSegueWithIdentifier("SegueBackToStationView", sender: nil)
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // FIXME
-/*    let detailsViewController: DeparturesViewController = segue.destinationViewController as! DeparturesViewController
+        let detailsViewController: DeparturesViewController = segue.destinationViewController as! DeparturesViewController
         let index = appsTableView?.indexPathForSelectedRow?.row
-        if let index = index, station = self.departure.getPasslist()?[index].getStation() {
-
-            departure.getDepartureTime()
-            detailsViewController.setStation(station: station!);
+        if let index = index, station = self.departure?.getPasslist()?[index].getStation() {
+            detailsViewController.setStation(station: station)
         }
-  */
     }
     
 }

@@ -121,6 +121,8 @@
 		ECA109D91BB6C00000FDB6F9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC0AD1641BB69539004217FD /* Localizable.strings */; };
 		ECE74C431BDEAAD8009CB3CA /* WithMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE74C421BDEAAD8009CB3CA /* WithMapViewController.swift */; };
 		ECE74C451BDEAB54009CB3CA /* PasslistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE74C441BDEAB54009CB3CA /* PasslistViewController.swift */; };
+		ECE74C471BDEBF2B009CB3CA /* TFCPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE74C461BDEBF2B009CB3CA /* TFCPass.swift */; };
+		ECE74C481BDEC198009CB3CA /* TFCPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE74C461BDEBF2B009CB3CA /* TFCPass.swift */; };
 		ECEBB7FC1BC7238C00AB83B9 /* TFCStationModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FA1BC7238C00AB83B9 /* TFCStationModel+CoreDataProperties.swift */; };
 		ECEBB7FD1BC7238C00AB83B9 /* TFCStationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FB1BC7238C00AB83B9 /* TFCStationModel.swift */; };
 		ECEBB7FE1BC7241A00AB83B9 /* TFCStationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FB1BC7238C00AB83B9 /* TFCStationModel.swift */; };
@@ -365,6 +367,7 @@
 		ECA72B7B1BB6D23E00506300 /* Time for Coffee! WatchOS 2 App Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Time for Coffee! WatchOS 2 App Extension.entitlements"; sourceTree = "<group>"; };
 		ECE74C421BDEAAD8009CB3CA /* WithMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WithMapViewController.swift; sourceTree = "<group>"; };
 		ECE74C441BDEAB54009CB3CA /* PasslistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasslistViewController.swift; sourceTree = "<group>"; };
+		ECE74C461BDEBF2B009CB3CA /* TFCPass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCPass.swift; sourceTree = "<group>"; };
 		ECEBB7FA1BC7238C00AB83B9 /* TFCStationModel+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TFCStationModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		ECEBB7FB1BC7238C00AB83B9 /* TFCStationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCStationModel.swift; sourceTree = "<group>"; };
 		ECEDA62A1BDAD44F000B63E6 /* Logging.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
@@ -603,6 +606,7 @@
 				EC9BCB1E1BB5CCD300623F1A /* TFCDataStoreBase.swift */,
 				EC9BCB3A1BB5CD4D00623F1A /* PINCache */,
 				EC9BCB1F1BB5CCD300623F1A /* TFCDeparture.swift */,
+				ECE74C461BDEBF2B009CB3CA /* TFCPass.swift */,
 				EC9BCB201BB5CCD300623F1A /* TFCFavorites.swift */,
 				EC9BCB211BB5CCD300623F1A /* TFCLocationManager.swift */,
 				EC9BCB221BB5CCD300623F1A /* TFCLocationManagerBase.swift */,
@@ -1103,6 +1107,7 @@
 				EC4AB2711BB6787600DA9759 /* StationViewController.swift in Sources */,
 				EC050CF51BB84D5B00ECB533 /* TFCURLSession.swift in Sources */,
 				EC050CF21BB84D5B00ECB533 /* TFCLocationManagerBase.swift in Sources */,
+				ECE74C481BDEC198009CB3CA /* TFCPass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1121,6 +1126,7 @@
 				EC9BCB2B1BB5CCD300623F1A /* SwiftyJSON.swift in Sources */,
 				EC9BCB2C1BB5CCD300623F1A /* TFCBaseViewController.swift in Sources */,
 				EC9BCB311BB5CCD300623F1A /* TFCFavorites.swift in Sources */,
+				ECE74C471BDEBF2B009CB3CA /* TFCPass.swift in Sources */,
 				EC9BCB481BB5CD4D00623F1A /* PINMemoryCache.m in Sources */,
 				EC9BCB291BB5CCD300623F1A /* APIController.swift in Sources */,
 				EC9BCB2E1BB5CCD300623F1A /* TFCDataStore.swift in Sources */,

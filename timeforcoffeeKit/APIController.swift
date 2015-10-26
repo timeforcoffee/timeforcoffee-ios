@@ -65,6 +65,10 @@ final class APIController {
         self.fetchUrl(urlPath, fetchId: 2, context: context, cacheKey: nil)
     }
 
+    func getPasslist(urlPath: String, context: Any?) {
+        self.fetchUrl(urlPath, fetchId: 3, context: context, cacheKey: nil)
+    }
+
     func getStationInfo(id: String!) -> JSON? {
         let urlPath = "http://transport.opendata.ch/v1/locations?query=\(id)"
         let cacheKey = "stationsinfo/\(id)"

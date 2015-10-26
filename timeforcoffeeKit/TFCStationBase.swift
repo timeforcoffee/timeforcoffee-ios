@@ -580,7 +580,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             if (results == nil || (error != nil && self.departures != nil && self.departures?.count > 0)) {
                 self.setDeparturesAsOutdated()
             } else {
-                self.addDepartures(TFCDeparture.withJSON(results))
+                self.addDepartures(TFCDeparture.withJSON(results, st_id: self.st_id))
             }
 
         dispatch_async(dispatch_get_main_queue(), {

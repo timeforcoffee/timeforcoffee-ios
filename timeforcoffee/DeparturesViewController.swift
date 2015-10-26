@@ -57,6 +57,7 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
         DLog("deinit DeparturesViewController")
         NSNotificationCenter.defaultCenter().removeObserver(self)
         self.updateInAMinuteTimer?.invalidate()
+
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -166,7 +167,6 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
 
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
-        station = nil
         NSNotificationCenter.defaultCenter().removeObserver(self)
         dispatch_sync(updateOnceQueue) {
             [unowned self] in
@@ -503,7 +503,7 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-      //  let detailsViewController: DeparturesViewController = segue.destinationViewController as! DeparturesViewController
+       let detailsViewController: PasslistViewController = segue.destinationViewController as! PasslistViewController
 
         let index = appsTableView?.indexPathForSelectedRow?.row
         if let index = index, departure = self.station?.getDepartures()?[index] {
@@ -511,8 +511,7 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
             DLog(departure)
 //            departure.getDepartureTime()
             //            let station = appsTableView?.stations.getStation(index!)
-//            detailsViewController.setStation(station: station!);
-        }
+            detailsViewController.setDeparture(departure: departure);        }
         
     }
     

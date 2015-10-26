@@ -893,16 +893,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="59"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view tag="99100" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UWX-9b-FQJ" userLabel="departureLineView" customClass="DepartureLineLabel" customModule="timeforcoffee" customModuleProvider="target">
-                                                    <rect key="frame" x="7" y="13" width="33" height="33"/>
-                                                    <animations/>
-                                                    <color key="backgroundColor" red="1" green="0.20228040759999999" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" secondItem="UWX-9b-FQJ" secondAttribute="height" multiplier="1:1" id="iUB-6N-aX6"/>
-                                                    </constraints>
-                                                </view>
-                                                <label userInteractionEnabled="NO" tag="99300" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aa9-U5-OSi">
-                                                    <rect key="frame" x="50" y="32" width="500" height="14"/>
+                                                <label userInteractionEnabled="NO" tag="99300" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aa9-U5-OSi" userLabel="TimeLabel">
+                                                    <rect key="frame" x="15" y="32" width="535" height="14"/>
                                                     <animations/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
@@ -912,8 +904,8 @@
                                                     <color key="textColor" red="0.53333333329999999" green="0.53333333329999999" blue="0.53333333329999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label userInteractionEnabled="NO" tag="99200" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="baO-aT-Mfz">
-                                                    <rect key="frame" x="50" y="13" width="502" height="19"/>
+                                                <label userInteractionEnabled="NO" tag="99200" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="baO-aT-Mfz" userLabel="StationLabel">
+                                                    <rect key="frame" x="15" y="13" width="537" height="19"/>
                                                     <animations/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
@@ -935,21 +927,18 @@
                                             <animations/>
                                             <constraints>
                                                 <constraint firstItem="3U4-XZ-Tqn" firstAttribute="trailing" secondItem="j8v-Gl-6my" secondAttribute="trailingMargin" constant="-5" id="7QN-c4-718"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="UWX-9b-FQJ" secondAttribute="bottom" constant="5" id="Ni1-nk-CEo"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="Aa9-U5-OSi" secondAttribute="bottom" constant="5" id="Lxf-Nz-OGH"/>
                                                 <constraint firstItem="3U4-XZ-Tqn" firstAttribute="top" secondItem="j8v-Gl-6my" secondAttribute="topMargin" id="Ofm-XT-Eeu"/>
-                                                <constraint firstItem="Aa9-U5-OSi" firstAttribute="leading" secondItem="UWX-9b-FQJ" secondAttribute="trailing" constant="10" id="SXx-zN-PBI"/>
-                                                <constraint firstItem="UWX-9b-FQJ" firstAttribute="bottom" secondItem="Aa9-U5-OSi" secondAttribute="bottom" id="Sal-V9-sxu"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="baO-aT-Mfz" secondAttribute="trailing" constant="40" id="TBd-Q6-go2"/>
-                                                <constraint firstItem="baO-aT-Mfz" firstAttribute="leading" secondItem="UWX-9b-FQJ" secondAttribute="trailing" constant="10" id="X9x-Gw-pAk"/>
+                                                <constraint firstItem="baO-aT-Mfz" firstAttribute="leading" secondItem="Aa9-U5-OSi" secondAttribute="leading" id="Wor-mi-RMi"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="3U4-XZ-Tqn" secondAttribute="bottom" id="YXS-dg-HJt"/>
-                                                <constraint firstItem="UWX-9b-FQJ" firstAttribute="top" secondItem="j8v-Gl-6my" secondAttribute="topMargin" constant="5" id="bMw-mc-iu3"/>
-                                                <constraint firstItem="UWX-9b-FQJ" firstAttribute="leading" secondItem="j8v-Gl-6my" secondAttribute="leading" constant="7" id="fEH-g0-md1"/>
-                                                <constraint firstItem="baO-aT-Mfz" firstAttribute="top" secondItem="UWX-9b-FQJ" secondAttribute="top" id="nvG-F6-B92"/>
+                                                <constraint firstItem="baO-aT-Mfz" firstAttribute="top" secondItem="j8v-Gl-6my" secondAttribute="topMargin" constant="5" id="ghO-oN-KYi"/>
+                                                <constraint firstItem="Aa9-U5-OSi" firstAttribute="leading" secondItem="j8v-Gl-6my" secondAttribute="leadingMargin" constant="7" id="m7K-Oy-zDU"/>
                                                 <constraint firstItem="Aa9-U5-OSi" firstAttribute="trailing" secondItem="j8v-Gl-6my" secondAttribute="trailing" constant="-50" id="oeL-3d-LoL"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <animations/>
-                                        <inset key="separatorInset" minX="61" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <inset key="separatorInset" minX="12" minY="0.0" maxX="0.0" maxY="0.0"/>
                                     </tableViewCell>
                                 </prototypes>
                                 <variation key="heightClass=regular-widthClass=compact" ambiguous="YES">
@@ -1207,6 +1196,7 @@
                         <outlet property="topBarBottomSpace" destination="AGf-T5-bjR" id="GJF-DO-0Ad"/>
                         <outlet property="topBarHeight" destination="m0T-Xs-v8E" id="jlj-ft-3a2"/>
                         <outlet property="topView" destination="u2N-bK-ExJ" id="4Qo-hf-wY6"/>
+                        <segue destination="COk-7g-JfJ" kind="show" identifier="SegueBackToStationView" id="oN2-Vu-P19"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YSO-Wq-MAq" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1217,7 +1207,7 @@
                 </panGestureRecognizer>
                 <tapGestureRecognizer id="Jby-kP-G0P"/>
             </objects>
-            <point key="canvasLocation" x="3258" y="-233"/>
+            <point key="canvasLocation" x="3362" y="-217"/>
         </scene>
     </scenes>
     <resources>
@@ -1229,7 +1219,7 @@
         <image name="stationicon-pin" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="c6x-LU-7Kq"/>
+        <segue reference="oN2-Vu-P19"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
 </document>
