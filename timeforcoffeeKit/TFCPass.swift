@@ -85,7 +85,9 @@ public final class TFCPass {
                 }
             }
             if (timeInterval >= 60) {
-                return ">59'"
+                let hours = Int(timeInterval! / 60)
+                let minutes = String (format: "%02d", timeInterval! % 60)
+                return "\(hours):\(minutes)"
             }
             return "\(timeInterval!)'"
         }
