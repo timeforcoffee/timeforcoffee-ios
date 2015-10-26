@@ -71,16 +71,18 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
 
     func appDidBecomeActive(notification: NSNotification) {
         DLog("appDidBecomeActive")
-        self.appActive = true
+        if (!self.appActive) { //sometimes this is called twice...
+            self.appActive = true
 
-        // since this will be called before didAppear on the first run
-        //  let didAppear handle it, otherwise, if we're coming from
-        //  hibernation, do it here
-        if (appStarted && appeared) {
-            setStationValues()
-        }
-        if (!appStarted) {
-            appStarted = true
+            // since this will be called before didAppear on the first run
+            //  let didAppear handle it, otherwise, if we're coming from
+            //  hibernation, do it here
+            if (appStarted && appeared) {
+                setStationValues()
+            }
+            if (!appStarted) {
+                appStarted = true
+            }
         }
     }
 

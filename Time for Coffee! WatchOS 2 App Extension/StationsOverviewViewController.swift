@@ -47,17 +47,18 @@ class StationsOverviewViewController: WKInterfaceController {
 
     func appDidBecomeActive(notification: NSNotification) {
         DLog("appDidBecomeActive")
-        self.appActive = true
-        // since this will be called before didAppear on the first run
-        //  let didAppear handle it, otherwise, if we're coming from
-        //  hibernation, do it here
-        if (appStarted && appeared) {
-            getStations()
+        if (!self.appActive) { //sometimes this is called twice...
+            self.appActive = true
+            // since this will be called before didAppear on the first run
+            //  let didAppear handle it, otherwise, if we're coming from
+            //  hibernation, do it here
+            if (appStarted && appeared) {
+                getStations()
+            }
+            if (!appStarted) {
+                appStarted = true
+            }
         }
-        if (!appStarted) {
-            appStarted = true
-        }
-
     }
 
     func appDidResignActive(notification: NSNotification) {

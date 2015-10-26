@@ -63,6 +63,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
         if let firstStation = stations.stations!.first {
             if let ud = NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee") {
                 if (ud.stringForKey("lastFirstStationId") != firstStation.st_id) {
+                    ud.setValue(nil, forKey: "lastFirstStationId")
                     updateComplicationData()
                 }
             }

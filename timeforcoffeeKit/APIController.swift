@@ -101,7 +101,7 @@ final class APIController {
                         DLog("Task completed")
                         if(error != nil) {
                             // If there is an error in the web request, print it to the console
-                            DLog(error!.localizedDescription)
+                            DLog(error)
                             // 1001 == timeout => just retry
                             if (error!.code == -1001) {
                                 let newcounter = counter + 1
