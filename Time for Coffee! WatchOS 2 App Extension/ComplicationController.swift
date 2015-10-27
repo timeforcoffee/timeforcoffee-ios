@@ -196,7 +196,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
         } else {
             nextUpdateDate =  NSDate().dateByAddingTimeInterval(5 * 60) // request an update in 5 minutes, if no lastDepartureTime was set.
         }
-        DLog("getNextRequestedUpdateDateWithHandler: \(nextUpdateDate)")
+        DLog("getNextRequestedUpdateDateWithHandler: \(nextUpdateDate)", toFile: true)
         handler(nextUpdateDate);
     }
     

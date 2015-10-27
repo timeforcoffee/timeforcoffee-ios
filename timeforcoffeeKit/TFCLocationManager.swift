@@ -28,7 +28,6 @@ public final class TFCLocationManager: TFCLocationManagerBase {
     }
 
     public func startReceivingVisits() {
-        DLog("TFCVisits init", toFile: true)
         if (CLLocationManager.locationServicesEnabled()) {
             self.locationManager.startMonitoringVisits()
         }
@@ -40,19 +39,19 @@ public final class TFCLocationManager: TFCLocationManagerBase {
     public func locationManager(manager: CLLocationManager, didVisit visit: CLVisit) {
 
         if visit.departureDate.isEqualToDate(NSDate.distantFuture()) {
-            DLog("did Visit received in", toFile: true)
-            DLog("arrival Date: \(visit.arrivalDate)", toFile: true)
-            DLog("arrival Loc: \(visit.coordinate)", toFile: true)
+            DLog("did Visit received in")
+            DLog("arrival Date: \(visit.arrivalDate)")
+            DLog("arrival Loc: \(visit.coordinate)")
 
             self.delegate.locationVisit?(visit.coordinate, date: visit.arrivalDate, arrival: true)
         } else {
-            DLog("did Visit received gone", toFile: true)
-            DLog("departed Date: \(visit.departureDate)", toFile: true)
-            DLog("departed Loc: \(visit.coordinate)", toFile: true)
+            DLog("did Visit received gone")
+            DLog("departed Date: \(visit.departureDate)")
+            DLog("departed Loc: \(visit.coordinate)")
             if (self.delegate.locationVisit?(visit.coordinate, date: visit.departureDate, arrival: false) == true) {
-                DLog("delegate callback worked", toFile: true);
+                DLog("delegate callback worked");
             } else {
-                DLog("delegate callback didnt work", toFile: true);
+                DLog("delegate callback didnt work");
             }
 
             // The visit is complete

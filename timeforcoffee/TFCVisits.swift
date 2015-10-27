@@ -25,7 +25,6 @@ class TFCVisits: NSObject, TFCLocationManagerDelegate, TFCStationsUpdatedProtoco
         } else {
             locManager?.stopReceivingVisits()
         }
-        DLog("TFCVisits init itself", toFile: true)
     }
 
     convenience init(callback: ((text: String) -> ())) {
@@ -55,7 +54,7 @@ class TFCVisits: NSObject, TFCLocationManagerDelegate, TFCStationsUpdatedProtoco
     }
 
     func locationVisit(coord: CLLocationCoordinate2D, date: NSDate, arrival: Bool) -> Bool {
-        DLog("TFCVisits locationVisit updateStations", toFile: true)
+        DLog("TFCVisits locationVisit updateStations")
         self.stations.updateStations()
         if let callback = self.callback {
             callback(text: "Visit. Date: \(date) arrival: \(arrival) lat: \(coord.latitude.roundToPlaces(3)), lng: \(coord.longitude.roundToPlaces(3)) ")
@@ -65,7 +64,7 @@ class TFCVisits: NSObject, TFCLocationManagerDelegate, TFCStationsUpdatedProtoco
 
     func stationsUpdated(error: String?, favoritesOnly: Bool, context: Any?) {
         if (favoritesOnly == false) { // wait for all stations, should be fast anyway with the DB lookup nowadays (in Switzerland at least) and doesn't matter in this case how fast it is
-            DLog("TFCVisits stationsUpdate", toFile: true)
+            DLog("TFCVisits stationsUpdate")
             if self.stations.count() > 0 {
                 DLog("first station is \(self.stations[0].name)", toFile: true)
                 if let callback = self.callback {
