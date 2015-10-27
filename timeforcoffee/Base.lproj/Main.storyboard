@@ -1099,22 +1099,22 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jbP-eO-nam" userLabel="StationIcon">
                                         <rect key="frame" x="270" y="35" width="60" height="60"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mk6-Rg-LMX">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="StationLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="16i-Rp-bDP" customClass="DepartureLineLabel" customModule="timeforcoffee" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
                                                 <animations/>
-                                                <state key="normal" image="stationicon-pin">
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                            </button>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                         <animations/>
                                         <color key="backgroundColor" red="0.96078431369999995" green="0.81960784310000001" blue="0.38823529410000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
+                                            <constraint firstItem="16i-Rp-bDP" firstAttribute="height" secondItem="jbP-eO-nam" secondAttribute="height" id="1t3-d7-gQO"/>
+                                            <constraint firstItem="16i-Rp-bDP" firstAttribute="centerY" secondItem="jbP-eO-nam" secondAttribute="centerY" id="2Qf-58-N5Y"/>
                                             <constraint firstAttribute="height" constant="60" id="cXt-hS-HDl"/>
-                                            <constraint firstAttribute="width" secondItem="mk6-Rg-LMX" secondAttribute="width" id="h42-QH-6Rz"/>
-                                            <constraint firstAttribute="height" secondItem="mk6-Rg-LMX" secondAttribute="height" id="qqg-Aa-iuI"/>
-                                            <constraint firstAttribute="centerY" secondItem="mk6-Rg-LMX" secondAttribute="centerY" id="spV-Ds-z8W"/>
-                                            <constraint firstAttribute="centerX" secondItem="mk6-Rg-LMX" secondAttribute="centerX" id="u36-GX-SKN"/>
+                                            <constraint firstItem="16i-Rp-bDP" firstAttribute="centerX" secondItem="jbP-eO-nam" secondAttribute="centerX" id="nyC-1d-Snm"/>
+                                            <constraint firstItem="16i-Rp-bDP" firstAttribute="width" secondItem="jbP-eO-nam" secondAttribute="width" id="vFB-tY-qHY"/>
                                             <constraint firstAttribute="width" constant="60" id="xOY-yK-YJv"/>
                                         </constraints>
                                     </view>
@@ -1126,12 +1126,13 @@
                                     <constraint firstAttribute="centerX" secondItem="5pC-0t-4Bu" secondAttribute="centerX" id="3yp-as-taq"/>
                                     <constraint firstAttribute="bottom" secondItem="2hG-bZ-iDx" secondAttribute="bottom" id="6ZG-xt-HKZ"/>
                                     <constraint firstItem="caK-i9-Gyx" firstAttribute="leading" secondItem="u2N-bK-ExJ" secondAttribute="leading" id="7pT-O6-Voy"/>
-                                    <constraint firstItem="mk6-Rg-LMX" firstAttribute="centerY" secondItem="2nR-yw-DEO" secondAttribute="centerY" id="9cd-V5-zlO"/>
+                                    <constraint firstItem="16i-Rp-bDP" firstAttribute="centerX" secondItem="2nR-yw-DEO" secondAttribute="centerX" id="EhG-Wx-u33"/>
                                     <constraint firstAttribute="bottom" secondItem="caK-i9-Gyx" secondAttribute="bottom" id="F6h-ZU-0zA"/>
                                     <constraint firstAttribute="centerY" secondItem="2nR-yw-DEO" secondAttribute="centerY" constant="10" id="FEN-po-ezO"/>
                                     <constraint firstItem="9Fs-Ud-UXk" firstAttribute="top" secondItem="u2N-bK-ExJ" secondAttribute="top" constant="15" id="FrO-s6-GXJ"/>
                                     <constraint firstItem="2nR-yw-DEO" firstAttribute="width" secondItem="u2N-bK-ExJ" secondAttribute="width" id="Mqe-pK-7OH"/>
                                     <constraint firstItem="9Fs-Ud-UXk" firstAttribute="leading" secondItem="u2N-bK-ExJ" secondAttribute="leading" id="P7R-hh-xX1"/>
+                                    <constraint firstItem="jbP-eO-nam" firstAttribute="top" secondItem="u2N-bK-ExJ" secondAttribute="top" constant="35" id="S8W-fk-Kmh"/>
                                     <constraint firstItem="qs0-80-H1m" firstAttribute="width" secondItem="u2N-bK-ExJ" secondAttribute="width" id="Tlg-9o-Sza"/>
                                     <constraint firstAttribute="centerX" secondItem="jbP-eO-nam" secondAttribute="centerX" id="cdM-RS-tJa"/>
                                     <constraint firstAttribute="centerX" secondItem="2nR-yw-DEO" secondAttribute="centerX" id="cjO-lQ-9UE"/>
@@ -1190,7 +1191,7 @@
                         <outlet property="navBarBackgroundView" destination="Ddh-Nw-5U2" id="Djh-R7-YQM"/>
                         <outlet property="navBarView" destination="caK-i9-Gyx" id="KPY-gI-Z10"/>
                         <outlet property="releaseToViewLabel" destination="5pC-0t-4Bu" id="deI-mj-gql"/>
-                        <outlet property="stationIconButton" destination="mk6-Rg-LMX" id="097-p0-s92"/>
+                        <outlet property="stationIconButton" destination="16i-Rp-bDP" id="WcD-BE-i1J"/>
                         <outlet property="stationIconView" destination="jbP-eO-nam" id="uKS-hA-CVH"/>
                         <outlet property="stationNameBottomSpace" destination="wG6-WV-Gb7" id="hRF-9Y-NfV"/>
                         <outlet property="topBarBottomSpace" destination="AGf-T5-bjR" id="GJF-DO-0Ad"/>

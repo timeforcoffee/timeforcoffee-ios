@@ -23,7 +23,7 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
     @IBOutlet weak var BackButton: UIButton!
     @IBOutlet weak var favButton: UIButton!
 
-    @IBOutlet weak var stationIconButton: UIButton!
+    @IBOutlet weak var stationIconButton: DepartureLineLabel!
 
     @IBAction func BackButtonClicked(sender: UIButton) {
         self.navigationController?.popViewControllerAnimated(true)
@@ -46,7 +46,7 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
         self.edgesForExtendedLayout = UIRectEdge.None;
 
         nameLabel.text = self.departure?.getDestination()
-        if let  stationName = self.departure?.getStation()?.name {
+        if let stationName = self.departure?.getStation()?.name {
             self.distanceLabel.text = NSLocalizedString("From", comment: "") + ": \(stationName)"
         }
         super.distanceLabelVisibleOnTop = true
@@ -57,20 +57,21 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
         self.appsTableView?.contentInset = UIEdgeInsets(top: startHeight, left: 0, bottom: 0, right: 0)
 
         favButton.addTarget(self, action: "favoriteClicked:", forControlEvents: UIControlEvents.TouchUpInside)
-        stationIconButton.addTarget(self, action: "favoriteClicked:", forControlEvents: UIControlEvents.TouchUpInside)
+ //       stationIconButton.addTarget(self, action: "favoriteClicked:", forControlEvents: UIControlEvents.TouchUpInside)
 
-        if (departure?.isFavorite() == true) {
-            favButton.setTitle("★", forState: UIControlState.Normal)
+
+        if let departure = departure {
+            if (departure.isFavorite() == true) {
+                favButton.setTitle("★", forState: UIControlState.Normal)
+            }
+            self.stationIconButton.setStyle("normal", departure: departure)
         }
 
         self.stationIconView.layer.cornerRadius = self.stationIconView.frame.width / 2
         //        self.stationIconImage.image = station?.getIcon()
 
-/* FIXME SHow the number instead of ...
-        self.stationIconButton.setImage(station?.getIcon(), forState: UIControlState.Normal)
-
         self.gradientView.image = UIImage(named: "gradient.png")
-*/
+
         topViewProperties(0.0)
         self.mapView?.userInteractionEnabled = false;
         self.mapView?.rotateEnabled = false
