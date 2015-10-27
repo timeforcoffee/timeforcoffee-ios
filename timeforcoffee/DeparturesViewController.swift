@@ -119,7 +119,6 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
         // put it to true when within a few hundred meters
         self.mapView.showsUserLocation = false
         self.mapView.delegate = self
-        displayDepartures()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeInactive:", name: "UIApplicationDidEnterBackgroundNotification", object: nil)
 
     }
@@ -131,6 +130,8 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
             gtracker.set(kGAIScreenName, value: "departures")
             gtracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject]!)
         }
+        displayDepartures()
+
         viewAppeared = true
         if let station2 = self.station {
             station2.setStationActivity()

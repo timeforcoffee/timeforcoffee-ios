@@ -46,7 +46,11 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
         self.edgesForExtendedLayout = UIRectEdge.None;
 
         nameLabel.text = self.departure?.getDestination()
-        self.distanceLabel.text = ""
+        if let  stationName = self.departure?.getStation()?.name {
+            self.distanceLabel.text = NSLocalizedString("From", comment: "") + ": \(stationName)"
+        }
+        super.distanceLabelVisibleOnTop = true
+        super.distanceLabel.alpha = 0.9
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
 
         startHeight = topBarHeight.constant
@@ -54,11 +58,11 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
 
         favButton.addTarget(self, action: "favoriteClicked:", forControlEvents: UIControlEvents.TouchUpInside)
         stationIconButton.addTarget(self, action: "favoriteClicked:", forControlEvents: UIControlEvents.TouchUpInside)
-/* FIXME show a star if that departure is a favorite
-        if (station!.isFavorite()) {
+
+        if (departure?.isFavorite() == true) {
             favButton.setTitle("★", forState: UIControlState.Normal)
         }
-*/
+
         self.stationIconView.layer.cornerRadius = self.stationIconView.frame.width / 2
         //        self.stationIconImage.image = station?.getIcon()
 
@@ -160,16 +164,16 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
     func favoriteClicked(sender: UIBarButtonItem?) {
         func completion() {
         }
-        /* FIXME toggle connection fav
-        self.station!.toggleIcon(stationIconButton, icon: stationIconView, completion: completion)
-        if (self.station!.isFavorite()) {
-            favButton.setTitle("★", forState: UIControlState.Normal)
-        } else {
+
+        if (self.departure?.isFavorite() == true) {
+            self.departure?.unsetFavorite()
             favButton.setTitle("☆", forState: UIControlState.Normal)
+        } else {
+            self.departure?.setFavorite()
+            favButton.setTitle("★", forState: UIControlState.Normal)
         }
         self.appsTableView?.reloadData()
-        SKTUser.currentUser().addProperties(["usedFavorites": true])
-*/
+
     }
 
     func displayPasslist() {

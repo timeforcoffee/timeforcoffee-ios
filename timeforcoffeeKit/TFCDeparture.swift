@@ -20,6 +20,7 @@ public final class TFCDeparture: NSObject, NSCoding, APIControllerProtocol {
     public var colorBg: String?
     public var platform: String?
     public var st_id: String?
+    private var _station: TFCStation?
     private var destination_id: String?
     var outdated: Bool = false
     var passlist: [TFCPass]? = nil
@@ -390,6 +391,29 @@ public final class TFCDeparture: NSObject, NSCoding, APIControllerProtocol {
         return getDestination()
     }
 
+    public func isFavorite(station: TFCStation? = nil) -> Bool {
+        if let isfav = self.getStation(station)?.showAsFavoriteDeparture(self) {
+            return isfav
+        }
+        return false
+    }
+
+    public func setFavorite(station: TFCStation? = nil) {
+        self.getStation(station)?.setFavoriteDeparture(self)
+    }
+
+    public func unsetFavorite(station: TFCStation? = nil) {
+        self.getStation(station)?.unsetFavoriteDeparture(self)
+    }
+
+    public func toggleFavorite(station: TFCStation? = nil) {
+        if (self.isFavorite(station) == true) {
+            self.unsetFavorite(station)
+        } else {
+            self.setFavorite(station)
+        }
+    }
+
     private class func parseDate(dateStr:String) -> NSDate? {
         var format = "yyyy-MM-dd'T'HH:mm:ss.'000'ZZZZZ"
         let dateFmt = NSDateFormatter()
@@ -462,6 +486,20 @@ public final class TFCDeparture: NSObject, NSCoding, APIControllerProtocol {
         return "http://tfc.chregu.tv/api/ch/connections/\(st_id)/\(dest_name!)/\(date)"
         }
         return nil
+    }
+
+    public func getStation(station: TFCStation? = nil) -> TFCStation? {
+        if let station = station {
+            _station = station
+            return _station
+        }
+        if let station = _station {
+            return station
+        }
+        if let st_id = st_id {
+            _station = TFCStation.initWithCacheId(st_id)
+        }
+        return _station
     }
 }
 

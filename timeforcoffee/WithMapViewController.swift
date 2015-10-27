@@ -20,6 +20,7 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
     var mapSwipeUpStart: CGFloat?
     var destinationPlacemark: MKPlacemark?
     var mapDirectionOverlay: MKOverlay?
+    var distanceLabelVisibleOnTop = false
 
     @IBOutlet var appsTableView : UITableView?
 
@@ -92,7 +93,9 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
         self.borderBottomView.alpha = offset / 80
         self.mapView?.alpha = min(1 - (offset / 80), 0.5)
         self.stationIconView.alpha = 1 - (offset / 80)
-        self.distanceLabel.alpha =  offset / 80
+        if (!distanceLabelVisibleOnTop) {
+            self.distanceLabel.alpha =  offset / 80
+        }
         return offset
     }
 
@@ -245,7 +248,9 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
         self.stationIconView.transform = CGAffineTransformMakeScale(1 - offsetForAnimation, 1 - offsetForAnimation)
         self.borderBottomView.alpha = 0.0 + offsetForAnimation
         self.stationNameBottomSpace.constant = -28.0 - offsetForAnimation * 11.0
-        self.distanceLabel.alpha = 0.0 + offsetForAnimation
+        if (!distanceLabelVisibleOnTop) {
+            self.distanceLabel.alpha = 0.0 + offsetForAnimation
+        }
     }
 
     @IBAction func mapUpAction(sender: AnyObject) {
