@@ -106,14 +106,15 @@ public final class TFCDeparture: NSObject, NSCoding, APIControllerProtocol {
                     accessible = false
                 }
                 let to = result["to"].stringValue
-                let scheduledStr = result["departure"]["scheduled"].string
-                let realtimeStr = result["departure"]["realtime"].string
                 var colorFg = result["colors"]["fg"].string
                 colorFg = colorFg == nil ? "#000000" : colorFg
 
                 var colorBg = result["colors"]["bg"].string
                 colorBg = colorBg == nil ? "#ffffff" : colorBg
-                
+
+                let scheduledStr = result["departure"]["scheduled"].string
+                let realtimeStr = result["departure"]["realtime"].string
+
                 let scheduled: NSDate?
                 let realtime: NSDate?
 

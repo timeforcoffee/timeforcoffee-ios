@@ -13,7 +13,7 @@ class StationAnnotation: NSObject, MKAnnotation {
     let coordinate: CLLocationCoordinate2D
     let distance: String?
     
-    init(title: String, distance: String, coordinate: CLLocationCoordinate2D) {
+    init(title: String, distance: String?, coordinate: CLLocationCoordinate2D) {
         self.title = title
         self.coordinate = coordinate
         self.distance = distance

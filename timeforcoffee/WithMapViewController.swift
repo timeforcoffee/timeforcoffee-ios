@@ -32,7 +32,7 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
     @IBOutlet weak var stationNameBottomSpace: NSLayoutConstraint!
     @IBOutlet weak var navBarView: UIView!
     @IBOutlet weak var borderBottomView: UIView!
-    @IBOutlet weak var stationIconView: UIView!
+    @IBOutlet internal weak var stationIconView: UIView!
     @IBOutlet weak var distanceLabel: UILabel!
 
     @IBOutlet weak var topView: UIView!
@@ -153,7 +153,7 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
             self.releaseToViewLabel.hidden = true
             if (mapSwipeUpStart == nil) {
                 if (self.destinationPlacemark == nil) {
-                    drawStationAndWay()
+                    drawAnnotations()
                 }
             }
         } else {
@@ -200,7 +200,7 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
         let gtracker = GAI.sharedInstance().defaultTracker
         gtracker.set(kGAIScreenName, value: "departuresMap")
         gtracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject]!)
-
+        mapView.showAnnotations(mapView.annotations, animated: true)
     }
 
     func moveMapViewUp(velocity: Double?) {
@@ -301,8 +301,11 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
         let buttonImage = UIImage(named: "Walking")
         button.setImage(buttonImage, forState: UIControlState.Normal)
         annotationView?.leftCalloutAccessoryView = button
-
-        annotationView!.image = getIconViewAsImage(self.stationIconView)
+        if let n: Int = self.navigationController?.viewControllers.count,  DepViewController = self.navigationController?.viewControllers[n-2] as? DeparturesViewController {
+            annotationView!.image = getIconViewAsImage(DepViewController.stationIconView)
+        } else {
+            annotationView!.image = getIconViewAsImage(self.stationIconView)
+        }
         annotationView!.opaque = false
         annotationView!.alpha = 1.0
         annotationView!.frame.size.height = 30
@@ -310,6 +313,53 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
 
         return annotationView;
 
+    }
+
+    func drawStationAndWay(station:TFCStation) {
+
+        if let stationCoordinate = station.coord?.coordinate, stationDistance = distanceLabel.text {
+
+            let annotation = StationAnnotation(title: station.name, distance: stationDistance, coordinate: stationCoordinate)
+            mapView.addAnnotation(annotation)
+            destinationPlacemark = MKPlacemark(coordinate: annotation.coordinate, addressDictionary: nil)
+
+            let currentLocation = TFCLocationManager.getCurrentLocation()
+            let currentCoordinate = currentLocation?.coordinate
+
+            if (currentCoordinate == nil || station.getDistanceInMeter(currentLocation) >= 5000) {
+                return
+            }
+            let sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
+
+            let sourceMapItem = MKMapItem(placemark: sourcePlacemark)
+            let destinationMapItem = MKMapItem(placemark: destinationPlacemark!)
+            let directionRequest:MKDirectionsRequest = MKDirectionsRequest()
+
+            directionRequest.source = sourceMapItem
+            directionRequest.destination = destinationMapItem
+            directionRequest.transportType = MKDirectionsTransportType.Walking
+            directionRequest.requestsAlternateRoutes = false
+
+            let directions:MKDirections = MKDirections(request: directionRequest)
+
+            directions.calculateDirectionsWithCompletionHandler({
+                (response: MKDirectionsResponse?, error: NSError?) in
+                if error != nil{
+                    DLog("Error")
+                }
+                if response != nil{
+                    //                for r in response.routes { DLog("route = \(r)") }
+                    let route: MKRoute = response!.routes[0] as MKRoute;
+                    self.mapDirectionOverlay = route.polyline
+                    self.mapView.addOverlay(self.mapDirectionOverlay!)
+                }
+                else{
+                    DLog("No response")
+                }
+                print(error?.description)
+            })
+            
+        }
     }
 
     // Launch Maps app when the left accessory button is tapped
@@ -353,9 +403,7 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
         })
     }
 
+    func drawAnnotations() {}
 
-
-    func drawStationAndWay() {
-    }
 
 }

@@ -96,7 +96,7 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
         favButton.addTarget(self, action: "favoriteClicked:", forControlEvents: UIControlEvents.TouchUpInside)
         stationIconButton.addTarget(self, action: "favoriteClicked:", forControlEvents: UIControlEvents.TouchUpInside)
 
-        if (station!.isFavorite()) {
+        if (station?.isFavorite() == true) {
             favButton.setTitle("★", forState: UIControlState.Normal)
         }
         self.stationIconView.layer.cornerRadius = self.stationIconView.frame.width / 2
@@ -449,53 +449,13 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
         })
     }
 
-    override func drawStationAndWay() {
+    override func drawAnnotations() {
 
         mapView.removeAnnotations(mapView.annotations)
-
-        if let stationCoordinate = station?.coord?.coordinate, let stationName = station?.name, let stationDistance = distanceLabel.text {
-
-            let annotation = StationAnnotation(title: stationName, distance: stationDistance, coordinate: stationCoordinate)
-            mapView.addAnnotation(annotation)
-            destinationPlacemark = MKPlacemark(coordinate: annotation.coordinate, addressDictionary: nil)
-            self.mapView.showsUserLocation = true
-
-            let currentLocation = TFCLocationManager.getCurrentLocation()
-            let currentCoordinate = currentLocation?.coordinate
-
-            if (currentCoordinate == nil || station?.getDistanceInMeter(currentLocation) >= 5000) {
-                return
-            }
-            let sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
-
-            let sourceMapItem = MKMapItem(placemark: sourcePlacemark)
-            let destinationMapItem = MKMapItem(placemark: destinationPlacemark!)
-            let directionRequest:MKDirectionsRequest = MKDirectionsRequest()
-
-            directionRequest.source = sourceMapItem
-            directionRequest.destination = destinationMapItem
-            directionRequest.transportType = MKDirectionsTransportType.Walking
-            directionRequest.requestsAlternateRoutes = false
-
-            let directions:MKDirections = MKDirections(request: directionRequest)
-
-            directions.calculateDirectionsWithCompletionHandler({
-                (response: MKDirectionsResponse?, error: NSError?) in
-                if error != nil{
-                    DLog("Error")
-                }
-                if response != nil{
-                    //                for r in response.routes { DLog("route = \(r)") }
-                    let route: MKRoute = response!.routes[0] as MKRoute;
-                    self.mapDirectionOverlay = route.polyline
-                    self.mapView.addOverlay(self.mapDirectionOverlay!)
-                }
-                else{
-                    DLog("No response")
-                }
-                print(error?.description)
-            })
+        if let station = station {
+            drawStationAndWay(station)
         }
+        self.mapView.showsUserLocation = true
     }
 
 

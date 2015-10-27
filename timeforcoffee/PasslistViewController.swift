@@ -16,7 +16,7 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
     var departure: TFCDeparture?
     var networkErrorMsg: String?
     let kCellIdentifier: String = "DeparturesListCell"
-
+    var annotations:[StationAnnotation]?
     var viewAppeared: Bool = false
 
     @IBOutlet weak var nameLabel: UILabel!
@@ -76,8 +76,7 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
         self.mapView?.userInteractionEnabled = false;
         self.mapView?.rotateEnabled = false
 
-        /* FIXME show the whole way somehow
-        if let coordinate = station?.coord?.coordinate {
+        if let coordinate = departure?.getStation()?.coord?.coordinate {
             let region = MKCoordinateRegionMakeWithDistance(coordinate ,450,450);
             //with some regions, this fails, so check if it does and only then show a map
             let newRegion = self.mapView.regionThatFits(region)
@@ -85,7 +84,7 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
                 self.mapView.setRegion(newRegion, animated: false)
             }
         }
-*/
+
         // put it to true when within a few hundred meters
         self.mapView.showsUserLocation = false
         self.mapView.delegate = self
@@ -111,10 +110,28 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
     }
 
 
-    override func drawStationAndWay() {
+    override func drawAnnotations() {
+
         //FIXME draw all stations...
 
         mapView.removeAnnotations(mapView.annotations)
+
+        if let station = departure?.getStation() {
+            drawStationAndWay(station)
+
+        }
+        self.mapView.showsUserLocation = true
+
+        if let passlist = departure?.getPasslist() {
+            for (pass) in passlist {
+                if (pass.st_id != self.departure?.st_id) {
+                    if let coord = pass.coord {
+                        let annotation = StationAnnotation(title: pass.name, distance: nil, coordinate: coord)
+                        mapView.addAnnotation(annotation)
+                    }
+                }
+            }
+        }
 /*
         if let stationCoordinate = station?.coord?.coordinate, let stationName = station?.name, let stationDistance = distanceLabel.text {
             
@@ -158,8 +175,8 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
                 }
                 print(error?.description)
             })
-        }
-*/
+        }*/
+
     }
 
     func favoriteClicked(sender: UIBarButtonItem?) {
