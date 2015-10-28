@@ -76,7 +76,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>If you have complications installed on your Apple Watch, we subscribe for location events when you&apos;re in one of your favorite places, so that we can update your complication with the right info. Also enable in Settings &quot;Privacy -&gt; Location Services -&gt; System Services -&gt; Frequent Locations&quot;</string>
+	<string>If you have complications installed on your Apple Watch, we subscribe for location events when you&apos;re in one of your favourite places, so that we can update your complication with the right info. Also enable in Settings &quot;Privacy -&gt; Location Services -&gt; System Services -&gt; Frequent Locations&quot;</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string> We need the location to show you nearby stations. We’re only accessing this, when the app or the Today extension is in use and for as short as possible.</string>
 	<key>NSUserActivityTypes</key>
