@@ -15,7 +15,7 @@ class DepartureLineLabel: UILabel, UITableViewDelegate {
     var fontsize:CGFloat       { get { return 18.0}}
     var cornerradius: CGFloat  { get { return 4.0}}
     var insets: CGFloat        { get { return 5.0}}
-
+    var linelabelClickedCallback:(() -> Void)?
     override func layoutSubviews() {
         super.layoutSubviews()
     }
@@ -27,8 +27,18 @@ class DepartureLineLabel: UILabel, UITableViewDelegate {
         self.textAlignment = NSTextAlignment.Center
         self.baselineAdjustment = UIBaselineAdjustment.AlignCenters
         self.adjustsFontSizeToFitWidth = true
+
+        let tapGesture = UITapGestureRecognizer(target: self, action: "favoriteDepartureClicked")
+        tapGesture.numberOfTapsRequired = 1
+        self.addGestureRecognizer(tapGesture)
     }
 
+    func favoriteDepartureClicked() {
+        if let callback = linelabelClickedCallback {
+            self.toggleIcon(callback)
+        }
+    }
+    
     override func drawTextInRect(rect: CGRect) {
         return super.drawTextInRect(UIEdgeInsetsInsetRect(rect, UIEdgeInsets(top: insets, left: insets, bottom: insets, right: insets)))
     }
@@ -63,6 +73,34 @@ class DepartureLineLabel: UILabel, UITableViewDelegate {
             }
         }
     }
+
+    internal func toggleIcon(completion: (() -> Void)?) {
+
+//        button.imageView?.alpha = 1.0
+        self.transform = CGAffineTransformMakeScale(1, 1);
+
+        UIView.animateWithDuration(0.2,
+            delay: 0.0,
+            options: UIViewAnimationOptions.CurveLinear,
+            animations: {
+                self.transform = CGAffineTransformMakeScale(0.1, 0.1);
+                self.alpha = 0.0
+                return
+            }, completion: { (finished:Bool) in
+                UIView.animateWithDuration(0.2,
+                    animations: {
+                        self.transform = CGAffineTransformMakeScale(1, 1);
+                        self.alpha = 1.0
+                        return
+                    }, completion: { (finished:Bool) in
+                        completion?()
+                        return
+                })
+        })
+        
+    }
+    
+
     
 }
 
@@ -72,3 +110,4 @@ final class DepartureLineLabelForToday: DepartureLineLabel {
     override var insets: CGFloat       { get { return 1.0}}
 
 }
+

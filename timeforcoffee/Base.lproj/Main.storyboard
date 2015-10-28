@@ -1108,7 +1108,6 @@
                                             </label>
                                         </subviews>
                                         <animations/>
-                                        <color key="backgroundColor" red="0.96078431369999995" green="0.81960784310000001" blue="0.38823529410000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstItem="16i-Rp-bDP" firstAttribute="height" secondItem="jbP-eO-nam" secondAttribute="height" id="1t3-d7-gQO"/>
                                             <constraint firstItem="16i-Rp-bDP" firstAttribute="centerY" secondItem="jbP-eO-nam" secondAttribute="centerY" id="2Qf-58-N5Y"/>

@@ -348,6 +348,11 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
                 departureLabel.text = departureTimeString
             }
             lineNumberLabel.setStyle("normal", departure: departure)
+            lineNumberLabel.linelabelClickedCallback = {
+                departure.toggleFavorite(station2)
+                self.appsTableView?.reloadData()
+            }
+
         }
         return cell
     }
