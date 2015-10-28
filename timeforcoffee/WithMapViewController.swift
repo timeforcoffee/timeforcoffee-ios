@@ -192,16 +192,18 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
                 return
             }, completion: { (finished:Bool) in
                 if (finished) {
-                    self.mapOnBottom = true
-                    self.topBarHeight?.constant = self.topView.frame.height
+                    self.mapViewReachedBottom()
                 }
             }
         )
         let gtracker = GAI.sharedInstance().defaultTracker
         gtracker.set(kGAIScreenName, value: "departuresMap")
         gtracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject]!)
-        mapView.showAnnotations(mapView.annotations, animated: true)
-        self.mapView.showsUserLocation = true
+    }
+
+    func mapViewReachedBottom() {
+        self.mapOnBottom = true
+        self.topBarHeight?.constant = self.topView.frame.height
     }
 
     func moveMapViewUp(velocity: Double?) {

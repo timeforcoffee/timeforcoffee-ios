@@ -18,6 +18,9 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
     let kCellIdentifier: String = "DeparturesListCell"
     var annotations:[StationAnnotation]?
     var viewAppeared: Bool = false
+    var mapMovedDownOnce = false
+    var annotationUpper:CLLocationCoordinate2D?
+    var annotationLower:CLLocationCoordinate2D?
 
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var BackButton: UIButton!
@@ -118,14 +121,24 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
 
         if let station = departure?.getStation() {
             drawStationAndWay(station)
-
+            annotationUpper = station.coord?.coordinate
+            annotationLower = station.coord?.coordinate
         }
-
         if let passlist = departure?.getPasslist() {
             for (pass) in passlist {
                 if (pass.st_id != self.departure?.st_id) {
                     if let coord = pass.coord {
                         let annotation = StationAnnotation(title: pass.name, distance: nil, coordinate: coord)
+
+                        let latitude = coord.latitude
+                        let longitude = coord.longitude
+                        if (latitude > annotationUpper?.latitude) {annotationUpper?.latitude = latitude}
+                        if (latitude < annotationLower?.latitude) {annotationLower?.latitude = latitude}
+                        if (longitude > annotationUpper?.longitude) {annotationUpper?.longitude = longitude}
+                        if (longitude < annotationLower?.longitude) {annotationLower?.longitude = longitude}
+
+
+
                         mapView.addAnnotation(annotation)
                     }
                 }
@@ -189,6 +202,35 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
             return count
         }
         return 1
+    }
+
+    override func moveMapViewDown(velocity: Double?) {
+        super.moveMapViewDown(velocity)
+    }
+
+    override func mapViewReachedBottom() {
+        super.mapViewReachedBottom()
+        if (!mapMovedDownOnce) {
+
+
+            var locationSpan:MKCoordinateSpan = MKCoordinateSpan()
+            var locationCenter:CLLocationCoordinate2D = CLLocationCoordinate2D()
+            if let annotationUpper = annotationUpper, annotationLower = annotationLower {
+                locationSpan.latitudeDelta = (annotationUpper.latitude - annotationLower.latitude) * 1.5;
+                locationSpan.longitudeDelta = (annotationUpper.longitude - annotationLower.longitude) * 1.2;
+                locationCenter.latitude = (annotationUpper.latitude + annotationLower.latitude) / 2;
+                locationCenter.longitude = (annotationUpper.longitude + annotationLower.longitude) / 2;
+                let region = MKCoordinateRegionMake(locationCenter, locationSpan)
+                mapView.setRegion(mapView.regionThatFits(region), animated: true)
+            } else {
+                if let annotations = self.annotations {
+                    //since our map is bigger than the view, this may produce pois outside of the viewable area
+                    mapView.showAnnotations(annotations, animated: true)
+                }
+            }
+            mapMovedDownOnce = true
+        }
+        mapView.showsUserLocation = true
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
