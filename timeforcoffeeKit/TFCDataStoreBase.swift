@@ -146,6 +146,11 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
         for (myKey,myValue) in userInfo {
             if (myKey == "__updateComplicationData__") {
                 updateComplicationData()
+            } else if (myKey == "__logThis__") {
+                DLog("Got __giveMeTheData__")
+                if let value = myValue as? String {
+                    DLog("Watch: " + value, toFile: true)
+                }
             } else if (myKey == "__giveMeTheData__") {
                 DLog("Got __giveMeTheData__");
                 sendAllData()

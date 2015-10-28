@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import WatchConnectivity
 
 // from http://stackoverflow.com/questions/28489227/swift-ios-dates-and-times-in-different-format
 extension NSDate {
@@ -92,9 +93,21 @@ func DLog<T>(@autoclosure object: () -> T, toFile: Bool = false, _ file: String 
         //print("\(NSDate().formattedWithDateFormatter(DLogDateFormatter)) <\(queue)> \(fileURL) \(function)[\(line)] - " + stringRepresentation)
         NSLog("<\(queue)> %@ (\(fileURL) \(function)[\(line)])", stringRepresentation)
         if (toFile) {
-            DLog2File("\(NSDate().formattedWithDateFormatter(DLogDateFormatter)) <\(queue)> \(stringRepresentation)  (\(fileURL) \(function)[\(line)])")
+            let text = "\(NSDate().formattedWithDateFormatter(DLogDateFormatter)) <\(queue)> \(stringRepresentation)  (\(fileURL) \(function)[\(line)])"
+        #if os(watchOS)
+            DLog2WatchConnectivity(text)
+        #else
+            DLog2File(text)
+        #endif
         }
     #endif
+}
+
+//we can't read the file from the Watch, so send it to the iPhone to be read from there
+private func DLog2WatchConnectivity(text:String) {
+    if #available(iOS 9.0, *) {
+        WCSession.defaultSession().transferUserInfo(["__logThis__": text])
+    }
 }
 
 private func DLog2File(text:String) {
@@ -108,16 +121,3 @@ private func DLog2File(text:String) {
         try! dtext.appendLineToURL(url)
     }
 }
-
-/*private func FLog(text:String) {
-    let file = "log.txt"
-    NSLog(text)
-    if let dir : NSString = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.AllDomainsMask, true).first {
-        let path = dir.stringByAppendingPathComponent(file);
-
-        let dtext = "\(NSDate()) \(text)"
-        let url = NSURL(fileURLWithPath: path)
-        let _ = try? url.setResourceValue(true, forKey: NSURLIsExcludedFromBackupKey)
-        try! dtext.appendLineToURL(url)
-    }
-}*/
