@@ -201,6 +201,7 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
         gtracker.set(kGAIScreenName, value: "departuresMap")
         gtracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject]!)
         mapView.showAnnotations(mapView.annotations, animated: true)
+        self.mapView.showsUserLocation = true
     }
 
     func moveMapViewUp(velocity: Double?) {
@@ -301,11 +302,7 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
         let buttonImage = UIImage(named: "Walking")
         button.setImage(buttonImage, forState: UIControlState.Normal)
         annotationView?.leftCalloutAccessoryView = button
-        if let n: Int = self.navigationController?.viewControllers.count,  DepViewController = self.navigationController?.viewControllers[n-2] as? DeparturesViewController {
-            annotationView!.image = getIconViewAsImage(DepViewController.stationIconView)
-        } else {
-            annotationView!.image = getIconViewAsImage(self.stationIconView)
-        }
+        annotationView!.image = getMapIcon()
         annotationView!.opaque = false
         annotationView!.alpha = 1.0
         annotationView!.frame.size.height = 30
@@ -313,6 +310,10 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
 
         return annotationView;
 
+    }
+
+    func getMapIcon() -> UIImage {
+        return UIImage()
     }
 
     func drawStationAndWay(station:TFCStation) {
@@ -374,17 +375,20 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
     }
 
     func getIconViewAsImage(view: UIView) -> UIImage {
+
+        let documentsDirectory = (NSTemporaryDirectory() as NSString)
+        let filePath = documentsDirectory.stringByAppendingPathComponent("map-icon.png")
+        if let image = UIImage(contentsOfFile: filePath) {
+            return image
+        }
         view.opaque = false
-        //in case we want a different backgroundColor
-        //let oldBG = view.backgroundColor
-        //view.backgroundColor = UIColor.blueColor();
 
         UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.opaque, 0.0);
         view.layer.renderInContext(UIGraphicsGetCurrentContext()!)
         let img = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        //view.backgroundColor = oldBG
 
+        UIImagePNGRepresentation(img)?.writeToFile(filePath, atomically: true)
         return img;
     }
 

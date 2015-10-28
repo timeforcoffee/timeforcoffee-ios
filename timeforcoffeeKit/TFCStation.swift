@@ -109,26 +109,6 @@ public class TFCStation: TFCStationBase {
         return nil
     }
 
-    public func getMapImage(completion: (UIImage) -> Void?) {
-        let map: MKMapView = MKMapView()
-        map.bounds.size = CGSize(width: 320,height: 150)
-        let location = self.coord?.coordinate
-        let region = MKCoordinateRegionMakeWithDistance(location!,200,200);
-        map.setRegion(region, animated: false)
-
-        let options = MKMapSnapshotOptions()
-        options.region = map.region
-        options.scale = UIScreen.mainScreen().scale
-        options.size = map.frame.size
-
-        let snapshotter = MKMapSnapshotter(options: options)
-        snapshotter.startWithCompletionHandler({
-            snapshot, error in
-            let image = snapshot!.image
-            completion(image)
-        })
-    }
-
     public func toggleIcon(button: UIButton, icon: UIView, completion: () -> Void) {
         let newImage: UIImage?
 

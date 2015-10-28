@@ -642,26 +642,23 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         ]
     }
 
-    public func getIcon() -> UIImage {
+    public func getIconIdentifier() -> String {
         if (isFavorite()) {
-            return getFavoriteIcon()
+            if (st_id == "8591306") {
+                return "stationicon-liip"
+            }
+            return "stationicon-star"
         }
-        return getNormalIcon()
+        return "stationicon-pin"
     }
 
-    private func getFavoriteIcon() -> UIImage {
-        if (st_id == "8591306") {
-            return UIImage(named: "stationicon-liip")!
-        }
-        return UIImage(named: "stationicon-star")!
-    }
-
-    private func getNormalIcon() -> UIImage {
-        return UIImage(named: "stationicon-pin")!
+    public func getIcon() -> UIImage {
+        return UIImage(named: getIconIdentifier())!
     }
 
     public func setStationActivity() {
     }
+
     public func setStationSearchIndex() {
     }
 

@@ -357,6 +357,10 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
         return cell
     }
 
+    override func getMapIcon() -> UIImage {
+        return getIconViewAsImage(self.stationIconView)
+    }
+
     func swipeTableCell(cell: MGSwipeTableCell!, canSwipe direction: MGSwipeDirection) -> Bool {
         if (direction == MGSwipeDirection.RightToLeft) {
             return true
@@ -457,6 +461,8 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
     override func drawAnnotations() {
 
         mapView.removeAnnotations(mapView.annotations)
+        self.mapView.showsUserLocation = false
+
         if let station = station {
             drawStationAndWay(station)
         }

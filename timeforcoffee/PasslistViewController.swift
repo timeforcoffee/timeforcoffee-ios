@@ -120,7 +120,6 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
             drawStationAndWay(station)
 
         }
-        self.mapView.showsUserLocation = true
 
         if let passlist = departure?.getPasslist() {
             for (pass) in passlist {
@@ -132,51 +131,17 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
                 }
             }
         }
-/*
-        if let stationCoordinate = station?.coord?.coordinate, let stationName = station?.name, let stationDistance = distanceLabel.text {
-            
-            let annotation = StationAnnotation(title: stationName, distance: stationDistance, coordinate: stationCoordinate)
-            mapView.addAnnotation(annotation)
-            destinationPlacemark = MKPlacemark(coordinate: annotation.coordinate, addressDictionary: nil)
-            self.mapView.showsUserLocation = true
-            
-            let currentLocation = TFCLocationManager.getCurrentLocation()
-            let currentCoordinate = currentLocation?.coordinate
-            
-            if (currentCoordinate == nil || station?.getDistanceInMeter(currentLocation) >= 5000) {
-                return
-            }
-            let sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
-            
-            let sourceMapItem = MKMapItem(placemark: sourcePlacemark)
-            let destinationMapItem = MKMapItem(placemark: destinationPlacemark!)
-            let directionRequest:MKDirectionsRequest = MKDirectionsRequest()
-            
-            directionRequest.source = sourceMapItem
-            directionRequest.destination = destinationMapItem
-            directionRequest.transportType = MKDirectionsTransportType.Walking
-            directionRequest.requestsAlternateRoutes = false
-            
-            let directions:MKDirections = MKDirections(request: directionRequest)
-            
-            directions.calculateDirectionsWithCompletionHandler({
-                (response: MKDirectionsResponse?, error: NSError?) in
-                if error != nil{
-                    DLog("Error")
-                }
-                if response != nil{
-                    //                for r in response.routes { DLog("route = \(r)") }
-                    let route: MKRoute = response!.routes[0] as MKRoute;
-                    self.mapDirectionOverlay = route.polyline
-                    self.mapView.addOverlay(self.mapDirectionOverlay!)
-                }
-                else{
-                    DLog("No response")
-                }
-                print(error?.description)
-            })
-        }*/
+    }
 
+    
+    override func getMapIcon() -> UIImage {
+        return UIImage(named: "stationicon-pin-map")!
+
+        /*if let n: Int = self.navigationController?.viewControllers.count,  station = (self.navigationController?.viewControllers[n-2] as? DeparturesViewController)?.station {
+            //FIXME, should be a different icon...
+            return station.getIcon()
+        }
+        return UIImage()*/
     }
 
     func favoriteClicked(sender: UIBarButtonItem?) {
@@ -190,6 +155,7 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
             self.departure?.setFavorite()
             favButton.setTitle("★", forState: UIControlState.Normal)
         }
+        self.stationIconButton.toggleIcon(nil)
         self.appsTableView?.reloadData()
 
     }
@@ -226,9 +192,8 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell:MGSwipeTableCell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as! MGSwipeTableCell
+        let cell:UITableViewCell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier, forIndexPath: indexPath) as UITableViewCell
 
-        cell.delegate = self
         cell.tag = indexPath.row
 
         let destinationLabel = cell.viewWithTag(99200) as! UILabel
