@@ -61,10 +61,6 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        if let segmentedViewIndex = TFCDataStore.sharedInstance.getUserDefaults()?.integerForKey("segmentedViewDepartures") {
-            segmentedView.selectedSegmentIndex = segmentedViewIndex
-        }
-
     }
 
     override func viewDidLoad() {
@@ -119,6 +115,9 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
         self.mapView.showsUserLocation = false
         self.mapView.delegate = self
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeInactive:", name: "UIApplicationDidEnterBackgroundNotification", object: nil)
+        if let segmentedViewIndex = TFCDataStore.sharedInstance.getUserDefaults()?.integerForKey("segmentedViewDepartures") {
+            segmentedView.selectedSegmentIndex = segmentedViewIndex
+        }
 
     }
 
@@ -474,7 +473,9 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
 
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.performSegueWithIdentifier("SegueToPasslistView", sender: nil)
+        if (self.getDeparturesDependentOnView(station)?.count > 0) {
+            self.performSegueWithIdentifier("SegueToPasslistView", sender: nil)
+        }
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
