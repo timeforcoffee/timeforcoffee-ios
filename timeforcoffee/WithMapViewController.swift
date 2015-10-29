@@ -401,7 +401,7 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
         if (pass?.isFirst == true) {
             return getIconIdentifier(pass?.getStation())
         } else if (pass?.isLast == true) {
-            return "stationicon-pin-map"
+            return "stationicon-pin-finish"
         }
         return "stationicon-pin-map"
     }
