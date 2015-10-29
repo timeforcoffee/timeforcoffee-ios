@@ -7,16 +7,19 @@
 //
 
 import MapKit
+import timeforcoffeeKit
 
 class StationAnnotation: NSObject, MKAnnotation {
     let title: String?
     let coordinate: CLLocationCoordinate2D
     let distance: String?
+    let pass:TFCPass?
     
-    init(title: String, distance: String?, coordinate: CLLocationCoordinate2D) {
+    init(title: String, distance: String?, coordinate: CLLocationCoordinate2D, pass: TFCPass? = nil) {
         self.title = title
         self.coordinate = coordinate
         self.distance = distance
+        self.pass = pass
     }
     
     var subtitle: String? {

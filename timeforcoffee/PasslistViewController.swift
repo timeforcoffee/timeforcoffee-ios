@@ -120,7 +120,7 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
         mapView.removeAnnotations(mapView.annotations)
 
         if let station = departure?.getStation() {
-            drawStationAndWay(station)
+            drawStationAndWay(station, drawStation: false)
             annotationUpper = station.coord?.coordinate
             annotationLower = station.coord?.coordinate
         }
@@ -128,7 +128,7 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
             for (pass) in passlist {
                 if (pass.st_id != self.departure?.st_id) {
                     if let coord = pass.coord {
-                        let annotation = StationAnnotation(title: pass.name, distance: nil, coordinate: coord)
+                        let annotation = StationAnnotation(title: pass.name, distance: nil, coordinate: coord, pass: pass)
 
                         let latitude = coord.latitude
                         let longitude = coord.longitude
@@ -147,14 +147,15 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
     }
 
     
-    override func getMapIcon() -> UIImage {
-        return UIImage(named: "stationicon-pin-map")!
-
-        /*if let n: Int = self.navigationController?.viewControllers.count,  station = (self.navigationController?.viewControllers[n-2] as? DeparturesViewController)?.station {
-            //FIXME, should be a different icon...
-            return station.getIcon()
+    override func getMapIcon(pass:TFCPass? = nil) -> UIImage {
+        if (pass?.isFirst == true) {
+            let (image, _) = getIconAsImage(pass?.getStation())
+            if let image = image {
+                return image
+            }
         }
-        return UIImage()*/
+        let ident = getIconIdentifier(pass)
+        return UIImage(named: "\(ident)")!
     }
 
     func favoriteClicked(sender: UIBarButtonItem?) {

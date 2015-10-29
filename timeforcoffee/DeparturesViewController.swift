@@ -14,7 +14,6 @@ import MGSwipeTableCell
 final class DeparturesViewController: WithMapViewController, UITableViewDataSource, TFCDeparturesUpdatedProtocol {
 
     var refreshControl:UIRefreshControl!
-    var station: TFCStation?
     var networkErrorMsg: String?
     let kCellIdentifier: String = "DeparturesListCell"
     var updateInAMinuteTimer: NSTimer?
@@ -134,6 +133,10 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
 
         viewAppeared = true
         if let station2 = self.station {
+            //check if the icon is cache already for mapview later.
+            if (!self.checkIfIconIsCachedAsImage(station2)) {
+                self.getIconViewAsImage(self.stationIconView, station: station2)
+            }
             station2.setStationActivity()
             if #available(iOS 9.0, *) {
                 // in 9.1 make it UIApplicationShortcutIcon(type: .MarkLocation)
@@ -357,8 +360,8 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
         return cell
     }
 
-    override func getMapIcon() -> UIImage {
-        return getIconViewAsImage(self.stationIconView)
+    override func getMapIcon(pass:TFCPass? = nil) -> UIImage {
+        return getIconViewAsImage(self.stationIconView, station: self.station)
     }
 
     func swipeTableCell(cell: MGSwipeTableCell!, canSwipe direction: MGSwipeDirection) -> Bool {

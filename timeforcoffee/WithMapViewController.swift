@@ -21,6 +21,7 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
     var destinationPlacemark: MKPlacemark?
     var mapDirectionOverlay: MKOverlay?
     var distanceLabelVisibleOnTop = false
+    var station: TFCStation?
 
     @IBOutlet var appsTableView : UITableView?
 
@@ -291,8 +292,18 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
         if (annotation.isKindOfClass(MKUserLocation)) {
             return nil
         }
+        let stationannotation = annotation as? StationAnnotation
 
-        let annotationIdentifier = "CustomViewAnnotation"
+        let ident:String
+        if let pass = stationannotation?.pass {
+            // we only have special icons for the first and last one
+            // for all, just use the general icon, no need to get Station
+            ident = getIconIdentifier(pass)
+        } else {
+            ident = getIconIdentifier(self.station)
+        }
+
+        let annotationIdentifier = "CustomViewAnnotation-\(ident)"
         var annotationView = self.mapView.dequeueReusableAnnotationViewWithIdentifier(annotationIdentifier)
 
         if (annotationView == nil) {
@@ -304,7 +315,7 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
         let buttonImage = UIImage(named: "Walking")
         button.setImage(buttonImage, forState: UIControlState.Normal)
         annotationView?.leftCalloutAccessoryView = button
-        annotationView!.image = getMapIcon()
+        annotationView!.image = getMapIcon(stationannotation?.pass)
         annotationView!.opaque = false
         annotationView!.alpha = 1.0
         annotationView!.frame.size.height = 30
@@ -314,16 +325,18 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
 
     }
 
-    func getMapIcon() -> UIImage {
+    func getMapIcon(pass:TFCPass? = nil) -> UIImage {
         return UIImage()
     }
 
-    func drawStationAndWay(station:TFCStation) {
+    func drawStationAndWay(station:TFCStation, drawStation: Bool? = true) {
 
         if let stationCoordinate = station.coord?.coordinate, stationDistance = distanceLabel.text {
 
-            let annotation = StationAnnotation(title: station.name, distance: stationDistance, coordinate: stationCoordinate)
-            mapView.addAnnotation(annotation)
+            let annotation = StationAnnotation(title: station.name, distance: stationDistance, coordinate: stationCoordinate )
+            if (drawStation == true) {
+                mapView.addAnnotation(annotation)
+            }
             destinationPlacemark = MKPlacemark(coordinate: annotation.coordinate, addressDictionary: nil)
 
             let currentLocation = TFCLocationManager.getCurrentLocation()
@@ -376,11 +389,47 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
         }
     }
 
-    func getIconViewAsImage(view: UIView) -> UIImage {
+    func getIconIdentifier(station: TFCStation?) -> String {
+        if let ident = station?.getIconIdentifier() {
+            return ident
+        }
+        return "stationicon-pin"
+    }
 
+    func getIconIdentifier(pass: TFCPass?) -> String {
+
+        if (pass?.isFirst == true) {
+            return getIconIdentifier(pass?.getStation())
+        } else if (pass?.isLast == true) {
+            return "stationicon-pin-map"
+        }
+        return "stationicon-pin-map"
+    }
+
+
+    func checkIfIconIsCachedAsImage(station: TFCStation) -> Bool {
+        let filePath = getIconAsImageFilepath(station)
+        return  NSFileManager.defaultManager().fileExistsAtPath(filePath)
+    }
+
+    func getIconAsImageFilepath(station: TFCStation?) -> String {
         let documentsDirectory = (NSTemporaryDirectory() as NSString)
-        let filePath = documentsDirectory.stringByAppendingPathComponent("map-icon.png")
+        let ident = getIconIdentifier(station)
+        return documentsDirectory.stringByAppendingPathComponent("\(ident)-round.png")
+    }
+
+    func getIconAsImage(station: TFCStation?) -> (UIImage?, String) {
+        let filePath = getIconAsImageFilepath(station)
+
         if let image = UIImage(contentsOfFile: filePath) {
+            return (image, filePath)
+        }
+        return (nil, filePath)
+    }
+
+    func getIconViewAsImage(view: UIView, station: TFCStation?) -> UIImage {
+        let (image, filePath) = getIconAsImage(station)
+        if let image = image {
             return image
         }
         view.opaque = false

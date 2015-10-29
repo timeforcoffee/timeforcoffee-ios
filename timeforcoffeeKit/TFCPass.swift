@@ -16,6 +16,8 @@ public final class TFCPass {
     public var scheduled: NSDate?
     public var realtime: NSDate?
     public var st_id: String
+    public var isFirst = false
+    public var isLast = false
 
     init(name: String, id: String, coord: CLLocationCoordinate2D?, scheduled: NSDate?, realtime: NSDate?  ) {
         self.name = name
@@ -66,6 +68,8 @@ public final class TFCPass {
                 let newPass = TFCPass(name: name, id: id, coord: coord, scheduled: scheduled, realtime: realtime)
                 passlist?.append(newPass)
             }
+            passlist?.first?.isFirst = true
+            passlist?.last?.isLast = true
             return passlist
         }
         return []
