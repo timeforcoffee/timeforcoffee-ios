@@ -125,21 +125,16 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
         }
         if let passlist = departure?.getPasslist() {
             for (pass) in passlist {
-                if (pass.st_id != self.departure?.st_id) {
-                    if let coord = pass.coord {
-                        let annotation = StationAnnotation(title: pass.name, distance: nil, coordinate: coord, pass: pass)
+                if let coord = pass.coord {
+                    let annotation = StationAnnotation(title: pass.name, distance: nil, coordinate: coord, pass: pass)
 
-                        let latitude = coord.latitude
-                        let longitude = coord.longitude
-                        if (latitude > annotationUpper?.latitude) {annotationUpper?.latitude = latitude}
-                        if (latitude < annotationLower?.latitude) {annotationLower?.latitude = latitude}
-                        if (longitude > annotationUpper?.longitude) {annotationUpper?.longitude = longitude}
-                        if (longitude < annotationLower?.longitude) {annotationLower?.longitude = longitude}
-
-
-
-                        mapView.addAnnotation(annotation)
-                    }
+                    let latitude = coord.latitude
+                    let longitude = coord.longitude
+                    if (latitude > annotationUpper?.latitude) {annotationUpper?.latitude = latitude}
+                    if (latitude < annotationLower?.latitude) {annotationLower?.latitude = latitude}
+                    if (longitude > annotationUpper?.longitude) {annotationUpper?.longitude = longitude}
+                    if (longitude < annotationLower?.longitude) {annotationLower?.longitude = longitude}
+                    mapView.addAnnotation(annotation)
                 }
             }
         }
