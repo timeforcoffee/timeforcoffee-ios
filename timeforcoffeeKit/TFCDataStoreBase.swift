@@ -9,6 +9,7 @@
 import Foundation
 import WatchConnectivity
 import CoreData
+import MapKit
 
 public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegate {
 
@@ -144,10 +145,20 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
     @available(iOSApplicationExtension 9.0, *)
     public func session(session: WCSession, didReceiveUserInfo userInfo: [String : AnyObject]) {
         for (myKey,myValue) in userInfo {
+            if (myKey != "__logThis__") {
+                DLog("didReceiveUserInfo: \(myKey)", toFile: true)
+            }
             if (myKey == "__updateComplicationData__") {
-                updateComplicationData()
+                if let value = myValue as? [String: CLLocationDegrees], lng = value["longitude"], lat = value["latitude"] {
+                    TFCLocationManager.setCurrentLocation(CLLocation(latitude: lat, longitude: lng))
+                    DLog("coord was sent with __updateComplicationData__ \(lat), \(lng)", toFile: true)
+                } else {
+                    DLog("no coord was sent with __updateComplicationData__ ", toFile: true)
+                }
+
+              //  updateComplicationData()
             } else if (myKey == "__logThis__") {
-                DLog("Got __giveMeTheData__")
+                DLog("Got __logThis__")
                 if let value = myValue as? String {
                     DLog("Watch: " + value, toFile: true)
                 }
@@ -309,7 +320,13 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                     if (wcsession.complicationEnabled == true) {
                         if let firstStation = station, ud = TFCDataStore.sharedInstance.getUserDefaults() {
                             if (ud.stringForKey("lastFirstStationId") != firstStation.st_id) {
-                                wcsession.transferCurrentComplicationUserInfo(["__updateComplicationData__": "doit"])
+                                if let coord = station?.coord?.coordinate {
+                                    DLog("send __updateComplicationData__ with \(coord)", toFile: true)
+                                    wcsession.transferCurrentComplicationUserInfo(["__updateComplicationData__": [ "longitude": coord.longitude, "latitude": coord.latitude]])
+                                } else {
+                                    DLog("send __updateComplicationData__ without coord", toFile: true)
+                                    wcsession.transferCurrentComplicationUserInfo(["__updateComplicationData__": "doit"])
+                                }
                                 ud.setValue(firstStation.st_id, forKey: "lastFirstStationId")
                             }
                         }

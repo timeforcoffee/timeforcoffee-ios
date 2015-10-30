@@ -13,6 +13,15 @@ public typealias replyClosure = (([NSObject : AnyObject]!) -> Void)
 public typealias replyStations = ((TFCStations?) -> Void)
 public typealias replyStation = ((TFCStation?) -> Void)
 
+public func delay(delay:Double, closure:()->()) {
+    dispatch_after(
+        dispatch_time(
+            DISPATCH_TIME_NOW,
+            Int64(delay * Double(NSEC_PER_SEC))
+        ),
+        dispatch_get_main_queue(), closure)
+}
+
 public extension UIColor {
     convenience init(red: Int, green: Int, blue: Int) {
         assert(red >= 0 && red <= 255, "Invalid red component")

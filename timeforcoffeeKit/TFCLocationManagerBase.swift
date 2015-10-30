@@ -21,8 +21,7 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
             return classvar.currentLocation
         }
         set (location) {
-            classvar.currentLocation = location
-            classvar._lastUpdateCurrentLocation = NSDate()
+            TFCLocationManager.setCurrentLocation(location)
         }
     }
 
@@ -54,7 +53,12 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
     public init(delegate: TFCLocationManagerDelegate) {
         self.delegate = delegate
     }
-    
+
+    class func setCurrentLocation(location: CLLocation?) {
+        classvar.currentLocation = location
+        classvar._lastUpdateCurrentLocation = NSDate()
+    }
+
     private func lazyInitLocationManager() -> CLLocationManager {
         seenError = false
         locationFixAchieved = false

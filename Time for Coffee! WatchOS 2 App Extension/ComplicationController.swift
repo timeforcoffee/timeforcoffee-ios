@@ -114,7 +114,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     
     func getTimelineEntriesForComplication(complication: CLKComplication, afterDate date: NSDate, limit: Int, withHandler handler: (([CLKComplicationTimelineEntry]?) -> Void)) {
         // Call the handler with the timeline entries after to the given date
-        DLog("getTimelineEntriesForComplication afterDate: \(date)")
+        DLog("getTimelineEntriesForComplication afterDate: \(date)", toFile: true)
         func handleReply(stations: TFCStations?) {
             var entries = [CLKComplicationTimelineEntry]()
             if let station = stations?.stations?.first { // corresponds to the favorited/closest station
@@ -248,6 +248,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
         DLog("requestedUpdateDidBegin")
         func handleReply(stations: TFCStations?) {
             if let station = stations?.stations?.first {
+                DLog("first station is \(station.name)")
                 if (self.needsDeparturesUpdate(station)) {
                     // reload the timeline for all complications
                     for complication in server.activeComplications {
@@ -259,14 +260,18 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
         func handleReply2(err: String) {
             DLog("location error in requestedUpdateDidBegin with \(err)")
         }
-        watchdata.getStations(handleReply, errorReply: handleReply2, stopWithFavorites: true)
+        // delay by 4 seconds, so it may have some time to fetch the userInfo about locaton from
+        // the iphone when called via transferCurrentComplicationUserInfo()
+        delay(2.0, closure: {
+            self.watchdata.getStations(handleReply, errorReply: handleReply2, stopWithFavorites: true)
+        })
 
     }
     
     func requestedUpdateBudgetExhausted() {
         // get the shared instance
         let server = CLKComplicationServer.sharedInstance()
-        DLog("requestedUpdateBudgetExhausted");
+        DLog("requestedUpdateBudgetExhausted", toFile: true);
         //do a last full update if budget is exhausted
         // reload the timeline for all complications
         for complication in server.activeComplications {
@@ -438,9 +443,9 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                     && lastFirstStationId == station.st_id
                     && station.getFilteredDepartures()?.count > 5
                     ) {
-                        return true
+                        return false
                 }
         }
-        return false
+        return true
     }
 }

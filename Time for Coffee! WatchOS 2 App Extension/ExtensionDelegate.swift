@@ -41,7 +41,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
          NSNotificationCenter.defaultCenter().postNotificationName("TFCWatchkitDidBecomeActive", object: nil, userInfo: nil)
     }
     func applicationWillResignActive() {
-        TFCURLSession.sharedInstance.cancelURLSession()
+    //    TFCURLSession.sharedInstance.cancelURLSession()
 
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, etc.
@@ -59,7 +59,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         if let userInfo = userInfo {
             var uI:[String:String]? = nil
             if (userInfo.keys.first == "CLKLaunchedTimelineEntryDateKey") {
-                TFCURLSession.sharedInstance.cancelURLSession()
+                //TFCURLSession.sharedInstance.cancelURLSession()
                 if let lastId = NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee")?.stringForKey("lastFirstStationId") {
                     uI = ["st_id": lastId]
                 }
