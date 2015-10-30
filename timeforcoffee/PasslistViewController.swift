@@ -109,7 +109,6 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
 
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
-        departure = nil
     }
 
 
