@@ -245,7 +245,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     func requestedUpdateDidBegin() {
         // get the shared instance
         let server = CLKComplicationServer.sharedInstance()
-        DLog("requestedUpdateDidBegin")
+        DLog("requestedUpdateDidBegin", toFile: true)
         func handleReply(stations: TFCStations?) {
             if let station = stations?.stations?.first {
                 DLog("first station is \(station.name)")
