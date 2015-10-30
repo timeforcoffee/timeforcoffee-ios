@@ -298,7 +298,7 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
         if let pass = stationannotation?.pass {
             // we only have special icons for the first and last one
             // for all, just use the general icon, no need to get Station
-            ident = getIconIdentifier(pass)
+            ident = getIconIdentifier(pass: pass)
         } else {
             ident = getIconIdentifier(self.station)
         }
@@ -396,7 +396,7 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
         return "stationicon-pin"
     }
 
-    func getIconIdentifier(pass: TFCPass?) -> String {
+    func getIconIdentifier(pass pass: TFCPass?) -> String {
 
         if (pass?.isFirst == true) {
             return getIconIdentifier(pass?.getStation())

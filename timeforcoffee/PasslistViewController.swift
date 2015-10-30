@@ -154,7 +154,7 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
                 return image
             }
         }
-        let ident = getIconIdentifier(pass)
+        let ident = getIconIdentifier(pass: pass)
         return UIImage(named: "\(ident)")!
     }
 
@@ -273,7 +273,15 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
                     minutesLabel.text = ""
                 }
                 minutesLabel.textColor = UIColor.blackColor()
-                departureLabel.text = pass.scheduled?.formattedWith("HH:mm")
+
+                let (departureTimeAttr, departureTimeString) = pass.getDepartureTime()
+                if (departureTimeAttr != nil) {
+                    departureLabel.text = nil
+                    departureLabel.attributedText = departureTimeAttr
+                } else {
+                    departureLabel.attributedText = nil
+                    departureLabel.text = departureTimeString
+                }
             }
 
         }

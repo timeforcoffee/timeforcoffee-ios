@@ -9,20 +9,15 @@
 import Foundation
 import UIKit
 
-public final class TFCDeparture: NSObject, NSCoding, APIControllerProtocol {
+public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtocol {
     private var name: String
     public var type: String
-    private var accessible: Bool
     private var to: String
-    private var scheduled: NSDate?
-    private var realtime: NSDate?
+    private var destination_id: String?
     public var colorFg: String?
     public var colorBg: String?
-    public var platform: String?
     public var st_id: String?
     private var _station: TFCStation?
-    private var destination_id: String?
-    var outdated: Bool = false
     var passlist: [TFCPass]? = nil
 
     struct contextData {
@@ -35,32 +30,36 @@ public final class TFCDeparture: NSObject, NSCoding, APIControllerProtocol {
         return APIController(delegate: self)
         }()
 
-    init(name: String, type: String, accessible: Bool, to: String, scheduled: NSDate?, realtime: NSDate?, colorFg: String?, colorBg: String?, platform: String?, st_id: String? ) {
+    init(name: String, type: String, accessible: Bool, to: String, destination_id: String?, scheduled: NSDate?, realtime: NSDate?, colorFg: String?, colorBg: String?, platform: String?, st_id: String? ) {
         // TODO: strip "Zurich, " from name
         self.name = name
         self.type = type
-        self.accessible = accessible
         self.to = to
-        self.scheduled = scheduled
-        self.realtime = realtime
+        self.destination_id = destination_id
         self.colorFg = colorFg
         self.colorBg = colorBg
-        self.platform = platform
         self.st_id = st_id
-        
+        super.init()
+        self.accessible = accessible
+        self.platform = platform
+        self.scheduled = scheduled
+        self.realtime = realtime
+
     }
 
     required public init?(coder aDecoder: NSCoder) {
         self.name = aDecoder.decodeObjectForKey("name") as! String
         self.type = aDecoder.decodeObjectForKey("type") as! String
-        self.accessible = aDecoder.decodeBoolForKey("accessible")
         self.to = aDecoder.decodeObjectForKey("to") as! String
-        self.scheduled = aDecoder.decodeObjectForKey("scheduled") as! NSDate?
-        self.realtime = aDecoder.decodeObjectForKey("realtime") as! NSDate?
+        self.destination_id = aDecoder.decodeObjectForKey("destination_id") as? String
         self.colorFg = aDecoder.decodeObjectForKey("colorFg") as! String?
         self.colorBg = aDecoder.decodeObjectForKey("colorBg") as! String?
-        self.platform = aDecoder.decodeObjectForKey("platform") as? String
         self.st_id = aDecoder.decodeObjectForKey("st_id") as? String
+        super.init()
+        self.accessible = aDecoder.decodeBoolForKey("accessible")
+        self.platform = aDecoder.decodeObjectForKey("platform") as? String
+        self.scheduled = aDecoder.decodeObjectForKey("scheduled") as! NSDate?
+        self.realtime = aDecoder.decodeObjectForKey("realtime") as! NSDate?
     }
 
     public func encodeWithCoder(aCoder: NSCoder) {
@@ -68,6 +67,7 @@ public final class TFCDeparture: NSObject, NSCoding, APIControllerProtocol {
         aCoder.encodeObject(type, forKey: "type")
         aCoder.encodeBool(accessible, forKey: "accessible")
         aCoder.encodeObject(to, forKey: "to")
+        aCoder.encodeObject(destination_id, forKey: "destination_id")
         aCoder.encodeObject(scheduled, forKey: "scheduled")
         aCoder.encodeObject(realtime, forKey: "realtime")
         aCoder.encodeObject(colorFg, forKey: "colorFg")
@@ -106,33 +106,18 @@ public final class TFCDeparture: NSObject, NSCoding, APIControllerProtocol {
                     accessible = false
                 }
                 let to = result["to"].stringValue
+                let destination_id = result["id"].string
                 var colorFg = result["colors"]["fg"].string
                 colorFg = colorFg == nil ? "#000000" : colorFg
 
                 var colorBg = result["colors"]["bg"].string
                 colorBg = colorBg == nil ? "#ffffff" : colorBg
 
-                let scheduledStr = result["departure"]["scheduled"].string
-                let realtimeStr = result["departure"]["realtime"].string
-
-                let scheduled: NSDate?
-                let realtime: NSDate?
-
-                if (scheduledStr != nil) {
-                    scheduled = self.parseDate(scheduledStr!);
-                } else {
-                    scheduled = nil
-                }
-                
-                if (realtimeStr != nil) {
-                    realtime = self.parseDate(realtimeStr!);
-                } else {
-                    realtime = nil
-                }
+                let (scheduled, realtime) = self.parseJsonForDeparture(result)
 
                 let platform = result["platform"].string
                 
-                let newDeparture = TFCDeparture(name: name, type: type, accessible: accessible, to: to, scheduled: scheduled, realtime: realtime, colorFg: colorFg, colorBg: colorBg, platform: platform, st_id: st_id)
+                let newDeparture = TFCDeparture(name: name, type: type, accessible: accessible, to: to, destination_id: destination_id, scheduled: scheduled, realtime: realtime, colorFg: colorFg, colorBg: colorBg, platform: platform, st_id: st_id)
                 departures?.append(newDeparture)
             }
             return departures
@@ -183,24 +168,6 @@ public final class TFCDeparture: NSObject, NSCoding, APIControllerProtocol {
         }
 
         return nil
-/*
-        $data["meta"] = ["station_id" => $data["station"]["id"], "station_name" => $data["station"]["name"]];
-        $data["departures"] = array();
-        foreach ($data["stationboard"] as $stop) {
-            $newstop = array();
-            $newstop["name"] = $stop["name"];
-            $newstop["name"] = trim(str_replace($stop["subcategory"],"",$newstop["name"]));
-            $newstop["type"] = $stop["category"];
-            $newstop["accessible"] = false;
-            $newstop["colors"] = array("fg" =>"#000000", "bg" => "#FFFFFF");
-            $newstop["to"] = $stop["to"];
-            $newstop["departure"] = array();
-            $newstop["departure"]["scheduled"] = $stop["stop"]["departure"];
-            $newstop["departure"]["realtime"] = null;
-            $data["departures"][] = $newstop;
-        }
-        unset($data["stationboard"]);
-        unset($data["station"]);*/
     }
 
 
@@ -236,10 +203,6 @@ public final class TFCDeparture: NSObject, NSCoding, APIControllerProtocol {
         return "\(self.type)"
     }
 
-    public func getDepartureTime() ->  (NSMutableAttributedString?, String?) {
-        return getDepartureTime(true)
-    }
-
     public func getScheduledTime() -> String? {
         if let scheduled = self.scheduled {
             return self.getShortDate(scheduled)
@@ -250,100 +213,6 @@ public final class TFCDeparture: NSObject, NSCoding, APIControllerProtocol {
     public func getScheduledTimeAsNSDate() -> NSDate? {
         if let scheduled = self.scheduled {
             return scheduled
-        }
-        return nil
-    }
-
-    public func getDepartureTime(additionalInfo: Bool) -> (NSMutableAttributedString?, String?) {
-        var realtimeStr: String = ""
-        var scheduledStr: String = ""
-        let attributesNoStrike = [
-            NSStrikethroughStyleAttributeName: 0,
-        ]
-        let attributesStrike = [
-            NSStrikethroughStyleAttributeName: 1,
-            NSForegroundColorAttributeName: UIColor.grayColor()
-        ]
-
-        // if you want bold and italic, do this, but the accessibility icon isn't available in italic :)
-        /*let fontDescriptor = UIFontDescriptor.preferredFontDescriptorWithTextStyle(UIFontTextStyleBody)
-        let bi = UIFontDescriptorSymbolicTraits.TraitItalic | UIFontDescriptorSymbolicTraits.TraitBold
-         let fda = fontDescriptor.fontDescriptorWithSymbolicTraits(bi).fontAttributes()
-        let fontName = fda["NSFontNameAttribute"] as String
-        */
-      /*  let attributesBoldItalic = [
-            NSFontAttributeName: UIFont(name: "HelveticaNeue-Bold", size: 13.0)!
-        ]*/
-
-        var timestringAttr: NSMutableAttributedString?
-        var timestring: String?
-
-        if let realtime = self.realtime {
-            realtimeStr = self.getShortDate(realtime)
-        }
-        if let scheduled = self.scheduled {
-            scheduledStr = self.getShortDate(scheduled)
-        }
-
-        // we do two different approaches here, since NSMutableAttributedString seems to
-        // use a lot of memory for the today widget and it's only needed, when 
-        // there's a delay
-
-        if (self.realtime != nil && self.realtime != self.scheduled) {
-            timestringAttr = NSMutableAttributedString(string: "")
-
-            //the nostrike is needed due to an apple bug...
-            // https://stackoverflow.com/questions/25956183/nsmutableattributedstrings-attribute-nsstrikethroughstyleattributename-doesnt
-            timestringAttr?.appendAttributedString(NSAttributedString(string: "\(realtimeStr) ", attributes: attributesNoStrike))
-
-            timestringAttr?.appendAttributedString(NSAttributedString(string: "\(scheduledStr)", attributes: attributesStrike))
-        } else {
-            timestring = "\(scheduledStr)"
-        }
-
-        if (accessible) {
-            if (timestringAttr != nil) {
-                timestringAttr?.appendAttributedString(NSAttributedString(string: " ♿︎"))
-            } else {
-                timestring? += " ♿︎"
-            }
-        }
-        if (additionalInfo) {
-            if (self.realtime == nil) {
-                if (timestringAttr != nil) {
-                    timestringAttr?.appendAttributedString(NSAttributedString(string: " (no real-time data)"))
-                } else {
-                    timestring? += " (no real-time data)"
-                }
-            } else if (self.outdated) {
-                if (timestringAttr != nil) {
-                    timestringAttr?.appendAttributedString(NSAttributedString(string: " (not updated)"))
-                } else {
-                    timestring? += " (not updated)"
-                }
-            }
-        }
-
-        if let platform = self.platform {
-            if (timestringAttr != nil) {
-                timestringAttr?.appendAttributedString(NSAttributedString(string: " - Pl: \(platform)"))
-            } else {
-                timestring? += " - Pl: \(platform)"
-            }
-
-        }
-        return (timestringAttr, timestring)
-    }
-    
-    public func getMinutesAsInt() -> Int? {
-        var timeInterval: NSTimeInterval?
-        if (self.realtime != nil) {
-            timeInterval = self.realtime?.timeIntervalSinceNow
-        } else {
-            timeInterval = self.scheduled?.timeIntervalSinceNow
-        }
-        if (timeInterval != nil) {
-            return Int(ceil(timeInterval! / 60));
         }
         return nil
     }
@@ -364,11 +233,7 @@ public final class TFCDeparture: NSObject, NSCoding, APIControllerProtocol {
         return nil
     }
 
-    public func getDestinationWithSign(station: TFCStation?) -> String {
-        return getDestinationWithSign(station, unabridged: false)
-    }
-    
-    public func getDestinationWithSign(station: TFCStation?, unabridged: Bool) -> String {
+    public func getDestinationWithSign(station: TFCStation?, unabridged: Bool = false) -> String {
         if let station = station {
             let destination: String = getDestination(station, unabridged: unabridged)
             if (station.showAsFavoriteDeparture(self)) {
@@ -413,30 +278,6 @@ public final class TFCDeparture: NSObject, NSCoding, APIControllerProtocol {
         } else {
             self.setFavorite(station)
         }
-    }
-
-    private class func parseDate(dateStr:String) -> NSDate? {
-        var format = "yyyy-MM-dd'T'HH:mm:ss.'000'ZZZZZ"
-        let dateFmt = NSDateFormatter()
-        dateFmt.timeZone = NSTimeZone.defaultTimeZone()
-        dateFmt.locale = NSLocale(localeIdentifier: "de_CH")
-        dateFmt.dateFormat = format
-        if let date =  dateFmt.dateFromString(dateStr) {
-            return date
-        }
-        //used by transport.opendata.ch, if the one above fails
-        format = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-        dateFmt.dateFormat = format
-        return dateFmt.dateFromString(dateStr)
-    }
-    
-    private func getShortDate(date:NSDate) -> String {
-        let format = "HH:mm"
-        let dateFmt = NSDateFormatter()
-        dateFmt.timeZone = NSTimeZone.defaultTimeZone()
-        dateFmt.locale = NSLocale(localeIdentifier: "de_CH")
-        dateFmt.dateFormat = format
-        return dateFmt.stringFromDate(date)
     }
 
     private func getDateForPasslist() -> String? {
