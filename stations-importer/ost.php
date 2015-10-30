@@ -1,6 +1,6 @@
 <?php
 
-$handle = new SQLite3("/opt/git/timeforcoffee/timeforcoffeeKit/SingleViewCoreData.sqlite");
+$handle = new SQLite3("../../tramboard-clj/stations.sqlite");
 $results = $handle->query("select * from ZTFCSTATIONMODEL where (ZCOUNTY = 'Schwyz' OR ZCOUNTY = 'St. Gallen' OR ZCOUNTY = 'Thurgau' OR ZCOUNTY = 'Glarus' OR ZCOUNTY LIKE 'Appen%')  AND (ZAPIKEY ISNULL) "); 
 while ($row = $results->fetchArray()) {
         print $row['ZNAME'] . " ";

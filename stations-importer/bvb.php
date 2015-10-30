@@ -1,6 +1,6 @@
 <?php
 
-$handle = new SQLite3("/opt/git/timeforcoffee/timeforcoffeeKit/SingleViewCoreData.sqlite");
+$handle = new SQLite3("../../tramboard-clj/stations.sqlite");
 $results = $handle->query("select * from ZTFCSTATIONMODEL where (ZCOUNTY LIKE 'Bas%')  AND (ZAPIID ISNULL OR ZAPIID = '') "); 
 while ($row = $results->fetchArray()) {
     $url = "http://efa-bw.de/ios_bvb/XML_STOPFINDER_REQUEST?coordOutputFormat=NBWT&type_sf=any&locationServerActive=1&stateless=1&useHouseNumberList=true&doNotSearchForStops=1&reducedAnyWithoutAddressObjFilter_sf=103&reducedAnyPostcodeObjFilter_sf=64&reducedAnyTooManyObjFilter_sf=2&anyObjFilter_sf=126&anyMaxSizeHitList=600&w_regPrefAl=2&prMinQu=1&name_sf=" .  urlencode($row['ZNAME']);

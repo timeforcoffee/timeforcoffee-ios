@@ -1,6 +1,6 @@
 <?php
 
-$handle = new SQLite3("/opt/git/timeforcoffee/timeforcoffeeKit/SingleViewCoreData.sqlite");
+$handle = new SQLite3("../../tramboard-clj/stations.sqlite");
 $results = $handle->query("select * from ZTFCSTATIONMODEL where (ZCOUNTY = 'Lucerne' OR ZCOUNTY = 'Nidwalden' OR ZCOUNTY = 'Uri' OR ZCOUNTY = 'Obwalden')  AND (ZAPIID ISNULL OR ZAPIID = '') "); 
 while ($row = $results->fetchArray()) {
     $url = "http://mobil.vbl.ch/vblUltra/XML_STOPFINDER_REQUEST?anyMaxSizeHitList=30&coordOutputFormat=MRCV&type_sf=any&locationServerActive=1&anyObjFilter_sf=42&name_sf=" .  urlencode($row['ZNAME']);

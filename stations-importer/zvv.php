@@ -1,36 +1,40 @@
 <?php
 
 $handle = new SQLite3("../../tramboard-clj/stations.sqlite");
-$results = $handle->query("select * from ZTFCSTATIONMODEL where (ZCOUNTY Like 'Solo%' OR ZCOUNTY Like 'Aargau' OR ZCOUNTY Like 'Bas%')  AND (ZAPIKEY ISNULL) "); 
+$results = $handle->query("select * from ZTFCSTATIONMODEL where (ZCOUNTY = 'Zurich') "); 
 while ($row = $results->fetchArray()) {
-        print $row['ZNAME'] . " ";
-       $url = "http://localhost:3000/api/blt/stationboard/" .  urlencode($row['ZID']);
-    //print "$url\n";
+    $url = "http://online.fahrplan.zvv.ch/bin/stboard.exe/dny?dirInput=&maxJourneys=50&boardType=dep&start=1&tpl=stbResult2json&input=" .  urlencode($row['ZID']);
+//    print "$url\n";
     $json = @file_get_contents($url);
     if (!$json) {
         print $url . " could not be retrieved! \n";
         continue;
     }
-
-    $hasrealtime = false;
+    
     $json = json_decode($json, true);
-    if (isset($json['departures'])) {
-        foreach($json['departures'] as $dept) {
-            if (isset($dept['departure']['realtime'])) {
-                $hasrealtime = true;
-                break;
-            }
+    if (isset($json['connections'][0])) {
+        foreach ($json['connections'] as $connection) {
+            $zvvid = $connection['mainLocation']['location']['id'];
+            if ($zvvid < 8500000) {
+                //  print " ! has zvv id: $zvvid != ". $row['ZID'];
+                //  if ($zvvid < 8500000 && $zvvid != $row['ZAPIID']) {
+                    $res = $handle->query("select * from zvv_to_sbb where  zvv_id = '$zvvid'");
+                    if ($res->fetchArray() === false) {
+                        print "\n".$row['ZNAME'] . " ";
+                        print " ! has zvv id: $zvvid != ". $row['ZID'];
+                        $handle->exec("insert INTO zvv_to_sbb (zvv_id, sbb_id) VALUES ( '$zvvid', '". $row['ZID'] . "')");
+                    }
+            } else {
+                //  print " - no zvvid ";
+            } 
         }
     }
-    if ($hasrealtime) {
-        print " ! has realtime data";
-        $handle->exec("update ZTFCSTATIONMODEL set  ZAPIKEY = 'blt' where ZID = '". $row['ZID'] . "'");
-    } else {
-        print " - no realtime data ";
-    } 
     
-    print "\n";
+    print ".";
+    sleep(1);
 }
+
+//$handle->exec("update ZTFCSTATIONMODEL set  ZAPIID = null, zapikey = nil where ZID = '". $row['ZID'] . "'");
 
 /*
 
