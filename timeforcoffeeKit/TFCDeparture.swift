@@ -23,6 +23,7 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
     struct contextData {
         var completionDelegate: TFCPasslistUpdatedProtocol? = nil
         var context: Any? = nil
+        var url: String? = nil
     }
 
     private lazy var api : APIController = {
@@ -291,8 +292,12 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
         } else {*/
             self.addPasslist(TFCPass.withJSON(results))
   //      }
+
+        if (self.getPasslist()?.count == 0) {
+            DLog("Passlist didn't have results for \(contextInfo?.url) - error was \(error)")
+        }
         dispatch_async(dispatch_get_main_queue(), {
-            contextInfo?.completionDelegate?.passlistUpdated(error, context: context, forDeparture: self)
+            contextInfo?.completionDelegate?.passlistUpdated(error, context: contextInfo?.context, forDeparture: self)
         })
     }
 
@@ -309,6 +314,7 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
         context2.completionDelegate = completionDelegate
         context2.context = context
         if let url = self.getPasslistUrl() {
+            context2.url = url
             self.api.getPasslist(url, context: context2)
         } else {
             self.passlist = []
