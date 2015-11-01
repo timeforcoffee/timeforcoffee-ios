@@ -530,11 +530,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         return nil
     }
 
-    public func updateDepartures(completionDelegate: TFCDeparturesUpdatedProtocol?) {
-        updateDepartures(completionDelegate, force: false, context: nil)
-    }
-    
-    public func updateDepartures(completionDelegate: TFCDeparturesUpdatedProtocol?, force: Bool, context: Any?) {
+    public func updateDepartures(completionDelegate: TFCDeparturesUpdatedProtocol?, force: Bool = false, context: Any? = nil) {
 
         let removedDepartures = removeObsoleteDepartures()
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
@@ -603,7 +599,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         self.departures = nil
     }
 
-    private func removeObsoleteDepartures() -> Bool {
+    public func removeObsoleteDepartures() -> Bool {
         if (self.departures == nil || self.departures?.count == 0) {
             return false
         }

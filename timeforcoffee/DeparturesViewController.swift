@@ -119,6 +119,7 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
         if let segmentedViewIndex = TFCDataStore.sharedInstance.getUserDefaults()?.integerForKey("segmentedViewDepartures") {
             segmentedView.selectedSegmentIndex = segmentedViewIndex
         }
+        self.station?.removeObsoleteDepartures()
 
     }
 
