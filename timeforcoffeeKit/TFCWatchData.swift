@@ -33,13 +33,10 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
     }
 
     public func locationFixed(loc: CLLocation?) {
-        DLog("location fixed")
-        //do nothing here, you have to overwrite that
         if let coord = loc?.coordinate {
+            DLog("location fixed \(loc)")
             replyNearby!(["lat" : coord.latitude, "long": coord.longitude]);
-        } else {
-            replyNearby!(["coord" : "none"]);
-        }
+        } 
     }
 
     public func locationDenied(manager: CLLocationManager, err:NSError) {
@@ -60,22 +57,69 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
     }
 
     public func updateComplication(stations: TFCStations) {
-        if let firstStation = stations.stations!.first {
+        if let firstStation = stations.stations?.first {
             if let ud = NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee") {
                 if (ud.stringForKey("lastFirstStationId") != firstStation.st_id) {
-                    ud.setValue(nil, forKey: "lastFirstStationId")
                     updateComplicationData()
                 }
             }
         }
     }
 
-    public func updateComplicationData() {
-        let server = CLKComplicationServer.sharedInstance()
-        for complication in server.activeComplications {
-            server.reloadTimelineForComplication(complication)
+    /*
+     * sometimes we want to wait a few seconds to see, if there's a new current location before we
+     * start the complication update
+     * This especially happens, when we call from the iPhone for a new update and send
+     * data as userInfo, which usually happens a little bit later
+     */
+    public func updateComplicationData(waitForNewLocation seconds:Int, counter:Int = 0) {
+        DLog("\(counter)")
+        if (counter > seconds || locManager?.getLastLocation(seconds) != nil) {
+            updateComplicationData()
+            return
         }
+        delay(1.0, closure: {self.updateComplicationData(waitForNewLocation: seconds, counter: (counter + 1))})
     }
+
+    public func updateComplicationData() {
+        func handleReply(stations: TFCStations?) {
+            if let station = stations?.stations?.first {
+                DLog("first station is \(station.name)", toFile: true)
+                if (self.needsDeparturesUpdate(station)) {
+                    // reload the timeline for all complications
+                    let server = CLKComplicationServer.sharedInstance()
+                    for complication in server.activeComplications {
+                        DLog("Reload Complications", toFile: true)
+                        server.reloadTimelineForComplication(complication)
+                    }
+                }
+            }
+        }
+        func handleReply2(err: String) {
+            DLog("location error in requestedUpdateDidBegin with \(err)")
+        }
+        self.getStations(handleReply, errorReply: handleReply2, stopWithFavorites: true)        
+    }
+
+    private func needsDeparturesUpdate(station: TFCStation) -> Bool {
+        if let lastDepartureTime =  NSUserDefaults().valueForKey("lastDepartureTime") as? NSDate,
+            lastFirstStationId = NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee")?.stringForKey("lastFirstStationId") {
+                // if lastDepartureTime is more than 4 hours away and we're in the same place
+                // and we still have at least 5 departures, just use the departures from the cache
+                if ((lastDepartureTime.dateByAddingTimeInterval(4 * -3600).timeIntervalSinceNow < 0)
+                    && lastFirstStationId == station.st_id
+                    && station.getFilteredDepartures()?.count > 5
+                    ) {
+                        return false
+                }
+                DLog("lastDepartureTime: \(lastDepartureTime)")
+                DLog("lastFirstStationId: \(lastFirstStationId)")
+                DLog("station.getFilteredDepartures()?.count: \(station.getFilteredDepartures()?.count)")
+
+        }
+        return true
+    }
+
 
     public func getStations(reply: replyStations?, errorReply: ((String) -> Void)?, stopWithFavorites: Bool?) {
         func handleReply(replyInfo: [NSObject : AnyObject]!) {

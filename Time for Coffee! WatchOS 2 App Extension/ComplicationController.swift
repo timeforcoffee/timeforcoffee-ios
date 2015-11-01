@@ -52,9 +52,10 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     }
     
     func getTimelineEndDateForComplication(complication: CLKComplication, withHandler handler: (NSDate?) -> Void) {
-        DLog("getTimelineEndDateForComplication")
+        DLog("getTimelineEndDateForComplication", toFile: true)
         func handleReply(stations: TFCStations?) {
             if let station = stations?.stations?.first {
+                DLog("firstStation: \(station.name)", toFile: true)
                 func handleReply2(station: TFCStation?) {
                     if let endDate = station?.getFilteredDepartures()?.last?.getScheduledTimeAsNSDate() {
                         DLog("last Departure: \(endDate)")
@@ -244,41 +245,22 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     
     func requestedUpdateDidBegin() {
         // get the shared instance
-        let server = CLKComplicationServer.sharedInstance()
         DLog("requestedUpdateDidBegin", toFile: true)
-        func handleReply(stations: TFCStations?) {
-            if let station = stations?.stations?.first {
-                DLog("first station is \(station.name)")
-                if (self.needsDeparturesUpdate(station)) {
-                    // reload the timeline for all complications
-                    for complication in server.activeComplications {
-                        server.reloadTimelineForComplication(complication)
-                    }
-                }
-            }
-        }
-        func handleReply2(err: String) {
-            DLog("location error in requestedUpdateDidBegin with \(err)")
-        }
-        // delay by 4 seconds, so it may have some time to fetch the userInfo about locaton from
+        // delay by 3 seconds, so it may have some time to fetch the userInfo about locaton from
         // the iphone when called via transferCurrentComplicationUserInfo()
-        delay(2.0, closure: {
-            self.watchdata.getStations(handleReply, errorReply: handleReply2, stopWithFavorites: true)
-        })
 
+        self.watchdata.updateComplicationData(waitForNewLocation: 5)
     }
-    
+
+
     func requestedUpdateBudgetExhausted() {
         // get the shared instance
-        let server = CLKComplicationServer.sharedInstance()
         DLog("requestedUpdateBudgetExhausted", toFile: true);
-        //do a last full update if budget is exhausted
-        // reload the timeline for all complications
-        for complication in server.activeComplications {
-            server.reloadTimelineForComplication(complication)
-        }
-    }
-    
+        // delay by 3 seconds, so it may have some time to fetch the userInfo about locaton from
+        // the iphone when called via transferCurrentComplicationUserInfo()
+        self.watchdata.updateComplicationData(waitForNewLocation: 5)
+     }
+
     //MARK: - Convenience
     
     private func templateForStationDepartures(station: TFCStation, departure: TFCDeparture?, nextDeparture: TFCDeparture?, complication: CLKComplication) -> CLKComplicationTemplate? {
@@ -432,20 +414,5 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
         dateFmt.locale = NSLocale(localeIdentifier: "de_CH")
         dateFmt.dateFormat = format
         return dateFmt.stringFromDate(date)
-    }
-
-    private func needsDeparturesUpdate(station: TFCStation) -> Bool {
-        if let lastDepartureTime =  NSUserDefaults().valueForKey("lastDepartureTime") as? NSDate,
-            lastFirstStationId = NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee")?.stringForKey("lastFirstStationId") {
-                // if lastDepartureTime is more than 4 hours away and we're in the same place
-                // and we still have at least 5 departures, just use the departures from the cache
-                if ((lastDepartureTime.dateByAddingTimeInterval(4 * -3600).timeIntervalSinceNow < 0)
-                    && lastFirstStationId == station.st_id
-                    && station.getFilteredDepartures()?.count > 5
-                    ) {
-                        return false
-                }
-        }
-        return true
     }
 }
