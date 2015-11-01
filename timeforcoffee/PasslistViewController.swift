@@ -261,7 +261,7 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
                 }
 */
                 destinationLabel.text = pass.name //abridged?
-                if let firstscheduled = passlist?[0].scheduled {
+                if let firstscheduled = passlist?[0].getRealDepartureDate() {
                     minutesLabel.text = pass.getMinutes(firstscheduled)
                 } else {
                     minutesLabel.text = ""

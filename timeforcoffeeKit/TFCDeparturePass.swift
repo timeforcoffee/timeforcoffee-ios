@@ -147,14 +147,21 @@ public class TFCDeparturePass: NSObject {
     public func getMinutesAsInt(from:NSDate = NSDate()) -> Int? {
         var timeInterval: NSTimeInterval?
 
-        if (self.realtime != nil) {
-            timeInterval = (self.realtime?.timeIntervalSinceReferenceDate)! - from.timeIntervalSinceReferenceDate
-        } else if (self.scheduled != nil) {
-            timeInterval = (self.scheduled?.timeIntervalSinceReferenceDate)! - from.timeIntervalSinceReferenceDate
+        if let realdeparture = self.getRealDepartureDate() {
+            timeInterval = realdeparture.timeIntervalSinceReferenceDate - from.timeIntervalSinceReferenceDate
         }
         if (timeInterval != nil) {
             return Int(ceil(timeInterval! / 60));
         }
         return nil
     }
+
+    public func getRealDepartureDate() -> NSDate? {
+        if let realtime = self.realtime {
+            return realtime
+        }
+        return scheduled
+    }
+
+
 }
