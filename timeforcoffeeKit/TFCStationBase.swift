@@ -559,7 +559,6 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                     )
                 )
             {
-                self.lastDepartureUpdate = NSDate()
                 self.api.getDepartures(self as! TFCStation, context: context2)
 
             } else {
@@ -583,6 +582,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             if (self.name == "" && results != nil) {
                 self.name = TFCDeparture.getStationNameFromJson(results!)!;
             }
+            self.lastDepartureUpdate = NSDate()
             contextInfo?.completionDelegate?.departuresUpdated(error, context: context, forStation: self as? TFCStation)
         })
     }
