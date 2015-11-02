@@ -133,6 +133,8 @@ public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelega
 
     public func initWithNearbyFavorites(location: CLLocation) -> Bool {
         self.nearbyFavorites = []
+        self._stations = []
+
         inStationsArrayAsFavorite = [:]
         var hasNearbyFavs = false
         var removeFromFavorites: [String] = []
