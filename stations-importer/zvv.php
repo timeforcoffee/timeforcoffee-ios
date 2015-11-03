@@ -33,6 +33,7 @@ while ($row = $results->fetchArray()) {
     print ".";
     sleep(1);
 }
+$handle->exec("VACUUM FULL");
 
 //$handle->exec("update ZTFCSTATIONMODEL set  ZAPIID = null, zapikey = nil where ZID = '". $row['ZID'] . "'");
 
