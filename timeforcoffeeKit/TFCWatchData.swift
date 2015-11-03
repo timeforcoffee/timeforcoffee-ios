@@ -72,19 +72,38 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
      * This especially happens, when we call from the iPhone for a new update and send
      * data as userInfo, which usually happens a little bit later
      */
-    public func updateComplicationData(waitForNewLocation seconds:Int, counter:Int = 0) {
+
+    public func waitForNewLocation(within seconds:Int) {
+        let semaphore = dispatch_semaphore_create(0)
+
+        func callback() {
+            dispatch_semaphore_signal(semaphore)
+        }
+        let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+        dispatch_async(queue) {
+            self.waitForNewLocation(within: seconds, counter: 0, queue: queue, callback: callback)
+        }
+        let timeout =  dispatch_time(DISPATCH_TIME_NOW, (seconds + 1) * 1000000000) // x seconds
+        if dispatch_semaphore_wait(semaphore, timeout) != 0 {
+            DLog("updateComplicationData sync call timed out.")
+        }
+    }
+
+
+    private func waitForNewLocation(within seconds:Int, counter:Int = 0, queue:dispatch_queue_t? = nil, callback: () -> Void) {
         DLog("\(counter)")
-        if (counter > seconds || locManager?.getLastLocation(seconds) != nil) {
-            updateComplicationData()
+
+        if (counter > seconds || self.locManager?.getLastLocation(seconds) != nil) {
+            callback()
             return
         }
-        delay(1.0, closure: {self.updateComplicationData(waitForNewLocation: seconds, counter: (counter + 1))})
+        delay(1.0, closure: {self.waitForNewLocation(within: seconds, counter: (counter + 1), queue: queue, callback: callback)}, queue: queue)
     }
 
     public func updateComplicationData() {
         func handleReply(stations: TFCStations?) {
             if let station = stations?.stations?.first {
-                DLog("first station is \(station.name)", toFile: true)
+                DLog("first station is \(station.name) \(station.st_id)", toFile: true)
                 if (self.needsDeparturesUpdate(station)) {
                     // reload the timeline for all complications
                     let server = CLKComplicationServer.sharedInstance()
@@ -112,9 +131,9 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
                     ) {
                         return false
                 }
-                DLog("lastDepartureTime: \(lastDepartureTime)")
-                DLog("lastFirstStationId: \(lastFirstStationId)")
-                DLog("station.getFilteredDepartures()?.count: \(station.getFilteredDepartures()?.count)")
+                DLog("lastDepartureTime: \(lastDepartureTime)", toFile: true)
+                DLog("lastFirstStationId: \(lastFirstStationId)", toFile: true)
+                DLog("station.getFilteredDepartures()?.count: \(station.getFilteredDepartures()?.count)", toFile: true)
 
         }
         return true
@@ -150,7 +169,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
         // check if we now a last location, and take that if it's not older than 15 seconds
         //  to avoid multiple location lookups
         if let cachedLoc = locManager?.getLastLocation(15)?.coordinate {
-            DLog("still cached location")
+            DLog("still cached location \(cachedLoc)")
             handleReply(["lat" : cachedLoc.latitude, "long": cachedLoc.longitude])
         } else {
             self.getLocation(handleReply)

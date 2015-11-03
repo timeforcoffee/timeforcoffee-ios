@@ -21,7 +21,7 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
             return classvar.currentLocation
         }
         set (location) {
-            TFCLocationManager.setCurrentLocation(location)
+            TFCLocationManagerBase.setCurrentLocation(location)
         }
     }
 
@@ -118,7 +118,8 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
                 let locationArray = locations as NSArray
                 let locationObj = locationArray.lastObject as! CLLocation
                 self.currentLocation = locationObj;
-                //Update reverse geolocation placemark only when we moved 2km away from last one
+                //random location, sometimes needed for testing ...
+                //self.currentLocation = CLLocation(latitude: 47.33 + (Double(arc4random_uniform(100)) / 1000.0), longitude: 8.5 + (Double(arc4random_uniform(100)) / 1000.0))
                 if (classvar.currentPlacemark == nil || classvar.currentPlacemark?.location?.distanceFromLocation(self.currentLocation!) > 2000) {
                     self.updateGeocodedPlacemark()
                 }
@@ -191,7 +192,8 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
         if (classvar._lastUpdateCurrentLocation?.timeIntervalSinceNow < NSTimeInterval(-notOlderThanSeconds)) {
             return nil
         }
-        DLog("still cached since \(classvar._lastUpdateCurrentLocation)")
+        DLog("still cached since \(classvar._lastUpdateCurrentLocation) , \(currentLocation)")
+
         return currentLocation
     }
 }

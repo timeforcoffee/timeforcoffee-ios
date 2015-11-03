@@ -13,13 +13,25 @@ public typealias replyClosure = (([NSObject : AnyObject]!) -> Void)
 public typealias replyStations = ((TFCStations?) -> Void)
 public typealias replyStation = ((TFCStation?) -> Void)
 
-public func delay(delay:Double, closure:()->()) {
+public func delay(delay2:Double, closure:()->()) {
+    delay(delay2, closure:closure, queue: nil)
+}
+
+public func delay(delay:Double, closure:()->(), queue:dispatch_queue_t?) {
+    let queue2:dispatch_queue_t
+
+    if (queue != nil) {
+        queue2 = queue!
+    } else {
+        queue2 = dispatch_get_main_queue()
+    }
+
     dispatch_after(
         dispatch_time(
             DISPATCH_TIME_NOW,
             Int64(delay * Double(NSEC_PER_SEC))
         ),
-        dispatch_get_main_queue(), closure)
+        queue2, closure)
 }
 
 public extension UIColor {

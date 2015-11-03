@@ -150,7 +150,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
             }
             if (myKey == "__updateComplicationData__") {
                 if let value = myValue as? [String: CLLocationDegrees], lng = value["longitude"], lat = value["latitude"] {
-                    TFCLocationManager.setCurrentLocation(CLLocation(latitude: lat, longitude: lng))
+                    TFCLocationManagerBase.setCurrentLocation(CLLocation(latitude: lat, longitude: lng))
                     DLog("coord was sent with __updateComplicationData__ \(lat), \(lng)", toFile: true)
                 } else {
                     DLog("no coord was sent with __updateComplicationData__ ", toFile: true)

@@ -116,7 +116,7 @@ private func DLog2File(text:String) {
     let file = "log.txt"
     if let dir : NSString = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.AllDomainsMask, true).first {
         let path = dir.stringByAppendingPathComponent(file);
-
+        // try! NSFileManager.defaultManager().removeItemAtPath(path)
         let dtext = "\(text)"
         let url = NSURL(fileURLWithPath: path)
         let _ = try? url.setResourceValue(true, forKey: NSURLIsExcludedFromBackupKey)
