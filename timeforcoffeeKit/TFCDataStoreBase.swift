@@ -138,8 +138,21 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
 
     @available(iOSApplicationExtension 9.0, *)
     public func requestAllDataFromPhone() {
-        WCSession.defaultSession().transferUserInfo(["__giveMeTheData__": NSDate()])
+        if (WCSession.defaultSession().reachable) {
+            WCSession.defaultSession().sendMessage(["__giveMeTheData__": NSDate()], replyHandler: nil, errorHandler: nil)
+        } else {
+            WCSession.defaultSession().transferUserInfo(["__giveMeTheData__": NSDate()])
+        }
 
+
+    }
+
+    @available(iOSApplicationExtension 9.0, *)
+    public func session(session: WCSession, didReceiveMessage message: [String : AnyObject]) {
+        for (myKey,_) in message {
+            DLog("didReceiveMessage: \(myKey)", toFile: true)
+            sendAllData()
+        }
     }
 
     @available(iOSApplicationExtension 9.0, *)
