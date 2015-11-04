@@ -16,27 +16,26 @@ public class TFCDeparturePass: NSObject {
     public var platform: String?
     var accessible: Bool = false
     var outdated: Bool = false
+    public var arrival: NSDate?
 
-    class func parseJsonForDeparture(result:JSON) -> (NSDate?, NSDate?) {
+    class func parseJsonForDeparture(result:JSON) -> (NSDate?, NSDate?, NSDate?) {
 
         let scheduledStr = result["departure"]["scheduled"].string
         let realtimeStr = result["departure"]["realtime"].string
+        let arrivalStr = result["arrival"]["scheduled"].string
 
-        let scheduled: NSDate?
-        let realtime: NSDate?
+        let scheduled = self.getDateFromString(scheduledStr)
+        let realtime = self.getDateFromString(realtimeStr)
+        let arrival = self.getDateFromString(arrivalStr)
 
-        if (scheduledStr != nil) {
-            scheduled = self.parseDate(scheduledStr!);
-        } else {
-            scheduled = nil
+        return (scheduled, realtime, arrival)
+    }
+
+    private class func getDateFromString(datestring:String?) -> NSDate? {
+        if let datestring = datestring {
+            return self.parseDate(datestring);
         }
-
-        if (realtimeStr != nil) {
-            realtime = self.parseDate(realtimeStr!);
-        } else {
-            realtime = nil
-        }
-        return (scheduled, realtime)
+        return nil
     }
 
     public func getDepartureTime(additionalInfo: Bool = true) -> (NSMutableAttributedString?, String?) {
