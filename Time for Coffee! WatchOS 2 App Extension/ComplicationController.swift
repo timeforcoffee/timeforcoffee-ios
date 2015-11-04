@@ -45,7 +45,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                         handler(NSDate())
                     }
                 }
-                station.updateDepartures(self, force: false, context: handleReply2)
+                self.updateDepartures(station, context: handleReply2)
             }
         }
         watchdata.getStations(handleReply, errorReply: nil, stopWithFavorites: true)
@@ -66,11 +66,11 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                         handler(endDate)
                     }
                 }
-                station.updateDepartures(self, force: false, context: handleReply2)
+                self.updateDepartures(station, context: handleReply2)
             }
         }
 
-        watchdata.getStations(handleReply, errorReply: nil,stopWithFavorites: true)
+        watchdata.getStations(handleReply, errorReply: nil, stopWithFavorites: true)
     }
     
     func getPrivacyBehaviorForComplication(complication: CLKComplication, withHandler handler: (CLKComplicationPrivacyBehavior) -> Void) {
@@ -104,7 +104,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                     }
                     handler(entries)
                 }
-                station.updateDepartures(self, force: false, context: handleReply2)
+                self.updateDepartures(station, context: handleReply2)
             } else {
                 handler(entries)
             }
@@ -167,8 +167,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                     }
                     handler(entries)
                 }
-
-                station.updateDepartures(self, force: false, context: handleReply2)
+                self.updateDepartures(station, context: handleReply2)
             } else {
                 NSUserDefaults().setValue(nil, forKey: "lastDepartureTime")
                 handler(entries)
@@ -417,4 +416,36 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
         dateFmt.dateFormat = format
         return dateFmt.stringFromDate(date)
     }
+
+    private func needsDeparturesUpdate(station: TFCStation) -> Bool {
+        if let lastDepartureTime =  NSUserDefaults().valueForKey("lastDepartureTime") as? NSDate,
+            lastFirstStationId = NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee")?.stringForKey("lastFirstStationId") {
+                // if lastDepartureTime is more than 4 hours away and we're in the same place
+                // and we still have at least 5 departures, just use the departures from the cache
+                if ((lastDepartureTime.dateByAddingTimeInterval(4 * -3600).timeIntervalSinceNow > 0)
+                    && lastFirstStationId == station.st_id
+                    && station.getFilteredDepartures()?.count > 5
+                    ) {
+                        return false
+                }
+                DLog("timeIntervalSinceNow \(lastDepartureTime.dateByAddingTimeInterval(4 * -3600).timeIntervalSinceNow)", toFile: true)
+                DLog("lastDepartureTime: \(lastDepartureTime)", toFile: true)
+                DLog("lastFirstStationId: \(lastFirstStationId)", toFile: true)
+                DLog("station.getFilteredDepartures()?.count: \(station.getFilteredDepartures()?.count)", toFile: true)
+
+        }
+        return true
+    }
+
+    private func getDepartureTTL(station: TFCStation) -> Int {
+        if (self.needsDeparturesUpdate(station)) {
+            return 20 //default
+        }
+        return 6 * 3600
+    }
+
+    private func updateDepartures(station: TFCStation, context: Any) {
+        station.updateDepartures(self, context: context, cachettl: self.getDepartureTTL(station))
+    }
+
 }

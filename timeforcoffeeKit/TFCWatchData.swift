@@ -104,13 +104,11 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
         func handleReply(stations: TFCStations?) {
             if let station = stations?.stations?.first {
                 DLog("first station is \(station.name) \(station.st_id)", toFile: true)
-                if (self.needsDeparturesUpdate(station)) {
-                    // reload the timeline for all complications
-                    let server = CLKComplicationServer.sharedInstance()
-                    for complication in server.activeComplications {
-                        DLog("Reload Complications", toFile: true)
-                        server.reloadTimelineForComplication(complication)
-                    }
+                // reload the timeline for all complications
+                let server = CLKComplicationServer.sharedInstance()
+                for complication in server.activeComplications {
+                    DLog("Reload Complications", toFile: true)
+                    server.reloadTimelineForComplication(complication)
                 }
             }
         }
@@ -119,26 +117,6 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
         }
         self.getStations(handleReply, errorReply: handleReply2, stopWithFavorites: true)        
     }
-
-    private func needsDeparturesUpdate(station: TFCStation) -> Bool {
-        if let lastDepartureTime =  NSUserDefaults().valueForKey("lastDepartureTime") as? NSDate,
-            lastFirstStationId = NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee")?.stringForKey("lastFirstStationId") {
-                // if lastDepartureTime is more than 4 hours away and we're in the same place
-                // and we still have at least 5 departures, just use the departures from the cache
-                if ((lastDepartureTime.dateByAddingTimeInterval(4 * -3600).timeIntervalSinceNow < 0)
-                    && lastFirstStationId == station.st_id
-                    && station.getFilteredDepartures()?.count > 5
-                    ) {
-                        return false
-                }
-                DLog("lastDepartureTime: \(lastDepartureTime)", toFile: true)
-                DLog("lastFirstStationId: \(lastFirstStationId)", toFile: true)
-                DLog("station.getFilteredDepartures()?.count: \(station.getFilteredDepartures()?.count)", toFile: true)
-
-        }
-        return true
-    }
-
 
     public func getStations(reply: replyStations?, errorReply: ((String) -> Void)?, stopWithFavorites: Bool?) {
         func handleReply(replyInfo: [NSObject : AnyObject]!) {
