@@ -73,19 +73,11 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
      * data as userInfo, which usually happens a little bit later
      */
 
-    public func waitForNewLocation(within seconds:Int) {
-        let semaphore = dispatch_semaphore_create(0)
+    public func waitForNewLocation(within seconds:Int, callback: () -> Void) {
 
-        func callback() {
-            dispatch_semaphore_signal(semaphore)
-        }
         let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
         dispatch_async(queue) {
             self.waitForNewLocation(within: seconds, counter: 0, queue: queue, callback: callback)
-        }
-        let timeout =  dispatch_time(DISPATCH_TIME_NOW, (seconds + 1) * 1000000000) // x seconds
-        if dispatch_semaphore_wait(semaphore, timeout) != 0 {
-            DLog("updateComplicationData sync call timed out.")
         }
     }
 
@@ -101,21 +93,13 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
     }
 
     public func updateComplicationData() {
-        func handleReply(stations: TFCStations?) {
-            if let station = stations?.stations?.first {
-                DLog("first station is \(station.name) \(station.st_id)", toFile: true)
-                // reload the timeline for all complications
-                let server = CLKComplicationServer.sharedInstance()
-                for complication in server.activeComplications {
-                    DLog("Reload Complications", toFile: true)
-                    server.reloadTimelineForComplication(complication)
-                }
-            }
+        // reload the timeline for all complications
+        let server = CLKComplicationServer.sharedInstance()
+        for complication in server.activeComplications {
+            DLog("Reload Complications", toFile: true)
+            server.reloadTimelineForComplication(complication)
         }
-        func handleReply2(err: String) {
-            DLog("location error in requestedUpdateDidBegin with \(err)")
-        }
-        self.getStations(handleReply, errorReply: handleReply2, stopWithFavorites: true)        
+
     }
 
     public func getStations(reply: replyStations?, errorReply: ((String) -> Void)?, stopWithFavorites: Bool?) {

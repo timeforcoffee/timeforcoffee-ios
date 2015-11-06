@@ -69,8 +69,9 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                 self.updateDepartures(station, context: handleReply2)
             }
         }
-
-        watchdata.getStations(handleReply, errorReply: nil, stopWithFavorites: true)
+        self.watchdata.waitForNewLocation(within: 5, callback: {
+            self.watchdata.getStations(handleReply, errorReply: nil, stopWithFavorites: true)
+        })
     }
     
     func getPrivacyBehaviorForComplication(complication: CLKComplication, withHandler handler: (CLKComplicationPrivacyBehavior) -> Void) {
@@ -248,7 +249,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
         // delay by 3 seconds, so it may have some time to fetch the userInfo about locaton from
         // the iphone when called via transferCurrentComplicationUserInfo()
 
-        self.watchdata.waitForNewLocation(within: 5)
+        //self.watchdata.waitForNewLocation(within: 5)
         self.watchdata.updateComplicationData()
     }
 
@@ -258,7 +259,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
         DLog("requestedUpdateBudgetExhausted", toFile: true);
         // delay by 3 seconds, so it may have some time to fetch the userInfo about locaton from
         // the iphone when called via transferCurrentComplicationUserInfo()
-        self.watchdata.waitForNewLocation(within: 5)
+       // self.watchdata.waitForNewLocation(within: 5)
         self.watchdata.updateComplicationData()
      }
 
