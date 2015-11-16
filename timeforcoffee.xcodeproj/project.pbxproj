@@ -370,6 +370,9 @@
 		EC9BCB411BB5CD4D00623F1A /* PINMemoryCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PINMemoryCache.m; sourceTree = "<group>"; };
 		ECA72B7B1BB6D23E00506300 /* Time for Coffee! WatchOS 2 App Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Time for Coffee! WatchOS 2 App Extension.entitlements"; sourceTree = "<group>"; };
 		ECBB91621BF9E78D0043256A /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
+		ECCDFA4B1BFA084C002DD92D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Main.strings; sourceTree = "<group>"; };
+		ECCDFA4D1BFA084C002DD92D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/MainInterface.strings; sourceTree = "<group>"; };
+		ECCDFA4F1BFA084C002DD92D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		ECE74C421BDEAAD8009CB3CA /* WithMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WithMapViewController.swift; sourceTree = "<group>"; };
 		ECE74C441BDEAB54009CB3CA /* PasslistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasslistViewController.swift; sourceTree = "<group>"; };
 		ECE74C461BDEBF2B009CB3CA /* TFCPass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCPass.swift; sourceTree = "<group>"; };
@@ -892,6 +895,7 @@
 				en,
 				Base,
 				de,
+				fr,
 			);
 			mainGroup = EC46C4D21BB5C69800F2A963;
 			productRefGroup = EC46C4DC1BB5C69800F2A963 /* Products */;
@@ -1196,6 +1200,7 @@
 			children = (
 				EC0AD1631BB69539004217FD /* Base */,
 				EC0AD1671BB69593004217FD /* de */,
+				ECCDFA4F1BFA084C002DD92D /* fr */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1205,6 +1210,7 @@
 			children = (
 				EC46C4E51BB5C69800F2A963 /* Base */,
 				ECBB91621BF9E78D0043256A /* de */,
+				ECCDFA4B1BFA084C002DD92D /* fr */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -1214,6 +1220,7 @@
 			children = (
 				EC46C5101BB5C71100F2A963 /* Base */,
 				EC0AD1661BB69593004217FD /* de */,
+				ECCDFA4D1BFA084C002DD92D /* fr */,
 			);
 			name = MainInterface.storyboard;
 			sourceTree = "<group>";
