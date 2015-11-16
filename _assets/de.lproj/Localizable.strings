@@ -14,11 +14,13 @@ Loading = "Wird geladen ...";
 
 "No stations found." = "Keine Stationen gefunden.";
 
+"No favourites found." = "Keine Favoriten gefunden.";
+
 "Remove some filters." = "Entferne Filter.";
 
 "Looking for nearest station ..." = "Suche nach nächster Station ...";
 
-"Von" = "Von";
+"From" = "Von";
 
 "No connection information found." = "Keine Verbindungsinformationen gefunden.";
 
