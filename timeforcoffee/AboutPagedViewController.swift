@@ -81,7 +81,7 @@ final class AboutPagedViewController: UIViewController, SwipeViewDataSource, Swi
         let boardview = self.storyboard?.instantiateViewControllerWithIdentifier("OnBoardingViewController").view as UIView?
 
 
-        boardview?.autoresizingMask = UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleWidth
+        boardview?.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
 
 
         let label = boardview?.viewWithTag(1) as! UITextView
@@ -130,7 +130,7 @@ final class AboutPagedViewController: UIViewController, SwipeViewDataSource, Swi
         }
     }
 
-    func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
 
         var shouldIAllow = false
         var locationStatus: String?

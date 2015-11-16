@@ -85,7 +85,6 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeActive:", name: "UIApplicationDidBecomeActiveNotification", object: nil)
             registeredObserver = true
         }
-        showOnBoardingOrRefreshLocation()
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         if (appDelegate.startedWithShortcut == "ch.opendata.timeforcoffee.favorites") {
             // wait somehow until we have a location....
@@ -96,7 +95,7 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
                 locManager!.refreshLocation()
             }
         } else {
-            refreshLocation()
+            showOnBoardingOrRefreshLocation()
         }
     }
 
