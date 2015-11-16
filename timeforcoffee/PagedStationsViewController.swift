@@ -129,13 +129,13 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         let labelFont = UIFont(name: "HelveticaNeue-Bold", size: 14.0)
 
         let pageLabel1 = UILabel(frame: CGRect(x: 0, y: 0, width: scrollViewWidth! / 3, height: 20))
-        pageLabel1.text = "Nearby Stations"
+        pageLabel1.text = NSLocalizedString("Nearby Stations", comment: "")
         pageLabel1.font = labelFont
         pageLabel1.textAlignment = NSTextAlignment.Center
         pageLabel1.tag = 1
 
         let pageLabel2 = UILabel(frame: CGRect(x: scrollViewWidth! / 3, y: 0, width: scrollViewWidth! / 3, height: 20))
-        pageLabel2.text = "Favorites"
+        pageLabel2.text = NSLocalizedString("Favourites", comment: "")
         pageLabel2.font = labelFont
         pageLabel2.textAlignment = NSTextAlignment.Center
         pageLabel2.tag = 2

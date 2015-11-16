@@ -233,10 +233,11 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
         if (self.station != nil) {
             updateInAMinute()
             self.station?.updateDepartures(self)
+            let favLocalized = NSLocalizedString("Favourites", comment: "")
             if (station?.hasFavoriteDepartures() != true && station?.hasFilters() != true) {
-                segmentedView.setTitle("Favourites?", forSegmentAtIndex: 1)
+                segmentedView.setTitle(favLocalized + "?", forSegmentAtIndex: 1)
             } else {
-                segmentedView.setTitle("Favourites", forSegmentAtIndex: 1)
+                segmentedView.setTitle(favLocalized, forSegmentAtIndex: 1)
             }
             self.appsTableView?.reloadData()
         }

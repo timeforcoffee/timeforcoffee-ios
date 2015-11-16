@@ -371,6 +371,7 @@
 		EC9BCB401BB5CD4D00623F1A /* PINMemoryCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PINMemoryCache.h; sourceTree = "<group>"; };
 		EC9BCB411BB5CD4D00623F1A /* PINMemoryCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PINMemoryCache.m; sourceTree = "<group>"; };
 		ECA72B7B1BB6D23E00506300 /* Time for Coffee! WatchOS 2 App Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Time for Coffee! WatchOS 2 App Extension.entitlements"; sourceTree = "<group>"; };
+		ECBB91621BF9E78D0043256A /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
 		ECE74C421BDEAAD8009CB3CA /* WithMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WithMapViewController.swift; sourceTree = "<group>"; };
 		ECE74C441BDEAB54009CB3CA /* PasslistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasslistViewController.swift; sourceTree = "<group>"; };
 		ECE74C461BDEBF2B009CB3CA /* TFCPass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCPass.swift; sourceTree = "<group>"; };
@@ -1206,6 +1207,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				EC46C4E51BB5C69800F2A963 /* Base */,
+				ECBB91621BF9E78D0043256A /* de */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";

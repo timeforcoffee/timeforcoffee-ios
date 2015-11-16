@@ -245,7 +245,7 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
                 if (passlist == nil) {
                     destinationLabel.text = NSLocalizedString("Loading", comment: "Loading ..")
                 } else {
-                    destinationLabel.text = NSLocalizedString("No passlist found.", comment: "")
+                    destinationLabel.text = NSLocalizedString("No connection information found.", comment: "")
                     if (self.networkErrorMsg != nil) {
                         departureLabel.text = self.networkErrorMsg
                     }

@@ -67,14 +67,14 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             dispatch_async(dispatch_get_main_queue(), {
                 if (self.showStations == true) {
                     self.setLastUsedView()
-                    self.actionLabel.setTitle("Back", forState: UIControlState.Normal)
+                    self.actionLabel.setTitle(NSLocalizedString("Back", comment: ""), forState: UIControlState.Normal)
 
-                    self.titleLabel.text = "Nearby Stations"
+                    self.titleLabel.text = NSLocalizedString("Nearby Stations", comment: "")
                 } else {
                     if (self.currentStation != nil) {
                         self.setLastUsedView()
                     }
-                    self.actionLabel.setTitle("Stations", forState: UIControlState.Normal)
+                    self.actionLabel.setTitle(NSLocalizedString("Stations", comment: ""), forState: UIControlState.Normal)
 
                     if let stationName = self.currentStation?.getNameWithStarAndFilters() {
                         self.titleLabel.text = stationName
