@@ -257,10 +257,8 @@
 		EC050CF71BB84D8100ECB533 /* watch-extension-bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "watch-extension-bridging-Header.h"; sourceTree = "<group>"; };
 		EC0AD15E1BB694CC004217FD /* SupportKitLocalizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = SupportKitLocalizable.strings; sourceTree = "<group>"; };
 		EC0AD1631BB69539004217FD /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
-		EC0AD1651BB6953B004217FD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EC0AD1661BB69593004217FD /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MainInterface.strings; sourceTree = "<group>"; };
 		EC0AD1671BB69593004217FD /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
-		EC0AD1691BB695CB004217FD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MainInterface.strings; sourceTree = "<group>"; };
 		EC0E4D581BCBB09F0046D70C /* SingleViewCoreData.sqlite-shm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "SingleViewCoreData.sqlite-shm"; sourceTree = "<group>"; };
 		EC0E4D591BCBB09F0046D70C /* SingleViewCoreData.sqlite-wal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "SingleViewCoreData.sqlite-wal"; sourceTree = "<group>"; };
 		EC1834D81BCADA0E008B44F3 /* SingleViewCoreData.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = SingleViewCoreData.sqlite; sourceTree = "<group>"; };
@@ -1197,7 +1195,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				EC0AD1631BB69539004217FD /* Base */,
-				EC0AD1651BB6953B004217FD /* en */,
 				EC0AD1671BB69593004217FD /* de */,
 			);
 			name = Localizable.strings;
@@ -1217,7 +1214,6 @@
 			children = (
 				EC46C5101BB5C71100F2A963 /* Base */,
 				EC0AD1661BB69593004217FD /* de */,
-				EC0AD1691BB695CB004217FD /* en */,
 			);
 			name = MainInterface.storyboard;
 			sourceTree = "<group>";
