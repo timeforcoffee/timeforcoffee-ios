@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6Gx-yE-V2l">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6Gx-yE-V2l">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -708,6 +708,38 @@
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AB1-ta-9BW" userLabel="Real Time Info view">
+                                <rect key="frame" x="16" y="376" width="568" height="99"/>
+                                <subviews>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" text="Show Real Time besides in departures times" translatesAutoresizingMaskIntoConstraints="NO" id="rL3-sl-2ji">
+                                        <rect key="frame" x="-5" y="0.0" width="558" height="50"/>
+                                        <animations/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="L6k-UB-dDV"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="t4O-IN-GSM">
+                                        <rect key="frame" x="518" y="0.0" width="51" height="31"/>
+                                        <animations/>
+                                        <connections>
+                                            <action selector="realTimeInfoSwitchChanged:" destination="v4W-Hv-fUQ" eventType="valueChanged" id="hie-oG-foZ"/>
+                                        </connections>
+                                    </switch>
+                                </subviews>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="t4O-IN-GSM" firstAttribute="top" secondItem="AB1-ta-9BW" secondAttribute="top" id="0Go-aY-dUh"/>
+                                    <constraint firstAttribute="height" constant="99" id="1FU-SV-xSp"/>
+                                    <constraint firstItem="rL3-sl-2ji" firstAttribute="leading" secondItem="AB1-ta-9BW" secondAttribute="leading" constant="-5" id="4wO-8R-5wK"/>
+                                    <constraint firstItem="rL3-sl-2ji" firstAttribute="top" secondItem="AB1-ta-9BW" secondAttribute="top" id="Nfy-GN-nNk"/>
+                                    <constraint firstAttribute="trailing" secondItem="t4O-IN-GSM" secondAttribute="trailing" constant="1" id="Yj5-U3-a10"/>
+                                    <constraint firstAttribute="trailing" secondItem="rL3-sl-2ji" secondAttribute="trailing" constant="15" id="pDP-fF-jHS"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -716,10 +748,13 @@
                             <constraint firstAttribute="trailingMargin" secondItem="LKV-Yr-NUS" secondAttribute="trailing" id="71f-XJ-oe1"/>
                             <constraint firstItem="Yuj-55-iz4" firstAttribute="top" secondItem="b0f-aS-71h" secondAttribute="bottom" constant="130" id="7vj-ft-A5H"/>
                             <constraint firstItem="Yuj-55-iz4" firstAttribute="trailing" secondItem="Bpp-cB-QQS" secondAttribute="trailingMargin" id="9XG-hi-nTE"/>
+                            <constraint firstItem="AB1-ta-9BW" firstAttribute="trailing" secondItem="LKV-Yr-NUS" secondAttribute="trailing" id="Ehp-hE-3P7"/>
+                            <constraint firstItem="AB1-ta-9BW" firstAttribute="leading" secondItem="LKV-Yr-NUS" secondAttribute="leading" id="GIE-gf-kAa"/>
                             <constraint firstItem="LKV-Yr-NUS" firstAttribute="leading" secondItem="Bpp-cB-QQS" secondAttribute="leadingMargin" id="HIz-gb-Apj"/>
                             <constraint firstItem="LKV-Yr-NUS" firstAttribute="top" secondItem="Yuj-55-iz4" secondAttribute="bottom" constant="1" id="J7E-2G-LC9"/>
                             <constraint firstItem="0tK-ea-YGt" firstAttribute="top" secondItem="67I-cf-lcA" secondAttribute="bottom" constant="9" id="JWY-dE-Fet"/>
                             <constraint firstItem="0tK-ea-YGt" firstAttribute="top" secondItem="b0f-aS-71h" secondAttribute="bottom" constant="49" id="gBq-yA-QpM"/>
+                            <constraint firstItem="AB1-ta-9BW" firstAttribute="top" secondItem="LKV-Yr-NUS" secondAttribute="bottom" constant="27" id="gTv-W3-c6U"/>
                             <constraint firstItem="Yuj-55-iz4" firstAttribute="top" secondItem="0tK-ea-YGt" secondAttribute="bottom" constant="51" id="kOD-Kz-WIs"/>
                             <constraint firstItem="eU3-2A-xNa" firstAttribute="top" secondItem="Yuj-55-iz4" secondAttribute="bottom" constant="351" id="kbs-iq-Hyj"/>
                             <constraint firstItem="67I-cf-lcA" firstAttribute="top" secondItem="b0f-aS-71h" secondAttribute="bottom" constant="5" id="mat-vl-ZOk"/>
@@ -747,6 +782,7 @@
                         <outlet property="favoritesRadiusValue" destination="3o2-0v-jqC" id="hoJ-Hi-RUc"/>
                         <outlet property="numberCellsTodaySlider" destination="zdk-Mh-XYw" id="Jbi-nr-Xlj"/>
                         <outlet property="numberCellsTodayValue" destination="hVt-ir-et7" id="Ype-q8-zYf"/>
+                        <outlet property="realTimeInfoSwitch" destination="t4O-IN-GSM" id="IYq-qX-9E8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QaU-sn-qCJ" userLabel="First Responder" sceneMemberID="firstResponder"/>

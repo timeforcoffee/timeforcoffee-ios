@@ -77,6 +77,8 @@
 		EC60B0181BB680DE00D10238 /* launchicon.png in Resources */ = {isa = PBXBuildFile; fileRef = EC60B00F1BB680B600D10238 /* launchicon.png */; };
 		EC60B01A1BB680FD00D10238 /* trainsymbol.otf in Resources */ = {isa = PBXBuildFile; fileRef = EC60B0191BB680FD00D10238 /* trainsymbol.otf */; };
 		EC60B01B1BB680FD00D10238 /* trainsymbol.otf in Resources */ = {isa = PBXBuildFile; fileRef = EC60B0191BB680FD00D10238 /* trainsymbol.otf */; };
+		EC68469B1BF9CDBD00BD8531 /* TFCSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC68469A1BF9CDBD00BD8531 /* TFCSettings.swift */; };
+		EC68469C1BF9CDBD00BD8531 /* TFCSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC68469A1BF9CDBD00BD8531 /* TFCSettings.swift */; };
 		EC810B061BC7963C0007B874 /* DataModels.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EC810B041BC7963C0007B874 /* DataModels.xcdatamodeld */; };
 		EC810B071BC7963C0007B874 /* DataModels.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EC810B041BC7963C0007B874 /* DataModels.xcdatamodeld */; };
 		EC84FEC11BD9652400A0F9E3 /* TFCVisits.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC84FEC01BD9652400A0F9E3 /* TFCVisits.swift */; };
@@ -323,6 +325,7 @@
 		EC60B0101BB680B600D10238 /* time-for-coffee-icon_1024.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = "time-for-coffee-icon_1024.psd"; sourceTree = "<group>"; };
 		EC60B0111BB680B600D10238 /* Zuerich2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Zuerich2.jpg; sourceTree = "<group>"; };
 		EC60B0191BB680FD00D10238 /* trainsymbol.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = trainsymbol.otf; sourceTree = "<group>"; };
+		EC68469A1BF9CDBD00BD8531 /* TFCSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCSettings.swift; sourceTree = "<group>"; };
 		EC810B051BC7963C0007B874 /* DataModels.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModels.xcdatamodel; sourceTree = "<group>"; };
 		EC84FEC01BD9652400A0F9E3 /* TFCVisits.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCVisits.swift; sourceTree = "<group>"; };
 		EC855BA21BC99649001ABD35 /* StreamReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamReader.swift; sourceTree = "<group>"; };
@@ -610,6 +613,7 @@
 				EC9BCB3A1BB5CD4D00623F1A /* PINCache */,
 				EC9BCB1F1BB5CCD300623F1A /* TFCDeparture.swift */,
 				ECE74C461BDEBF2B009CB3CA /* TFCPass.swift */,
+				EC68469A1BF9CDBD00BD8531 /* TFCSettings.swift */,
 				EC18AA921BE4067000488DC4 /* TFCDeparturePass.swift */,
 				EC9BCB201BB5CCD300623F1A /* TFCFavorites.swift */,
 				EC9BCB211BB5CCD300623F1A /* TFCLocationManager.swift */,
@@ -1099,6 +1103,7 @@
 				EC050CF01BB84D5B00ECB533 /* TFCDeparture.swift in Sources */,
 				EC050CE81BB84D4700ECB533 /* APIController.swift in Sources */,
 				EC18AA941BE406BC00488DC4 /* TFCDeparturePass.swift in Sources */,
+				EC68469C1BF9CDBD00BD8531 /* TFCSettings.swift in Sources */,
 				EC050CF11BB84D5B00ECB533 /* TFCFavorites.swift in Sources */,
 				EC050CF31BB84D5B00ECB533 /* TFCStationBase.swift in Sources */,
 				EC050CEB1BB84D4700ECB533 /* TFCCache.swift in Sources */,
@@ -1137,6 +1142,7 @@
 				EC9BCB2E1BB5CCD300623F1A /* TFCDataStore.swift in Sources */,
 				EC9BCB361BB5CCD300623F1A /* TFCStations.swift in Sources */,
 				EC9BCB2D1BB5CCD300623F1A /* TFCCache.swift in Sources */,
+				EC68469B1BF9CDBD00BD8531 /* TFCSettings.swift in Sources */,
 				EC18AA931BE4067000488DC4 /* TFCDeparturePass.swift in Sources */,
 				EC9BCB301BB5CCD300623F1A /* TFCDeparture.swift in Sources */,
 				EC9BCB441BB5CD4D00623F1A /* PINCache.m in Sources */,

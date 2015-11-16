@@ -49,6 +49,8 @@ public class TFCDeparturePass: NSObject {
             NSForegroundColorAttributeName: UIColor.grayColor()
         ]
 
+        let additionalInfo2:Bool = (additionalInfo && TFCSettings.sharedInstance.showRealTimeDebugInfo())
+
         // if you want bold and italic, do this, but the accessibility icon isn't available in italic :)
         /*let fontDescriptor = UIFontDescriptor.preferredFontDescriptorWithTextStyle(UIFontTextStyleBody)
         let bi = UIFontDescriptorSymbolicTraits.TraitItalic | UIFontDescriptorSymbolicTraits.TraitBold
@@ -92,7 +94,7 @@ public class TFCDeparturePass: NSObject {
                 timestring? += " ♿︎"
             }
         }
-        if (additionalInfo) {
+        if (additionalInfo2) {
             if (self.realtime == nil) {
                 if (timestringAttr != nil) {
                     timestringAttr?.appendAttributedString(NSAttributedString(string: " (no real-time data)"))

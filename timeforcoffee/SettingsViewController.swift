@@ -19,6 +19,10 @@ class SettingsViewController: UIViewController {
 
     @IBOutlet weak var favoritesRadiusSlider: UISlider!
     @IBOutlet weak var favoritesRadiusValue: UITextView!
+
+    @IBOutlet weak var realTimeInfoSwitch: UISwitch!
+
+
     @IBAction func closeButtionTapped(sender: AnyObject) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
@@ -33,6 +37,8 @@ class SettingsViewController: UIViewController {
         let favoritesSearchRadius = TFCFavorites.sharedInstance.getSearchRadius()
         setRadiusTextValue(favoritesSearchRadius)
         setRadiusSliderValue(favoritesSearchRadius)
+
+        realTimeInfoSwitch.on = TFCSettings.sharedInstance.showRealTimeDebugInfo()
     }
 
     @IBAction func sliderChanged(sender: AnyObject) {
@@ -73,4 +79,10 @@ class SettingsViewController: UIViewController {
         let rounded = getRadiusSliderValueInMeters()
         setRadiusTextValue(Int(rounded))
     }
+
+    @IBAction func realTimeInfoSwitchChanged(sender: AnyObject) {
+        TFCSettings.sharedInstance.setRealTimeDebugInfo(realTimeInfoSwitch.on)
+    }
+
+
 }
