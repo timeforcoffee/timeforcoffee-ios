@@ -1,20 +1,46 @@
 xcodeproj 'timeforcoffee'
 
 use_frameworks!
-platform :ios, '8.0'
 
-link_with 'timeforcoffeeKit'
-link_with 'Time for Coffee! WatchKit Extension'
 
-pod 'MGSwipeTableCell'
-pod 'PINCache', :git => 'https://github.com/pinterest/PINCache', :commit => 'eecf84426751ae3c3f224411763946427fe3aa5b'
-pod 'SwipeView'
+def shared_pods
+    pod 'SupportKit'
+    pod 'Fabric'
+    pod 'Crashlytics'
+end
+
+def shared_kit_pods
+  pod 'RealmSwift'
+end
+
+
+#target 'timeforcoffeeKit' do
+#    platform :ios, '8.0'
+#    shared_kit_pods
+#end
+
+
+target 'timeforcoffee' do
+    platform :ios, '8.0'
+    pod 'MGSwipeTableCell'
+    pod 'SwipeView'
+    shared_pods
+end 
+
+#target 'Time for Coffee! WatchOS 2 App Extension' do
+#     platform :watchos, '2.0'
+#     shared_kit_pods
+#end
+ 
+
 
 # Needed so that PINCache can be used in the watchkit extension
 
 post_install do |installer_representation|
-  installer_representation.project.targets.each do |target|
-    if target.name == 'Pods-PINCache'
+  installer_representation.pods_project.targets.each do |target|
+    print target.name
+    print "\n"
+    if target.name == 'PINCache'
       target.build_configurations.each do |config|
         config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= ['$(inherited)']
         config.build_settings['GCC_PREPROCESSOR_DEFINITIONS']  << 'PIN_APP_EXTENSIONS=1'

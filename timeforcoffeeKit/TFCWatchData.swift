@@ -9,26 +9,20 @@
 import Foundation
 import CoreLocation
 import WatchKit
+import ClockKit
 
-public final class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIControllerProtocol {
+public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStationsUpdatedProtocol {
 
-    public class var sharedInstance: TFCWatchData {
-        struct Static {
-            static let instance: TFCWatchData = TFCWatchData()
-        }
-        return Static.instance
-    }
     private var networkErrorMsg: String?
 
     private var replyNearby: replyClosure?
-    public lazy var stations: TFCStations? =  {return TFCStations()}()
+    private lazy var stations: TFCStations? =  {return TFCStations(delegate: self)}()
     private lazy var locManager: TFCLocationManager? = self.lazyInitLocationManager()
 
-
-    private lazy var api : APIController? = {
-        [unowned self] in
-        return APIController(delegate: self)
-        }()
+    private struct replyContext {
+        var reply: replyStations?
+        var errorReply: ((String) -> Void)?
+    }
 
     public override init () {
         super.init()
@@ -39,30 +33,76 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIContro
     }
 
     public func locationFixed(loc: CLLocation?) {
-        //do nothing here, you have to overwrite that
         if let coord = loc?.coordinate {
+            DLog("location fixed \(loc)")
             replyNearby!(["lat" : coord.latitude, "long": coord.longitude]);
-        } else {
-            replyNearby!(["coord" : "none"]);
-        }
+        } 
     }
 
     public func locationDenied(manager: CLLocationManager, err:NSError) {
-
+        DLog("location DENIED \(err)")
+        replyNearby!(["error": err]);
     }
 
     public func locationStillTrying(manager: CLLocationManager, err: NSError) {
-        
+        DLog("location still trying \(err)")
     }
 
     public func getLocation(reply: replyClosure?) {
         // this is a not so nice way to get the reply Closure to later when we actually have
         // the data from the API... (in locationFixed)
+        DLog("get new location in watch")
         self.replyNearby = reply
         locManager?.refreshLocation()
     }
 
-    public func getStations(reply: replyStations?, stopWithFavorites: Bool?) {
+    public func updateComplication(stations: TFCStations) {
+        if let firstStation = stations.stations?.first {
+            if let ud = NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee") {
+                if (ud.stringForKey("lastFirstStationId") != firstStation.st_id) {
+                    updateComplicationData()
+                }
+            }
+        }
+    }
+
+    /*
+     * sometimes we want to wait a few seconds to see, if there's a new current location before we
+     * start the complication update
+     * This especially happens, when we call from the iPhone for a new update and send
+     * data as userInfo, which usually happens a little bit later
+     */
+
+    public func waitForNewLocation(within seconds:Int, callback: () -> Void) {
+
+        let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+        dispatch_async(queue) {
+            self.waitForNewLocation(within: seconds, counter: 0, queue: queue, callback: callback)
+        }
+    }
+
+
+    private func waitForNewLocation(within seconds:Int, counter:Int = 0, queue:dispatch_queue_t? = nil, callback: () -> Void) {
+        DLog("\(counter)")
+
+        if (counter > seconds || self.locManager?.getLastLocation(seconds) != nil) {
+            callback()
+            return
+        }
+        delay(1.0, closure: {self.waitForNewLocation(within: seconds, counter: (counter + 1), queue: queue, callback: callback)}, queue: queue)
+    }
+
+    public func updateComplicationData() {
+        // reload the timeline for all complications
+        let server = CLKComplicationServer.sharedInstance()
+        for complication in server.activeComplications {
+            DLog("Reload Complications", toFile: true)
+            server.reloadTimelineForComplication(complication)
+        }
+
+    }
+
+    public func getStations(reply: replyStations?, errorReply: ((String) -> Void)?, stopWithFavorites: Bool?) {
         func handleReply(replyInfo: [NSObject : AnyObject]!) {
             if(replyInfo["lat"] != nil) {
                 let loc = CLLocation(latitude: replyInfo["lat"] as! Double, longitude: replyInfo["long"] as! Double)
@@ -71,24 +111,43 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate, APIContro
                     reply!(self.stations)
                     return
                 }
-                self.api?.searchFor(loc.coordinate, context: reply)
+                var replyC:replyContext = replyContext()
+                replyC.reply = reply
+                replyC.errorReply = errorReply
+                self.stations?.searchForStationsInDB(loc.coordinate, context: replyC)
+            } else {
+                if let err = replyInfo["error"] as? NSError {
+                    if (err.code == CLError.LocationUnknown.rawValue) {
+                        self.networkErrorMsg = "Airplane mode?"
+                    } else {
+                        self.networkErrorMsg = "Location not available"
+                    }
+                    if let errorReply = errorReply, networkErrorMsg = self.networkErrorMsg {
+                       errorReply(networkErrorMsg)
+                    }
+                }
             }
         }
-        TFCWatchData.sharedInstance.getLocation(handleReply)
+        // check if we now a last location, and take that if it's not older than 15 seconds
+        //  to avoid multiple location lookups
+        if let cachedLoc = locManager?.getLastLocation(15)?.coordinate {
+            DLog("still cached location \(cachedLoc)")
+            handleReply(["lat" : cachedLoc.latitude, "long": cachedLoc.longitude])
+        } else {
+            self.getLocation(handleReply)
+        }
     }
 
-    public func didReceiveAPIResults(results: JSON?, error: NSError?, context: Any?) {
-        if (!(error != nil && error?.code == -999)) {
-            if (error != nil || results == nil) {
-                self.networkErrorMsg = NSLocalizedString("Network error. Please try again", comment: "")
+    public func stationsUpdated(error: String?, favoritesOnly: Bool, context: Any?) {
+        if let reply:replyContext = context as? replyContext {
+            if (error != nil) {
+                if let reply = reply.errorReply {
+                    reply(error!)
+                }
             } else {
-                self.networkErrorMsg = nil
-            }
-            if (results != nil && TFCStation.isStations(results!)) {
-                self.stations?.addWithJSON(results)
-            }
-            if let reply:replyStations = context as? replyStations {
-                reply(self.stations)
+                if let reply:replyStations = reply.reply {
+                    reply(self.stations)
+                }
             }
         }
     }

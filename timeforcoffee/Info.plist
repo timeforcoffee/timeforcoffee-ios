@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
-	<string>ch.opendata.timeforcoffee</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.1</string>
+	<string>1.8</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -32,16 +32,93 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>50</string>
+	<string>130</string>
+	<key>Fabric</key>
+	<dict>
+		<key>APIKey</key>
+		<string>b9072c25bac9bcbbf5b67a47a62e3fe5ba2dfd9c</string>
+		<key>Kits</key>
+		<array>
+			<dict>
+				<key>KitInfo</key>
+				<dict/>
+				<key>KitName</key>
+				<string>Crashlytics</string>
+			</dict>
+		</array>
+	</dict>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSLocationUsageDescription</key>
-	<string> We need the location to show you nearby stations. We’re only accessing this, when the app or the Today extension is in use and for as short as possible.</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>staging.timeforcoffee.ch</key>
+			<dict>
+				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+			<key>tfc.chregu.tv</key>
+			<dict>
+				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+			<key>transport.opendata.ch</key>
+			<dict>
+				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+			<key>www.timeforcoffee.ch</key>
+			<dict>
+				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+		</dict>
+	</dict>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>If you have complications installed on your Apple Watch, we subscribe for location events when you&apos;re in one of your favourite places, so that we can update your complication with the right info. Also enable in Settings &quot;Privacy -&gt; Location Services -&gt; System Services -&gt; Frequent Locations&quot;</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string> We need the location to show you nearby stations. We’re only accessing this, when the app or the Today extension is in use and for as short as possible.</string>
+	<key>NSUserActivityTypes</key>
+	<array>
+		<string>ch.opendata.timeforcoffee.station</string>
+	</array>
 	<key>UIAppFonts</key>
 	<array>
 		<string>trainsymbol.otf</string>
+	</array>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeFavorite</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Favorites</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>ch.opendata.timeforcoffee.favorites</string>
+			<key>UIApplicationShortcutItemUserInfo</key>
+			<dict>
+				<key>key1</key>
+				<string>value1</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeSearch</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Search</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>ch.opendata.timeforcoffee.search</string>
+			<key>UIApplicationShortcutItemUserInfo</key>
+			<dict>
+				<key>key1</key>
+				<string>value1</string>
+			</dict>
+		</dict>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

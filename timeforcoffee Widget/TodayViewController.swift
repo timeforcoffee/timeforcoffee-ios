@@ -67,17 +67,18 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             dispatch_async(dispatch_get_main_queue(), {
                 if (self.showStations == true) {
                     self.setLastUsedView()
-                    self.actionLabel.setTitle("Back", forState: UIControlState.Normal)
+                    self.actionLabel.setTitle(NSLocalizedString("Back", comment: ""), forState: UIControlState.Normal)
 
-                    self.titleLabel.text = "Nearby Stations"
+                    self.titleLabel.text = NSLocalizedString("Nearby Stations", comment: "")
                 } else {
                     if (self.currentStation != nil) {
                         self.setLastUsedView()
                     }
-                    self.actionLabel.setTitle("Stations", forState: UIControlState.Normal)
+                    self.actionLabel.setTitle(NSLocalizedString("Stations", comment: ""), forState: UIControlState.Normal)
 
                     if let stationName = self.currentStation?.getNameWithStarAndFilters() {
                         self.titleLabel.text = stationName
+                        self.currentStation?.setStationActivity()
                     }
                 }
                 self.actionLabel.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
@@ -97,6 +98,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
    
     override func viewDidLoad() {
         super.viewDidLoad()
+        DLog("viewDidLoad")
         titleLabel.userInteractionEnabled = true;
         let tapGesture  = UITapGestureRecognizer(target: self, action: "handleTap:")
         titleLabel.addGestureRecognizer(tapGesture)
@@ -104,8 +106,8 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     }
 
 
-    required init(coder aDecoder: NSCoder) {
-        NSLog("init")
+    required init?(coder aDecoder: NSCoder) {
+        DLog("init")
         super.init(coder: aDecoder)
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
             TFCDataStore.sharedInstance.registerForNotifications()
@@ -114,14 +116,14 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     }
 
     deinit {
-        NSLog("deinit widget")
+        DLog("deinit widget")
         TFCURLSession.sharedInstance.cancelURLSession()
         TFCDataStore.sharedInstance.removeNotifications()
     }
 
     override func viewDidAppear(animated: Bool) {
         //actionLabel.hidden = false
-        NSLog("viewDidAppear")
+        DLog("viewDidAppear")
         viewDidAppear = true
         super.viewDidAppear(animated)
         // adjust containerView height, if it's too big
@@ -133,8 +135,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     }
 
     override func awakeFromNib() {
-
-
+        DLog("awakeFromNib")
         let userDefaults = TFCDataStore.sharedInstance.getUserDefaults()
 
         if let preferredHeight = userDefaults?.objectForKey("lastPreferredContentHeight") as? CGFloat {
@@ -163,7 +164,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             }
         }
 
-        NSLog("awakeFromNib")
+        DLog("awakeFromNib")
     }
     private func setPreferredContentSize() {
         let height = CGFloat(33 + (self.numberOfCells * 52))
@@ -181,36 +182,36 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        DLog("viewWillAppear")
 
         //sometimes strange things happen with the calculated width
         // just fix it here, and it should stay...
         ContainerViewTrailingConstraint?.active = false
         ContainerViewWidthConstraint?.constant = self.containerView.frame.width
         self.view.setNeedsLayout()
-/*        if (getLastUsedView() == "nearbyStations") {
-            actionLabel.titleLabel?.text = "Back"
-        } else {
-            actionLabel.titleLabel?.text = "Stations"
-        }*/
         actionLabel.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         setPreferredContentSize()
+        DLog(195)
     }
 
     override func viewWillDisappear(animated: Bool) {
+        DLog("viewWillDisappear")
         super.viewWillDisappear(animated)
         actionLabel.setTitleColor(UIColor.lightGrayColor(), forState: UIControlState.Normal)
     }
 
     override func viewDidDisappear(animated: Bool) {
+        DLog("viewDidDisappear")
         TFCURLSession.sharedInstance.cancelURLSession()
+        TFCDataStore.sharedInstance.saveContext()
 
     }
-    func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)!) {
+    func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)) {
         // Perform any setup necessary in order to update the view.
         // If an error is encountered, use NCUpdateResult.Failed
         // If there's no update required, use NCUpdateResult.NoData
         // If there's an update, use NCUpdateResult.NewData
-        NSLog("widgetPerformUpdateWithCompletionHandler")
+        DLog("widgetPerformUpdateWithCompletionHandler")
         completionHandler(NCUpdateResult.NewData)
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
@@ -241,14 +242,14 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     }
 
     override func locationFixed(coord: CLLocation?) {
-        NSLog("locationFixed")
+        DLog("locationFixed")
         if (coord != nil) {
             if (locManager?.currentLocation != nil) {
                 // if lastUsedView is a single station and we did look at it no longer than 30 minutes
                 // and the distance is not much more (200m), just show it again
                 if (self.dataIsFromInitCache && showStations == false) {
                     if (lastUsedViewUpdatedInterval() > -(60 * 30)) {
-                        let distance2lastViewedStationNow: CLLocationDistance? = locManager?.currentLocation?.distanceFromLocation(lastViewedStation?.coord)
+                        let distance2lastViewedStationNow: CLLocationDistance? = locManager?.currentLocation?.distanceFromLocation((lastViewedStation?.coord)!)
                         let distance2lastViewedStationLasttime: CLLocationDistance? = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedStationDistance") as! CLLocationDistance?
                         if (distance2lastViewedStationNow != nil && distance2lastViewedStationLasttime != nil && distance2lastViewedStationNow! < distance2lastViewedStationLasttime! + 200) {
                             dataIsFromInitCache = false
@@ -300,12 +301,12 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
     func handleTap(recognizer: UITapGestureRecognizer) {
         if (showStations) {
-            var urlstring = "timeforcoffee://nearby"
+            let urlstring = "timeforcoffee://nearby"
             let url: NSURL = NSURL(string: urlstring)!
             self.extensionContext?.openURL(url, completionHandler: nil);
         } else if (currentStation != nil && currentStation?.st_id != "0000") {
             let station = currentStation!
-            var name = station.name.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
+            let name = station.name.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
             let long = station.getLongitude()
             let lat = station.getLatitude()
             var urlstring = "timeforcoffee://station?id=\(station.st_id)&name=\(name)"
@@ -330,7 +331,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                 // FIXME, use NSCoding serialisation ..
                 // and maybe one object for all these values
                 userDefaults?.setObject(self.currentStation?.getAsDict(), forKey: "lastUsedStation")
-                userDefaults?.setObject(self.locManager?.currentLocation?.distanceFromLocation(self.currentStation?.coord), forKey: "lastUsedStationDistance")
+                userDefaults?.setObject(self.locManager?.currentLocation?.distanceFromLocation((self.currentStation?.coord)!), forKey: "lastUsedStationDistance")
             } else {
                 userDefaults?.removeObjectForKey("lastUsedView")
                 userDefaults?.removeObjectForKey("lastUsedStation")
@@ -385,7 +386,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         if (showStations) {
             cell = tableView.dequeueReusableCellWithIdentifier("NearbyStationsCell") as! NearbyStationsTableViewCell
         } else {
-            cell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as! UITableViewCell
+            cell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as UITableViewCell!
         }
         cell.layoutMargins = UIEdgeInsetsZero
         cell.preservesSuperviewLayoutMargins = false
@@ -453,7 +454,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         if (UIDeviceOrientationIsLandscape(UIDevice.currentDevice().orientation)) {
             unabridged = true
         }
-        destinationLabel.text = departure.getDestinationWithSign(station, unabridged: unabridged)
+        destinationLabel.text = departure.getDestination(station, unabridged: unabridged)
 
         let (departureTimeAttr, departureTimeString) = departure.getDepartureTime()
         if (departureTimeAttr != nil) {
@@ -504,7 +505,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         // do nothing
     }
 
-    func stationsUpdated(error: String?, favoritesOnly: Bool) {
+    func stationsUpdated(error: String?, favoritesOnly: Bool, context: Any?) {
         dispatch_async(dispatch_get_main_queue(), {
             // if we show a single station, but it's not determined which one
             //   try to get one from the stations array
@@ -513,6 +514,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                 if (self.currentStation != nil) {
                     if let title = self.currentStation?.getNameWithStarAndFilters() {
                         self.titleLabel.text = title
+                        self.currentStation?.setStationActivity()
                     }
                     self.displayDepartures()
                 }

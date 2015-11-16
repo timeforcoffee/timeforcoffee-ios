@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  nextMigros
+//  timeforcoffee
 //
 //  Created by Christian Stocker on 13.09.14.
 //  Copyright (c) 2014 Christian Stocker. All rights reserved.
@@ -9,9 +9,8 @@
 import UIKit
 import MapKit
 import timeforcoffeeKit
-import CoreLocation
 
-class StationsViewController: TFCBaseViewController, TFCLocationManagerDelegate {
+class StationsViewController: TFCBaseViewController {
     @IBOutlet weak var appsTableView : StationTableView?
     let cellIdentifier: String = "StationTableViewCell"
     var networkErrorMsg: String? = nil
@@ -53,11 +52,11 @@ class StationsViewController: TFCBaseViewController, TFCLocationManagerDelegate 
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        var detailsViewController: DeparturesViewController = segue.destinationViewController as! DeparturesViewController
+        let detailsViewController: DeparturesViewController = segue.destinationViewController as! DeparturesViewController
 
-        var index = appsTableView?.indexPathForSelectedRow()?.row
+        let index = appsTableView?.indexPathForSelectedRow?.row
         if (index != nil) {
-            var station = appsTableView?.stations.getStation(index!)
+            let station = appsTableView?.stations.getStation(index!)
             detailsViewController.setStation(station: station!);
         }
 

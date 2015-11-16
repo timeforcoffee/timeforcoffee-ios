@@ -1,6 +1,0 @@
-framework module PINCache {
-  umbrella header "Pods-PINCache-umbrella.h"
-
-  export *
-  module * { export * }
-}

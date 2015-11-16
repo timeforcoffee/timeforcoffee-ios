@@ -47,7 +47,7 @@ final class NearbyStationsTableViewCell: UITableViewCell {
         if (firstDeparture != nil && firstDeparture?.getMinutesAsInt() >= 0) {
             StationsLineNumberLabel.setStyle("dark", departure: firstDeparture!)
             StationMinuteLabel.text = firstDeparture!.getMinutes()
-            StationsDestinationLabel.text = firstDeparture!.getDestinationWithSign(station, unabridged: false)
+            StationsDestinationLabel.text = firstDeparture!.getDestination(station, unabridged: false)
         } else {
             StationsLineNumberLabel.hidden = true
             StationMinuteLabel.text = nil

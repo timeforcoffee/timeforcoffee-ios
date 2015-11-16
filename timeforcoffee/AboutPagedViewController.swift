@@ -48,14 +48,20 @@ final class AboutPagedViewController: UIViewController, SwipeViewDataSource, Swi
             
 
             let aboutview = self.storyboard?.instantiateViewControllerWithIdentifier("AboutViewController").view as UIView?
-            aboutview?.autoresizingMask = UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleWidth
+            aboutview?.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
+           // aboutview?.frame = self.swipeView.bounds
             let webview = aboutview?.viewWithTag(10) as! UIWebView
             webview.scrollView.scrollEnabled = false;
             webview.delegate = self
             let htmlfile = NSBundle.mainBundle().pathForResource("About", ofType: "html")
-            let htmlString = String(contentsOfFile: htmlfile!, encoding: NSUTF8StringEncoding, error: nil)
+            let htmlString: String?
+            do {
+                htmlString = try String(contentsOfFile: htmlfile!, encoding: NSUTF8StringEncoding)
+            } catch _ {
+                htmlString = nil
+            }
 
-            webview.loadHTMLString(htmlString, baseURL: nil)
+            webview.loadHTMLString(htmlString!, baseURL: nil)
 
             let chatbutton = aboutview?.viewWithTag(20) as! UIButton
             chatbutton.addTarget(self, action: "startChat", forControlEvents: UIControlEvents.TouchUpInside
@@ -157,7 +163,7 @@ final class AboutPagedViewController: UIViewController, SwipeViewDataSource, Swi
 
     func openSettings() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc: UIViewController! = storyboard.instantiateViewControllerWithIdentifier("SettingsViewController") as! UIViewController
+        let vc: UIViewController! = storyboard.instantiateViewControllerWithIdentifier("SettingsViewController") as UIViewController
         self.presentViewController(vc, animated: true, completion: nil)
     }
 

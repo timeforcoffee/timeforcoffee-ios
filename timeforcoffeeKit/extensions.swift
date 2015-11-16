@@ -11,6 +11,28 @@ import UIKit
 
 public typealias replyClosure = (([NSObject : AnyObject]!) -> Void)
 public typealias replyStations = ((TFCStations?) -> Void)
+public typealias replyStation = ((TFCStation?) -> Void)
+
+public func delay(delay2:Double, closure:()->()) {
+    delay(delay2, closure:closure, queue: nil)
+}
+
+public func delay(delay:Double, closure:()->(), queue:dispatch_queue_t?) {
+    let queue2:dispatch_queue_t
+
+    if (queue != nil) {
+        queue2 = queue!
+    } else {
+        queue2 = dispatch_get_main_queue()
+    }
+
+    dispatch_after(
+        dispatch_time(
+            DISPATCH_TIME_NOW,
+            Int64(delay * Double(NSEC_PER_SEC))
+        ),
+        queue2, closure)
+}
 
 public extension UIColor {
     convenience init(red: Int, green: Int, blue: Int) {
@@ -29,7 +51,7 @@ public extension UIColor {
         var cString:String = netHexString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet() as NSCharacterSet).uppercaseString
         
         if (cString.hasPrefix("#")) {
-            cString = cString.substringFromIndex(advance(cString.startIndex, 1))
+            cString = (cString as NSString).substringFromIndex(1)
         }
         var rgbValue:UInt32 = 0
         NSScanner(string: cString).scanHexInt(&rgbValue)
@@ -69,20 +91,24 @@ struct Regex {
     
     init(pattern: String) {
         self.pattern = pattern
-        expressionOptions = NSRegularExpressionOptions(0)
-        matchingOptions = NSMatchingOptions(0)
+        expressionOptions = NSRegularExpressionOptions(rawValue: 0)
+        matchingOptions = NSMatchingOptions(rawValue: 0)
         updateRegex()
     }
     
     mutating func updateRegex() {
-        regex = NSRegularExpression(pattern: pattern, options: expressionOptions, error: nil)
+        do {
+            regex = try NSRegularExpression(pattern: pattern, options: expressionOptions)
+        } catch _ {
+            regex = nil
+        }
     }
 }
 
 
 extension String {
     func matchRegex(pattern: Regex) -> Bool {
-        let range: NSRange = NSMakeRange(0, count(self))
+        let range: NSRange = NSMakeRange(0, self.characters.count)
         if pattern.regex != nil {
             let matches: [AnyObject] = pattern.regex!.matchesInString(self, options: pattern.matchingOptions, range: range)
             return matches.count > 0
@@ -96,7 +122,7 @@ extension String {
     
     func replaceRegex(pattern: Regex, template: String) -> String {
         if self.matchRegex(pattern) {
-            let range: NSRange = NSMakeRange(0, count(self))
+            let range: NSRange = NSMakeRange(0, self.characters.count)
             if pattern.regex != nil {
                 return pattern.regex!.stringByReplacingMatchesInString(self, options: pattern.matchingOptions, range: range, withTemplate: template)
             }
@@ -109,30 +135,12 @@ extension String {
     }
 }
 
-public extension UIImage {
-
-func imageByApplyingAlpha(alpha: CGFloat) -> UIImage {
-
-    UIGraphicsBeginImageContextWithOptions(self.size, false, 0.0);
-
-    let ctx = UIGraphicsGetCurrentContext();
-    let area = CGRectMake(0, 0, self.size.width, self.size.height);
-
-    CGContextScaleCTM(ctx, 1, -1);
-    CGContextTranslateCTM(ctx, 0, -area.size.height);
-
-    CGContextSetBlendMode(ctx, kCGBlendModeMultiply);
-
-    CGContextSetAlpha(ctx, alpha);
-
-    CGContextDrawImage(ctx, area, self.CGImage);
-
-    let newImage = UIGraphicsGetImageFromCurrentImageContext();
-
-    UIGraphicsEndImageContext();
-
-    return newImage;
+extension Double {
+    /// Rounds the double to decimal places value
+    public func roundToPlaces(places:Int) -> Double {
+        let divisor = pow(10.0, Double(places))
+        return round(self * divisor) / divisor
     }
-
-
 }
+
+

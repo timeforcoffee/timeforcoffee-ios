@@ -1,0 +1,35 @@
+
+
+/* Class = "UILabel"; text = "Release to view"; ObjectID = "5pC-0t-4Bu"; */
+"5pC-0t-4Bu.text" = "Release to view";
+
+/* Class = "UILabel"; text = "Release to view"; ObjectID = "cgy-fE-O9r"; */
+"cgy-fE-O9r.text" = "Release to view";
+
+/* Class = "UIButton"; normalTitle = "Close"; ObjectID = "67I-cf-lcA"; */
+"67I-cf-lcA.normalTitle" = "Schliessen";
+
+/* Class = "UISegmentedControl"; VXL-uK-o9G.segmentTitles[0] = "All"; ObjectID = "VXL-uK-o9G"; */
+"VXL-uK-o9G.segmentTitles[0]" = "Alle";
+
+/* Class = "UISegmentedControl"; VXL-uK-o9G.segmentTitles[1] = "Favourites"; ObjectID = "VXL-uK-o9G"; */
+"VXL-uK-o9G.segmentTitles[1]" = "Favoriten";
+
+
+/* Class = "UIButton"; normalTitle = "Help / Chat with us!"; ObjectID = "dYu-XS-w9t"; */
+"dYu-XS-w9t.normalTitle" = "Help / Chat mit uns!";
+
+/* Class = "UIButton"; normalTitle = "Close"; ObjectID = "g1K-Z1-pZl"; */
+"g1K-Z1-pZl.normalTitle" = "Schliessen";
+
+/* Class = "UITextField"; text = "Settings"; ObjectID = "0tK-ea-YGt"; */
+"0tK-ea-YGt.text" = "Settings";
+
+/* Class = "UITextView"; text = "Search radius for Favourites:"; ObjectID = "1WW-X2-xCT"; */
+"1WW-X2-xCT.text" = "Search radius for Favourites:";
+
+/* Class = "UITextView"; text = "Show Real Time besides in departures times"; ObjectID = "rL3-sl-2ji"; */
+"rL3-sl-2ji.text" = "Show Real Time besides in departures times";
+
+/* Class = "UITextView"; text = "Number of Departures / Stations in Today View:"; ObjectID = "ddG-sf-Sti"; */
+"ddG-sf-Sti.text" = "Number of Departures / Stations in Today View:";

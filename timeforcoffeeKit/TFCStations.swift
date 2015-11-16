@@ -8,6 +8,9 @@
 
 import Foundation
 import CoreLocation
+import WatchConnectivity
+import CoreData
+import MapKit
 
 public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelegate, APIControllerProtocol {
 
@@ -81,9 +84,9 @@ public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelega
             var stationsAdded:[String: Bool] = [:]
             if let results = allResults?["stations"].array {
                 for result in results {
-                    var id = String(result["id"].string!)
+                    let id = String(result["id"].stringValue)
                     if (inStationsArrayAsFavorite[id] == nil && stationsAdded[id] == nil) {
-                        var name = result["name"].string
+                        let name = result["name"].string
                         // the DB has all the uppercased short Strings as well, we don't want to display them
                         // just don't add them
                         if (name == name?.uppercaseString) {
@@ -102,7 +105,7 @@ public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelega
                         if (longitude != nil && latitude != nil) {
                             Clocation = CLLocation(latitude: latitude!, longitude: longitude!)
                         }
-                        var newStation = TFCStation.initWithCache(name!, id: id, coord: Clocation)
+                        let newStation = TFCStation.initWithCache(name!, id: id, coord: Clocation)
                         stationsAdded[id] = true
                         newStations.append(newStation)
                     }
@@ -130,22 +133,22 @@ public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelega
 
     public func initWithNearbyFavorites(location: CLLocation) -> Bool {
         self.nearbyFavorites = []
+        self._stations = []
+
         inStationsArrayAsFavorite = [:]
         var hasNearbyFavs = false
         var removeFromFavorites: [String] = []
         var favDistance = Double(TFCFavorites.sharedInstance.getSearchRadius())
         if (location.horizontalAccuracy > favDistance - 500.0) {
-            NSLog("horizontalAccuracy > \(favDistance - 500.0): \(location.horizontalAccuracy)")
+            DLog("horizontalAccuracy > \(favDistance - 500.0): \(location.horizontalAccuracy)")
             favDistance = location.horizontalAccuracy + 500.0
         }
         favorite.s.repopulateFavorites()
 
         for (st_id, station) in favorite.s.stations {
-            let distance = location.distanceFromLocation(station.coord)
-            if (distance < favDistance) {
+            if (station.calculatedDistance < favDistance) {
                 hasNearbyFavs = true
                 if (inStationsArrayAsFavorite[station.st_id] != true) {
-                    station.calculatedDistance = Int(distance)
                     self.nearbyFavorites!.append(station)
                     inStationsArrayAsFavorite[station.st_id] = true
                 }
@@ -159,7 +162,7 @@ public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelega
         }
 
         if (hasNearbyFavs) {
-            self.nearbyFavorites!.sort({ $0.calculatedDistance < $1.calculatedDistance })
+            self.nearbyFavorites!.sortInPlace({ $0.calculatedDistance < $1.calculatedDistance })
             return true
         }
         self.nearbyFavorites = nil
@@ -173,19 +176,15 @@ public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelega
     public func loadFavorites(location: CLLocation?) {
         self._stations = []
         TFCFavorites.sharedInstance.repopulateFavorites()
-        for (st_id, station) in favorite.s.stations {
-            if (location != nil) {
-                let distance = Int(location?.distanceFromLocation(station.coord) as Double!)
-                station.calculatedDistance = distance
-            }
+        for (_, station) in favorite.s.stations {
             self._stations?.append(station)
         }
         if (location != nil) {
-            self._stations!.sort({ $0.calculatedDistance < $1.calculatedDistance })
+            self._stations!.sortInPlace({ $0.calculatedDistance < $1.calculatedDistance })
         }
     }
 
-    public func updateStations(#searchFor: String) -> Bool {
+    public func updateStations(searchFor searchFor: String) -> Bool {
         isLoading = true
         self.api.searchFor(searchFor)
         return true
@@ -215,7 +214,11 @@ public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelega
                 self.callStationsUpdatedDelegate(nil, favoritesOnly: true)
             }
             let coord = loc.coordinate
-            self.api.searchFor(coord)
+            if (TFCLocationManager.getISOCountry() == "CH") {
+                self.searchForStationsInDB(coord)
+            } else {
+                self.api.searchFor(coord)
+            }
         }
     }
 
@@ -225,6 +228,80 @@ public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelega
 
     public func locationStillTrying(manager: CLLocationManager, err: NSError) {
             callStationsUpdatedDelegate(TFCLocationManager.k.AirplaneMode)
+    }
+
+    public func searchForStationsInDB(coord: CLLocationCoordinate2D) {
+        searchForStationsInDB(coord, distance: 1500.0, context: nil)
+    }
+
+    public func searchForStationsInDB(coord: CLLocationCoordinate2D, context: Any?) {
+        searchForStationsInDB(coord, distance: 1500.0, context: context)
+    }
+
+    public func searchForStationsInDB(coord: CLLocationCoordinate2D, distance: Double, context: Any?) {
+
+        var err:String?
+
+        let ids = getStationIdsForCoord(coord, distance: distance)
+
+        if (ids.count < 8 && distance < 50000) {
+            return searchForStationsInDB(coord, distance: distance * 2, context: context)
+        }
+
+        var stations = ids
+            //remove stations already in the last as favorite
+            .filter({(id:String) in
+                if (inStationsArrayAsFavorite[id] == nil) {
+                    return true
+                }
+                return false
+            })
+            //map the id to the actuall station object
+            .map({(id: String) -> TFCStation in
+                return TFCStation.initWithCacheId(id)
+
+            })
+            //remove stations not within distance
+            .filter({(station: TFCStation) in
+                if (station.calculatedDistance > distance) {
+                    return false
+                }
+                return true
+            })
+        //sort by distance
+        stations.sortInPlace({ $0.calculatedDistance < $1.calculatedDistance })
+        self._stations = stations
+        if (!(self.stations?.count > 0)) {
+            //this can happen, when we filter out station above, so increase the search radius
+            if (distance < 50000) {
+                return searchForStationsInDB(coord, distance: distance * 2, context: context)
+            }
+            err = self.getReasonForNoStationFound()
+        }
+        callStationsUpdatedDelegate(err, favoritesOnly: false, context: context)
+    }
+
+    private func getStationIdsForCoord(coord: CLLocationCoordinate2D, distance: Double) -> [String]
+    {
+        let region = MKCoordinateRegionMakeWithDistance(coord, distance, distance);
+
+        let latMin = region.center.latitude - 0.5 * region.span.latitudeDelta;
+        let latMax = region.center.latitude + 0.5 * region.span.latitudeDelta;
+        let lonMin = region.center.longitude - 0.5 * region.span.longitudeDelta;
+        let lonMax = region.center.longitude + 0.5 * region.span.longitudeDelta;
+
+        let fetchRequest = NSFetchRequest(entityName: "TFCStationModel")
+        do {
+            let pred = NSPredicate(format: "latitude BETWEEN {\(latMin), \(latMax)} AND  longitude BETWEEN {\(lonMin), \(lonMax)}")
+
+            fetchRequest.predicate = pred
+            if let results = try TFCDataStoreBase.sharedInstance.managedObjectContext.executeFetchRequest(fetchRequest) as? [TFCStationModel] {
+                return results.map({ (row) -> String in return row.id!})
+            }
+        } catch let error as NSError {
+            print("Could not fetch \(error), \(error.userInfo)")
+        }
+        return []
     }
 
     public func didReceiveAPIResults(results: JSON?, error: NSError?, context: Any?) {
@@ -244,10 +321,14 @@ public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelega
     }
 
     private func callStationsUpdatedDelegate(err: String?) {
-        callStationsUpdatedDelegate(err, favoritesOnly: false)
+        callStationsUpdatedDelegate(err, favoritesOnly: false, context: nil)
     }
 
     private func callStationsUpdatedDelegate(err: String?, favoritesOnly: Bool) {
+        callStationsUpdatedDelegate(err, favoritesOnly: favoritesOnly, context: nil)
+    }
+
+    private func callStationsUpdatedDelegate(err: String?, favoritesOnly: Bool, context: Any?) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             if (err == TFCLocationManager.k.AirplaneMode) {
                 self.loadingMessage = "Airplane Mode?"
@@ -257,14 +338,20 @@ public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelega
                 }
                 self.networkErrorMsg = err
             }
+            if let firstStation = self.stations?.first {
+                TFCDataStore.sharedInstance.sendComplicationUpdate(firstStation)
+            }
             if let dele = self.delegate {
-                dele.stationsUpdated(self.networkErrorMsg, favoritesOnly: favoritesOnly)
+                dele.stationsUpdated(self.networkErrorMsg, favoritesOnly: favoritesOnly, context: context)
             }
         }
     }
 
-    private func getReasonForNoStationFound() -> String? {
+    public func getReasonForNoStationFound() -> String? {
 
+        if (TFCLocationManager.getISOCountry() != "CH") {
+            return "Not in Switzerland?"
+        }
         if let distanceFromSwitzerland = locManager?.currentLocation?.distanceFromLocation(CLLocation(latitude: 47, longitude: 8)) {
             if (distanceFromSwitzerland > 1000000) {
                 return "Not in Switzerland?"
@@ -308,5 +395,5 @@ public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelega
 }
 
 public protocol TFCStationsUpdatedProtocol: class {
-    func stationsUpdated(error: String?, favoritesOnly: Bool)
+    func stationsUpdated(error: String?, favoritesOnly: Bool, context: Any?)
 }

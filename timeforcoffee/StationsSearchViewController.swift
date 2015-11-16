@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 final class StationsSearchViewController: StationsViewController, UISearchBarDelegate {
 
@@ -43,7 +44,7 @@ final class StationsSearchViewController: StationsViewController, UISearchBarDel
 
         })
         self.searchController?.removeFromParentViewController()
-        NSLog("deinit StationsSearchViewController")
+        DLog("deinit StationsSearchViewController")
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -61,7 +62,7 @@ final class StationsSearchViewController: StationsViewController, UISearchBarDel
             })
         }
 
-        var duration: NSTimeInterval = 0.5
+        let duration: NSTimeInterval = 0.5
         UIView.animateWithDuration(duration,
             animations: {
                 self.view.alpha = 1.0
@@ -82,14 +83,14 @@ final class StationsSearchViewController: StationsViewController, UISearchBarDel
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        var detailsViewController: DeparturesViewController = segue.destinationViewController as! DeparturesViewController
+        let detailsViewController: DeparturesViewController = segue.destinationViewController as! DeparturesViewController
 
         if (self.searchController != nil) {
             self.searchController?.searchBar.resignFirstResponder()
         }
-        var index = appsTableView2?.indexPathForSelectedRow()?.row
+        let index = appsTableView2?.indexPathForSelectedRow?.row
         if (index != nil) {
-            var station = appsTableView2?.stations.getStation(index!)
+            let station = appsTableView2?.stations.getStation(index!)
             detailsViewController.setStation(station: station!);
         }
     }

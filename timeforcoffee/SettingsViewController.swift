@@ -19,6 +19,10 @@ class SettingsViewController: UIViewController {
 
     @IBOutlet weak var favoritesRadiusSlider: UISlider!
     @IBOutlet weak var favoritesRadiusValue: UITextView!
+
+    @IBOutlet weak var realTimeInfoSwitch: UISwitch!
+
+
     @IBAction func closeButtionTapped(sender: AnyObject) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
@@ -33,18 +37,20 @@ class SettingsViewController: UIViewController {
         let favoritesSearchRadius = TFCFavorites.sharedInstance.getSearchRadius()
         setRadiusTextValue(favoritesSearchRadius)
         setRadiusSliderValue(favoritesSearchRadius)
+
+        realTimeInfoSwitch.on = TFCSettings.sharedInstance.showRealTimeDebugInfo()
     }
 
     @IBAction func sliderChanged(sender: AnyObject) {
 
-        var sliderValue = lroundf(numberCellsTodaySlider.value)
+        let sliderValue = lroundf(numberCellsTodaySlider.value)
         numberCellsTodayValue.text = String(sliderValue)
         numberCellsTodaySlider.setValue(Float(sliderValue), animated: true)
         TFCDataStore.sharedInstance.getUserDefaults()?.setInteger(sliderValue, forKey: "numberOfCellsToday")
     }
 
     @IBAction func sliderChangedValue(sender: AnyObject) {
-        var sliderValue = lroundf(numberCellsTodaySlider.value)
+        let sliderValue = lroundf(numberCellsTodaySlider.value)
         numberCellsTodayValue.text = String(sliderValue)
     }
 
@@ -59,7 +65,7 @@ class SettingsViewController: UIViewController {
     }
 
     private func getRadiusSliderValueInMeters() -> Float {
-        var sliderValue = pow(10,favoritesRadiusSlider.value)
+        let sliderValue = pow(10,favoritesRadiusSlider.value)
         return Float(roundf(sliderValue / 100)) * 100
     }
 
@@ -73,4 +79,10 @@ class SettingsViewController: UIViewController {
         let rounded = getRadiusSliderValueInMeters()
         setRadiusTextValue(Int(rounded))
     }
+
+    @IBAction func realTimeInfoSwitchChanged(sender: AnyObject) {
+        TFCSettings.sharedInstance.setRealTimeDebugInfo(realTimeInfoSwitch.on)
+    }
+
+
 }

@@ -9,7 +9,6 @@
 import UIKit
 import MapKit
 import timeforcoffeeKit
-import CoreLocation
 
 final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, TFCStationsUpdatedProtocol {
     
@@ -19,7 +18,7 @@ final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataS
     weak var stationsViewController: StationsViewController?
     weak var searchBar: UISearchBar?
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
@@ -60,7 +59,7 @@ final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataS
         }
     }
 
-    func stationsUpdated(err: String?, favoritesOnly: Bool) {
+    func stationsUpdated(err: String?, favoritesOnly: Bool, context: Any?) {
         dispatch_async(dispatch_get_main_queue(), {
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             self.refreshControl?.endRefreshing()
@@ -70,7 +69,7 @@ final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataS
 
     func updateSearchResultsForSearchController(searchController: UISearchController) {
         let whitespaceCharacterSet = NSCharacterSet.whitespaceCharacterSet()
-        let strippedString = searchController.searchBar.text.stringByTrimmingCharactersInSet(whitespaceCharacterSet)
+        let strippedString = searchController.searchBar.text!.stringByTrimmingCharactersInSet(whitespaceCharacterSet)
         if (strippedString != "") {
             self.stations.updateStations(searchFor: strippedString)
         }

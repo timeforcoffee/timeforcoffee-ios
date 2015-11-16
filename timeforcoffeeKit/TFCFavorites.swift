@@ -26,7 +26,7 @@ final public class TFCFavorites: NSObject {
     }
 
     private var temporarlyRemovedStations = false
-
+    private var needsSave = false
 
     override init() {
         super.init()
@@ -35,6 +35,11 @@ final public class TFCFavorites: NSObject {
     func repopulateFavorites() {
         temporarlyRemovedStations = false
         self.stations = getCurrentFavoritesFromDefaults()
+        //the following trimmed can be removed later, maybe in 1.7 or so (needed in 1.5)
+        if (needsSave) {
+            saveFavorites()
+            needsSave = false
+        }
     }
 
     public func getSearchRadius() -> Int {
@@ -50,15 +55,32 @@ final public class TFCFavorites: NSObject {
     private func getCurrentFavoritesFromDefaults() -> [String: TFCStation] {
         var st: [String: TFCStation]?
         if let unarchivedObject = objects.dataStore?.objectForKey("favorites2") as? NSData {
+            NSKeyedUnarchiver.setClass(TFCStation.classForKeyedUnarchiver(), forClassName: "timeforcoffeeKit.TFCStation")
+            NSKeyedUnarchiver.setClass(TFCStation.classForKeyedUnarchiver(), forClassName: "timeforcoffeeWatchKit.TFCStation")
+            NSKeyedUnarchiver.setClass(TFCStation.classForKeyedUnarchiver(), forClassName: "Time_for_Coffee__WatchOS_2_App_Extension.TFCStation")
             st = NSKeyedUnarchiver.unarchiveObjectWithData(unarchivedObject) as? [String: TFCStation]
         }
         let cache = TFCCache.objects.stations
         if (st != nil) {
             // get if from the cache, if it's already there.
-            for (st_id, station) in st! {
-                let newStation: TFCStation? = cache.objectForKey(st_id) as? TFCStation
+            for (st_id, _) in st! {
+                // trim id since we sometimes saved this wrong
+
+                let trimmed_id = st_id.replace("^0*", template: "")
+                if (trimmed_id != st_id) {
+                    DLog("Trim favourite ID \(st_id)")
+                    st![trimmed_id] = st![st_id]
+                    st![trimmed_id]!.st_id = trimmed_id
+                    st!.removeValueForKey(st_id)
+                    needsSave = true
+                }
+                var newStation: TFCStation? = cache.objectForKey(trimmed_id) as? TFCStation
+                if (newStation?.name == "unknown") {
+                    newStation = TFCStation.initWithCacheId(trimmed_id)
+                    needsSave = true
+                }
                 if (newStation != nil && newStation?.coord != nil) {
-                    st![st_id] = newStation
+                    st![trimmed_id] = newStation
                 }
             }
             return st!
@@ -83,7 +105,7 @@ final public class TFCFavorites: NSObject {
         self.saveFavorites()
     }
 
-    func unset(#station: TFCStation?) {
+    func unset(station station: TFCStation?) {
         unset(station?.st_id)
     }
 
@@ -112,12 +134,14 @@ final public class TFCFavorites: NSObject {
 
 
     private func saveFavorites() {
-        for (id, station) in stations {
+        for (_, station) in stations {
             station.serializeDepartures = false
         }
         let archivedFavorites = NSKeyedArchiver.archivedDataWithRootObject(stations)
-        for (id, station) in stations {
+        for (_, station) in stations {
             station.serializeDepartures = true
+            //make sure all favorites are indexed
+            station.setStationSearchIndex()
         }
         objects.dataStore?.setObject(archivedFavorites , forKey: "favorites2")
     }
@@ -126,8 +150,8 @@ final public class TFCFavorites: NSObject {
 
 extension Array {
     //  stations.find{($0 as TFCStation).st_id == st_id}
-    func indexOf(includedElement: T -> Bool) -> Int? {
-        for (idx, element) in enumerate(self) {
+    func indexOf(includedElement: Element -> Bool) -> Int? {
+        for (idx, element) in self.enumerate() {
             if includedElement(element) {
                 return idx
             }
@@ -135,8 +159,8 @@ extension Array {
         return nil
     }
 
-    func getObject(includedElement: T -> Bool) -> T? {
-        for (idx, element) in enumerate(self) {
+    func getObject(includedElement: Element -> Bool) -> Element? {
+        for (_, element) in self.enumerate() {
             if includedElement(element) {
                 return element
             }
