@@ -83,7 +83,7 @@ final class AboutPagedViewController: UIViewController, SwipeViewDataSource, Swi
     }
 
     func startChat() {
-        SupportKit.show()
+        Smooch.show()
     }
 
     func openSettings() {

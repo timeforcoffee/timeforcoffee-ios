@@ -26,7 +26,7 @@
 		EC050CF81BB84DC700ECB533 /* TFCLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4AB24C1BB6712200DA9759 /* TFCLocationManager.swift */; };
 		EC050CF91BB84DD200ECB533 /* TFCDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4AB24B1BB6712200DA9759 /* TFCDataStore.swift */; };
 		EC050CFA1BB84DD200ECB533 /* TFCStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4AB24D1BB6712200DA9759 /* TFCStation.swift */; };
-		EC0AD15F1BB694CC004217FD /* SupportKitLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC0AD15E1BB694CC004217FD /* SupportKitLocalizable.strings */; };
+		EC0AD15F1BB694CC004217FD /* SmoochLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC0AD15E1BB694CC004217FD /* SmoochLocalizable.strings */; };
 		EC0AD1621BB69539004217FD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC0AD1641BB69539004217FD /* Localizable.strings */; };
 		EC0E4D5A1BCBB09F0046D70C /* SingleViewCoreData.sqlite-shm in Resources */ = {isa = PBXBuildFile; fileRef = EC0E4D581BCBB09F0046D70C /* SingleViewCoreData.sqlite-shm */; };
 		EC0E4D5B1BCBB09F0046D70C /* SingleViewCoreData.sqlite-wal in Resources */ = {isa = PBXBuildFile; fileRef = EC0E4D591BCBB09F0046D70C /* SingleViewCoreData.sqlite-wal */; };
@@ -255,7 +255,7 @@
 		CCD4D3B37D83AB83CB7207D7 /* Pods-timeforcoffee Widget.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-timeforcoffee Widget.release.xcconfig"; path = "Pods/Target Support Files/Pods-timeforcoffee Widget/Pods-timeforcoffee Widget.release.xcconfig"; sourceTree = "<group>"; };
 		DC2EE2BCBDED56A401893E5C /* Pods_timeforcoffee.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_timeforcoffee.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC050CF71BB84D8100ECB533 /* watch-extension-bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "watch-extension-bridging-Header.h"; sourceTree = "<group>"; };
-		EC0AD15E1BB694CC004217FD /* SupportKitLocalizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = SupportKitLocalizable.strings; sourceTree = "<group>"; };
+		EC0AD15E1BB694CC004217FD /* SmoochLocalizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = SmoochLocalizable.strings; sourceTree = "<group>"; };
 		EC0AD1631BB69539004217FD /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EC0AD1661BB69593004217FD /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MainInterface.strings; sourceTree = "<group>"; };
 		EC0AD1671BB69593004217FD /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -465,7 +465,7 @@
 		EC46C4D21BB5C69800F2A963 = {
 			isa = PBXGroup;
 			children = (
-				EC0AD15E1BB694CC004217FD /* SupportKitLocalizable.strings */,
+				EC0AD15E1BB694CC004217FD /* SmoochLocalizable.strings */,
 				EC60B00C1BB680B600D10238 /* _assets */,
 				EC46C4DD1BB5C69800F2A963 /* timeforcoffee */,
 				EC46C50C1BB5C71100F2A963 /* timeforcoffee Widget */,
@@ -928,7 +928,7 @@
 				EC9BCB171BB5CC3500623F1A /* Time for Coffee!.entitlements in Resources */,
 				EC60B0141BB680B600D10238 /* launchicon.png in Resources */,
 				EC46C4E61BB5C69800F2A963 /* Main.storyboard in Resources */,
-				EC0AD15F1BB694CC004217FD /* SupportKitLocalizable.strings in Resources */,
+				EC0AD15F1BB694CC004217FD /* SmoochLocalizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

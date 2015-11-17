@@ -34,9 +34,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 
-## SupportKit
+## Smooch
 
-Radialpoint.  All rights reserved.
+Smooch Technologies Inc.  All rights reserved.
 
 ## SwipeView
 

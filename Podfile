@@ -4,7 +4,7 @@ use_frameworks!
 
 
 def shared_pods
-    pod 'SupportKit'
+    pod 'Smooch'
     pod 'Fabric'
     pod 'Crashlytics'
 end

@@ -5,21 +5,21 @@ PODS:
     - Fabric/Base (= 1.6.0)
   - Fabric/Base (1.6.0)
   - MGSwipeTableCell (1.5.2)
-  - SupportKit (2.11.1)
+  - Smooch (3.0.1)
   - SwipeView (1.3.2)
 
 DEPENDENCIES:
   - Crashlytics
   - Fabric
   - MGSwipeTableCell
-  - SupportKit
+  - Smooch
   - SwipeView
 
 SPEC CHECKSUMS:
   Crashlytics: 1ee87895c37472eb3f01f409ea1654a464d2f8d4
   Fabric: d737eda3a26ac940a5430230eedb35f16b226131
   MGSwipeTableCell: b931684841160dfd1aa134eb04ea266c66aead85
-  SupportKit: 3372cf5d6090de7bd035bee21589b0efb9016fd6
+  Smooch: 229d23bd39e11f74cffbcf20f293de34ad5d7c66
   SwipeView: bd67cfaf7760c036438446b3ccb28a3b84fce009
 
 COCOAPODS: 0.39.0

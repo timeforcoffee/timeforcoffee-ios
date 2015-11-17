@@ -91,44 +91,46 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             #endif
             #if !((arch(i386) || arch(x86_64)) && os(iOS))
             let settings = SKTSettings(appToken: "7n3aaqyp9fr5kr7y1wjssd231")
-            settings.knowledgeBaseURL = "https://timeforcoffee.zendesk.com"
-            SupportKit.initWithSettings(settings)
+//            settings.knowledgeBaseURL = "https://timeforcoffee.zendesk.com"
+            Smooch.initWithSettings(settings)
             #endif
             let userdefaults = TFCDataStore.sharedInstance.getUserDefaults()
             let lastusedTodayScreen: NSDate? = userdefaults?.objectForKey("lastUsedViewUpdate") as! NSDate?
-            var recommendations: [String] = []
+           /* var recommendations: [String] = []
             recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202701502-How-to-use-the-favourite-station-feature-")
             recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202701512-Can-I-exclude-some-destinations-from-a-station-")
             recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202775921-Is-there-a-map-view-somewhere-")
             recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202772511-Who-is-behind-Time-for-Coffee-")
-
-            if (lastusedTodayScreen != nil) {
-                SKTUser.currentUser().addProperties(["usedTodayScreen": true])
-            }
-            if (SKTUser.currentUser().signedUpAt == nil) {
-                SKTUser.currentUser().signedUpAt = NSDate()
-                SKTUser.currentUser().addProperties(["signedUpDate" : NSDate()])
-                if let lang =  NSLocale.preferredLanguages().first {
-                    SKTUser.currentUser().addProperties(["language": lang])
-                }
-                if (userdefaults?.objectForKey("favorites2") != nil) {
-                    SKTUser.currentUser().addProperties(["usedFavorites": true])
-                } else {
-                    SKTUser.currentUser().addProperties(["usedFavorites": false])
-                }
+*/
+            if let currentUser = SKTUser.currentUser() {
                 if (lastusedTodayScreen != nil) {
-                    SKTUser.currentUser().addProperties(["lastUsedTodayScreen": lastusedTodayScreen!])
-                    SKTUser.currentUser().addProperties(["usedTodayScreen": true])
-                } else {
-                    SKTUser.currentUser().addProperties(["usedTodayScreen": false])
+                    currentUser.addProperties(["usedTodayScreen": true])
+                }
+                if (currentUser.signedUpAt == nil) {
+                    currentUser.signedUpAt = NSDate()
+                    currentUser.addProperties(["signedUpDate" : NSDate()])
+                    if let lang =  NSLocale.preferredLanguages().first {
+                        currentUser.addProperties(["language": lang])
+                    }
+                    if (userdefaults?.objectForKey("favorites2") != nil) {
+                        currentUser.addProperties(["usedFavorites": true])
+                    } else {
+                        currentUser.addProperties(["usedFavorites": false])
+                    }
+                    if (lastusedTodayScreen != nil) {
+                        currentUser.addProperties(["lastUsedTodayScreen": lastusedTodayScreen!])
+                        currentUser.addProperties(["usedTodayScreen": true])
+                    } else {
+                        currentUser.addProperties(["usedTodayScreen": false])
+                    }
                 }
             }
-
-            SupportKit.setDefaultRecommendations(recommendations)
+/*            Smooch.setDefaultRecommendations(recommendations)
             if (lastusedTodayScreen == nil) {
-                SupportKit.setTopRecommendation("https://timeforcoffee.zendesk.com/hc/en-us/articles/202698032-How-to-add-Time-for-Coffee-to-the-Today-Screen-")
+                Smooch.setTopRecommendation("https://timeforcoffee.zendesk.com/hc/en-us/articles/202698032-How-to-add-Time-for-Coffee-to-the-Today-Screen-")
 
             }
+*/
         }
         return shouldPerformAdditionalDelegateHandling
     }
