@@ -1,1 +1,1 @@
-../../../../SupportKit/SupportKit.framework/Headers/SKTConversation.h
+../../../../SupportKit/SupportKit.framework/Versions/A/Headers/SKTConversation.h

@@ -1,1 +1,1 @@
-../../../../SupportKit/SupportKit.framework/Headers/SupportKit.h
+../../../../SupportKit/SupportKit.framework/Versions/A/Headers/SupportKit.h

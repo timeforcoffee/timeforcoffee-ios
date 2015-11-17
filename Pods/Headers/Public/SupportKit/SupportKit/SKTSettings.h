@@ -1,1 +1,1 @@
-../../../../SupportKit/SupportKit.framework/Headers/SKTSettings.h
+../../../../SupportKit/SupportKit.framework/Versions/A/Headers/SKTSettings.h

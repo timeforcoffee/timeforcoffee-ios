@@ -1,1 +1,1 @@
-../../../../SupportKit/SupportKit.framework/Headers/SKTMessage.h
+../../../../SupportKit/SupportKit.framework/Versions/A/Headers/SKTMessage.h

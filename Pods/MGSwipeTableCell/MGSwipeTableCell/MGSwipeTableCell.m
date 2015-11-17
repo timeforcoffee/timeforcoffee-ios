@@ -87,7 +87,9 @@
         _buttons = _fromLeft ? buttonsArray: [[buttonsArray reverseObjectEnumerator] allObjects];
         for (UIView * button in _buttons) {
             if ([button isKindOfClass:[UIButton class]]) {
-                [(UIButton *)button addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
+                if (![[(UIButton *) button allTargets] containsObject:self]) {
+                    [(UIButton *)button addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
+                }
             }
             if (!differentWidth) {
                 button.frame = CGRectMake(0, 0, maxSize.width, maxSize.height);
@@ -213,7 +215,7 @@
     [self layoutExpansion:offset];
 }
 
--(void) endExpansioAnimated:(BOOL) animated
+-(void) endExpansionAnimated:(BOOL) animated
 {
     if (_expandedButton) {
         _expandedButtonAnimated = _expandedButton;
@@ -752,6 +754,7 @@ static inline CGFloat mgEaseInOutBounce(CGFloat t, CGFloat b, CGFloat c) {
     self.selectionStyle = _previusSelectionStyle;
     NSArray * selectedRows = self.parentTable.indexPathsForSelectedRows;
     if ([selectedRows containsObject:[self.parentTable indexPathForCell:self]]) {
+        self.selected = NO; //Hack: in some iOS versions setting the selected property to YES own isn't enough to force the cell to redraw the chosen selectionStyle
         self.selected = YES;
     }
     [self setAccesoryViewsHidden:NO];
@@ -939,9 +942,9 @@ static inline CGFloat mgEaseInOutBounce(CGFloat t, CGFloat b, CGFloat c) {
     MGSwipeButtonsView * activeButtons = sign < 0 ? _rightView : _leftView;
     if (!activeButtons || offset == 0) {
         if (_leftView)
-            [_leftView endExpansioAnimated:NO];
+            [_leftView endExpansionAnimated:NO];
         if (_rightView)
-            [_rightView endExpansioAnimated:NO];
+            [_rightView endExpansionAnimated:NO];
         [self hideSwipeOverlayIfNeeded];
         _targetOffset = 0;
         [self updateState:MGSwipeStateNone];
@@ -979,7 +982,7 @@ static inline CGFloat mgEaseInOutBounce(CGFloat t, CGFloat b, CGFloat c) {
             [self updateState:i ? MGSwipeStateExpandingRightToLeft : MGSwipeStateExpandingLeftToRight];
         }
         else {
-            [view endExpansioAnimated:YES];
+            [view endExpansionAnimated:YES];
             _activeExpansion = nil;
             CGFloat t = MIN(1.0f, offset/view.bounds.size.width);
             [view transition:settings[i].transition percent:t];
@@ -1034,7 +1037,7 @@ static inline CGFloat mgEaseInOutBounce(CGFloat t, CGFloat b, CGFloat c) {
             __weak MGSwipeButtonsView * expansionView = direction == MGSwipeDirectionLeftToRight ? _leftView : _rightView;
             __weak MGSwipeTableCell * weakself = self;
             [self setSwipeOffset:buttonsView.bounds.size.width * s * expSetting.threshold * 2 animation:expSetting.triggerAnimation completion:^{
-                [expansionView endExpansioAnimated:YES];
+                [expansionView endExpansionAnimated:YES];
                 [weakself setSwipeOffset:0 animated:NO completion:nil];
             }];
         }
@@ -1070,6 +1073,9 @@ static inline CGFloat mgEaseInOutBounce(CGFloat t, CGFloat b, CGFloat c) {
 
 -(void) setSwipeOffset:(CGFloat)offset animation: (MGSwipeAnimation *) animation completion:(void(^)()) completion
 {
+    if (offset !=0) {
+        [self createSwipeViewIfNeeded];
+    }
     _animationCompletion = completion;
     if (_displayLink) {
         [_displayLink invalidate];
@@ -1162,7 +1168,7 @@ static inline CGFloat mgEaseInOutBounce(CGFloat t, CGFloat b, CGFloat c) {
             [self setSwipeOffset:_targetOffset animation:expSettings.triggerAnimation completion:^{
                 BOOL autoHide = [expansion handleClick:expandedButton fromExpansion:YES];
                 if (autoHide) {
-                    [expansion endExpansioAnimated:NO];
+                    [expansion endExpansionAnimated:NO];
                 }
                 if (backgroundColor) {
                     expandedButton.backgroundColor = backgroundColor;
@@ -1230,7 +1236,7 @@ static inline CGFloat mgEaseInOutBounce(CGFloat t, CGFloat b, CGFloat c) {
             #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             _allowSwipeLeftToRight = [_delegate swipeTableCell:self canSwipe:MGSwipeDirectionLeftToRight];
             _allowSwipeRightToLeft = [_delegate swipeTableCell:self canSwipe:MGSwipeDirectionRightToLeft];
-            #pragma clang diagnastic pop
+            #pragma clang diagnostic pop
         }
         else {
             [self fetchButtonsIfNeeded];
@@ -1250,6 +1256,13 @@ static inline CGFloat mgEaseInOutBounce(CGFloat t, CGFloat b, CGFloat c) {
 -(BOOL) isSwipeGestureActive
 {
     return _panRecognizer.state == UIGestureRecognizerStateBegan || _panRecognizer.state == UIGestureRecognizerStateChanged;
+}
+
+-(void)setSwipeBackgroundColor:(UIColor *)swipeBackgroundColor {
+    _swipeBackgroundColor = swipeBackgroundColor;
+    if (_swipeOverlay) {
+        _swipeOverlay.backgroundColor = swipeBackgroundColor;
+    }
 }
 
 @end

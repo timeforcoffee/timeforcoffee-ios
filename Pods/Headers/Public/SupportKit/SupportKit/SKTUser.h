@@ -1,1 +1,1 @@
-../../../../SupportKit/SupportKit.framework/Headers/SKTUser.h
+../../../../SupportKit/SupportKit.framework/Versions/A/Headers/SKTUser.h
