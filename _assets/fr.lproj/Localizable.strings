@@ -6,28 +6,28 @@
  Copyright (c) 2015 Christian Stocker. All rights reserved.
  */
 
-Loading = "Wird geladen ...";
+Loading = "Chargement ...";
 
-"Network error. Please try again" = "Network Fehler. Bitte nochmals versuchen";
+"Network error. Please try again" = "Problème de connexion. Veuillez essayer à nouveau";
 
-"No departures found." = "Keine Abfahrten gefunden.";
+"No departures found." = "Pas de départs trouvés.";
 
-"No stations found." = "Keine Stationen gefunden.";
+"No stations found." = "Pas d'arrêts trouvés";
 
-"No favourites found." = "Keine Favoriten gefunden.";
+"No favourites found." = "Pas de favoris trouvés.";
 
-"Remove some filters." = "Entferne Filter.";
+"Remove some filters." = "Enlève certains filtres.";
 
-"Looking for nearest station ..." = "Suche nach nächster Station ...";
+"Looking for nearest station ..." = "Cherche l'arrêt le plus proche ...";
 
-"From" = "Von";
+"From" = "De";
 
-"No connection information found." = "Keine Verbindungsinformationen gefunden.";
+"No connection information found." = "Pas d'informations trouvées sur les connexions.";
 
-"Favourites" = "Favoriten";
+"Favourites" = "Favoris";
 
-"Nearby Stations" = "Stationen in der Nähe";
+"Nearby Stations" = "Arrêts à proximité";
 
-"Back" = "Zurück";
+"Back" = "Retour";
 
-"Stations" = "Stationen";
+"Stations" = "Arrêts";
