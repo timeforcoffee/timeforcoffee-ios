@@ -1,35 +1,35 @@
 
 
 /* Class = "UILabel"; text = "Release to view"; ObjectID = "5pC-0t-4Bu"; */
-"5pC-0t-4Bu.text" = "Release to view";
+"5pC-0t-4Bu.text" = "Relâcher pour afficher";
 
 /* Class = "UILabel"; text = "Release to view"; ObjectID = "cgy-fE-O9r"; */
-"cgy-fE-O9r.text" = "Release to view";
+"cgy-fE-O9r.text" = "Relâcher pour afficher";
 
 /* Class = "UIButton"; normalTitle = "Close"; ObjectID = "67I-cf-lcA"; */
-"67I-cf-lcA.normalTitle" = "Schliessen";
+"67I-cf-lcA.normalTitle" = "Fermer";
 
 /* Class = "UISegmentedControl"; VXL-uK-o9G.segmentTitles[0] = "All"; ObjectID = "VXL-uK-o9G"; */
-"VXL-uK-o9G.segmentTitles[0]" = "Alle";
+"VXL-uK-o9G.segmentTitles[0]" = "Tous";
 
 /* Class = "UISegmentedControl"; VXL-uK-o9G.segmentTitles[1] = "Favourites"; ObjectID = "VXL-uK-o9G"; */
-"VXL-uK-o9G.segmentTitles[1]" = "Favoriten";
+"VXL-uK-o9G.segmentTitles[1]" = "Favoris";
 
 
 /* Class = "UIButton"; normalTitle = "Help / Chat with us!"; ObjectID = "dYu-XS-w9t"; */
-"dYu-XS-w9t.normalTitle" = "Help / Chat mit uns!";
+"dYu-XS-w9t.normalTitle" = "Help / Chat avec nous!";
 
 /* Class = "UIButton"; normalTitle = "Close"; ObjectID = "g1K-Z1-pZl"; */
-"g1K-Z1-pZl.normalTitle" = "Schliessen";
+"g1K-Z1-pZl.normalTitle" = "Fermer";
 
 /* Class = "UITextField"; text = "Settings"; ObjectID = "0tK-ea-YGt"; */
-"0tK-ea-YGt.text" = "Settings";
+"0tK-ea-YGt.text" = "Réglages";
 
 /* Class = "UITextView"; text = "Search radius for Favourites:"; ObjectID = "1WW-X2-xCT"; */
-"1WW-X2-xCT.text" = "Search radius for Favourites:";
+"1WW-X2-xCT.text" = "Zone de recherche pour favoris:";
 
 /* Class = "UITextView"; text = "Show Real Time besides in departures times"; ObjectID = "rL3-sl-2ji"; */
-"rL3-sl-2ji.text" = "Show Real Time besides in departures times";
+"rL3-sl-2ji.text" = "Affiche l'heure de départ réelle à côté de l'heure de départ prévue";
 
 /* Class = "UITextView"; text = "Number of Departures / Stations in Today View:"; ObjectID = "ddG-sf-Sti"; */
-"ddG-sf-Sti.text" = "Number of Departures / Stations in Today View:";
+"ddG-sf-Sti.text" = "Nombre de départs / Arrêts dans l'onglet Aujourd'hui";
