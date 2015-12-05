@@ -433,7 +433,11 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     private func unsetMarkedDeparture(departure: TFCDeparture, favorite: Bool) {
         var lines = getMarkedLines(favorite)
         lines[departure.getLine()]?[departure.getDestination()] = nil
-        if((lines[departure.getLine()] as [String: Bool]!).count == 0) {
+        if let l = lines[departure.getLine()] as [String: Bool]? {
+            if(l.count == 0) {
+                lines[departure.getLine()] = nil
+            }
+        } else {
             lines[departure.getLine()] = nil
         }
         saveMarkedLines(lines, favorite: favorite)
