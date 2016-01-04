@@ -12,14 +12,26 @@ CocoaPods:
     pod update
     
 Obj-C:
-    
-    [Smooch initWithSettings:[SKTSettings settingsWithAppToken:@"YOURAPPTOKEN"]];
-    [Smooch show];
+
+```objc
+[Smooch initWithSettings:[SKTSettings settingsWithAppToken:@"YOURAPPTOKEN"]];
+[Smooch show];
+```
     
 Swift:
 
-    Smooch.initWithSettings("YOURAPPTOKEN")
-    Smooch.show()
+In your bridging header:
+
+```objc
+#import <Smooch/Smooch.h>
+```
+    
+In a Swift file:
+
+```Swift
+Smooch.initWithSettings(SKTSettings(appToken: "YOUR_APP_TOKEN"))
+Smooch.show()
+```
 
 Our [Docs and full install guide](http://docs.smooch.io).
 

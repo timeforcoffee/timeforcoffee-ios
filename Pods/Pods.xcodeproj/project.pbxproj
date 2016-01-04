@@ -50,9 +50,9 @@
 		36DAFDB5524EB1195DDADD52B219D958 /* Smooch.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Smooch.h; path = Smooch.framework/Versions/A/Headers/Smooch.h; sourceTree = "<group>"; };
 		38540B9DCA7D88DC5AB6E211963E0C96 /* MGSwipeTableCell.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MGSwipeTableCell.m; path = MGSwipeTableCell/MGSwipeTableCell.m; sourceTree = "<group>"; };
 		3A3C39338CA7B28496839A3346D5A822 /* MGSwipeTableCell-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MGSwipeTableCell-umbrella.h"; sourceTree = "<group>"; };
+		3B2C234BC573D5448AA31445583E17F4 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Fabric.framework; path = iOS/Fabric.framework; sourceTree = "<group>"; };
 		3BFAF9F3090DF4C25707B89EAE3AEB79 /* SwipeView-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwipeView-umbrella.h"; sourceTree = "<group>"; };
 		3E4E89230EF59BC255123B67864ACF77 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		52BAD9FBDDDFD7F6EAE0592103F067A7 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		579C6BEAE6F727C4FF4BF11D259DB7B7 /* MGSwipeTableCell-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "MGSwipeTableCell-dummy.m"; sourceTree = "<group>"; };
 		6C6B231A93FADBB54A1CA855E002D2CC /* Smooch.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Smooch.framework; sourceTree = "<group>"; };
 		6D78C272EEB87AC9DE1C1C6F56116947 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = iOS/Crashlytics.framework; sourceTree = "<group>"; };
@@ -131,6 +131,22 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
+		2E79FF8B0149C48E00B5C3E38B90F347 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3B2C234BC573D5448AA31445583E17F4 /* Fabric.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		487658A035E584FAEBC7A82DC324FD2F /* Fabric */ = {
+			isa = PBXGroup;
+			children = (
+				2E79FF8B0149C48E00B5C3E38B90F347 /* Frameworks */,
+			);
+			path = Fabric;
+			sourceTree = "<group>";
+		};
 		4CA7A7617478BED5E5015A4053847B68 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -178,14 +194,6 @@
 			path = Crashlytics;
 			sourceTree = "<group>";
 		};
-		7A8E48944442710F3498EE186FB24B95 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				52BAD9FBDDDFD7F6EAE0592103F067A7 /* Fabric.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		7DB346D0F39D3F0E887471402A8071AB = {
 			isa = PBXGroup;
 			children = (
@@ -195,14 +203,6 @@
 				4CA7A7617478BED5E5015A4053847B68 /* Products */,
 				A1FE20EBC63A577039F2AE221E433EE0 /* Targets Support Files */,
 			);
-			sourceTree = "<group>";
-		};
-		94BA09917D115A99FFC6FAFD80D3AC98 /* Base */ = {
-			isa = PBXGroup;
-			children = (
-				7A8E48944442710F3498EE186FB24B95 /* Frameworks */,
-			);
-			name = Base;
 			sourceTree = "<group>";
 		};
 		A1FE20EBC63A577039F2AE221E433EE0 /* Targets Support Files */ = {
@@ -217,7 +217,7 @@
 			isa = PBXGroup;
 			children = (
 				5A6EB3CE8EF9F5F3558C9F6CD5EE0479 /* Crashlytics */,
-				D888D9594571CEE1F89CC43DD71004EE /* Fabric */,
+				487658A035E584FAEBC7A82DC324FD2F /* Fabric */,
 				AD7545A5DE1A51A715F5806C38408C52 /* MGSwipeTableCell */,
 				53FD59EAD2DC163A8F524E27DAB84356 /* Smooch */,
 				D77F67672EFAA0E165581317542DDA3C /* SwipeView */,
@@ -287,14 +287,6 @@
 				574A0C5FB7AC0F675F6B6E593595B963 /* Support Files */,
 			);
 			path = SwipeView;
-			sourceTree = "<group>";
-		};
-		D888D9594571CEE1F89CC43DD71004EE /* Fabric */ = {
-			isa = PBXGroup;
-			children = (
-				94BA09917D115A99FFC6FAFD80D3AC98 /* Base */,
-			);
-			path = Fabric;
 			sourceTree = "<group>";
 		};
 		F74B7678006BC5DC1F855B329C9C0FCF /* Support Files */ = {
