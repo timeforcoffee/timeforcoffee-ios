@@ -52,10 +52,10 @@
 		3A3C39338CA7B28496839A3346D5A822 /* MGSwipeTableCell-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MGSwipeTableCell-umbrella.h"; sourceTree = "<group>"; };
 		3BFAF9F3090DF4C25707B89EAE3AEB79 /* SwipeView-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwipeView-umbrella.h"; sourceTree = "<group>"; };
 		3E4E89230EF59BC255123B67864ACF77 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		4E0EC40484292ADD91B03A2AF5028543 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		52BAD9FBDDDFD7F6EAE0592103F067A7 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		579C6BEAE6F727C4FF4BF11D259DB7B7 /* MGSwipeTableCell-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "MGSwipeTableCell-dummy.m"; sourceTree = "<group>"; };
 		6C6B231A93FADBB54A1CA855E002D2CC /* Smooch.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Smooch.framework; sourceTree = "<group>"; };
+		6D78C272EEB87AC9DE1C1C6F56116947 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = iOS/Crashlytics.framework; sourceTree = "<group>"; };
 		6DFDCF3C6B7BB49EFA11E6D9687EDDFE /* Pods-timeforcoffee-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-timeforcoffee-acknowledgements.markdown"; sourceTree = "<group>"; };
 		6E474B9CFED7559DFE2B8855C1E1FCF4 /* Pods-timeforcoffee-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-timeforcoffee-frameworks.sh"; sourceTree = "<group>"; };
 		7782BCD96A900DB9CCC33845910CC2B7 /* SwipeView.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = SwipeView.modulemap; sourceTree = "<group>"; };
@@ -123,14 +123,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		1E73D0694141178C05588F4E0B167E21 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				4E0EC40484292ADD91B03A2AF5028543 /* Crashlytics.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		2985C7CE2E600D96612F3DA1AC02133C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -181,7 +173,7 @@
 		5A6EB3CE8EF9F5F3558C9F6CD5EE0479 /* Crashlytics */ = {
 			isa = PBXGroup;
 			children = (
-				1E73D0694141178C05588F4E0B167E21 /* Frameworks */,
+				CE44EB52FD2461DC97190784EF02B44B /* Frameworks */,
 			);
 			path = Crashlytics;
 			sourceTree = "<group>";
@@ -277,6 +269,14 @@
 			);
 			name = "Pods-timeforcoffee";
 			path = "Target Support Files/Pods-timeforcoffee";
+			sourceTree = "<group>";
+		};
+		CE44EB52FD2461DC97190784EF02B44B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6D78C272EEB87AC9DE1C1C6F56116947 /* Crashlytics.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		D77F67672EFAA0E165581317542DDA3C /* SwipeView */ = {
