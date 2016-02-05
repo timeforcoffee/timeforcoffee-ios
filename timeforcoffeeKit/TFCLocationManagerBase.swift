@@ -54,6 +54,10 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
         self.delegate = delegate
     }
 
+    deinit {
+        self.locationManager.delegate = nil
+    }
+
     class func setCurrentLocation(location: CLLocation?) {
         classvar.currentLocation = location
         classvar._lastUpdateCurrentLocation = NSDate()
