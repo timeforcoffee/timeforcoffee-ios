@@ -1,9 +1,9 @@
 PODS:
-  - Crashlytics (3.4.1):
-    - Fabric (~> 1.6.0)
-  - Fabric (1.6.1)
+  - Crashlytics (3.6.0):
+    - Fabric (~> 1.6.3)
+  - Fabric (1.6.5)
   - MGSwipeTableCell (1.5.3)
-  - Smooch (3.2.3)
+  - Smooch (3.4.0)
   - SwipeView (1.3.2)
 
 DEPENDENCIES:
@@ -14,10 +14,10 @@ DEPENDENCIES:
   - SwipeView
 
 SPEC CHECKSUMS:
-  Crashlytics: 41574a245bc6ae10c55d57f385ebd2004e5bee05
-  Fabric: bf0ceb04e7c924090efc5f8c55e4fbcca189e0a0
+  Crashlytics: e4e8d02914f2608fbc7bf42b1a7af838b0db67a2
+  Fabric: 338ffd3c2afcab120638907b4251189de9ad17b3
   MGSwipeTableCell: 5ae3b9a15efda26b201adc8676b24040febe6ff6
-  Smooch: 78b8a064e4f5baf4f8309e8f9f72601b69f58164
+  Smooch: 4eae2663f9d98126302b86ba9a4b6dcb25d26f7f
   SwipeView: bd67cfaf7760c036438446b3ccb28a3b84fce009
 
 COCOAPODS: 0.39.0

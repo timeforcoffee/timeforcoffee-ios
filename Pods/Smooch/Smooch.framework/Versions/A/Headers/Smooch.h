@@ -1,7 +1,7 @@
 //
 //  Smooch.h
 //  Smooch
-//  version : 3.2.3
+//  version : 3.4.0
 //
 //  Copyright (c) 2015 Smooch Technologies. All rights reserved.
 //
@@ -11,8 +11,20 @@
 #import "SKTSettings.h"
 #import "SKTUser.h"
 
-#define SMOOCH_VERSION @"3.2.3"
+#define SMOOCH_VERSION @"3.4.0"
 
+/**
+ *  @abstract User info dictionary key to determine the origin of a push notification.
+ *
+ *  @discussion Push notifications that originate from Smooch will have a non-nil value for this key.
+ *
+ *  `BOOL isSmoochNotification = userInfo[SKTPushNotificationIdentifier] != nil`
+ */
+extern NSString* const SKTPushNotificationIdentifier;
+
+/**
+ *  @abstract The core class used for interacting with Smooch. Provides methods to initialize, configure, and interact with the library.
+ */
 @interface Smooch : NSObject
 
 /**
@@ -42,16 +54,16 @@
 +(SKTSettings*)settings;
 
 /**
- *  @abstract Presents the Smooch Home screen.
+ *  @abstract Presents the Smooch conversation screen.
  *
- *  @discussion Calling this method with search disabled and no recommendations configured is equivalent to calling +showConversation.
+ *  @discussion Uses the top-most view controller of the `UIApplicationDelegate` as the presenting view controller.
  *
  *  +initWithSettings: must have been called prior to calling this method.
  */
 +(void)show;
 
 /**
- *  @abstract Dismisses any Smooch UI currently on screen.
+ *  @abstract Dismisses the Smooch conversation, if shown.
  *
  *  @discussion Note: If a view controller was created and presented using `newConversationViewController`, calling this method will have no effect.
  *
@@ -60,9 +72,9 @@
 +(void)close;
 
 /**
- *  @abstract Presents the Smooch conversation page, using the given view controller as presenting view controller.
+ *  @abstract Presents the Smooch conversation screen, using the given view controller as presenting view controller.
  *
- *  @discussion In most cases, it is better to use +showConversation. If you need more fine-grained control over which view controller is used as presenting view controller, use this method instead.
+ *  @discussion In most cases, it is better to use +show. If you need more fine-grained control over which view controller is used as presenting view controller, use this method instead.
  *
  *  +initWithSettings: must have been called prior to calling this method.
  */
@@ -82,7 +94,7 @@
 /**
  *  @abstract Sets the current user's first and last name to be used as a display name when sending messages.
  *
- *  @discussion This is a shortcut for -setFirstName and -setLastName on [SKTUser currentUser]
+ *  @discussion This is a shortcut for -setFirstName and -setLastName on `[SKTUser currentUser]`
  *
  *  @see SKTUser
  *
@@ -95,8 +107,6 @@
  *  @abstract Tracks an app event, and processes any whispers associated with that event.
  *
  *  @discussion Whispers can be configured in the Smooch admin panel.
- *
- *  Whispers can only be fulfilled once per app user, and tracking an event after the whisper has been fulfilled will have no effect.
  *
  *  @param eventName The name of the event to track. This should match a whisper created on the admin panel for your app.
  */
@@ -118,7 +128,7 @@
  *
  *  +initWithSettings: must have been called prior to calling this method.
  *
-*  You may not call login while the conversation screen is shown. Doing so will result in a no-op.
+ *  You may not call login while the conversation screen is shown. Doing so will result in a no-op.
  *
  *  @param userId The distinct id of the user to login. Must not be nil.
  *  @param jwt Optional jwt used to prove the origin of the login request. May be nil.
