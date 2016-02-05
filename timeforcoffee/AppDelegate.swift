@@ -110,7 +110,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                     currentUser.signedUpAt = NSDate()
                     currentUser.addProperties(["signedUpDate" : NSDate()])
                     if let lang =  NSLocale.preferredLanguages().first {
-                        currentUser.addProperties(["language": lang])
+                        let langSplit = lang.componentsSeparatedByString("-")
+                        currentUser.addProperties(["language": langSplit[0]])
                     }
                     if (userdefaults?.objectForKey("favorites2") != nil) {
                         currentUser.addProperties(["usedFavorites": true])
