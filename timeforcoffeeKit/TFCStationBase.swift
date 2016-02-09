@@ -584,7 +584,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
             } else {
                 dispatch_async(dispatch_get_main_queue(), {
-                    completionDelegate?.departuresStillCached(context2, forStation: self as? TFCStation)
+                    completionDelegate?.departuresStillCached(context2.context, forStation: self as? TFCStation)
                     return  
                 })
             }
