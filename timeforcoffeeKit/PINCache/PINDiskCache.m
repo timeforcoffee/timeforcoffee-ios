@@ -12,11 +12,11 @@
 [[NSString stringWithUTF8String:__FILE__] lastPathComponent], \
 __LINE__, [error localizedDescription]); }
 
-NSString * const PINDiskCachePrefix = @"com.pinterest.PINDiskCache";
-NSString * const PINDiskCacheSharedName = @"PINDiskCacheShared";
+static NSString * const PINDiskCachePrefix = @"com.pinterest.PINDiskCache";
+static NSString * const PINDiskCacheSharedName = @"PINDiskCacheShared";
 
 @interface PINBackgroundTask : NSObject
-#if !defined(PIN_APP_EXTENSIONS) && __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_4_0  && !MY_TARGET_OS_WATCHOS == 2
+#if !defined(PIN_APP_EXTENSIONS) && __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_4_0
 @property (atomic, assign) UIBackgroundTaskIdentifier taskID;
 #endif
 + (instancetype)start;
@@ -48,6 +48,7 @@ NSString * const PINDiskCacheSharedName = @"PINDiskCacheShared";
 @synthesize didRemoveAllObjectsBlock = _didRemoveAllObjectsBlock;
 @synthesize byteLimit = _byteLimit;
 @synthesize ageLimit = _ageLimit;
+@synthesize ttlCache = _ttlCache;
 
 #pragma mark - Initialization -
 
@@ -97,8 +98,15 @@ NSString * const PINDiskCacheSharedName = @"PINDiskCacheShared";
         NSString *pathComponent = [[NSString alloc] initWithFormat:@"%@.%@", PINDiskCachePrefix, _name];
         _cacheURL = [NSURL fileURLWithPathComponents:@[ rootPath, pathComponent ]];
         
-        [self createCacheDirectory];
-        [self initializeDiskProperties];
+        //we don't want to do anything without setting up the disk cache, but we also don't want to block init, it can take a while to initialize
+        //this is only safe because we use a dispatch_semaphore as a lock. If we switch to an NSLock or posix locks, this will *no longer be safe*.
+        [self lock];
+        dispatch_async(_asyncQueue, ^{
+            [self createCacheDirectory];
+            [self initializeDiskProperties];
+
+            [self unlock];
+        });
     }
     return self;
 }
@@ -141,28 +149,46 @@ NSString * const PINDiskCacheSharedName = @"PINDiskCacheShared";
 
 - (NSString *)encodedString:(NSString *)string
 {
-    if (![string length])
+    if (![string length]) {
         return @"";
+    }
     
-    CFStringRef static const charsToEscape = CFSTR(".:/");
-    CFStringRef escapedString = CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
-                                                                        (__bridge CFStringRef)string,
-                                                                        NULL,
-                                                                        charsToEscape,
-                                                                        kCFStringEncodingUTF8);
-    return (__bridge_transfer NSString *)escapedString;
+    if ([string respondsToSelector:@selector(stringByAddingPercentEncodingWithAllowedCharacters:)]) {
+        return [string stringByAddingPercentEncodingWithAllowedCharacters:[[NSCharacterSet characterSetWithCharactersInString:@".:/%"] invertedSet]];
+    }
+    else {
+        CFStringRef static const charsToEscape = CFSTR(".:/%");
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        CFStringRef escapedString = CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
+                                                                            (__bridge CFStringRef)string,
+                                                                            NULL,
+                                                                            charsToEscape,
+                                                                            kCFStringEncodingUTF8);
+#pragma clang diagnostic pop
+        return (__bridge_transfer NSString *)escapedString;
+    }
 }
 
 - (NSString *)decodedString:(NSString *)string
 {
-    if (![string length])
+    if (![string length]) {
         return @"";
+    }
     
-    CFStringRef unescapedString = CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault,
-                                                                                          (__bridge CFStringRef)string,
-                                                                                          CFSTR(""),
-                                                                                          kCFStringEncodingUTF8);
-    return (__bridge_transfer NSString *)unescapedString;
+    if ([string respondsToSelector:@selector(stringByRemovingPercentEncoding)]) {
+        return [string stringByRemovingPercentEncoding];
+    }
+    else {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        CFStringRef unescapedString = CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault,
+                                                                                              (__bridge CFStringRef)string,
+                                                                                              CFSTR(""),
+                                                                                              kCFStringEncodingUTF8);
+#pragma clang diagnostic pop
+        return (__bridge_transfer NSString *)unescapedString;
+    }
 }
 
 #pragma mark - Private Trash Methods -
@@ -220,17 +246,17 @@ NSString * const PINDiskCacheSharedName = @"PINDiskCacheShared";
     PINBackgroundTask *task = [PINBackgroundTask start];
     
     dispatch_async([self sharedTrashQueue], ^{
-        NSError *error = nil;
+        NSError *searchTrashedItemsError = nil;
         NSArray *trashedItems = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:[self sharedTrashURL]
                                                               includingPropertiesForKeys:nil
                                                                                  options:0
-                                                                                   error:&error];
-        PINDiskCacheError(error);
+                                                                                   error:&searchTrashedItemsError];
+        PINDiskCacheError(searchTrashedItemsError);
         
         for (NSURL *trashedItemURL in trashedItems) {
-            NSError *error = nil;
-            [[NSFileManager defaultManager] removeItemAtURL:trashedItemURL error:&error];
-            PINDiskCacheError(error);
+            NSError *removeTrashedItemError = nil;
+            [[NSFileManager defaultManager] removeItemAtURL:trashedItemURL error:&removeTrashedItemError];
+            PINDiskCacheError(removeTrashedItemError);
         }
         
         [task end];
@@ -600,7 +626,9 @@ NSString * const PINDiskCacheSharedName = @"PINDiskCacheShared";
         fileURL = [self encodedFileURLForKey:key];
         object = nil;
         
-        if ([[NSFileManager defaultManager] fileExistsAtPath:[fileURL path]]) {
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[fileURL path]] &&
+            // If the cache should behave like a TTL cache, then only fetch the object if there's a valid ageLimit and  the object is still alive
+            (!self->_ttlCache || self->_ageLimit <= 0 || fabs([[_dates objectForKey:key] timeIntervalSinceDate:now]) < self->_ageLimit)) {
             @try {
                 object = [NSKeyedUnarchiver unarchiveObjectWithFile:[fileURL path]];
             }
@@ -609,8 +637,9 @@ NSString * const PINDiskCacheSharedName = @"PINDiskCacheShared";
                 [[NSFileManager defaultManager] removeItemAtPath:[fileURL path] error:&error];
                 PINDiskCacheError(error);
             }
-            
+          if (!self->_ttlCache) {
             [self setFileModificationDate:now forURL:fileURL];
+          }
         }
     [self unlock];
     
@@ -675,6 +704,10 @@ NSString * const PINDiskCacheSharedName = @"PINDiskCacheShared";
             
             NSNumber *diskFileSize = [values objectForKey:NSURLTotalFileAllocatedSizeKey];
             if (diskFileSize) {
+                NSNumber *prevDiskFileSize = [self->_sizes objectForKey:key];
+                if (prevDiskFileSize) {
+                    self.byteCount = self->_byteCount - [prevDiskFileSize unsignedIntegerValue];
+                }
                 [self->_sizes setObject:diskFileSize forKey:key];
                 self.byteCount = self->_byteCount + [diskFileSize unsignedIntegerValue]; // atomic
             }
@@ -805,11 +838,15 @@ NSString * const PINDiskCacheSharedName = @"PINDiskCacheShared";
     PINBackgroundTask *task = [PINBackgroundTask start];
     
     [self lock];
+        NSDate *now = [NSDate date];
         NSArray *keysSortedByDate = [self->_dates keysSortedByValueUsingSelector:@selector(compare:)];
         
         for (NSString *key in keysSortedByDate) {
             NSURL *fileURL = [self encodedFileURLForKey:key];
-            block(self, key, nil, fileURL);
+            // If the cache should behave like a TTL cache, then only fetch the object if there's a valid ageLimit and  the object is still alive
+            if (!self->_ttlCache || self->_ageLimit <= 0 || fabs([[_dates objectForKey:key] timeIntervalSinceDate:now]) < self->_ageLimit) {
+                block(self, key, nil, fileURL);
+            }
         }
     [self unlock];
     
@@ -1030,6 +1067,30 @@ NSString * const PINDiskCacheSharedName = @"PINDiskCacheShared";
     });
 }
 
+- (BOOL)isTTLCache {
+    BOOL isTTLCache;
+    
+    [self lock];
+        isTTLCache = _ttlCache;
+    [self unlock];
+  
+    return isTTLCache;
+}
+
+- (void)setTtlCache:(BOOL)ttlCache {
+    __weak PINDiskCache *weakSelf = self;
+
+    dispatch_async(_asyncQueue, ^{
+        PINDiskCache *strongSelf = weakSelf;
+        if (!strongSelf)
+            return;
+
+        [strongSelf lock];
+            strongSelf->_ttlCache = ttlCache;
+        [strongSelf unlock];
+    });
+}
+
 - (void)lock
 {
     dispatch_semaphore_wait(_lockSemaphore, DISPATCH_TIME_FOREVER);
@@ -1046,7 +1107,7 @@ NSString * const PINDiskCacheSharedName = @"PINDiskCacheShared";
 - (instancetype)init
 {
     if (self = [super init]) {
-#if !defined(PIN_APP_EXTENSIONS) && __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_4_0 && !MY_TARGET_OS_WATCHOS == 2
+#if !defined(PIN_APP_EXTENSIONS) && __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_4_0
         _taskID = UIBackgroundTaskInvalid;
 #endif
     }
@@ -1056,7 +1117,7 @@ NSString * const PINDiskCacheSharedName = @"PINDiskCacheShared";
 + (instancetype)start
 {
     PINBackgroundTask *task = [[self alloc] init];
-#if !defined(PIN_APP_EXTENSIONS) && __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_4_0  && !MY_TARGET_OS_WATCHOS == 2
+#if !defined(PIN_APP_EXTENSIONS) && __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_4_0
     task.taskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
         UIBackgroundTaskIdentifier taskID = task.taskID;
         task.taskID = UIBackgroundTaskInvalid;
@@ -1068,7 +1129,7 @@ NSString * const PINDiskCacheSharedName = @"PINDiskCacheShared";
 
 - (void)end
 {
-#if !defined(PIN_APP_EXTENSIONS) && __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_4_0 && !MY_TARGET_OS_WATCHOS == 2
+#if !defined(PIN_APP_EXTENSIONS) && __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_4_0
     UIBackgroundTaskIdentifier taskID = self.taskID;
     self.taskID = UIBackgroundTaskInvalid;
     [[UIApplication sharedApplication] endBackgroundTask:taskID];

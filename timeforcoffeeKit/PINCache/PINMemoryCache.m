@@ -8,7 +8,7 @@
 #import <UIKit/UIKit.h>
 #endif
 
-NSString * const PINMemoryCachePrefix = @"com.pinterest.PINMemoryCache";
+static NSString * const PINMemoryCachePrefix = @"com.pinterest.PINMemoryCache";
 
 @interface PINMemoryCache ()
 #if OS_OBJECT_USE_OBJC
@@ -28,6 +28,7 @@ NSString * const PINMemoryCachePrefix = @"com.pinterest.PINMemoryCache";
 @synthesize ageLimit = _ageLimit;
 @synthesize costLimit = _costLimit;
 @synthesize totalCost = _totalCost;
+@synthesize ttlCache = _ttlCache;
 @synthesize willAddObjectBlock = _willAddObjectBlock;
 @synthesize willRemoveObjectBlock = _willRemoveObjectBlock;
 @synthesize willRemoveAllObjectsBlock = _willRemoveAllObjectsBlock;
@@ -79,7 +80,7 @@ NSString * const PINMemoryCachePrefix = @"com.pinterest.PINMemoryCache";
         _removeAllObjectsOnMemoryWarning = YES;
         _removeAllObjectsOnEnteringBackground = YES;
 
-        #if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_4_0 && !MY_TARGET_OS_WATCHOS == 2
+		#if TARGET_OS_IPHONE && defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_4_0 && !TARGET_OS_WATCH
         for (NSString *name in @[UIApplicationDidReceiveMemoryWarningNotification, UIApplicationDidEnterBackgroundNotification]) {
             [[NSNotificationCenter defaultCenter] addObserver:self
                                                      selector:@selector(didObserveApocalypticNotification:)
@@ -111,7 +112,7 @@ NSString * const PINMemoryCachePrefix = @"com.pinterest.PINMemoryCache";
 
 - (void)didObserveApocalypticNotification:(NSNotification *)notification
 {
-    #if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_4_0  && !MY_TARGET_OS_WATCHOS == 2
+    #if TARGET_OS_IPHONE && defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_4_0 && !TARGET_OS_WATCH
 
     if ([[notification name] isEqualToString:UIApplicationDidReceiveMemoryWarningNotification]) {
         if (self.removeAllObjectsOnMemoryWarning)
@@ -203,8 +204,10 @@ NSString * const PINMemoryCachePrefix = @"com.pinterest.PINMemoryCache";
 
 - (void)trimToCostLimit:(NSUInteger)limit
 {
+    NSUInteger totalCost = 0;
+    
     [self lock];
-        NSUInteger totalCost = _totalCost;
+        totalCost = _totalCost;
         NSArray *keysSortedByCost = [_costs keysSortedByValueUsingSelector:@selector(compare:)];
     [self unlock];
     
@@ -216,7 +219,7 @@ NSString * const PINMemoryCachePrefix = @"com.pinterest.PINMemoryCache";
         [self removeObjectAndExecuteBlocksForKey:key];
 
         [self lock];
-            NSUInteger totalCost = _totalCost;
+            totalCost = _totalCost;
         [self unlock];
         
         if (totalCost <= limit)
@@ -226,8 +229,10 @@ NSString * const PINMemoryCachePrefix = @"com.pinterest.PINMemoryCache";
 
 - (void)trimToCostLimitByDate:(NSUInteger)limit
 {
+    NSUInteger totalCost = 0;
+    
     [self lock];
-        NSUInteger totalCost = _totalCost;
+        totalCost = _totalCost;
         NSArray *keysSortedByDate = [_dates keysSortedByValueUsingSelector:@selector(compare:)];
     [self unlock];
     
@@ -238,7 +243,7 @@ NSString * const PINMemoryCachePrefix = @"com.pinterest.PINMemoryCache";
         [self removeObjectAndExecuteBlocksForKey:key];
 
         [self lock];
-            NSUInteger totalCost = _totalCost;
+            totalCost = _totalCost;
         [self unlock];
         if (totalCost <= limit)
             break;
@@ -383,13 +388,16 @@ NSString * const PINMemoryCachePrefix = @"com.pinterest.PINMemoryCache";
 
 - (__nullable id)objectForKey:(NSString *)key
 {
-    NSDate *now = [[NSDate alloc] init];
-    
     if (!key)
         return nil;
     
+    NSDate *now = [[NSDate alloc] init];
     [self lock];
-        id object = _dictionary[key];
+        id object = nil;
+        // If the cache should behave like a TTL cache, then only fetch the object if there's a valid ageLimit and  the object is still alive
+        if (!self->_ttlCache || self->_ageLimit <= 0 || fabs([[_dates objectForKey:key] timeIntervalSinceDate:now]) < self->_ageLimit) {
+            object = _dictionary[key];
+        }
     [self unlock];
         
     if (object) {
@@ -408,8 +416,6 @@ NSString * const PINMemoryCachePrefix = @"com.pinterest.PINMemoryCache";
 
 - (void)setObject:(id)object forKey:(NSString *)key withCost:(NSUInteger)cost
 {
-    NSDate *now = [[NSDate alloc] init];
-    
     if (!key || !object)
         return;
     
@@ -424,7 +430,7 @@ NSString * const PINMemoryCachePrefix = @"com.pinterest.PINMemoryCache";
     
     [self lock];
         _dictionary[key] = object;
-        _dates[key] = now;
+        _dates[key] = [[NSDate alloc] init];
         _costs[key] = @(cost);
         
         _totalCost += cost;
@@ -497,10 +503,14 @@ NSString * const PINMemoryCachePrefix = @"com.pinterest.PINMemoryCache";
         return;
     
     [self lock];
+        NSDate *now = [[NSDate alloc] init];
         NSArray *keysSortedByDate = [_dates keysSortedByValueUsingSelector:@selector(compare:)];
         
         for (NSString *key in keysSortedByDate) {
-            block(self, key, _dictionary[key]);
+            // If the cache should behave like a TTL cache, then only fetch the object if there's a valid ageLimit and  the object is still alive
+            if (!self->_ttlCache || self->_ageLimit <= 0 || fabs([[_dates objectForKey:key] timeIntervalSinceDate:now]) < self->_ageLimit) {
+                block(self, key, _dictionary[key]);
+            }
         }
     [self unlock];
 }
@@ -680,6 +690,23 @@ NSString * const PINMemoryCachePrefix = @"com.pinterest.PINMemoryCache";
     
     return cost;
 }
+
+- (BOOL)isTTLCache {
+    BOOL isTTLCache;
+    
+    [self lock];
+        isTTLCache = _ttlCache;
+    [self unlock];
+    
+    return isTTLCache;
+}
+
+- (void)setTtlCache:(BOOL)ttlCache {
+    [self lock];
+        _ttlCache = ttlCache;
+    [self unlock];
+}
+
 
 - (void)lock
 {
