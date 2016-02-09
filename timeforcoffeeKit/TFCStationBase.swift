@@ -103,6 +103,8 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     private var lastDepartureUpdate: NSDate?
     private var lastDepartureCount: Int?
 
+    private var departureUpdateDownloading: NSDate?
+
     public var isLastUsed: Bool = false
     public var serializeDepartures: Bool = true
 
@@ -537,6 +539,20 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     public func updateDepartures(completionDelegate: TFCDeparturesUpdatedProtocol?, force: Bool = false, context: Any? = nil, cachettl:Int = 20) {
 
         let removedDepartures = removeObsoleteDepartures()
+
+        // If a download is already running for this station and it started less than 5 seconds ago, wait..
+        // This way we prevent multiple parallel downloads (especially from the today extension)
+        // somehow ugly, but couldn't come up with a better solution
+        if let downloadingSince = self.departureUpdateDownloading {
+            if (downloadingSince.timeIntervalSinceNow > -5) {
+                delay(1.0, closure: {
+                      self.updateDepartures(completionDelegate, force: force, context: context, cachettl: cachettl)
+                    }
+                    )
+                return
+            }
+        }
+
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             var context2: contextData = contextData()
             context2.completionDelegate = completionDelegate
@@ -563,6 +579,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                     )
                 )
             {
+                self.departureUpdateDownloading = NSDate()
                 self.api.getDepartures(self as! TFCStation, context: context2)
 
             } else {
@@ -587,7 +604,8 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                 self.name = TFCDeparture.getStationNameFromJson(results!)!;
             }
             self.lastDepartureUpdate = NSDate()
-            contextInfo?.completionDelegate?.departuresUpdated(error, context: context, forStation: self as? TFCStation)
+            self.departureUpdateDownloading = nil
+            contextInfo?.completionDelegate?.departuresUpdated(error, context: contextInfo?.context, forStation: self as? TFCStation)
         })
     }
 
