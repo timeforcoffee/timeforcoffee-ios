@@ -12,6 +12,7 @@ import CoreLocation
 public final class TFCLocationManager: TFCLocationManagerBase {
 
     override func requestLocation() {
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
         self.locationManager.requestLocation()
     }
 

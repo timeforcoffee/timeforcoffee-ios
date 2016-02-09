@@ -128,9 +128,9 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
                 }
             }
         }
-        // check if we now a last location, and take that if it's not older than 15 seconds
+        // check if we now a last location, and take that if it's not older than 30 seconds
         //  to avoid multiple location lookups
-        if let cachedLoc = locManager?.getLastLocation(15)?.coordinate {
+        if let cachedLoc = locManager?.getLastLocation(30)?.coordinate {
             DLog("still cached location \(cachedLoc)")
             handleReply(["lat" : cachedLoc.latitude, "long": cachedLoc.longitude])
         } else {
