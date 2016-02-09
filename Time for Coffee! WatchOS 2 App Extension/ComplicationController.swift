@@ -402,10 +402,8 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     }
 
     private func departuresUpdatedCallback(context: Any?, forStation: TFCStation?) {
-        if let contextInfo: TFCStationBase.contextData = context as! TFCStationBase.contextData? {
-            if let reply = contextInfo.context as? replyStation {
-                reply(forStation)
-            }
+        if let reply = context as? replyStation {
+            reply(forStation)
         }
     }
 
