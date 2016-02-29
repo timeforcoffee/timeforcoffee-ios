@@ -27,6 +27,11 @@ target 'timeforcoffee' do
     shared_pods
 end 
 
+target 'timeforcoffee Widget' do
+    pod 'Fabric'
+    pod 'Crashlytics'
+end  
+
 #target 'Time for Coffee! WatchOS 2 App Extension' do
 #     platform :watchos, '2.0'
 #     shared_kit_pods
