@@ -81,32 +81,51 @@ public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelega
         if (allResults != nil && allResults?["stations"].array?.count>0) {
             var newStations:[TFCStation] = []
             // to prevent double entries, the api sometimes returns more than one with the same id
-            var stationsAdded:[String: Bool] = [:]
+            var stationsAdded:[String: Int] = [:]
             if let results = allResults?["stations"].array {
+                var results2:[JSON] = []
+                // First filter out all double entries (multiple entries for same stationy
                 for result in results {
                     let id = String(result["id"].stringValue)
-                    if (inStationsArrayAsFavorite[id] == nil && stationsAdded[id] == nil) {
-                        let name = result["name"].string
+                    if let name = result["name"].string {
                         // the DB has all the uppercased short Strings as well, we don't want to display them
                         // just don't add them
-                        if (name == name?.uppercaseString) {
+                        if (name == name.uppercaseString) {
                             continue
                         }
-                        var longitude: Double? = nil
-                        var latitude: Double? = nil
-                        if (result["coordinate"]["y"].double != nil) {
-                            longitude = result["coordinate"]["y"].double
-                            latitude = result["coordinate"]["x"].double
-                        } else {
-                            longitude = result["location"]["lng"].double
-                            latitude = result["location"]["lat"].double
+                        if (inStationsArrayAsFavorite[id] == nil && (stationsAdded[id] == nil || stationsAdded[id] < name.characters.count)) {
+                            // if we have a station with the same id but shorter name, remove it
+                            // eg. Rappi
+                            if (stationsAdded[id] < name.characters.count) {
+                                if let i = results2.indexOf({$0["id"].stringValue == id}) {
+                                    results2.removeAtIndex(i)
+                                }
+                            }
+
+                            stationsAdded[id] = name.characters.count
+                            results2.append(result)
                         }
-                        var Clocation: CLLocation?
-                        if (longitude != nil && latitude != nil) {
-                            Clocation = CLLocation(latitude: latitude!, longitude: longitude!)
-                        }
-                        let newStation = TFCStation.initWithCache(name!, id: id, coord: Clocation)
-                        stationsAdded[id] = true
+                    }
+                }
+
+                for result in results2 {
+                    let id = String(result["id"].stringValue).replace("^0*", template: "")
+                    let name = result["name"].string
+                    var longitude: Double? = nil
+                    var latitude: Double? = nil
+                    if (result["coordinate"]["y"].double != nil) {
+                        longitude = result["coordinate"]["y"].double
+                        latitude = result["coordinate"]["x"].double
+                    } else {
+                        longitude = result["location"]["lng"].double
+                        latitude = result["location"]["lat"].double
+                    }
+                    var Clocation: CLLocation?
+                    if (longitude != nil && latitude != nil) {
+                        Clocation = CLLocation(latitude: latitude!, longitude: longitude!)
+                    }
+                    if let name = name {
+                        let newStation = TFCStation.initWithCache(name, id: id, coord: Clocation)
                         newStations.append(newStation)
                     }
                 }
