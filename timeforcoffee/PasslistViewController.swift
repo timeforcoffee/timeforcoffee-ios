@@ -59,7 +59,7 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
         startHeight = topBarHeight.constant
         self.appsTableView?.contentInset = UIEdgeInsets(top: startHeight, left: 0, bottom: 0, right: 0)
 
-        favButton.addTarget(self, action: "favoriteClicked:", forControlEvents: UIControlEvents.TouchUpInside)
+        favButton.addTarget(self, action: #selector(PasslistViewController.favoriteClicked(_:)), forControlEvents: UIControlEvents.TouchUpInside)
  //       stationIconButton.addTarget(self, action: "favoriteClicked:", forControlEvents: UIControlEvents.TouchUpInside)
 
 

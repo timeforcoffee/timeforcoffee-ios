@@ -49,7 +49,7 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         self.delegate = self
         moveToNearbyStations()
 
-        let aboutButton = UIBarButtonItem(title: "☕︎", style: UIBarButtonItemStyle.Plain, target: self, action: "aboutClicked:")
+        let aboutButton = UIBarButtonItem(title: "☕︎", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(PagedStationsViewController.aboutClicked(_:)))
         aboutButton.image = UIImage(named: "icon-coffee")
         aboutButton.tintColor = UIColor(netHexString: "555555")
         aboutButton.accessibilityLabel = NSLocalizedString("About", comment: "")
@@ -85,7 +85,7 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
 
     override func viewDidAppear(animated: Bool) {
         if (!registeredObserver) {
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeActive:", name: "UIApplicationDidBecomeActiveNotification", object: nil)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UIApplicationDelegate.applicationDidBecomeActive(_:)), name: "UIApplicationDidBecomeActiveNotification", object: nil)
             registeredObserver = true
         }
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -241,7 +241,7 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
     }
 
     private func setSearchButton() {
-        let searchButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: "searchClicked:")
+        let searchButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(PagedStationsViewController.searchClicked(_:)))
 
         searchButton.image = UIImage(named: "icon-search")
         searchButton.tintColor = UIColor(netHexString: "555555")

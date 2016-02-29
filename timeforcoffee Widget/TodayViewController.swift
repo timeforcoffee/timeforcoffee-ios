@@ -102,7 +102,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         super.viewDidLoad()
         DLog("viewDidLoad")
         titleLabel.userInteractionEnabled = true;
-        let tapGesture  = UITapGestureRecognizer(target: self, action: "handleTap:")
+        let tapGesture  = UITapGestureRecognizer(target: self, action: #selector(TodayViewController.handleTap(_:)))
         titleLabel.addGestureRecognizer(tapGesture)
         // Do any additional setup after loading the view from its nib.
     }

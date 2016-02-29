@@ -31,12 +31,12 @@ class StationsOverviewViewController: WKInterfaceController {
         DLog("awakeWithContext")
         NSNotificationCenter.defaultCenter().addObserver(
             self,
-            selector: "appDidBecomeActive:",
+            selector: #selector(StationsOverviewViewController.appDidBecomeActive(_:)),
             name: "TFCWatchkitDidBecomeActive",
             object: nil)
         NSNotificationCenter.defaultCenter().addObserver(
             self,
-            selector: "appDidResignActive:",
+            selector: #selector(StationsOverviewViewController.appDidResignActive(_:)),
             name: "TFCWatchkitDidResignActive",
             object: nil)
 
@@ -77,7 +77,7 @@ class StationsOverviewViewController: WKInterfaceController {
         self.appeared = true
         if (!activatedOnce) {
             self.setTitle("Nearby Stations")
-            self.addMenuItemWithItemIcon(WKMenuItemIcon.Resume, title: "Reload", action: "contextButtonReload")
+            self.addMenuItemWithItemIcon(WKMenuItemIcon.Resume, title: "Reload", action: #selector(StationsOverviewViewController.contextButtonReload))
             activatedOnce = true
         }
         getStations()

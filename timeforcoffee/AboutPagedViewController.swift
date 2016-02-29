@@ -48,13 +48,13 @@ final class AboutPagedViewController: UIViewController, SwipeViewDataSource, Swi
             webview.loadHTMLString(htmlString!, baseURL: nil)
 
             let chatbutton = aboutview?.viewWithTag(20) as! UIButton
-            chatbutton.addTarget(self, action: "startChat", forControlEvents: UIControlEvents.TouchUpInside
+            chatbutton.addTarget(self, action: #selector(AboutPagedViewController.startChat), forControlEvents: UIControlEvents.TouchUpInside
             )
 
             if let coffeeimg = aboutview?.viewWithTag(40) as? UIImageView {
                 coffeeimg.userInteractionEnabled = true;
 
-                let tapGesture = UITapGestureRecognizer(target: self, action: "openSettings")
+                let tapGesture = UITapGestureRecognizer(target: self, action: #selector(AboutPagedViewController.openSettings))
                 tapGesture.numberOfTapsRequired = 2
                 coffeeimg.addGestureRecognizer(tapGesture)
             }

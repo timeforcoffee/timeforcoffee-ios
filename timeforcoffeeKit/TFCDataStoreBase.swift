@@ -305,7 +305,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
 
                 var error:NSError? = nil
                 filemanager.delegate = self
-                for var index = 0; index < sourceSqliteURLs.count; index++ {
+                for index in 0 ..< sourceSqliteURLs.count {
                     try! filemanager.copyItemAtURL(sourceSqliteURLs[index], toURL: destSqliteURLs[index])
                     let _ = try? destSqliteURLs[index].setResourceValue(true, forKey: NSURLIsExcludedFromBackupKey)
 

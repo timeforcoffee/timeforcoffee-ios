@@ -54,7 +54,7 @@ class GlanceController: WKInterfaceController {
                         for (departure) in departures! {
                             if let sr = self.stationsTable.rowControllerAtIndex(i) as! StationRow? {
                                 sr.drawCell(departure, station: station)
-                                i++
+                                i += 1
                                 if (i >= 3) {
                                     break;
                                 }

@@ -75,7 +75,7 @@ let DLogDateFormatter:NSDateFormatter = {
     return formatter
 }()
 
-func DLog<T>(@autoclosure object: () -> T, toFile: Bool = false, _ file: String = __FILE__, _ function: String = __FUNCTION__, _ line: Int = __LINE__) {
+func DLog<T>(@autoclosure object: () -> T, toFile: Bool = false, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
     #if DEBUG
         let value = object()
         let stringRepresentation: String

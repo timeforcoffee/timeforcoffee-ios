@@ -27,7 +27,7 @@ final class NearbyStationsTableViewCell: UITableViewCell {
         StationIconView.layer.cornerRadius = StationIconView.layer.bounds.width / 2
         StationIconView.clipsToBounds = true
 
-        StationFavoriteButton.addTarget(self, action: "favoriteButtonTouched:", forControlEvents: UIControlEvents.TouchUpInside)
+        StationFavoriteButton.addTarget(self, action: #selector(NearbyStationsTableViewCell.favoriteButtonTouched(_:)), forControlEvents: UIControlEvents.TouchUpInside)
     }
 
 

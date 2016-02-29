@@ -41,17 +41,17 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             self.numberOfRows = 10
             NSNotificationCenter.defaultCenter().addObserver(
                 self,
-                selector: "selectStation:",
+                selector: #selector(StationViewController.selectStation(_:)),
                 name: "TFCWatchkitSelectStation",
                 object: nil)
             NSNotificationCenter.defaultCenter().addObserver(
                 self,
-                selector: "appDidBecomeActive:",
+                selector: #selector(StationViewController.appDidBecomeActive(_:)),
                 name: "TFCWatchkitDidBecomeActive",
                 object: nil)
             NSNotificationCenter.defaultCenter().addObserver(
                 self,
-                selector: "appDidResignActive:",
+                selector: #selector(StationViewController.appDidResignActive(_:)),
                 name: "TFCWatchkitDidResignActive",
                 object: nil)
 
@@ -167,13 +167,13 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             self.displayDepartures(self.station)
             self.clearAllMenuItems()
             if (self.station?.isFavorite() == true) {
-                self.addMenuItemWithItemIcon(WKMenuItemIcon.Decline, title: "Unfavorite Station", action: "contextButtonFavorite")
+                self.addMenuItemWithItemIcon(WKMenuItemIcon.Decline, title: "Unfavorite Station", action: #selector(StationViewController.contextButtonFavorite))
             } else {
-                self.addMenuItemWithItemIcon(WKMenuItemIcon.Add, title: "Favorite Station", action: "contextButtonFavorite")
+                self.addMenuItemWithItemIcon(WKMenuItemIcon.Add, title: "Favorite Station", action: #selector(StationViewController.contextButtonFavorite))
             }
 
-            self.addMenuItemWithItemIcon(WKMenuItemIcon.Resume, title: "Reload", action: "contextButtonReload")
-            self.addMenuItemWithItemIcon(WKMenuItemIcon.Maybe, title: "Map", action: Selector("contextButtonMap"))
+            self.addMenuItemWithItemIcon(WKMenuItemIcon.Resume, title: "Reload", action: #selector(StationViewController.contextButtonReload))
+            self.addMenuItemWithItemIcon(WKMenuItemIcon.Maybe, title: "Map", action: #selector(StationViewController.contextButtonMap))
             if let station2 = self.station {
             self.updateUserActivity("ch.opendata.timeforcoffee.station", userInfo: station2.getAsDict(), webpageURL: station2.getWebLink())
             }
@@ -234,7 +234,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
                 if let sr = stationsTable.rowControllerAtIndex(i) as! StationRow? {
                     sr.drawCell(deptstation, station: station!)
                 }
-                i++
+                i += 1
             }
         }
         return returnValue

@@ -138,7 +138,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                                     lastDepartureTimeNew = thisEntryDate
                                     if entries.count >= limit {break} // break if we reached the limit of entries
                                 }
-                                index++
+                                index += 1
                                 previousDeparture = thisDeparture
                                 departure = (departures.count - 1 >= index) ? departures[index] : nil
                                 nextDeparture = (departures.count > index + 1) ? departures[index + 1] : nil

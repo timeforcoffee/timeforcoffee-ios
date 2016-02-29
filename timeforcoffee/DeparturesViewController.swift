@@ -81,7 +81,7 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
 
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         self.refreshControl = UIRefreshControl()
-        self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl.addTarget(self, action: #selector(DeparturesViewController.refresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
         self.refreshControl.backgroundColor = UIColor(red: 242.0/255.0, green: 243.0/255.0, blue: 245.0/255.0, alpha: 1.0)
         self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.appsTableView?.addSubview(refreshControl)
@@ -89,8 +89,8 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
         startHeight = topBarHeight.constant
         self.appsTableView?.contentInset = UIEdgeInsets(top: startHeight, left: 0, bottom: 0, right: 0)
 
-        favButton.addTarget(self, action: "favoriteClicked:", forControlEvents: UIControlEvents.TouchUpInside)
-        stationIconButton.addTarget(self, action: "favoriteClicked:", forControlEvents: UIControlEvents.TouchUpInside)
+        favButton.addTarget(self, action: #selector(DeparturesViewController.favoriteClicked(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        stationIconButton.addTarget(self, action: #selector(DeparturesViewController.favoriteClicked(_:)), forControlEvents: UIControlEvents.TouchUpInside)
 
         favButton.accessibilityLabel = NSLocalizedString("Favourite Station?", comment: "Favourite Station?")
 
@@ -122,7 +122,7 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
         // put it to true when within a few hundred meters
         self.mapView.showsUserLocation = false
         self.mapView.delegate = self
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeInactive:", name: "UIApplicationDidEnterBackgroundNotification", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DeparturesViewController.applicationDidBecomeInactive(_:)), name: "UIApplicationDidEnterBackgroundNotification", object: nil)
         if let segmentedViewIndex = TFCDataStore.sharedInstance.getUserDefaults()?.integerForKey("segmentedViewDepartures") {
             segmentedView.selectedSegmentIndex = segmentedViewIndex
         }
@@ -201,7 +201,7 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
 
     func applicationDidBecomeInactive(notification: NSNotification) {
         NSNotificationCenter.defaultCenter().removeObserver(self)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeActive:", name: "UIApplicationDidBecomeActiveNotification", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UIApplicationDelegate.applicationDidBecomeActive(_:)), name: "UIApplicationDidBecomeActiveNotification", object: nil)
         dispatch_sync(updateOnceQueue) {
             [unowned self] in
             self.updateInAMinuteTimer?.invalidate()
@@ -212,7 +212,7 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
     func applicationDidBecomeActive(notification: NSNotification) {
         self.station?.setStationActivity()
         NSNotificationCenter.defaultCenter().removeObserver(self)
-          NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeInactive:", name: "UIApplicationDidEnterBackgroundNotification", object: nil)
+          NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DeparturesViewController.applicationDidBecomeInactive(_:)), name: "UIApplicationDidEnterBackgroundNotification", object: nil)
         displayDepartures()
     }
 
@@ -481,7 +481,7 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
             let delay = max(25.0, nextMinute - now) //don't set the delay to less than 25 seconds
           //  let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC)))
             dispatch_sync(dispatch_get_main_queue(), {
-                self.updateInAMinuteTimer = NSTimer.scheduledTimerWithTimeInterval(delay, target: self,  selector: "displayDepartures", userInfo: nil, repeats: false)
+                self.updateInAMinuteTimer = NSTimer.scheduledTimerWithTimeInterval(delay, target: self,  selector: #selector(DeparturesViewController.displayDepartures), userInfo: nil, repeats: false)
             })
         })
     }

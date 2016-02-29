@@ -634,7 +634,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                 someRemoved = true
                 departures?.removeAtIndex(i)
             } else {
-                i++
+                i += 1
                 //if we find one, which is not obselte, we can stop here
                 break
             }

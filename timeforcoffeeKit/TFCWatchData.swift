@@ -95,11 +95,12 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
     public func updateComplicationData() {
         // reload the timeline for all complications
         let server = CLKComplicationServer.sharedInstance()
-        for complication in server.activeComplications {
-            DLog("Reload Complications", toFile: true)
-            server.reloadTimelineForComplication(complication)
+        if let activeComplications = server.activeComplications {
+            for complication in activeComplications {
+                DLog("Reload Complications", toFile: true)
+                server.reloadTimelineForComplication(complication)
+            }
         }
-
     }
 
     public func getStations(reply: replyStations?, errorReply: ((String) -> Void)?, stopWithFavorites: Bool?) {

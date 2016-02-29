@@ -28,7 +28,7 @@ class DepartureLineLabel: UILabel, UITableViewDelegate {
         self.baselineAdjustment = UIBaselineAdjustment.AlignCenters
         self.adjustsFontSizeToFitWidth = true
 
-        let tapGesture = UITapGestureRecognizer(target: self, action: "favoriteDepartureClicked")
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(DepartureLineLabel.favoriteDepartureClicked))
         tapGesture.numberOfTapsRequired = 1
         self.addGestureRecognizer(tapGesture)
     }
