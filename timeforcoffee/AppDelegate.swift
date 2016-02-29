@@ -77,7 +77,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         //GAI.sharedInstance().logger.logLevel = GAILogLevel.Verbose
         gtracker.trackerWithTrackingId("UA-37092982-2")
         #if !((arch(i386) || arch(x86_64)) && os(iOS))
-        Fabric.with([Crashlytics()])
+        Fabric.with([Crashlytics.self])
         #endif
         if let lO = launchOptions?["UIApplicationLaunchOptionsLocationKey"] {
             DLog("app launched with UIApplicationLaunchOptionsLocationKey: \(lO)", toFile: true)
