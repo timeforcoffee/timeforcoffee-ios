@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class TFCCache {
+public final class TFCCache {
     struct objects {
         static var apicalls: PINCache = {
             let p = TFCCache.getCacheInstance("apicalls")
@@ -40,5 +40,10 @@ final class TFCCache {
             return PINCache(name: name, rootPath: rootDir)
         }
         return PINCache(name: name)
+    }
+
+    public class func clearMemoryCache() {
+        TFCCache.objects.stations.memoryCache.removeAllObjects()
+        TFCCache.objects.apicalls.memoryCache.removeAllObjects()
     }
 }
