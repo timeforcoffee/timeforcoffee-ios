@@ -32,6 +32,7 @@ public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelega
     private var _stations:[TFCStation]?
     private var nearbyFavorites:[TFCStation]?
     private var inStationsArrayAsFavorite: [String: Bool] = [:]
+    private var maxStations:Int = 100
 
     //struct here, because "class var" is not yet supported
     private struct favorite {
@@ -58,8 +59,9 @@ public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelega
         favorite.s.repopulateFavorites()
     }
 
-    public init(delegate: TFCStationsUpdatedProtocol) {
+    public init(delegate: TFCStationsUpdatedProtocol, maxStations: Int = 100) {
         self.delegate = delegate
+        self.maxStations = maxStations
         favorite.s.repopulateFavorites()
     }
 
@@ -289,7 +291,8 @@ public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelega
             })
         //sort by distance
         stations.sortInPlace({ $0.calculatedDistance < $1.calculatedDistance })
-        self._stations = stations
+
+        self._stations = Array(stations.prefix(self.maxStations)) //only add max stations
         if (!(self.stations?.count > 0)) {
             //this can happen, when we filter out station above, so increase the search radius
             if (distance < 50000) {
