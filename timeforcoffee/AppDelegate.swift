@@ -14,6 +14,8 @@ import Crashlytics
 import CoreSpotlight
 import MobileCoreServices
 import CoreData
+import WatchConnectivity
+
 
 
 @UIApplicationMain
@@ -123,6 +125,17 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                         currentUser.addProperties(["usedTodayScreen": true])
                     } else {
                         currentUser.addProperties(["usedTodayScreen": false])
+                    }
+                }
+                if #available(iOS 9.0, *) {
+                    if (WCSession.isSupported()) {
+                        currentUser.addProperties(["hasWatch": true])
+                        let wcsession = WCSession.defaultSession()
+                        if (wcsession.complicationEnabled == true) {
+                            currentUser.addProperties(["hasComplicationsEnabled": true])
+                        } else {
+                            currentUser.addProperties(["hasComplicationsEnabled": false])
+                        }
                     }
                 }
             }
