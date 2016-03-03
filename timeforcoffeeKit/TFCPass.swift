@@ -17,14 +17,15 @@ public final class TFCPass: TFCDeparturePass {
     public var isFirst = false
     public var isLast = false
 
-    init(name: String, id: String, coord: CLLocationCoordinate2D?, scheduled: NSDate?, realtime: NSDate?, arrival: NSDate?) {
+    init(name: String, id: String, coord: CLLocationCoordinate2D?, scheduled: NSDate?, realtime: NSDate?, arrivalScheduled: NSDate?, arrivalRealtime: NSDate?) {
         self.name = name
         self.coord = coord
         self.st_id = id
         super.init()
         self.scheduled = scheduled
         self.realtime = realtime
-        self.arrival = arrival
+        self.arrivalScheduled = arrivalScheduled
+        self.arrivalRealtime = arrivalRealtime
     }
 
     public class func withJSON(allResults: JSON?) -> [TFCPass]? {
@@ -41,7 +42,7 @@ public final class TFCPass: TFCDeparturePass {
                 let name = result["name"].stringValue
                 let id = result["id"].stringValue
 
-                let (scheduled, realtime, arrival) = self.parseJsonForDeparture(result)
+                let (scheduled, realtime, arrivalScheduled, arrivalRealtime) = self.parseJsonForDeparture(result)
 
                 let longitude = result["location"]["lng"].double
                 let latitude = result["location"]["lat"].double
@@ -49,7 +50,7 @@ public final class TFCPass: TFCDeparturePass {
                 if (longitude != nil && latitude != nil) {
                     coord = CLLocationCoordinate2D(latitude: latitude!, longitude: longitude!)
                 }
-                let newPass = TFCPass(name: name, id: id, coord: coord, scheduled: scheduled, realtime: realtime, arrival: arrival)
+                let newPass = TFCPass(name: name, id: id, coord: coord, scheduled: scheduled, realtime: realtime, arrivalScheduled: arrivalScheduled, arrivalRealtime: arrivalRealtime)
                 passlist?.append(newPass)
             }
             passlist?.first?.isFirst = true
@@ -79,6 +80,17 @@ public final class TFCPass: TFCDeparturePass {
             return "\(timeInterval!)'"
         }
         return nil
+    }
+
+    public override func getRealDepartureDate() -> NSDate? {
+
+        if let realtime = self.arrivalRealtime {
+            return realtime
+        }
+        if let scheduled = self.arrivalScheduled {
+            return scheduled
+        }
+        return super.getRealDepartureDate()
     }
 
 }

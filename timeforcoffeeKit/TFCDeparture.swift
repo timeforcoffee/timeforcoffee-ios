@@ -45,7 +45,9 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
         self.platform = platform
         self.scheduled = scheduled
         self.realtime = realtime
-        self.arrival = arrival
+        self.arrivalScheduled = arrival
+        self.arrivalRealtime = nil
+
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -114,11 +116,11 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
                 var colorBg = result["colors"]["bg"].string
                 colorBg = colorBg == nil ? "#ffffff" : colorBg
 
-                let (scheduled, realtime, arrival) = self.parseJsonForDeparture(result)
+                let (scheduled, realtime, arrivalScheduled, _) = self.parseJsonForDeparture(result)
 
                 let platform = result["platform"].string
                 
-                let newDeparture = TFCDeparture(name: name, type: type, accessible: accessible, to: to, destination_id: destination_id, scheduled: scheduled, realtime: realtime, arrival: arrival, colorFg: colorFg, colorBg: colorBg, platform: platform, st_id: st_id)
+                let newDeparture = TFCDeparture(name: name, type: type, accessible: accessible, to: to, destination_id: destination_id, scheduled: scheduled, realtime: realtime, arrival: arrivalScheduled, colorFg: colorFg, colorBg: colorBg, platform: platform, st_id: st_id)
                 departures?.append(newDeparture)
             }
             return departures
@@ -282,7 +284,7 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
     }
 
     private func getDateForPasslist() -> String? {
-        if let arrival = arrival, scheduled = scheduled {
+        if let arrival = arrivalScheduled, scheduled = scheduled {
             return scheduled.formattedWith("yyyy-MM-dd'T'HH:mm") + "/" + arrival.formattedWith("yyyy-MM-dd'T'HH:mm")
         }
         return self.scheduled?.formattedWith("yyyy-MM-dd'T'HH:mm")

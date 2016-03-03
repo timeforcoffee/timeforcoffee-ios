@@ -12,23 +12,26 @@ import UIKit
 public class TFCDeparturePass: NSObject {
 
     public var scheduled: NSDate?
-    var realtime: NSDate?
+    public var realtime: NSDate?
     public var platform: String?
     var accessible: Bool = false
     var outdated: Bool = false
-    public var arrival: NSDate?
+    public var arrivalScheduled: NSDate?
+    public var arrivalRealtime: NSDate?
 
-    class func parseJsonForDeparture(result:JSON) -> (NSDate?, NSDate?, NSDate?) {
+    class func parseJsonForDeparture(result:JSON) -> (NSDate?, NSDate?, NSDate?, NSDate?) {
 
         let scheduledStr = result["departure"]["scheduled"].string
         let realtimeStr = result["departure"]["realtime"].string
-        let arrivalStr = result["arrival"]["scheduled"].string
+        let arrivalScheduledStr = result["arrival"]["scheduled"].string
+        let arrivalRealtimeStr = result["arrival"]["realtime"].string
 
         let scheduled = self.getDateFromString(scheduledStr)
         let realtime = self.getDateFromString(realtimeStr)
-        let arrival = self.getDateFromString(arrivalStr)
+        let arrivalScheduled = self.getDateFromString(arrivalScheduledStr)
+        let arrivalRealtime = self.getDateFromString(arrivalRealtimeStr)
 
-        return (scheduled, realtime, arrival)
+        return (scheduled, realtime, arrivalScheduled, arrivalRealtime)
     }
 
     private class func getDateFromString(datestring:String?) -> NSDate? {
@@ -38,7 +41,12 @@ public class TFCDeparturePass: NSObject {
         return nil
     }
 
-    public func getDepartureTime(additionalInfo: Bool = true) -> (NSMutableAttributedString?, String?) {
+    public func getDepartureTime(additionalInfo: Bool = true) ->
+        (NSMutableAttributedString?, String?) {
+            return getDepartureTime(self.scheduled, realtime: self.realtime, additionalInfo: additionalInfo)
+    }
+    
+    public func getDepartureTime(scheduled: NSDate?, realtime: NSDate?, additionalInfo: Bool = true) -> (NSMutableAttributedString?, String?) {
         var realtimeStr: String = ""
         var scheduledStr: String = ""
         let attributesNoStrike = [
@@ -64,10 +72,10 @@ public class TFCDeparturePass: NSObject {
         var timestringAttr: NSMutableAttributedString?
         var timestring: String?
 
-        if let realtime = self.realtime {
+        if let realtime = realtime {
             realtimeStr = self.getShortDate(realtime)
         }
-        if let scheduled = self.scheduled {
+        if let scheduled = scheduled {
             scheduledStr = self.getShortDate(scheduled)
         }
 
@@ -95,7 +103,7 @@ public class TFCDeparturePass: NSObject {
             }
         }
         if (additionalInfo2) {
-            if (self.realtime == nil) {
+            if (realtime == nil) {
                 if (timestringAttr != nil) {
                     timestringAttr?.appendAttributedString(NSAttributedString(string: " (no real-time data)"))
                 } else {
@@ -158,6 +166,7 @@ public class TFCDeparturePass: NSObject {
     }
 
     public func getRealDepartureDate() -> NSDate? {
+
         if let realtime = self.realtime {
             return realtime
         }
