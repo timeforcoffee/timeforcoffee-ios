@@ -219,7 +219,9 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
             favButton.setTitle("☆", forState: UIControlState.Normal)
         }
         self.appsTableView?.reloadData()
-        SKTUser.currentUser().addProperties(["usedFavorites": true])
+        if let currentUser = SKTUser.currentUser() {
+            currentUser.addProperties(["usedFavorites": true])
+        }
     }
 
 
