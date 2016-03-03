@@ -269,12 +269,50 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
                 minutesLabel.textColor = UIColor.blackColor()
 
                 let (departureTimeAttr, departureTimeString) = pass.getDepartureTime()
-                if (departureTimeAttr != nil) {
+                let (arrivalTimeAttr, arrivalTimeString) = pass.getDepartureTime(pass.arrivalScheduled, realtime: pass.arrivalRealtime)
+
+                if (pass.scheduled != nil && pass.arrivalScheduled != nil && pass.realtime != pass.arrivalRealtime) {
                     departureLabel.text = nil
-                    departureLabel.attributedText = departureTimeAttr
+                  //  departureLabel.text = "complicated"
+                    let labelAttr = NSMutableAttributedString(string: NSLocalizedString("Arr", comment: "Arrival") + ": ")
+                    if let arrivalTimeAttr = arrivalTimeAttr {
+                        labelAttr.appendAttributedString(arrivalTimeAttr)
+                    } else {
+                        if let arrivalTimeString = arrivalTimeString {
+                            labelAttr.appendAttributedString(NSMutableAttributedString(string: arrivalTimeString))
+                        }
+                    }
+
+                    labelAttr.appendAttributedString(NSMutableAttributedString(string: " / "  + NSLocalizedString("Dep", comment: "Departure") + ": "))
+                    if let departureTimeAttr = departureTimeAttr {
+                        labelAttr.appendAttributedString(departureTimeAttr)
+                    } else {
+                        if let departureTimeString = departureTimeString {
+                            labelAttr.appendAttributedString(NSMutableAttributedString(string: departureTimeString))
+                        }
+                    }
+                    departureLabel.attributedText = labelAttr
+
+                } else if (pass.arrivalScheduled != nil) {
+                    if let arrivalTimeAttr = arrivalTimeAttr {
+                        departureLabel.text = nil
+                        let attrPre = NSMutableAttributedString(string: NSLocalizedString("Arr", comment: "Arrival") + ": ")
+                        attrPre.appendAttributedString(arrivalTimeAttr)
+                        departureLabel.attributedText = attrPre
+                    } else {
+                        departureLabel.attributedText = nil
+                        departureLabel.text = NSLocalizedString("Arr", comment: "Arrival") + ": \(arrivalTimeString!)"
+                    }
                 } else {
-                    departureLabel.attributedText = nil
-                    departureLabel.text = departureTimeString
+                    if let departureTimeAttr = departureTimeAttr {
+                        departureLabel.text = nil
+                        let attrPre = NSMutableAttributedString(string: NSLocalizedString("Dep", comment: "Departure") + ": ")
+                        attrPre.appendAttributedString(departureTimeAttr)
+                        departureLabel.attributedText = attrPre
+                    } else {
+                        departureLabel.attributedText = nil
+                        departureLabel.text =  NSLocalizedString("Dep", comment: "Departure") + ": \(departureTimeString!)"
+                    }
                 }
             }
 
