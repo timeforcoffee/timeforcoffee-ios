@@ -378,8 +378,8 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     }
 
     private func getDateProvider(date: NSDate) -> CLKRelativeDateTextProvider {
-        let units: NSCalendarUnit = [.Minute]
-        let style: CLKRelativeDateStyle = .Timer
+        let units: NSCalendarUnit = [.Minute, .Hour]
+        let style: CLKRelativeDateStyle = .Natural
         return CLKRelativeDateTextProvider(date: date, style: style, units: units)
     }
 
