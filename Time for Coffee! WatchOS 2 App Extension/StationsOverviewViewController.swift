@@ -106,28 +106,25 @@ class StationsOverviewViewController: WKInterfaceController {
                 return
             }
             if (self.appeared && self.appActive) {
-                 WKInterfaceDevice.currentDevice().playHaptic(WKHapticType.Click)
-                 infoGroup.setHidden(true)
-                 let maxStations = min(5, (stations?.count())! - 1)
-                 let ctxStations = stations?[0...maxStations]
-                 if (self.numberOfRows != ctxStations!.count) {
-                     stationsTable.setNumberOfRows(ctxStations!.count, withRowType: "stations")
-                     self.numberOfRows = ctxStations!.count
-                  }
-                 var i = 0;
-                 if let ctxStations = ctxStations {
-                     for (station) in ctxStations {
-                         if let sr = stationsTable.rowControllerAtIndex(i) as! StationsRow? {
-                             sr.drawCell(station)
-                         }
-                         i++
-                     }
-                     if let stations = stations {
-                         watchdata.updateComplication(stations)
-                     }
-                  }
-              }
+                WKInterfaceDevice.currentDevice().playHaptic(WKHapticType.Click)
+                infoGroup.setHidden(true)
 
+                if let stations = stations {
+                    let ctxStations = Array(stations.prefix(6))
+                    if (self.numberOfRows != ctxStations.count) {
+                        stationsTable.setNumberOfRows(ctxStations.count, withRowType: "stations")
+                        self.numberOfRows = ctxStations.count
+                    }
+                    var i = 0;
+                    for (station) in ctxStations {
+                        if let sr = stationsTable.rowControllerAtIndex(i) as! StationsRow? {
+                            sr.drawCell(station)
+                        }
+                        i += 1
+                    }
+                    watchdata.updateComplication(stations)
+                }
+            }
         }
         func errorReply(text: String) {
             infoGroup.setHidden(false)
