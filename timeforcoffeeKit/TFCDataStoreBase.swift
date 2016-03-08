@@ -219,8 +219,6 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
         DLog("sessionReachabilityDidChange to \(session.reachable) ")
     }
 
-    }
-
     @available(iOSApplicationExtension 9.0, *)
     private func sendAllData() {
         if let allData = userDefaults?.dictionaryRepresentation() {

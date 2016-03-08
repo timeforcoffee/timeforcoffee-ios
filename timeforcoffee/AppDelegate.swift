@@ -128,13 +128,19 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                     }
                 }
                 if #available(iOS 9.0, *) {
-                    if (WCSession.isSupported()) {
-                        currentUser.addProperties(["hasWatch": true])
-                        let wcsession = WCSession.defaultSession()
-                        if (wcsession.complicationEnabled == true) {
-                            currentUser.addProperties(["hasComplicationsEnabled": true])
-                        } else {
-                            currentUser.addProperties(["hasComplicationsEnabled": false])
+                    if let wcsession = TFCDataStore.sharedInstance.session {
+                        if (wcsession.paired) {
+                            currentUser.addProperties(["hasWatch": true])
+                            if (wcsession.watchAppInstalled) {
+                                currentUser.addProperties(["hasWatchAppInstalled": true])
+                            } else {
+                                currentUser.addProperties(["hasWatchAppInstalled": false])
+                            }
+                            if (wcsession.complicationEnabled == true) {
+                                currentUser.addProperties(["hasComplicationsEnabled": true])
+                            } else {
+                                currentUser.addProperties(["hasComplicationsEnabled": false])
+                            }
                         }
                     }
                 }
