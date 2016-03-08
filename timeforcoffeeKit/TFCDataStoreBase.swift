@@ -26,6 +26,14 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
     private let localUserDefaults: NSUserDefaults? = NSUserDefaults(suiteName: "ch.opendata.timeforcoffee.local")
     var keyvaluestore: NSUbiquitousKeyValueStore? { return nil}
     private var notificationObserver: AnyObject?
+    @available(iOSApplicationExtension 9.0, *)
+    public var session: WCSession? {
+        if (WCSession.isSupported()) {
+            return WCSession.defaultSession()
+        }
+        return nil
+    }
+
 
     func setObject(anObject: AnyObject?, forKey: String, withWCTransfer: Bool) {
         userDefaults?.setObject(anObject , forKey: forKey)
@@ -33,7 +41,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
         if #available(iOS 9, *) {
             if (withWCTransfer != false) {
                 let applicationDict = [forKey: anObject!]
-                WCSession.defaultSession().transferUserInfo(applicationDict)
+                session?.transferUserInfo(applicationDict)
             }
         }
     }
@@ -56,7 +64,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
         if #available(iOS 9, *) {
             if (withWCTransfer != false) {
                 let applicationDict = ["___remove___": forKey]
-                WCSession.defaultSession().transferUserInfo(applicationDict)
+                session?.transferUserInfo(applicationDict)
             }
         }
     }
@@ -69,9 +77,8 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
     public func registerWatchConnectivity() {
         if #available(iOS 9, *) {
             if (WCSession.isSupported()) {
-                let session = WCSession.defaultSession()
-                session.delegate = self
-                session.activateSession()
+                session?.delegate = self
+                session?.activateSession()
             }
         }
     }
@@ -106,9 +113,9 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                                         }
                                         if #available(iOS 9, *) {
                                             if let value = self.keyvaluestore?.objectForKey(key) {
-                                                WCSession.defaultSession().transferUserInfo([key: value])
+                                                self.session?.transferUserInfo([key: value])
                                             } else {
-                                                WCSession.defaultSession().transferUserInfo(["___remove___": key])
+                                                self.session?.transferUserInfo(["___remove___": key])
                                             }
                                         }
                                     }
@@ -138,10 +145,10 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
 
     @available(iOSApplicationExtension 9.0, *)
     public func requestAllDataFromPhone() {
-        if (WCSession.defaultSession().reachable) {
-            WCSession.defaultSession().sendMessage(["__giveMeTheData__": NSDate()], replyHandler: nil, errorHandler: nil)
+        if (self.session?.reachable == true) {
+            self.session?.sendMessage(["__giveMeTheData__": NSDate()], replyHandler: nil, errorHandler: nil)
         } else {
-            WCSession.defaultSession().transferUserInfo(["__giveMeTheData__": NSDate()])
+            self.session?.transferUserInfo(["__giveMeTheData__": NSDate()])
         }
 
 
@@ -191,6 +198,29 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
         }
     }
 
+    @available(iOSApplicationExtension 9.3, *)
+    @available(watchOSApplicationExtension 2.2, *)
+    public func session(session: WCSession, activationDidCompleteWithState activationState: WCSessionActivationState, error: NSError?) {
+        DLog("activationDidCompleteWithState. state \(activationState) error \(error)")
+    }
+
+    @available(iOSApplicationExtension 9.0, *)
+    public func sessionDidBecomeInactive(session: WCSession) {
+    }
+
+    @available(iOSApplicationExtension 9.0, *)
+    public func sessionDidDeactivate(session: WCSession) {
+        DLog("sessionDidDeactivate")
+        self.registerWatchConnectivity()
+    }
+
+    @available(iOSApplicationExtension 9.0, *)
+    public func sessionReachabilityDidChange(session: WCSession) {
+        DLog("sessionReachabilityDidChange to \(session.reachable) ")
+    }
+
+    }
+
     @available(iOSApplicationExtension 9.0, *)
     private func sendAllData() {
         if let allData = userDefaults?.dictionaryRepresentation() {
@@ -203,13 +233,13 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                     // only send key starting with favorite
                     if (myKey.hasPrefix("favorite") || myKey.hasPrefix("filtered")) {
                         let applicationDict = [myKey: myValue]
-                        WCSession.defaultSession().transferUserInfo(applicationDict)
+                        self.session?.transferUserInfo(applicationDict)
                     }
                 }
                 // this is so that we can check, if an allData request was sent to the watch
                 //  until this is done, the watch will keep asking for it
                 //  This is to avoid haveing no favourites on the watch to start with
-                WCSession.defaultSession().transferUserInfo(["__allDataResponseSent__": true])
+                self.session?.transferUserInfo(["__allDataResponseSent__": true])
                 DLog("Sent __allDataResponseSent__");
 
             }
@@ -330,16 +360,15 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
         #if os(iOS)
             if #available(iOS 9, *) {
                 if (WCSession.isSupported()) {
-                    let wcsession = WCSession.defaultSession()
-                    if (wcsession.complicationEnabled == true) {
+                    if (self.session?.complicationEnabled == true) {
                         if let firstStation = station, ud = TFCDataStore.sharedInstance.getUserDefaults() {
                             if (ud.stringForKey("lastFirstStationId") != firstStation.st_id) {
                                 if let coord = station?.coord?.coordinate {
                                     DLog("send __updateComplicationData__ with \(coord)", toFile: true)
-                                    wcsession.transferCurrentComplicationUserInfo(["__updateComplicationData__": [ "longitude": coord.longitude, "latitude": coord.latitude]])
+                                    self.session?.transferCurrentComplicationUserInfo(["__updateComplicationData__": [ "longitude": coord.longitude, "latitude": coord.latitude]])
                                 } else {
                                     DLog("send __updateComplicationData__ without coord", toFile: true)
-                                    wcsession.transferCurrentComplicationUserInfo(["__updateComplicationData__": "doit"])
+                                    self.session?.transferCurrentComplicationUserInfo(["__updateComplicationData__": "doit"])
                                 }
                                 ud.setValue(firstStation.st_id, forKey: "lastFirstStationId")
                             }
