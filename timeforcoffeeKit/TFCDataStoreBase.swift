@@ -212,12 +212,6 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
         }
     }
 
-    @available(iOSApplicationExtension 9.3, *)
-    @available(watchOSApplicationExtension 2.2, *)
-    public func session(session: WCSession, activationDidCompleteWithState activationState: WCSessionActivationState, error: NSError?) {
-        DLog("activationDidCompleteWithState. state \(activationState) error \(error)")
-    }
-
     @available(iOSApplicationExtension 9.0, *)
     public func sessionDidBecomeInactive(session: WCSession) {
     }
