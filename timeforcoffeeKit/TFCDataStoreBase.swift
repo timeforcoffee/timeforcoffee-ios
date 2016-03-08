@@ -41,7 +41,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
         if #available(iOS 9, *) {
             if (withWCTransfer != false) {
                 let applicationDict = [forKey: anObject!]
-                session?.transferUserInfo(applicationDict)
+                sendData(applicationDict)
             }
         }
     }
@@ -64,7 +64,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
         if #available(iOS 9, *) {
             if (withWCTransfer != false) {
                 let applicationDict = ["___remove___": forKey]
-                session?.transferUserInfo(applicationDict)
+                sendData(applicationDict)
             }
         }
     }
@@ -113,9 +113,9 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                                         }
                                         if #available(iOS 9, *) {
                                             if let value = self.keyvaluestore?.objectForKey(key) {
-                                                self.session?.transferUserInfo([key: value])
+                                                self.sendData([key: value])
                                             } else {
-                                                self.session?.transferUserInfo(["___remove___": key])
+                                                self.sendData(["___remove___": key])
                                             }
                                         }
                                     }
@@ -145,28 +145,42 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
 
     @available(iOSApplicationExtension 9.0, *)
     public func requestAllDataFromPhone() {
-        if (self.session?.reachable == true) {
-            self.session?.sendMessage(["__giveMeTheData__": NSDate()], replyHandler: nil, errorHandler: nil)
-        } else {
-            self.session?.transferUserInfo(["__giveMeTheData__": NSDate()])
-        }
-
-
+        sendData(["__giveMeTheData__": NSDate()])
     }
 
     @available(iOSApplicationExtension 9.0, *)
     public func session(session: WCSession, didReceiveMessage message: [String : AnyObject]) {
         for (myKey,_) in message {
             DLog("didReceiveMessage: \(myKey)", toFile: true)
-            sendAllData()
         }
+        parseReceiveInfo(message)
     }
 
     @available(iOSApplicationExtension 9.0, *)
     public func session(session: WCSession, didReceiveUserInfo userInfo: [String : AnyObject]) {
-        for (myKey,myValue) in userInfo {
+        for (myKey,_) in userInfo {
+            DLog("didReceiveUserInfo: \(myKey)", toFile: true)
+        }
+        parseReceiveInfo(userInfo)
+    }
+
+    @available(iOSApplicationExtension 9.0, *)
+    func sendData(message: [String: AnyObject]) {
+        if (self.session?.reachable == true) {
+            self.session?.sendMessage(message, replyHandler: nil, errorHandler: {(error: NSError) in
+                DLog("sendMessage failed due to error \(error): Send via transferUserInfo")
+                self.session?.transferUserInfo(message)
+            })
+        } else {
+            self.session?.transferUserInfo(message)
+        }
+    }
+
+    @available(iOSApplicationExtension 9.0, *)
+    func parseReceiveInfo(message: [String: AnyObject]) {
+        for (myKey,myValue) in message {
             if (myKey != "__logThis__") {
-                DLog("didReceiveUserInfo: \(myKey)", toFile: true)
+                DLog("parseReceiveInfo: \(myKey)", toFile: true)
             }
             if (myKey == "__updateComplicationData__") {
                 if let value = myValue as? [String: CLLocationDegrees], lng = value["longitude"], lat = value["latitude"] {
@@ -176,7 +190,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                     DLog("no coord was sent with __updateComplicationData__ ", toFile: true)
                 }
 
-              //  updateComplicationData()
+                //  updateComplicationData()
             } else if (myKey == "__logThis__") {
                 DLog("Got __logThis__")
                 if let value = myValue as? String {
@@ -231,13 +245,13 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                     // only send key starting with favorite
                     if (myKey.hasPrefix("favorite") || myKey.hasPrefix("filtered")) {
                         let applicationDict = [myKey: myValue]
-                        self.session?.transferUserInfo(applicationDict)
+                        sendData(applicationDict)
                     }
                 }
                 // this is so that we can check, if an allData request was sent to the watch
                 //  until this is done, the watch will keep asking for it
                 //  This is to avoid haveing no favourites on the watch to start with
-                self.session?.transferUserInfo(["__allDataResponseSent__": true])
+                sendData(["__allDataResponseSent__": true])
                 DLog("Sent __allDataResponseSent__");
 
             }
