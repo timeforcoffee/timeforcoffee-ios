@@ -180,21 +180,20 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
     func parseReceiveInfo(message: [String: AnyObject]) {
         for (myKey,myValue) in message {
             if (myKey != "__logThis__") {
-                DLog("parseReceiveInfo: \(myKey)", toFile: true)
+                DLog("parseReceiveInfo: \(myKey)")
             }
             if (myKey == "__updateComplicationData__") {
                 if let value = myValue as? [String: CLLocationDegrees], lng = value["longitude"], lat = value["latitude"] {
                     TFCLocationManagerBase.setCurrentLocation(CLLocation(latitude: lat, longitude: lng))
-                    DLog("coord was sent with __updateComplicationData__ \(lat), \(lng)", toFile: true)
+                    DLog("coord was sent with __updateComplicationData__ \(lat), \(lng)")
                 } else {
-                    DLog("no coord was sent with __updateComplicationData__ ", toFile: true)
+                    DLog("no coord was sent with __updateComplicationData__ ")
                 }
 
                 //  updateComplicationData()
             } else if (myKey == "__logThis__") {
-                DLog("Got __logThis__")
                 if let value = myValue as? String {
-                    DLog("Watch: " + value, toFile: true)
+                    DLog("Watch: " + value)
                 }
             } else if (myKey == "__giveMeTheData__") {
                 DLog("Got __giveMeTheData__");
