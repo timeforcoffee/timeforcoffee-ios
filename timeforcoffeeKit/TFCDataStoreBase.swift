@@ -166,7 +166,10 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
 
     @available(iOSApplicationExtension 9.0, *)
     func sendData(message: [String: AnyObject], trySendMessage: Bool = false) {
-       if (trySendMessage && self.session?.reachable == true) {
+    DLog(self.session?.outstandingUserInfoTransfers.count)
+        // if we have too many outstandingUserInfoTransfers, something is wrong, try to send as sendMessage as alternative
+       if (self.session?.reachable == true && (trySendMessage || self.session?.outstandingUserInfoTransfers.count > 10)) {
+            DLog("outstanding UserInfoTransfers \(self.session?.outstandingUserInfoTransfers.count )")
             self.session?.sendMessage(message, replyHandler: nil, errorHandler: {(error: NSError) in
                 DLog("sendMessage failed due to error \(error): Send via transferUserInfo")
                 self.session?.transferUserInfo(message)
