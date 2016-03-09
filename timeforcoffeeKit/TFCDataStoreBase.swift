@@ -145,7 +145,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
 
     @available(iOSApplicationExtension 9.0, *)
     public func requestAllDataFromPhone() {
-        sendData(["__giveMeTheData__": NSDate()])
+        sendData(["__giveMeTheData__": NSDate()], trySendMessage: true)
     }
 
     @available(iOSApplicationExtension 9.0, *)
@@ -165,15 +165,15 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
     }
 
     @available(iOSApplicationExtension 9.0, *)
-    func sendData(message: [String: AnyObject]) {
-        if (self.session?.reachable == true) {
+    func sendData(message: [String: AnyObject], trySendMessage: Bool = false) {
+       if (trySendMessage && self.session?.reachable == true) {
             self.session?.sendMessage(message, replyHandler: nil, errorHandler: {(error: NSError) in
                 DLog("sendMessage failed due to error \(error): Send via transferUserInfo")
                 self.session?.transferUserInfo(message)
             })
         } else {
             self.session?.transferUserInfo(message)
-        }
+       }
     }
 
     @available(iOSApplicationExtension 9.0, *)
