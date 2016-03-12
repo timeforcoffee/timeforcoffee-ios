@@ -67,12 +67,13 @@ func processFirst(var results: [TFCStationModel]?) {
     if results?.count > 0 {
         if let first = results?.removeFirst() {
             updateGeolocationInfo(first, callback: {processFirst(results)})
+        } else {
+            NSLog("try again from start")
+            doUpdateGeolocations()
         }
+    } else {
+        exit(0)
     }
-    //try again from start
-    NSLog("try again from start")
-    doUpdateGeolocations()
-
 }
 func doUpdateGeolocations() {
     let fetchRequest = NSFetchRequest(entityName: "TFCStationModel")
@@ -83,9 +84,12 @@ func doUpdateGeolocations() {
             NSLog("Found \(results.count) without geolocation info")
             if (results.count > 0) {
                 processFirst(results)
+            } else {
+                exit(0)
             }
+        } else {
+            exit(244)
         }
-        exit(0)
     } catch let error as NSError {
         print("Could not fetch \(error), \(error.userInfo)")
     }
