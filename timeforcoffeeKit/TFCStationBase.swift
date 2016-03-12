@@ -698,7 +698,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
     private func updateGeolocationInfo() {
         let iso = realmObject.countryISO
-        if (iso == nil) {
+        if (iso == nil || iso == "") {
             let geocoder = CLGeocoder()
             if let coordinates = self.coord {
                 geocoder.reverseGeocodeLocation(coordinates) { (places:[CLPlacemark]?, error:NSError?) -> Void in
