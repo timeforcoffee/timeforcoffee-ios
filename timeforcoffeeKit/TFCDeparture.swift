@@ -336,7 +336,7 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
             } else {
                 dest_name = getDestination().stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
             }
-        return "http://tfc.chregu.tv/api/ch/connections/\(st_id)/\(dest_name!)/\(date)"
+        return "https://tfc.chregu.tv/api/ch/connections/\(st_id)/\(dest_name!)/\(date)"
         }
         return nil
     }

@@ -743,7 +743,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
         let country = self.getCountryISO()
         if (country == "CH") {
-            return "http://tfc.chregu.tv/api/ch/stationboard/\(self.st_id)"
+            return "https://tfc.chregu.tv/api/ch/stationboard/\(self.st_id)"
         }
         return "http://transport.opendata.ch/v1/stationboard?id=\(self.st_id)&limit=40"
     }
