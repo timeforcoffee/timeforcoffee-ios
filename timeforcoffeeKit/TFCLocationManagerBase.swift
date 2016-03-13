@@ -55,6 +55,7 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
     }
 
     deinit {
+        self.locationManager.stopUpdatingLocation()
         self.locationManager.delegate = nil
     }
 
