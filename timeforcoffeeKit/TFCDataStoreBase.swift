@@ -107,7 +107,11 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                                     if (key == "favoriteStations") {
                                         self.keyvaluestore?.removeObjectForKey("favoriteStations")
                                     } else {
-                                        self.userDefaults?.setObject(self.keyvaluestore?.objectForKey(key), forKey: key)
+                                        if let value = self.keyvaluestore?.objectForKey(key) {
+                                            self.userDefaults?.setObject(value, forKey: key)
+                                        } else {
+                                            self.userDefaults?.removeObjectForKey(key)
+                                        }
                                         if (key == "favorites2") {
                                             TFCFavorites.sharedInstance.repopulateFavorites()
                                         }
@@ -166,7 +170,6 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
 
     @available(iOSApplicationExtension 9.0, *)
     func sendData(message: [String: AnyObject], trySendMessage: Bool = false) {
-    DLog(self.session?.outstandingUserInfoTransfers.count)
         // if we have too many outstandingUserInfoTransfers, something is wrong, try to send as sendMessage as alternative
        if (self.session?.reachable == true && (trySendMessage || self.session?.outstandingUserInfoTransfers.count > 10)) {
             DLog("outstanding UserInfoTransfers \(self.session?.outstandingUserInfoTransfers.count )")
