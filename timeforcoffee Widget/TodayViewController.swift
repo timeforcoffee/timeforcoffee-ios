@@ -198,7 +198,6 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         self.view.setNeedsLayout()
         actionLabel.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         setPreferredContentSize()
-        DLog(195)
     }
 
     override func viewWillDisappear(animated: Bool) {
