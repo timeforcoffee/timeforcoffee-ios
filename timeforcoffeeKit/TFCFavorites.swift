@@ -35,11 +35,6 @@ final public class TFCFavorites: NSObject {
     func repopulateFavorites() {
         temporarlyRemovedStations = false
         self.stations = getCurrentFavoritesFromDefaults()
-        //the following trimmed can be removed later, maybe in 1.7 or so (needed in 1.5)
-        if (needsSave) {
-            saveFavorites()
-            needsSave = false
-        }
     }
 
     public func getSearchRadius() -> Int {
@@ -95,14 +90,13 @@ final public class TFCFavorites: NSObject {
     }
 
     func unset(st_id: String?) {
-        if (st_id == nil) {
-            return
+        if let st_id = st_id {
+            if (temporarlyRemovedStations) {
+                repopulateFavorites()
+            }
+            stations.removeValueForKey(st_id)
+            self.saveFavorites()
         }
-        if (temporarlyRemovedStations) {
-            repopulateFavorites()
-        }
-        stations.removeValueForKey(st_id!)
-        self.saveFavorites()
     }
 
     func unset(station station: TFCStation?) {
@@ -110,19 +104,19 @@ final public class TFCFavorites: NSObject {
     }
 
     func set(station: TFCStation?) {
-        if (station != nil) {
+        if let station = station {
             if (temporarlyRemovedStations) {
                 repopulateFavorites()
             }
-            stations[(station?.st_id)!] = station!
+            stations[station.st_id] = station
             self.saveFavorites()
         }
     }
 
     func isFavorite(st_id: String?) -> Bool {
-        if (st_id != nil) {
-            if (self.stations[st_id!] != nil) {
-                let res: Bool? = (self.stations[st_id!]! as TFCStation).isFavorite()
+        if let st_id = st_id {
+            if (self.stations[st_id] != nil) {
+                let res: Bool? = (self.stations[st_id]! as TFCStation).isFavorite()
 
                 if (res != nil || res == true) {
                     return true
