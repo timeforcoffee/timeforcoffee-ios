@@ -56,32 +56,30 @@ final public class TFCFavorites: NSObject {
             st = NSKeyedUnarchiver.unarchiveObjectWithData(unarchivedObject) as? [String: TFCStation]
         }
         let cache = TFCCache.objects.stations
-        if (st != nil) {
-            // get if from the cache, if it's already there.
-            for (st_id, _) in st! {
-                // trim id since we sometimes saved this wrong
+        guard st != nil else { return [:] }
+        // get if from the cache, if it's already there.
+        for (st_id, _) in st! {
+            // trim id since we sometimes saved this wrong
 
-                let trimmed_id = st_id.replace("^0*", template: "")
-                if (trimmed_id != st_id) {
-                    DLog("Trim favourite ID \(st_id)")
-                    st![trimmed_id] = st![st_id]
-                    st![trimmed_id]!.st_id = trimmed_id
-                    st!.removeValueForKey(st_id)
-                    needsSave = true
-                }
-                var newStation: TFCStation? = cache.objectForKey(trimmed_id) as? TFCStation
-                if (newStation?.name == "unknown") {
-                    newStation = TFCStation.initWithCacheId(trimmed_id)
-                    needsSave = true
-                }
-                if (newStation != nil && newStation?.coord != nil) {
-                    st![trimmed_id] = newStation
-                }
+            let trimmed_id = st_id.replace("^0*", template: "")
+            if (trimmed_id != st_id) {
+                DLog("Trim favourite ID \(st_id)")
+                st![trimmed_id] = st![st_id]
+                st![trimmed_id]!.st_id = trimmed_id
+                st!.removeValueForKey(st_id)
+                needsSave = true
             }
-            return st!
-        } else {
-            return [:]
+            var newStation: TFCStation? = cache.objectForKey(trimmed_id) as? TFCStation
+            if (newStation?.name == "unknown") {
+                newStation = TFCStation.initWithCacheId(trimmed_id)
+                needsSave = true
+            }
+            if (newStation != nil && newStation?.coord != nil) {
+                st![trimmed_id] = newStation
+            }
         }
+        return st!
+
     }
 
     func removeTemporarly(st_id: String) {

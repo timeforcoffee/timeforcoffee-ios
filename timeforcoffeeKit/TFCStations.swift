@@ -374,10 +374,9 @@ public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelega
         if (TFCLocationManager.getISOCountry() != "CH") {
             return "Not in Switzerland?"
         }
-        if let distanceFromSwitzerland = locManager?.currentLocation?.distanceFromLocation(CLLocation(latitude: 47, longitude: 8)) {
-            if (distanceFromSwitzerland > 1000000) {
+        
+        if let distanceFromSwitzerland = locManager?.currentLocation?.distanceFromLocation(CLLocation(latitude: 47, longitude: 8)) where distanceFromSwitzerland > 1000000 {
                 return "Not in Switzerland?"
-            }
         }
 
         return nil

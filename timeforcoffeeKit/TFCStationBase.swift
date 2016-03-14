@@ -79,19 +79,17 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
     public var calculatedDistance: Double? {
         get {
+            guard let currentLoc = TFCLocationManager.getCurrentLocation() else { return nil }
 
-            if let currentLoc = TFCLocationManager.getCurrentLocation() {
-                if (currentLoc.coordinate.longitude != _calculatedDistanceLastCoord?.coordinate.longitude) {
-                    _calculatedDistanceLastCoord = currentLoc
-                    if let coord = self.coord {
-                        _calculatedDistance = currentLoc.distanceFromLocation(coord)
-                        let cache: PINCache = TFCCache.objects.stations
-                        cache.setObject(self, forKey: st_id)
-                    }
+            if (currentLoc.coordinate.longitude != _calculatedDistanceLastCoord?.coordinate.longitude) {
+                _calculatedDistanceLastCoord = currentLoc
+                if let coord = self.coord {
+                    _calculatedDistance = currentLoc.distanceFromLocation(coord)
+                    let cache: PINCache = TFCCache.objects.stations
+                    cache.setObject(self, forKey: st_id)
                 }
-                return _calculatedDistance
             }
-            return nil
+            return _calculatedDistance
         }
     }
 
@@ -481,12 +479,10 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
     private func getMarkedLinesShared(favorite: Bool) -> [String: [String: Bool]] {
         let key = getDataStoreKey(st_id, favorite: favorite)
-        var markedDestinationsShared: [String: [String: Bool]]? = objects.dataStore?.objectForKey(key)?.mutableCopy() as! [String: [String: Bool]]?
+        let markedDestinationsShared: [String: [String: Bool]]? = objects.dataStore?.objectForKey(key)?.mutableCopy() as! [String: [String: Bool]]?
 
-        if (markedDestinationsShared == nil) {
-            markedDestinationsShared = [:]
-        }
-        return markedDestinationsShared!
+        guard let markedDestinationsShared2 = markedDestinationsShared else { return [:] }
+        return markedDestinationsShared2
     }
 
     private func getFavoriteLines() -> [String: [String: Bool]] {
