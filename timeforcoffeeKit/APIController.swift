@@ -183,7 +183,7 @@ final class APIController {
         })
         dataFetch?.resume()
 
-        let timeout =  dispatch_time(DISPATCH_TIME_NOW, 5000000000) // 5 seconds
+        let timeout =  dispatch_time(DISPATCH_TIME_NOW, 3000000000) // 3 seconds
         if dispatch_semaphore_wait(semaphore, timeout) != 0 {
             DLog("stationInfo sync call timed out.")
         }
