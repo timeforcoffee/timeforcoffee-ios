@@ -17,7 +17,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     public var name: String {
         get {
             if (_name == nil) {
-                _name = self.realmObject.name
+                _name = self.realmObject?.name
                 if (_name == "" || _name == nil) {
                     _name = "unknown"
                 }
@@ -25,14 +25,14 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             return _name!
         }
         set(name) {
-            if (name != self.realmObject.name) {
+            if (name != self.realmObject?.name) {
                 var name2 = name
                 if (name2 == "") {
                     name2 = "unknown"
                 }
                 DLog("set new name in DB for \(name2) \(st_id)")
-                self.realmObject.name = name2
-                self.realmObject.lastUpdated = NSDate()
+                self.realmObject?.name = name2
+                self.realmObject?.lastUpdated = NSDate()
                 _name = name2
             }
         }
@@ -45,18 +45,18 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             if (self._coord != nil) {
                 return self._coord
             }
-            self._coord = CLLocation(latitude: (self.realmObject.latitude?.doubleValue)!, longitude: (self.realmObject.longitude?.doubleValue)!)
+            self._coord = CLLocation(latitude: (self.realmObject?.latitude?.doubleValue)!, longitude: (self.realmObject?.longitude?.doubleValue)!)
             return self._coord
         }
         set(location) {
             self._coord = location
             if let lat = location?.coordinate.latitude, lon = location?.coordinate.longitude {
-                if (self.realmObject.latitude  == nil ||
-                    self.realmObject.longitude == nil ||
-                    coord?.distanceFromLocation(CLLocation(latitude: self.realmObject.latitude as! Double , longitude: self.realmObject.longitude as! Double)) > 10) {
-                        self.realmObject.latitude = lat
-                        self.realmObject.longitude = lon
-                        self.realmObject.lastUpdated = NSDate()
+                if (self.realmObject?.latitude  == nil ||
+                    self.realmObject?.longitude == nil ||
+                    coord?.distanceFromLocation(CLLocation(latitude: self.realmObject?.latitude as! Double , longitude: self.realmObject?.longitude as! Double)) > 10) {
+                        self.realmObject?.latitude = lat
+                        self.realmObject?.longitude = lon
+                        self.realmObject?.lastUpdated = NSDate()
                         DLog("updateGeolocationInfo for \(self.name)")
                         self.updateGeolocationInfo()
                 }
@@ -133,7 +133,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     }()
 
 
-    private lazy var realmObject:TFCStationModel = {
+    private lazy var realmObject:TFCStationModel? = {
         [unowned self] in
 
         let fetchRequest = NSFetchRequest(entityName: "TFCStationModel")
@@ -146,12 +146,14 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                 }
             }
         } catch let error as NSError {
-            print("Could not fetch \(error), \(error.userInfo)")
+            DLog("Could not fetch \(error), \(error.userInfo)")
         }
 
-        let obj = NSEntityDescription.insertNewObjectForEntityForName("TFCStationModel", inManagedObjectContext: TFCDataStore.sharedInstance.managedObjectContext) as! TFCStationModel
-        obj.id = self.st_id
-        return obj
+        if let obj = NSEntityDescription.insertNewObjectForEntityForName("TFCStationModel", inManagedObjectContext: TFCDataStore.sharedInstance.managedObjectContext) as? TFCStationModel {
+            obj.id = self.st_id
+            return obj
+        }
+        return nil
     }()
 
 
@@ -697,25 +699,25 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     }
 
     private func updateGeolocationInfo() {
-        let iso = realmObject.countryISO
+        let iso = realmObject?.countryISO
         if (iso == nil || iso == "") {
             let geocoder = CLGeocoder()
             if let coordinates = self.coord {
                 geocoder.reverseGeocodeLocation(coordinates) { (places:[CLPlacemark]?, error:NSError?) -> Void in
                     if let place = places?.first {
-                        if self.realmObject.fault == false {
+                        if self.realmObject?.fault == false {
                             if let city = place.locality {
-                                self.realmObject.city = city
+                                self.realmObject?.city = city
                             }
 
                             if let county = place.administrativeArea {
-                                self.realmObject.county = county
+                                self.realmObject?.county = county
                             }
                             if let iso = place.ISOcountryCode {
-                                self.realmObject.countryISO = iso
+                                self.realmObject?.countryISO = iso
                             }
                         } else {
-                            DLog("object \(self.name) could not be saved: \(self.realmObject.faultingState)")
+                            DLog("object \(self.name) could not be saved: \(self.realmObject?.faultingState)")
                         }
                     } else {
                         if (error != nil) {
@@ -728,7 +730,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     }
 
     public func getCountryISO() -> String {
-        var iso = realmObject.countryISO
+        var iso = realmObject?.countryISO
         if (iso == nil) {           
             iso = ""
         }
@@ -737,7 +739,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
     public func getDeparturesURL() -> String {
 
-        if  let url = self.realmObject.departuresURL {
+        if  let url = self.realmObject?.departuresURL {
             return url
         }
 
