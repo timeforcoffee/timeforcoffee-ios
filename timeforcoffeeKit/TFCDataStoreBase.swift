@@ -51,6 +51,9 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
     }
 
     func objectForKey(forKey: String) -> AnyObject? {
+        if let value = self.keyvaluestore?.objectForKey(forKey) {
+            return value
+        }
         return userDefaults?.objectForKey(forKey)
     }
 
