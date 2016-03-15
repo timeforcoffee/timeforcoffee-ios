@@ -173,5 +173,11 @@ public class TFCDeparturePass: NSObject {
         return scheduled
     }
 
+    public func getRealDepartureDateAsShortDate() -> String? {
+        if let date = getRealDepartureDate() {
+            return getShortDate(date)
+        }
+        return nil
+    }
 
 }

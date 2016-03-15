@@ -1,35 +1,114 @@
 
-
-/* Class = "UILabel"; text = "Release to view"; ObjectID = "5pC-0t-4Bu"; */
-"5pC-0t-4Bu.text" = "Release to view";
-
-/* Class = "UILabel"; text = "Release to view"; ObjectID = "cgy-fE-O9r"; */
-"cgy-fE-O9r.text" = "Release to view";
-
-/* Class = "UIButton"; normalTitle = "Close"; ObjectID = "67I-cf-lcA"; */
-"67I-cf-lcA.normalTitle" = "Schliessen";
-
-/* Class = "UISegmentedControl"; VXL-uK-o9G.segmentTitles[0] = "All"; ObjectID = "VXL-uK-o9G"; */
-"VXL-uK-o9G.segmentTitles[0]" = "Alle";
-
-/* Class = "UISegmentedControl"; VXL-uK-o9G.segmentTitles[1] = "Favourites"; ObjectID = "VXL-uK-o9G"; */
-"VXL-uK-o9G.segmentTitles[1]" = "Favoriten";
-
-
-/* Class = "UIButton"; normalTitle = "Help / Chat with us!"; ObjectID = "dYu-XS-w9t"; */
-"dYu-XS-w9t.normalTitle" = "Help / Chat mit uns!";
-
-/* Class = "UIButton"; normalTitle = "Close"; ObjectID = "g1K-Z1-pZl"; */
-"g1K-Z1-pZl.normalTitle" = "Schliessen";
-
 /* Class = "UITextField"; text = "Settings"; ObjectID = "0tK-ea-YGt"; */
 "0tK-ea-YGt.text" = "Settings";
+
+/* Class = "UILabel"; text = "StationLabel"; ObjectID = "16i-Rp-bDP"; */
+"16i-Rp-bDP.text" = "StationLabel";
 
 /* Class = "UITextView"; text = "Search radius for Favourites:"; ObjectID = "1WW-X2-xCT"; */
 "1WW-X2-xCT.text" = "Search radius for Favourites:";
 
-/* Class = "UITextView"; text = "Show Real Time besides in departures times"; ObjectID = "rL3-sl-2ji"; */
-"rL3-sl-2ji.text" = "Show Real Time besides in departures times";
+/* Class = "UILabel"; text = "13"; ObjectID = "1jx-HP-fcA"; */
+"1jx-HP-fcA.text" = "13";
+
+/* Class = "UILabel"; text = "Zürich, Schaffhauserplatz"; ObjectID = "37z-MA-FFU"; */
+"37z-MA-FFU.text" = "Zürich, Schaffhauserplatz";
+
+/* Class = "UILabel"; text = "13"; ObjectID = "3U4-XZ-Tqn"; */
+"3U4-XZ-Tqn.text" = "13";
+
+/* Class = "UITextView"; text = "          6"; ObjectID = "3o2-0v-jqC"; */
+"3o2-0v-jqC.text" = "          6";
+
+/* Class = "UILabel"; text = "Zürich, Schaffhauserplatz"; ObjectID = "4hK-vg-xwR"; */
+"4hK-vg-xwR.text" = "Zürich, Schaffhauserplatz";
+
+/* Class = "UILabel"; text = "Release to view"; ObjectID = "5pC-0t-4Bu"; */
+"5pC-0t-4Bu.text" = "Release to view";
+
+/* Class = "UIButton"; normalTitle = "Schliessen"; ObjectID = "67I-cf-lcA"; */
+"67I-cf-lcA.normalTitle" = "Schliessen";
+
+/* Class = "UIButton"; accessibilityLabel = "Back"; ObjectID = "9Fs-Ud-UXk"; */
+"9Fs-Ud-UXk.accessibilityLabel" = "Back";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "Aa9-U5-OSi"; */
+"Aa9-U5-OSi.text" = "Label";
+
+/* Class = "UINavigationItem"; title = "Time for Coffee!"; ObjectID = "DoY-VV-6lS"; */
+"DoY-VV-6lS.title" = "Time for Coffee!";
+
+/* Class = "UILabel"; text = "534 m / 5 min"; ObjectID = "G4Z-yb-SMS"; */
+"G4Z-yb-SMS.text" = "534 m / 5 min";
+
+/* Class = "UINavigationItem"; title = "Time for Coffee"; ObjectID = "Jqp-rv-LzH"; */
+"Jqp-rv-LzH.title" = "Time for Coffee";
+
+/* Class = "UINavigationItem"; title = "Time for Coffee!"; ObjectID = "QUA-Va-TaC"; */
+"QUA-Va-TaC.title" = "Time for Coffee!";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "Sln-mq-zsw"; */
+"Sln-mq-zsw.text" = "Label";
+
+/* Class = "UISegmentedControl"; VXL-uK-o9G.segmentTitles[0] = "Alle"; ObjectID = "VXL-uK-o9G"; */
+"VXL-uK-o9G.segmentTitles[0]" = "Alle";
+
+/* Class = "UISegmentedControl"; VXL-uK-o9G.segmentTitles[1] = "Favoriten"; ObjectID = "VXL-uK-o9G"; */
+"VXL-uK-o9G.segmentTitles[1]" = "Favoriten";
+
+/* Class = "UILabel"; text = "Time for Coffee"; ObjectID = "WUH-1o-DDL"; */
+"WUH-1o-DDL.text" = "Time for Coffee";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "baO-aT-Mfz"; */
+"baO-aT-Mfz.text" = "Label";
+
+/* Class = "UILabel"; text = "534 m / 5 min"; ObjectID = "bfK-DB-7hf"; */
+"bfK-DB-7hf.text" = "534 m / 5 min";
+
+/* Class = "UILabel"; text = "Release to view"; ObjectID = "cgy-fE-O9r"; */
+"cgy-fE-O9r.text" = "Release to view";
+
+/* Class = "UIButton"; normalTitle = "Help / Chat mit uns!"; ObjectID = "dYu-XS-w9t"; */
+"dYu-XS-w9t.normalTitle" = "Help / Chat mit uns!";
 
 /* Class = "UITextView"; text = "Number of Departures / Stations in Today View:"; ObjectID = "ddG-sf-Sti"; */
 "ddG-sf-Sti.text" = "Number of Departures / Stations in Today View:";
+
+/* Class = "UIButton"; normalTitle = "Schliessen"; ObjectID = "g1K-Z1-pZl"; */
+"g1K-Z1-pZl.normalTitle" = "Schliessen";
+
+/* Class = "UINavigationItem"; title = "Time for Coffee"; ObjectID = "gHS-nq-amb"; */
+"gHS-nq-amb.title" = "Time for Coffee";
+
+/* Class = "UITextView"; text = "          6"; ObjectID = "hVt-ir-et7"; */
+"hVt-ir-et7.text" = "          6";
+
+/* Class = "UIButton"; accessibilityHint = "Favourite this station"; ObjectID = "nm9-vv-oCK"; */
+"nm9-vv-oCK.accessibilityHint" = "Favourite this station";
+
+/* Class = "UIButton"; accessibilityLabel = "Favourite"; ObjectID = "nm9-vv-oCK"; */
+"nm9-vv-oCK.accessibilityLabel" = "Favourite";
+
+/* Class = "UIButton"; normalTitle = "☆"; ObjectID = "nm9-vv-oCK"; */
+"nm9-vv-oCK.normalTitle" = "☆";
+
+/* Class = "UIButton"; accessibilityHint = "Back to stations overview"; ObjectID = "o3U-mY-SIS"; */
+"o3U-mY-SIS.accessibilityHint" = "Back to stations overview";
+
+/* Class = "UIButton"; accessibilityLabel = "Back"; ObjectID = "o3U-mY-SIS"; */
+"o3U-mY-SIS.accessibilityLabel" = "Back";
+
+/* Class = "UITextView"; text = "Show Real Time besides in departures times"; ObjectID = "rL3-sl-2ji"; */
+"rL3-sl-2ji.text" = "Show Real Time info in departures times";
+
+/* Class = "UIButton"; accessibilityHint = "Favourite this connection"; ObjectID = "yQn-8J-V9g"; */
+"yQn-8J-V9g.accessibilityHint" = "Favourite this connection";
+
+/* Class = "UIButton"; accessibilityLabel = "Favourite"; ObjectID = "yQn-8J-V9g"; */
+"yQn-8J-V9g.accessibilityLabel" = "Favourite";
+
+/* Class = "UIButton"; normalTitle = "☆"; ObjectID = "yQn-8J-V9g"; */
+"yQn-8J-V9g.normalTitle" = "☆";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "zof-A8-cQg"; */
+"zof-A8-cQg.text" = "Label";

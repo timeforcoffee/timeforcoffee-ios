@@ -361,6 +361,16 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
                 self.appsTableView?.reloadData()
             }
 
+            if let minutes = departure.getMinutesAsInt(), time = departure.getRealDepartureDateAsShortDate() {
+
+                var access = "\(departure.getLine()) \(departure.getDestination(station, unabridged: false)) in \(minutes) minutes."
+                if let platform = departure.platform {
+                    access += "On platform \(platform). "
+                }
+                access += "At \(time)."
+
+                cell.accessibilityLabel = access
+            }
         }
         return cell
     }

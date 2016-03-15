@@ -52,6 +52,9 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         let aboutButton = UIBarButtonItem(title: "☕︎", style: UIBarButtonItemStyle.Plain, target: self, action: "aboutClicked:")
         aboutButton.image = UIImage(named: "icon-coffee")
         aboutButton.tintColor = UIColor(netHexString: "555555")
+        aboutButton.accessibilityLabel = "About"
+        aboutButton.accessibilityHint = "Help and chat with us"
+
         let font = UIFont.systemFontOfSize(30)
         let buttonAttr = [NSFontAttributeName: font]
         aboutButton.setTitleTextAttributes(buttonAttr, forState: UIControlState.Normal)
@@ -153,8 +156,9 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         titlePageControl.pageIndicatorTintColor = UIColor.grayColor()
         titlePageControl.transform = CGAffineTransformScale(titlePageControl.transform, 0.75, 0.75)
         titlePageControl.userInteractionEnabled = false
+        titlePageControl.isAccessibilityElement = false
         titleView.addSubview(titlePageControl)
-        
+
 
         self.navigationItem.titleView = titleView
 
@@ -241,7 +245,8 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
 
         searchButton.image = UIImage(named: "icon-search")
         searchButton.tintColor = UIColor(netHexString: "555555")
-
+        searchButton.accessibilityLabel = "Search"
+        searchButton.accessibilityHint = "for Stations"
         self.navigationItem.rightBarButtonItem = searchButton
     }
     
