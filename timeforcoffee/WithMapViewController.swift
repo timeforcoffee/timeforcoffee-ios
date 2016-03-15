@@ -44,6 +44,9 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
     @IBOutlet weak var mapView: MKMapView!
 
     override func viewWillAppear(animated: Bool) {
+        if (UIAccessibilityIsVoiceOverRunning()) {
+            self.mapView.hidden = true
+        }
         if (self.mapOnBottom) {
             self.mapView.showsUserLocation = true
         }

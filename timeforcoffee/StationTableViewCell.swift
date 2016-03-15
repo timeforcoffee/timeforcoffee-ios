@@ -53,7 +53,7 @@ final class StationTableViewCell: UITableViewCell {
         self.selectionStyle = UITableViewCellSelectionStyle.None;
         drawIcon()
         StationNameLabel?.text = station.getName(false)
-
+        StationNameLabel.accessibilityLabel = station.getName(true)
         if ( TFCLocationManager.getCurrentLocation() == nil) {
             StationDescriptionLabel.text = ""
             return
@@ -71,6 +71,7 @@ final class StationTableViewCell: UITableViewCell {
         StationFavoriteButton.setImage(station.getIcon(), forState: UIControlState.Normal)
         StationIconView.transform = CGAffineTransformMakeScale(1, 1);
         StationIconView.alpha = 1.0
+        StationFavoriteButton.isAccessibilityElement = false
 
     }
 

@@ -35,3 +35,32 @@ Loading = "Chargement ...";
 "Arr" = "Arr";
 
 "Dep" = "Dép";
+
+"Platform" = "Voie";
+
+"%@ %@ in %d minutes. %@ At %@" = "%@ %@ dans %d minutes. %@ À %@";
+
+"Favourite Station?" = "Station préférée?";
+
+"Double-Tap for favouriting this station" = "Double-Tap pour préférée cette station";
+
+"Double-Tap for unfavouriting this station" = "Double-Tap pour non préférée cette station";
+
+"Favourite Connection?" = "Connexion préférée?";
+
+"Double-Tap for favouriting this connection" = "Double-Tap pour préférée cette connexion";
+
+"Double-Tap for unfavouriting this connection" =  "Double-Tap pour non préférée cette connexion";
+
+"Yes" = "Ou";
+
+"No" = "Non";
+
+"About" = "à propos de cette appli";
+
+"Help and chat with us" = "Aide et discuter avec nous";
+
+"Search" = "Chercher";
+
+"for Stations" = "recherche de stations";
+

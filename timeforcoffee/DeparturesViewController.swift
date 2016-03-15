@@ -92,8 +92,15 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
         favButton.addTarget(self, action: "favoriteClicked:", forControlEvents: UIControlEvents.TouchUpInside)
         stationIconButton.addTarget(self, action: "favoriteClicked:", forControlEvents: UIControlEvents.TouchUpInside)
 
+        favButton.accessibilityLabel = NSLocalizedString("Favourite Station?", comment: "Favourite Station?")
+
         if (station?.isFavorite() == true) {
             favButton.setTitle("★", forState: UIControlState.Normal)
+            favButton.accessibilityHint = NSLocalizedString("Double-Tap for favouriting this station", comment: "Double-Tap for favouriting this station")
+            favButton.accessibilityValue = NSLocalizedString("Yes", comment: "Yes")
+        } else {
+            favButton.accessibilityValue = NSLocalizedString("No", comment: "No")
+            favButton.accessibilityHint = NSLocalizedString("Double-Tap for favouriting this station", comment: "Double-Tap for favouriting this station")
         }
         self.stationIconView.layer.cornerRadius = self.stationIconView.frame.width / 2
         //        self.stationIconImage.image = station?.getIcon()
@@ -364,11 +371,14 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
             if let minutes = departure.getMinutesAsInt(), time = departure.getRealDepartureDateAsShortDate() {
 
                 var access = "\(departure.getLine()) \(departure.getDestination(station, unabridged: false)) in \(minutes) minutes."
-                if let platform = departure.platform {
-                    access += "On platform \(platform). "
-                }
-                access += "At \(time)."
+                var platformStr = ""
 
+                if let platform = departure.platform {
+                    platformStr = NSLocalizedString("Platform", comment: "On platform") + " " + platform
+                }
+                access = String.localizedStringWithFormat(
+                    NSLocalizedString("%@ %@ in %d minutes. %@ At %@",
+                        comment: "Accessibilty Departure"), departure.getLine(), departure.getDestination(station, unabridged: false), minutes, platformStr, time)
                 cell.accessibilityLabel = access
             }
         }

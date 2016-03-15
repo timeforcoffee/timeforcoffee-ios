@@ -30,7 +30,7 @@
 "67I-cf-lcA.normalTitle" = "Fermer";
 
 /* Class = "UIButton"; accessibilityLabel = "Back"; ObjectID = "9Fs-Ud-UXk"; */
-"9Fs-Ud-UXk.accessibilityLabel" = "Back";
+"9Fs-Ud-UXk.accessibilityLabel" = "Retour";
 
 /* Class = "UILabel"; text = "Label"; ObjectID = "Aa9-U5-OSi"; */
 "Aa9-U5-OSi.text" = "Label";
@@ -84,7 +84,7 @@
 "hVt-ir-et7.text" = "          6";
 
 /* Class = "UIButton"; accessibilityHint = "Favourite this station"; ObjectID = "nm9-vv-oCK"; */
-"nm9-vv-oCK.accessibilityHint" = "Favourite this station";
+"nm9-vv-oCK.accessibilityHint" = "Favourite cette station";
 
 /* Class = "UIButton"; accessibilityLabel = "Favourite"; ObjectID = "nm9-vv-oCK"; */
 "nm9-vv-oCK.accessibilityLabel" = "Favourite";
@@ -93,16 +93,16 @@
 "nm9-vv-oCK.normalTitle" = "☆";
 
 /* Class = "UIButton"; accessibilityHint = "Back to stations overview"; ObjectID = "o3U-mY-SIS"; */
-"o3U-mY-SIS.accessibilityHint" = "Back to stations overview";
+"o3U-mY-SIS.accessibilityHint" = "Retour aux stations aperçu";
 
 /* Class = "UIButton"; accessibilityLabel = "Back"; ObjectID = "o3U-mY-SIS"; */
-"o3U-mY-SIS.accessibilityLabel" = "Back";
+"o3U-mY-SIS.accessibilityLabel" = "Retour";
 
 /* Class = "UITextView"; text = "Affiche l'heure de départ réelle à côté de l'heure de départ prévue"; ObjectID = "rL3-sl-2ji"; */
 "rL3-sl-2ji.text" = "Affiche l'heure de départ réelle à côté de l'heure de départ prévue";
 
 /* Class = "UIButton"; accessibilityHint = "Favourite this connection"; ObjectID = "yQn-8J-V9g"; */
-"yQn-8J-V9g.accessibilityHint" = "Favourite this connection";
+"yQn-8J-V9g.accessibilityHint" = "Favourite cette connexion";
 
 /* Class = "UIButton"; accessibilityLabel = "Favourite"; ObjectID = "yQn-8J-V9g"; */
 "yQn-8J-V9g.accessibilityLabel" = "Favourite";

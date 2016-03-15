@@ -30,7 +30,7 @@
 "67I-cf-lcA.normalTitle" = "Schliessen";
 
 /* Class = "UIButton"; accessibilityLabel = "Back"; ObjectID = "9Fs-Ud-UXk"; */
-"9Fs-Ud-UXk.accessibilityLabel" = "Back";
+"9Fs-Ud-UXk.accessibilityLabel" = "Zurück";
 
 /* Class = "UILabel"; text = "Label"; ObjectID = "Aa9-U5-OSi"; */
 "Aa9-U5-OSi.text" = "Label";
@@ -96,7 +96,7 @@
 "o3U-mY-SIS.accessibilityHint" = "Back to stations overview";
 
 /* Class = "UIButton"; accessibilityLabel = "Back"; ObjectID = "o3U-mY-SIS"; */
-"o3U-mY-SIS.accessibilityLabel" = "Back";
+"o3U-mY-SIS.accessibilityLabel" = "Zurück";
 
 /* Class = "UITextView"; text = "Show Real Time besides in departures times"; ObjectID = "rL3-sl-2ji"; */
 "rL3-sl-2ji.text" = "Show Real Time info in departures times";
@@ -112,3 +112,4 @@
 
 /* Class = "UILabel"; text = "Label"; ObjectID = "zof-A8-cQg"; */
 "zof-A8-cQg.text" = "Label";
+
