@@ -190,6 +190,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         super.viewWillAppear(animated)
         DLog("viewWillAppear")
 
+        TFCDataStore.sharedInstance.synchronize()
         //sometimes strange things happen with the calculated width
         // just fix it here, and it should stay...
         ContainerViewTrailingConstraint?.active = false
