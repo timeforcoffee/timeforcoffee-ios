@@ -76,27 +76,34 @@ public class TFCStation: TFCStationBase {
         }
         let directDistance = getDistanceInMeter(location)
         var distanceString: String? = ""
-        if (directDistance > 5000) {
-            let km = Int(round(Double(directDistance!) / 1000))
-            distanceString = "\(km) Kilometer"
-            completion(distanceString)
-        } else {
-            // calculate exact distance
-            //check if one is in the cache
-            distanceString = getLastValidWalkingDistanceValid(location)
-            if (distanceString == nil) {
-                distanceString = "\(directDistance!) Meter"
-                self.getWalkingDistance(location, completion: completion)
-            } else {
+        if let directDistance = directDistance {
+            if (directDistance > 5000) {
+                let km = Int(round(Double(directDistance) / 1000))
+                distanceString = "\(km) Kilometer"
                 completion(distanceString)
+            } else {
+                // calculate exact distance
+                //check if one is in the cache
+                distanceString = getLastValidWalkingDistanceValid(location)
+                if (distanceString == nil) {
+                    distanceString = "\(directDistance) Meter"
+                    self.getWalkingDistance(location, completion: completion)
+                } else {
+                    completion(distanceString)
+                }
             }
         }
-        return distanceString!
-
+        if let distanceString = distanceString {
+            return distanceString
+        }
+        return ""
     }
 
     public func getDistanceInMeter(location: CLLocation?) -> Int? {
-        return Int(location?.distanceFromLocation(coord!) as Double!)
+        if let coord = coord , distance = location?.distanceFromLocation(coord) {
+            return Int(distance as Double)
+        }
+        return nil
     }
 
     private func getLastValidWalkingDistanceValid(location: CLLocation?) -> String? {

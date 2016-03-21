@@ -453,27 +453,27 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             }
             return cell
         }
-        cell.textLabel!.text = nil
-        let departure: TFCDeparture = departures![indexPath.row]
-        var unabridged = false
-        if (UIDeviceOrientationIsLandscape(UIDevice.currentDevice().orientation)) {
-            unabridged = true
-        }
-        destinationLabel.text = departure.getDestination(station, unabridged: unabridged)
+        cell.textLabel?.text = nil
+        if let departure: TFCDeparture = departures?[indexPath.row] {
+            var unabridged = false
+            if (UIDeviceOrientationIsLandscape(UIDevice.currentDevice().orientation)) {
+                unabridged = true
+            }
+            destinationLabel.text = departure.getDestination(station, unabridged: unabridged)
 
-        let (departureTimeAttr, departureTimeString) = departure.getDepartureTime()
-        if (departureTimeAttr != nil) {
-            departureLabel.text = nil
-            departureLabel.attributedText = departureTimeAttr
-        } else {
-            departureLabel.attributedText = nil
-            departureLabel.text = departureTimeString
-        }
+            let (departureTimeAttr, departureTimeString) = departure.getDepartureTime()
+            if (departureTimeAttr != nil) {
+                departureLabel.text = nil
+                departureLabel.attributedText = departureTimeAttr
+            } else {
+                departureLabel.attributedText = nil
+                departureLabel.text = departureTimeString
+            }
 
-        minutesLabel.text = departure.getMinutes()
-        lineNumberLabel.hidden = false
-        lineNumberLabel.setStyle("dark", departure: departure)
-        
+            minutesLabel.text = departure.getMinutes()
+            lineNumberLabel.hidden = false
+            lineNumberLabel.setStyle("dark", departure: departure)
+        }
         return cell
     }
 
@@ -495,7 +495,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     
     func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?) {
         if (showStations) {
-            self.appsTableView!.reloadData()
+            self.appsTableView?.reloadData()
         } else {
             if (forStation?.st_id == currentStation?.st_id) {
                 if (error != nil) {
@@ -503,7 +503,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                 } else {
                     self.networkErrorMsg = nil
                 }
-                self.appsTableView!.reloadData()
+                self.appsTableView?.reloadData()
             }
         }
     }
@@ -550,7 +550,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     private func sendScreenNameToGA(screenname: String) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
             self.gtracker.set(kGAIScreenName, value: screenname)
-            self.gtracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject]!)
+            self.gtracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
         }
     }
 

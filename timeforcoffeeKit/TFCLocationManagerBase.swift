@@ -102,7 +102,7 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
                         // random location in zurich
                         // currentLocation = CLLocation(latitude: 47.33 + (Double(arc4random_uniform(100)) / 1000.0), longitude: 8.5 + (Double(arc4random_uniform(100)) / 1000.0))
                         self.locationManager.stopUpdatingLocation()
-                        if (classvar.currentPlacemark == nil || classvar.currentPlacemark?.location?.distanceFromLocation(self.currentLocation!) > 1000) {
+                        if (classvar.currentPlacemark == nil || classvar.currentPlacemark?.location?.distanceFromLocation(self.currentLocation?) > 1000) {
                             self.updateGeocodedPlacemark()
                         }
 
@@ -121,11 +121,11 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
             if (self.currentLocation == nil || self.locationFixAchieved == false) {
                 self.locationFixAchieved = true
                 let locationArray = locations as NSArray
-                let locationObj = locationArray.lastObject as! CLLocation
+                let locationObj = locationArray.lastObject as? CLLocation
                 self.currentLocation = locationObj;
                 //random location, sometimes needed for testing ...
                 //self.currentLocation = CLLocation(latitude: 47.33 + (Double(arc4random_uniform(100)) / 1000.0), longitude: 8.5 + (Double(arc4random_uniform(100)) / 1000.0))
-                if (classvar.currentPlacemark == nil || classvar.currentPlacemark?.location?.distanceFromLocation(self.currentLocation!) > 2000) {
+                if (classvar.currentPlacemark == nil || (self.currentLocation != nil && classvar.currentPlacemark?.location?.distanceFromLocation(self.currentLocation!) > 2000)) {
                     self.updateGeocodedPlacemark()
                 }
                 self.delegate?.locationFixed(self.currentLocation)
@@ -178,9 +178,11 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
 
     public func updateGeocodedPlacemark() {
         let geocoder = CLGeocoder()
-        geocoder.reverseGeocodeLocation(classvar.currentLocation!) { (places:[CLPlacemark]?, error:NSError?) -> Void in
-            if let place = places?.first {
-                classvar.currentPlacemark = place
+        if let currentLoc = classvar.currentLocation {
+            geocoder.reverseGeocodeLocation(currentLoc) { (places:[CLPlacemark]?, error:NSError?) -> Void in
+                if let place = places?.first {
+                    classvar.currentPlacemark = place
+                }
             }
         }
     }
