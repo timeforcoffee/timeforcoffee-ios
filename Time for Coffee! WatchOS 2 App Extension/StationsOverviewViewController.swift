@@ -117,7 +117,7 @@ class StationsOverviewViewController: WKInterfaceController {
                     }
                     var i = 0;
                     for (station) in ctxStations {
-                        if let sr = stationsTable.rowControllerAtIndex(i) as! StationsRow? {
+                        if let sr = stationsTable.rowControllerAtIndex(i) as? StationsRow {
                             sr.drawCell(station)
                         }
                         i += 1
@@ -135,8 +135,8 @@ class StationsOverviewViewController: WKInterfaceController {
     }
 
     override func table(table: WKInterfaceTable, didSelectRowAtIndex rowIndex: Int) {
-        let row = table.rowControllerAtIndex(rowIndex) as! StationsRow
-        if let station = row.station {
+        let row = table.rowControllerAtIndex(rowIndex) as? StationsRow
+        if let station = row?.station {
             NSNotificationCenter.defaultCenter().postNotificationName("TFCWatchkitSelectStation", object: nil, userInfo: ["st_id": station.st_id, "name": station.name])
         }
         

@@ -27,13 +27,11 @@ class StationRow: NSObject {
         /* let helvetica = UIFont(name: "HelveticaNeue-Bold", size: 18.0)!
         var fontAttrs = [NSFontAttributeName : helvetica]
         var attrString = NSAttributedString(string: name, attributes: fontAttrs)*/
-        if (departure.colorBg != nil) {
-            if let group = self.numberGroup {
-                group.setBackgroundColor(UIColor(netHexString:(departure.colorBg)!))
-            }
-            if let label = self.numberLabel {
-                label.setTextColor(UIColor(netHexString:(departure.colorFg)!))
-            }
+        if let group = self.numberGroup, bg = departure.colorBg {
+            group.setBackgroundColor(UIColor(netHexString:bg))
+        }
+        if let label = self.numberLabel, fg = departure.colorFg {
+            label.setTextColor(UIColor(netHexString:fg))
         }
         if let numberLabel = self.numberLabel {
             numberLabel.setText(name)

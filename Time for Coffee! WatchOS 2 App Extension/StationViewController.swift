@@ -58,9 +58,10 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
           //  getStation()
 
         } else {
-            let c = context as! TFCPageContext
-            self.station = c.station
-            self.pageNumber = c.pageNumber
+            if let c = context as? TFCPageContext {
+                self.station = c.station
+                self.pageNumber = c.pageNumber
+            }
         }
 
     }
@@ -100,8 +101,8 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             infoGroup.setHidden(true)
             if let station = stations?[0] {
                 var station2 = station
-                if let uA = self.userActivity {
-                    station2 = TFCStation.initWithCache(uA["name"]!, id: uA["st_id"]!, coord: nil)
+                if let uA = self.userActivity, name = uA["name"], st_id = uA["st_id"]{
+                    station2 = TFCStation.initWithCache(name, id: st_id, coord: nil)
                     self.userActivity = nil
                 }
                 if (self.station?.st_id != station2.st_id) {
@@ -231,8 +232,8 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
                     continue
                 }
                 returnValue = true
-                if let sr = stationsTable.rowControllerAtIndex(i) as! StationRow? {
-                    sr.drawCell(deptstation, station: station!)
+                if let sr = stationsTable.rowControllerAtIndex(i) as? StationRow, station = station {
+                    sr.drawCell(deptstation, station: station)
                 }
                 i += 1
             }

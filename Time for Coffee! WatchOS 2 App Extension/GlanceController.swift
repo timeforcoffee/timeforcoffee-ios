@@ -39,37 +39,42 @@ class GlanceController: WKInterfaceController {
         super.willActivate()
         func handleReply(stations: TFCStations?) {
             infoGroup.setHidden(true)
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-                for (station) in stations! {
-                    station.updateDepartures(nil)
-                    let departures = station.getFilteredDepartures()
-                    if(departures?.count > 0) {
-                        var i = 0
-                        let stationName = station.getName(true)
-                        self.stationLabel.setText(stationName)
-                        if (stationName != self.stationName) {
-                            self.stationName = stationName
-                            self.stationsTable.setNumberOfRows(3, withRowType: "station")
-                        }
-                        for (departure) in departures! {
-                            if let sr = self.stationsTable.rowControllerAtIndex(i) as! StationRow? {
-                                sr.drawCell(departure, station: station)
-                                i += 1
-                                if (i >= 3) {
-                                    break;
+
+            if let stations = stations {
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+                    for (station) in stations {
+                        station.updateDepartures(nil)
+                        let departures = station.getFilteredDepartures()
+                        if(departures?.count > 0) {
+                            var i = 0
+                            let stationName = station.getName(true)
+                            self.stationLabel.setText(stationName)
+                            if (stationName != self.stationName) {
+                                self.stationName = stationName
+                                self.stationsTable.setNumberOfRows(3, withRowType: "station")
+                            }
+                            if let departures = departures {
+                                for (departure) in departures {
+                                    if let sr = self.stationsTable.rowControllerAtIndex(i) as? StationRow {
+                                        sr.drawCell(departure, station: station)
+                                        i += 1
+                                        if (i >= 3) {
+                                            break;
+                                        }
+                                    }
                                 }
                             }
-                        }
-                        if (i < 3) {
-                            for j in i...2 {
-                                if let sr = self.stationsTable.rowControllerAtIndex(j) as! StationRow? {
-                                    sr.setHidden()
+                            if (i < 3) {
+                                for j in i...2 {
+                                    if let sr = self.stationsTable.rowControllerAtIndex(j) as? StationRow {
+                                        sr.setHidden()
+                                    }
                                 }
                             }
+                            self.updateUserActivity("ch.opendata.timeforcoffee.station", userInfo: ["name": station.name, "st_id": station.st_id], webpageURL: nil)
+                            self.watchdata.updateComplication(stations)
+                            break;
                         }
-                        self.updateUserActivity("ch.opendata.timeforcoffee.station", userInfo: ["name": station.name, "st_id": station.st_id], webpageURL: nil)
-                        self.watchdata.updateComplication(stations!)
-                        break;
                     }
                 }
             }

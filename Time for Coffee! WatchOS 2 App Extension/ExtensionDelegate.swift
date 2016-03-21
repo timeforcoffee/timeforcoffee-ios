@@ -52,8 +52,10 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     }
 
     private func lastRequestForAllData() -> NSTimeInterval? {
-        let lastUpdate: NSDate? = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastRequestForAllData") as! NSDate?
-        return lastUpdate?.timeIntervalSinceNow
+        if let lastUpdate = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastRequestForAllData") as? NSDate { 
+            return lastUpdate.timeIntervalSinceNow
+        }
+        return nil
     }
 
     func handleUserActivity(userInfo: [NSObject : AnyObject]?) {
