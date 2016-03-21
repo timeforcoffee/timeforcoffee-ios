@@ -14,7 +14,7 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
     private var locationFixAchieved : Bool = false
     private var locationStatus : NSString = "Not Started"
     private var seenError : Bool = false
-    unowned var delegate: TFCLocationManagerDelegate
+    weak var delegate: TFCLocationManagerDelegate?
 
     public var currentLocation: CLLocation? {
         get {
@@ -86,7 +86,7 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
                 #if !((arch(i386) || arch(x86_64)) && (os(iOS) || os(watchOS)))
                     if (error.code == CLError.LocationUnknown.rawValue) {
                         DLog("LocationManager LocationUnknown")
-                        self.delegate.locationStillTrying(manager, err: error)
+                        self.delegate?.locationStillTrying(manager, err: error)
                         return
                     }
                 #endif
@@ -109,7 +109,7 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
                         self.delegate.locationFixed(self.currentLocation)
                         //self.delegate.locationDenied(manager)
                     #else
-                        self.delegate.locationDenied(manager, err: error)
+                        self.delegate?.locationDenied(manager, err: error)
                     #endif
 
                 }
@@ -128,9 +128,9 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
                 if (classvar.currentPlacemark == nil || classvar.currentPlacemark?.location?.distanceFromLocation(self.currentLocation!) > 2000) {
                     self.updateGeocodedPlacemark()
                 }
-                self.delegate.locationFixed(self.currentLocation)
+                self.delegate?.locationFixed(self.currentLocation)
             } else {
-                self.delegate.locationFixed(nil)
+                self.delegate?.locationFixed(nil)
             }
             self.locationManager.stopUpdatingLocation()
         })
