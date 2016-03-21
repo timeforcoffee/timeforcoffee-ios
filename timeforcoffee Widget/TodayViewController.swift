@@ -17,8 +17,6 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var appsTableView: UITableView!
     @IBOutlet weak var actionLabel: UIButton!
-    let kCellIdentifier: String = "SearchResultCellWidget"
-
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var ContainerViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var ContainerViewWidthConstraint: NSLayoutConstraint!
@@ -390,9 +388,9 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell: UITableViewCell
         if (showStations) {
-            cell = tableView.dequeueReusableCellWithIdentifier("NearbyStationsCell") as! NearbyStationsTableViewCell
+            cell = tableView.dequeueReusableCellWithIdentifier("NearbyStationsCell", forIndexPath: indexPath)
         } else {
-            cell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as UITableViewCell!
+            cell = tableView.dequeueReusableCellWithIdentifier("SearchResultCellWidget", forIndexPath: indexPath)
         }
         cell.layoutMargins = UIEdgeInsetsZero
         cell.preservesSuperviewLayoutMargins = false
@@ -423,9 +421,10 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
             let station = self.stations?.getStation(indexPath.row)
             station?.updateDepartures(self)
-            let cellinstance = cell as! NearbyStationsTableViewCell
-            cellinstance.station = station
-            cellinstance.drawCell()
+            if let cellinstance = cell as? NearbyStationsTableViewCell {
+                cellinstance.station = station
+                cellinstance.drawCell()
+            }
             return cell
         }
         let station = currentStation
