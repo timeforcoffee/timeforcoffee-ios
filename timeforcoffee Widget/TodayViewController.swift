@@ -420,7 +420,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             }
 
             let station = self.stations?.getStation(indexPath.row)
-            station?.updateDepartures(self)
+            station?.updateDepartures(self, context: ["indexPath": indexPath])
             if let cellinstance = cell as? NearbyStationsTableViewCell {
                 cellinstance.station = station
                 cellinstance.drawCell()
@@ -495,7 +495,11 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     
     func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?) {
         if (showStations) {
-            self.appsTableView?.reloadData()
+            if let context2 = context as? [String: NSIndexPath], indexPath = context2["indexPath"] {
+                self.appsTableView?.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+            } else {
+                self.appsTableView?.reloadData()
+            }
         } else {
             if (forStation?.st_id == currentStation?.st_id) {
                 if (error != nil) {
