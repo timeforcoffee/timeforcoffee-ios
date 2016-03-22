@@ -69,7 +69,7 @@ final class APIController {
         self.fetchUrl(urlPath, fetchId: 3, context: context, cacheKey: nil)
     }
 
-    func getStationInfo(id: String!) -> JSON? {
+    func getStationInfo(id: String) -> JSON? {
         let urlPath = "http://transport.opendata.ch/v1/locations?query=\(id)"
         let cacheKey = "stationsinfo/\(id)"
         return self.fetchUrlSync(urlPath, cacheKey: cacheKey)
@@ -122,14 +122,14 @@ final class APIController {
                         }
 
                         let jsonResult:JSON
-                        if (data == nil) {
-                            jsonResult = JSON(NSNull())
-                        } else {
-                            jsonResult = JSON(data: data!)
+                        if let data = data {
+                            jsonResult = JSON(data: data)
                             //jsonResult.rawValue is NSNull, when data was not parseable. Don't cache it in that case
                             if (!(jsonResult.rawValue is NSNull) && error == nil && cacheKey != nil) {
-                                self.cache.setObject(data!, forKey: cacheKey!)
+                                self.cache.setObject(data, forKey: cacheKey!)
                             }
+                        } else {
+                            jsonResult = JSON(NSNull())
                         }
                         self.delegate?.didReceiveAPIResults(jsonResult, error: error, context: context)
                         
@@ -158,7 +158,8 @@ final class APIController {
             return result
         }
         let semaphore = dispatch_semaphore_create(0)
-        let url: NSURL = NSURL(string: urlPath)!
+        guard let url = NSURL(string: urlPath) else { return nil }
+
         let absUrl = url.absoluteString
         DLog("Start fetching sync data \(absUrl)")
         var jsonResult:JSON? = nil
@@ -169,14 +170,14 @@ final class APIController {
             if(error != nil) {
                 jsonResult = nil
             }
-            if (data == nil) {
-                jsonResult = JSON(NSNull())
-            } else {
-                jsonResult = JSON(data: data!)
+            if let data = data {
+                jsonResult = JSON(data: data)
                 //jsonResult.rawValue is NSNull, when data was not parseable. Don't cache it in that case
                 if (!(jsonResult!.rawValue is NSNull) && error == nil && cacheKey != nil) {
-                    self.cache.setObject(data!, forKey: cacheKey!)
+                    self.cache.setObject(data, forKey: cacheKey!)
                 }
+            } else {
+                jsonResult = JSON(NSNull())
             }
             dispatch_semaphore_signal(semaphore)
 
@@ -192,10 +193,9 @@ final class APIController {
     }
 
     private func getFromCache(cacheKey: String?) -> JSON? {
-        if (cacheKey != nil && self.cache.objectForKey(cacheKey!) as? NSData != nil) {
-            return JSON(data: self.cache.objectForKey(cacheKey!) as! NSData);
+        if let cacheKey = cacheKey, data = self.cache.objectForKey(cacheKey) as? NSData  {               return JSON(data: data)
         }
-        return nil;
+        return nil
     }
 }
 
