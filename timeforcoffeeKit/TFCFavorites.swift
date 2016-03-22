@@ -65,7 +65,7 @@ final public class TFCFavorites: NSObject {
             if (trimmed_id != st_id) {
                 DLog("Trim favourite ID \(st_id)")
                 st![trimmed_id] = st![st_id]
-                st![trimmed_id]!.st_id = trimmed_id
+                st![trimmed_id]?.st_id = trimmed_id
                 st!.removeValueForKey(st_id)
                 needsSave = true
             }
@@ -112,13 +112,9 @@ final public class TFCFavorites: NSObject {
     }
 
     func isFavorite(st_id: String?) -> Bool {
-        if let st_id = st_id {
-            if (self.stations[st_id] != nil) {
-                let res: Bool? = (self.stations[st_id]! as TFCStation).isFavorite()
-
-                if (res != nil || res == true) {
-                    return true
-                }
+        if let st_id = st_id, station = self.stations[st_id] {
+            if (station.isFavorite() == true) {
+                return true
             }
         }
         return false

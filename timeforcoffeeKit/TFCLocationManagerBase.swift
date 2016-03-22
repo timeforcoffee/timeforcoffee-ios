@@ -102,11 +102,11 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
                         // random location in zurich
                         // currentLocation = CLLocation(latitude: 47.33 + (Double(arc4random_uniform(100)) / 1000.0), longitude: 8.5 + (Double(arc4random_uniform(100)) / 1000.0))
                         self.locationManager.stopUpdatingLocation()
-                        if (classvar.currentPlacemark == nil || classvar.currentPlacemark?.location?.distanceFromLocation(self.currentLocation?) > 1000) {
+                        if (classvar.currentPlacemark == nil || classvar.currentPlacemark?.location?.distanceFromLocation(self.currentLocation!) > 1000) {
                             self.updateGeocodedPlacemark()
                         }
 
-                        self.delegate.locationFixed(self.currentLocation)
+                        self.delegate?.locationFixed(self.currentLocation)
                         //self.delegate.locationDenied(manager)
                     #else
                         self.delegate?.locationDenied(manager, err: error)
