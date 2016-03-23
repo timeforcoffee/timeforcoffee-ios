@@ -207,7 +207,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         let trimmed_id = id.replace("^0*", template: "")
         let cache: PINCache = TFCCache.objects.stations
         // try to find it in the cache
-        var newStation: TFCStation? = cache.objectForKey(trimmed_id) as? TFCStation
+        let newStation: TFCStation? = cache.objectForKey(trimmed_id) as? TFCStation
         //if not in the cache, or no coordinates set or the name is "unknown"
         if (newStation == nil || newStation?.coord == nil || newStation?.name == "unknown") {
             //if name is not set, we only have the id, try to get it from the DB or from a server
@@ -242,12 +242,12 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                     }
                 }
             }
-            newStation = TFCStation(name: name, id: trimmed_id, coord: coord)
+            let newStation2 = TFCStation(name: name, id: trimmed_id, coord: coord)
             //only cache it when name is != "" otherwise it comes
             // from something with only the id
-            if (name != "" && newStation?.st_id != "" && newStation?.coord != nil) {
-                    cache.setObject(newStation!, forKey: newStation!.st_id)
-                    newStation!.setStationSearchIndex()
+            if (name != "" && newStation2.st_id != "" && newStation2.coord != nil) {
+                    cache.setObject(newStation2, forKey: newStation2.st_id)
+                    newStation2.setStationSearchIndex()
             }
         } else {
             let countBefore = newStation!.departures?.count
