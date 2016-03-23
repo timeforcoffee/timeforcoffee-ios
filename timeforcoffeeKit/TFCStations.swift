@@ -251,15 +251,7 @@ public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelega
             callStationsUpdatedDelegate(TFCLocationManager.k.AirplaneMode)
     }
 
-    public func searchForStationsInDB(coord: CLLocationCoordinate2D) {
-        searchForStationsInDB(coord, distance: 1500.0, context: nil)
-    }
-
-    public func searchForStationsInDB(coord: CLLocationCoordinate2D, context: Any?) {
-        searchForStationsInDB(coord, distance: 1500.0, context: context)
-    }
-
-    public func searchForStationsInDB(coord: CLLocationCoordinate2D, distance: Double, context: Any?) {
+    public func searchForStationsInDB(coord: CLLocationCoordinate2D, distance: Double = 1500.0, context: Any? = nil) {
 
         var err:String?
 
