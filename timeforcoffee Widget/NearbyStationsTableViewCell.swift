@@ -32,7 +32,8 @@ final class NearbyStationsTableViewCell: UITableViewCell {
 
 
     func drawCell() {
-        self.selectionStyle = UITableViewCellSelectionStyle.None;
+        self.selectionStyle = UITableViewCellSelectionStyle.None
+        station?.removeObsoleteDepartures()
         drawIcon()
         let departures = station?.getFilteredDepartures(1)
         let firstDeparture = departures?.first

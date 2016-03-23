@@ -495,8 +495,15 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     
     func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?) {
         if (showStations) {
-            if let context2 = context as? [String: NSIndexPath], indexPath = context2["indexPath"] {
-                self.appsTableView?.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+            if let context2 = context as? [String: NSIndexPath],
+                indexPath = context2["indexPath"],
+                cellinstance = self.appsTableView?.cellForRowAtIndexPath(indexPath) as? NearbyStationsTableViewCell {
+                //self.appsTableView?.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+                if (cellinstance.station?.st_id == forStation?.st_id) {
+                    cellinstance.drawCell()
+                } else {
+                    cellinstance.station?.updateDepartures(self)
+                }
             } else {
                 self.appsTableView?.reloadData()
             }
