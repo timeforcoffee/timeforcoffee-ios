@@ -249,6 +249,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                     cache.setObject(newStation2, forKey: newStation2.st_id)
                     newStation2.setStationSearchIndex()
             }
+            return newStation2
         } else {
             let countBefore = newStation!.departures?.count
             if (countBefore > 0) {
