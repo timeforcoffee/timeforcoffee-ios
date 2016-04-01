@@ -176,10 +176,10 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
 
     public func getDestination(station: TFCStation) -> String {
         let fullName = self.to
-        if (fullName.match(", ") && station.name.match(", ")) {
-            let destinationStationName = fullName.replace(".*, ", template: "")
-            let destinationCityName = fullName.replace(", .*", template: "")
-            let stationCityName = station.name.replace(", .*", template: "")
+        if (fullName.match(", *") && station.name.match(", *")) {
+            let destinationStationName = fullName.replace(".*, *", template: "")
+            let destinationCityName = fullName.replace(", *.*", template: "")
+            let stationCityName = station.name.replace(", *.*", template: "")
             if (stationCityName == destinationCityName) {
                 return destinationStationName
             }

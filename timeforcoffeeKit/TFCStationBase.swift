@@ -324,9 +324,9 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     }
     
     public func getName(cityAfter: Bool) -> String {
-        if (cityAfter && name.match(", ")) {
-            let stationName = name.replace(".*, ", template: "")
-            let cityName = name.replace(", .*", template: "")
+        if (cityAfter && name.match(", *")) {
+            let stationName = name.replace(".*, *", template: "")
+            let cityName = name.replace(", *.*", template: "")
             return "\(stationName) (\(cityName))"
         }
         return name
