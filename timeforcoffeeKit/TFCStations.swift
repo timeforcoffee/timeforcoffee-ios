@@ -12,7 +12,7 @@ import WatchConnectivity
 import CoreData
 import MapKit
 
-public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelegate, APIControllerProtocol {
+public final class TFCStations: NSObject, SequenceType, CollectionType, TFCLocationManagerDelegate, APIControllerProtocol {
 
     private weak var delegate: TFCStationsUpdatedProtocol?
 
@@ -373,6 +373,17 @@ public final class TFCStations: NSObject, SequenceType, TFCLocationManagerDelega
 
         return nil
 
+    }
+
+    public var startIndex: Int {
+        return 0
+    }
+
+    public var endIndex: Int {
+        if let count = stations?.count {
+            return count
+        }
+        return 0
     }
 
     public subscript(i: Int) -> TFCStation {

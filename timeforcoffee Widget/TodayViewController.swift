@@ -32,7 +32,10 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         return gtrack
     }()
 
-    lazy var stations: TFCStations? =  {return TFCStations(delegate: self, maxStations: 6)}()
+    lazy var stations: TFCStations? =  {
+        [unowned self] in
+        return TFCStations(delegate: self, maxStations: 6)
+    }()
 
     weak var currentStation: TFCStation?
 
