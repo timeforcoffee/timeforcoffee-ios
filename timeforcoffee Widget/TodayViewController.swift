@@ -457,25 +457,29 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             return cell
         }
         cell.textLabel?.text = nil
-        if let departure: TFCDeparture = departures?[indexPath.row] {
-            var unabridged = false
-            if (UIDeviceOrientationIsLandscape(UIDevice.currentDevice().orientation)) {
-                unabridged = true
-            }
-            destinationLabel.text = departure.getDestination(station, unabridged: unabridged)
+        if let departures = departures {
+            if (indexPath.row < departures.count) {
+                if let departure: TFCDeparture = departures[indexPath.row] {
+                    var unabridged = false
+                    if (UIDeviceOrientationIsLandscape(UIDevice.currentDevice().orientation)) {
+                        unabridged = true
+                    }
+                    destinationLabel.text = departure.getDestination(station, unabridged: unabridged)
 
-            let (departureTimeAttr, departureTimeString) = departure.getDepartureTime()
-            if (departureTimeAttr != nil) {
-                departureLabel.text = nil
-                departureLabel.attributedText = departureTimeAttr
-            } else {
-                departureLabel.attributedText = nil
-                departureLabel.text = departureTimeString
-            }
+                    let (departureTimeAttr, departureTimeString) = departure.getDepartureTime()
+                    if (departureTimeAttr != nil) {
+                        departureLabel.text = nil
+                        departureLabel.attributedText = departureTimeAttr
+                    } else {
+                        departureLabel.attributedText = nil
+                        departureLabel.text = departureTimeString
+                    }
 
-            minutesLabel.text = departure.getMinutes()
-            lineNumberLabel.hidden = false
-            lineNumberLabel.setStyle("dark", departure: departure)
+                    minutesLabel.text = departure.getMinutes()
+                    lineNumberLabel.hidden = false
+                    lineNumberLabel.setStyle("dark", departure: departure)
+                }
+            }
         }
         return cell
     }
