@@ -364,6 +364,7 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
             }
             lineNumberLabel.setStyle("normal", departure: departure)
             lineNumberLabel.linelabelClickedCallback = {
+                [unowned self] in
                 departure.toggleFavorite(station2)
                 self.appsTableView?.reloadData()
             }
