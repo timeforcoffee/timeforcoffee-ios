@@ -442,8 +442,8 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
         let img = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
 
-        UIImagePNGRepresentation(img)?.writeToFile(filePath, atomically: true)
-        return img;
+        UIImagePNGRepresentation(img!)?.writeToFile(filePath, atomically: true)
+        return img!;
     }
 
     override final func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {

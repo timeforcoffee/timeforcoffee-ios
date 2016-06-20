@@ -302,7 +302,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                 }
             }
             let filemanager = NSFileManager.defaultManager();
-            if (forceInstall || !filemanager.fileExistsAtPath(url.path!)) {
+            if (forceInstall || !filemanager.fileExistsAtPath(url!.path!)) {
 
                 let sourceSqliteURLs = [bundle.URLForResource("SingleViewCoreData", withExtension: "sqlite")!, bundle.URLForResource("SingleViewCoreData", withExtension: "sqlite-wal")!, bundle.URLForResource("SingleViewCoreData", withExtension: "sqlite-shm")!]
                 let destSqliteURLs = [self.applicationDocumentsDirectory.URLByAppendingPathComponent("SingleViewCoreData.sqlite"),
@@ -312,8 +312,8 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                 var error:NSError? = nil
                 filemanager.delegate = self
                 for index in 0 ..< sourceSqliteURLs.count {
-                    try! filemanager.copyItemAtURL(sourceSqliteURLs[index], toURL: destSqliteURLs[index])
-                    let _ = try? destSqliteURLs[index].setResourceValue(true, forKey: NSURLIsExcludedFromBackupKey)
+                    try! filemanager.copyItemAtURL(sourceSqliteURLs[index], toURL: destSqliteURLs[index]!)
+                    let _ = try? destSqliteURLs[index]!.setResourceValue(true, forKey: NSURLIsExcludedFromBackupKey)
 
                 }
                 if let neededDBVersion = neededDBVersion {

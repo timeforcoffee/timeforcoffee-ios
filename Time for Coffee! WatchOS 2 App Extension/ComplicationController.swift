@@ -241,6 +241,12 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
             tmpl.line1TextProvider = CLKSimpleTextProvider(text: "--:");
             tmpl.line2TextProvider = CLKSimpleTextProvider(text: "-");
             return tmpl
+        default:
+            let tmpl = CLKComplicationTemplateCircularSmallStackText()
+            tmpl.line1TextProvider = CLKSimpleTextProvider(text: "--:");
+            tmpl.line2TextProvider = CLKSimpleTextProvider(text: "-");
+            return tmpl
+
         }
     }
     
@@ -278,6 +284,8 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
         case CLKComplicationFamily.UtilitarianSmall:
             return getUtilitarianSmallTemplate(station, departure: departure, nextDeparture: nextDeparture)
         case CLKComplicationFamily.CircularSmall:
+            return getCircularSmallTemplate(station, departure: departure, nextDeparture: nextDeparture)
+        default:
             return getCircularSmallTemplate(station, departure: departure, nextDeparture: nextDeparture)
         }
     }
