@@ -105,8 +105,23 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         titleLabel.userInteractionEnabled = true;
         let tapGesture  = UITapGestureRecognizer(target: self, action: #selector(TodayViewController.handleTap(_:)))
         titleLabel.addGestureRecognizer(tapGesture)
+        if #available(iOSApplicationExtension 10.0, *) {
+            self.extensionContext?.widgetLargestAvailableDisplayMode = .Expanded
+        } else {
+            // Fallback on earlier versions
+        }
         // Do any additional setup after loading the view from its nib.
     }
+    @available(iOSApplicationExtension 10.0, *)
+    func widgetActiveDisplayModeDidChange(activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
+        //self.preferredContentSize = maxSize
+
+        let numberOfCells = min(self.numberOfCells, max(1, Int((maxSize.height - 33.0) / 52.0)))
+        var preferredContentSize = maxSize
+        preferredContentSize.height = CGFloat(33 + (numberOfCells * 52))
+        self.preferredContentSize = preferredContentSize
+    }
+
 
 
     required init?(coder aDecoder: NSCoder) {
@@ -134,9 +149,12 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         viewDidAppear = true
         super.viewDidAppear(animated)
         // adjust containerView height, if it's too big
-        if (self.containerView.frame.height > 0 && self.containerView.frame.height < ContainerViewHeightConstraint.constant) {
-            self.numberOfCells = min(self.numberOfCells, max(2, Int((self.containerView.frame.height - 33.0) / 52.0)))
-            setPreferredContentSize()
+        if #available(iOSApplicationExtension 10.0, *) {
+        } else {
+            if (self.containerView.frame.height > 0 && self.containerView.frame.height < ContainerViewHeightConstraint.constant) {
+                self.numberOfCells = min(self.numberOfCells, max(2, Int((self.containerView.frame.height - 33.0) / 52.0)))
+                setPreferredContentSize()
+            }
         }
         self.actionLabel.setTitleColor(UIColor.lightGrayColor(), forState: UIControlState.Highlighted)
     }
@@ -173,7 +191,10 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
         DLog("awakeFromNib")
     }
+    
     private func setPreferredContentSize() {
+        if #available(iOSApplicationExtension 10.0, *) {
+        } else {
         let height = CGFloat(33 + (self.numberOfCells * 52))
         self.ContainerViewHeightConstraint?.constant = height
         // don't jump around, if it's only a small amount
@@ -184,7 +205,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         } else {
             TFCDataStore.sharedInstance.getUserDefaults()?.setObject(self.view.frame.height, forKey: "lastPreferredContentHeight")
         }
-
+        }
     }
 
     override func viewWillAppear(animated: Bool) {
