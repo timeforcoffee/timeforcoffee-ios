@@ -650,7 +650,7 @@ static NSString * const PINDiskCacheSharedName = @"PINDiskCacheShared";
     return object;
 }
 
-- (NSURL *)fileURLForKey:(NSString *)key
+- (nullable NSURL *)fileURLForKey:(nullable NSString *)key
 {
     NSDate *now = [[NSDate alloc] init];
     
