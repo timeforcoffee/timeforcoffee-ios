@@ -24,7 +24,7 @@ final class NearbyStationsTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        StationIconView.layer.cornerRadius = StationIconView.layer.bounds.width / 2
+        StationIconView.layer.cornerRadius = 16
         StationIconView.clipsToBounds = true
 
         StationFavoriteButton.addTarget(self, action: #selector(NearbyStationsTableViewCell.favoriteButtonTouched(_:)), forControlEvents: UIControlEvents.TouchUpInside)
@@ -59,6 +59,7 @@ final class NearbyStationsTableViewCell: UITableViewCell {
 
     func drawIcon() {
         StationFavoriteButton.setImage(station?.getIcon(), forState: UIControlState.Normal)
+
         StationIconView.transform = CGAffineTransformMakeScale(1, 1);
         StationIconView.alpha = 1.0
 
