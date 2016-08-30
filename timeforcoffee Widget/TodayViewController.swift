@@ -84,7 +84,11 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                         self.currentStation?.setStationActivity()
                     }
                 }
-                self.actionLabel.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+                if #available(iOSApplicationExtension 10.0, *) {
+                    self.actionLabel.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+                } else {
+                    self.actionLabel.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+                }
             })
         }
     }
@@ -103,6 +107,11 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         super.viewDidLoad()
         DLog("viewDidLoad")
         titleLabel.userInteractionEnabled = true;
+        if #available(iOSApplicationExtension 10.0, *) {
+        } else {
+            titleLabel.textColor = UIColor(white: 100, alpha: 1)
+        }
+
         let tapGesture  = UITapGestureRecognizer(target: self, action: #selector(TodayViewController.handleTap(_:)))
         titleLabel.addGestureRecognizer(tapGesture)
         if #available(iOSApplicationExtension 10.0, *) {
@@ -156,7 +165,13 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                 setPreferredContentSize()
             }
         }
-        self.actionLabel.setTitleColor(UIColor.lightGrayColor(), forState: UIControlState.Highlighted)
+
+        if #available(iOSApplicationExtension 10.0, *) {
+            self.actionLabel.setTitleColor(UIColor.darkGrayColor(), forState: UIControlState.Highlighted)
+        } else {
+            self.actionLabel.setTitleColor(UIColor.lightGrayColor(), forState: UIControlState.Highlighted)
+        }
+
     }
 
     override func awakeFromNib() {
@@ -218,14 +233,22 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         ContainerViewTrailingConstraint?.active = false
         ContainerViewWidthConstraint?.constant = self.containerView.frame.width
         self.view.setNeedsLayout()
-        actionLabel.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        if #available(iOSApplicationExtension 10.0, *) {
+            actionLabel.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+        } else {
+            actionLabel.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        }
         setPreferredContentSize()
     }
 
     override func viewWillDisappear(animated: Bool) {
         DLog("viewWillDisappear")
         super.viewWillDisappear(animated)
-        actionLabel.setTitleColor(UIColor.lightGrayColor(), forState: UIControlState.Normal)
+        if #available(iOSApplicationExtension 10.0, *) {
+            self.actionLabel.setTitleColor(UIColor.darkGrayColor(), forState: UIControlState.Highlighted)
+        } else {
+            self.actionLabel.setTitleColor(UIColor.lightGrayColor(), forState: UIControlState.Highlighted)
+        }
     }
 
     override func viewDidDisappear(animated: Bool) {
@@ -425,7 +448,12 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         let destinationLabel = cell.viewWithTag(200) as! UILabel
         let departureLabel = cell.viewWithTag(300) as! UILabel
         let minutesLabel = cell.viewWithTag(400) as! UILabel
-
+        if #available(iOSApplicationExtension 10.0, *) {
+        } else {
+            destinationLabel.textColor = UIColor(white: 100, alpha: 1)
+            departureLabel.textColor = UIColor(white: 100, alpha: 0.6)
+            minutesLabel.textColor = UIColor(white: 100, alpha: 1)
+        }
         if (showStations) {
             let stationsCount = self.stations?.count()
             if (stationsCount == nil || stationsCount == 0) {
