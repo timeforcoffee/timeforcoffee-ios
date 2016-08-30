@@ -121,6 +121,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         }
         // Do any additional setup after loading the view from its nib.
     }
+
     @available(iOSApplicationExtension 10.0, *)
     func widgetActiveDisplayModeDidChange(activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
         //self.preferredContentSize = maxSize
@@ -128,10 +129,13 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         let numberOfCells = min(self.numberOfCells, max(1, Int((maxSize.height - 33.0) / 52.0)))
         var preferredContentSize = maxSize
         preferredContentSize.height = CGFloat(33 + (numberOfCells * 52))
-        self.preferredContentSize = preferredContentSize
+        if (self.preferredContentSize.height != preferredContentSize.height) {
+            self.preferredContentSize = preferredContentSize
+            dispatch_async(dispatch_get_main_queue(), {
+                self.appsTableView.reloadData()
+            })
+        }
     }
-
-
 
     required init?(coder aDecoder: NSCoder) {
         DLog("init")
@@ -419,7 +423,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             if (count == nil || count == 0) {
                 return 1
             }
-            return min(self.numberOfCells, count!)
+            return min(self.getNumberOfCellsForPreferredContentSize(), count!)
         }
         if (viewDidAppear == false && currentStation == nil) {
             return 0
@@ -428,7 +432,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         if (departures == nil || departures!.count == 0) {
             return 1
         }
-        return min(self.numberOfCells, departures!.count)
+        return min(self.getNumberOfCellsForPreferredContentSize(), departures!.count)
     }
     
     
@@ -631,4 +635,10 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             }
         }
     }
+
+    private func getNumberOfCellsForPreferredContentSize() -> Int {
+        let numberOfCells = min(self.numberOfCells, max(1, Int((self.preferredContentSize.height - 33.0) / 52.0)))
+        return numberOfCells
+    }
+
 }
