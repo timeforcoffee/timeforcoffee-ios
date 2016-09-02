@@ -163,7 +163,9 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
     @available(iOSApplicationExtension 9.0, *)
     public func session(session: WCSession, didReceiveUserInfo userInfo: [String : AnyObject]) {
         for (myKey,_) in userInfo {
-            DLog("didReceiveUserInfo: \(myKey)", toFile: true)
+            if (myKey != "__logThis__") {
+                DLog("didReceiveUserInfo: \(myKey)", toFile: true)
+            }
         }
         parseReceiveInfo(userInfo)
     }
