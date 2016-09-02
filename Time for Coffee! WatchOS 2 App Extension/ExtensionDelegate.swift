@@ -74,5 +74,24 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             NSNotificationCenter.defaultCenter().postNotificationName("TFCWatchkitSelectStation", object: nil, userInfo: uI)
         }
     }
+
+  /*  @available(watchOSApplicationExtension 3.0, *)
+    func    (backgroundTasks: Set<WKRefreshBackgroundTask>) {
+        for task : WKRefreshBackgroundTask in backgroundTasks {
+            DLog("received background task: \(task)" , toFile: true)
+            // only handle these while running in the background
+            if (WKExtension.sharedExtension().applicationState == .Background) {
+                if task is WKApplicationRefreshBackgroundTask {
+                    // this task is completed below, our app will then suspend while the download session runs
+                    DLog("application task received, start URL session", toFile: true)
+                    //scheduleURLSession()
+                    NSNotificationCenter.defaultCenter().postNotificationName("TFCWatchkitDidBecomeActive", object: nil, userInfo: nil)
+
+                }
+            }
+            // make sure to complete all tasks, even ones you don't handle
+            task.setTaskCompleted()
+        }
+    }*/
 }
 
