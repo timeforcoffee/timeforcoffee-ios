@@ -75,6 +75,14 @@ let DLogDateFormatter:NSDateFormatter = {
     return formatter
 }()
 
+let DLogDayFormatter:NSDateFormatter = {
+    let formatter = NSDateFormatter()
+    formatter.dateFormat = "YYYY-MM-dd"
+    formatter.timeZone = NSTimeZone(name: "Europe/Zurich")
+    return formatter
+}()
+
+
 func DLog<T>(@autoclosure object: () -> T, toFile: Bool = false, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
     #if DEBUG
         let value = object()
@@ -113,13 +121,18 @@ private func DLog2WatchConnectivity(text:String) {
 }
 
 private func DLog2File(text:String) {
-    let file = "log.txt"
-    if let dir : NSString = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.AllDomainsMask, true).first {
-        let path = dir.stringByAppendingPathComponent(file);
-        // try! NSFileManager.defaultManager().removeItemAtPath(path)
-        let dtext = "\(text)"
-        let url = NSURL(fileURLWithPath: path)
-        let _ = try? url.setResourceValue(true, forKey: NSURLIsExcludedFromBackupKey)
-        try! dtext.appendLineToURL(url)
+    let file = "log-\(NSDate().formattedWithDateFormatter(DLogDayFormatter)).txt"
+    if let iCloudDocumentsURL = NSFileManager.defaultManager().URLForUbiquityContainerIdentifier(nil)?.URLByAppendingPathComponent("Documents") {
+        if (!NSFileManager.defaultManager().fileExistsAtPath(iCloudDocumentsURL.path!, isDirectory: nil)) {
+            try! NSFileManager.defaultManager().createDirectoryAtURL(iCloudDocumentsURL, withIntermediateDirectories: true, attributes: nil)
+        }
+    }
+
+    if let iCloudDocumentsURL = NSFileManager.defaultManager().URLForUbiquityContainerIdentifier(nil)?.URLByAppendingPathComponent("Documents") {
+        if let url = iCloudDocumentsURL.URLByAppendingPathComponent(file) {
+            let dtext = "\(text)"
+            let _ = try? url.setResourceValue(true, forKey: NSURLIsExcludedFromBackupKey)
+            try! dtext.appendLineToURL(url)
+        }
     }
 }
