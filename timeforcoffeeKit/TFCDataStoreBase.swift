@@ -199,6 +199,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                 }
 
                 //  updateComplicationData()
+                updateWatchNow()
             } else if (myKey == "__logThis__") {
                 if let value = myValue as? String {
                     DLog("Watch: " + value)
@@ -378,6 +379,9 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
     func updateComplicationData() {
     }
 
+    func updateWatchNow() {
+    }
+    
     public func sendComplicationUpdate(station: TFCStation?) {
         #if os(iOS)
             if #available(iOS 9, *) {
