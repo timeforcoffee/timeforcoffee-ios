@@ -211,6 +211,15 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
                 DLog("played haptic in Stations \(self.appeared)")
             }
         }
+
+
+        if let forStation = forStation, lastFirstStationId = NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee")?.stringForKey("lastFirstStationId") {
+            // check if we need a complication update
+            if (lastFirstStationId == forStation.st_id && watchdata.needsTimelineDataUpdate(forStation)) {
+                DLog("updateComplicationData", toFile: true)
+                watchdata.updateComplicationData()
+            }
+        }
     }
 
     private func displayDepartures(station: TFCStation?) -> Bool {

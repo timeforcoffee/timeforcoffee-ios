@@ -878,6 +878,9 @@
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
 							};
+							com.apple.BackgroundModes.watchos.app = {
+								enabled = 0;
+							};
 						};
 					};
 					EC46C5271BB5C78A00F2A963 = {
@@ -887,6 +890,12 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+							com.apple.BackgroundModes.watchos.extension = {
+								enabled = 0;
+							};
+							com.apple.iCloud = {
 								enabled = 1;
 							};
 						};
