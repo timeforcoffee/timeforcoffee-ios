@@ -193,7 +193,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
     func parseReceiveInfo(message: [String: AnyObject]) {
         for (myKey,myValue) in message {
             if (myKey != "__logThis__") {
-                DLog("parseReceiveInfo: \(myKey)")
+                DLog("parseReceiveInfo: \(myKey)", toFile: true)
             }
             if (myKey == "__updateComplicationData__") {
                 if let value = myValue as? [String: CLLocationDegrees], lng = value["longitude"], lat = value["latitude"] {
