@@ -104,11 +104,14 @@ func DLog<T>(@autoclosure object: () -> T, toFile: Bool = false, _ file: String 
         NSLog("<\(queue)> %@ (\(fileURL) \(function)[\(line)])", stringRepresentation)
         if (toFile) {
             let text = "\(NSDate().formattedWithDateFormatter(DLogDateFormatter)) <\(queue)> \(stringRepresentation)  (\(fileURL) \(function)[\(line)])"
-        #if os(watchOS)
-            DLog2WatchConnectivity(text)
-        #else
+            #if os(watchOS)
+                DLog2WatchConnectivity(text)
+            #endif
+            /*#else
+             DLog2File(text)
+             #endif*/
             DLog2File(text)
-        #endif
+            
         }
     #endif
 }
@@ -121,14 +124,15 @@ private func DLog2WatchConnectivity(text:String) {
 }
 
 private func DLog2File(text:String) {
-    let file = "log-\(NSDate().formattedWithDateFormatter(DLogDayFormatter)).txt"
-    if let iCloudDocumentsURL = NSFileManager.defaultManager().URLForUbiquityContainerIdentifier(nil)?.URLByAppendingPathComponent("Documents") {
+    #if os(watchOS)
+        let file = "log-watch-\(NSDate().formattedWithDateFormatter(DLogDayFormatter)).txt"
+    #else
+        let file = "log-\(NSDate().formattedWithDateFormatter(DLogDayFormatter)).txt"
+    #endif
+    if let iCloudDocumentsURL = NSFileManager.defaultManager().URLForUbiquityContainerIdentifier("iCloud.ch.opendata.timeforcoffee")?.URLByAppendingPathComponent("Documents") {
         if (!NSFileManager.defaultManager().fileExistsAtPath(iCloudDocumentsURL.path!, isDirectory: nil)) {
             try! NSFileManager.defaultManager().createDirectoryAtURL(iCloudDocumentsURL, withIntermediateDirectories: true, attributes: nil)
         }
-    }
-
-    if let iCloudDocumentsURL = NSFileManager.defaultManager().URLForUbiquityContainerIdentifier(nil)?.URLByAppendingPathComponent("Documents") {
         if let url = iCloudDocumentsURL.URLByAppendingPathComponent(file) {
             let dtext = "\(text)"
             let _ = try? url.setResourceValue(true, forKey: NSURLIsExcludedFromBackupKey)
