@@ -7,8 +7,15 @@
 //
 
 import WatchKit
+import Foundation
 
-class ExtensionDelegate: NSObject, WKExtensionDelegate {
+class ExtensionDelegate: NSObject, WKExtensionDelegate, NSURLSessionDownloadDelegate {
+
+    override init() {
+        super.init()
+        WKExtension.sharedExtension().delegate = self
+    }
+
 
     func applicationDidFinishLaunching() {
 
@@ -75,23 +82,74 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         }
     }
 
-  /*  @available(watchOSApplicationExtension 3.0, *)
-    func    (backgroundTasks: Set<WKRefreshBackgroundTask>) {
+
+    @available(watchOSApplicationExtension 3.0, *)
+    func handleBackgroundTasks(backgroundTasks: Set<WKRefreshBackgroundTask>) {
         for task : WKRefreshBackgroundTask in backgroundTasks {
             DLog("received background task: \(task)" , toFile: true)
-            // only handle these while running in the background
-            if (WKExtension.sharedExtension().applicationState == .Background) {
-                if task is WKApplicationRefreshBackgroundTask {
-                    // this task is completed below, our app will then suspend while the download session runs
-                    DLog("application task received, start URL session", toFile: true)
-                    //scheduleURLSession()
-                    NSNotificationCenter.defaultCenter().postNotificationName("TFCWatchkitDidBecomeActive", object: nil, userInfo: nil)
+            if task is WKApplicationRefreshBackgroundTask {
+                func handleReply(stations: TFCStations?) {
+                    DLog("handleReply", toFile: true)
+                    if let station = stations?.first {
 
+                        let sampleDownloadURL = NSURL(string: station.getDeparturesURL())!
+                        DLog("Download \(sampleDownloadURL)", toFile: true)
+                        let backgroundConfigObject = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier("\(sampleDownloadURL) \(NSUUID().UUIDString)")
+                        backgroundConfigObject.sessionSendsLaunchEvents = true
+                        let backgroundSession = NSURLSession(configuration: backgroundConfigObject, delegate: self, delegateQueue: nil)
+
+                        let downloadTask = backgroundSession.downloadTaskWithURL(sampleDownloadURL)
+                        downloadTask.resume()
+                    } else {
+                        DLog("No station set", toFile: true)
+                        // try again in 5 minutes
+                        WKExtension.sharedExtension().scheduleBackgroundRefreshWithPreferredDate(NSDate(timeIntervalSinceNow: 5 * 60) , userInfo: nil) { (error) in
+                            if error == nil {
+                                //successful
+                            }
+                        }
+                    }
+                    task.setTaskCompleted()
                 }
+                func errorReply(error: String) {
+                    DLog("error \(error)")
+                    // try again in 5 minutes
+                    WKExtension.sharedExtension().scheduleBackgroundRefreshWithPreferredDate(NSDate(timeIntervalSinceNow: 5 * 60) , userInfo: nil) { (error) in
+                        if error == nil {
+                            //successful
+                        }
+                    }
+                    task.setTaskCompleted()
+                }
+                TFCDataStore.sharedInstance.watchdata.getStations(handleReply, errorReply: errorReply, stopWithFavorites: true)
+
+
+                //TFCDataStore.sharedInstance.watchdata.updateComplicationData()
+            } else if let urlTask = task as? WKURLSessionRefreshBackgroundTask {
+                let backgroundConfigObject = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier(urlTask.sessionIdentifier)
+                let backgroundSession = NSURLSession(configuration: backgroundConfigObject, delegate: self, delegateQueue: nil)
+                DLog("Rejoining session \(urlTask.sessionIdentifier) \(backgroundSession)", toFile: true)
+            } else {
+
+                //DLog("received something else...", toFile: true)
+                // make sure to complete all tasks, even ones you don't handle
+                task.setTaskCompleted()
             }
-            // make sure to complete all tasks, even ones you don't handle
-            task.setTaskCompleted()
         }
-    }*/
+    }
+
+    func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didFinishDownloadingToURL location: NSURL) {
+        DLog("downloaded \(downloadTask.taskIdentifier) to \(location)", toFile: true)
+        
+        TFCDataStore.sharedInstance.watchdata.updateComplicationData()
+    }
+
+    func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?) {
+        DLog("didCompleteWithError \(error)")
+        if (error != nil) {
+            TFCDataStore.sharedInstance.watchdata.scheduleNextUpdate()
+        }
+        session.finishTasksAndInvalidate()
+    }
 }
 
