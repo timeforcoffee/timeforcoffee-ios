@@ -8,6 +8,7 @@
 
 import WatchKit
 import Foundation
+import WatchConnectivity
 
 class ExtensionDelegate: NSObject, WKExtensionDelegate, NSURLSessionDownloadDelegate {
 
@@ -16,11 +17,12 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate, NSURLSessionDownloadDele
         WKExtension.sharedExtension().delegate = self
     }
 
+    var wcBackgroundTasks: [AnyObject] = []
 
     func applicationDidFinishLaunching() {
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
-            TFCDataStore.sharedInstance.registerWatchConnectivity()
+            TFCDataStore.sharedInstance.registerWatchConnectivity(self)
             /* Request for all Favorite Data every 24 hours (or if never done)
                 I'm not sure, how reliable the WatchConnectivity is and if never
                 gets a message lost, so let's sync every 24 hours. Shouldn't be
@@ -28,6 +30,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate, NSURLSessionDownloadDele
             
                 Or if we never did get a allDataResponse, do it every time until we get one.
             */
+
             let lastRequest = self.lastRequestForAllData()
             let allDataResponseSent = TFCDataStore.sharedInstance.getUserDefaults()?.boolForKey("allDataResponseSent")
             if (allDataResponseSent != true || lastRequest == nil || lastRequest < -(24 * 60 * 60)) {
@@ -44,6 +47,13 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate, NSURLSessionDownloadDele
 
         }
     }
+
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        dispatch_async(dispatch_get_main_queue(), {
+            self.completeAllWCTasksIfReady()
+        })
+    }
+
 
     func applicationDidBecomeActive() {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
@@ -129,6 +139,9 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate, NSURLSessionDownloadDele
                 let backgroundConfigObject = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier(urlTask.sessionIdentifier)
                 let backgroundSession = NSURLSession(configuration: backgroundConfigObject, delegate: self, delegateQueue: nil)
                 DLog("Rejoining session \(urlTask.sessionIdentifier) \(backgroundSession)", toFile: true)
+            } else if let wcBackgroundTask = task as? WKWatchConnectivityRefreshBackgroundTask {
+                    // store a reference to the task objects as we might have to wait to complete them
+                    self.wcBackgroundTasks.append(wcBackgroundTask)
             } else {
 
                 //DLog("received something else...", toFile: true)
@@ -150,6 +163,20 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate, NSURLSessionDownloadDele
             TFCDataStore.sharedInstance.watchdata.scheduleNextUpdate()
         }
         session.finishTasksAndInvalidate()
+    }
+
+    func completeAllWCTasksIfReady() {
+        if #available(watchOSApplicationExtension 3.0, *) {
+            let session = WCSession.defaultSession()        // the session's properties only have valid values if the session is activated, so check that first
+            if session.activationState == .Activated && !session.hasContentPending {
+                wcBackgroundTasks.forEach {
+                    if let bgTask = $0 as? WKWatchConnectivityRefreshBackgroundTask {
+                        bgTask.setTaskCompleted()
+                    }
+                }
+                wcBackgroundTasks.removeAll()
+            }
+        }
     }
 }
 
