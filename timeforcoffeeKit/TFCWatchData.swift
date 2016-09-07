@@ -100,15 +100,20 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
         // reload the timeline for all complications
         let server = CLKComplicationServer.sharedInstance()
         if let activeComplications = server.activeComplications {
-            for complication in activeComplications {
-                DLog("Reload Complications", toFile: true)
-                server.reloadTimelineForComplication(complication)
+            if (activeComplications.count > 0) {
+                for complication in activeComplications {
+                    DLog("Reload Complications", toFile: true)
+                    server.reloadTimelineForComplication(complication)
+                }
+            } else {
+                scheduleNextUpdate()
             }
         }
     }
 
     public func getStations(reply: replyStations?, errorReply: ((String) -> Void)?, stopWithFavorites: Bool?) {
         func handleReply(replyInfo: [NSObject : AnyObject]!) {
+            DLog("handleReply", toFile: true)
             if(replyInfo["lat"] != nil) {
                 let loc = CLLocation(latitude: replyInfo["lat"] as! Double, longitude: replyInfo["long"] as! Double)
                 self.stations?.initWithNearbyFavorites(loc)
