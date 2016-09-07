@@ -14,8 +14,6 @@ import ClockKit
 
 private struct Constants {
     static let DepartureDuration = NSTimeInterval(60) // 1 minute
-    static let FrequencyOfTimelineUpdate = NSTimeInterval(45*60) // 45 minutes
-    static let TimelineUpdateMinutesBeforeEnd = NSTimeInterval(-15*60) // 15 minutes
     static let ComplicationColor = UIColor.orangeColor()
 }
 
@@ -182,23 +180,9 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     
     func getNextRequestedUpdateDateWithHandler(handler: (NSDate?) -> Void) {
         // Call the handler with the date when you would next like to be given the opportunity to update your complication content
-        let nextUpdateDate:NSDate?
-        let maxNextUpdateDate = NSDate().dateByAddingTimeInterval(Constants.FrequencyOfTimelineUpdate)
-        if let nextUpdate =  NSUserDefaults().valueForKey("lastDepartureTime") as? NSDate {
-            let lastEntryDate = nextUpdate.dateByAddingTimeInterval(Constants.TimelineUpdateMinutesBeforeEnd)
-            //if lastEntryDate is before now, update again in 5 minutes
-            if (lastEntryDate.timeIntervalSinceNow < NSDate().timeIntervalSinceNow) {
-                nextUpdateDate = NSDate().dateByAddingTimeInterval(5 * 60)
-            //if lastEntryDate is more in the future than 1.5 hours
-            } else if (maxNextUpdateDate.timeIntervalSinceReferenceDate < lastEntryDate.timeIntervalSinceReferenceDate) {
-                nextUpdateDate = maxNextUpdateDate
-            } else {
-                nextUpdateDate = lastEntryDate 
-            }
-        } else {
-            nextUpdateDate =  NSDate().dateByAddingTimeInterval(5 * 60) // request an update in 5 minutes, if no lastDepartureTime was set.
-        }
-        DLog("getNextRequestedUpdateDateWithHandler: \(nextUpdateDate)")
+
+        let nextUpdateDate = watchdata.getNextUpdateTime()
+        DLog("getNextRequestedUpdateDateWithHandler: \(nextUpdateDate)", toFile: true)
         handler(nextUpdateDate);
     }
     
@@ -428,28 +412,8 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
         return dateFmt.stringFromDate(date)
     }
 
-    private func needsDeparturesUpdate(station: TFCStation) -> Bool {
-        if let lastDepartureTime =  NSUserDefaults().valueForKey("lastDepartureTime") as? NSDate,
-            lastFirstStationId = NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee")?.stringForKey("lastFirstStationId") {
-                // if lastDepartureTime is more than 4 hours away and we're in the same place
-                // and we still have at least 5 departures, just use the departures from the cache
-                if ((lastDepartureTime.dateByAddingTimeInterval(4 * -3600).timeIntervalSinceNow > 0)
-                    && lastFirstStationId == station.st_id
-                    && station.getFilteredDepartures()?.count > 5
-                    ) {
-                        return false
-                }
-                DLog("timeIntervalSinceNow \(lastDepartureTime.dateByAddingTimeInterval(4 * -3600).timeIntervalSinceNow)")
-                DLog("lastDepartureTime: \(lastDepartureTime)")
-                DLog("lastFirstStationId: \(lastFirstStationId)")
-                DLog("station.getFilteredDepartures()?.count: \(station.getFilteredDepartures()?.count)")
-
-        }
-        return true
-    }
-
     private func getDepartureTTL(station: TFCStation) -> Int {
-        if (self.needsDeparturesUpdate(station)) {
+        if (watchdata.needsDeparturesUpdate(station)) {
             return 20 //default
         }
         return 6 * 3600

@@ -11,6 +11,11 @@ import CoreLocation
 import WatchKit
 import ClockKit
 
+private struct Constants {
+    static let FrequencyOfTimelineUpdate = NSTimeInterval(30*60) // 45 minutes
+    static let TimelineUpdateMinutesBeforeEnd = NSTimeInterval(-15*60) // 15 minutes
+}
+
 public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStationsUpdatedProtocol {
 
     private var networkErrorMsg: String?
@@ -58,10 +63,9 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
 
     public func updateComplication(stations: TFCStations) {
         if let firstStation = stations.first {
-            if let ud = NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee") {
-                if (ud.stringForKey("lastFirstStationId") != firstStation.st_id) {
-                    updateComplicationData()
-                }
+            if self.needsTimelineDataUpdate(firstStation) {
+                DLog("updateComplicationData", toFile: true)
+                updateComplicationData()
             }
         }
     }
@@ -151,6 +155,89 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
                 }
             }
         }
+    }
+
+    public func getNextUpdateTime() -> NSDate {
+        var nextUpdateDate:NSDate?        
+        let maxNextUpdateDate = NSDate().dateByAddingTimeInterval(Constants.FrequencyOfTimelineUpdate)
+        if let nextUpdate =  NSUserDefaults().valueForKey("lastDepartureTime") as? NSDate {
+            let lastEntryDate = nextUpdate.dateByAddingTimeInterval(Constants.TimelineUpdateMinutesBeforeEnd)
+            //if lastEntryDate is before now, update again in 5 minutes
+            if (lastEntryDate.timeIntervalSinceNow < NSDate().timeIntervalSinceNow) {
+                nextUpdateDate = NSDate().dateByAddingTimeInterval(5 * 60)
+                //if lastEntryDate is more in the future than 1.5 hours
+            } else if (maxNextUpdateDate.timeIntervalSinceReferenceDate < lastEntryDate.timeIntervalSinceReferenceDate) {
+                nextUpdateDate = maxNextUpdateDate
+            } else {
+                nextUpdateDate = lastEntryDate
+            }
+        } else {
+            nextUpdateDate =  NSDate().dateByAddingTimeInterval(5 * 60) // request an update in 5 minutes, if no lastDepartureTime was set.
+        }
+        // nextUpdateDate = NSDate().dateByAddingTimeInterval( 60)
+        return nextUpdateDate!
+    }
+
+    public func scheduleNextUpdate(now: Bool? = false) {
+        if #available(watchOSApplicationExtension 3.0, *) {
+            let nextUpdate:NSDate
+            if (CLKComplicationServer.sharedInstance().activeComplications?.count > 0) {
+                if now == true  {
+                    if WKExtension.sharedExtension().applicationState == .Background {
+                        nextUpdate = NSDate().dateByAddingTimeInterval(5)
+                    } else {
+                        DLog("updateComplicationData", toFile: true)
+                        self.updateComplicationData()
+                        return
+                    }
+                } else {
+                    nextUpdate = self.getNextUpdateTime()
+                }
+            } else {
+                nextUpdate = NSDate().dateByAddingTimeInterval(30 * 60)
+            }
+            WKExtension.sharedExtension().scheduleBackgroundRefreshWithPreferredDate(nextUpdate, userInfo: nil) { (error) in
+                DLog("updated next schedule at \(nextUpdate)", toFile: true)
+                if error == nil {
+                    //successful
+                }
+            }
+        }
+    }
+
+    public func needsTimelineDataUpdate(station: TFCStation) -> Bool {
+        if let lastDepartureTime:NSDate = NSUserDefaults().valueForKey("lastDepartureTime") as? NSDate,
+            lastFirstStationId = NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee")?.stringForKey("lastFirstStationId"),
+            departures = station.getFilteredDepartures() {
+            // if lastDepartureTime is more than 4 hours away and we're in the same place
+            // and we still have at least 5 departures, just use the departures from the cache
+            if (lastFirstStationId == station.st_id
+                && departures.last?.getScheduledTimeAsNSDate() <= lastDepartureTime.dateByAddingTimeInterval(-60)) {
+                return false
+            }
+        }
+        return true
+    }
+
+    public func needsDeparturesUpdate(station: TFCStation) -> Bool {
+        if let lastDepartureTime =  NSUserDefaults().valueForKey("lastDepartureTime") as? NSDate,
+            lastFirstStationId = NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee")?.stringForKey("lastFirstStationId"),
+            departures = station.getFilteredDepartures() {
+            // if lastDepartureTime is more than 4 hours away and we're in the same place
+            // and we still have at least 5 departures, just use the departures from the cache
+            if ((lastDepartureTime.dateByAddingTimeInterval(4 * -3600).timeIntervalSinceNow > 0)
+                && lastFirstStationId == station.st_id
+                && departures.count > 5
+                ) {
+                return false
+            }
+            DLog("timeIntervalSinceNow \(lastDepartureTime.dateByAddingTimeInterval(4 * -3600).timeIntervalSinceNow)", toFile: true)
+            DLog("lastDepartureTime: \(lastDepartureTime)", toFile: true)
+            DLog("lastFirstStationId: \(lastFirstStationId)", toFile: true)
+            DLog("station.getFilteredDepartures()?.count: \(station.getFilteredDepartures()?.count)", toFile: true)
+
+        }
+        return true
     }
 }
 

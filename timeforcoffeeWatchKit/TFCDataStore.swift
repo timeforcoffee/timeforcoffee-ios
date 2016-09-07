@@ -19,6 +19,11 @@ public class TFCDataStore: TFCDataStoreBase {
     override var keyvaluestore: NSUbiquitousKeyValueStore? {
         return nil
     }
+    
+    override func updateWatchNow() {
+
+        watchdata.scheduleNextUpdate(true)
+    }
 
     override func updateComplicationData() {
         watchdata.updateComplicationData()
