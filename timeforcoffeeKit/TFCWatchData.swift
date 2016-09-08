@@ -184,7 +184,6 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
     }
 
     public func scheduleNextUpdate(now: Bool? = false) {
-        if #available(watchOSApplicationExtension 3.0, *) {
             let nextUpdate:NSDate
             if (CLKComplicationServer.sharedInstance().activeComplications?.count > 0) {
                 if now == true  {
@@ -206,8 +205,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
                 if error == nil {
                     //successful
                 }
-            }
-        }
+            }        
     }
 
     public func needsTimelineDataUpdate(station: TFCStation) -> Bool {

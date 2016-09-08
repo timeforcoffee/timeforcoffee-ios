@@ -166,7 +166,6 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate, NSURLSessionDownloadDele
     }
 
     func completeAllWCTasksIfReady() {
-        if #available(watchOSApplicationExtension 3.0, *) {
             let session = WCSession.defaultSession()        // the session's properties only have valid values if the session is activated, so check that first
             if session.activationState == .Activated && !session.hasContentPending {
                 wcBackgroundTasks.forEach {
@@ -176,7 +175,6 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate, NSURLSessionDownloadDele
                 }
                 wcBackgroundTasks.removeAll()
             }
-        }
     }
 }
 

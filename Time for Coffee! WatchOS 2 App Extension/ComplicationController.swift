@@ -67,13 +67,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                 self.updateDepartures(station, context: handleReply2)
             }
         }
-        if #available(watchOSApplicationExtension 3, *) {
-            self.watchdata.getStations(handleReply, errorReply: nil, stopWithFavorites: true)
-        } else {
-            self.watchdata.waitForNewLocation(within: 5, callback: {
-                self.watchdata.getStations(handleReply, errorReply: nil, stopWithFavorites: true)
-            })
-        }
+        self.watchdata.getStations(handleReply, errorReply: nil, stopWithFavorites: true)
     }
     
     func getPrivacyBehaviorForComplication(complication: CLKComplication, withHandler handler: (CLKComplicationPrivacyBehavior) -> Void) {
