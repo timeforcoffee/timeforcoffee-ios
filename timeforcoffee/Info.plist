@@ -32,7 +32,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>162</string>
+	<string>165</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -47,6 +47,8 @@
 			</dict>
 		</array>
 	</dict>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -137,7 +139,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>The chat feature allows you to upload images, which needs access to your photo library.</string>
 </dict>
 </plist>
