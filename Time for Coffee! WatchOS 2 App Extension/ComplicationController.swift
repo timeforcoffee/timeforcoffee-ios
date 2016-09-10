@@ -157,18 +157,11 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                             if let ud =  NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee") {
                                 ud.setValue(station.st_id, forKey: "lastFirstStationId")
                             }
-                            if (lastDepartureTimeNew != nil) {
-                                NSUserDefaults().setValue(lastDepartureTimeNew, forKey: "lastDepartureTime")
-                                DLog("lastDepartureTime: \(lastDepartureTimeNew)", toFile: true)
-                            }
-                    } else {
-                        NSUserDefaults().setValue(nil, forKey: "lastDepartureTime")
                     }
                     handler(entries)
                 }
                 self.updateDepartures(station, context: handleReply2)
             } else {
-                NSUserDefaults().setValue(nil, forKey: "lastDepartureTime")
                 handler(entries)
             }
         }
@@ -425,5 +418,4 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     private func updateDepartures(station: TFCStation, context: Any) {
         station.updateDepartures(self, context: context, cachettl: self.getDepartureTTL(station))
     }
-
 }

@@ -182,8 +182,14 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
 
     public func getNextUpdateTime(noBackOffIncr noBackOffIncr:Bool? = false) -> NSDate {
         var nextUpdateDate:NSDate?        
-        let maxNextUpdateDate = NSDate().dateByAddingTimeInterval(Constants.FrequencyOfTimelineUpdate)
-        if let nextUpdate =  NSUserDefaults().valueForKey("lastDepartureTime") as? NSDate {
+        var maxNextUpdateDate = NSDate().dateByAddingTimeInterval(Constants.FrequencyOfTimelineUpdate)
+        // if the next first departure Time is further away than usual, wait until that comes and update 15 minutes before
+        if let firstDepartureTime = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("firstDepartureTime") as? NSDate {
+            if firstDepartureTime.dateByAddingTimeInterval(-15 * 60) > maxNextUpdateDate {
+                maxNextUpdateDate = firstDepartureTime.dateByAddingTimeInterval(-15 * 60)
+            }
+        }
+        if let nextUpdate = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastDepartureTime") as? NSDate {
             let lastEntryDate = nextUpdate.dateByAddingTimeInterval(Constants.TimelineUpdateMinutesBeforeEnd)
             //if lastEntryDate is before now, update again in 5 minutes
             if (lastEntryDate.timeIntervalSinceNow < NSDate().timeIntervalSinceNow) {
@@ -220,13 +226,13 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
     }
 
     public func needsTimelineDataUpdate(station: TFCStation) -> Bool {
-        if let lastDepartureTime:NSDate = NSUserDefaults().valueForKey("lastDepartureTime") as? NSDate,
-            lastFirstStationId = NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee")?.stringForKey("lastFirstStationId"),
+        if let lastDepartureTime:NSDate = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastDepartureTime") as? NSDate,
+            lastFirstStationId = TFCDataStore.sharedInstance.getUserDefaults()?.stringForKey("lastFirstStationId"),
             departures = station.getFilteredDepartures() {
             DLog("\(lastFirstStationId) == \(station.st_id)", toFile: true)
-            DLog("\(departures.last?.getScheduledTimeAsNSDate()) <= \(lastDepartureTime.dateByAddingTimeInterval(-60))", toFile: true)
+            DLog("\(departures.last?.getScheduledTimeAsNSDate()) <= \(lastDepartureTime)", toFile: true)
             if (lastFirstStationId == station.st_id
-                && departures.last?.getScheduledTimeAsNSDate() <= lastDepartureTime.dateByAddingTimeInterval(-60)) {
+                && departures.last?.getScheduledTimeAsNSDate() <= lastDepartureTime) {
                 return false
             }
         }
@@ -234,8 +240,8 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
     }
 
     public func needsDeparturesUpdate(station: TFCStation) -> Bool {
-        if let lastDepartureTime =  NSUserDefaults().valueForKey("lastDepartureTime") as? NSDate,
-            lastFirstStationId = NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee")?.stringForKey("lastFirstStationId"),
+        if let lastDepartureTime = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastDepartureTime") as? NSDate,
+            lastFirstStationId = TFCDataStore.sharedInstance.getUserDefaults()?.stringForKey("lastFirstStationId"),
             departures = station.getFilteredDepartures() {
             // if lastDepartureTime is more than 4 hours away and we're in the same place
             // and we still have at least 5 departures, just use the departures from the cache

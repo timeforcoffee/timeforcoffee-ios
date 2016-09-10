@@ -57,6 +57,15 @@ public class TFCWatchDataFetch: NSObject, NSURLSessionDownloadDelegate {
         func handleReply(stations: TFCStations?) {
             DLog("handleReply")
             if let station = stations?.first {
+                if let defaults = TFCDataStore.sharedInstance.getUserDefaults() {
+                    // check if new station id and make it download complication, if so, later
+                    let lastFirstStationId = defaults.stringForKey("lastFirstStationId")
+                    if (lastFirstStationId != station.st_id) {
+                        defaults.setValue(station.st_id, forKey: "lastFirstStationId")
+                        defaults.setObject(nil, forKey: "lastDepartureTime")
+                        defaults.setObject(nil, forKey: "firstDepartureTime")
+                    }
+                }
                 DLog("\(lastViewedStation?.st_id) != \(station.st_id)")
                 if (lastViewedStation?.st_id != station.st_id) {
                     self.fetchDepartureDataForStation(station)
@@ -149,11 +158,23 @@ public class TFCWatchDataFetch: NSObject, NSURLSessionDownloadDelegate {
                     NSNotificationCenter.defaultCenter().postNotificationName("TFCWatchkitUpdateCurrentStation", object: nil, userInfo: nil)
                 }
                 // check if we fetched the one in the complication and then update it
-                if (CLKComplicationServer.sharedInstance().activeComplications?.count > 0) {
-                    if (st_id == NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee")?.stringForKey("lastFirstStationId")) {
-                        if watchdata.needsTimelineDataUpdate(station) {
-                            DLog("updateComplicationData", toFile: true)
-                            watchdata.updateComplicationData()
+                if let defaults = TFCDataStore.sharedInstance.getUserDefaults() {
+                    if (CLKComplicationServer.sharedInstance().activeComplications?.count > 0) {
+                        if (st_id == defaults.stringForKey("lastFirstStationId")) {
+                            if watchdata.needsTimelineDataUpdate(station) {
+                                DLog("updateComplicationData", toFile: true)
+                                watchdata.updateComplicationData()
+                            }
+                        }
+                    }
+                    
+                    if (st_id == defaults.stringForKey("lastFirstStationId")) {
+                        if let departures = station.getFilteredDepartures() {
+                            defaults.setObject(departures.last?.getScheduledTimeAsNSDate(), forKey: "lastDepartureTime")
+                            defaults.setObject(departures.first?.getScheduledTimeAsNSDate(), forKey: "firstDepartureTime")
+                        } else {
+                            defaults.setObject(nil, forKey: "lastDepartureTime")
+                            defaults.setObject(nil, forKey: "firstDepartureTime")
                         }
                     }
                 }
