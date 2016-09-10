@@ -92,10 +92,11 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
             if let station = stations?.first { // corresponds to the last favorited station or closest station
                 func handleReply2(station:TFCStation?) {
                     //just take the first entry here... It's the one we want to display
-                    if let stations = station?.getFilteredDepartures(),
-                        departure = stations.first {
+                    if let departures = station?.getFilteredDepartures(),
+                        departure = departures.first {
                         let thisEntryDate = timelineEntryDateForDeparture(departure, previousDeparture: nil)
-                        if let station = station, tmpl = templateForStationDepartures(station, departure: departure, nextDeparture: stations[1], complication: complication) {
+                        let nextDeparture: TFCDeparture? = (departures.count >= 2) ? departures[1] : nil
+                        if let station = station, tmpl = templateForStationDepartures(station, departure: departure, nextDeparture: nextDeparture, complication: complication) {
                             let entry = CLKComplicationTimelineEntry(date: thisEntryDate, complicationTemplate: tmpl)
                             entries.append(entry)
                         }
@@ -125,7 +126,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                             var previousDeparture: TFCDeparture? = nil
                             var departure: TFCDeparture? = departures.first
                             var nextDeparture: TFCDeparture? = (departures.count >= 2) ? departures[1] : nil
-                            var lastDepartureTimeNew:NSDate?
+                            var lastDepartureTimeNew:NSDate? = departure?.getScheduledTimeAsNSDate()
                             while let thisDeparture = departure {
                                 let thisEntryDate = timelineEntryDateForDeparture(thisDeparture, previousDeparture: previousDeparture)
                                 if date.compare(thisEntryDate) == .OrderedAscending { // check if the entry date is "correctly" after the given date
