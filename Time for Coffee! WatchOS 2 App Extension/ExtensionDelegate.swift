@@ -55,7 +55,9 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         dispatch_async(dispatch_get_main_queue(), {
-            self.completeAllWCTasksIfReady()
+            if #available(watchOSApplicationExtension 3.0, *) {
+                self.completeAllWCTasksIfReady()
+            } 
         })
     }
 
@@ -103,7 +105,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         for task : WKRefreshBackgroundTask in backgroundTasks {
             DLog("received background task: \(task)" , toFile: true)
             if let arTask = task as? WKApplicationRefreshBackgroundTask {
-                TFCWatchDataFetch.sharedInstance.fetchDepartureData(arTask)
+                TFCWatchDataFetch.sharedInstance.fetchDepartureData(task: arTask)
             } else if let urlTask = task as? WKURLSessionRefreshBackgroundTask {
                 TFCWatchDataFetch.sharedInstance.rejoinURLSession(urlTask)
             } else if let wcBackgroundTask = task as? WKWatchConnectivityRefreshBackgroundTask {
@@ -119,6 +121,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         }
     }
 
+    @available(watchOSApplicationExtension 3.0, *)
     func completeAllWCTasksIfReady() {
         DLog("completeAllWCTasksIfReady")
         let session = WCSession.defaultSession()        // the session's properties only have valid values if the session is activated, so check that first

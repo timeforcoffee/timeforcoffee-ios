@@ -43,8 +43,15 @@ public class TFCWatchDataFetch: NSObject, NSURLSessionDownloadDelegate {
         }
         return nil
     }
+    @available(watchOSApplicationExtension 3.0, *)
+    public func fetchDepartureData(task task: WKApplicationRefreshBackgroundTask) {
+        func handleReply() {
+            task.setTaskCompleted()
+        }
+        fetchDepartureData(handleReply)
+    }
 
-    public func fetchDepartureData(task: WKApplicationRefreshBackgroundTask? = nil) {
+    public func fetchDepartureData(taskCallback:(() -> Void)? = nil) {
         let lastViewedStation = self.getLastViewedStation();
 
         func handleReply(stations: TFCStations?) {
@@ -57,23 +64,27 @@ public class TFCWatchDataFetch: NSObject, NSURLSessionDownloadDelegate {
             } else {
                 DLog("No station set", toFile: true)
                 // try again in 5 minutes
-                WKExtension.sharedExtension().scheduleBackgroundRefreshWithPreferredDate(watchdata.getBackOffTime() , userInfo: nil) { (error) in
+                if #available(watchOSApplicationExtension 3.0, *) {
+                    WKExtension.sharedExtension().scheduleBackgroundRefreshWithPreferredDate(watchdata.getBackOffTime() , userInfo: nil) { (error) in
+                        if error == nil {
+                            //successful
+                        }
+                    }
+                }
+            }
+            taskCallback?()
+        }
+        func errorReply(error: String) {
+            DLog("error \(error)")
+            // try again in 5 minutes
+            if #available(watchOSApplicationExtension 3.0, *) {
+                WKExtension.sharedExtension().scheduleBackgroundRefreshWithPreferredDate(watchdata.getBackOffTime(), userInfo: nil) { (error) in
                     if error == nil {
                         //successful
                     }
                 }
             }
-            task?.setTaskCompleted()
-        }
-        func errorReply(error: String) {
-            DLog("error \(error)")
-            // try again in 5 minutes
-            WKExtension.sharedExtension().scheduleBackgroundRefreshWithPreferredDate(watchdata.getBackOffTime(), userInfo: nil) { (error) in
-                if error == nil {
-                    //successful
-                }
-            }
-            task?.setTaskCompleted()
+            taskCallback?()
         }
         if lastViewedStation != nil {
             fetchDepartureDataForStation(lastViewedStation!)
@@ -92,12 +103,16 @@ public class TFCWatchDataFetch: NSObject, NSURLSessionDownloadDelegate {
         DLog("Download \(sampleDownloadURL)", toFile: true)
 
         let backgroundConfigObject:NSURLSessionConfiguration
-        if (WKExtension.sharedExtension().applicationState == .Background) {
-            DLog("applicationState: Background")
-            backgroundConfigObject = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier((NSUUID().UUIDString))
+        if #available(watchOSApplicationExtension 3.0, *) {
+            if (WKExtension.sharedExtension().applicationState == .Background) {
+                DLog("applicationState: Background")
+                backgroundConfigObject = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier((NSUUID().UUIDString))
+            } else {
+                DLog("applicationState: Not Background")
+                backgroundConfigObject = NSURLSessionConfiguration.defaultSessionConfiguration()
+            }
         } else {
-            DLog("applicationState: Not Background")
-            backgroundConfigObject = NSURLSessionConfiguration.defaultSessionConfiguration()
+            backgroundConfigObject = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier((NSUUID().UUIDString))
         }
         backgroundConfigObject.requestCachePolicy = .UseProtocolCachePolicy
         let backgroundSession = NSURLSession(configuration: backgroundConfigObject, delegate: self, delegateQueue: nil)
@@ -106,18 +121,20 @@ public class TFCWatchDataFetch: NSObject, NSURLSessionDownloadDelegate {
 
         let downloadTask = backgroundSession.downloadTaskWithURL(sampleDownloadURL)
         downloadTask.taskDescription = station.st_id
-        if WKExtension.sharedExtension().applicationState == .Active {
-            downloadTask.priority = 1.0
+        if #available(watchOSApplicationExtension 3.0, *) {
+            if WKExtension.sharedExtension().applicationState == .Active {
+                downloadTask.priority = 1.0
+            }
         }
         downloadTask.resume()
     }
 
 
+    @available(watchOSApplicationExtension 3.0, *)
     public func rejoinURLSession(urlTask: WKURLSessionRefreshBackgroundTask) {
         let backgroundConfigObject = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier(urlTask.sessionIdentifier)
         let backgroundSession = NSURLSession(configuration: backgroundConfigObject, delegate: self, delegateQueue: nil)
         DLog("Rejoining session \(urlTask.sessionIdentifier) \(backgroundSession)", toFile: true)
-
     }
 
     public func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didFinishDownloadingToURL location: NSURL) {

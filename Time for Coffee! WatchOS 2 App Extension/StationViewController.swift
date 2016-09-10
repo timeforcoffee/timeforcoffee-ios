@@ -195,7 +195,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         let displayed = self.displayDepartures(forStation)
         let context2:[String:String]? = context as? [String:String]
         if (displayed && context2?["cached"] != "true") {
-            if (WKExtension.sharedExtension().applicationState == .Active && activated) {
+            if (activated) {
                 WKInterfaceDevice.currentDevice().playHaptic(WKHapticType.Click)
                 DLog("played haptic in Stations ")
             }

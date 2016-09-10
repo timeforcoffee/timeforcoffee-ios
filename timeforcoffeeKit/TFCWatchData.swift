@@ -209,12 +209,14 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
             } else {
                 nextUpdate = NSDate().dateByAddingTimeInterval(30 * 60)
             }
+        if #available(watchOSApplicationExtension 3.0, *) {
             WKExtension.sharedExtension().scheduleBackgroundRefreshWithPreferredDate(nextUpdate, userInfo: nil) { (error) in
                 DLog("updated next schedule at \(nextUpdate)", toFile: true)
                 if error == nil {
                     //successful
                 }
-            }        
+            }
+        }        
     }
 
     public func needsTimelineDataUpdate(station: TFCStation) -> Bool {
