@@ -203,8 +203,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                     DLog("no coord was sent with __updateComplicationData__ ")
                 }
 
-                //  updateComplicationData()
-                updateWatchNow()
+                self.fetchDepartureData()
             } else if (myKey == "__logThis__") {
                 if let value = myValue as? String {
                     DLog("Watch: " + value)
@@ -420,6 +419,9 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                 DLog("Unresolved error \(nserror), \(nserror.userInfo)")
             }
         }
+    }
+
+    func fetchDepartureData() {
     }
 
 

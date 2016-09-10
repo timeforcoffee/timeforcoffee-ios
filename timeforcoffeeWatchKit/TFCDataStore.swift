@@ -20,12 +20,12 @@ public class TFCDataStore: TFCDataStoreBase {
         return nil
     }
     
-    override func updateWatchNow() {
-
-        watchdata.scheduleNextUpdate(true)
+    override func fetchDepartureData() {
+        TFCWatchDataFetch.sharedInstance.fetchDepartureData()
     }
 
     override func updateComplicationData() {
+        DLog("updateComplicationData", toFile: true)
         watchdata.updateComplicationData()
     }
 }

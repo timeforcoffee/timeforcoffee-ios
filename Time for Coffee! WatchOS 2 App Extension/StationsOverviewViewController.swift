@@ -18,8 +18,6 @@ class StationsOverviewViewController: WKInterfaceController {
     @IBOutlet weak var infoGroup: WKInterfaceGroup!
     @IBOutlet weak var infoLabel: WKInterfaceLabel!
     var activatedOnce = false
-    var appActive = false
-    var appStarted = false
     var appeared = false
 
     lazy var watchdata: TFCWatchData = {
@@ -29,46 +27,17 @@ class StationsOverviewViewController: WKInterfaceController {
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
         DLog("awakeWithContext")
-        NSNotificationCenter.defaultCenter().addObserver(
-            self,
-            selector: #selector(StationsOverviewViewController.appDidBecomeActive(_:)),
-            name: "TFCWatchkitDidBecomeActive",
-            object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(
-            self,
-            selector: #selector(StationsOverviewViewController.appDidResignActive(_:)),
-            name: "TFCWatchkitDidResignActive",
-            object: nil)
+        stationsTable.setNumberOfRows(10, withRowType: "stations")
+        self.numberOfRows = 10
 
-        stationsTable.setNumberOfRows(6, withRowType: "stations")
-        self.numberOfRows = 6
-
-    }
-
-    func appDidBecomeActive(notification: NSNotification) {
-        DLog("appDidBecomeActive")
-        if (!self.appActive) { //sometimes this is called twice...
-            self.appActive = true
-            // since this will be called before didAppear on the first run
-            //  let didAppear handle it, otherwise, if we're coming from
-            //  hibernation, do it here
-            if (appStarted && appeared) {
-                getStations()
-            }
-            if (!appStarted) {
-                appStarted = true
-            }
-        }
-    }
-
-    func appDidResignActive(notification: NSNotification) {
-        self.appActive = false
-        DLog("appDidResignActive")
     }
 
     override func willActivate() {
         super.willActivate()
         DLog("willActivate")
+        if (self.appeared) {
+            getStations()
+        }
     }
 
     override func didAppear() {
@@ -105,12 +74,12 @@ class StationsOverviewViewController: WKInterfaceController {
             if (stations == nil || stations?.count() == nil) {
                 return
             }
-            if (self.appeared && self.appActive) {
+            if (self.appeared) {
                 WKInterfaceDevice.currentDevice().playHaptic(WKHapticType.Click)
                 infoGroup.setHidden(true)
 
                 if let stations = stations {
-                    let ctxStations = Array(stations.prefix(6))
+                    let ctxStations = Array(stations.prefix(10))
                     if (self.numberOfRows != ctxStations.count) {
                         stationsTable.setNumberOfRows(ctxStations.count, withRowType: "stations")
                         self.numberOfRows = ctxStations.count
@@ -122,7 +91,6 @@ class StationsOverviewViewController: WKInterfaceController {
                         }
                         i += 1
                     }
-                    watchdata.updateComplication(stations)
                 }
             }
         }
@@ -137,6 +105,7 @@ class StationsOverviewViewController: WKInterfaceController {
     override func table(table: WKInterfaceTable, didSelectRowAtIndex rowIndex: Int) {
         let row = table.rowControllerAtIndex(rowIndex) as? StationsRow
         if let station = row?.station {
+            TFCWatchDataFetch.sharedInstance.fetchDepartureDataForStation(station)
             NSNotificationCenter.defaultCenter().postNotificationName("TFCWatchkitSelectStation", object: nil, userInfo: ["st_id": station.st_id, "name": station.name])
         }
         

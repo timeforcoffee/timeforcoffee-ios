@@ -113,7 +113,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
 
     public func getStations(reply: replyStations?, errorReply: ((String) -> Void)?, stopWithFavorites: Bool?) {
         func handleReply(replyInfo: [NSObject : AnyObject]!) {
-            DLog("handleReply", toFile: true)
+            DLog("handleReply")
             if(replyInfo["lat"] != nil) {
                 let loc = CLLocation(latitude: replyInfo["lat"] as! Double, longitude: replyInfo["long"] as! Double)
                 self.stations?.initWithNearbyFavorites(loc)
@@ -190,8 +190,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
                     if WKExtension.sharedExtension().applicationState == .Background {
                         nextUpdate = NSDate().dateByAddingTimeInterval(5)
                     } else {
-                        DLog("updateComplicationData", toFile: true)
-                        self.updateComplicationData()
+                        TFCWatchDataFetch.sharedInstance.fetchDepartureData()
                         return
                     }
                 } else {
@@ -234,10 +233,10 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
                 ) {
                 return false
             }
-            DLog("timeIntervalSinceNow \(lastDepartureTime.dateByAddingTimeInterval(4 * -3600).timeIntervalSinceNow)", toFile: true)
-            DLog("lastDepartureTime: \(lastDepartureTime)", toFile: true)
-            DLog("lastFirstStationId: \(lastFirstStationId)", toFile: true)
-            DLog("station.getFilteredDepartures()?.count: \(station.getFilteredDepartures()?.count)", toFile: true)
+            DLog("timeIntervalSinceNow \(lastDepartureTime.dateByAddingTimeInterval(4 * -3600).timeIntervalSinceNow)")
+            DLog("lastDepartureTime: \(lastDepartureTime)")
+            DLog("lastFirstStationId: \(lastFirstStationId)")
+            DLog("station.getFilteredDepartures()?.count: \(station.getFilteredDepartures()?.count)")
 
         }
         return true
