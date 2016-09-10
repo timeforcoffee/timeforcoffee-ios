@@ -202,7 +202,6 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                 } else {
                     DLog("no coord was sent with __updateComplicationData__ ")
                 }
-
                 self.fetchDepartureData()
             } else if (myKey == "__logThis__") {
                 if let value = myValue as? String {

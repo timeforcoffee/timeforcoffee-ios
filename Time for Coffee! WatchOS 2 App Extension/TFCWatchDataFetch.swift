@@ -142,16 +142,11 @@ public class TFCWatchDataFetch: NSObject, NSURLSessionDownloadDelegate {
                 }
             }
         }
-        // FIXME: Not sure we have to set that every time
-        watchdata.scheduleNextUpdate()
-      //  TFCDataStore.sharedInstance.watchdata.updateComplicationData()
     }
 
     public func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?) {
         DLog("didCompleteWithError \(error)")
-        if (error != nil) {
-            TFCDataStore.sharedInstance.watchdata.scheduleNextUpdate()
-        }
+        TFCDataStore.sharedInstance.watchdata.scheduleNextUpdate()
         if let st_id = task.taskDescription {
             downloading[st_id] = nil
         }

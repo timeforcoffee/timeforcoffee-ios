@@ -105,8 +105,6 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
                     DLog("Reload Complications", toFile: true)
                     server.reloadTimelineForComplication(complication)
                 }
-            } else {
-                scheduleNextUpdate()
             }
         }
     }
@@ -162,6 +160,26 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
         }
     }
 
+    func getBackOffTime() -> NSDate {
+        var backoffCount = TFCDataStore.sharedInstance.getUserDefaults()?.integerForKey("backoffCount")
+        if (backoffCount == nil) {
+            backoffCount = 1
+        }
+        var backoffTime = 2 ^ backoffCount!
+        if (backoffTime > 60) {
+            backoffTime = 60
+            backoffCount = 6
+        } else {
+            backoffCount = backoffCount! + 1
+        }
+        TFCDataStore.sharedInstance.getUserDefaults()?.setInteger(backoffCount!, forKey: "backoffCount")
+        return NSDate().dateByAddingTimeInterval(Double(backoffTime) * 60)
+    }
+
+    func clearBackOffTime() {
+        TFCDataStore.sharedInstance.getUserDefaults()?.setObject(nil, forKey: "backoffCount")
+    }
+
     public func getNextUpdateTime() -> NSDate {
         var nextUpdateDate:NSDate?        
         let maxNextUpdateDate = NSDate().dateByAddingTimeInterval(Constants.FrequencyOfTimelineUpdate)
@@ -169,33 +187,26 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
             let lastEntryDate = nextUpdate.dateByAddingTimeInterval(Constants.TimelineUpdateMinutesBeforeEnd)
             //if lastEntryDate is before now, update again in 5 minutes
             if (lastEntryDate.timeIntervalSinceNow < NSDate().timeIntervalSinceNow) {
-                nextUpdateDate = NSDate().dateByAddingTimeInterval(5 * 60)
-                //if lastEntryDate is more in the future than 1.5 hours
+                nextUpdateDate = getBackOffTime()
+                //if lastEntryDate is more in the future than 0.5 hours
             } else if (maxNextUpdateDate.timeIntervalSinceReferenceDate < lastEntryDate.timeIntervalSinceReferenceDate) {
                 nextUpdateDate = maxNextUpdateDate
+                clearBackOffTime()
             } else {
                 nextUpdateDate = lastEntryDate
+                clearBackOffTime()
             }
         } else {
-            nextUpdateDate =  NSDate().dateByAddingTimeInterval(5 * 60) // request an update in 5 minutes, if no lastDepartureTime was set.
+            nextUpdateDate =  getBackOffTime() // request an update in 5 minutes, if no lastDepartureTime was set.
         }
         // nextUpdateDate = NSDate().dateByAddingTimeInterval( 60)
         return nextUpdateDate!
     }
 
-    public func scheduleNextUpdate(now: Bool? = false) {
+    public func scheduleNextUpdate() {
             let nextUpdate:NSDate
             if (CLKComplicationServer.sharedInstance().activeComplications?.count > 0) {
-                if now == true  {
-                    if WKExtension.sharedExtension().applicationState == .Background {
-                        nextUpdate = NSDate().dateByAddingTimeInterval(5)
-                    } else {
-                        TFCWatchDataFetch.sharedInstance.fetchDepartureData()
-                        return
-                    }
-                } else {
-                    nextUpdate = self.getNextUpdateTime()
-                }
+                nextUpdate = self.getNextUpdateTime()
             } else {
                 nextUpdate = NSDate().dateByAddingTimeInterval(30 * 60)
             }
