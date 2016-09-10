@@ -160,7 +160,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
         }
     }
 
-    func getBackOffTime() -> NSDate {
+    public func getBackOffTime() -> NSDate {
         var backoffCount = TFCDataStore.sharedInstance.getUserDefaults()?.integerForKey("backoffCount")
         if (backoffCount == nil) {
             backoffCount = 1

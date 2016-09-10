@@ -57,7 +57,7 @@ public class TFCWatchDataFetch: NSObject, NSURLSessionDownloadDelegate {
             } else {
                 DLog("No station set", toFile: true)
                 // try again in 5 minutes
-                WKExtension.sharedExtension().scheduleBackgroundRefreshWithPreferredDate(NSDate(timeIntervalSinceNow: 5 * 60) , userInfo: nil) { (error) in
+                WKExtension.sharedExtension().scheduleBackgroundRefreshWithPreferredDate(watchdata.getBackOffTime() , userInfo: nil) { (error) in
                     if error == nil {
                         //successful
                     }
@@ -68,7 +68,7 @@ public class TFCWatchDataFetch: NSObject, NSURLSessionDownloadDelegate {
         func errorReply(error: String) {
             DLog("error \(error)")
             // try again in 5 minutes
-            WKExtension.sharedExtension().scheduleBackgroundRefreshWithPreferredDate(NSDate(timeIntervalSinceNow: 5 * 60) , userInfo: nil) { (error) in
+            WKExtension.sharedExtension().scheduleBackgroundRefreshWithPreferredDate(watchdata.getBackOffTime(), userInfo: nil) { (error) in
                 if error == nil {
                     //successful
                 }
