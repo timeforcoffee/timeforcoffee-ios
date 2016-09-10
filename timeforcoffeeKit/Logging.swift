@@ -106,12 +106,9 @@ func DLog<T>(@autoclosure object: () -> T, toFile: Bool = false, _ file: String 
             let text = "\(NSDate().formattedWithDateFormatter(DLogDateFormatter)) <\(queue)> \(stringRepresentation)  (\(fileURL) \(function)[\(line)])"
             #if os(watchOS)
                 DLog2WatchConnectivity(text)
+            #else
+                DLog2File(text)
             #endif
-            /*#else
-             DLog2File(text)
-             #endif*/
-            DLog2File(text)
-            
         }
     #endif
 }
