@@ -254,19 +254,18 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
             let lastRequest = self.lastRequestForAllData()
             if (lastRequest == nil || lastRequest < -60) {
                 TFCDataStore.sharedInstance.getUserDefaults()?.setObject(NSDate(), forKey: "lastRequestForAllDataToBeSent")
+                var allDataDict:[String:AnyObject] = [:]
                 for (myKey, myValue) in allData {
                     // only send key starting with favorite
                     if (myKey.hasPrefix("favorite") || myKey.hasPrefix("filtered")) {
-                        let applicationDict = [myKey: myValue]
-                        sendData(applicationDict)
+                        allDataDict[myKey] = myValue
                     }
                 }
                 // this is so that we can check, if an allData request was sent to the watch
                 //  until this is done, the watch will keep asking for it
                 //  This is to avoid haveing no favourites on the watch to start with
-                sendData(["__allDataResponseSent__": true])
-                DLog("Sent __allDataResponseSent__");
-
+                allDataDict["__allDataResponseSent__"] = true
+                sendData(allDataDict)
             }
         }
     }
