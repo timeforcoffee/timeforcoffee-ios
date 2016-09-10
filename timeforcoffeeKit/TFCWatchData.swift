@@ -39,13 +39,13 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
 
     public func locationFixed(loc: CLLocation?) {
         if let coord = loc?.coordinate {
-            DLog("location fixed \(loc)")
+            DLog("location fixed \(loc)", toFile: true)
             replyNearby!(["lat" : coord.latitude, "long": coord.longitude]);
         } 
     }
 
     public func locationDenied(manager: CLLocationManager, err:NSError) {
-        DLog("location DENIED \(err)")
+        DLog("location DENIED \(err)", toFile: true)
         replyNearby!(["error": err]);
     }
 
@@ -56,7 +56,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
     public func getLocation(reply: replyClosure?) {
         // this is a not so nice way to get the reply Closure to later when we actually have
         // the data from the API... (in locationFixed)
-        DLog("get new location in watch")
+        DLog("get new location in watch", toFile: true)
         self.replyNearby = reply
         locManager?.refreshLocation()
     }
@@ -139,7 +139,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
         // check if we now a last location, and take that if it's not older than 30 seconds
         //  to avoid multiple location lookups
         if let cachedLoc = locManager?.getLastLocation(30)?.coordinate {
-            DLog("still cached location \(cachedLoc)")
+            DLog("still cached location \(cachedLoc)", toFile: true)
             handleReply(["lat" : cachedLoc.latitude, "long": cachedLoc.longitude])
         } else {
             self.getLocation(handleReply)
@@ -222,8 +222,8 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
         if let lastDepartureTime:NSDate = NSUserDefaults().valueForKey("lastDepartureTime") as? NSDate,
             lastFirstStationId = NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee")?.stringForKey("lastFirstStationId"),
             departures = station.getFilteredDepartures() {
-            // if lastDepartureTime is more than 4 hours away and we're in the same place
-            // and we still have at least 5 departures, just use the departures from the cache
+            DLog("\(lastFirstStationId) == \(station.st_id)", toFile: true)
+            DLog("\(departures.last?.getScheduledTimeAsNSDate()) <= \(lastDepartureTime.dateByAddingTimeInterval(-60))", toFile: true)
             if (lastFirstStationId == station.st_id
                 && departures.last?.getScheduledTimeAsNSDate() <= lastDepartureTime.dateByAddingTimeInterval(-60)) {
                 return false

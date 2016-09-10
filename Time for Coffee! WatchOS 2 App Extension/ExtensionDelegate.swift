@@ -24,6 +24,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     var wcBackgroundTasks: [AnyObject] = []
 
     func applicationDidFinishLaunching() {
+        DLog("__", toFile: true)
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
             TFCDataStore.sharedInstance.registerWatchConnectivity(self)
@@ -65,6 +66,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     }
 
     func applicationWillResignActive() {
+        DLog("__", toFile: true)
         TFCDataStore.sharedInstance.saveContext()
     }
 
@@ -76,13 +78,15 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     }
 
     func handleUserActivity(userInfo: [NSObject : AnyObject]?) {
-        DLog("handleUserActivity")
+        DLog("handleUserActivity \(userInfo)", toFile: true)
+
         if let userInfo = userInfo {
             var uI:[String:String]? = nil
             if (userInfo.keys.first == "CLKLaunchedTimelineEntryDateKey") {
                 //TFCURLSession.sharedInstance.cancelURLSession()
                 if let lastId = NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee")?.stringForKey("lastFirstStationId") {
                     uI = ["st_id": lastId]
+                    DLog("\(uI)", toFile: true)
                     TFCWatchDataFetch.sharedInstance.fetchDepartureDataForStation(TFCStation.initWithCacheId(lastId))
                 }
             } else {

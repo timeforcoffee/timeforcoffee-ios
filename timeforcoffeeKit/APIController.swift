@@ -91,7 +91,7 @@ final class APIController {
             } else {
                 if let url: NSURL = NSURL(string: urlPath) {
                     let absUrl = url.absoluteString
-                    DLog("Start fetching data \(absUrl)")
+                    DLog("Start fetching data \(absUrl)", toFile: true)
 
 
                     if (fetchId == 1 && self.currentFetch[fetchId] != nil) {
@@ -101,8 +101,9 @@ final class APIController {
 
                     let session2 = TFCURLSession.sharedInstance.session
                     let dataFetch: NSURLSessionDataTask? = session2.dataTaskWithURL(url, completionHandler: {data , response, error -> Void in
+                        let httpResponse = response as? NSHTTPURLResponse
+                        DLog("Task completed with status code \(httpResponse?.statusCode) and date \(httpResponse?.allHeaderFields["Date"]) and error \(error)", toFile: true)
 
-                        DLog("Task completed")
                         if(error != nil) {
                             // If there is an error in the web request, print it to the console
                             DLog(error)
@@ -154,7 +155,7 @@ final class APIController {
         if it's not known yet */
     private func fetchUrlSync(urlPath: String, cacheKey: String?) -> JSON? {
         if let result = self.getFromCache(cacheKey) {
-            DLog("Sync fetch was still in cache")
+            DLog("Sync fetch was still in cache \(cacheKey)", toFile: true)
             return result
         }
         let semaphore = dispatch_semaphore_create(0)

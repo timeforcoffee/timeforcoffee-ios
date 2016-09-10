@@ -30,16 +30,16 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     }
     
     func getTimelineStartDateForComplication(complication: CLKComplication, withHandler handler: (NSDate?) -> Void) {
-        DLog("getTimelineStartDateForComplication")
+        DLog("getTimelineStartDateForComplication", toFile: true)
         func handleReply(stations: TFCStations?) {
             if let station = stations?.first {
                 func handleReply2(station: TFCStation?) {
                     if let departure = station?.getFilteredDepartures()?.first {
                         let startDate = timelineEntryDateForDeparture(departure, previousDeparture: nil)
-                        DLog("startDate: \(startDate)")
+                        DLog("startDate: \(startDate)", toFile: true)
                         handler(startDate)
                     } else {
-                        DLog("no Departure, startDate: \(NSDate())")
+                        DLog("no Departure, startDate: \(NSDate())", toFile: true)
                         handler(NSDate())
                     }
                 }
@@ -50,17 +50,17 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     }
     
     func getTimelineEndDateForComplication(complication: CLKComplication, withHandler handler: (NSDate?) -> Void) {
-        DLog("getTimelineEndDateForComplication")
+        DLog("getTimelineEndDateForComplication", toFile: true)
         func handleReply(stations: TFCStations?) {
             if let station = stations?.first {
-                DLog("firstStation: \(station.name)")
+                DLog("firstStation: \(station.name)", toFile: true)
                 func handleReply2(station: TFCStation?) {
                     if let endDate = station?.getFilteredDepartures()?.last?.getScheduledTimeAsNSDate() {
-                        DLog("last Departure: \(endDate)")
+                        DLog("last Departure: \(endDate)", toFile: true)
                         handler(endDate.dateByAddingTimeInterval(70))
                     } else {
                         let endDate = NSDate().dateByAddingTimeInterval(60)
-                        DLog("no last Departure, set it to \(endDate)")
+                        DLog("no last Departure, set it to \(endDate)", toFile: true)
                         handler(endDate)
                     }
                 }
@@ -85,7 +85,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     
     func getTimelineEntriesForComplication(complication: CLKComplication, beforeDate date: NSDate, limit: Int, withHandler handler: (([CLKComplicationTimelineEntry]?) -> Void)) {
         // Call the handler with the timeline entries after to the given date
-        DLog("getTimelineEntriesForComplication beforeDate")
+        DLog("getTimelineEntriesForComplication beforeDate", toFile: true)
         func handleReply(stations: TFCStations?) {
             var entries = [CLKComplicationTimelineEntry]()
             
@@ -113,7 +113,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     
     func getTimelineEntriesForComplication(complication: CLKComplication, afterDate date: NSDate, limit: Int, withHandler handler: (([CLKComplicationTimelineEntry]?) -> Void)) {
         // Call the handler with the timeline entries after to the given date
-        DLog("getTimelineEntriesForComplication afterDate: \(date)")
+        DLog("getTimelineEntriesForComplication afterDate: \(date)", toFile: true)
         func handleReply(stations: TFCStations?) {
             var entries = [CLKComplicationTimelineEntry]()
             if let station = stations?.first { // corresponds to the favorited/closest station
@@ -142,7 +142,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                                 nextDeparture = (departures.count > index + 1) ? departures[index + 1] : nil
                             }
                             //append a last entry with no departure info one minute later
-                            DLog("entries count: \(entries.count) limit \(limit)")
+                            DLog("entries count: \(entries.count) limit \(limit)", toFile: true)
                             if (entries.count > 0) {
                                 //remove all entries until we're one below the limit
                                 while (entries.count >= limit) {                                
@@ -158,7 +158,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                             }
                             if (lastDepartureTimeNew != nil) {
                                 NSUserDefaults().setValue(lastDepartureTimeNew, forKey: "lastDepartureTime")
-                                DLog("lastDepartureTime: \(lastDepartureTimeNew)")
+                                DLog("lastDepartureTime: \(lastDepartureTimeNew)", toFile: true)
                             }
                     } else {
                         NSUserDefaults().setValue(nil, forKey: "lastDepartureTime")
@@ -234,21 +234,25 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     
     func requestedUpdateDidBegin() {
         // get the shared instance
-        DLog("requestedUpdateDidBegin")
+        DLog("requestedUpdateDidBegin", toFile: true)
         // delay by 3 seconds, so it may have some time to fetch the userInfo about locaton from
         // the iphone when called via transferCurrentComplicationUserInfo()
 
         //self.watchdata.waitForNewLocation(within: 5)
+        DLog("updateComplicationData", toFile: true)
+
         self.watchdata.updateComplicationData()
     }
 
 
     func requestedUpdateBudgetExhausted() {
         // get the shared instance
-        DLog("requestedUpdateBudgetExhausted");
+        DLog("requestedUpdateBudgetExhausted", toFile: true)
         // delay by 3 seconds, so it may have some time to fetch the userInfo about locaton from
         // the iphone when called via transferCurrentComplicationUserInfo()
        // self.watchdata.waitForNewLocation(within: 5)
+        DLog("updateComplicationData", toFile: true)
+
         self.watchdata.updateComplicationData()
      }
 
