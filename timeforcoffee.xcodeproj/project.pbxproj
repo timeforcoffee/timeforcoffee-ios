@@ -45,7 +45,6 @@
 		EC46C5221BB5C78A00F2A963 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC46C5211BB5C78A00F2A963 /* Assets.xcassets */; };
 		EC46C5291BB5C78A00F2A963 /* Time for Coffee! WatchOS 2 App Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EC46C5281BB5C78A00F2A963 /* Time for Coffee! WatchOS 2 App Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		EC46C5301BB5C78A00F2A963 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC46C52F1BB5C78A00F2A963 /* ExtensionDelegate.swift */; };
-		EC46C5321BB5C78A00F2A963 /* GlanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC46C5311BB5C78A00F2A963 /* GlanceController.swift */; };
 		EC46C5341BB5C78A00F2A963 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC46C5331BB5C78A00F2A963 /* Assets.xcassets */; };
 		EC46C5381BB5C78A00F2A963 /* Time for Coffee! WatchOS 2 App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = EC46C51C1BB5C78A00F2A963 /* Time for Coffee! WatchOS 2 App.app */; };
 		EC46C55C1BB5C82800F2A963 /* timeforcoffeeKit.h in Headers */ = {isa = PBXBuildFile; fileRef = EC46C55B1BB5C82800F2A963 /* timeforcoffeeKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -280,7 +279,6 @@
 		EC46C5231BB5C78A00F2A963 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC46C5281BB5C78A00F2A963 /* Time for Coffee! WatchOS 2 App Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Time for Coffee! WatchOS 2 App Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC46C52F1BB5C78A00F2A963 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
-		EC46C5311BB5C78A00F2A963 /* GlanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlanceController.swift; sourceTree = "<group>"; };
 		EC46C5331BB5C78A00F2A963 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EC46C5351BB5C78A00F2A963 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC46C5481BB5C7FD00F2A963 /* timeforcoffeeWatchKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = timeforcoffeeWatchKit.h; sourceTree = "<group>"; };
@@ -573,7 +571,6 @@
 			children = (
 				ECA72B7B1BB6D23E00506300 /* Time for Coffee! WatchOS 2 App Extension.entitlements */,
 				EC46C52F1BB5C78A00F2A963 /* ExtensionDelegate.swift */,
-				EC46C5311BB5C78A00F2A963 /* GlanceController.swift */,
 				EC46C5331BB5C78A00F2A963 /* Assets.xcassets */,
 				EC4AB2681BB6787600DA9759 /* MapViewController.swift */,
 				EC4AB2691BB6787600DA9759 /* StationRow.swift */,
@@ -1210,7 +1207,6 @@
 				EC050CEE1BB84D4F00ECB533 /* PINDiskCache.m in Sources */,
 				EC050CE91BB84D4700ECB533 /* extensions.swift in Sources */,
 				EC810B071BC7963C0007B874 /* DataModels.xcdatamodeld in Sources */,
-				EC46C5321BB5C78A00F2A963 /* GlanceController.swift in Sources */,
 				EC4AB26D1BB6787600DA9759 /* MapViewController.swift in Sources */,
 				EC050CEF1BB84D4F00ECB533 /* PINMemoryCache.m in Sources */,
 				EC4AB2711BB6787600DA9759 /* StationViewController.swift in Sources */,
