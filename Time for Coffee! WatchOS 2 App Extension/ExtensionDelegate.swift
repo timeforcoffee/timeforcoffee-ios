@@ -110,7 +110,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                     // store a reference to the task objects as we might have to wait to complete them
                     self.wcBackgroundTasks.append(wcBackgroundTask)
             } else if let snapshotTask = task as? WKSnapshotRefreshBackgroundTask {
-                snapshotTask.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: watchdata.getNextUpdateTime(), userInfo: nil)
+                snapshotTask.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: watchdata.getNextUpdateTime(noBackOffIncr: true), userInfo: nil)
             } else {
                 //DLog("received something else...", toFile: true)
                 // make sure to complete all tasks, even ones you don't handle

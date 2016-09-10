@@ -160,7 +160,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
         }
     }
 
-    public func getBackOffTime() -> NSDate {
+    public func getBackOffTime(noBackOffIncr noBackOffIncr:Bool? = false) -> NSDate {
         var backoffCount = TFCDataStore.sharedInstance.getUserDefaults()?.integerForKey("backoffCount")
         if (backoffCount == nil) {
             backoffCount = 1
@@ -180,14 +180,14 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
         TFCDataStore.sharedInstance.getUserDefaults()?.setObject(nil, forKey: "backoffCount")
     }
 
-    public func getNextUpdateTime() -> NSDate {
+    public func getNextUpdateTime(noBackOffIncr noBackOffIncr:Bool? = false) -> NSDate {
         var nextUpdateDate:NSDate?        
         let maxNextUpdateDate = NSDate().dateByAddingTimeInterval(Constants.FrequencyOfTimelineUpdate)
         if let nextUpdate =  NSUserDefaults().valueForKey("lastDepartureTime") as? NSDate {
             let lastEntryDate = nextUpdate.dateByAddingTimeInterval(Constants.TimelineUpdateMinutesBeforeEnd)
             //if lastEntryDate is before now, update again in 5 minutes
             if (lastEntryDate.timeIntervalSinceNow < NSDate().timeIntervalSinceNow) {
-                nextUpdateDate = getBackOffTime()
+                nextUpdateDate = getBackOffTime(noBackOffIncr: noBackOffIncr)
                 //if lastEntryDate is more in the future than 0.5 hours
             } else if (maxNextUpdateDate.timeIntervalSinceReferenceDate < lastEntryDate.timeIntervalSinceReferenceDate) {
                 nextUpdateDate = maxNextUpdateDate
@@ -199,7 +199,6 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
         } else {
             nextUpdateDate =  getBackOffTime() // request an update in 5 minutes, if no lastDepartureTime was set.
         }
-        // nextUpdateDate = NSDate().dateByAddingTimeInterval( 60)
         return nextUpdateDate!
     }
 
