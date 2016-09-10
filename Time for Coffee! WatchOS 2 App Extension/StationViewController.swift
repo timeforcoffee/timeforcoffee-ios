@@ -12,7 +12,7 @@ import Foundation
 class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol {
     @IBOutlet weak var stationsTable: WKInterfaceTable!
     var station: TFCStation?
-
+    var activated:Bool = false
     var lastShownStationId: String? {
         didSet {
             TFCWatchDataFetch.sharedInstance.setLastViewedStation(station)
@@ -21,7 +21,6 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     var pageNumber: Int?
     var numberOfRows: Int = 0
     var initTable = false
-    var appeared = false
     var userActivity: [String:String]?
 
     @IBOutlet weak var infoGroup: WKInterfaceGroup!
@@ -98,23 +97,22 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
         setStationValues()
-        DLog("willActivate appeared: \(self.appeared)", toFile: true)
+        self.activated = true
+        DLog("willActivate", toFile: true)
     }
 
     override func didAppear() {
         DLog("didAppear", toFile: true)
-        self.appeared = true
     }
 
     override func willDisappear() {
         DLog("willDisappear")
-
-        self.appeared = false
     }
 
     override func didDeactivate() {
         // This method is called when watch view controller is no longer visible
         DLog("didDeactivate")
+        self.activated = false
         super.didDeactivate()
     }
 
@@ -166,8 +164,9 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
 
 
     func updateCurrentStation(notification: NSNotification) {
-        guard self.appeared else { return }
-        self.departuresUpdated(nil, context: nil, forStation: self.station)
+        if (self.activated) {
+            self.departuresUpdated(nil, context: nil, forStation: self.station)
+        }
     }
 
     func selectStation(notification: NSNotification) {
@@ -188,16 +187,17 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
                 }
             }
         }
+
         self.becomeCurrentPage()
     }
 
     func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?) {
-        if (self.appeared) {
-            let displayed = self.displayDepartures(forStation)
-            let context2:[String:String]? = context as? [String:String]
-            if (self.appeared && displayed && context2?["cached"] != "true") {
+        let displayed = self.displayDepartures(forStation)
+        let context2:[String:String]? = context as? [String:String]
+        if (displayed && context2?["cached"] != "true") {
+            if (WKExtension.sharedExtension().applicationState == .Active && activated) {
                 WKInterfaceDevice.currentDevice().playHaptic(WKHapticType.Click)
-                DLog("played haptic in Stations \(self.appeared)")
+                DLog("played haptic in Stations ")
             }
         }
     }

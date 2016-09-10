@@ -18,7 +18,7 @@ class StationsOverviewViewController: WKInterfaceController {
     @IBOutlet weak var infoGroup: WKInterfaceGroup!
     @IBOutlet weak var infoLabel: WKInterfaceLabel!
     var activatedOnce = false
-    var appeared = false
+    var activated = false
 
     lazy var watchdata: TFCWatchData = {
         return TFCWatchData()
@@ -35,7 +35,8 @@ class StationsOverviewViewController: WKInterfaceController {
     override func willActivate() {
         super.willActivate()
         DLog("willActivate")
-        if (self.appeared) {
+        self.activated = true
+        if (activatedOnce) {
             getStations()
         }
     }
@@ -43,21 +44,22 @@ class StationsOverviewViewController: WKInterfaceController {
     override func didAppear() {
         DLog("didAppear")
         super.didAppear()
-        self.appeared = true
         if (!activatedOnce) {
             self.setTitle("Nearby Stations")
             self.addMenuItemWithItemIcon(WKMenuItemIcon.Resume, title: "Reload", action: #selector(StationsOverviewViewController.contextButtonReload))
             activatedOnce = true
+            getStations()
         }
-        getStations()
+       // getStations()
    }
 
     override func willDisappear() {
         super.willDisappear()
-        self.appeared = false
     }
 
     override func didDeactivate() {
+        DLog("didDeactivate")
+        self.activated = false
         super.didDeactivate()
     }
 
@@ -74,7 +76,7 @@ class StationsOverviewViewController: WKInterfaceController {
             if (stations == nil || stations?.count() == nil) {
                 return
             }
-            if (self.appeared) {
+            if (self.activated) {
                 WKInterfaceDevice.currentDevice().playHaptic(WKHapticType.Click)
                 infoGroup.setHidden(true)
 
