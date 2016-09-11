@@ -46,6 +46,7 @@ public class TFCWatchDataFetch: NSObject, NSURLSessionDownloadDelegate {
     @available(watchOSApplicationExtension 3.0, *)
     public func fetchDepartureData(task task: WKApplicationRefreshBackgroundTask) {
         func handleReply() {
+            DLog("WKApplicationRefreshBackgroundTask finished", toFile: true)
             task.setTaskCompleted()
         }
         fetchDepartureData(handleReply)

@@ -217,20 +217,17 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
             }
         if #available(watchOSApplicationExtension 3.0, *) {
             WKExtension.sharedExtension().scheduleBackgroundRefreshWithPreferredDate(nextUpdate, userInfo: nil) { (error) in
-                DLog("updated next schedule at \(nextUpdate)", toFile: true)
+                DLog("updated next schedule at \(nextUpdate.formattedWithDateFormatter(DLogDateFormatter))", toFile: true)
                 if error == nil {
                     //successful
                 }
             }
         }        
     }
-
     public func needsTimelineDataUpdate(station: TFCStation) -> Bool {
         if let lastDepartureTime:NSDate = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastDepartureTime") as? NSDate,
             lastFirstStationId = TFCDataStore.sharedInstance.getUserDefaults()?.stringForKey("lastFirstStationId"),
             departures = station.getFilteredDepartures() {
-            DLog("\(lastFirstStationId) == \(station.st_id)", toFile: true)
-            DLog("\(departures.last?.getScheduledTimeAsNSDate()) <= \(lastDepartureTime)", toFile: true)
             if (lastFirstStationId == station.st_id
                 && departures.last?.getScheduledTimeAsNSDate() <= lastDepartureTime) {
                 return false
