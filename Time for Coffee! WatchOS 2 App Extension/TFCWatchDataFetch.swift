@@ -130,6 +130,7 @@ public class TFCWatchDataFetch: NSObject, NSURLSessionDownloadDelegate {
         backgroundConfigObject.sessionSendsLaunchEvents = true
 
         let downloadTask = backgroundSession.downloadTaskWithURL(sampleDownloadURL)
+
         downloadTask.taskDescription = station.st_id
         if #available(watchOSApplicationExtension 3.0, *) {
             if WKExtension.sharedExtension().applicationState == .Active {
@@ -160,16 +161,13 @@ public class TFCWatchDataFetch: NSObject, NSURLSessionDownloadDelegate {
                 }
                 // check if we fetched the one in the complication and then update it
                 if let defaults = TFCDataStore.sharedInstance.getUserDefaults() {
-                    if (CLKComplicationServer.sharedInstance().activeComplications?.count > 0) {
-                        if (st_id == defaults.stringForKey("lastFirstStationId")) {
+                    if (st_id == defaults.stringForKey("lastFirstStationId")) {
+                        if (CLKComplicationServer.sharedInstance().activeComplications?.count > 0) {
                             if watchdata.needsTimelineDataUpdate(station) {
                                 DLog("updateComplicationData", toFile: true)
                                 watchdata.updateComplicationData()
                             }
                         }
-                    }
-                    
-                    if (st_id == defaults.stringForKey("lastFirstStationId")) {
                         if let departures = station.getFilteredDepartures() {
                             defaults.setObject(departures.last?.getScheduledTimeAsNSDate(), forKey: "lastDepartureTime")
                             defaults.setObject(departures.first?.getScheduledTimeAsNSDate(), forKey: "firstDepartureTime")
