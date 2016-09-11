@@ -501,9 +501,8 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     private func addDepartures(departures: [TFCDeparture]?) {
         // don't update departures, if we get nil
         // can happen when network request didn't work properly
-        if (!(departures == nil && self.departures?.count > 0)) {
-            for dept in departures! {
-                //FIXME better key
+        if let depts = departures {
+            for dept in depts {
                 if self.departures == nil {
                     self.departures = [:]
                 }
@@ -515,7 +514,6 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     }
 
     public func getDepartures() -> [TFCDeparture]? {
-        // FIXME: maybe cache somehow...
         if let alreadySorted = self.departuresSorted {
             return alreadySorted
         }
