@@ -69,12 +69,14 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
     public var st_id: String
 
-    private var departures: [TFCDeparture]? = nil {
+    private var departures: [String:TFCDeparture]? = nil {
         didSet {
             filteredDepartures = nil
+            departuresSorted = nil
         }
     }
 
+    private var departuresSorted: [TFCDeparture]?
     private var filteredDepartures: [TFCDeparture]?
 
     public var calculatedDistance: Double? {
@@ -117,6 +119,8 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
     struct contextData {
         var completionDelegate: TFCDeparturesUpdatedProtocol? = nil
+        var hasStartTime: Bool = false
+        var onlyFirstDownload: Bool = false
         var context: Any? = nil
     }
 
@@ -178,7 +182,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     public required init?(coder aDecoder: NSCoder) {
         self.st_id = aDecoder.decodeObjectForKey("st_id") as! String
         super.init()
-        self.departures = aDecoder.decodeObjectForKey("departures") as! [TFCDeparture]?
+        self.departures = aDecoder.decodeObjectForKey("departuresDict") as! [String:TFCDeparture]?
         if (self.departures?.count == 0) {
             self.departures = nil
         }
@@ -191,7 +195,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     public func encodeWithCoder(aCoder: NSCoder) {
         aCoder.encodeObject(st_id, forKey: "st_id")
         if (serializeDepartures) {
-            aCoder.encodeObject(departures, forKey: "departures")
+            aCoder.encodeObject(departures, forKey: "departuresDict")
         }
         aCoder.encodeObject(walkingDistanceString, forKey: "walkingDistanceString")
         aCoder.encodeObject(walkingDistanceLastCoord, forKey: "walkingDistanceLastCoord")
@@ -498,26 +502,46 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         // don't update departures, if we get nil
         // can happen when network request didn't work properly
         if (!(departures == nil && self.departures?.count > 0)) {
-            self.departures = departures
+            for dept in departures! {
+                //FIXME better key
+                if self.departures == nil {
+                    self.departures = [:]
+                }
+                self.departures![dept.getKey()] = dept
+            }
             let cache: PINCache = TFCCache.objects.stations
             cache.setObject(self, forKey: st_id)
         }
     }
 
     public func getDepartures() -> [TFCDeparture]? {
-        return self.departures
+        // FIXME: maybe cache somehow...
+        if let alreadySorted = self.departuresSorted {
+            return alreadySorted
+        }
+        if let depts = self.departures?.values {
+            let sorted = depts.sort({ (s1, s2) -> Bool in
+                if s1.sortTime == s2.sortTime {
+                    return s1.sortOrder < s2.sortOrder
+                }
+                return s1.sortTime < s2.sortTime
+            })
+            self.departuresSorted = sorted
+            return sorted
+        }
+        return nil
     }
 
     public func getFilteredDepartures() -> [TFCDeparture]? {
         if (!hasFilters()) {
-            return departures
+            return getDepartures()
         }
         if (filteredDepartures != nil) {
             return filteredDepartures
         }
         if (self.departures != nil) {
             filteredDepartures = []
-            for (departure) in self.departures! {
+            for (departure) in self.getDepartures()! {
                 if (self.showAsFavoriteDeparture(departure)) {
                     filteredDepartures?.append(departure)
                 }
@@ -535,7 +559,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         return nil
     }
 
-    public func updateDepartures(completionDelegate: TFCDeparturesUpdatedProtocol?, force: Bool = false, context: Any? = nil, cachettl:Int = 20) {
+    public func updateDepartures(completionDelegate: TFCDeparturesUpdatedProtocol?, force: Bool = false, context: Any? = nil, cachettl:Int = 20, startTime:NSDate? = nil, onlyFirstDownload:Bool = false) {
 
         let removedDepartures = removeObsoleteDepartures()
 
@@ -556,8 +580,13 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             var context2: contextData = contextData()
             context2.completionDelegate = completionDelegate
             context2.context = context
+            if (startTime != nil) {
+                context2.hasStartTime = true
+            }
+            context2.onlyFirstDownload = onlyFirstDownload
+
             var dontUpdate = false
-            if let first = self.departures?.first {
+            if let first = self.getDepartures()?.first {
                 // don't update if the next departure is more than 30 minutes away,
                 // we didn't remove any departures above
                 // and this happens to be not realtime (which I assume normally isnt
@@ -579,7 +608,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                 )
             {
                 self.departureUpdateDownloading = NSDate()
-                self.api.getDepartures(self as! TFCStation, context: context2)
+                self.api.getDepartures(self as! TFCStation, context: context2, startTime: startTime)
 
             } else {
                 dispatch_async(dispatch_get_main_queue(), {
@@ -591,26 +620,56 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     }
 
     public func didReceiveAPIResults(results: JSON?, error: NSError?, context: Any?) {
-            let contextInfo: contextData? = context as! contextData?
-            if (results == nil || (error != nil && self.departures != nil && self.departures?.count > 0)) {
-                self.setDeparturesAsOutdated()
-            } else {
-                self.addDepartures(TFCDeparture.withJSON(results, st_id: self.st_id))
+        let contextInfo: contextData? = context as! contextData?
+        var lastScheduledBefore:NSDate? = nil
+        if (results == nil || (error != nil && self.departures != nil && self.departures?.count > 0)) {
+            self.setDeparturesAsOutdated()
+        } else {
+            if (contextInfo?.hasStartTime == true) {
+                lastScheduledBefore = self.getLastDepartureDate()
             }
+            self.addDepartures(TFCDeparture.withJSON(results, st_id: self.st_id))
+        }
 
         dispatch_async(dispatch_get_main_queue(), {
             if (self.name == "" && results != nil) {
                 self.name = TFCDeparture.getStationNameFromJson(results!)!;
             }
+
             self.lastDepartureUpdate = NSDate()
             self.departureUpdateDownloading = nil
             contextInfo?.completionDelegate?.departuresUpdated(error, context: contextInfo?.context, forStation: self as? TFCStation)
+
+            if (contextInfo?.onlyFirstDownload != true) {
+                // get last entry and get more data in case we want more into the future
+                if let lastScheduled = self.getLastDepartureDate() {
+                    //prevent loop in case we don't get new data
+                    if (lastScheduledBefore == nil || lastScheduledBefore?.timeIntervalSinceReferenceDate < lastScheduled.timeIntervalSinceReferenceDate) {
+                        // either go 2 hours into the future or at least until 8 o'clock in the morning (if the last one is after midnight and not more than 10 hours away)
+                        if ((lastScheduled.dateByAddingTimeInterval(2 * -3600).timeIntervalSinceNow < 0) ||
+                            ((lastScheduled.timeIntervalSinceDate(NSCalendar.currentCalendar().startOfDayForDate(lastScheduled)) < 3600 * 8)
+                                && (lastScheduled.dateByAddingTimeInterval(10 * -3600).timeIntervalSinceNow < 0))) {
+                            self.updateDepartures(contextInfo?.completionDelegate, force: true, context: contextInfo?.context, startTime: lastScheduled)
+                        }
+                    }
+                }
+            }
         })
+
+
+
+
     }
+    private func getLastDepartureDate() -> NSDate? {
+
+        return self.getDepartures()?.last?.getScheduledTimeAsNSDate()
+
+    }
+
 
     private func setDeparturesAsOutdated() {
         if (self.departures != nil) {
-            for (departure) in self.departures! {
+            for (departure) in self.getDepartures()! {
                 departure.outdated = true
             }
         }
@@ -626,10 +685,10 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         }
         var i = 0;
         var someRemoved = false
-        for departure: TFCDeparture in self.departures! {
+        for departure in self.getDepartures()! {
             if (departure.getMinutesAsInt() < 0) {
                 someRemoved = true
-                departures?.removeAtIndex(i)
+                departures?.removeValueForKey(departure.getKey())
             } else {
                 i += 1
                 //if we find one, which is not obselte, we can stop here
@@ -734,13 +793,19 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         return iso!
     }
 
-    public func getDeparturesURL() -> String {
-
+    public func getDeparturesURL(startTime:NSDate? = nil) -> String {
         if  let url = self.realmObject?.departuresURL {
             return url
         }
 
         let country = self.getCountryISO()
+        if let startTime = startTime {
+            let formattedDate = startTime.formattedWith("yyyy-MM-dd'T'HH:mm")
+            if (country == "CH") {
+                return "https://tfc.chregu.tv/api/zvv/stationboard/\(self.st_id)/\(formattedDate)"
+            }
+            return "http://transport.opendata.ch/v1/stationboard?id=\(self.st_id)&limit=40&datetime=\(formattedDate)"
+        }
         if (country == "CH") {
             return "https://tfc.chregu.tv/api/ch/stationboard/\(self.st_id)"
         }

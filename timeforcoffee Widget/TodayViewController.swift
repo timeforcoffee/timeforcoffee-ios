@@ -476,7 +476,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             }
 
             let station = self.stations?.getStation(indexPath.row)
-            station?.updateDepartures(self, context: ["indexPath": indexPath])
+            station?.updateDepartures(self, context: ["indexPath": indexPath], onlyFirstDownload: true)
             if let cellinstance = cell as? NearbyStationsTableViewCell {
                 cellinstance.station = station
                 cellinstance.drawCell()
@@ -562,7 +562,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                 if (cellinstance.station?.st_id == forStation?.st_id) {
                     cellinstance.drawCell()
                 } else {
-                    cellinstance.station?.updateDepartures(self)
+                    cellinstance.station?.updateDepartures(self, onlyFirstDownload: true)
                 }
             } else {
                 self.appsTableView?.reloadData()

@@ -17,6 +17,9 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
     public var colorFg: String?
     public var colorBg: String?
     public var st_id: String?
+    public var sortTime: NSDate?
+    public var sortOrder: Int?
+    public var key: String?
     private var _station: TFCStation?
     var passlist: [TFCPass]? = nil
 
@@ -31,7 +34,7 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
         return APIController(delegate: self)
         }()
 
-    init(name: String, type: String, accessible: Bool, to: String, destination_id: String?, scheduled: NSDate?, realtime: NSDate?, arrival: NSDate?, colorFg: String?, colorBg: String?, platform: String?, st_id: String? ) {
+    init(name: String, type: String, accessible: Bool, to: String, destination_id: String?, scheduled: NSDate?, realtime: NSDate?, arrivalRealtime: NSDate?, arrivalScheduled: NSDate?, sortTime: NSDate, sortOrder: Int, colorFg: String?, colorBg: String?, platform: String?, st_id: String? ) {
         // TODO: strip "Zurich, " from name
         self.name = name
         self.type = type
@@ -45,9 +48,11 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
         self.platform = platform
         self.scheduled = scheduled
         self.realtime = realtime
-        self.arrivalScheduled = arrival
-        self.arrivalRealtime = nil
-
+        self.arrivalScheduled = arrivalScheduled
+        self.arrivalRealtime = arrivalRealtime
+        self.sortTime = sortTime
+        self.sortOrder = sortOrder
+        self.key = self.getKey()
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -63,6 +68,9 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
         self.platform = aDecoder.decodeObjectForKey("platform") as? String
         self.scheduled = aDecoder.decodeObjectForKey("scheduled") as! NSDate?
         self.realtime = aDecoder.decodeObjectForKey("realtime") as! NSDate?
+        self.sortTime = aDecoder.decodeObjectForKey("sortTime") as! NSDate?
+        self.sortOrder = aDecoder.decodeObjectForKey("sortOrder") as! Int?
+        self.key = aDecoder.decodeObjectForKey("key") as? String
     }
 
     public func encodeWithCoder(aCoder: NSCoder) {
@@ -77,9 +85,18 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
         aCoder.encodeObject(colorBg, forKey: "colorBg")
         aCoder.encodeObject(platform, forKey: "platform")
         aCoder.encodeObject(st_id, forKey: "st_id")
+        aCoder.encodeObject(sortTime, forKey: "sortTime")
+        aCoder.encodeObject(sortOrder, forKey: "sortOrder")
+        aCoder.encodeObject(key, forKey: "key")
     }
 
-    
+    func getKey() -> String {
+        if let key = self.key {
+            return key
+        }
+        return "name=\(self.getDestination()),scheduled=\(self.getScheduledTimeAsNSDate()),line=\(self.getLine()),arrival=\(self.arrivalScheduled)"
+    }
+
     public class func getStationNameFromJson(result: JSON) -> String? {
         if let name = result["meta"]["station_name"].string {
             return name
@@ -99,6 +116,8 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
             return TFCDeparture.withJSONFromTransport2TFC(allResults, st_id: st_id)
         }
         if let results = allResults?["departures"].array {
+            var sortOrder = 1
+            var sortTimeBefore:NSDate? = nil
             departures = [TFCDeparture]()
             for result in results {
                 let name = result["name"].stringValue
@@ -116,12 +135,27 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
                 var colorBg = result["colors"]["bg"].string
                 colorBg = colorBg == nil ? "#ffffff" : colorBg
 
-                let (scheduled, realtime, arrivalScheduled, _) = self.parseJsonForDeparture(result)
+                let (scheduled, realtime, arrivalScheduled, arrivalRealtime) = self.parseJsonForDeparture(result)
 
                 let platform = result["platform"].string
-                
-                let newDeparture = TFCDeparture(name: name, type: type, accessible: accessible, to: to, destination_id: destination_id, scheduled: scheduled, realtime: realtime, arrival: arrivalScheduled, colorFg: colorFg, colorBg: colorBg, platform: platform, st_id: st_id)
-                departures?.append(newDeparture)
+
+                if let scheduled = scheduled {
+                    let sortTime:NSDate
+                    if let realtime = realtime {
+                        sortTime = realtime
+                    } else {
+                        sortTime = scheduled
+                    }
+
+                    if (sortTime == sortTimeBefore) {
+                        sortOrder += 1
+                    } else {
+                        sortOrder = 1
+                    }
+                    sortTimeBefore = sortTime
+                    let newDeparture = TFCDeparture(name: name, type: type, accessible: accessible, to: to, destination_id: destination_id, scheduled: scheduled, realtime: realtime, arrivalRealtime: arrivalRealtime, arrivalScheduled: arrivalScheduled, sortTime: sortTime, sortOrder: sortOrder, colorFg: colorFg, colorBg: colorBg, platform: platform, st_id: st_id)
+                    departures?.append(newDeparture)
+                }
             }
             return departures
         }

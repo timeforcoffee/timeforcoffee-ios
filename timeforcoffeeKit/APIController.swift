@@ -60,8 +60,8 @@ final class APIController {
         getDepartures(station, context: nil)
     }
     
-    func getDepartures(station: TFCStation, context: Any?) {
-        let urlPath = station.getDeparturesURL()
+    func getDepartures(station: TFCStation, context: Any?, startTime:NSDate? = nil) {
+        let urlPath = station.getDeparturesURL(startTime)
         self.fetchUrl(urlPath, fetchId: 2, context: context, cacheKey: nil)
     }
 
