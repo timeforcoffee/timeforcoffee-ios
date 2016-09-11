@@ -65,6 +65,18 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     func applicationDidBecomeActive() {
         DLog("__", toFile: true)
         TFCWatchDataFetch.sharedInstance.fetchDepartureData()
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
+            let state = WCSession.defaultSession().activationState
+            if (state == .Activated) {
+                DLog("WCSession activationState = Activated", toFile: true)
+            } else if (state == .Inactive) {
+                DLog("WCSession activationState = Inactive", toFile: true)
+            } else {
+                DLog("WCSession activationState = Not Activated", toFile: true)
+            }
+            TFCDataStore.sharedInstance.registerWatchConnectivity()
+        }
+
     }
 
     func applicationWillResignActive() {
