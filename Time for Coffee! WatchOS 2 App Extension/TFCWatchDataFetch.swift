@@ -12,7 +12,7 @@ import WatchKit
 
 public class TFCWatchDataFetch: NSObject, NSURLSessionDownloadDelegate {
 
-    var downloading:[String:Bool] = [:]
+    var downloading:[String:NSDate] = [:]
 
     public class var sharedInstance: TFCWatchDataFetch {
         struct Static {
@@ -104,11 +104,14 @@ public class TFCWatchDataFetch: NSObject, NSURLSessionDownloadDelegate {
     }
 
     public func fetchDepartureDataForStation(station:TFCStation) {
-        if ( downloading[station.st_id] == true) {
-            DLog("Station \(station.st_id) is already downloading", toFile: true)
-            return
+        if let downloadingSince = downloading[station.st_id]  {
+            //if downloading since less than 30 secs. don't again.
+            if downloadingSince.dateByAddingTimeInterval(30) > NSDate() {
+                DLog("Station \(station.st_id) is already downloading since \(NSDate())", toFile: true)
+                return
+            }
         }
-        downloading[station.st_id] = true
+        downloading[station.st_id] = NSDate()
         let sampleDownloadURL = NSURL(string: station.getDeparturesURL())!
         DLog("Download \(sampleDownloadURL)", toFile: true)
 
@@ -185,7 +188,7 @@ public class TFCWatchDataFetch: NSObject, NSURLSessionDownloadDelegate {
         DLog("didCompleteWithError \(error)")
         TFCDataStore.sharedInstance.watchdata.scheduleNextUpdate()
         if let st_id = task.taskDescription {
-            downloading[st_id] = nil
+            downloading.removeValueForKey(st_id)
         }
         session.finishTasksAndInvalidate()
     }
