@@ -75,9 +75,9 @@ let DLogDateFormatter:NSDateFormatter = {
     return formatter
 }()
 
-let DLogDayFormatter:NSDateFormatter = {
+let DLogDayHourFormatter:NSDateFormatter = {
     let formatter = NSDateFormatter()
-    formatter.dateFormat = "YYYY-MM-dd"
+    formatter.dateFormat = "YYYY-MM-dd-H"
     formatter.timeZone = NSTimeZone(name: "Europe/Zurich")
     return formatter
 }()
@@ -122,9 +122,9 @@ private func DLog2WatchConnectivity(text:String) {
 
 private func DLog2File(text:String) {
     #if os(watchOS)
-        let file = "log-watch-\(NSDate().formattedWithDateFormatter(DLogDayFormatter)).txt"
+        let file = "log-watch-\(NSDate().formattedWithDateFormatter(DLogDayHourFormatter)).txt"
     #else
-        let file = "log-\(NSDate().formattedWithDateFormatter(DLogDayFormatter)).txt"
+        let file = "log-\(NSDate().formattedWithDateFormatter(DLogDayHourFormatter)).txt"
     #endif
     if let iCloudDocumentsURL = NSFileManager.defaultManager().URLForUbiquityContainerIdentifier("iCloud.ch.opendata.timeforcoffee")?.URLByAppendingPathComponent("Documents") {
         if (!NSFileManager.defaultManager().fileExistsAtPath(iCloudDocumentsURL.path!, isDirectory: nil)) {
