@@ -82,6 +82,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     func applicationWillResignActive() {
         DLog("__", toFile: true)
         TFCDataStore.sharedInstance.saveContext()
+        SendLogs2Phone()
     }
 
     private func lastRequestForAllData() -> NSTimeInterval? {
