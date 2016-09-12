@@ -82,14 +82,21 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     public var calculatedDistance: Double? {
         get {
             guard let currentLoc = TFCLocationManager.getCurrentLocation() else { return nil }
-
-            if (currentLoc.coordinate.longitude != _calculatedDistanceLastCoord?.coordinate.longitude) {
+            // recalculate distance when we're more than 50m away
+            if (_calculatedDistanceLastCoord == nil || _calculatedDistanceLastCoord?.distanceFromLocation(currentLoc) > 50) {
                 _calculatedDistanceLastCoord = currentLoc
                 if let coord = self.coord {
                     _calculatedDistance = currentLoc.distanceFromLocation(coord)
-                    let cache: PINCache = TFCCache.objects.stations
-                    cache.setObject(self, forKey: st_id)
+                    // don't store it on watchOS, it's slower than calculating it on startup
+                    #if os(watchOS)
+                    #else
+                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
+                            let cache: PINCache = TFCCache.objects.stations
+                            cache.setObject(self, forKey: self.st_id)
+                        }
+                    #endif
                 }
+
             }
             return _calculatedDistance
         }
