@@ -407,6 +407,9 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
 
     func updateWatchNow() {
     }
+
+    func scheduleNow() {
+    }
     
     public func sendComplicationUpdate(station: TFCStation?) {
         #if os(iOS)
@@ -415,13 +418,28 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                     if (self.session?.complicationEnabled == true) {
                         if let firstStation = station, ud = TFCDataStore.sharedInstance.getUserDefaults() {
                             if (ud.stringForKey("lastFirstStationId") != firstStation.st_id) {
-                                if let coord = station?.coord?.coordinate {
-                                    DLog("send __updateComplicationData__ with \(coord)", toFile: true)
-                                    self.session?.transferCurrentComplicationUserInfo(["__updateComplicationData__": [ "longitude": coord.longitude, "latitude": coord.latitude]])
-                                } else {
-                                    DLog("send __updateComplicationData__ without coord", toFile: true)
-                                    self.session?.transferCurrentComplicationUserInfo(["__updateComplicationData__": "doit"])
+                                if #available(iOSApplicationExtension 9.3, *) {
+                                    DLog("session activationState for __updateComplicationData__: \(self.session?.activationState.rawValue)")
                                 }
+                                var useComplicationTransfer = true
+                                if #available(iOSApplicationExtension 10.0, *) {
+                                    if (!(self.session?.remainingComplicationUserInfoTransfers > 0)) {
+                                        useComplicationTransfer = false
+                                    }
+                                    DLog("remainingComplicationUserInfoTransfers: \(self.session?.remainingComplicationUserInfoTransfers)", toFile: true)
+                                }
+                                var dict:[String:AnyObject] = ["__updateComplicationData__": "doit"]
+
+                                if let coord = station?.coord?.coordinate {
+                                    DLog("send __updateComplicationData__ with \(coord) for \(station?.name)", toFile: true)
+                                    dict  = ["__updateComplicationData__": [ "longitude": coord.longitude, "latitude": coord.latitude]]
+                                }
+                                if (useComplicationTransfer) {
+                                    self.session?.transferCurrentComplicationUserInfo(dict)
+                                } else {
+                                    sendData(dict)
+                                }
+
                                 ud.setValue(firstStation.st_id, forKey: "lastFirstStationId")
                             }
                         }
