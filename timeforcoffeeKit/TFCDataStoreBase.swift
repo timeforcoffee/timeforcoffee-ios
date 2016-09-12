@@ -160,7 +160,9 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
     @available(iOSApplicationExtension 9.0, *)
     public func session(session: WCSession, didReceiveMessage message: [String : AnyObject]) {
         for (myKey,_) in message {
-            DLog("didReceiveMessage: \(myKey)", toFile: true)
+            if (myKey != "__logThis__") {
+                DLog("didReceiveMessage: \(myKey)", toFile: true)
+            }
         }
         parseReceiveInfo(message)
     }
@@ -174,6 +176,28 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
         }
         parseReceiveInfo(userInfo)
     }
+
+    @available(iOSApplicationExtension 9.0, *)
+    public func session(session: WCSession, didReceiveFile file: WCSessionFile) {
+        if let iCloudDocumentsURL = NSFileManager.defaultManager().URLForUbiquityContainerIdentifier("iCloud.ch.opendata.timeforcoffee")?.URLByAppendingPathComponent("Documents") {
+            let fileManager = NSFileManager.defaultManager()
+            DLog("received file \(file.fileURL.absoluteString!)", toFile: true)
+            do {
+                let url = file.fileURL
+                if let filename = url.lastPathComponent, moveTo = iCloudDocumentsURL.URLByAppendingPathComponent(filename) {
+                    if fileManager.fileExistsAtPath(moveTo.path!) {
+                        try fileManager.removeItemAtURL(moveTo)
+                    }
+                    try fileManager.moveItemAtURL(url, toURL: moveTo)
+                }
+            }
+            catch let error as NSError {
+                DLog("Ooops! Something went wrong: \(error)")
+            }
+        }
+
+    }
+
 
     @available(iOSApplicationExtension 9.0, *)
     func sendData(message: [String: AnyObject], trySendMessage: Bool = false) {

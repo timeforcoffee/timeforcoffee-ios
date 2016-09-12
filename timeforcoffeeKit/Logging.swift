@@ -70,18 +70,25 @@ your type. Instead, adopt one of the protocols mentioned above.
 
 let DLogDateFormatter:NSDateFormatter = {
     let formatter = NSDateFormatter()
-    formatter.dateFormat = "YYYY-MM-dd H:mm:ss.SSS"
+    formatter.dateFormat = "YYYY-MM-dd HH:mm:ss.SSS"
     formatter.timeZone = NSTimeZone(name: "Europe/Zurich")
     return formatter
 }()
 
 let DLogDayHourFormatter:NSDateFormatter = {
     let formatter = NSDateFormatter()
-    formatter.dateFormat = "YYYY-MM-dd-H"
+    formatter.dateFormat = "YYYY-MM-dd-HH"
     formatter.timeZone = NSTimeZone(name: "Europe/Zurich")
     return formatter
 }()
 
+
+let DLogDayHourMinuteFormatter:NSDateFormatter = {
+    let formatter = NSDateFormatter()
+    formatter.dateFormat = "YYYY-MM-dd-HH-mm"
+    formatter.timeZone = NSTimeZone(name: "Europe/Zurich")
+    return formatter
+}()
 
 func DLog<T>(@autoclosure object: () -> T, toFile: Bool = false, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
     #if DEBUG
@@ -106,27 +113,100 @@ func DLog<T>(@autoclosure object: () -> T, toFile: Bool = false, _ file: String 
             let text = "\(NSDate().formattedWithDateFormatter(DLogDateFormatter)) <\(queue)> \(stringRepresentation)  (\(fileURL) \(function)[\(line)])"
             #if os(watchOS)
                 DLog2WatchConnectivity(text)
-            #else
-                DLog2File(text)
             #endif
+            DLog2File(text)
         }
     #endif
 }
 
+func SendLogs2Phone() {
+    #if DEBUG
+        if #available(iOS 9.0, *) {
+            let filemanager = NSFileManager.defaultManager()
+
+            if let path = filemanager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first {
+
+                let oldUrl = path.URLByAppendingPathComponent("old", isDirectory: true)
+                if (!filemanager.fileExistsAtPath(oldUrl!.path!, isDirectory: nil)) {
+                    try! filemanager.createDirectoryAtURL(oldUrl!, withIntermediateDirectories: true, attributes: nil)
+                }
+
+                if let directoryContents = try? filemanager.contentsOfDirectoryAtURL( path, includingPropertiesForKeys: nil, options: []) {
+                    let logFiles = directoryContents.filter{ $0.pathExtension == "txt"}
+                    let nowFile = getWatchLogFileName()
+                    for file in logFiles {
+                        if let name = file.lastPathComponent {
+                            if (name != nowFile) {
+                                //move to old dir, if not current anymore
+                                if let moveTo = oldUrl!.URLByAppendingPathComponent(name) {
+                                    if filemanager.fileExistsAtPath(moveTo.path!) {
+                                        let _ = try? filemanager.removeItemAtURL(moveTo)
+                                    }
+                                    let _ = try? filemanager.moveItemAtURL(file, toURL: moveTo)
+                                    WCSession.defaultSession().transferFile(moveTo, metadata: nil)
+                                }
+                            } else {
+                                WCSession.defaultSession().transferFile(file, metadata: nil)
+                            }
+                        }
+
+                    }
+                }
+                //delete files older than a day
+                if let directoryContents = try? filemanager.contentsOfDirectoryAtURL( oldUrl!, includingPropertiesForKeys: nil, options: []) {
+                    let logFiles = directoryContents.filter{ $0.pathExtension == "txt"}
+                    for file in logFiles {
+                        var modified: AnyObject?
+                        do {
+                            try file.getResourceValue(&modified, forKey: NSURLContentModificationDateKey)
+                            let mod = modified as? NSDate
+                            if mod?.dateByAddingTimeInterval(24 * 3600) < NSDate() {
+                                DLog("\(file.lastPathComponent!) is older than a day, delete it", toFile: true)
+                                try filemanager.removeItemAtURL(file)
+                            }
+
+                        } catch let error as NSError {
+                            DLog("\(#function) Error: \(error)", toFile: true)
+                        }
+                    }
+                }
+            }
+
+
+        }
+    #endif
+}
+
+
 //we can't read the file from the Watch, so send it to the iPhone to be read from there
 private func DLog2WatchConnectivity(text:String) {
     if #available(iOS 9.0, *) {
-        WCSession.defaultSession().transferUserInfo(["__logThis__": text])
+        let message = ["__logThis__": text]
+        let session = WCSession.defaultSession()
+        if (session.reachable == true) {
+            session.sendMessage(message, replyHandler: nil, errorHandler: {(error: NSError) in
+                DLog("send Log Message failed due to error \(error): Send via transferUserInfo")
+                session.transferUserInfo(message)
+            })
+        } else {
+            session.transferUserInfo(message)
+        }
     }
+}
+private func getWatchLogFileName() -> String {
+    return "watch-log-\(NSDate().formattedWithDateFormatter(DLogDayHourMinuteFormatter)).txt"
 }
 
 private func DLog2File(text:String) {
     #if os(watchOS)
-        let file = "log-watch-\(NSDate().formattedWithDateFormatter(DLogDayHourFormatter)).txt"
+        let file = getWatchLogFileName()
+        let iCloudDocumentsURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first
     #else
         let file = "log-\(NSDate().formattedWithDateFormatter(DLogDayHourFormatter)).txt"
+        let iCloudDocumentsURL = NSFileManager.defaultManager().URLForUbiquityContainerIdentifier("iCloud.ch.opendata.timeforcoffee")?.URLByAppendingPathComponent("Documents")!
     #endif
-    if let iCloudDocumentsURL = NSFileManager.defaultManager().URLForUbiquityContainerIdentifier("iCloud.ch.opendata.timeforcoffee")?.URLByAppendingPathComponent("Documents") {
+
+    if  let iCloudDocumentsURL = iCloudDocumentsURL {
         if (!NSFileManager.defaultManager().fileExistsAtPath(iCloudDocumentsURL.path!, isDirectory: nil)) {
             try! NSFileManager.defaultManager().createDirectoryAtURL(iCloudDocumentsURL, withIntermediateDirectories: true, attributes: nil)
         }
