@@ -13,6 +13,7 @@ import WatchKit
 public class TFCWatchDataFetch: NSObject, NSURLSessionDownloadDelegate {
 
     var downloading:[String:NSDate] = [:]
+    var sessionRefreshTasks:[String:AnyObject] = [:]
 
     public class var sharedInstance: TFCWatchDataFetch {
         struct Static {
@@ -148,12 +149,18 @@ public class TFCWatchDataFetch: NSObject, NSURLSessionDownloadDelegate {
     public func rejoinURLSession(urlTask: WKURLSessionRefreshBackgroundTask) {
         let backgroundConfigObject = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier(urlTask.sessionIdentifier)
         let backgroundSession = NSURLSession(configuration: backgroundConfigObject, delegate: self, delegateQueue: nil)
+        self.sessionRefreshTasks[urlTask.sessionIdentifier] = urlTask
         DLog("Rejoining session \(urlTask.sessionIdentifier) \(backgroundSession)", toFile: true)
     }
 
     public func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didFinishDownloadingToURL location: NSURL) {
         DLog("downloaded \(downloadTask.taskDescription) to \(location)", toFile: true)
         if let st_id = downloadTask.taskDescription {
+            if let start = downloading[st_id] {
+                let time = NSDate().timeIntervalSince1970 - start.timeIntervalSince1970
+                DLog("Download of \(st_id) took \(time) seconds", toFile: true)
+                DLog("task \(session.configuration.identifier)", toFile: true)
+            }
             let station = TFCStation.initWithCacheId(st_id)
             //let fileContent = try? NSString(contentsOfURL: location, encoding: NSUTF8StringEncoding)
             if let fileContent = NSData(contentsOfURL: location){
@@ -181,11 +188,21 @@ public class TFCWatchDataFetch: NSObject, NSURLSessionDownloadDelegate {
                     }
                 }
             }
+
+            if #available(watchOSApplicationExtension 3.0, *) {
+                if let sessID = session.configuration.identifier {
+                    if let task = sessionRefreshTasks[sessID] as? WKURLSessionRefreshBackgroundTask {
+                        task.setTaskCompleted()
+                        DLog("WKURLSessionRefreshBackgroundTask \(sessID) finished", toFile: true)
+                        sessionRefreshTasks.removeValueForKey(sessID)
+                    }
+                }
+            }
         }
     }
 
     public func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?) {
-        DLog("didCompleteWithError \(error)")
+        DLog("URLSession didComplete \(task.taskDescription) error: \(error)", toFile: true)
         TFCDataStore.sharedInstance.watchdata.scheduleNextUpdate()
         if let st_id = task.taskDescription {
             downloading.removeValueForKey(st_id)
