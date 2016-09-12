@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="11201" systemVersion="16A313a" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="3ez-Oj-rei">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="11201" systemVersion="16A319" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="3ez-Oj-rei">
     <dependencies>
+        <deployment identifier="watchOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="11077"/>
     </dependencies>
@@ -111,10 +112,11 @@
                         <outlet property="infoGroup" destination="3HK-HX-8qN" id="BOc-li-kAy"/>
                         <outlet property="infoLabel" destination="H2T-Pm-ZC9" id="fjD-5Y-tGT"/>
                         <outlet property="stationsTable" destination="SXg-A1-SPs" id="HL6-rM-xEf"/>
+                        <segue destination="Tdd-GZ-M2h" kind="relationship" relationship="nextPage" id="rPS-s5-FpM"/>
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="632" y="97"/>
+            <point key="canvasLocation" x="713" y="96"/>
         </scene>
         <!--Map-->
         <scene sceneID="Sud-i2-3Rx">
@@ -129,6 +131,50 @@
                 </controller>
             </objects>
             <point key="canvasLocation" x="462" y="391"/>
+        </scene>
+        <!--FavoriteStationsOverview-->
+        <scene sceneID="wq5-va-Sym">
+            <objects>
+                <controller identifier="FavouriteStationsOverviewPage" hidesWhenLoading="NO" id="Tdd-GZ-M2h" userLabel="FavoriteStationsOverview" customClass="FavoriteStationsOverviewViewController" customModule="Time_for_Coffee__WatchOS_2_App_Extension">
+                    <items>
+                        <group width="1" alignment="left" id="8bP-p2-TqL" userLabel="info Group">
+                            <items>
+                                <label alignment="left" text="Loading ..." numberOfLines="3" id="TdN-1E-wjM" userLabel="info Label"/>
+                            </items>
+                            <edgeInsets key="margins" left="3" right="3" top="0.0" bottom="0.0"/>
+                        </group>
+                        <table alignment="left" id="GSr-1n-W1h">
+                            <items>
+                                <tableRow identifier="stations" id="CU8-nM-jyl" customClass="StationsRow" customModule="Time_for_Coffee__WatchOS_2_App_Extension">
+                                    <group key="rootItem" width="1" height="0.0" alignment="left" hidden="YES" id="Aac-6o-3aH">
+                                        <items>
+                                            <group alignment="left" verticalAlignment="center" layout="vertical" spacing="0.0" id="tHZ-0C-neY">
+                                                <items>
+                                                    <label alignment="left" text="Zürich, Röntgenstrasse" minimumScaleFactor="0.89999999999999991" id="4WG-r1-s2c">
+                                                        <fontDescription key="font" type="system" pointSize="13"/>
+                                                    </label>
+                                                </items>
+                                            </group>
+                                        </items>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <edgeInsets key="margins" left="0.0" right="0.0" top="5" bottom="5"/>
+                                    </group>
+                                    <connections>
+                                        <outlet property="stationLabel" destination="4WG-r1-s2c" id="7Om-Dh-c9k"/>
+                                        <outlet property="topGroup" destination="Aac-6o-3aH" id="GUF-Df-k9S"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                    </items>
+                    <connections>
+                        <outlet property="infoGroup" destination="8bP-p2-TqL" id="b45-Uw-3hI"/>
+                        <outlet property="infoLabel" destination="TdN-1E-wjM" id="gVW-1z-nZ4"/>
+                        <outlet property="stationsTable" destination="GSr-1n-W1h" id="yxS-MI-m1Y"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="961" y="79"/>
         </scene>
     </scenes>
     <color key="tintColor" red="0.99607843139999996" green="0.76470588240000004" blue="0.039215686270000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

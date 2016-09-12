@@ -20,6 +20,10 @@ class StationsOverviewViewController: WKInterfaceController {
     var activatedOnce = false
     var activated = false
 
+    func showOnlyFavorites() -> Bool {
+        return false
+    }
+
     lazy var watchdata: TFCWatchData = {
         return TFCWatchData()
     }()
@@ -45,8 +49,11 @@ class StationsOverviewViewController: WKInterfaceController {
         DLog("didAppear")
         super.didAppear()
         if (!activatedOnce) {
-            self.setTitle("Nearby Stations")
-            self.addMenuItemWithItemIcon(WKMenuItemIcon.Resume, title: "Reload", action: #selector(StationsOverviewViewController.contextButtonReload))
+            if (showOnlyFavorites()) {
+                self.setTitle("Favorites")
+            } else {
+                self.setTitle("Nearby Stations")
+            }
             activatedOnce = true
             getStations()
         }
@@ -81,7 +88,13 @@ class StationsOverviewViewController: WKInterfaceController {
                 infoGroup.setHidden(true)
 
                 if let stations = stations {
-                    let ctxStations = Array(stations.prefix(10))
+                    let ctxStations:Array<TFCStation>
+                    // show all stations in favorites
+                    if (self.showOnlyFavorites()) {
+                        ctxStations = Array(stations)
+                    } else {
+                        ctxStations = Array(stations.prefix(10))
+                    }
                     if (self.numberOfRows != ctxStations.count) {
                         stationsTable.setNumberOfRows(ctxStations.count, withRowType: "stations")
                         self.numberOfRows = ctxStations.count
@@ -101,7 +114,7 @@ class StationsOverviewViewController: WKInterfaceController {
             infoLabel.setText(text)
         }
 
-        watchdata.getStations(handleReply, errorReply: errorReply, stopWithFavorites: false)
+        watchdata.getStations(handleReply, errorReply: errorReply, stopWithFavorites: false, favoritesOnly: self.showOnlyFavorites())
     }
 
     override func table(table: WKInterfaceTable, didSelectRowAtIndex rowIndex: Int) {

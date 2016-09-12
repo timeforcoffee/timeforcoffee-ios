@@ -72,6 +72,7 @@
 		EC4AB2711BB6787600DA9759 /* StationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4AB26C1BB6787600DA9759 /* StationViewController.swift */; };
 		EC4F0C871BB5D06700CE7C24 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC4F0C861BB5D06700CE7C24 /* UIKit.framework */; };
 		EC4F0C891BB5D54B00CE7C24 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC4F0C881BB5D54B00CE7C24 /* Images.xcassets */; };
+		EC604D041D8714A200ED1950 /* FavoriteStationsOverviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC604D031D8714A200ED1950 /* FavoriteStationsOverviewController.swift */; };
 		EC60B0121BB680B600D10238 /* gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = EC60B00D1BB680B600D10238 /* gradient.png */; };
 		EC60B0141BB680B600D10238 /* launchicon.png in Resources */ = {isa = PBXBuildFile; fileRef = EC60B00F1BB680B600D10238 /* launchicon.png */; };
 		EC60B0161BB680B600D10238 /* Zuerich2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = EC60B0111BB680B600D10238 /* Zuerich2.jpg */; };
@@ -320,6 +321,7 @@
 		EC4F0C881BB5D54B00CE7C24 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		EC5AD0901C9774C1004AF7E5 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
 		EC5AD0921C977569004AF7E5 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Main.strings; sourceTree = "<group>"; };
+		EC604D031D8714A200ED1950 /* FavoriteStationsOverviewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteStationsOverviewController.swift; sourceTree = "<group>"; };
 		EC60B00D1BB680B600D10238 /* gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradient.png; sourceTree = "<group>"; };
 		EC60B00E1BB680B600D10238 /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
 		EC60B00F1BB680B600D10238 /* launchicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launchicon.png; sourceTree = "<group>"; };
@@ -577,10 +579,11 @@
 				EC46C5331BB5C78A00F2A963 /* Assets.xcassets */,
 				EC4AB2681BB6787600DA9759 /* MapViewController.swift */,
 				EC4AB2691BB6787600DA9759 /* StationRow.swift */,
-				EC4AB26A1BB6787600DA9759 /* StationsOverviewViewController.swift */,
 				F6F7211F1BCA9C9C0073E0D2 /* ComplicationController.swift */,
 				EC4AB26B1BB6787600DA9759 /* StationsRow.swift */,
 				EC4AB26C1BB6787600DA9759 /* StationViewController.swift */,
+				EC4AB26A1BB6787600DA9759 /* StationsOverviewViewController.swift */,
+				EC604D031D8714A200ED1950 /* FavoriteStationsOverviewController.swift */,
 				EC050CF71BB84D8100ECB533 /* watch-extension-bridging-Header.h */,
 				EC46C5351BB5C78A00F2A963 /* Info.plist */,
 			);
@@ -1212,6 +1215,7 @@
 				EC050CE91BB84D4700ECB533 /* extensions.swift in Sources */,
 				EC810B071BC7963C0007B874 /* DataModels.xcdatamodeld in Sources */,
 				EC4AB26D1BB6787600DA9759 /* MapViewController.swift in Sources */,
+				EC604D041D8714A200ED1950 /* FavoriteStationsOverviewController.swift in Sources */,
 				EC050CEF1BB84D4F00ECB533 /* PINMemoryCache.m in Sources */,
 				EC4AB2711BB6787600DA9759 /* StationViewController.swift in Sources */,
 				EC050CF51BB84D5B00ECB533 /* TFCURLSession.swift in Sources */,

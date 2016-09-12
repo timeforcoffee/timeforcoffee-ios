@@ -12,7 +12,7 @@ import WatchKit
 import ClockKit
 
 private struct Constants {
-    static let FrequencyOfTimelineUpdate = NSTimeInterval(30*60) // 45 minutes
+    static let FrequencyOfTimelineUpdate = NSTimeInterval(30*60) // 30 minutes
     static let TimelineUpdateMinutesBeforeEnd = NSTimeInterval(-15*60) // 15 minutes
 }
 
@@ -109,11 +109,16 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
         }
     }
 
-    public func getStations(reply: replyStations?, errorReply: ((String) -> Void)?, stopWithFavorites: Bool?) {
+    public func getStations(reply: replyStations?, errorReply: ((String) -> Void)?, stopWithFavorites: Bool?, favoritesOnly: Bool? = false) {
         func handleReply(replyInfo: [NSObject : AnyObject]!) {
             DLog("handleReply")
             if(replyInfo["lat"] != nil) {
                 let loc = CLLocation(latitude: replyInfo["lat"] as! Double, longitude: replyInfo["long"] as! Double)
+                if (favoritesOnly == true) {
+                    self.stations?.loadFavorites()
+                    reply!(self.stations)
+                    return
+                }
                 self.stations?.initWithNearbyFavorites(loc)
                 if (stopWithFavorites == true && self.stations?.count() > 0 && reply != nil ) {
                     reply!(self.stations)
