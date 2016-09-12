@@ -133,23 +133,26 @@ func SendLogs2Phone() {
 
                 if let directoryContents = try? filemanager.contentsOfDirectoryAtURL( path, includingPropertiesForKeys: nil, options: []) {
                     let logFiles = directoryContents.filter{ $0.pathExtension == "txt"}
-                    let nowFile = getWatchLogFileName()
                     for file in logFiles {
+                        let nowFile = getWatchLogFileName()
                         if let name = file.lastPathComponent {
                             if (name != nowFile) {
                                 //move to old dir, if not current anymore
                                 if let moveTo = oldUrl!.URLByAppendingPathComponent(name) {
-                                    if filemanager.fileExistsAtPath(moveTo.path!) {
-                                        let _ = try? filemanager.removeItemAtURL(moveTo)
+                                    do {
+                                        if filemanager.fileExistsAtPath(moveTo.path!) {
+                                            try filemanager.removeItemAtURL(moveTo)
+                                        }
+                                        try filemanager.moveItemAtURL(file, toURL: moveTo)
+                                        WCSession.defaultSession().transferFile(moveTo, metadata: nil)
+                                    } catch let error as NSError {
+                                        DLog("\(#function) Error: \(error)", toFile: true)
                                     }
-                                    let _ = try? filemanager.moveItemAtURL(file, toURL: moveTo)
-                                    WCSession.defaultSession().transferFile(moveTo, metadata: nil)
                                 }
                             } else {
                                 WCSession.defaultSession().transferFile(file, metadata: nil)
                             }
                         }
-
                     }
                 }
                 //delete files older than a day
