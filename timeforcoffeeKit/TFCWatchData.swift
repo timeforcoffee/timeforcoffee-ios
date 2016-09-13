@@ -234,7 +234,8 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
         }        
     }
     public func needsTimelineDataUpdate(station: TFCStation) -> Bool {
-        if let ud = TFCDataStore.sharedInstance.getUserDefaults(), lastDepartureTime:NSDate = ud.objectForKey("lastDepartureTime") as? NSDate,
+        let ud = TFCDataStore.sharedInstance.getUserDefaults()
+        if let ud = ud, lastDepartureTime:NSDate = ud.objectForKey("lastDepartureTime") as? NSDate,
             lastFirstStationId = ud.stringForKey("lastFirstStationId"),
             departures = station.getFilteredDepartures() {
             let backthreehours = NSDate().dateByAddingTimeInterval(-3600 * 3)
