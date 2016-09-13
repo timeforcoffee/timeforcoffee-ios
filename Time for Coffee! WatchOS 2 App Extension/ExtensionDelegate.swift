@@ -118,7 +118,10 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                     self.wcBackgroundTasks.append(wcBackgroundTask)
                     TFCDataStore.sharedInstance.registerWatchConnectivity()
             } else if let snapshotTask = task as? WKSnapshotRefreshBackgroundTask {
-                snapshotTask.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: watchdata.getNextUpdateTime(noBackOffIncr: true), userInfo: nil)
+                //just wait 5 seconds and assume it's finished
+                delay(5.0, closure: {
+                    snapshotTask.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: self.watchdata.getNextUpdateTime(noBackOffIncr: true), userInfo: nil)
+                })
             } else {
                 //DLog("received something else...", toFile: true)
                 // make sure to complete all tasks, even ones you don't handle
