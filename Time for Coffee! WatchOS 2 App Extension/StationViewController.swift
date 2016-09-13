@@ -96,9 +96,18 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
-        setStationValues()
-        self.activated = true
         DLog("willActivate", toFile: true)
+        var doSetValues = true
+        if #available(watchOSApplicationExtension 3.0, *) {
+            let state = WKExtension.sharedExtension().applicationState
+            if (state == .Inactive) {
+                doSetValues = false
+            }
+        }
+        if (doSetValues) {
+            setStationValues()
+        }
+        self.activated = true
     }
 
     override func didAppear() {
