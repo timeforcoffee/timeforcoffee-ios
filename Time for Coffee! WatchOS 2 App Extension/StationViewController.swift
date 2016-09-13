@@ -127,7 +127,17 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
 
     private func setStationValues() {
         DLog("setStationValues")
+        let isInBackground:Bool
+
+        if #available(watchOSApplicationExtension 3.0, *) {
+            isInBackground = (WKExtension.sharedExtension().applicationState == .Background)
+        } else {
+            isInBackground = false
+        }
         if (station == nil) {
+            if (isInBackground) {
+                return
+            }
             // infoGroup.setHidden(false)
             if let laststation = TFCWatchDataFetch.sharedInstance.getLastViewedStation() {
                 self.station = laststation
@@ -138,16 +148,19 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         }
 
         var newStation = false
-        if (self.lastShownStationId != station?.st_id || self.initTable || !(station?.getDepartures()?.count > 0)) {
+        let isNewStation = (self.lastShownStationId != station?.st_id)
+        if (!isInBackground && (isNewStation || self.initTable || !(station?.getDepartures()?.count > 0))) {
             newStation = true
             infoGroup.setHidden(false)
             infoLabel.setText("Loading ...")
             stationsTable.setNumberOfRows(5, withRowType: "station")
             self.numberOfRows = 5
         }
-        if let title = station?.getName(true) {
-            self.setTitle(title)
-            self.lastShownStationId = station?.st_id
+        if (isNewStation) {
+            if let title = station?.getName(true) {
+                self.setTitle(title)
+                self.lastShownStationId = station?.st_id
+            }
         }
         self.initTable = false
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
