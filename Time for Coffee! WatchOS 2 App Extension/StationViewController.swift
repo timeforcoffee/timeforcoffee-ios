@@ -147,10 +147,11 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             }
         }
 
-        var newStation = false
+        var drawAsNewStation = false
+
         let isNewStation = (self.lastShownStationId != station?.st_id)
         if (!isInBackground && (isNewStation || self.initTable || !(station?.getDepartures()?.count > 0))) {
-            newStation = true
+            drawAsNewStation = true
             infoGroup.setHidden(false)
             infoLabel.setText("Loading ...")
             stationsTable.setNumberOfRows(5, withRowType: "station")
@@ -163,23 +164,21 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             }
         }
         self.initTable = false
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-          //  self.station?.updateDepartures(self)
-            self.station?.removeObsoleteDepartures()
-            self.displayDepartures(self.station)
-            if newStation {
-                self.clearAllMenuItems()
-                if (self.station?.isFavorite() == true) {
-                    self.addMenuItemWithItemIcon(WKMenuItemIcon.Decline, title: "Unfavorite Station", action: #selector(StationViewController.contextButtonFavorite))
-                } else {
-                    self.addMenuItemWithItemIcon(WKMenuItemIcon.Add, title: "Favorite Station", action: #selector(StationViewController.contextButtonFavorite))
-                }
-
-                self.addMenuItemWithItemIcon(WKMenuItemIcon.Resume, title: "Reload", action: #selector(StationViewController.contextButtonReload))
-                self.addMenuItemWithItemIcon(WKMenuItemIcon.Maybe, title: "Map", action: #selector(StationViewController.contextButtonMap))
+        self.station?.removeObsoleteDepartures()
+        self.displayDepartures(self.station)
+        if drawAsNewStation {
+            self.clearAllMenuItems()
+            if (self.station?.isFavorite() == true) {
+                self.addMenuItemWithItemIcon(WKMenuItemIcon.Decline, title: "Unfavorite Station", action: #selector(StationViewController.contextButtonFavorite))
+            } else {
+                self.addMenuItemWithItemIcon(WKMenuItemIcon.Add, title: "Favorite Station", action: #selector(StationViewController.contextButtonFavorite))
             }
+            self.addMenuItemWithItemIcon(WKMenuItemIcon.Resume, title: "Reload", action: #selector(StationViewController.contextButtonReload))
+            self.addMenuItemWithItemIcon(WKMenuItemIcon.Maybe, title: "Map", action: #selector(StationViewController.contextButtonMap))
+        }
+        if (!isInBackground) {
             if let station2 = self.station {
-            self.updateUserActivity("ch.opendata.timeforcoffee.station", userInfo: station2.getAsDict(), webpageURL: station2.getWebLink())
+                self.updateUserActivity("ch.opendata.timeforcoffee.station", userInfo: station2.getAsDict(), webpageURL: station2.getWebLink())
             }
         }
     }
