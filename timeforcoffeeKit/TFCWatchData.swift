@@ -210,6 +210,10 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
         } else {
             nextUpdateDate =  getBackOffTime() // request an update in 5 minutes, if no lastDepartureTime was set.
         }
+        if nextUpdateDate < NSDate() {
+            DLog("WARNING: \(nextUpdateDate) < \(NSDate())")
+            nextUpdateDate = getBackOffTime(noBackOffIncr: true)
+        }
         return nextUpdateDate!
     }
 
