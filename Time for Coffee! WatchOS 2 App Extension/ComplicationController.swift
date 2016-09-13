@@ -116,7 +116,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
         // Call the handler with the timeline entries after to the given date
         DLog("getTimelineEntriesForComplication afterDate: \(date)", toFile: true)
         if let ud =  NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee") {
-            ud.setObject(NSDate(), forKey: "complicationLastUpdated")
+            ud.setObject(NSDate(), forKey: "lastComplicationUpdate")
         }
 
         func handleReply(stations: TFCStations?) {

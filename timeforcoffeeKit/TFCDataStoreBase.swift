@@ -35,7 +35,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
     }
 
 
-    func setObject(anObject: AnyObject?, forKey: String, withWCTransfer: Bool) {
+    func setObject(anObject: AnyObject?, forKey: String, withWCTransfer: Bool = true) {
         userDefaults?.setObject(anObject , forKey: forKey)
         keyvaluestore?.setObject(anObject, forKey: forKey)
         if #available(iOS 9, *) {
@@ -44,21 +44,15 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                 sendData(applicationDict)
             }
         }
-    }
-
-    func setObject(anObject: AnyObject?, forKey: String) {
-        self.setObject(anObject, forKey: forKey, withWCTransfer: true)
+        // make sure complications are updated as soon as possible with the new values
+        userDefaults?.setObject(nil, forKey: "lastComplicationUpdate")
     }
 
     func objectForKey(forKey: String) -> AnyObject? {
         return userDefaults?.objectForKey(forKey)
     }
 
-    func removeObjectForKey(forKey: String) {
-        self.removeObjectForKey(forKey, withWCTransfer: true)
-    }
-
-    func removeObjectForKey(forKey: String, withWCTransfer: Bool) {
+    func removeObjectForKey(forKey: String, withWCTransfer: Bool = true) {
         userDefaults?.removeObjectForKey(forKey)
         keyvaluestore?.removeObjectForKey(forKey)
         if #available(iOS 9, *) {
@@ -67,6 +61,8 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                 sendData(applicationDict)
             }
         }
+        // make sure complications are updated as soon as possible with the new values
+        userDefaults?.setObject(nil, forKey: "lastComplicationUpdate")
     }
 
     public func synchronize() {

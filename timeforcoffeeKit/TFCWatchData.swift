@@ -240,8 +240,8 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
             departures = station.getFilteredDepartures() {
             let backthreehours = NSDate().dateByAddingTimeInterval(-3600 * 3)
             // if complication code didn't run for thre hours, try it
-            if let complicationLastUpdated = ud.objectForKey("complicationLastUpdated") as? NSDate {
-                if complicationLastUpdated < backthreehours {
+            if let lastComplicationUpdate = ud.objectForKey("lastComplicationUpdate") as? NSDate {
+                if lastComplicationUpdate < backthreehours {
                     return true
                 }
             } else { // never updated  complications
