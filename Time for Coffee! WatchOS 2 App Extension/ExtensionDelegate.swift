@@ -39,7 +39,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             let lastRequest = self.lastRequestForAllData()
             let allDataResponseSent = TFCDataStore.sharedInstance.getUserDefaults()?.boolForKey("allDataResponseSent")
             if (allDataResponseSent != true || lastRequest == nil || lastRequest < -(24 * 60 * 60)) {
-                var delayItBy = 0.0
+                var delayItBy = 1.0
                 /* if it's a daily update, delay it by 10 seconds, to have other requests (like location updates from the phone) give some time to be handled before */
                 if (lastRequest != nil) {
                     delayItBy = 10.0
@@ -124,6 +124,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             } else if let wcBackgroundTask = task as? WKWatchConnectivityRefreshBackgroundTask {
                     // store a reference to the task objects as we might have to wait to complete them
                     self.wcBackgroundTasks.append(wcBackgroundTask)
+                    TFCDataStore.sharedInstance.registerWatchConnectivity()
             } else if let snapshotTask = task as? WKSnapshotRefreshBackgroundTask {
                 snapshotTask.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: watchdata.getNextUpdateTime(noBackOffIncr: true), userInfo: nil)
             } else {

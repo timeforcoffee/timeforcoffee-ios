@@ -222,6 +222,9 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
         } else {
             delay(2.0, closure: {
                 let newCounter = retryCounter + 1
+                if (retryCounter > 5) {
+                    self.session?.activateSession()
+                }
                 DLog("Session not active, retry #\(newCounter)", toFile: true)
                 self.sendData( message, trySendMessage: trySendMessage, retryCounter: newCounter)
             })
