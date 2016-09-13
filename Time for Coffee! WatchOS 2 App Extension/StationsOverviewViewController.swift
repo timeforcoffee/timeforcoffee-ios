@@ -53,6 +53,7 @@ class StationsOverviewViewController: WKInterfaceController {
                 self.setTitle("Favorites")
             } else {
                 self.setTitle("Nearby Stations")
+                self.addMenuItemWithItemIcon(WKMenuItemIcon.Resume, title: "Reload", action: #selector(StationsOverviewViewController.contextButtonReload))
             }
             activatedOnce = true
             getStations()
