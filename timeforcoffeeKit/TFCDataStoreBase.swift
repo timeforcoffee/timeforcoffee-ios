@@ -426,9 +426,6 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
     func updateWatchNow() {
     }
 
-    func scheduleNow() {
-    }
-    
     public func sendComplicationUpdate(station: TFCStation?) {
         #if os(iOS)
             if #available(iOS 9, *) {
