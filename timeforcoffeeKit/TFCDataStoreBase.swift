@@ -200,17 +200,32 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
 
 
     @available(iOSApplicationExtension 9.0, *)
-    func sendData(message: [String: AnyObject], trySendMessage: Bool = false) {
+    func sendData(message: [String: AnyObject], trySendMessage: Bool = false, retryCounter:Int = 0) {
         // if we have too many outstandingUserInfoTransfers, something is wrong, try to send as sendMessage as alternative
-       if (self.session?.reachable == true && (trySendMessage || self.session?.outstandingUserInfoTransfers.count > 10)) {
-            DLog("outstanding UserInfoTransfers \(self.session?.outstandingUserInfoTransfers.count )")
-            self.session?.sendMessage(message, replyHandler: nil, errorHandler: {(error: NSError) in
-                DLog("sendMessage failed due to error \(error): Send via transferUserInfo")
+
+        var sessionActive = true
+
+        if #available(iOSApplicationExtension 9.3, *) {
+            sessionActive = (self.session?.activationState == .Activated)
+        }
+
+        if (sessionActive || retryCounter > 10) {
+            if (self.session?.reachable == true && (trySendMessage || self.session?.outstandingUserInfoTransfers.count > 10)) {
+                DLog("outstanding UserInfoTransfers \(self.session?.outstandingUserInfoTransfers.count )")
+                self.session?.sendMessage(message, replyHandler: nil, errorHandler: {(error: NSError) in
+                    DLog("sendMessage failed due to error \(error): Send via transferUserInfo")
+                    self.session?.transferUserInfo(message)
+                })
+            } else {
                 self.session?.transferUserInfo(message)
-            })
+            }
         } else {
-            self.session?.transferUserInfo(message)
-       }
+            delay(2.0, closure: {
+                let newCounter = retryCounter + 1
+                DLog("Session not active, retry #\(newCounter)", toFile: true)
+                self.sendData( message, trySendMessage: trySendMessage, retryCounter: newCounter)
+            })
+        }
     }
 
     @available(iOSApplicationExtension 9.0, *)
