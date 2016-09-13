@@ -160,7 +160,16 @@ public class TFCWatchDataFetch: NSObject, NSURLSessionDownloadDelegate {
             if let fileContent = NSData(contentsOfURL: location){
                 let  data = JSON(data: fileContent)
                 station.didReceiveAPIResults(data, error: nil, context: nil)
-                if st_id == self.getLastViewedStation()?.st_id {
+                DLog("_", toFile: true)
+                let isActive:Bool
+                if #available(watchOSApplicationExtension 3.0, *) {
+                    isActive = (WKExtension.sharedExtension().applicationState == .Active)
+                } else {
+                    isActive = false
+                }
+
+                if (st_id == self.getLastViewedStation()?.st_id  && isActive) {
+                        DLog("notification TFCWatchkitUpdateCurrentStation")
                     NSNotificationCenter.defaultCenter().postNotificationName("TFCWatchkitUpdateCurrentStation", object: nil, userInfo: nil)
                 }
                 // check if we fetched the one in the complication and then update it
