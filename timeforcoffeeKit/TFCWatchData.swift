@@ -230,12 +230,27 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
         }        
     }
     public func needsTimelineDataUpdate(station: TFCStation) -> Bool {
-        if let lastDepartureTime:NSDate = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastDepartureTime") as? NSDate,
-            lastFirstStationId = TFCDataStore.sharedInstance.getUserDefaults()?.stringForKey("lastFirstStationId"),
+        if let ud = TFCDataStore.sharedInstance.getUserDefaults(), lastDepartureTime:NSDate = ud.objectForKey("lastDepartureTime") as? NSDate,
+            lastFirstStationId = ud.stringForKey("lastFirstStationId"),
             departures = station.getFilteredDepartures() {
-            if (lastFirstStationId == station.st_id
-                && departures.last?.getScheduledTimeAsNSDate() <= lastDepartureTime) {
-                return false
+            let backthreehours = NSDate().dateByAddingTimeInterval(-3600 * 3)
+            // if complication code didn't run for thre hours, try it
+            if let complicationLastUpdated = ud.objectForKey("complicationLastUpdated") as? NSDate {
+                if complicationLastUpdated < backthreehours {
+                    return true
+                }
+            } else { // never updated  complications
+                return true
+            }
+            let intwohours = NSDate().dateByAddingTimeInterval(3600 * 2)
+            if (lastFirstStationId == station.st_id) {
+                // if we have more than 2 hours in store still (to avoid too frequent updates)
+                if (lastDepartureTime > intwohours) {
+                    return false
+                // else if we don't have a newer than the current last one
+                } else if (departures.last?.getScheduledTimeAsNSDate() <= lastDepartureTime) {
+                    return false
+                }
             }
         }
         return true
