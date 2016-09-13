@@ -191,14 +191,13 @@ public class TFCWatchDataFetch: NSObject, NSURLSessionDownloadDelegate {
                     }
                 }
             }
-
-            if #available(watchOSApplicationExtension 3.0, *) {
-                if let sessID = session.configuration.identifier {
-                    if let task = sessionRefreshTasks[sessID] as? WKURLSessionRefreshBackgroundTask {
-                        task.setTaskCompleted()
-                        DLog("WKURLSessionRefreshBackgroundTask \(sessID) finished", toFile: true)
-                        sessionRefreshTasks.removeValueForKey(sessID)
-                    }
+        }
+        if #available(watchOSApplicationExtension 3.0, *) {
+            if let sessID = session.configuration.identifier {
+                if let task = sessionRefreshTasks[sessID] as? WKURLSessionRefreshBackgroundTask {
+                    task.setTaskCompleted()
+                    DLog("finished WKURLSessionRefreshBackgroundTask \(task) \(sessID)", toFile: true)
+                    sessionRefreshTasks.removeValueForKey(sessID)
                 }
             }
         }
