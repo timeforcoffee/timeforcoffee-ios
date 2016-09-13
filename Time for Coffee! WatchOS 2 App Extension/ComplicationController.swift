@@ -115,6 +115,10 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     func getTimelineEntriesForComplication(complication: CLKComplication, afterDate date: NSDate, limit: Int, withHandler handler: (([CLKComplicationTimelineEntry]?) -> Void)) {
         // Call the handler with the timeline entries after to the given date
         DLog("getTimelineEntriesForComplication afterDate: \(date)", toFile: true)
+        if let ud =  NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee") {
+            ud.setObject(NSDate(), forKey: "complicationLastUpdated")
+        }
+
         func handleReply(stations: TFCStations?) {
             var entries = [CLKComplicationTimelineEntry]()
             if let station = stations?.first { // corresponds to the favorited/closest station
@@ -410,7 +414,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
 
     private func getDepartureTTL(station: TFCStation) -> Int {
         if (watchdata.needsDeparturesUpdate(station)) {
-            return 20 //default
+            return 10 * 60 //default
         }
         return 6 * 3600
     }
