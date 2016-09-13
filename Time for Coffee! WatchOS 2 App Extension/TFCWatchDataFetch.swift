@@ -118,13 +118,7 @@ public class TFCWatchDataFetch: NSObject, NSURLSessionDownloadDelegate {
 
         let backgroundConfigObject:NSURLSessionConfiguration
         if #available(watchOSApplicationExtension 3.0, *) {
-            if (WKExtension.sharedExtension().applicationState == .Background) {
-                DLog("applicationState: Background")
-                backgroundConfigObject = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier((NSUUID().UUIDString))
-            } else {
-                DLog("applicationState: Not Background")
-                backgroundConfigObject = NSURLSessionConfiguration.defaultSessionConfiguration()
-            }
+            backgroundConfigObject = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier((NSUUID().UUIDString))
         } else {
             backgroundConfigObject = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier((NSUUID().UUIDString))
         }
