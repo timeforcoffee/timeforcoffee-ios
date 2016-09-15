@@ -125,6 +125,8 @@
 		EC9BCB471BB5CD4D00623F1A /* PINMemoryCache.h in Headers */ = {isa = PBXBuildFile; fileRef = EC9BCB401BB5CD4D00623F1A /* PINMemoryCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EC9BCB481BB5CD4D00623F1A /* PINMemoryCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB411BB5CD4D00623F1A /* PINMemoryCache.m */; };
 		ECA109D91BB6C00000FDB6F9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC0AD1641BB69539004217FD /* Localizable.strings */; };
+		ECD42E4F1D8B4365006ED53E /* GATracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD42E4E1D8B4365006ED53E /* GATracker.swift */; };
+		ECD42E501D8B438A006ED53E /* GATracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD42E4E1D8B4365006ED53E /* GATracker.swift */; };
 		ECE74C431BDEAAD8009CB3CA /* WithMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE74C421BDEAAD8009CB3CA /* WithMapViewController.swift */; };
 		ECE74C451BDEAB54009CB3CA /* PasslistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE74C441BDEAB54009CB3CA /* PasslistViewController.swift */; };
 		ECE74C471BDEBF2B009CB3CA /* TFCPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE74C461BDEBF2B009CB3CA /* TFCPass.swift */; };
@@ -376,6 +378,7 @@
 		ECA72B7B1BB6D23E00506300 /* Time for Coffee! WatchOS 2 App Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Time for Coffee! WatchOS 2 App Extension.entitlements"; sourceTree = "<group>"; };
 		ECCDFA4D1BFA084C002DD92D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/MainInterface.strings; sourceTree = "<group>"; };
 		ECCDFA4F1BFA084C002DD92D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		ECD42E4E1D8B4365006ED53E /* GATracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GATracker.swift; sourceTree = "<group>"; };
 		ECE74C421BDEAAD8009CB3CA /* WithMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WithMapViewController.swift; sourceTree = "<group>"; };
 		ECE74C441BDEAB54009CB3CA /* PasslistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasslistViewController.swift; sourceTree = "<group>"; };
 		ECE74C461BDEBF2B009CB3CA /* TFCPass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCPass.swift; sourceTree = "<group>"; };
@@ -525,6 +528,7 @@
 				EC9BCB091BB5CC3500623F1A /* timeforcoffee-Bridging-Header.h */,
 				EC46C4EC1BB5C69800F2A963 /* Info.plist */,
 				EC84FEC01BD9652400A0F9E3 /* TFCVisits.swift */,
+				ECD42E4E1D8B4365006ED53E /* GATracker.swift */,
 			);
 			path = timeforcoffee;
 			sourceTree = "<group>";
@@ -1159,6 +1163,7 @@
 				EC84FEC11BD9652400A0F9E3 /* TFCVisits.swift in Sources */,
 				EC9BCB121BB5CC3500623F1A /* StationsViewController.swift in Sources */,
 				EC9BCB141BB5CC3500623F1A /* StationTableViewCell.swift in Sources */,
+				ECD42E4F1D8B4365006ED53E /* GATracker.swift in Sources */,
 				ECE74C431BDEAAD8009CB3CA /* WithMapViewController.swift in Sources */,
 				EC9BCB0B1BB5CC3500623F1A /* AboutPagedViewController.swift in Sources */,
 				EC9BCB161BB5CC3500623F1A /* TFCNavigationController.swift in Sources */,
@@ -1177,6 +1182,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC4AB23A1BB5F3C000DA9759 /* DepartureLineLabel.swift in Sources */,
+				ECD42E501D8B438A006ED53E /* GATracker.swift in Sources */,
 				EC46C50E1BB5C71100F2A963 /* TodayViewController.swift in Sources */,
 				EC4AB2291BB5E74100DA9759 /* NearbyStationsTableViewCell.swift in Sources */,
 				ECEDA62C1BDAD44F000B63E6 /* Logging.swift in Sources */,
@@ -1615,10 +1621,10 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 170;
+				CURRENT_PROJECT_VERSION = 171;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 170;
+				DYLIB_CURRENT_VERSION = 171;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1644,10 +1650,10 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 170;
+				CURRENT_PROJECT_VERSION = 171;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 170;
+				DYLIB_CURRENT_VERSION = 171;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "PIN_APP_EXTENSIONS=1";
