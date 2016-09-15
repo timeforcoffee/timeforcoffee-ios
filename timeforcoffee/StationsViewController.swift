@@ -43,10 +43,10 @@ class StationsViewController: TFCBaseViewController {
     }
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
-            let gtracker = GAI.sharedInstance().defaultTracker
-            gtracker.set(kGAIScreenName, value: "stations")
-            gtracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject]!)
+        if (self.showFavorites) {
+            GATracker.sharedInstance.sendScreenName("favorites")
+        } else {
+            GATracker.sharedInstance.sendScreenName("stations")
         }
         appsTableView?.refreshLocation()
     }

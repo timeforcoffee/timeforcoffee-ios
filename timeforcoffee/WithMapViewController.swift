@@ -200,9 +200,7 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
                 }
             }
         )
-        let gtracker = GAI.sharedInstance().defaultTracker
-        gtracker.set(kGAIScreenName, value: "departuresMap")
-        gtracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject]!)
+        GATracker.sharedInstance.sendScreenName("departuresMap")
     }
 
     func mapViewReachedBottom() {

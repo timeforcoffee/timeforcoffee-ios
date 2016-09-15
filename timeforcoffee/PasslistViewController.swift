@@ -106,11 +106,7 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
     override func viewDidAppear(animated: Bool) {
         DLog("viewDidAppear")
         super.viewDidAppear(animated)
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
-            let gtracker = GAI.sharedInstance().defaultTracker
-            gtracker.set(kGAIScreenName, value: "passlist")
-            gtracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject]!)
-        }
+        GATracker.sharedInstance.sendScreenName("passlist")
         viewAppeared = true
 
     }

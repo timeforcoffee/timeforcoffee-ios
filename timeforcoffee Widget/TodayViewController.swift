@@ -22,16 +22,6 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     @IBOutlet weak var ContainerViewWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var ContainerViewTrailingConstraint: NSLayoutConstraint!
 
-    lazy var gtracker: GAITracker = {
-        let gtrackerInstance = GAI.sharedInstance()
-        gtrackerInstance.trackUncaughtExceptions = true
-        gtrackerInstance.dispatchInterval = 10;
-        //GAI.sharedInstance().logger.logLevel = GAILogLevel.Verbose
-        gtrackerInstance.trackerWithTrackingId("UA-37092982-2")
-        var gtrack = gtrackerInstance.defaultTracker
-        return gtrack
-    }()
-
     lazy var stations: TFCStations? =  {
         [unowned self] in
         return TFCStations(delegate: self, maxStations: 6)
@@ -143,11 +133,12 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         #if !((arch(i386) || arch(x86_64)) && os(iOS))
             Fabric.with([Crashlytics.self])
         #endif
-
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
             TFCDataStore.sharedInstance.registerForNotifications()
             TFCDataStore.sharedInstance.synchronize()
         }
+        GATracker.sharedInstance.setCustomDimension(6, value: "yes")
+
     }
 
     deinit {
@@ -619,10 +610,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     }
 
     private func sendScreenNameToGA(screenname: String) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
-            self.gtracker.set(kGAIScreenName, value: screenname)
-            self.gtracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
-        }
+        GATracker.sharedInstance.sendScreenName(screenname)
     }
 
     private func populateStationsFromLastUsed() {

@@ -134,9 +134,8 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
         DLog("viewDidAppear")
         super.viewDidAppear(animated)
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
-            let gtracker = GAI.sharedInstance().defaultTracker
-            gtracker.set(kGAIScreenName, value: "departures")
-            gtracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject]!)
+            let gtracker = GATracker.sharedInstance
+            gtracker.sendScreenName("departures")
         }
         displayDepartures()
 

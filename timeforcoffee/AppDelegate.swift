@@ -73,11 +73,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             TFCDataStore.sharedInstance.synchronize()
         }
 
-        let gtracker = GAI.sharedInstance()
-        gtracker.trackUncaughtExceptions = true
-        gtracker.dispatchInterval = 20;
-        //GAI.sharedInstance().logger.logLevel = GAILogLevel.Verbose
-        gtracker.trackerWithTrackingId("UA-37092982-2")
+
+        let gtracker = GATracker.sharedInstance
+        gtracker.setCustomDimension(7, value: "yes")
         #if !((arch(i386) || arch(x86_64)) && os(iOS))
         Fabric.with([Crashlytics.self])
         #endif
