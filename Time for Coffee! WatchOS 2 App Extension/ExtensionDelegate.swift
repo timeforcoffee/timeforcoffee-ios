@@ -21,13 +21,11 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         return TFCWatchData()
     }()
 
-    var wcBackgroundTasks: [AnyObject] = []
-
     func applicationDidFinishLaunching() {
         DLog("__", toFile: true)
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
-            TFCDataStore.sharedInstance.registerWatchConnectivity(self)
+            TFCDataStore.sharedInstance.registerWatchConnectivity()
             /* Request for all Favorite Data every 24 hours (or if never done)
                 I'm not sure, how reliable the WatchConnectivity is and if never
                 gets a message lost, so let's sync every 24 hours. Shouldn't be
@@ -52,15 +50,6 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
         }
     }
-
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        dispatch_async(dispatch_get_main_queue(), {
-            if #available(watchOSApplicationExtension 3.0, *) {
-                self.completeAllWCTasksIfReady()
-            } 
-        })
-    }
-
 
     func applicationDidBecomeActive() {
         DLog("__", toFile: true)
@@ -114,12 +103,15 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             } else if let urlTask = task as? WKURLSessionRefreshBackgroundTask {
                 TFCWatchDataFetch.sharedInstance.rejoinURLSession(urlTask)
             } else if let wcBackgroundTask = task as? WKWatchConnectivityRefreshBackgroundTask {
-                    // store a reference to the task objects as we might have to wait to complete them
-                    self.wcBackgroundTasks.append(wcBackgroundTask)
-                    TFCDataStore.sharedInstance.registerWatchConnectivity()
+                //just wait 15 seconds and assume it's finished FIXME. Could be improved, but it's hard to keep track and sometimes there's just nothing to do.
+                delay(15.0, closure: {
+                    wcBackgroundTask.setTaskCompleted()
+                })
+                TFCDataStore.sharedInstance.registerWatchConnectivity()
             } else if let snapshotTask = task as? WKSnapshotRefreshBackgroundTask {
                 //just wait 5 seconds and assume it's finished
                 delay(5.0, closure: {
+                    DLog("finished \(snapshotTask) Backgroundtask", toFile: true)
                     snapshotTask.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: self.watchdata.getNextUpdateTime(noBackOffIncr: true), userInfo: nil)
                 })
             } else {
@@ -127,21 +119,6 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 // make sure to complete all tasks, even ones you don't handle
                 task.setTaskCompleted()
             }
-        }
-    }
-
-    @available(watchOSApplicationExtension 3.0, *)
-    func completeAllWCTasksIfReady() {
-        DLog("completeAllWCTasksIfReady")
-        let session = WCSession.defaultSession()        // the session's properties only have valid values if the session is activated, so check that first
-        if session.activationState == .Activated && !session.hasContentPending {
-            wcBackgroundTasks.forEach {
-                if let bgTask = $0 as? WKWatchConnectivityRefreshBackgroundTask {
-                    DLog("\(bgTask) completed", toFile: true)
-                    bgTask.setTaskCompleted()
-                }
-            }
-            wcBackgroundTasks.removeAll()
         }
     }
 }

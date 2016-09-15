@@ -70,15 +70,10 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
         keyvaluestore?.synchronize()
     }
 
-    public func registerWatchConnectivity(observeClass: NSObject? = nil) {
+    public func registerWatchConnectivity() {
         if #available(iOS 9, *) {
             if (WCSession.isSupported()) {
                 session?.delegate = self
-                if let observeClass = observeClass {
-                    session?.addObserver(observeClass, forKeyPath: "activationState", options: [], context: nil)
-                    session?.addObserver(observeClass, forKeyPath: "hasContentPending", options: [], context: nil)
-                }
-
                 session?.activateSession()
             }
         }
