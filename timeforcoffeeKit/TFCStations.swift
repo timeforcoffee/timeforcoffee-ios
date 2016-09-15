@@ -353,7 +353,10 @@ public final class TFCStations: NSObject, SequenceType, CollectionType, TFCLocat
                 self.networkErrorMsg = err
             }
             if let firstStation = self.stations?.first {
-                TFCDataStore.sharedInstance.sendComplicationUpdate(firstStation)
+                //only send a complication update, if it's a favorite
+                if firstStation.isFavorite() {
+                    TFCDataStore.sharedInstance.sendComplicationUpdate(firstStation)
+                }
             }
             if let dele = self.delegate {
                 dele.stationsUpdated(self.networkErrorMsg, favoritesOnly: favoritesOnly, context: context)
