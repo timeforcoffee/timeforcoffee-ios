@@ -116,44 +116,57 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202772511-Who-is-behind-Time-for-Coffee-")
 */
             if let currentUser = SKTUser.currentUser() {
-                if (lastusedTodayScreen != nil) {
-                    currentUser.addProperties(["usedTodayScreen": true])
+                if (userdefaults?.objectForKey("favorites2") != nil) {
+                    currentUser.addProperties(["usedFavorites": true])
+                    gtracker.setCustomDimension(4, value: "yes")
+                } else {
+                    currentUser.addProperties(["usedFavorites": false])
+                    gtracker.setCustomDimension(4, value: "no")
                 }
+                if (lastusedTodayScreen != nil) {
+                    currentUser.addProperties(["lastUsedTodayScreen": lastusedTodayScreen!])
+                    currentUser.addProperties(["usedTodayScreen": true])
+                    gtracker.setCustomDimension(3, value: "yes")
+                } else {
+                    currentUser.addProperties(["usedTodayScreen": false])
+                    gtracker.setCustomDimension(3, value: "no")
+                }
+
                 if (currentUser.signedUpAt == nil) {
                     currentUser.signedUpAt = NSDate()
                     currentUser.addProperties(["signedUpDate" : NSDate()])
                     if let lang =  NSLocale.preferredLanguages().first {
                         let langSplit = lang.componentsSeparatedByString("-")
                         currentUser.addProperties(["language": langSplit[0]])
+                        gtracker.setCustomDimension(5, value: langSplit[0])
                     }
-                    if (userdefaults?.objectForKey("favorites2") != nil) {
-                        currentUser.addProperties(["usedFavorites": true])
-                    } else {
-                        currentUser.addProperties(["usedFavorites": false])
-                    }
-                    if (lastusedTodayScreen != nil) {
-                        currentUser.addProperties(["lastUsedTodayScreen": lastusedTodayScreen!])
-                        currentUser.addProperties(["usedTodayScreen": true])
-                    } else {
-                        currentUser.addProperties(["usedTodayScreen": false])
-                    }
+
                 }
                 if #available(iOS 9.0, *) {
-                    if let wcsession = TFCDataStore.sharedInstance.session {
-                        if (wcsession.paired) {
-                            currentUser.addProperties(["hasWatch": true])
-                            if (wcsession.watchAppInstalled) {
-                                currentUser.addProperties(["hasWatchAppInstalled": true])
-                            } else {
-                                currentUser.addProperties(["hasWatchAppInstalled": false])
-                            }
-                            if (wcsession.complicationEnabled == true) {
-                                currentUser.addProperties(["hasComplicationsEnabled": true])
-                            } else {
-                                currentUser.addProperties(["hasComplicationsEnabled": false])
+                    delay(5.0, closure: {
+                        if let wcsession = TFCDataStore.sharedInstance.session {
+                            if (wcsession.paired) {
+                                currentUser.addProperties(["hasWatch": true])
+                                gtracker.setCustomDimension(8, value: "yes")
+                                if (wcsession.watchAppInstalled) {
+                                    currentUser.addProperties(["hasWatchAppInstalled": true])
+                                    gtracker.setCustomDimension(2, value: "yes")
+
+                                } else {
+                                    currentUser.addProperties(["hasWatchAppInstalled": false])
+                                    gtracker.setCustomDimension(2, value: "no")
+                                }
+                                if (wcsession.complicationEnabled == true) {
+                                    currentUser.addProperties(["hasComplicationsEnabled": true])
+                                    gtracker.setCustomDimension(1, value: "yes")
+
+                                } else {
+                                    currentUser.addProperties(["hasComplicationsEnabled": false])
+                                    gtracker.setCustomDimension(1, value: "no")
+                                }
                             }
                         }
-                    }
+                    })
                 }
             }
 /*            Smooch.setDefaultRecommendations(recommendations)
