@@ -117,12 +117,13 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
     }
 
     public func locationManagerBase(manager: CLLocationManager, didUpdateLocations locations: [AnyObject]) {
+        let locationArray = locations as NSArray
+        if let locationObj = locationArray.lastObject as? CLLocation {
+            self.currentLocation = locationObj;
+        }
         dispatch_async(dispatch_get_main_queue(), {
-            if (self.currentLocation == nil || self.locationFixAchieved == false) {
+            if (self.locationFixAchieved == false) {
                 self.locationFixAchieved = true
-                let locationArray = locations as NSArray
-                let locationObj = locationArray.lastObject as? CLLocation
-                self.currentLocation = locationObj;
                 //random location, sometimes needed for testing ...
                 //self.currentLocation = CLLocation(latitude: 47.33 + (Double(arc4random_uniform(100)) / 1000.0), longitude: 8.5 + (Double(arc4random_uniform(100)) / 1000.0))
                 if (classvar.currentPlacemark == nil || (self.currentLocation != nil && classvar.currentPlacemark?.location?.distanceFromLocation(self.currentLocation!) > 2000)) {
