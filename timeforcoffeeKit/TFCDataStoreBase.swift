@@ -196,7 +196,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
 
 
     @available(iOSApplicationExtension 9.0, *)
-    func sendData(message: [String: AnyObject], trySendMessage: Bool = false, retryCounter:Int = 0) {
+    public func sendData(message: [String: AnyObject], trySendMessage: Bool = false, retryCounter:Int = 0) {
         // if we have too many outstandingUserInfoTransfers, something is wrong, try to send as sendMessage as alternative
 
         var sessionActive = true
@@ -205,7 +205,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
             sessionActive = (self.session?.activationState == .Activated)
         }
 
-        if (sessionActive || retryCounter > 10) {
+        if (sessionActive || retryCounter > 15) {
             if (self.session?.reachable == true && (trySendMessage || self.session?.outstandingUserInfoTransfers.count > 10)) {
                 DLog("outstanding UserInfoTransfers \(self.session?.outstandingUserInfoTransfers.count )")
                 self.session?.sendMessage(message, replyHandler: nil, errorHandler: {(error: NSError) in
@@ -216,9 +216,9 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                 self.session?.transferUserInfo(message)
             }
         } else {
-            delay(2.0, closure: {
+            delay(3.0, closure: {
                 let newCounter = retryCounter + 1
-                if (retryCounter > 5) {
+                if (retryCounter > 7) {
                     self.session?.activateSession()
                 }
                 DLog("Session not active, retry #\(newCounter)", toFile: true)
@@ -422,16 +422,13 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
     func updateWatchNow() {
     }
 
-    public func sendComplicationUpdate(station: TFCStation?) {
+    public func sendComplicationUpdate(station: TFCStation?, coord: CLLocationCoordinate2D? = nil) {
         #if os(iOS)
             if #available(iOS 9, *) {
                 if (WCSession.isSupported()) {
                     if (self.session?.complicationEnabled == true) {
                         if let firstStation = station, ud = TFCDataStore.sharedInstance.getUserDefaults() {
                             if (ud.stringForKey("lastFirstStationId") != firstStation.st_id) {
-                                if #available(iOSApplicationExtension 9.3, *) {
-                                    DLog("session activationState for __updateComplicationData__: \(self.session?.activationState.rawValue)")
-                                }
                                 var useComplicationTransfer = true
                                 if #available(iOSApplicationExtension 10.0, *) {
                                     if (!(self.session?.remainingComplicationUserInfoTransfers > 0)) {
@@ -440,8 +437,9 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                                     DLog("remainingComplicationUserInfoTransfers: \(self.session?.remainingComplicationUserInfoTransfers)", toFile: true)
                                 }
                                 var dict:[String:AnyObject] = ["__updateComplicationData__": "doit"]
-
-                                if let coord = station?.coord?.coordinate {
+                                if let coord = coord {
+                                    dict  = ["__updateComplicationData__": [ "longitude": coord.longitude, "latitude": coord.latitude]]
+                                } else if let coord = station?.coord?.coordinate {
                                     DLog("send __updateComplicationData__ with \(coord) for \(station?.name)", toFile: true)
                                     dict  = ["__updateComplicationData__": [ "longitude": coord.longitude, "latitude": coord.latitude]]
                                 }
@@ -476,5 +474,17 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
     func fetchDepartureData() {
     }
 
+    public func complicationEnabled() -> Bool {
+        #if os(iOS)
+            if #available(iOS 9, *) {
+                if (WCSession.isSupported()) {
+                    if (self.session?.complicationEnabled == true) {
+                        return true
+                    }
+                }
+            }
+        #endif
+        return false
+    }
 
 }

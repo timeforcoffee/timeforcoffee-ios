@@ -211,4 +211,5 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
     func locationDenied(manager: CLLocationManager, err: NSError)
     func locationStillTrying(manager: CLLocationManager, err: NSError)
     optional func locationVisit(coord: CLLocationCoordinate2D, date: NSDate, arrival: Bool) -> Bool
+    optional func regionVisit(region: CLCircularRegion)
 }

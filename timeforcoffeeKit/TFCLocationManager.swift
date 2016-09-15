@@ -12,6 +12,8 @@ import WatchConnectivity
 
 public final class TFCLocationManager: TFCLocationManagerBase {
 
+    var pendingRegionCalls:[CLCircularRegion] = []
+
     override func requestLocation() {
         self.locationManager.startUpdatingLocation()
 
@@ -25,6 +27,10 @@ public final class TFCLocationManager: TFCLocationManagerBase {
 
     public func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         self.locationManagerBase(manager, didUpdateLocations: locations)
+        for region in pendingRegionCalls {
+            self.delegate?.regionVisit?(region)
+        }
+        pendingRegionCalls.removeAll()
     }
 
     public func startReceivingVisits() {
@@ -71,5 +77,28 @@ public final class TFCLocationManager: TFCLocationManagerBase {
         super.getLocationRequest(lm)
     }
 
+    func locationManager(manager: CLLocationManager!, monitoringDidFailForRegion region: CLRegion!, withError error: NSError!) {
+        DLog("Monitoring failed for fence with identifier: \(region.identifier)")
+    }
+
+    func locationManager(manager: CLLocationManager!, didEnterRegion region: CLRegion!) {
+        if let region = region as? CLCircularRegion {
+            if (self.delegate != nil) {
+                self.pendingRegionCalls.append(region)
+            }
+        }
+        self.requestLocation()
+    }
+
+    public func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
+        if let region = region as? CLCircularRegion {
+            if (region.identifier == "__updateGeofences__") {
+                if (self.delegate != nil) {
+                    self.pendingRegionCalls.append(region)
+                }
+            }
+        }
+        self.requestLocation()
+    }
 }
 

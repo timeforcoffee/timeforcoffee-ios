@@ -40,6 +40,7 @@ public final class TFCStations: NSObject, SequenceType, CollectionType, TFCLocat
         static var userDefaults: NSUserDefaults? = TFCDataStore.sharedInstance.getUserDefaults()
     }
 
+    private var lastFirstStationId:String? = nil
     public var networkErrorMsg: String?
     public var loadingMessage: String?
     public var isLoading: Bool = false {
@@ -203,6 +204,9 @@ public final class TFCStations: NSObject, SequenceType, CollectionType, TFCLocat
         if (location != nil) {
             self._stations!.sortInPlace({ $0.calculatedDistance < $1.calculatedDistance })
         }
+        #if os(iOS)
+            TFCFavorites.sharedInstance.updateGeofences()
+        #endif
     }
 
     public func updateStations(searchFor searchFor: String) -> Bool {
@@ -357,6 +361,11 @@ public final class TFCStations: NSObject, SequenceType, CollectionType, TFCLocat
                 if firstStation.isFavorite() {
                     TFCDataStore.sharedInstance.sendComplicationUpdate(firstStation)
                 }
+                if (self.lastFirstStationId != firstStation.st_id) {
+                    TFCFavorites.sharedInstance.updateGeofences(force: false)
+                    self.lastFirstStationId = firstStation.st_id
+                }
+
             }
             if let dele = self.delegate {
                 dele.stationsUpdated(self.networkErrorMsg, favoritesOnly: favoritesOnly, context: context)

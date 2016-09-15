@@ -348,10 +348,12 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
     public func setFavorite() {
         TFCFavorites.sharedInstance.set(self as? TFCStation)
+        TFCFavorites.sharedInstance.updateGeofences()
     }
 
     public func unsetFavorite() {
         TFCFavorites.sharedInstance.unset(station: self as? TFCStation)
+        TFCFavorites.sharedInstance.updateGeofences()
     }
 
     public func getLongitude() -> Double? {

@@ -17,6 +17,7 @@ class TFCVisits: NSObject, TFCLocationManagerDelegate, TFCStationsUpdatedProtoco
     lazy var stations: TFCStations = {return TFCStations(delegate: self)}()
     var callback: ((text: String) -> ())? = nil
 
+    var geofenceUpdated = false
     override init() {
 
         super.init()
@@ -33,21 +34,20 @@ class TFCVisits: NSObject, TFCLocationManagerDelegate, TFCStationsUpdatedProtoco
     }
 
     internal func willReceive() -> Bool {
-        if #available(iOS 9, *) {
-            if (WCSession.isSupported()) {
-                let wcsession = WCSession.defaultSession()
-                if (wcsession.complicationEnabled == true) {
-                    return true
-                }
-            }
-        }
-        return false
+        return TFCDataStore.sharedInstance.complicationEnabled()
     }
 
     func locationDenied(manager: CLLocationManager, err: NSError) {
     }
 
     func locationFixed(coord: CLLocation?) {
+        //Update geofences once per app start
+        if (!geofenceUpdated) {
+            if (TFCFavorites.sharedInstance.stations.count > 0) {
+                   TFCFavorites.sharedInstance.updateGeofences()
+            }
+            geofenceUpdated = true
+        }
     }
 
     func locationStillTrying(manager: CLLocationManager, err: NSError) {
@@ -62,18 +62,28 @@ class TFCVisits: NSObject, TFCLocationManagerDelegate, TFCStationsUpdatedProtoco
         return true
     }
 
+    func regionVisit(region: CLCircularRegion) {
+        if (region.identifier == "__updateGeofences__") {
+            self.callback?(text: "update geofences call. coord: \(self.locManager?.currentLocation) Date: \(NSDate())")
+            TFCFavorites.sharedInstance.updateGeofences()
+            return
+        }
+        let station = TFCStation.initWithCacheId(region.identifier)
+        self.callback?(text: "visited fence for \(station.name). Date: \(NSDate())")
+        self.stations.updateStations()
+    }
+
     func stationsUpdated(error: String?, favoritesOnly: Bool, context: Any?) {
         if (favoritesOnly == false) { // wait for all stations, should be fast anyway with the DB lookup nowadays (in Switzerland at least) and doesn't matter in this case how fast it is
             DLog("TFCVisits stationsUpdate")
-            if self.stations.count() > 0 {
-                DLog("first station is \(self.stations[0].name)", toFile: true)
+            if let station = self.stations.first {
+                DLog("first station is \(station)", toFile: true)
                 if let callback = self.callback {
-                    callback(text:"first station is \(self.stations[0].name)")
+                    callback(text:"first station is \(station.name)")
                 }
-                TFCDataStore.sharedInstance.sendComplicationUpdate(self.stations[0])
+                TFCDataStore.sharedInstance.sendComplicationUpdate(station)
             }
         }
-
     }
 }
 

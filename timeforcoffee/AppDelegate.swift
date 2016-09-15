@@ -84,7 +84,20 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         if let lO = launchOptions?["UIApplicationLaunchOptionsLocationKey"] {
             DLog("app launched with UIApplicationLaunchOptionsLocationKey: \(lO)", toFile: true)
         }
-        self.visits = TFCVisits(callback: self.receivedNewVisit)
+        if (TFCDataStore.sharedInstance.complicationEnabled()) {
+            self.visits = TFCVisits(callback: self.receivedNewVisit)
+        } else {
+            let loc = CLLocationManager()
+            if loc.monitoredRegions.count > 0 {
+                //delete all geofences, we don't need them if no complications
+                for region in loc.monitoredRegions {
+                    if let circularRegion = region as? CLCircularRegion {
+                        loc.stopMonitoringForRegion(circularRegion)
+                    }
+                }
+
+            }
+        }
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
             #if DEBUG
             if (self.visits?.willReceive() == true) {
