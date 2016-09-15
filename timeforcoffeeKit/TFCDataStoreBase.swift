@@ -243,6 +243,9 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
             } else if (myKey == "__giveMeTheData__") {
                 DLog("Got __giveMeTheData__");
                 sendAllData()
+            } else if (myKey == "__sendLogs__") {
+                DLog("Got __sendLogs__");
+                SendLogs2Phone()
             } else if (myKey == "___remove___") {
                 if let key = myValue as? String {
                     self.removeObjectForKey(key, withWCTransfer: false)
