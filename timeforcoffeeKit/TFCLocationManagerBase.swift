@@ -21,14 +21,22 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
             return classvar.currentLocation
         }
         set (location) {
-            TFCLocationManagerBase.setCurrentLocation(location)
+            if classvar.currentLocation == nil {
+                TFCLocationManagerBase.setCurrentLocation(location)
+            } else if let newTimestamp = location?.timestamp, oldTimestamp = classvar.currentLocationTimestamp {
+                if (newTimestamp > oldTimestamp) {
+                    TFCLocationManagerBase.setCurrentLocation(location)
+                }
+            } else {
+                TFCLocationManagerBase.setCurrentLocation(location)
+            }
         }
     }
 
     private struct classvar {
         static var currentLocation: CLLocation?
         static var _lastUpdateCurrentLocation: NSDate?
-
+        static var currentLocationTimestamp: NSDate?
         static var currentPlacemark: CLPlacemark? {
             get {
                 return _currentPlacemark;
@@ -62,6 +70,11 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
     class func setCurrentLocation(location: CLLocation?) {
         classvar.currentLocation = location
         classvar._lastUpdateCurrentLocation = NSDate()
+        if let timestamp = location?.timestamp {
+            classvar.currentLocationTimestamp = timestamp
+        } else {
+            classvar.currentLocationTimestamp = NSDate()
+        }
     }
 
     private func lazyInitLocationManager() -> CLLocationManager {
