@@ -206,7 +206,16 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                 self.departures = try aDecoder.decodeTopLevelObjectForKey("departuresDict") as! [String:TFCDeparture]?
                 if (self.departures?.count == 0) {
                     self.departures = nil
+                } else if (self.departures != nil) {
+                    // FIXME: we changed the key (removed arrival)
+                    // this can be removed some time after 1.13 is released
+                    for key in self.departures!.keys {
+                        if key.containsString("arrival") {
+                            self.departures?.removeValueForKey(key)
+                        }
+                    }
                 }
+
                 self.walkingDistanceString = try aDecoder.decodeTopLevelObjectForKey("walkingDistanceString") as! String?
                 self.walkingDistanceLastCoord = try aDecoder.decodeTopLevelObjectForKey("walkingDistanceLastCoord") as! CLLocation?
                 self._calculatedDistance = try aDecoder.decodeTopLevelObjectForKey("_calculatedDistance") as! Double?

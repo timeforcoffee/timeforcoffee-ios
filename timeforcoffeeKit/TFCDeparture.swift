@@ -94,7 +94,8 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
         if let key = self.key {
             return key
         }
-        return "name=\(self.getDestination()),scheduled=\(self.getScheduledTimeAsNSDate()),line=\(self.getLine()),arrival=\(self.arrivalScheduled)"
+        return "name=\(self.getDestination()),scheduled=\(self.getScheduledTimeAsNSDate()),line=\(self.getLine())"
+    }
     }
 
     public class func getStationNameFromJson(result: JSON) -> String? {
