@@ -20,8 +20,12 @@ public final class TFCCache {
         static var stations: PINCache = {
             let p = TFCCache.getCacheInstance("stations")
             // cache for max 24 hours
-            p.diskCache.ageLimit = 60 * 60 * 24 // 1 day
-            p.diskCache.byteLimit = 5 * 1024 * 1024 // 5 MB
+            #if os(watchOS)
+                p.diskCache.byteLimit = 2 * 1024 * 1024 // 2 MB
+            #else
+                p.diskCache.ageLimit = 60 * 60 * 24 // 1 day
+                p.diskCache.byteLimit = 5 * 1024 * 1024 // 5 MB
+            #endif
             DLog("diskByteCount stations: \(p.diskByteCount)")
             return p
         }()
