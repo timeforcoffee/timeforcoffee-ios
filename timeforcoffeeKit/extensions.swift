@@ -67,7 +67,7 @@ public extension UIColor {
 
 
 
-struct Regex {
+public struct Regex {
     var pattern: String {
         didSet {
             updateRegex()
@@ -107,7 +107,7 @@ struct Regex {
 
 
 extension String {
-    func matchRegex(pattern: Regex) -> Bool {
+    public func matchRegex(pattern: Regex) -> Bool {
         let range: NSRange = NSMakeRange(0, self.characters.count)
         if pattern.regex != nil {
             let matches: [AnyObject] = pattern.regex!.matchesInString(self, options: pattern.matchingOptions, range: range)
@@ -116,11 +116,11 @@ extension String {
         return false
     }
     
-    func match(patternString: String) -> Bool {
+    public func match(patternString: String) -> Bool {
         return self.matchRegex(Regex(pattern: patternString))
     }
     
-    func replaceRegex(pattern: Regex, template: String) -> String {
+    public func replaceRegex(pattern: Regex, template: String) -> String {
         if self.matchRegex(pattern) {
             let range: NSRange = NSMakeRange(0, self.characters.count)
             if pattern.regex != nil {
@@ -130,7 +130,7 @@ extension String {
         return self
     }
     
-    func replace(pattern: String, template: String) -> String {
+    public func replace(pattern: String, template: String) -> String {
         return self.replaceRegex(Regex(pattern: pattern), template: template)
     }
 }
