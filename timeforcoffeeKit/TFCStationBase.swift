@@ -103,14 +103,15 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     }
 
     private var _calculatedDistance: Double? = nil
-    var _calculatedDistanceLastCoord: CLLocation?
 
-    var walkingDistanceString: String?
-    var walkingDistanceLastCoord: CLLocation?
-    private var lastDepartureUpdate: NSDate?
-    private var lastDepartureCount: Int?
+    var _calculatedDistanceLastCoord: CLLocation? = nil
 
-    private var departureUpdateDownloading: NSDate?
+    var walkingDistanceString: String? = nil
+    var walkingDistanceLastCoord: CLLocation? = nil
+    private var lastDepartureUpdate: NSDate? = nil
+    private var lastDepartureCount: Int? = nil
+
+    private var departureUpdateDownloading: NSDate? = nil
 
     public var isLastUsed: Bool = false
     public var serializeDepartures: Bool = true
