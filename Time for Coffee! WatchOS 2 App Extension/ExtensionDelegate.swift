@@ -111,8 +111,16 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             } else if let snapshotTask = task as? WKSnapshotRefreshBackgroundTask {
                 //just wait 5 seconds and assume it's finished
                 delay(5.0, closure: {
-                    DLog("finished \(snapshotTask) Backgroundtask", toFile: true)
-                    snapshotTask.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: self.watchdata.getNextUpdateTime(noBackOffIncr: true), userInfo: nil)
+                    let nextDate = self.watchdata.getNextUpdateTime(noBackOffIncr: true)
+                    DLog("finished \(snapshotTask) Backgroundtask, next \(nextDate)", toFile: true)
+
+                    let ud = TFCDataStore.sharedInstance.getUserDefaults()
+                    let lastBackgroundRefreshDate = ud?.objectForKey("lastBackgroundRefreshDate") as? NSDate
+                    if (lastBackgroundRefreshDate == nil || lastBackgroundRefreshDate < NSDate()) {
+                        DLog("lastBackgroundRefreshDate \(lastBackgroundRefreshDate) older than now. set new schedule ", toFile: true)
+                        self.watchdata.scheduleNextUpdate()
+                    }
+                    snapshotTask.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: nextDate, userInfo: nil)
                 })
             } else {
                 //DLog("received something else...", toFile: true)
