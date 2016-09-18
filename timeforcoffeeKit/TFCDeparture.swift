@@ -60,17 +60,20 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
         self.type = aDecoder.decodeObjectForKey("type") as! String
         self.to = aDecoder.decodeObjectForKey("to") as! String
         self.destination_id = aDecoder.decodeObjectForKey("destination_id") as? String
-        self.colorFg = aDecoder.decodeObjectForKey("colorFg") as! String?
-        self.colorBg = aDecoder.decodeObjectForKey("colorBg") as! String?
+        self.colorFg = aDecoder.decodeObjectForKey("colorFg") as? String
+        self.colorBg = aDecoder.decodeObjectForKey("colorBg") as? String
         self.st_id = aDecoder.decodeObjectForKey("st_id") as? String
         super.init()
         self.accessible = aDecoder.decodeBoolForKey("accessible")
         self.platform = aDecoder.decodeObjectForKey("platform") as? String
-        self.scheduled = aDecoder.decodeObjectForKey("scheduled") as! NSDate?
-        self.realtime = aDecoder.decodeObjectForKey("realtime") as! NSDate?
-        self.sortTime = aDecoder.decodeObjectForKey("sortTime") as! NSDate?
-        self.sortOrder = aDecoder.decodeObjectForKey("sortOrder") as! Int?
+        self.scheduled = aDecoder.decodeObjectForKey("scheduled") as? NSDate
+        self.realtime = aDecoder.decodeObjectForKey("realtime") as? NSDate
+        self.sortTime = aDecoder.decodeObjectForKey("sortTime") as? NSDate
+        self.sortOrder = aDecoder.decodeObjectForKey("sortOrder") as? Int
         self.key = aDecoder.decodeObjectForKey("key") as? String
+        self.arrivalScheduled = aDecoder.decodeObjectForKey("arrivalScheduled") as? NSDate
+        self.arrivalRealtime = aDecoder.decodeObjectForKey("arrivalRealtime") as? NSDate
+
     }
 
     public func encodeWithCoder(aCoder: NSCoder) {
@@ -88,6 +91,8 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
         aCoder.encodeObject(sortTime, forKey: "sortTime")
         aCoder.encodeObject(sortOrder, forKey: "sortOrder")
         aCoder.encodeObject(key, forKey: "key")
+        aCoder.encodeObject(arrivalScheduled, forKey: "arrivalScheduled")
+        aCoder.encodeObject(arrivalRealtime, forKey: "arrivalRealtime")
     }
 
     func getKey() -> String {
