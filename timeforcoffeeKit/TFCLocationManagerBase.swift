@@ -21,15 +21,7 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
             return classvar.currentLocation
         }
         set (location) {
-            if classvar.currentLocation == nil {
-                TFCLocationManagerBase.setCurrentLocation(location)
-            } else if let newTimestamp = location?.timestamp, oldTimestamp = classvar.currentLocationTimestamp {
-                if (newTimestamp > oldTimestamp) {
-                    TFCLocationManagerBase.setCurrentLocation(location)
-                }
-            } else {
-                TFCLocationManagerBase.setCurrentLocation(location)
-            }
+            TFCLocationManagerBase.setCurrentLocation(location)
         }
     }
 
@@ -67,14 +59,37 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
         self.locationManager.delegate = nil
     }
 
-    class func setCurrentLocation(location: CLLocation?) {
+    class func setCurrentLocation(location: CLLocation?, time:NSDate? = nil) {
+        var newTimestamp = time
+        if (location?.timestamp != nil) {
+            newTimestamp = location?.timestamp
+        }
+
+        if classvar.currentLocation == nil {
+            TFCLocationManagerBase.setCurrentLocation(location, time:time, force: true)
+        } else if let newTimestamp = newTimestamp, oldTimestamp = classvar.currentLocationTimestamp {
+            if (newTimestamp > oldTimestamp) {
+                TFCLocationManagerBase.setCurrentLocation(location, time:time, force: true)
+            }
+        } else {
+            TFCLocationManagerBase.setCurrentLocation(location, time:time, force: true)
+        }
+    }
+
+    class func setCurrentLocation(location: CLLocation?, time:NSDate? = nil, force:Bool) {
+        guard force else { TFCLocationManagerBase.setCurrentLocation(location, time: time); return }
+
         classvar.currentLocation = location
         classvar._lastUpdateCurrentLocation = NSDate()
+
         if let timestamp = location?.timestamp {
             classvar.currentLocationTimestamp = timestamp
+        } else if let time = time {
+            classvar.currentLocationTimestamp = time
         } else {
             classvar.currentLocationTimestamp = NSDate()
         }
+
     }
 
     private func lazyInitLocationManager() -> CLLocationManager {
