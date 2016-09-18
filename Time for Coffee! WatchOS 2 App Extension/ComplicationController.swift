@@ -138,8 +138,8 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                                         let entry = CLKComplicationTimelineEntry(date: thisEntryDate, complicationTemplate: tmpl)
                                         entries.append(entry)
                                     }
-                                    lastDepartureTimeNew = thisEntryDate
-                                    if entries.count >= limit {break} // break if we reached the limit of entries
+                                    lastDepartureTimeNew = thisDeparture.getScheduledTimeAsNSDate()
+                                    if entries.count >= (limit - 1) {break} // break if we reached the limit of entries
                                 }
                                 index += 1
                                 previousDeparture = thisDeparture
