@@ -241,19 +241,23 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
         if let ud = ud, lastDepartureTime:NSDate = ud.objectForKey("lastDepartureTime") as? NSDate,
             lastFirstStationId = ud.stringForKey("lastFirstStationId"),
             departures = station.getFilteredDepartures() {
+            DLog("\(departures.last?.getScheduledTimeAsNSDate()) <= \(lastDepartureTime)", toFile: true)
+
             let backthreehours = NSDate().dateByAddingTimeInterval(-3600 * 3)
             // if complication code didn't run for thre hours, try it
             if let lastComplicationUpdate = ud.objectForKey("lastComplicationUpdate") as? NSDate {
                 if lastComplicationUpdate < backthreehours {
+                    DLog("complication not updated for three hours, do it . return true", toFile: true)
                     return true
                 }
             } else { // never updated  complications
+                DLog("no lastComplicationUpdate data. return true", toFile: true)
                 return true
             }
-            let intwohours = NSDate().dateByAddingTimeInterval(3600 * 2)
+            let inthreehours = NSDate().dateByAddingTimeInterval(3600 * 3)
             if (lastFirstStationId == station.st_id) {
-                // if we have more than 2 hours in store still (to avoid too frequent updates)
-                if (lastDepartureTime > intwohours) {
+                // if we have more than 3 hours in store still (to avoid too frequent updates)
+                if (lastDepartureTime > inthreehours) {
                     return false
                 // else if we don't have a newer than the current last one
                 } else if (departures.last?.getScheduledTimeAsNSDate() <= lastDepartureTime) {
