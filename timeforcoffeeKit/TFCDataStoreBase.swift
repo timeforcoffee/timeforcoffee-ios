@@ -237,8 +237,8 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                 DLog("parseReceiveInfo: \(myKey)", toFile: true)
             }
             if (myKey == "__updateComplicationData__") {
-                if let value = myValue as? [String: CLLocationDegrees], lng = value["longitude"], lat = value["latitude"] {
-                    TFCLocationManagerBase.setCurrentLocation(CLLocation(latitude: lat, longitude: lng))
+                if let value = myValue as? [String: AnyObject], lng = value["longitude"] as? CLLocationDegrees, lat = value["latitude"] as? CLLocationDegrees {
+                    TFCLocationManagerBase.setCurrentLocation(CLLocation(latitude: lat, longitude: lng ), time: value["time"] as? NSDate)
                     DLog("coord was sent with __updateComplicationData__ \(lat), \(lng)", toFile: true)
                 } else {
                     DLog("no coord was sent with __updateComplicationData__ ", toFile: true)
@@ -444,7 +444,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                                 }
                                 var dict:[String:AnyObject] = ["__updateComplicationData__": "doit"]
                                 if let coord = coord {
-                                    dict  = ["__updateComplicationData__": [ "longitude": coord.longitude, "latitude": coord.latitude]]
+                                    dict  = ["__updateComplicationData__": [ "longitude": coord.longitude, "latitude": coord.latitude, "time": NSDate()]]
                                 } else if let coord = station?.coord?.coordinate {
                                     DLog("send __updateComplicationData__ with \(coord) for \(station?.name)", toFile: true)
                                     dict  = ["__updateComplicationData__": [ "longitude": coord.longitude, "latitude": coord.latitude]]
