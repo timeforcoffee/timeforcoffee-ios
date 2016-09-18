@@ -104,9 +104,11 @@ func DLog<T>(@autoclosure object: () -> T, toFile: Bool = false, _ file: String 
         }
         let fileEscaped = file.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLPathAllowedCharacterSet())
         let fileURL = NSURL(string: fileEscaped!)?.lastPathComponent ?? "Unknown file"
-
-        let queue = NSThread.isMainThread() ? "UI" : "BG"
-
+        let currentThread = "\(NSThread.currentThread())"
+        //  <NSThread: 0x17066e7c0>{number = 11, name = (null)}
+        let pattern = ".* 0x(.*)>\\{number = ([0-9]+).*"
+        let matches = currentThread.replace(pattern, template: "$1 #$2")
+        let queue = NSThread.isMainThread() ? "UI" : "BG \(matches)"
         //print("\(NSDate().formattedWithDateFormatter(DLogDateFormatter)) <\(queue)> \(fileURL) \(function)[\(line)] - " + stringRepresentation)
         NSLog("<\(queue)> %@ (\(fileURL) \(function)[\(line)])", stringRepresentation)
         #if os(watchOS)
@@ -216,13 +218,17 @@ private func DLog2File(text:String) {
     #endif
 
     if  let iCloudDocumentsURL = iCloudDocumentsURL {
-        if (!NSFileManager.defaultManager().fileExistsAtPath(iCloudDocumentsURL.path!, isDirectory: nil)) {
-            try! NSFileManager.defaultManager().createDirectoryAtURL(iCloudDocumentsURL, withIntermediateDirectories: true, attributes: nil)
-        }
-        if let url = iCloudDocumentsURL.URLByAppendingPathComponent(file) {
-            let dtext = "\(text)"
-            let _ = try? url.setResourceValue(true, forKey: NSURLIsExcludedFromBackupKey)
-            try! dtext.appendLineToURL(url)
+        do {
+            if (!NSFileManager.defaultManager().fileExistsAtPath(iCloudDocumentsURL.path!, isDirectory: nil)) {
+                try! NSFileManager.defaultManager().createDirectoryAtURL(iCloudDocumentsURL, withIntermediateDirectories: true, attributes: nil)
+            }
+            if let url = iCloudDocumentsURL.URLByAppendingPathComponent(file) {
+                let dtext = "\(text)"
+                let _ = try? url.setResourceValue(true, forKey: NSURLIsExcludedFromBackupKey)
+                try dtext.appendLineToURL(url)
+            }
+        } catch {
+            // just ignore
         }
     }
 }
