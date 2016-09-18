@@ -73,8 +73,16 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
     public func registerWatchConnectivity() {
         if #available(iOS 9, *) {
             if (WCSession.isSupported()) {
+                var activate = true
+                if #available(iOSApplicationExtension 9.3, *) {
+                    if (session?.activationState == .Activated) {
+                        activate = false
+                    }
+                }
                 session?.delegate = self
-                session?.activateSession()
+                if activate {
+                    session?.activateSession()
+                }
             }
         }
     }
@@ -272,7 +280,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
     @available(iOSApplicationExtension 9.0, *)
     public func sessionDidDeactivate(session: WCSession) {
         DLog("sessionDidDeactivate")
-        self.registerWatchConnectivity()
+        //self.registerWatchConnectivity()
     }
 
     @available(iOSApplicationExtension 9.0, *)
