@@ -73,9 +73,11 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         didSet {
             filteredDepartures = nil
             departuresSorted = nil
+            needsCacheSave = true
         }
     }
 
+    public var needsCacheSave:Bool = false
     private var departuresSorted: [TFCDeparture]?
     private var filteredDepartures: [TFCDeparture]?
 
@@ -252,6 +254,16 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         self.init(name: "doesn't exist", id: "0000", coord: nil)
     }
 
+    public class func saveToPincache(saveStation: TFCStationBase) {
+        let cache: PINCache = TFCCache.objects.stations
+        let start = NSDate()
+        if (saveStation.needsCacheSave)  {
+            cache.setObject(saveStation, forKey: saveStation.st_id) { (cache, key, object) in
+                DLog("PinCache was set for \(saveStation.name) for key \(key). Took \(NSDate().timeIntervalSinceReferenceDate - start.timeIntervalSinceReferenceDate) s", toFile: true)
+            }
+        }
+    }
+
     public class func initWithCache(name: String, id: String, coord: CLLocation?) -> TFCStation {
         let trimmed_id = id.replace("^0*", template: "")
         let cache: PINCache = TFCCache.objects.stations
@@ -267,8 +279,8 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                 if (tryStation.name != "unknown") {
                     //if coords are set and the id is not empty, set it to the cache
                     if (tryStation.coord != nil && tryStation.st_id != "") {
-                        cache.setObject(tryStation, forKey: tryStation.st_id)
                         tryStation.setStationSearchIndex()
+                        TFCStationBase.saveToPincache(tryStation)
                     }
                     return tryStation
                 }
@@ -295,8 +307,8 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             //only cache it when name is != "" otherwise it comes
             // from something with only the id
             if (name != "" && newStation2.st_id != "" && newStation2.coord != nil) {
-                    cache.setObject(newStation2, forKey: newStation2.st_id)
-                    newStation2.setStationSearchIndex()
+                newStation2.setStationSearchIndex()
+                TFCStationBase.saveToPincache(newStation2)
             }
             return newStation2
         } else {
@@ -304,7 +316,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             if (countBefore > 0) {
                 newStation!.removeObsoleteDepartures()
                 if (countBefore > newStation!.departures?.count) {
-                    cache.setObject(newStation!, forKey: newStation!.st_id)
+                    TFCStationBase.saveToPincache(newStation!)
                 }
             }
             newStation!.filteredLines = newStation!.getFilteredLines()
@@ -553,10 +565,18 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                 if self.departures == nil {
                     self.departures = [:]
                 }
-                self.departures![dept.getKey()] = dept
+                let key = dept.getKey()
+                let oldDept = self.departures![key]
+                if let oldSig = oldDept?.getSignature() {
+                    let newSig = dept.getSignature()
+                    if (oldSig != newSig) {
+                        self.departures![key] = dept
+                    }
+                } else {
+                    self.departures![key] = dept
+                }
             }
-            let cache: PINCache = TFCCache.objects.stations
-            cache.setObject(self, forKey: st_id)
+            TFCStationBase.saveToPincache(self)
         }
     }
 
