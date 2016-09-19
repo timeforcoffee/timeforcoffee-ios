@@ -101,6 +101,44 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
         }
         return "name=\(self.getDestination()),scheduled=\(self.getScheduledTimeAsNSDate()),line=\(self.getLine())"
     }
+
+    public func getSignature() -> String {
+        var props:[String:AnyObject] = ["type": type, "accessible": accessible]
+
+        props["isFavorite"] = isFavorite()
+
+
+        if let sortTime = sortTime {
+            props["sortTime"] = sortTime
+        }
+
+        if let sortOrder = sortOrder {
+            props["sortOrder"] = sortOrder
+        }
+
+        if let destination_id = destination_id {
+            props["destination_id"] = destination_id
+        }
+        if let colorFg = colorFg {
+            props["colorFg"] = colorFg
+        }
+        if let colorBg = colorBg {
+            props["colorBg"] = colorBg
+        }
+        if let platform = platform {
+            props["platform"] = platform
+        }
+
+        if let realtime = realtime {
+            props["realtime"] = realtime
+        }
+        if let arrivalRealtime = arrivalRealtime {
+            props["arrivalRealtime"] = arrivalRealtime
+        }
+        if let arrivalScheduled = arrivalScheduled {
+            props["arrivalScheduled"] = arrivalScheduled
+        }
+        return props.description
     }
 
     public class func getStationNameFromJson(result: JSON) -> String? {
