@@ -149,15 +149,17 @@ final public class TFCFavorites: NSObject {
     public func updateGeofences(force force:Bool = true) {
         if #available(iOSApplicationExtension 9.0, *) {
             #if os(iOS)
+                dispatch_async(dispatch_get_main_queue()) {
+
                 let currLoc = TFCLocationManager.getCurrentLocation()
 
                 // don't update geofences, if we didn't move more than 1km from last one
-                if let lastGeofenceUpdate = lastGeofenceUpdate, currLoc = currLoc {
+                if let lastGeofenceUpdate = self.lastGeofenceUpdate, currLoc = currLoc {
                     if (!force && currLoc.distanceFromLocation(lastGeofenceUpdate) < 1000) {
                         return
                     }
                 }
-                lastGeofenceUpdate = currLoc
+                self.lastGeofenceUpdate = currLoc
 
                 let locationManager = CLLocationManager()
 
@@ -230,6 +232,7 @@ final public class TFCFavorites: NSObject {
                         }
                     }
                 } else {
+                }
                 }
             #endif
         }
