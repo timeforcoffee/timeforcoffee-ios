@@ -143,11 +143,24 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
         }
         // check if we now a last location, and take that if it's not older than 30 seconds
         //  to avoid multiple location lookups
-        if let cachedLoc = locManager?.getLastLocation(30)?.coordinate {
-            DLog("still cached location \(cachedLoc)", toFile: true)
-            handleReply(["lat" : cachedLoc.latitude, "long": cachedLoc.longitude])
-        } else {
-            self.getLocation(handleReply)
+
+        NSProcessInfo.processInfo().performExpiringActivityWithReason("getStations")
+        { expired in
+            if !expired {
+                if let cachedLoc = self.locManager?.getLastLocation(30)?.coordinate {
+                    DLog("still cached location \(cachedLoc)", toFile: true)
+                    handleReply(["lat" : cachedLoc.latitude, "long": cachedLoc.longitude])
+                } else {
+                    self.getLocation(handleReply)
+                }
+            } else {
+                DLog("getStations has expired", toFile: true)
+                DLog("stacktrace start", toFile: true)
+                for line in stacktrace {
+                    DLog("stack \(line)", toFile: true)
+                }
+                DLog("stacktrace end", toFile: true)
+            }
         }
     }
 

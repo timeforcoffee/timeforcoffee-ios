@@ -62,8 +62,17 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
     func applicationWillResignActive() {
         DLog("__", toFile: true)
-        TFCDataStore.sharedInstance.saveContext()
-        SendLogs2Phone()
+        NSProcessInfo.processInfo().performExpiringActivityWithReason("applicationWillResignActive")
+        { expired in
+            if !expired {
+
+                TFCDataStore.sharedInstance.saveContext()
+                SendLogs2Phone()
+            } else {
+                DLog("applicationWillResignActive expired", toFile: true)
+            }
+        }
+
     }
 
     private func lastRequestForAllData() -> NSTimeInterval? {

@@ -105,37 +105,57 @@ public class TFCWatchDataFetch: NSObject, NSURLSessionDownloadDelegate {
     }
 
     public func fetchDepartureDataForStation(station:TFCStation) {
-        if let downloadingSince = downloading[station.st_id]  {
-            //if downloading since less than 30 secs. don't again.
-            if downloadingSince.dateByAddingTimeInterval(30) > NSDate() {
-                DLog("Station \(station.st_id) is already downloading since \(NSDate())", toFile: true)
-                return
+        NSProcessInfo.processInfo().performExpiringActivityWithReason("downloading \(station.name) task")
+        { expired in
+            if !expired {
+
+                if let downloadingSince = self.downloading[station.st_id]  {
+                    //if downloading since less than 30 secs. don't again.
+                    if downloadingSince.dateByAddingTimeInterval(30) > NSDate() {
+                        DLog("Station \(station.st_id) is already downloading since \(NSDate())", toFile: true)
+                        return
+                    }
+                }
+                self.downloading[station.st_id] = NSDate()
+                let sampleDownloadURL = NSURL(string: station.getDeparturesURL())!
+                DLog("Download \(sampleDownloadURL)", toFile: true)
+
+                let backgroundConfigObject:NSURLSessionConfiguration
+                if #available(watchOSApplicationExtension 3.0, *) {
+                    backgroundConfigObject = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier((NSUUID().UUIDString))
+                } else {
+                    backgroundConfigObject = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier((NSUUID().UUIDString))
+                }
+                backgroundConfigObject.requestCachePolicy = .UseProtocolCachePolicy
+                let backgroundSession = NSURLSession(configuration: backgroundConfigObject, delegate: self, delegateQueue: nil)
+
+                backgroundConfigObject.sessionSendsLaunchEvents = true
+
+                let downloadTask = backgroundSession.downloadTaskWithURL(sampleDownloadURL)
+
+                downloadTask.taskDescription = station.st_id
+                if #available(watchOSApplicationExtension 3.0, *) {
+                    if WKExtension.sharedExtension().applicationState == .Active {
+                        downloadTask.priority = 1.0
+                    }
+                }
+                downloadTask.resume()
+            } else {
+                DLog("downloading \(station.name) task expired", toFile: true)
+                DLog("stacktrace start", toFile: true)
+                #if DEBUG
+                    let stacktrace = NSThread.callStackSymbols()
+                #else
+                    let stacktrace:[String] = []
+                #endif
+
+                for line in stacktrace {
+                    DLog("stack \(line)", toFile: true)
+                }
+                DLog("stacktrace end", toFile: true)
+
             }
         }
-        downloading[station.st_id] = NSDate()
-        let sampleDownloadURL = NSURL(string: station.getDeparturesURL())!
-        DLog("Download \(sampleDownloadURL)", toFile: true)
-
-        let backgroundConfigObject:NSURLSessionConfiguration
-        if #available(watchOSApplicationExtension 3.0, *) {
-            backgroundConfigObject = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier((NSUUID().UUIDString))
-        } else {
-            backgroundConfigObject = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier((NSUUID().UUIDString))
-        }
-        backgroundConfigObject.requestCachePolicy = .UseProtocolCachePolicy
-        let backgroundSession = NSURLSession(configuration: backgroundConfigObject, delegate: self, delegateQueue: nil)
-
-        backgroundConfigObject.sessionSendsLaunchEvents = true
-
-        let downloadTask = backgroundSession.downloadTaskWithURL(sampleDownloadURL)
-
-        downloadTask.taskDescription = station.st_id
-        if #available(watchOSApplicationExtension 3.0, *) {
-            if WKExtension.sharedExtension().applicationState == .Active {
-                downloadTask.priority = 1.0
-            }
-        }
-        downloadTask.resume()
     }
 
 
