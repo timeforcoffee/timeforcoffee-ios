@@ -50,7 +50,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         }
         set(location) {
             self._coord = location
-            if let lat = location?.coordinate.latitude, lon = location?.coordinate.longitude {
+            if let lat = location?.coordinate.latitude, let lon = location?.coordinate.longitude {
                 if (self.realmObject?.latitude  == nil ||
                     self.realmObject?.longitude == nil ||
                     coord?.distanceFromLocation(CLLocation(latitude: self.realmObject?.latitude as! Double , longitude: self.realmObject?.longitude as! Double)) > 10) {
