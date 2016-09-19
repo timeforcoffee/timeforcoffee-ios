@@ -185,7 +185,7 @@ final public class TFCFavorites: NSObject {
                     }
                     var maxDistance:Double = 0.0
                     if let stations = self.getByDistance() {
-                        var maxStations:Int = 19
+                        let maxStations:Int = 19
                         var nearestStationWithinRadius:TFCStation? = nil
                         let radius = 700.0
                         var nearestDistance:Double = radius

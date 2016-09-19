@@ -110,6 +110,12 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
     }
 
     public func getStations(reply: replyStations?, errorReply: ((String) -> Void)?, stopWithFavorites: Bool?, favoritesOnly: Bool? = false) {
+
+        #if DEBUG
+            let stacktrace = NSThread.callStackSymbols()
+        #else
+            let stacktrace:[String] = []
+        #endif
         func handleReply(replyInfo: [NSObject : AnyObject]!) {
             DLog("handleReply")
             if(replyInfo["lat"] != nil) {
