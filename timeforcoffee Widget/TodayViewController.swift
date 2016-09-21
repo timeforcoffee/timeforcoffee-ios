@@ -173,6 +173,8 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         DLog("awakeFromNib")
         let userDefaults = TFCDataStore.sharedInstance.getUserDefaults()
 
+        TFCFavorites.sharedInstance.doGeofences = false
+
         if let preferredHeight = userDefaults?.objectForKey("lastPreferredContentHeight") as? CGFloat {
             self.preferredContentSize = CGSize(width: CGFloat(0.0), height: preferredHeight)
         }
