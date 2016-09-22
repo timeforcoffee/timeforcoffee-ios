@@ -81,6 +81,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
                     self.initTable = true
                 }
                 self.station = station2
+                DLog("getStation", toFile: true)
                 self.setStationValues()
             }
         }
@@ -101,7 +102,12 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         if #available(watchOSApplicationExtension 3.0, *) {
             let state = WKExtension.sharedExtension().applicationState
             if (state == .Inactive) {
+                DLog("WKExtension = Inactive", toFile: true)
                 doSetValues = false
+            } else if (state == .Active) {
+                DLog("WKExtension = Active", toFile: true)
+            } else {
+                DLog("WKExtension = Background", toFile: true)
             }
         }
         if (doSetValues) {
@@ -122,13 +128,12 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
 
     override func didDeactivate() {
         // This method is called when watch view controller is no longer visible
-        DLog("didDeactivate")
+        DLog("didDeactivate", toFile: true)
         self.activated = false
         super.didDeactivate()
     }
 
     private func setStationValues() {
-        DLog("setStationValues")
         let isInBackground:Bool
 
         if #available(watchOSApplicationExtension 3.0, *) {
@@ -136,6 +141,8 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         } else {
             isInBackground = false
         }
+        DLog("setStationValues. isInBackground: \(isInBackground)", toFile: true)
+
         if (station == nil) {
             if (isInBackground) {
                 return
@@ -152,7 +159,9 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         var drawAsNewStation = false
 
         let isNewStation = (self.lastShownStationId != station?.st_id)
+        DLog("\(self.lastShownStationId) != \(station?.st_id) || \(self.initTable) || \(station?.getDepartures()?.count)", toFile: true)
         if (!isInBackground && (isNewStation || self.initTable || !(station?.getDepartures()?.count > 0))) {
+            DLog("Load new station", toFile: true)
             drawAsNewStation = true
             infoGroup.setHidden(false)
             infoLabel.setText("Loading ...")
@@ -187,19 +196,22 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
 
 
     func updateCurrentStation(notification: NSNotification) {
+        DLog("updateCurrentStation", toFile: true)
         if (self.activated) {
             dispatch_async(dispatch_get_main_queue()) {
                 // reload station from cache
+                DLog("count before for \(self.station?.name): \(self.station?.getDepartures()?.count)", toFile: true)
                 if let st_id = self.station?.st_id {
                     self.station = TFCStation.initWithCacheId(st_id)
                 }
+                DLog("count after for \(self.station?.name): \(self.station?.getDepartures()?.count)", toFile: true)
                 self.departuresUpdated(nil, context: nil, forStation: self.station)
             }
         }
     }
 
     func selectStation(notification: NSNotification) {
-        DLog("selectStation")
+        DLog("selectStation", toFile: true)
         if (notification.userInfo == nil) {
             station = nil
         } else {
@@ -221,18 +233,24 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     }
 
     func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?) {
+        DLog("departuresUpdated for \(forStation?.name)", toFile: true)
+        forStation
         let displayed = self.displayDepartures(forStation)
         let context2:[String:String]? = context as? [String:String]
         if (displayed && context2?["cached"] != "true") {
-            if (activated) {
+            if (self.activated) {
                 WKInterfaceDevice.currentDevice().playHaptic(WKHapticType.Click)
                 DLog("played haptic in Stations ")
             }
         }
+
     }
 
     private func displayDepartures(station: TFCStation?) -> Bool {
+        DLog("displayDepartures for \(station?.name)", toFile: true)
         if (station == nil) {
+            DLog("end displayDepartures. returnValue: station == nil", toFile: true)
+
             return false
         }
         var returnValue = false
@@ -256,10 +274,12 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
                 i += 1
             }
         }
+        DLog("end displayDepartures. returnValue: \(returnValue)", toFile: true)
         return returnValue
     }
 
     func departuresStillCached(context: Any?, forStation: TFCStation?) {
+        DLog("departuresStillCached", toFile: true)
         departuresUpdated(nil, context: ["cached": "true"], forStation: forStation)
     }
 

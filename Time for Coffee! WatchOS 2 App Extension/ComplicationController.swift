@@ -22,7 +22,9 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     // MARK: - Timeline Configuration
     
     lazy var watchdata: TFCWatchData = { 
-        return TFCWatchData()
+        let watchdata = TFCWatchData()
+        watchdata.noCrunchQueue = true
+        return watchdata
         }()
 
     func getSupportedTimeTravelDirectionsForComplication(complication: CLKComplication, withHandler handler: (CLKComplicationTimeTravelDirections) -> Void) {

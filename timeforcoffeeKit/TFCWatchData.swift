@@ -20,9 +20,13 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
 
     private var networkErrorMsg: String?
 
+    public var noCrunchQueue = false
     private var replyNearby: replyClosure?
     private lazy var stations: TFCStations? =  {return TFCStations(delegate: self)}()
     private lazy var locManager: TFCLocationManager? = self.lazyInitLocationManager()
+    static  var crunchQueue:dispatch_queue_t = {
+        return dispatch_queue_create("ch.opendata.timeforcoffee.crunch", DISPATCH_QUEUE_CONCURRENT)
+    }()
 
     private struct replyContext {
         var reply: replyStations?
@@ -121,6 +125,34 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
             }
         }
     }
+    static var crunchQueueTasks = 0
+
+    public func startCrunchQueue(closure: (() -> Void)) {
+        let queue:dispatch_queue_t
+        if self.noCrunchQueue {
+            closure()
+        } else {
+            #if DEBUG
+                let stacktrace = NSThread.callStackSymbols()
+                if (stacktrace.count > 1) {
+                    let first = stacktrace[1]
+
+                    DLog("startCrunchQueue called from \(first)")
+                }
+                
+                (WKExtension.sharedExtension().delegate as! ExtensionDelegate).tickDebugLog()
+            #endif
+
+            queue = TFCWatchData.crunchQueue
+            TFCWatchData.crunchQueueTasks += 1
+            dispatch_async(queue, {
+                DLog("crunchQueue started")
+                closure()
+                TFCWatchData.crunchQueueTasks -= 1
+            })
+
+        }
+    }
 
     public func getStations(reply: replyStations?, errorReply: ((String) -> Void)?, stopWithFavorites: Bool?, favoritesOnly: Bool? = false) {
 
@@ -130,55 +162,61 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
             let stacktrace:[String] = []
         #endif
         func handleReply(replyInfo: [NSObject : AnyObject]!) {
-            DLog("handleReply")
-            if(replyInfo["lat"] != nil) {
-                let loc = CLLocation(latitude: replyInfo["lat"] as! Double, longitude: replyInfo["long"] as! Double)
-                if (favoritesOnly == true) {
-                    self.stations?.loadFavorites()
-                    reply!(self.stations)
-                    return
-                }
-                self.stations?.initWithNearbyFavorites(loc)
-                if (stopWithFavorites == true && self.stations?.count() > 0 && reply != nil ) {
-                    reply!(self.stations)
-                    return
-                }
-                var replyC:replyContext = replyContext()
-                replyC.reply = reply
-                replyC.errorReply = errorReply
-                self.stations?.searchForStationsInDB(loc.coordinate, context: replyC)
-            } else {
-                if let err = replyInfo["error"] as? NSError {
-                    if (err.code == CLError.LocationUnknown.rawValue) {
-                        self.networkErrorMsg = "Airplane mode?"
-                    } else {
-                        self.networkErrorMsg = "Location not available"
+            startCrunchQueue {
+                DLog("searchForStationsInDB handleReply getStations \(replyInfo) \(reply)", toFile: true)
+                if(replyInfo["lat"] != nil) {
+                    let loc = CLLocation(latitude: replyInfo["lat"] as! Double, longitude: replyInfo["long"] as! Double)
+                    if (favoritesOnly == true) {
+                        DLog("Favorites only, before loadFavorites", toFile: true)
+
+                        self.stations?.loadFavorites()
+                        #if DEBUG
+                        DLog("stacktrace start", toFile: true)
+                        for line in stacktrace {
+                            DLog("stack \(line)", toFile: true)
+                        }
+                        DLog("stacktrace end", toFile: true)
+                        #endif
+
+                        DLog("Favorites only, reply! \(reply.debugDescription)", toFile: true)
+
+                        reply!(self.stations)
+                        return
                     }
-                    if let errorReply = errorReply, networkErrorMsg = self.networkErrorMsg {
-                       errorReply(networkErrorMsg)
+                    self.stations?.initWithNearbyFavorites(loc)
+                    if (stopWithFavorites == true && self.stations?.count() > 0 && reply != nil ) {
+                        DLog("searchForStationsInDB stopWithFavorites", toFile: true)
+                        reply!(self.stations)
+                        return
+                    }
+                    var replyC:replyContext = replyContext()
+                    replyC.reply = reply
+                    replyC.errorReply = errorReply
+                    DLog("searchForStationsInDB before", toFile: true)
+                    self.stations?.searchForStationsInDB(loc.coordinate, context: replyC)
+                } else {
+                    if let err = replyInfo["error"] as? NSError {
+                        if (err.code == CLError.LocationUnknown.rawValue) {
+                            self.networkErrorMsg = "Airplane mode?"
+                        } else {
+                            self.networkErrorMsg = "Location not available"
+                        }
+                        if let errorReply = errorReply, networkErrorMsg = self.networkErrorMsg {
+                            errorReply(networkErrorMsg)
+                        }
                     }
                 }
             }
         }
         // check if we now a last location, and take that if it's not older than 30 seconds
         //  to avoid multiple location lookups
-
-        NSProcessInfo.processInfo().performExpiringActivityWithReason("getStations")
-        { expired in
-            if !expired {
-                if let cachedLoc = self.locManager?.getLastLocation(30)?.coordinate {
-                    DLog("still cached location \(cachedLoc)", toFile: true)
-                    handleReply(["lat" : cachedLoc.latitude, "long": cachedLoc.longitude])
-                } else {
-                    self.getLocation(handleReply)
-                }
+        DLog("_")
+        self.startCrunchQueue {
+            if let cachedLoc = self.locManager?.getLastLocation(30)?.coordinate {
+                DLog("still cached location \(cachedLoc)", toFile: true)
+                handleReply(["lat" : cachedLoc.latitude, "long": cachedLoc.longitude])
             } else {
-                DLog("getStations has expired", toFile: true)
-                DLog("stacktrace start", toFile: true)
-                for line in stacktrace {
-                    DLog("stack \(line)", toFile: true)
-                }
-                DLog("stacktrace end", toFile: true)
+                self.getLocation(handleReply)
             }
         }
     }
@@ -198,18 +236,19 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
     }
 
     public func getBackOffTime(noBackOffIncr noBackOffIncr:Bool? = false) -> NSDate {
-        var backoffCount = TFCDataStore.sharedInstance.getUserDefaults()?.integerForKey("backoffCount")
+        var backoffCount = TFCDataStore.sharedInstance.getUserDefaults()?.doubleForKey("backoffCount")
         if (backoffCount == nil) {
-            backoffCount = 1
+            backoffCount = 1.0
         }
-        var backoffTime = 2 ^ backoffCount!
+        var backoffTime = exp2(backoffCount!)
         if (backoffTime > 60) {
             backoffTime = 60
             backoffCount = 6
-        } else {
+        } else if noBackOffIncr == false {
             backoffCount = backoffCount! + 1
         }
-        TFCDataStore.sharedInstance.getUserDefaults()?.setInteger(backoffCount!, forKey: "backoffCount")
+        TFCDataStore.sharedInstance.getUserDefaults()?.setDouble(backoffCount!, forKey: "backoffCount")
+        DLog("Backoff time: \(backoffTime)")
         return NSDate().dateByAddingTimeInterval(Double(backoffTime) * 60)
     }
 
@@ -217,7 +256,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
         TFCDataStore.sharedInstance.getUserDefaults()?.setObject(nil, forKey: "backoffCount")
     }
 
-    public func getNextUpdateTime(noBackOffIncr noBackOffIncr:Bool? = false) -> NSDate {
+    public func getNextUpdateTime(noBackOffIncr noBackOffIncr:Bool? = false, minTime:Int? = 0) -> NSDate {
         var nextUpdateDate:NSDate?        
         var maxNextUpdateDate = NSDate().dateByAddingTimeInterval(Constants.FrequencyOfTimelineUpdate)
         // if the next first departure Time is further away than usual, wait until that comes and update 15 minutes before
@@ -240,19 +279,23 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
                 clearBackOffTime()
             }
         } else {
-            nextUpdateDate =  getBackOffTime() // request an update in 5 minutes, if no lastDepartureTime was set.
+            nextUpdateDate =  getBackOffTime(noBackOffIncr: noBackOffIncr) // request an update in 5 minutes, if no lastDepartureTime was set.
         }
         if nextUpdateDate < NSDate() {
             DLog("WARNING: \(nextUpdateDate) < \(NSDate())")
             nextUpdateDate = getBackOffTime(noBackOffIncr: true)
         }
+        if let minTime = minTime {
+            let minDate = NSDate().dateByAddingTimeInterval(Double(minTime))
+            nextUpdateDate = max(minDate, nextUpdateDate!)
+        }
         return nextUpdateDate!
     }
 
-    public func scheduleNextUpdate() {
+    public func scheduleNextUpdate(noBackOffIncr noBackOffIncr:Bool? = false) {
             let nextUpdate:NSDate
             if (CLKComplicationServer.sharedInstance().activeComplications?.count > 0) {
-                nextUpdate = self.getNextUpdateTime()
+                nextUpdate = self.getNextUpdateTime(noBackOffIncr: noBackOffIncr)
             } else {
                 nextUpdate = NSDate().dateByAddingTimeInterval(30 * 60)
             }
@@ -261,7 +304,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
 
             ud?.setObject(nextUpdate, forKey: "lastBackgroundRefreshDate")
             WKExtension.sharedExtension().scheduleBackgroundRefreshWithPreferredDate(nextUpdate, userInfo: nil) { (error) in
-                DLog("updated next schedule at \(nextUpdate.formattedWithDateFormatter(DLogDateFormatter))", toFile: true)
+                DLog("updated next schedule at \(nextUpdate.formattedWithDateFormatter(DLogDateFormatter)) error: \(error)", toFile: true)
                 if error == nil {
                     //successful
                 }
@@ -270,6 +313,11 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
     }
     public func needsTimelineDataUpdate(station: TFCStation) -> Bool {
         let ud = TFCDataStore.sharedInstance.getUserDefaults()
+
+        DLog("lastDepartureTime:NSDate = \(ud?.objectForKey("lastDepartureTime") as? NSDate)", toFile: true)
+        DLog("lastFirstStationId = \(ud?.stringForKey("lastFirstStationId"))", toFile: true)
+        DLog("departures = \(station.getFilteredDepartures()?.count))", toFile: true)
+
         if let ud = ud, lastDepartureTime:NSDate = ud.objectForKey("lastDepartureTime") as? NSDate,
             lastFirstStationId = ud.stringForKey("lastFirstStationId"),
             departures = station.getFilteredDepartures() {
@@ -290,13 +338,16 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
             if (lastFirstStationId == station.st_id) {
                 // if we have more than 3 hours in store still (to avoid too frequent updates)
                 if (lastDepartureTime > inthreehours) {
+                    DLog("more than 3 hours in store. return false")
                     return false
                 // else if we don't have a newer than the current last one
                 } else if (departures.last?.getScheduledTimeAsNSDate() <= lastDepartureTime) {
+                    DLog("no new data. return false.", toFile: true)
                     return false
                 }
             }
         }
+        DLog("return true", toFile: true)
         return true
     }
 

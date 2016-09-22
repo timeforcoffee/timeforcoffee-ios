@@ -102,6 +102,19 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         }
     }
 
+    func tickDebugLog() {
+        if #available(watchOSApplicationExtension 3.0, *) {
+            DLog("Application State appstate: \(WKExtension.sharedExtension().applicationState.rawValue)")
+        }
+        if let tickStart = tickStart {
+            let running = (NSDate().timeIntervalSinceReferenceDate - tickStart.timeIntervalSinceReferenceDate).roundToPlaces(1)
+
+            DLog("in background since: \(running) sec. ticker.")
+        } else {
+            DLog("not in background. ticker.")
+        }
+    }
+
     private func lastRequestForAllData() -> NSTimeInterval? {
         if let lastUpdate = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastRequestForAllData") as? NSDate { 
             return lastUpdate.timeIntervalSinceNow
@@ -133,31 +146,24 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     @available(watchOSApplicationExtension 3.0, *)
     func handleBackgroundTasks(backgroundTasks: Set<WKRefreshBackgroundTask>) {
         for task : WKRefreshBackgroundTask in backgroundTasks {
-            DLog("received background task: \(task)" , toFile: true)
+            DLog("received \(task) Backgroundtask" , toFile: true)
             if let arTask = task as? WKApplicationRefreshBackgroundTask {
                 TFCWatchDataFetch.sharedInstance.fetchDepartureData(task: arTask)
             } else if let urlTask = task as? WKURLSessionRefreshBackgroundTask {
                 TFCWatchDataFetch.sharedInstance.rejoinURLSession(urlTask)
             } else if let wcBackgroundTask = task as? WKWatchConnectivityRefreshBackgroundTask {
                 //just wait 15 seconds and assume it's finished FIXME. Could be improved, but it's hard to keep track and sometimes there's just nothing to do.
-                delay(15.0, closure: {
+                delay(10.0, closure: {
+                    dispatch_barrier_async(TFCWatchData.crunchQueue) {
+                    DLog("finished WKWatchConnectivityRefreshBackgroundTask Backgroundtask part 1", toFile: true)
+                    DLog("was: \(wcBackgroundTask) part 2", toFile: true)
                     wcBackgroundTask.setTaskCompleted()
+                    }
                 })
                 TFCDataStore.sharedInstance.registerWatchConnectivity()
             } else if let snapshotTask = task as? WKSnapshotRefreshBackgroundTask {
-                //just wait 5 seconds and assume it's finished
-                delay(5.0, closure: {
-                    let nextDate = self.watchdata.getNextUpdateTime(noBackOffIncr: true)
-                    DLog("finished \(snapshotTask) Backgroundtask, next \(nextDate)", toFile: true)
 
-                    let ud = TFCDataStore.sharedInstance.getUserDefaults()
-                    let lastBackgroundRefreshDate = ud?.objectForKey("lastBackgroundRefreshDate") as? NSDate
-                    if (lastBackgroundRefreshDate == nil || lastBackgroundRefreshDate < NSDate()) {
-                        DLog("lastBackgroundRefreshDate \(lastBackgroundRefreshDate) older than now. set new schedule ", toFile: true)
-                        self.watchdata.scheduleNextUpdate()
-                    }
-                    snapshotTask.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: nextDate, userInfo: nil)
-                })
+                delaySnapshotComplete(snapshotTask,startTime: NSDate())
             } else {
                 //DLog("received something else...", toFile: true)
                 // make sure to complete all tasks, even ones you don't handle
@@ -165,5 +171,68 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             }
         }
     }
+
+    @available(watchOSApplicationExtension 3.0, *)
+    private func delaySnapshotComplete(snapshotTask: WKSnapshotRefreshBackgroundTask, startTime:NSDate, final:Bool = false) {
+        //just wait 2 seconds and assume it's finished
+        // we use a queue here to let other tasks finish, before this one shoots
+        let delayTime:Double
+        if final {
+            delayTime = 2.0
+        } else {
+            delayTime = 2.0
+        }
+        delay(delayTime, closure: {
+            DLog("finished \(snapshotTask) Backgroundtask before barrier. final: \(final)")
+            dispatch_barrier_async(TFCWatchData.crunchQueue) {
+
+/*                if (TFCWatchDataFetch.sharedInstance.downloading.count > 0) {
+
+                    let startedSince = NSDate().timeIntervalSinceReferenceDate - startTime.timeIntervalSinceReferenceDate;
+                    if (startedSince < 10) {
+                        DLog("something \(TFCWatchDataFetch.sharedInstance.downloading.count) is still downloading, wait another 5 secs (waiting since \(startedSince))", toFile:true)
+                        for (key, value) in TFCWatchDataFetch.sharedInstance.downloading {
+                            DLog("\(key) is downloading with value: \(value)")
+                        }
+                        self.delaySnapshotComplete(snapshotTask, startTime: startTime)
+                        return
+                    } else {
+                        DLog("something \(TFCWatchDataFetch.sharedInstance.downloading.count)  is still downloading, but we waited since \(startedSince) seconds, continue", toFile:true)
+                        for (key, value) in TFCWatchDataFetch.sharedInstance.downloading {
+                            DLog("\(key) is downloading with value: \(value)")
+                        }
+
+                    }
+                }*/
+                if (TFCWatchData.crunchQueueTasks > 0) {
+                    DLog("there's a new task in the crunchQueue, finish that first: \(TFCWatchData.crunchQueueTasks). final: \(final)")
+                    self.delaySnapshotComplete(snapshotTask, startTime: startTime)
+                    return
+                }
+
+                //wait another final second to make sure everything is finished (not sure that helps)
+                if (!final) {
+                    self.delaySnapshotComplete(snapshotTask, startTime: startTime, final: true)
+                    return
+                }
+
+
+                let nextDate = self.watchdata.getNextUpdateTime(noBackOffIncr: true, minTime: 30 * 60)
+
+                let ud = TFCDataStore.sharedInstance.getUserDefaults()
+                let lastBackgroundRefreshDate = ud?.objectForKey("lastBackgroundRefreshDate") as? NSDate
+                if (lastBackgroundRefreshDate == nil || lastBackgroundRefreshDate < NSDate()) {
+                    DLog("lastBackgroundRefreshDate \(lastBackgroundRefreshDate) older than now. set new schedule ", toFile: true)
+                    self.watchdata.scheduleNextUpdate(noBackOffIncr: true)
+                }
+                dispatch_async(dispatch_get_main_queue(), {
+                    DLog("finished \(snapshotTask) Backgroundtask, next \(nextDate)", toFile: true)
+                    snapshotTask.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: nextDate, userInfo: nil)
+                })
+
+            }
+        })
+    }
+
 }
 
