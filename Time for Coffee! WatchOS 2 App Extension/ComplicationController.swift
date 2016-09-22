@@ -221,6 +221,10 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
             let tmpl = CLKComplicationTemplateUtilitarianLargeFlat()
             tmpl.textProvider = CLKSimpleTextProvider(text: "--: --:-- ------")
             return tmpl
+        case CLKComplicationFamily.UtilitarianSmallFlat:
+            let tmpl = CLKComplicationTemplateUtilitarianSmallFlat()
+            tmpl.textProvider = CLKSimpleTextProvider(text: "--: -");
+            return tmpl
         case CLKComplicationFamily.UtilitarianSmall:
             let tmpl = CLKComplicationTemplateUtilitarianSmallFlat()
             tmpl.textProvider = CLKSimpleTextProvider(text: "--: -");
@@ -230,12 +234,11 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
             tmpl.line1TextProvider = CLKSimpleTextProvider(text: "--:");
             tmpl.line2TextProvider = CLKSimpleTextProvider(text: "-");
             return tmpl
-        default:
-            let tmpl = CLKComplicationTemplateCircularSmallStackText()
+        case CLKComplicationFamily.ExtraLarge:
+            let tmpl = CLKComplicationTemplateExtraLargeStackText()
             tmpl.line1TextProvider = CLKSimpleTextProvider(text: "--:");
             tmpl.line2TextProvider = CLKSimpleTextProvider(text: "-");
             return tmpl
-
         }
     }
     
@@ -276,8 +279,12 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
             return getUtilitarianLargeTemplate(station, departure: departure, nextDeparture: nextDeparture)
         case CLKComplicationFamily.UtilitarianSmall:
             return getUtilitarianSmallTemplate(station, departure: departure, nextDeparture: nextDeparture)
+        case CLKComplicationFamily.UtilitarianSmallFlat:
+            return getUtilitarianSmallTemplate(station, departure: departure, nextDeparture: nextDeparture)
         case CLKComplicationFamily.CircularSmall:
             return getCircularSmallTemplate(station, departure: departure, nextDeparture: nextDeparture)
+        case CLKComplicationFamily.ExtraLarge:
+            return getExtraLargeTemplate(station, departure: departure, nextDeparture: nextDeparture)
         default:
             return getCircularSmallTemplate(station, departure: departure, nextDeparture: nextDeparture)
         }
@@ -296,6 +303,22 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
 
         }
         return getPlaceholderTemplateForComplication(CLKComplicationFamily.CircularSmall) as! CLKComplicationTemplateCircularSmallStackText
+    }
+
+    private func getExtraLargeTemplate(station: TFCStation, departure: TFCDeparture?, nextDeparture: TFCDeparture?) -> CLKComplicationTemplateExtraLargeStackText {
+
+        if let departure = departure, departureTime = departure.getScheduledTimeAsNSDate() {
+            let tmpl = CLKComplicationTemplateExtraLargeStackText()
+
+            tmpl.tintColor = Constants.ComplicationColor
+            tmpl.highlightLine2 = false
+            let departureLine = departure.getLine()
+            tmpl.line1TextProvider = CLKSimpleTextProvider(text: "\(departureLine):")
+            tmpl.line2TextProvider = getDateProvider(departureTime)
+            return tmpl
+
+        }
+        return getPlaceholderTemplateForComplication(CLKComplicationFamily.ExtraLarge) as! CLKComplicationTemplateExtraLargeStackText
     }
 
     private func getUtilitarianLargeTemplate(station: TFCStation, departure: TFCDeparture?, nextDeparture: TFCDeparture?) -> CLKComplicationTemplateUtilitarianLargeFlat {
