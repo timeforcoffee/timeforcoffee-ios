@@ -30,7 +30,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     }
     
     func getTimelineStartDateForComplication(complication: CLKComplication, withHandler handler: (NSDate?) -> Void) {
-        DLog("getTimelineStartDateForComplication", toFile: true)
+        DLog("started getTimelineStartDateForComplication", toFile: true)
         func handleReply(stations: TFCStations?) {
             if let station = stations?.first {
                 func handleReply2(station: TFCStation?) {
@@ -43,6 +43,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                         DLog("no Departure, startDate: \(NSDate())", toFile: true)
                         handler(NSDate())
                     }
+                    DLog("finished getTimelineStartDateForComplication", toFile: true)
                 }
                 self.updateDepartures(station, context: handleReply2)
             }
@@ -51,10 +52,15 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     }
     
     func getTimelineEndDateForComplication(complication: CLKComplication, withHandler handler: (NSDate?) -> Void) {
-        DLog("getTimelineEndDateForComplication", toFile: true)
+        DLog("started getTimelineEndDateForComplication", toFile: true)
         func handleReply(stations: TFCStations?) {
             if let station = stations?.first {
-                DLog("firstStation: \(station.name)", toFile: true)
+                DLog("firstStation: \(station.name) with \(station.getFilteredDepartures()?.count) filtered departures", toFile: true)
+                if let ud =  NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee") {
+                    ud.setObject(NSDate(), forKey: "lastComplicationUpdate")
+                    ud.setValue(station.st_id, forKey: "lastComplicationStationId")
+                }
+
                 func handleReply2(station: TFCStation?) {
                     if let endDate = station?.getFilteredDepartures()?.last?.getScheduledTimeAsNSDate() {
                         DLog("last Departure: \(endDate)", toFile: true)
@@ -116,11 +122,6 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     
     func getTimelineEntriesForComplication(complication: CLKComplication, afterDate date: NSDate, limit: Int, withHandler handler: (([CLKComplicationTimelineEntry]?) -> Void)) {
         // Call the handler with the timeline entries after to the given date
-        DLog("getTimelineEntriesForComplication afterDate: \(date)", toFile: true)
-        if let ud =  NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee") {
-            ud.setObject(NSDate(), forKey: "lastComplicationUpdate")
-        }
-
         func handleReply(stations: TFCStations?) {
             var entries = [CLKComplicationTimelineEntry]()
             if let station = stations?.first { // corresponds to the favorited/closest station
@@ -159,10 +160,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                                     let entry = CLKComplicationTimelineEntry(date: (lastDepartureTimeNew.dateByAddingTimeInterval(60)), complicationTemplate: tmpl)
                                     entries.append(entry)
                                 }
-                            }
-                            if let ud =  NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee") {
-                                ud.setValue(station.st_id, forKey: "lastFirstStationId")
-                            }
+                            }                           
                     }
                     handler(entries)
                 }
@@ -422,6 +420,16 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     }
 
     private func updateDepartures(station: TFCStation, context: Any) {
+        station.removeObsoleteDepartures()
+        // if we have at least 2 departures, that's enough to update the complications
+        // the data will be updated somewhere else later
+        if (station.getFilteredDepartures()?.count > 1) {
+            if let reply = context as? replyStation {
+                DLog("we already have departures for a complication update, dont get new ones")
+                reply(station)
+                return
+            }
+        }
         station.updateDepartures(self, context: context, cachettl: self.getDepartureTTL(station))
     }
 }

@@ -102,6 +102,19 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
         if let activeComplications = server.activeComplications {
             if (activeComplications.count > 0) {
                 for complication in activeComplications {
+                    let ud = TFCDataStoreBase.sharedInstance.getUserDefaults()
+
+                    if let lastComplicationUpdate = ud?.objectForKey("lastComplicationUpdate") as? NSDate,
+                        lastComplicationStationId = ud?.stringForKey("lastComplicationStationId"),
+                        lastFirstStationId = ud?.stringForKey("lastFirstStationId")
+                    {
+                        // if last Complication update is less than 5 minutes ago
+                        if (lastComplicationUpdate.dateByAddingTimeInterval(300) > NSDate() &&
+                        lastComplicationStationId == lastFirstStationId) {
+                            DLog("complication was updated less than 5 minutes ago (\(lastComplicationUpdate)) with the same id \(lastFirstStationId), dont reload in this case")
+                            return
+                        }
+                    }
                     DLog("Reload Complications", toFile: true)
                     server.reloadTimelineForComplication(complication)
                 }
