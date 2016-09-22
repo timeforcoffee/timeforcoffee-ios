@@ -173,17 +173,12 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     }
 
     @available(watchOSApplicationExtension 3.0, *)
-    private func delaySnapshotComplete(snapshotTask: WKSnapshotRefreshBackgroundTask, startTime:NSDate, final:Bool = false) {
+    private func delaySnapshotComplete(snapshotTask: WKSnapshotRefreshBackgroundTask, startTime:NSDate) {
         //just wait 2 seconds and assume it's finished
         // we use a queue here to let other tasks finish, before this one shoots
-        let delayTime:Double
-        if final {
-            delayTime = 2.0
-        } else {
-            delayTime = 2.0
-        }
+        let delayTime:Double = 2.0
         delay(delayTime, closure: {
-            DLog("finished \(snapshotTask) Backgroundtask before barrier. final: \(final)")
+            DLog("finished \(snapshotTask) Backgroundtask before barrier. ")
             dispatch_barrier_async(TFCWatchData.crunchQueue) {
 
 /*                if (TFCWatchDataFetch.sharedInstance.downloading.count > 0) {
@@ -205,17 +200,10 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                     }
                 }*/
                 if (TFCWatchData.crunchQueueTasks > 0) {
-                    DLog("there's a new task in the crunchQueue, finish that first: \(TFCWatchData.crunchQueueTasks). final: \(final)")
+                    DLog("there's a new task in the crunchQueue, finish that first: \(TFCWatchData.crunchQueueTasks).")
                     self.delaySnapshotComplete(snapshotTask, startTime: startTime)
                     return
                 }
-
-                //wait another final second to make sure everything is finished (not sure that helps)
-                if (!final) {
-                    self.delaySnapshotComplete(snapshotTask, startTime: startTime, final: true)
-                    return
-                }
-
 
                 let nextDate = self.watchdata.getNextUpdateTime(noBackOffIncr: true, minTime: 30 * 60)
 
