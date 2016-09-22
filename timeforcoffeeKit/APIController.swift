@@ -84,10 +84,10 @@ final class APIController {
     }
 
     private func fetchUrl(urlPath: String, fetchId: Int, context: Any?, cacheKey: String?, counter: Int) {
-
+        let delegate = self.delegate
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             if let result = self.getFromCache(cacheKey) {
-                self.delegate?.didReceiveAPIResults(result, error: nil, context: context)
+                delegate?.didReceiveAPIResults(result, error: nil, context: context)
             } else {
                 if let url: NSURL = NSURL(string: urlPath) {
                     let absUrl = url.absoluteString
@@ -112,7 +112,7 @@ final class APIController {
                                 let newcounter = counter + 1
                                 // don't do it more than 5 times
                                 if (newcounter <= 5) {
-                                    self.delegate?.didReceiveAPIResults(nil, error: error, context: context)
+                                    delegate?.didReceiveAPIResults(nil, error: error, context: context)
                                     DLog("Retry #\(newcounter) fetching \(urlPath)")
                                     self.fetchUrl(urlPath, fetchId: fetchId, context: context, cacheKey: cacheKey, counter: newcounter)
                                 }
@@ -132,8 +132,7 @@ final class APIController {
                         } else {
                             jsonResult = JSON(NSNull())
                         }
-                        self.delegate?.didReceiveAPIResults(jsonResult, error: error, context: context)
-                        
+                        delegate?.didReceiveAPIResults(jsonResult, error: error, context: context)                        
                     })
                     dataFetch?.resume()
                     DLog("dataTask resumed")
@@ -143,7 +142,7 @@ final class APIController {
                 } else {
                     DLog("\(urlPath) could not be parsed")
                     let error = NSError(domain: "ch.opendata.timeforcoffee", code: 9, userInfo: nil);
-                    self.delegate?.didReceiveAPIResults(JSON(NSNull()), error: error, context: context)
+                    delegate?.didReceiveAPIResults(JSON(NSNull()), error: error, context: context)
 
                 }
             }
