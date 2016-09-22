@@ -68,6 +68,10 @@ your type. Instead, adopt one of the protocols mentioned above.
 :param: line     The line number, defaults to the line number within the file that the call is made.
 */
 
+let logQueue:dispatch_queue_t = {
+    return dispatch_queue_create("ch.opendata.timeforcoffee.log", DISPATCH_QUEUE_SERIAL)
+}()
+
 let DLogDateFormatter:NSDateFormatter = {
     let formatter = NSDateFormatter()
     formatter.dateFormat = "YYYY-MM-dd HH:mm:ss.SSS"
@@ -93,6 +97,10 @@ let DLogDayHourMinuteFormatter:NSDateFormatter = {
 func DLog<T>(@autoclosure object: () -> T, toFile: Bool = false, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
     #if DEBUG
         let value = object()
+        let queueLabel = String(UTF8String: dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL))
+        let currentThread = "\(NSThread.currentThread())"
+        let date = NSDate().formattedWithDateFormatter(DLogDateFormatter)
+        dispatch_async(logQueue) {
         let stringRepresentation: String
 
         if let value = value as? CustomDebugStringConvertible {
@@ -104,11 +112,24 @@ func DLog<T>(@autoclosure object: () -> T, toFile: Bool = false, _ file: String 
         }
         let fileEscaped = file.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLPathAllowedCharacterSet())
         let fileURL = NSURL(string: fileEscaped!)?.lastPathComponent ?? "Unknown file"
-        let currentThread = "\(NSThread.currentThread())"
         //  <NSThread: 0x17066e7c0>{number = 11, name = (null)}
-        let pattern = ".* 0x(.*)>\\{number = ([0-9]+).*"
-        let matches = currentThread.replace(pattern, template: "$1 #$2")
-        let queue = NSThread.isMainThread() ? "UI" : "BG \(matches)"
+        var matches:String = ""
+        if let queueLabel = queueLabel {
+            if queueLabel == "ch.opendata.timeforcoffee.crunch" {
+                matches = "CQ"
+            } else if (queueLabel == "com.apple.main-thread") {
+                matches = "UI"
+            } else if (queueLabel.containsString("NSOperationQueue")) {
+                matches = queueLabel.replace("NSOperationQueue (.+) :: .*QOS: (.*)\\)", template: "$1 $2")
+            } else {
+                matches = "\(queueLabel)"
+            }
+        } else {
+            let pattern = ".* 0x(.*)>\\{number = ([0-9]+).*"
+            matches = currentThread.replace(pattern, template: "$1 #$2")
+        }
+
+        let queue = matches
         //print("\(NSDate().formattedWithDateFormatter(DLogDateFormatter)) <\(queue)> \(fileURL) \(function)[\(line)] - " + stringRepresentation)
         NSLog("<\(queue)> %@ (\(fileURL) \(function)[\(line)])", stringRepresentation)
         #if os(watchOS)
@@ -117,12 +138,13 @@ func DLog<T>(@autoclosure object: () -> T, toFile: Bool = false, _ file: String 
             let alwaysLogToFile = false
         #endif
         if (toFile || alwaysLogToFile) {
-            let text = "\(NSDate().formattedWithDateFormatter(DLogDateFormatter)) <\(queue)> \(stringRepresentation)  (\(fileURL) \(function)[\(line)])"
+            let text = "\(date) <\(queue)> \(stringRepresentation)  (\(fileURL) \(function)[\(line)])"
           /*  #if os(watchOS)
                 DLog2WatchConnectivity(text)
             #endif
            */
             DLog2File(text)
+        }
         }
     #endif
 }
@@ -130,6 +152,7 @@ func DLog<T>(@autoclosure object: () -> T, toFile: Bool = false, _ file: String 
 func SendLogs2Phone() {
     #if DEBUG
         if #available(iOS 9.0, *) {
+
             let filemanager = NSFileManager.defaultManager()
 
             if let path = filemanager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first {
@@ -183,8 +206,8 @@ func SendLogs2Phone() {
                 }
             }
 
+            }
 
-        }
     #endif
 }
 
