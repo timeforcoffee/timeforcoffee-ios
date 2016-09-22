@@ -255,11 +255,12 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     }
 
     public class func saveToPincache(saveStation: TFCStationBase) {
-        let cache: PINCache = TFCCache.objects.stations
-        let start = NSDate()
-        if (saveStation.needsCacheSave)  {
-            cache.setObject(saveStation, forKey: saveStation.st_id) { (cache, key, object) in
-                DLog("PinCache was set for \(saveStation.name) for key \(key). Took \(NSDate().timeIntervalSinceReferenceDate - start.timeIntervalSinceReferenceDate) s", toFile: true)
+        dispatch_async(dispatch_get_main_queue()) {
+
+            let cache: PINCache = TFCCache.objects.stations
+            if (saveStation.needsCacheSave)  {
+                DLog("set PinCache for \(saveStation.name)", toFile: true)
+                cache.setObject(saveStation, forKey: saveStation.st_id)
             }
         }
     }
