@@ -21,6 +21,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         return TFCWatchData()
     }()
 
+    var tickStart:NSDate? = nil
     func applicationDidFinishLaunching() {
         DLog("__", toFile: true)
 
@@ -57,7 +58,19 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
             TFCDataStore.sharedInstance.registerWatchConnectivity()
         }
+    }
 
+    func applicationWillEnterForeground() {
+        #if DEBUG
+            self.tickStart = nil
+        #endif
+    }
+
+    func applicationDidEnterBackground() {
+        #if DEBUG
+            self.tickStart = NSDate()
+            self.tick()
+        #endif
     }
 
     func applicationWillResignActive() {
@@ -73,6 +86,20 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             }
         }
 
+    }
+
+    func tick() {
+        if let tickStart = tickStart {
+            let running = (NSDate().timeIntervalSinceReferenceDate - tickStart.timeIntervalSinceReferenceDate).roundToPlaces(2)
+            DLog("tick running since \(running) sec", toFile: true)
+            let delayTime = 1.0
+            /*if (running > 27.5 && running < 32) {
+                delayTime = 0.1
+            }*/
+            delay(delayTime, closure: {
+                self.tick()
+            })
+        }
     }
 
     private func lastRequestForAllData() -> NSTimeInterval? {
