@@ -110,7 +110,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
     var walkingDistanceString: String? = nil
     var walkingDistanceLastCoord: CLLocation? = nil
-    private var lastDepartureUpdate: NSDate? = nil
+    public var lastDepartureUpdate: NSDate? = nil
     private var lastDepartureCount: Int? = nil
 
     private var departureUpdateDownloading: NSDate? = nil

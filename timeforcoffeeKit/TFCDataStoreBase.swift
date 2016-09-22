@@ -11,7 +11,7 @@ import WatchConnectivity
 import CoreData
 import MapKit
 
-public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegate {
+public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegate, TFCDeparturesUpdatedProtocol {
 
     public class var sharedInstance: TFCDataStore {
         struct Static {
@@ -153,6 +153,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
 
     @available(iOSApplicationExtension 9.0, *)
     public func requestAllDataFromPhone() {
+        DLog("__giveMeTheData__ sent", toFile: true)
         sendData(["__giveMeTheData__": NSDate()], trySendMessage: true)
     }
 
@@ -180,10 +181,10 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
     public func session(session: WCSession, didReceiveFile file: WCSessionFile) {
         if let iCloudDocumentsURL = NSFileManager.defaultManager().URLForUbiquityContainerIdentifier("iCloud.ch.opendata.timeforcoffee")?.URLByAppendingPathComponent("Documents") {
             let fileManager = NSFileManager.defaultManager()
-            DLog("received file \(file.fileURL.absoluteString!)", toFile: true)
             do {
                 let url = file.fileURL
                 if let filename = url.lastPathComponent, moveTo = iCloudDocumentsURL.URLByAppendingPathComponent(filename) {
+                    DLog("received file \(filename)", toFile: true)
                     if fileManager.fileExistsAtPath(moveTo.path!) {
                         try fileManager.removeItemAtURL(moveTo)
                     }
@@ -237,9 +238,31 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                 DLog("parseReceiveInfo: \(myKey)", toFile: true)
             }
             if (myKey == "__updateComplicationData__") {
-                if let value = myValue as? [String: AnyObject], lng = value["longitude"] as? CLLocationDegrees, lat = value["latitude"] as? CLLocationDegrees {
-                    TFCLocationManagerBase.setCurrentLocation(CLLocation(latitude: lat, longitude: lng ), time: value["time"] as? NSDate)
+                if let value = myValue as? [String: AnyObject], coordinates = value["coordinates"] as? [String: AnyObject], lng = coordinates["longitude"] as? CLLocationDegrees, lat = coordinates["latitude"] as? CLLocationDegrees {
+                    TFCLocationManagerBase.setCurrentLocation(CLLocation(latitude: lat, longitude: lng ), time: coordinates["time"] as? NSDate)
                     DLog("coord was sent with __updateComplicationData__ \(lat), \(lng)", toFile: true)
+                    if let station = value["station"] as? NSData {
+                        NSKeyedUnarchiver.setClass(TFCStation.classForKeyedUnarchiver(), forClassName: "timeforcoffeeKit.TFCStation")
+                        let sentStation = NSKeyedUnarchiver.unarchiveObjectWithData(station) as? TFCStation
+                        if let departures = value["departures"] as? NSData {
+                            NSKeyedUnarchiver.setClass(TFCDeparture.classForKeyedUnarchiver(), forClassName: "timeforcoffeeKit.TFCDeparture")
+                            let sentDepartures = NSKeyedUnarchiver.unarchiveObjectWithData(departures) as? [TFCDeparture]
+                            DLog("station sent with __updateComplicationData__: \(sentStation?.name) id: \(sentStation?.st_id) with \(sentDepartures?.count) departures")
+                            sentStation?.serializeDepartures = true
+                            sentStation?.addDepartures(sentDepartures)
+                            sentStation?.lastDepartureUpdate = NSDate()
+
+                            #if os(watchOS)
+                            if (sentStation?.st_id == TFCWatchDataFetch.sharedInstance.getLastViewedStation()?.st_id) {
+                                NSNotificationCenter.defaultCenter().postNotificationName("TFCWatchkitUpdateCurrentStation", object: nil, userInfo: nil)
+                            }
+                            TFCDataStore.sharedInstance.getUserDefaults()?.setValue(sentStation?.st_id, forKey: "lastFirstStationId")
+
+                             updateComplicationData()
+                            #endif
+                        }
+                    }
+
                 } else {
                     DLog("no coord was sent with __updateComplicationData__ ", toFile: true)
                 }
@@ -428,36 +451,74 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
     func updateWatchNow() {
     }
 
+    public func departuresStillCached(context: Any?, forStation: TFCStation?) {
+        departuresUpdated(nil, context: context, forStation: forStation)
+    }
+
+    public func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?) {
+        var coord:CLLocationCoordinate2D? = nil
+        if let coordDict = context as? [String:CLLocationCoordinate2D?] {
+            if let coord2 = coordDict["coordinates"] {
+                coord = coord2
+            }
+        }
+        sendComplicationUpdate2(forStation, coord: coord)
+    }
+
     public func sendComplicationUpdate(station: TFCStation?, coord: CLLocationCoordinate2D? = nil) {
         #if os(iOS)
             if #available(iOS 9, *) {
                 if (WCSession.isSupported()) {
                     if (self.session?.complicationEnabled == true) {
                         if let firstStation = station, ud = TFCDataStore.sharedInstance.getUserDefaults() {
-                            if (ud.stringForKey("lastFirstStationId") != firstStation.st_id) {
-                                var useComplicationTransfer = true
-                                if #available(iOSApplicationExtension 10.0, *) {
-                                    if (!(self.session?.remainingComplicationUserInfoTransfers > 0)) {
-                                        useComplicationTransfer = false
-                                    }
-                                    DLog("remainingComplicationUserInfoTransfers: \(self.session?.remainingComplicationUserInfoTransfers)", toFile: true)
-                                }
-                                var dict:[String:AnyObject] = ["__updateComplicationData__": "doit"]
-                                if let coord = coord {
-                                    dict  = ["__updateComplicationData__": [ "longitude": coord.longitude, "latitude": coord.latitude, "time": NSDate()]]
-                                } else if let coord = station?.coord?.coordinate {
-                                    DLog("send __updateComplicationData__ with \(coord) for \(station?.name)", toFile: true)
-                                    dict  = ["__updateComplicationData__": [ "longitude": coord.longitude, "latitude": coord.latitude]]
-                                }
-                                if (useComplicationTransfer) {
-                                    self.session?.transferCurrentComplicationUserInfo(dict)
-                                } else {
-                                    sendData(dict)
-                                }
-
-                                ud.setValue(firstStation.st_id, forKey: "lastFirstStationId")
+                            if (true || ud.stringForKey("lastFirstStationId") != firstStation.st_id) {
+                                DLog("update Departures for \(firstStation.name)")
+                                firstStation.updateDepartures(self, context: ["coordinates": coord])
                             }
                         }
+                    }
+                }
+            }
+        #endif
+    }
+
+    private func sendComplicationUpdate2(station: TFCStation?, coord: CLLocationCoordinate2D? = nil) {
+        #if os(iOS)
+            if #available(iOS 9, *) {
+                if let firstStation = station, ud = TFCDataStore.sharedInstance.getUserDefaults() {
+                    if (ud.stringForKey("lastFirstStationId") != firstStation.st_id) {
+                        var useComplicationTransfer = true
+                        if #available(iOSApplicationExtension 10.0, *) {
+                            if (!(self.session?.remainingComplicationUserInfoTransfers > 0)) {
+                                useComplicationTransfer = false
+                            }
+                            DLog("remainingComplicationUserInfoTransfers: \(self.session?.remainingComplicationUserInfoTransfers)", toFile: true)
+                        }
+                        var data:[String:AnyObject] = [:]
+
+                        if let coord = coord {
+                            DLog("send __updateComplicationData__ \(coord) (triggered for \(station?.name)) id: \(station?.st_id)", toFile: true)
+                            data["coordinates"] = [ "longitude": coord.longitude, "latitude": coord.latitude, "time": NSDate()]
+                        } else if let coord = firstStation.coord?.coordinate {
+                            DLog("send __updateComplicationData__ with \(coord) for \(station?.name) id: \(station?.st_id)", toFile: true)
+                            data["coordinates"] = [ "longitude": coord.longitude, "latitude": coord.latitude]
+                        }
+                        firstStation.serializeDepartures = false
+                        data["station"] =  NSKeyedArchiver.archivedDataWithRootObject(firstStation)
+                        firstStation.serializeDepartures = true
+                        if let filteredDepartures = firstStation.getFilteredDepartures() {
+                            data["departures"] =  NSKeyedArchiver.archivedDataWithRootObject(Array(filteredDepartures.prefix(20)))
+                        }
+
+                        let dict:[String:[String:AnyObject]] = ["__updateComplicationData__": data]
+
+                        if (useComplicationTransfer) {
+                            self.session?.transferCurrentComplicationUserInfo(dict)
+                        } else {
+                            sendData(dict)
+                        }
+                        
+                        ud.setValue(firstStation.st_id, forKey: "lastFirstStationId")
                     }
                 }
             }
