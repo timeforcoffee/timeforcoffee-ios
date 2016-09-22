@@ -112,10 +112,12 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
 
     override func didAppear() {
         DLog("didAppear", toFile: true)
+        super.didAppear()
     }
 
     override func willDisappear() {
         DLog("willDisappear")
+        super.willDisappear()
     }
 
     override func didDeactivate() {
