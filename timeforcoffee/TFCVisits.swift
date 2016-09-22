@@ -73,6 +73,7 @@ class TFCVisits: NSObject, TFCLocationManagerDelegate, TFCStationsUpdatedProtoco
         let station = TFCStation.initWithCacheId(region.identifier)
         self.callback?(text: "visited fence for \(station.name). Date: \(NSDate())")
         self.stations.updateStations()
+        TFCFavorites.sharedInstance.updateGeofences()
     }
 
     func stationsUpdated(error: String?, favoritesOnly: Bool, context: Any?) {
@@ -83,7 +84,7 @@ class TFCVisits: NSObject, TFCLocationManagerDelegate, TFCStationsUpdatedProtoco
                 if let callback = self.callback {
                     callback(text:"first station is \(station.name)")
                 }
-                TFCDataStore.sharedInstance.sendComplicationUpdate(station)
+                TFCDataStore.sharedInstance.sendComplicationUpdate(station, coord: TFCLocationManagerBase.getCurrentLocation()?.coordinate)
             }
         }
     }
