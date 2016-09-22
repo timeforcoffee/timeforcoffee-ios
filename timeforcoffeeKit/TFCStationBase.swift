@@ -558,10 +558,11 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         return getMarkedLinesShared(false)
     }
 
-    private func addDepartures(departures: [TFCDeparture]?) {
+    func addDepartures(departures: [TFCDeparture]?) {
         // don't update departures, if we get nil
         // can happen when network request didn't work properly
         if let depts = departures {
+            var count = 0;
             for dept in depts {
                 if self.departures == nil {
                     self.departures = [:]
@@ -572,12 +573,16 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                     let newSig = dept.getSignature()
                     if (oldSig != newSig) {
                         self.departures![key] = dept
+                        count += 1
                     }
                 } else {
                     self.departures![key] = dept
+                    count += 1
                 }
             }
+            DLog("Added \(count) depts to \(self.name)", toFile: true)
             TFCStationBase.saveToPincache(self)
+            DLog("_", toFile: true)
         }
     }
 
