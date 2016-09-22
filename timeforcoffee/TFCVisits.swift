@@ -54,9 +54,9 @@ class TFCVisits: NSObject, TFCLocationManagerDelegate, TFCStationsUpdatedProtoco
     }
 
     func locationVisit(coord: CLLocationCoordinate2D, date: NSDate, arrival: Bool) -> Bool {
-        DLog("TFCVisits locationVisit updateStations")
-        self.stations.updateStations()
         if arrival {
+            DLog("TFCVisits locationVisit updateStations")
+            self.stations.updateStations()
             if let callback = self.callback {
                 callback(text: "Visit. Date: \(date) arrival: \(arrival) lat: \(coord.latitude.roundToPlaces(3)), lng: \(coord.longitude.roundToPlaces(3)) ")
             }
