@@ -256,18 +256,20 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
     }
 
     func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?) {
-        self.refreshControl.endRefreshing()
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-        if (forStation?.st_id == station?.st_id) {
-            if (error != nil) {
-                self.networkErrorMsg = NSLocalizedString("Network error. Please try again", comment:"")
-            } else {
-                self.networkErrorMsg = nil
+        dispatch_async(dispatch_get_main_queue()) {
+            self.refreshControl.endRefreshing()
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            if (forStation?.st_id == self.station?.st_id) {
+                if (error != nil) {
+                    self.networkErrorMsg = NSLocalizedString("Network error. Please try again", comment:"")
+                } else {
+                    self.networkErrorMsg = nil
+                }
+                if (self.nameLabel.text == "") {
+                    self.nameLabel.text = self.station?.name
+                }
+                self.appsTableView!.reloadData()
             }
-            if (self.nameLabel.text == "") {
-                self.nameLabel.text = self.station?.name
-            }
-            self.appsTableView!.reloadData()
         }
     }
 

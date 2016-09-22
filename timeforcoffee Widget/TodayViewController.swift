@@ -547,7 +547,9 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     }
     
     func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?) {
-        if (showStations) {
+        dispatch_async(dispatch_get_main_queue()) {
+
+        if (self.showStations) {
             if let context2 = context as? [String: NSIndexPath],
                 indexPath = context2["indexPath"],
                 cellinstance = self.appsTableView?.cellForRowAtIndexPath(indexPath) as? NearbyStationsTableViewCell {
@@ -561,7 +563,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                 self.appsTableView?.reloadData()
             }
         } else {
-            if (forStation?.st_id == currentStation?.st_id) {
+            if (forStation?.st_id == self.currentStation?.st_id) {
                 if (error != nil) {
                     self.networkErrorMsg = NSLocalizedString("Network error. Please try again", comment:"")
                 } else {
@@ -569,6 +571,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                 }
                 self.appsTableView?.reloadData()
             }
+        }
         }
     }
 

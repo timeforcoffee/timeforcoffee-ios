@@ -696,7 +696,6 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             self.addDepartures(TFCDeparture.withJSON(results, st_id: self.st_id))
         }
 
-        dispatch_async(dispatch_get_main_queue(), {
             if (self.name == "" && results != nil) {
                 self.name = TFCDeparture.getStationNameFromJson(results!)!;
             }
@@ -719,7 +718,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                     }
                 }
             }
-        })
+
 
 
 
