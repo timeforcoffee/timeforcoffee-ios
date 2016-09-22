@@ -168,11 +168,9 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             stationsTable.setNumberOfRows(5, withRowType: "station")
             self.numberOfRows = 5
         }
-        if (isNewStation) {
-            if let title = station?.getName(true) {
-                self.setTitle(title)
-                self.lastShownStationId = station?.st_id
-            }
+        if let title = station?.getName(true) {
+            self.setTitle(title)
+            self.lastShownStationId = station?.st_id
         }
         self.initTable = false
         self.station?.removeObsoleteDepartures()
