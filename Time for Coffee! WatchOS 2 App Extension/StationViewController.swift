@@ -188,7 +188,13 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
 
     func updateCurrentStation(notification: NSNotification) {
         if (self.activated) {
-            self.departuresUpdated(nil, context: nil, forStation: self.station)
+            dispatch_async(dispatch_get_main_queue()) {
+                // reload station from cache
+                if let st_id = self.station?.st_id {
+                    self.station = TFCStation.initWithCacheId(st_id)
+                }
+                self.departuresUpdated(nil, context: nil, forStation: self.station)
+            }
         }
     }
 
