@@ -136,6 +136,7 @@ final public class TFCFavorites: NSObject {
             station.setStationSearchIndex()
         }
         objects.dataStore?.setObject(archivedFavorites , forKey: "favorites2")
+        objects.dataStore?.synchronize()
     }
 
     public func getByDistance() -> [TFCStation]? {
