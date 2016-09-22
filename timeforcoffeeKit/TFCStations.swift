@@ -359,7 +359,7 @@ public final class TFCStations: NSObject, SequenceType, CollectionType, TFCLocat
             if let firstStation = self.stations?.first {
                 //only send a complication update, if it's a favorite
                 if firstStation.isFavorite() {
-                    TFCDataStore.sharedInstance.sendComplicationUpdate(firstStation)
+                    TFCDataStore.sharedInstance.sendComplicationUpdate(firstStation, coord: TFCLocationManagerBase.getCurrentLocation()?.coordinate)
                 }
                 if (self.lastFirstStationId != firstStation.st_id) {
                     TFCFavorites.sharedInstance.updateGeofences(force: false)
