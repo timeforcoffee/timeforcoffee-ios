@@ -36,7 +36,7 @@ final public class TFCFavorites: NSObject {
         super.init()
     }
 
-    func repopulateFavorites() {
+    public func repopulateFavorites() {
         temporarlyRemovedStations = false
         self.stations = getCurrentFavoritesFromDefaults()
     }
@@ -165,95 +165,99 @@ final public class TFCFavorites: NSObject {
 
                         let locationManager = CLLocationManager()
                         DLog("updateGeofences", toFile: true)
-
                         let monitoredRegions = locationManager.monitoredRegions
 
+                        var nearbyFavorites:[String:TFCStation] = [:]
+                        var maxDistance:Double = 0.0
 
-                        for region in monitoredRegions {
-                            if let circularRegion = region as? CLCircularRegion {
-                                locationManager.stopMonitoringForRegion(circularRegion)
-                            }
-                        }
                         if TFCDataStore.sharedInstance.complicationEnabled() {
+                            DLog("# of favorite stations before \(self.stations.count)", toFile: true)
                             self.repopulateFavorites()
-                            let favCount = self.stations.count
                             DLog("# of favorite stations after \(self.stations.count)", toFile: true)
-                            // if we have no favourites, no need to update geofences
-                            if (favCount == 0) {
-                                return
-                            }
-                            if (!force) {
-                                // don't update monitored regions, if we have less than 20 favs.
-                                // no need as they all fit into it
-                                if (favCount < 20 && monitoredRegions.count != (favCount + 1)) {
-                                    DLog("No need for updating monitored regions", toFile: true)
-                                    return
-                                }
-                            }
-                            var maxDistance:Double = 0.0
                             if let stations = self.getByDistance() {
                                 #if DEBUG
                                     let maxStations:Int = 10
                                 #else
                                     let maxStations:Int = 19
                                 #endif
-                                var nearestStationWithinRadius:TFCStation? = nil
-                                let radius = 700.0
-                                var nearestDistance:Double = radius
                                 for station in stations.prefix(maxStations) {
-                                    if let coord = station.coord {
-                                        let distance = currLoc?.distanceFromLocation(coord)
-
-                                        let region = CLCircularRegion(center: coord.coordinate, radius: radius, identifier: station.st_id)
-                                        if let distance = distance {
-                                            if (distance < radius) {
-                                                if (distance < nearestDistance ) {
-                                                    nearestStationWithinRadius = station
-                                                    nearestDistance = distance
-                                                }
-                                            }
-                                        }
-                                        region.notifyOnExit = false
-                                        region.notifyOnEntry = true
-                                        locationManager.startMonitoringForRegion(region)
-                                        if let distance = station.calculatedDistance {
-                                            maxDistance = max(maxDistance, distance)
-                                        }
-                                    }
-                                }
-                                if let stationUpdate = nearestStationWithinRadius {
-                                    TFCDataStore.sharedInstance.sendComplicationUpdate(stationUpdate, coord: currLoc?.coordinate)
-                                }
-                                if (maxDistance > 0.0) {
-                                    if let currLoc = currLoc {
-                                        let exitradius:Double
-                                        let radiusDecrease:Double = 3000
-                                        if ((maxDistance - radiusDecrease) < 0) {
-                                            // if all stations are within 3 km, try to set a radius just before the furthest stations but at least to 1km
-                                            //  otherwise set it to the maxdistance of the furthest station
-                                            // Not sure this makes much sense... could also be removed and just set it to maxDistance
-                                            if ((maxDistance - (radius + 100)) > 1000) {
-                                                exitradius = maxDistance - (radius + 100)
-                                            } else {
-                                                exitradius = maxDistance
-                                            }
-                                        } else {
-                                            if (maxDistance > locationManager.maximumRegionMonitoringDistance) {
-                                                exitradius = locationManager.maximumRegionMonitoringDistance
-                                            } else{
-                                                exitradius = maxDistance - radiusDecrease
-                                            }
-                                        }
-                                        
-                                        let region = CLCircularRegion(center: currLoc.coordinate, radius: exitradius, identifier: "__updateGeofences__")
-                                        region.notifyOnExit = true
-                                        region.notifyOnEntry = false
-                                        locationManager.startMonitoringForRegion(region)
-                                        
+                                    nearbyFavorites[station.st_id] = station
+                                    if let distance = station.calculatedDistance {
+                                        maxDistance = max(maxDistance, distance)
                                     }
                                 }
                             }
                         } else {
+                            DLog("complication not enabled", toFile: true)
+                        }
+
+
+                        for region in monitoredRegions {
+                            if let circularRegion = region as? CLCircularRegion {
+                                if (region.identifier == "__updateGeofences__" || nearbyFavorites[region.identifier] == nil) {
+                                    DLog("Delete geofence \(region.identifier)", toFile: true)
+                                    locationManager.stopMonitoringForRegion(circularRegion)
+                                } else {
+                                    nearbyFavorites.removeValueForKey(region.identifier)
+                                }
+                            }
+                        }
+                        let radius = 700.0
+
+                        for (_, station) in nearbyFavorites {
+                            var nearestStationWithinRadius:TFCStation? = nil
+                            var nearestDistance:Double = radius
+                            if let coord = station.coord {
+
+                                let distance = currLoc?.distanceFromLocation(coord)
+                                DLog("add Geofence for \(station.name) with distance: \(distance)", toFile: true)
+                                let region = CLCircularRegion(center: coord.coordinate, radius: radius, identifier: station.st_id)
+                                if let distance = distance {
+                                    if (distance < radius) {
+                                        DLog("we are within geofence")
+                                        if (distance < nearestDistance ) {
+                                            nearestStationWithinRadius = station
+                                            nearestDistance = distance
+                                        }
+                                    }
+                                }
+                                region.notifyOnExit = false
+                                region.notifyOnEntry = true
+                                locationManager.startMonitoringForRegion(region)
+                            }
+                            if let stationUpdate = nearestStationWithinRadius {
+                                DLog("we are within \(stationUpdate.name), send update", toFile: true)
+                                TFCDataStore.sharedInstance.sendComplicationUpdate(stationUpdate, coord: currLoc?.coordinate)
+                            }
+                        }
+                        if (maxDistance > 0.0) {
+                            if let currLoc = currLoc {
+                                DLog("maxDistance: \(maxDistance)")
+                                let exitradius:Double
+                                let radiusDecrease:Double = 3000
+                                if ((maxDistance - radiusDecrease) < 2000) {
+                                    // if all stations are within 5 km, try to set a radius just before the furthest stations but at least to 1km
+                                    //  otherwise set it to the maxdistance of the furthest station
+                                    // Not sure this makes much sense... could also be removed and just set it to maxDistance
+                                    if ((maxDistance - (radius + 100)) > 1000) {
+                                        exitradius = maxDistance - (radius + 100)
+                                    } else {
+                                        exitradius = maxDistance
+                                    }
+                                } else {
+                                    if (maxDistance > locationManager.maximumRegionMonitoringDistance) {
+                                        exitradius = locationManager.maximumRegionMonitoringDistance
+                                    } else{
+                                        exitradius = maxDistance - radiusDecrease
+                                    }
+                                }
+
+                                let region = CLCircularRegion(center: currLoc.coordinate, radius: exitradius, identifier: "__updateGeofences__")
+                                region.notifyOnExit = true
+                                region.notifyOnEntry = false
+                                locationManager.startMonitoringForRegion(region)
+                                DLog("add Geofence exit update for radius \(exitradius) and coord \(currLoc)", toFile: true)
+                            }
                         }
                     }
                 }

@@ -262,6 +262,16 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
     }
 
     func aboutClicked(sender: UIBarButtonItem) {
+        /* #if DEBUG
+        TFCFavorites.sharedInstance.repopulateFavorites()
+        let favs = Array(TFCFavorites.sharedInstance.stations.values)
+        let randomIndex = Int(arc4random_uniform(UInt32(favs.count)))
+
+        let station = favs[randomIndex]
+        TFCDataStore.sharedInstance.sendComplicationUpdate(station, coord: station.coord?.coordinate)
+
+        return
+        #endif */
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc: UIViewController! = storyboard.instantiateViewControllerWithIdentifier("AboutPagedViewController") as UIViewController
         self.navigationController?.presentViewController(vc, animated: true, completion: nil)
