@@ -65,13 +65,20 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
 
                 func handleReply2(station: TFCStation?) {
                     if let endDate = station?.getFilteredDepartures()?.last?.getScheduledTimeAsNSDate() {
+                        if let ud =  NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee") {
+                            ud.setObject(endDate, forKey: "lastDepartureTime")
+                        }
                         DLog("last Departure: \(endDate)", toFile: true)
                         handler(endDate.dateByAddingTimeInterval(70))
                     } else {
+                        if let ud =  NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee") {
+                            ud.setObject(nil, forKey: "lastDepartureTime")
+                        }
                         let endDate = NSDate().dateByAddingTimeInterval(60)
                         DLog("no last Departure, set it to \(endDate)", toFile: true)
                         handler(endDate)
                     }
+                    DLog("finished getTimelineEndDateForComplication", toFile: true)
                 }
                 self.updateDepartures(station, context: handleReply2)
             }

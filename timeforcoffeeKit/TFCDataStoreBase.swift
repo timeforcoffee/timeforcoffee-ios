@@ -253,11 +253,17 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                             sentStation?.lastDepartureUpdate = NSDate()
 
                             #if os(watchOS)
-                            if (sentStation?.st_id == TFCWatchDataFetch.sharedInstance.getLastViewedStation()?.st_id) {
-                                NSNotificationCenter.defaultCenter().postNotificationName("TFCWatchkitUpdateCurrentStation", object: nil, userInfo: nil)
-                            }
-                            TFCDataStore.sharedInstance.getUserDefaults()?.setValue(sentStation?.st_id, forKey: "lastFirstStationId")
-
+                                if (sentStation?.st_id == TFCWatchDataFetch.sharedInstance.getLastViewedStation()?.st_id) {
+                                    NSNotificationCenter.defaultCenter().postNotificationName("TFCWatchkitUpdateCurrentStation", object: nil, userInfo: nil)
+                                }
+                                if let defaults = TFCDataStore.sharedInstance.getUserDefaults() {
+                                    defaults.setValue(sentStation?.st_id, forKey: "lastFirstStationId")
+                                    if let departures = sentStation?.getFilteredDepartures() {
+                                        defaults.setObject(departures.first?.getScheduledTimeAsNSDate(), forKey: "firstDepartureTime")
+                                    } else {
+                                        defaults.setObject(nil, forKey: "firstDepartureTime")
+                                    }
+                                }
                              updateComplicationData()
                             #endif
                         }

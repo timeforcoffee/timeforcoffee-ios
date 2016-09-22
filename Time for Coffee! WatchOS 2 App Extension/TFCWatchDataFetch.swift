@@ -200,10 +200,8 @@ public class TFCWatchDataFetch: NSObject, NSURLSessionDownloadDelegate {
                         }
                     }
                     if let departures = station.getFilteredDepartures() {
-                        defaults.setObject(departures.last?.getScheduledTimeAsNSDate(), forKey: "lastDepartureTime")
                         defaults.setObject(departures.first?.getScheduledTimeAsNSDate(), forKey: "firstDepartureTime")
                     } else {
-                        defaults.setObject(nil, forKey: "lastDepartureTime")
                         defaults.setObject(nil, forKey: "firstDepartureTime")
                     }
                 }
