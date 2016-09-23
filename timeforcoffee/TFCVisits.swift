@@ -60,20 +60,24 @@ class TFCVisits: NSObject, TFCLocationManagerDelegate, TFCStationsUpdatedProtoco
             if let callback = self.callback {
                 callback(text: "Visit. Date: \(date) arrival: \(arrival) lat: \(coord.latitude.roundToPlaces(3)), lng: \(coord.longitude.roundToPlaces(3)) ")
             }
+            TFCFavorites.sharedInstance.updateGeofences(force: false)
         }
         return true
     }
 
     func regionVisit(region: CLCircularRegion) {
         if (region.identifier == "__updateGeofences__") {
-            self.callback?(text: "update geofences call. coord: \(self.locManager?.currentLocation) Date: \(NSDate())")
-            TFCFavorites.sharedInstance.updateGeofences()
+            DLog("update geofences call", toFile: true)
+            self.callback?(text: "update geofences call. radius: \(region.radius). coord: \(self.locManager?.currentLocation) Date: \(NSDate())")
+            TFCFavorites.sharedInstance.updateGeofences(force: false)
             return
         }
         let station = TFCStation.initWithCacheId(region.identifier)
-        self.callback?(text: "visited fence for \(station.name). Date: \(NSDate())")
+        DLog("visited fence for \(station.name)", toFile: true)
+        DLog("fence: currentLocation: \(locManager?.currentLocation)")
+        self.callback?(text: "visited fence for \(station.name). radius: \(region.radius). Date: \(NSDate())")
         self.stations.updateStations()
-        TFCFavorites.sharedInstance.updateGeofences()
+        TFCFavorites.sharedInstance.updateGeofences(force: false)
     }
 
     func stationsUpdated(error: String?, favoritesOnly: Bool, context: Any?) {
@@ -82,7 +86,7 @@ class TFCVisits: NSObject, TFCLocationManagerDelegate, TFCStationsUpdatedProtoco
             if let station = self.stations.first {
                 DLog("first station is \(station)", toFile: true)
                 if let callback = self.callback {
-                    callback(text:"first station is \(station.name)")
+                    callback(text:"first station for fence update is \(station.name)")
                 }
                 TFCDataStore.sharedInstance.sendComplicationUpdate(station, coord: TFCLocationManagerBase.getCurrentLocation()?.coordinate)
             }
