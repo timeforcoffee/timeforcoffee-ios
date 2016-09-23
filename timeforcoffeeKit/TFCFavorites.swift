@@ -21,10 +21,6 @@ final public class TFCFavorites: NSObject {
     public var doGeofences = true
     var lastGeofenceUpdate:CLLocation? = nil
 
-    lazy var fenceUpdateQueue:dispatch_queue_t = {
-        return dispatch_queue_create("ch.opendata.timeforcoffee.fenceupdate", DISPATCH_QUEUE_SERIAL)
-    }()
-
     public lazy var stations: [String: TFCStation] = { [unowned self] in
         return self.getCurrentFavoritesFromDefaults()
         }()
@@ -161,15 +157,16 @@ final public class TFCFavorites: NSObject {
                         let currLoc = TFCLocationManager.getCurrentLocation()
 
                         // don't update geofences, if we didn't move more than 50m from last one
-                        dispatch_sync(self.fenceUpdateQueue, {
-                            if let lastGeofenceUpdate = self.lastGeofenceUpdate, currLoc = currLoc {
-                                if (!force && currLoc.distanceFromLocation(lastGeofenceUpdate) < 50) {
-                                    DLog("fence: location didn't move much since last time")
-                                    return
-                                }
+                        if let lastGeofenceUpdate = self.lastGeofenceUpdate, currLoc = currLoc {
+                            if (!force && currLoc.distanceFromLocation(lastGeofenceUpdate) < 50) {
+                                DLog("fence: location didn't move much since last time", toFile: true)
+                                return
+                            } else {
+                                DLog("fence: location moved by \(currLoc.distanceFromLocation(lastGeofenceUpdate)) m  since last time", toFile: true)
                             }
-                            self.lastGeofenceUpdate = currLoc
-                        })
+
+                        }
+                        self.lastGeofenceUpdate = currLoc
 
                         let locationManager = CLLocationManager()
                         DLog("updateGeofences", toFile: true)

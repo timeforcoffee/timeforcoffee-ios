@@ -44,7 +44,7 @@ class TFCVisits: NSObject, TFCLocationManagerDelegate, TFCStationsUpdatedProtoco
         //Update geofences once per app start
         if (!geofenceUpdated) {
             if (TFCFavorites.sharedInstance.stations.count > 0) {
-                   TFCFavorites.sharedInstance.updateGeofences()
+                TFCFavorites.sharedInstance.updateGeofences()
             }
             geofenceUpdated = true
         }

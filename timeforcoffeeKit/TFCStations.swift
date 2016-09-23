@@ -205,7 +205,7 @@ public final class TFCStations: NSObject, SequenceType, CollectionType, TFCLocat
             self._stations!.sortInPlace({ $0.calculatedDistance < $1.calculatedDistance })
         }
         #if os(iOS)
-            TFCFavorites.sharedInstance.updateGeofences()
+            TFCFavorites.sharedInstance.updateGeofences(force: false)
         #endif
     }
 
