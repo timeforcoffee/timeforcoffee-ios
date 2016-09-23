@@ -285,8 +285,6 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
             return getCircularSmallTemplate(station, departure: departure, nextDeparture: nextDeparture)
         case CLKComplicationFamily.ExtraLarge:
             return getExtraLargeTemplate(station, departure: departure, nextDeparture: nextDeparture)
-        default:
-            return getCircularSmallTemplate(station, departure: departure, nextDeparture: nextDeparture)
         }
     }
 
