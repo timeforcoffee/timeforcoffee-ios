@@ -552,7 +552,15 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
             if #available(iOS 9, *) {
                 if (WCSession.isSupported()) {
                     if (self.session?.complicationEnabled == true) {
+                        userDefaults?.setObject(NSDate(), forKey: "lastComplicationEnabled")
                         return true
+                    }
+                    if let lastComplicationEnabled = userDefaults?.objectForKey("lastComplicationEnabled") as? NSDate {
+                        // if we had complications enabled in the last 24 hours, assume it's enabled
+                        // so to not loose the fences, when we switch faces temporarly
+                        if lastComplicationEnabled.dateByAddingTimeInterval(24 * 3600) > NSDate() {
+                            return true
+                        }
                     }
                 }
             }
