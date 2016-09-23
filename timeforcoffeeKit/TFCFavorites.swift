@@ -21,6 +21,10 @@ final public class TFCFavorites: NSObject {
     public var doGeofences = true
     var lastGeofenceUpdate:CLLocation? = nil
 
+    lazy var fenceUpdateQueue:dispatch_queue_t = {
+        return dispatch_queue_create("ch.opendata.timeforcoffee.fenceupdate", DISPATCH_QUEUE_SERIAL)
+    }()
+
     public lazy var stations: [String: TFCStation] = { [unowned self] in
         return self.getCurrentFavoritesFromDefaults()
         }()
@@ -156,13 +160,16 @@ final public class TFCFavorites: NSObject {
 
                         let currLoc = TFCLocationManager.getCurrentLocation()
 
-                        // don't update geofences, if we didn't move more than 1km from last one
-                        if let lastGeofenceUpdate = self.lastGeofenceUpdate, currLoc = currLoc {
-                            if (!force && currLoc.distanceFromLocation(lastGeofenceUpdate) < 1000) {
-                                return
+                        // don't update geofences, if we didn't move more than 50m from last one
+                        dispatch_sync(self.fenceUpdateQueue, {
+                            if let lastGeofenceUpdate = self.lastGeofenceUpdate, currLoc = currLoc {
+                                if (!force && currLoc.distanceFromLocation(lastGeofenceUpdate) < 50) {
+                                    DLog("fence: location didn't move much since last time")
+                                    return
+                                }
                             }
-                        }
-                        self.lastGeofenceUpdate = currLoc
+                            self.lastGeofenceUpdate = currLoc
+                        })
 
                         let locationManager = CLLocationManager()
                         DLog("updateGeofences", toFile: true)
@@ -202,11 +209,11 @@ final public class TFCFavorites: NSObject {
                                     DLog("Delete geofence \(circularRegion.identifier) with radius \(circularRegion.radius)", toFile: true)
                                     locationManager.stopMonitoringForRegion(circularRegion)
                                 } else {
-                                    if nearbyFavorites[circularRegion.identifier]?.calculatedDistance < radius {
-                                        DLog("geofence DEBUG for \(circularRegion.radius) is within radius, update it later", toFile: true)
+                                    if nearbyFavorites[circularRegion.identifier]?.calculatedDistance < (radius + 200) {
+                                        DLog("geofence for \(circularRegion.identifier) radius: \(circularRegion.radius) is within radius, update it later", toFile: true)
                                         locationManager.stopMonitoringForRegion(circularRegion)
                                     } else if circularRegion.radius < radius {
-                                        DLog("geofence DEBUG for \(circularRegion.radius) has smaller radius, update it later", toFile: true)
+                                        DLog("geofence for \(circularRegion.identifier) radius: \(circularRegion.radius) has smaller radius, update it later", toFile: true)
                                         locationManager.stopMonitoringForRegion(circularRegion)
                                     } else {
                                         nearbyFavorites.removeValueForKey(circularRegion.identifier)
@@ -216,6 +223,7 @@ final public class TFCFavorites: NSObject {
                         }
                         var first = true
                         var nearestStationWithinRadius:TFCStation? = nil
+                        var nearestDistance:Double = radius
 
                         for (_, station) in nearbyFavorites {
                             if let coord = station.coord {
@@ -223,7 +231,6 @@ final public class TFCFavorites: NSObject {
                                 let distance = currLoc?.distanceFromLocation(coord)
                                 var stationRadius = radius
                                 if let distance = distance {
-                                    var nearestDistance:Double = radius
                                     if (distance < radius) {
                                         DLog("we are within geofence")
                                         if (!first) {
@@ -242,7 +249,9 @@ final public class TFCFavorites: NSObject {
                                         if (station.st_id != nearestStationId) {
                                             stationRadius = max(200, distance - 200.0)
                                         }
-                                        // and set an exit radius for the standard radius
+                                    } else if (distance < radius + 200) {
+                                        // if near radius, deduct some meters as well
+                                        stationRadius = distance - 200
                                     }
                                 }
                                 let region = CLCircularRegion(center: coord.coordinate, radius: stationRadius, identifier: station.st_id)
