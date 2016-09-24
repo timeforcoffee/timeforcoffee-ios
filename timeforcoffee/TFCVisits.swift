@@ -85,9 +85,6 @@ class TFCVisits: NSObject, TFCLocationManagerDelegate, TFCStationsUpdatedProtoco
             DLog("TFCVisits stationsUpdate")
             if let station = self.stations.first {
                 DLog("first station is \(station)", toFile: true)
-                if let callback = self.callback {
-                    callback(text:"first station for fence update is \(station.name)")
-                }
                 TFCDataStore.sharedInstance.sendComplicationUpdate(station, coord: TFCLocationManagerBase.getCurrentLocation()?.coordinate)
             }
         }

@@ -125,6 +125,7 @@
 		EC9BCB471BB5CD4D00623F1A /* PINMemoryCache.h in Headers */ = {isa = PBXBuildFile; fileRef = EC9BCB401BB5CD4D00623F1A /* PINMemoryCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EC9BCB481BB5CD4D00623F1A /* PINMemoryCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB411BB5CD4D00623F1A /* PINMemoryCache.m */; };
 		ECA109D91BB6C00000FDB6F9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC0AD1641BB69539004217FD /* Localizable.strings */; };
+		ECC1CD831D971DB20012E64F /* TFCNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC1CD821D971DB20012E64F /* TFCNotification.swift */; };
 		ECD42E521D8B4D72006ED53E /* GATracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD42E511D8B4D72006ED53E /* GATracker.swift */; };
 		ECD42E531D8B4D72006ED53E /* GATracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD42E511D8B4D72006ED53E /* GATracker.swift */; };
 		ECE74C431BDEAAD8009CB3CA /* WithMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE74C421BDEAAD8009CB3CA /* WithMapViewController.swift */; };
@@ -376,6 +377,7 @@
 		EC9BCB401BB5CD4D00623F1A /* PINMemoryCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PINMemoryCache.h; sourceTree = "<group>"; };
 		EC9BCB411BB5CD4D00623F1A /* PINMemoryCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PINMemoryCache.m; sourceTree = "<group>"; };
 		ECA72B7B1BB6D23E00506300 /* Time for Coffee! WatchOS 2 App Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Time for Coffee! WatchOS 2 App Extension.entitlements"; sourceTree = "<group>"; };
+		ECC1CD821D971DB20012E64F /* TFCNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCNotification.swift; sourceTree = "<group>"; };
 		ECCDFA4D1BFA084C002DD92D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/MainInterface.strings; sourceTree = "<group>"; };
 		ECCDFA4F1BFA084C002DD92D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		ECD42E511D8B4D72006ED53E /* GATracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GATracker.swift; sourceTree = "<group>"; };
@@ -505,6 +507,7 @@
 			children = (
 				EC4AB2251BB5E3F500DA9759 /* timeforcoffee.entitlements */,
 				EC46C4DE1BB5C69800F2A963 /* AppDelegate.swift */,
+				ECC1CD821D971DB20012E64F /* TFCNotification.swift */,
 				EC46C4E41BB5C69800F2A963 /* Main.storyboard */,
 				EC9BCAF81BB5CB7700623F1A /* LaunchScreen.xib */,
 				EC9BCAFB1BB5CC3500623F1A /* About.html */,
@@ -1169,6 +1172,7 @@
 				EC9BCB161BB5CC3500623F1A /* TFCNavigationController.swift in Sources */,
 				ECE74C451BDEAB54009CB3CA /* PasslistViewController.swift in Sources */,
 				EC9BCB0E1BB5CC3500623F1A /* PagedStationsViewController.swift in Sources */,
+				ECC1CD831D971DB20012E64F /* TFCNotification.swift in Sources */,
 				EC9BCB111BB5CC3500623F1A /* StationsSearchViewController.swift in Sources */,
 				EC46C4DF1BB5C69800F2A963 /* AppDelegate.swift in Sources */,
 				EC9BCB0D1BB5CC3500623F1A /* DeparturesViewController.swift in Sources */,

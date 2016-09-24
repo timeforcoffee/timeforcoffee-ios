@@ -26,6 +26,9 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
     private let localUserDefaults: NSUserDefaults? = NSUserDefaults(suiteName: "ch.opendata.timeforcoffee.local")
     var keyvaluestore: NSUbiquitousKeyValueStore? { return nil}
     private var notificationObserver: AnyObject?
+
+    public var localNotificationCallback:((String?) -> Void)? = nil
+
     @available(iOSApplicationExtension 9.0, *)
     public var session: WCSession? {
         if (WCSession.isSupported()) {
@@ -248,24 +251,28 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                             NSKeyedUnarchiver.setClass(TFCDeparture.classForKeyedUnarchiver(), forClassName: "timeforcoffeeKit.TFCDeparture")
                             let sentDepartures = NSKeyedUnarchiver.unarchiveObjectWithData(departures) as? [TFCDeparture]
                             DLog("station sent with __updateComplicationData__: \(sentStation?.name) id: \(sentStation?.st_id) with \(sentDepartures?.count) departures")
-                            sentStation?.serializeDepartures = true
-                            sentStation?.addDepartures(sentDepartures)
-                            sentStation?.lastDepartureUpdate = NSDate()
-
-                            #if os(watchOS)
-                                if (sentStation?.st_id == TFCWatchDataFetch.sharedInstance.getLastViewedStation()?.st_id) {
-                                    NSNotificationCenter.defaultCenter().postNotificationName("TFCWatchkitUpdateCurrentStation", object: nil, userInfo: nil)
-                                }
-                                if let defaults = TFCDataStore.sharedInstance.getUserDefaults() {
-                                    defaults.setValue(sentStation?.st_id, forKey: "lastFirstStationId")
-                                    if let departures = sentStation?.getFilteredDepartures() {
-                                        defaults.setObject(departures.first?.getScheduledTimeAsNSDate(), forKey: "firstDepartureTime")
-                                    } else {
-                                        defaults.setObject(nil, forKey: "firstDepartureTime")
+                            if let sentStation = sentStation {
+                                sentStation.serializeDepartures = true
+                                sentStation.addDepartures(sentDepartures)
+                                sentStation.lastDepartureUpdate = NSDate()
+                                #if DEBUG
+                                self.sendData(["__complicationUpdateReceived__": "Received Complication update on watch for \(sentStation.name)"])
+                                #endif
+                                #if os(watchOS)
+                                    if (sentStation.st_id == TFCWatchDataFetch.sharedInstance.getLastViewedStation()?.st_id) {
+                                        NSNotificationCenter.defaultCenter().postNotificationName("TFCWatchkitUpdateCurrentStation", object: nil, userInfo: nil)
                                     }
-                                }
-                             updateComplicationData()
-                            #endif
+                                    if let defaults = TFCDataStore.sharedInstance.getUserDefaults() {
+                                        defaults.setValue(sentStation.st_id, forKey: "lastFirstStationId")
+                                        if let departures = sentStation.getFilteredDepartures() {
+                                            defaults.setObject(departures.first?.getScheduledTimeAsNSDate(), forKey: "firstDepartureTime")
+                                        } else {
+                                            defaults.setObject(nil, forKey: "firstDepartureTime")
+                                        }
+                                    }
+                                    updateComplicationData()
+                                #endif
+                            }
                         }
                     }
 
@@ -290,6 +297,11 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
             } else if (myKey == "__allDataResponseSent__") {
                 DLog("Got __allDataResponseSent__");
                 self.userDefaults?.setBool(true, forKey: "allDataResponseSent")
+            } else if (myKey == "__complicationUpdateReceived__") {
+                #if DEBUG
+                    self.localNotificationCallback?(myValue as? String)
+                    DLog("\(myValue)", toFile: true)
+                #endif
             } else {
                 self.setObject(myValue, forKey: myKey, withWCTransfer: false)
             }
@@ -477,7 +489,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                 if (WCSession.isSupported()) {
                     if (self.session?.complicationEnabled == true) {
                         if let firstStation = station, ud = TFCDataStore.sharedInstance.getUserDefaults() {
-                            if (true || ud.stringForKey("lastFirstStationId") != firstStation.st_id) {
+                            if (ud.stringForKey("lastFirstStationId") != firstStation.st_id) {
                                 DLog("update Departures for \(firstStation.name)")
                                 firstStation.updateDepartures(self, context: ["coordinates": coord])
                             }
@@ -494,11 +506,13 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                 if let firstStation = station, ud = TFCDataStore.sharedInstance.getUserDefaults() {
                     if (ud.stringForKey("lastFirstStationId") != firstStation.st_id) {
                         var useComplicationTransfer = true
+                        var remaining:Int? = nil
                         if #available(iOSApplicationExtension 10.0, *) {
-                            if (!(self.session?.remainingComplicationUserInfoTransfers > 0)) {
+                            remaining = self.session?.remainingComplicationUserInfoTransfers
+                            if (!(remaining > 0)) {
                                 useComplicationTransfer = false
                             }
-                            DLog("remainingComplicationUserInfoTransfers: \(self.session?.remainingComplicationUserInfoTransfers)", toFile: true)
+                            DLog("remainingComplicationUserInfoTransfers: \(remaining)", toFile: true)
                         }
                         var data:[String:AnyObject] = [:]
 
@@ -509,6 +523,11 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                             DLog("send __updateComplicationData__ with \(coord) for \(station?.name) id: \(station?.st_id)", toFile: true)
                             data["coordinates"] = [ "longitude": coord.longitude, "latitude": coord.latitude]
                         }
+                        #if DEBUG
+                            if let name = station?.name {
+                                self.localNotificationCallback?("Complication sent for \(name). Remaining: \(remaining)")
+                            }
+                        #endif
                         firstStation.serializeDepartures = false
                         data["station"] =  NSKeyedArchiver.archivedDataWithRootObject(firstStation)
                         firstStation.serializeDepartures = true
