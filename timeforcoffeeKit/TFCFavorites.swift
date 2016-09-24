@@ -158,11 +158,11 @@ final public class TFCFavorites: NSObject {
 
                         // don't update geofences, if we didn't move more than 50m from last one
                         if let lastGeofenceUpdate = self.lastGeofenceUpdate, currLoc = currLoc {
-                            if (!force && currLoc.distanceFromLocation(lastGeofenceUpdate) < 50) {
-                                DLog("fence: location didn't move much since last time", toFile: true)
+                            if (!force && currLoc.distanceFromLocation(lastGeofenceUpdate) < 100) {
+                                DLog("fence: location didn't move much (\(currLoc.distanceFromLocation(lastGeofenceUpdate)) m) since last time", toFile: true)
                                 return
                             } else {
-                                DLog("fence: location moved by \(currLoc.distanceFromLocation(lastGeofenceUpdate)) m  since last time", toFile: true)
+                                DLog("fence: location moved by \(currLoc.distanceFromLocation(lastGeofenceUpdate)) m  since last time, force: \(force)", toFile: true)
                             }
 
                         }
@@ -244,11 +244,11 @@ final public class TFCFavorites: NSObject {
                                         // but max 200m, so that we get a hit, when we get closer
                                         // but not for the nearest station
                                         if (station.st_id != nearestStationId) {
-                                            stationRadius = max(200, distance - 200.0)
+                                            stationRadius = max(200, distance - 300.0)
                                         }
                                     } else if (distance < radius + 200) {
                                         // if near radius, deduct some meters as well
-                                        stationRadius = distance - 200
+                                        stationRadius = distance - 300
                                     }
                                 }
                                 let region = CLCircularRegion(center: coord.coordinate, radius: stationRadius, identifier: station.st_id)
