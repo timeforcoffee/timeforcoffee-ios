@@ -49,10 +49,13 @@ public class TFCWatchDataFetch: NSObject, NSURLSessionDownloadDelegate {
     @available(watchOSApplicationExtension 3.0, *)
     public func fetchDepartureData(task task: WKApplicationRefreshBackgroundTask) {
         func handleReply() {
-            DLog("finished WKApplicationRefreshBackgroundTask part 1 \(task)", toFile: true)
-            dispatch_async(dispatch_get_main_queue(), {
-                task.setTaskCompleted()
-            })
+            DLog("finished WKApplicationRefreshBackgroundTask \(task) before barrier", toFile: true)
+            dispatch_barrier_async(TFCWatchData.crunchQueue) {
+                DLog("finished WKApplicationRefreshBackgroundTask \(task)", toFile: true)
+                dispatch_async(dispatch_get_main_queue(), {
+                    task.setTaskCompleted()
+                })
+            }
         }
         fetchDepartureData(handleReply)
     }
