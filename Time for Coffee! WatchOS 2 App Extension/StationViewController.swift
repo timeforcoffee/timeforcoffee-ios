@@ -148,11 +148,11 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             if let laststation = TFCWatchDataFetch.sharedInstance.getLastViewedStation() {
                 self.station = laststation
                 self.lastShownStationId = laststation.st_id
-            } else if (!isInBackground) {
+            } else {
+                if (isInBackground) {
+                    return
+                }
                 getStation()
-                return
-            }
-            if (isInBackground) {
                 return
             }
         }

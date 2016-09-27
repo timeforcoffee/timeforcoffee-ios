@@ -99,7 +99,6 @@ class TFCVisits: NSObject, TFCLocationManagerDelegate, TFCStationsUpdatedProtoco
                     DLog("region visit but nearest station \(station.name) is not a favorite. not sending complication update", toFile: true)
                 }
                 DLog("first station is \(station)", toFile: true)
-                TFCDataStore.sharedInstance.sendComplicationUpdate(station, coord: TFCLocationManagerBase.getCurrentLocation()?.coordinate)
                 if (doComplicationUpdate) {
                     TFCDataStore.sharedInstance.sendComplicationUpdate(station, coord: TFCLocationManagerBase.getCurrentLocation()?.coordinate)
                 }
