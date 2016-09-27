@@ -632,6 +632,38 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         return nil
     }
 
+
+    public func getScheduledFilteredDepartures(limit:Int? = nil) -> [TFCDeparture]? {
+        let depts:[TFCDeparture]?
+        if let limit = limit, departures = self.getFilteredDepartures(limit) {
+            depts = Array(departures)
+        } else {
+            depts = self.getFilteredDepartures()
+        }
+        if let depts = depts {
+            var sorted = depts.sort({ (s1, s2) -> Bool in
+                return s1.getScheduledTimeAsNSDate() < s2.getScheduledTimeAsNSDate()
+            })
+            var i = 0
+            let aMinuteAgo = NSDate().dateByAddingTimeInterval(-60)
+            for departure in sorted {
+                if (departure.getScheduledTimeAsNSDate() < aMinuteAgo) {
+                    sorted.removeAtIndex(i)
+                    i += 1
+                } else {
+                    //if we find one, which is not obsolete, we can stop here
+                    break
+                }
+            }
+
+            if (sorted.count > 0) {
+                return sorted
+            }
+        }
+
+        return nil
+    }
+
     public func updateDepartures(completionDelegate: TFCDeparturesUpdatedProtocol?, force: Bool = false, context: Any? = nil, cachettl:Int = 20, startTime:NSDate? = nil, onlyFirstDownload:Bool = false) {
 
         let removedDepartures = removeObsoleteDepartures()

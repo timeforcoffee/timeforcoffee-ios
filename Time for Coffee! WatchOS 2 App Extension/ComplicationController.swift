@@ -37,7 +37,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
             if let station = stations?.first {
                 func handleReply2(station: TFCStation?) {
                     station?.removeObsoleteDepartures()
-                    if let departure = station?.getFilteredDepartures()?.first {
+                    if let departure = station?.getScheduledFilteredDepartures()?.first {
                         let startDate = timelineEntryDateForDeparture(departure, previousDeparture: nil)
                         DLog("startDate: \(startDate)", toFile: true)
                         handler(startDate)
@@ -57,14 +57,17 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
         DLog("started getTimelineEndDateForComplication", toFile: true)
         func handleReply(stations: TFCStations?) {
             if let station = stations?.first {
-                DLog("firstStation: \(station.name) with \(station.getFilteredDepartures()?.count) filtered departures", toFile: true)
+                let departures = station.getScheduledFilteredDepartures()
+                DLog("firstStation: \(station.name) with \(departures?.count) filtered departures", toFile: true)
                 if let ud =  NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee") {
                     ud.setObject(NSDate(), forKey: "lastComplicationUpdate")
                     ud.setValue(station.st_id, forKey: "lastComplicationStationId")
                 }
 
                 func handleReply2(station: TFCStation?) {
-                    if let endDate = station?.getFilteredDepartures()?.last?.getScheduledTimeAsNSDate() {
+                    let departures = station?.getScheduledFilteredDepartures()
+
+                    if let endDate = departures?.last?.getScheduledTimeAsNSDate() {
                         if let ud =  NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee") {
                             ud.setObject(endDate, forKey: "lastDepartureTime")
                         }
@@ -109,7 +112,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                 func handleReply2(station:TFCStation?) {
                     //just take the first entry here... It's the one we want to display
                     station?.removeObsoleteDepartures()
-                    if let departures = station?.getFilteredDepartures(),
+                    if let departures = station?.getScheduledFilteredDepartures(),
                         departure = departures.first {
                         let thisEntryDate = timelineEntryDateForDeparture(departure, previousDeparture: nil)
                         let nextDeparture: TFCDeparture? = (departures.count >= 2) ? departures[1] : nil
@@ -136,7 +139,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
             if let station = stations?.first { // corresponds to the favorited/closest station
                 func handleReply2(station: TFCStation?) {
                     if let station = station,
-                        departures = station.getFilteredDepartures(limit) {
+                        departures = station.getScheduledFilteredDepartures(limit) {
 
                             var index = 0
                             var previousDeparture: TFCDeparture? = nil
