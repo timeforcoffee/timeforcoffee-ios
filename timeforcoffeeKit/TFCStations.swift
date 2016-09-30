@@ -315,7 +315,10 @@ public final class TFCStations: NSObject, SequenceType, CollectionType, TFCLocat
 
             fetchRequest.predicate = pred
             if let results = try TFCDataStoreBase.sharedInstance.managedObjectContext.executeFetchRequest(fetchRequest) as? [TFCStationModel] {
-                return results.map({ (row) -> String in return row.id!})
+                return results.filter({ (row) -> Bool in
+                    return (row.id != nil)
+                    }).map({ (row) -> String in
+                    return row.id!})
             }
         } catch let error as NSError {
             print("Could not fetch \(error), \(error.userInfo)")
