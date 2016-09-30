@@ -119,8 +119,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202775921-Is-there-a-map-view-somewhere-")
             recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202772511-Who-is-behind-Time-for-Coffee-")
 */
+            gtracker.setCustomDimension(9, value: UIDevice.currentDevice().systemVersion)
             if let currentUser = SKTUser.currentUser() {
-                gtracker.setCustomDimension(9, value: UIDevice.currentDevice().systemVersion)
                 if (userdefaults?.objectForKey("favorites2") != nil) {
                     currentUser.addProperties(["usedFavorites": true])
                     gtracker.setCustomDimension(4, value: "yes")
