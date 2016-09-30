@@ -910,12 +910,12 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             if (country == "CH") {
                 return "https://tfc.chregu.tv/api/zvv/stationboard/\(self.st_id)/\(formattedDate)"
             }
-            return "http://transport.opendata.ch/v1/stationboard?id=\(self.st_id)&limit=40&datetime=\(formattedDate)"
+            return "https://transport.opendata.ch/v1/stationboard?id=\(self.st_id)&limit=40&datetime=\(formattedDate)"
         }
         if (country == "CH") {
             return "https://tfc.chregu.tv/api/ch/stationboard/\(self.st_id)"
         }
-        return "http://transport.opendata.ch/v1/stationboard?id=\(self.st_id)&limit=40"
+        return "https://transport.opendata.ch/v1/stationboard?id=\(self.st_id)&limit=40"
     }
 }
 
