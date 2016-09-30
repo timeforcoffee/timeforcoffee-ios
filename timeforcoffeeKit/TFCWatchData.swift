@@ -338,7 +338,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
             if (lastFirstStationId == station.st_id) {
                 // if we have more than 3 hours in store still (to avoid too frequent updates)
                 if (lastDepartureTime > inthreehours) {
-                    DLog("more than 3 hours in store. return false")
+                    DLog("more than 3 hours in store \(lastDepartureTime). return false")
                     return false
                 // else if we don't have a newer than the current last one
                 } else if (departures.last?.getScheduledTimeAsNSDate() <= lastDepartureTime) {

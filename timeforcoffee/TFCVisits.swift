@@ -47,6 +47,7 @@ class TFCVisits: NSObject, TFCLocationManagerDelegate, TFCStationsUpdatedProtoco
         //Update geofences once per app start
         if (!geofenceUpdated) {
             if (TFCFavorites.sharedInstance.stations.count > 0) {
+                DLog("just before updateGeofences", toFile:true)
                 TFCFavorites.sharedInstance.updateGeofences()
             }
             geofenceUpdated = true
@@ -63,6 +64,7 @@ class TFCVisits: NSObject, TFCLocationManagerDelegate, TFCStationsUpdatedProtoco
             if let callback = self.callback {
                 callback(text: "Visit. Date: \(date) arrival: \(arrival) lat: \(coord.latitude.roundToPlaces(3)), lng: \(coord.longitude.roundToPlaces(3)) ")
             }
+            DLog("just before updateGeofences", toFile:true)
             TFCFavorites.sharedInstance.updateGeofences(force: false)
         }
         return true
@@ -72,6 +74,7 @@ class TFCVisits: NSObject, TFCLocationManagerDelegate, TFCStationsUpdatedProtoco
         if (region.identifier == "__updateGeofences__") {
             DLog("update geofences call", toFile: true)
             self.callback?(text: "update geofences call. radius: \(region.radius). coord: \(self.locManager?.currentLocation) Date: \(NSDate())")
+            DLog("just before updateGeofences", toFile:true)
             TFCFavorites.sharedInstance.updateGeofences(force: false)
             return
         }
@@ -81,6 +84,7 @@ class TFCVisits: NSObject, TFCLocationManagerDelegate, TFCStationsUpdatedProtoco
         DLog("fence: currentLocation: \(locManager?.currentLocation)")
         self.callback?(text: "visited fence for \(station.name). radius: \(region.radius). Date: \(NSDate())")
         self.stations.updateStations()
+        DLog("just before updateGeofences", toFile:true)
         TFCFavorites.sharedInstance.updateGeofences(force: false)
     }
 

@@ -205,6 +205,7 @@ public final class TFCStations: NSObject, SequenceType, CollectionType, TFCLocat
             self._stations!.sortInPlace({ $0.calculatedDistance < $1.calculatedDistance })
         }
         #if os(iOS)
+            DLog("just before updateGeofences", toFile:true)
             TFCFavorites.sharedInstance.updateGeofences(force: false)
         #endif
     }
@@ -362,6 +363,7 @@ public final class TFCStations: NSObject, SequenceType, CollectionType, TFCLocat
                     TFCDataStore.sharedInstance.sendComplicationUpdate(firstStation, coord: TFCLocationManagerBase.getCurrentLocation()?.coordinate)
                 }
                 if (self.lastFirstStationId != firstStation.st_id) {
+                    DLog("just before updateGeofences", toFile:true)
                     TFCFavorites.sharedInstance.updateGeofences(force: false)
                     self.lastFirstStationId = firstStation.st_id
                 }

@@ -165,6 +165,8 @@ final public class TFCFavorites: NSObject {
                                 DLog("fence: location moved by \(currLoc.distanceFromLocation(lastGeofenceUpdate)) m  since last time, force: \(force)", toFile: true)
                             }
 
+                        } else {
+                            DLog("fence: No lastGeofenceUpdate was set", toFile: true)
                         }
                         self.lastGeofenceUpdate = currLoc
 
