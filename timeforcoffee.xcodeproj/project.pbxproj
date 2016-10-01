@@ -83,6 +83,29 @@
 		EC68469C1BF9CDBD00BD8531 /* TFCSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC68469A1BF9CDBD00BD8531 /* TFCSettings.swift */; };
 		EC810B061BC7963C0007B874 /* DataModels.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EC810B041BC7963C0007B874 /* DataModels.xcdatamodeld */; };
 		EC810B071BC7963C0007B874 /* DataModels.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EC810B041BC7963C0007B874 /* DataModels.xcdatamodeld */; };
+		EC8290CA1D9FA035004A041B /* Bundle+CoreDataModelHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8290BE1D9FA035004A041B /* Bundle+CoreDataModelHelper.swift */; };
+		EC8290CB1D9FA035004A041B /* Bundle+CoreDataModelHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8290BE1D9FA035004A041B /* Bundle+CoreDataModelHelper.swift */; };
+		EC8290CC1D9FA035004A041B /* CoreDataModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8290BF1D9FA035004A041B /* CoreDataModelable.swift */; };
+		EC8290CD1D9FA035004A041B /* CoreDataModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8290BF1D9FA035004A041B /* CoreDataModelable.swift */; };
+		EC8290CE1D9FA035004A041B /* CoreDataStack.h in Headers */ = {isa = PBXBuildFile; fileRef = EC8290C01D9FA035004A041B /* CoreDataStack.h */; };
+		EC8290CF1D9FA035004A041B /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8290C11D9FA035004A041B /* CoreDataStack.swift */; };
+		EC8290D01D9FA035004A041B /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8290C11D9FA035004A041B /* CoreDataStack.swift */; };
+		EC8290D11D9FA035004A041B /* EntityMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8290C21D9FA035004A041B /* EntityMonitor.swift */; };
+		EC8290D21D9FA035004A041B /* EntityMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8290C21D9FA035004A041B /* EntityMonitor.swift */; };
+		EC8290D31D9FA035004A041B /* FetchedResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8290C31D9FA035004A041B /* FetchedResultsController.swift */; };
+		EC8290D41D9FA035004A041B /* FetchedResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8290C31D9FA035004A041B /* FetchedResultsController.swift */; };
+		EC8290D51D9FA035004A041B /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EC8290C41D9FA035004A041B /* Info.plist */; };
+		EC8290D61D9FA035004A041B /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EC8290C41D9FA035004A041B /* Info.plist */; };
+		EC8290D71D9FA035004A041B /* NSManagedObject+FetchHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8290C51D9FA035004A041B /* NSManagedObject+FetchHelpers.swift */; };
+		EC8290D81D9FA035004A041B /* NSManagedObject+FetchHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8290C51D9FA035004A041B /* NSManagedObject+FetchHelpers.swift */; };
+		EC8290D91D9FA035004A041B /* NSManagedObjectContext+AsyncHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8290C61D9FA035004A041B /* NSManagedObjectContext+AsyncHelpers.swift */; };
+		EC8290DA1D9FA035004A041B /* NSManagedObjectContext+AsyncHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8290C61D9FA035004A041B /* NSManagedObjectContext+AsyncHelpers.swift */; };
+		EC8290DB1D9FA035004A041B /* NSManagedObjectContext+SaveHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8290C71D9FA035004A041B /* NSManagedObjectContext+SaveHelpers.swift */; };
+		EC8290DC1D9FA035004A041B /* NSManagedObjectContext+SaveHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8290C71D9FA035004A041B /* NSManagedObjectContext+SaveHelpers.swift */; };
+		EC8290DD1D9FA035004A041B /* NSPersistentStoreCoordinator+AsyncHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8290C81D9FA035004A041B /* NSPersistentStoreCoordinator+AsyncHelpers.swift */; };
+		EC8290DE1D9FA035004A041B /* NSPersistentStoreCoordinator+AsyncHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8290C81D9FA035004A041B /* NSPersistentStoreCoordinator+AsyncHelpers.swift */; };
+		EC8290DF1D9FA035004A041B /* NSPersistentStoreCoordinator+SQLiteHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8290C91D9FA035004A041B /* NSPersistentStoreCoordinator+SQLiteHelpers.swift */; };
+		EC8290E01D9FA035004A041B /* NSPersistentStoreCoordinator+SQLiteHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8290C91D9FA035004A041B /* NSPersistentStoreCoordinator+SQLiteHelpers.swift */; };
 		EC84FEC11BD9652400A0F9E3 /* TFCVisits.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC84FEC01BD9652400A0F9E3 /* TFCVisits.swift */; };
 		EC855BA31BC99649001ABD35 /* StreamReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC855BA21BC99649001ABD35 /* StreamReader.swift */; };
 		EC855BA81BC99A4D001ABD35 /* BFKOORD_GEO in Resources */ = {isa = PBXBuildFile; fileRef = EC855BA41BC99767001ABD35 /* BFKOORD_GEO */; };
@@ -266,7 +289,7 @@
 		EC0AD1671BB69593004217FD /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EC0E4D581BCBB09F0046D70C /* SingleViewCoreData.sqlite-shm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "SingleViewCoreData.sqlite-shm"; sourceTree = "<group>"; };
 		EC0E4D591BCBB09F0046D70C /* SingleViewCoreData.sqlite-wal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "SingleViewCoreData.sqlite-wal"; sourceTree = "<group>"; };
-		EC1834D81BCADA0E008B44F3 /* SingleViewCoreData.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = SingleViewCoreData.sqlite; sourceTree = "<group>"; };
+		EC1834D81BCADA0E008B44F3 /* SingleViewCoreData.sqlite */ = {isa = PBXFileReference; lastKnownFileType = text; path = SingleViewCoreData.sqlite; sourceTree = "<group>"; };
 		EC18AA921BE4067000488DC4 /* TFCDeparturePass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCDeparturePass.swift; sourceTree = "<group>"; };
 		EC1B2F4E1D82AC9E00399F60 /* TFCWatchDataFetch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCWatchDataFetch.swift; sourceTree = "<group>"; };
 		EC28EA451BD3E3F0004977B0 /* DataModels 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DataModels 2.xcdatamodel"; sourceTree = "<group>"; };
@@ -333,6 +356,18 @@
 		EC60B0191BB680FD00D10238 /* trainsymbol.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = trainsymbol.otf; sourceTree = "<group>"; };
 		EC68469A1BF9CDBD00BD8531 /* TFCSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCSettings.swift; sourceTree = "<group>"; };
 		EC810B051BC7963C0007B874 /* DataModels.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModels.xcdatamodel; sourceTree = "<group>"; };
+		EC8290BE1D9FA035004A041B /* Bundle+CoreDataModelHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+CoreDataModelHelper.swift"; sourceTree = "<group>"; };
+		EC8290BF1D9FA035004A041B /* CoreDataModelable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataModelable.swift; sourceTree = "<group>"; };
+		EC8290C01D9FA035004A041B /* CoreDataStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataStack.h; sourceTree = "<group>"; };
+		EC8290C11D9FA035004A041B /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		EC8290C21D9FA035004A041B /* EntityMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityMonitor.swift; sourceTree = "<group>"; };
+		EC8290C31D9FA035004A041B /* FetchedResultsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedResultsController.swift; sourceTree = "<group>"; };
+		EC8290C41D9FA035004A041B /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EC8290C51D9FA035004A041B /* NSManagedObject+FetchHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObject+FetchHelpers.swift"; sourceTree = "<group>"; };
+		EC8290C61D9FA035004A041B /* NSManagedObjectContext+AsyncHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+AsyncHelpers.swift"; sourceTree = "<group>"; };
+		EC8290C71D9FA035004A041B /* NSManagedObjectContext+SaveHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+SaveHelpers.swift"; sourceTree = "<group>"; };
+		EC8290C81D9FA035004A041B /* NSPersistentStoreCoordinator+AsyncHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSPersistentStoreCoordinator+AsyncHelpers.swift"; sourceTree = "<group>"; };
+		EC8290C91D9FA035004A041B /* NSPersistentStoreCoordinator+SQLiteHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSPersistentStoreCoordinator+SQLiteHelpers.swift"; sourceTree = "<group>"; };
 		EC84FEC01BD9652400A0F9E3 /* TFCVisits.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCVisits.swift; sourceTree = "<group>"; };
 		EC855BA21BC99649001ABD35 /* StreamReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamReader.swift; sourceTree = "<group>"; };
 		EC855BA41BC99767001ABD35 /* BFKOORD_GEO */ = {isa = PBXFileReference; explicitFileType = text; fileEncoding = 4; path = BFKOORD_GEO; sourceTree = "<group>"; };
@@ -624,6 +659,7 @@
 				EC9BCB1C1BB5CCD300623F1A /* TFCCache.swift */,
 				EC9BCB1D1BB5CCD300623F1A /* TFCDataStore.swift */,
 				EC9BCB1E1BB5CCD300623F1A /* TFCDataStoreBase.swift */,
+				EC82907D1D9F9EBF004A041B /* CoreDataStack */,
 				EC9BCB3A1BB5CD4D00623F1A /* PINCache */,
 				EC9BCB1F1BB5CCD300623F1A /* TFCDeparture.swift */,
 				ECE74C461BDEBF2B009CB3CA /* TFCPass.swift */,
@@ -674,6 +710,25 @@
 			path = _assets;
 			sourceTree = "<group>";
 		};
+		EC82907D1D9F9EBF004A041B /* CoreDataStack */ = {
+			isa = PBXGroup;
+			children = (
+				EC8290BE1D9FA035004A041B /* Bundle+CoreDataModelHelper.swift */,
+				EC8290BF1D9FA035004A041B /* CoreDataModelable.swift */,
+				EC8290C01D9FA035004A041B /* CoreDataStack.h */,
+				EC8290C11D9FA035004A041B /* CoreDataStack.swift */,
+				EC8290C21D9FA035004A041B /* EntityMonitor.swift */,
+				EC8290C31D9FA035004A041B /* FetchedResultsController.swift */,
+				EC8290C41D9FA035004A041B /* Info.plist */,
+				EC8290C51D9FA035004A041B /* NSManagedObject+FetchHelpers.swift */,
+				EC8290C61D9FA035004A041B /* NSManagedObjectContext+AsyncHelpers.swift */,
+				EC8290C71D9FA035004A041B /* NSManagedObjectContext+SaveHelpers.swift */,
+				EC8290C81D9FA035004A041B /* NSPersistentStoreCoordinator+AsyncHelpers.swift */,
+				EC8290C91D9FA035004A041B /* NSPersistentStoreCoordinator+SQLiteHelpers.swift */,
+			);
+			path = CoreDataStack;
+			sourceTree = "<group>";
+		};
 		EC9BCB3A1BB5CD4D00623F1A /* PINCache */ = {
 			isa = PBXGroup;
 			children = (
@@ -708,6 +763,7 @@
 			files = (
 				EC9BCB471BB5CD4D00623F1A /* PINMemoryCache.h in Headers */,
 				EC9BCB421BB5CD4D00623F1A /* Nullability.h in Headers */,
+				EC8290CE1D9FA035004A041B /* CoreDataStack.h in Headers */,
 				EC46C55C1BB5C82800F2A963 /* timeforcoffeeKit.h in Headers */,
 				EC9BCB451BB5CD4D00623F1A /* PINDiskCache.h in Headers */,
 				EC9BCB431BB5CD4D00623F1A /* PINCache.h in Headers */,
@@ -998,6 +1054,7 @@
 				EC46C5341BB5C78A00F2A963 /* Assets.xcassets in Resources */,
 				ECEF281C1BCBC9D7000F4094 /* SingleViewCoreData.sqlite-shm in Resources */,
 				EC1834DF1BCADA29008B44F3 /* SingleViewCoreData.sqlite in Resources */,
+				EC8290D61D9FA035004A041B /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1007,6 +1064,7 @@
 			files = (
 				ECEF28161BCBC951000F4094 /* (null) in Resources */,
 				EC0E4D5A1BCBB09F0046D70C /* SingleViewCoreData.sqlite-shm in Resources */,
+				EC8290D51D9FA035004A041B /* Info.plist in Resources */,
 				EC1834DB1BCADA0E008B44F3 /* SingleViewCoreData.sqlite in Resources */,
 				ECEF281A1BCBC98F000F4094 /* TFC.plist in Resources */,
 				EC0E4D5B1BCBB09F0046D70C /* SingleViewCoreData.sqlite-wal in Resources */,
@@ -1199,19 +1257,25 @@
 			files = (
 				EC46C5301BB5C78A00F2A963 /* ExtensionDelegate.swift in Sources */,
 				ECEDA62E1BDAD44F000B63E6 /* Logging.swift in Sources */,
+				EC8290D81D9FA035004A041B /* NSManagedObject+FetchHelpers.swift in Sources */,
 				EC4AB26F1BB6787600DA9759 /* StationsOverviewViewController.swift in Sources */,
 				EC4AB2701BB6787600DA9759 /* StationsRow.swift in Sources */,
 				EC050CEA1BB84D4700ECB533 /* SwiftyJSON.swift in Sources */,
 				EC050CEC1BB84D4700ECB533 /* TFCDataStoreBase.swift in Sources */,
 				F6F721201BCA9C9C0073E0D2 /* ComplicationController.swift in Sources */,
+				EC8290D21D9FA035004A041B /* EntityMonitor.swift in Sources */,
 				EC4AB26E1BB6787600DA9759 /* StationRow.swift in Sources */,
+				EC8290E01D9FA035004A041B /* NSPersistentStoreCoordinator+SQLiteHelpers.swift in Sources */,
 				EC050CF41BB84D5B00ECB533 /* TFCStations.swift in Sources */,
 				EC050CFA1BB84DD200ECB533 /* TFCStation.swift in Sources */,
+				EC8290DC1D9FA035004A041B /* NSManagedObjectContext+SaveHelpers.swift in Sources */,
 				ECEBB7FE1BC7241A00AB83B9 /* TFCStationModel.swift in Sources */,
 				EC050CF61BB84D5B00ECB533 /* TFCWatchData.swift in Sources */,
 				EC050CF81BB84DC700ECB533 /* TFCLocationManager.swift in Sources */,
 				ECEBB7FF1BC7241D00AB83B9 /* TFCStationModel+CoreDataProperties.swift in Sources */,
+				EC8290CD1D9FA035004A041B /* CoreDataModelable.swift in Sources */,
 				EC050CF91BB84DD200ECB533 /* TFCDataStore.swift in Sources */,
+				EC8290D01D9FA035004A041B /* CoreDataStack.swift in Sources */,
 				EC050CF01BB84D5B00ECB533 /* TFCDeparture.swift in Sources */,
 				EC050CE81BB84D4700ECB533 /* APIController.swift in Sources */,
 				EC18AA941BE406BC00488DC4 /* TFCDeparturePass.swift in Sources */,
@@ -1219,17 +1283,21 @@
 				EC1B2F521D846CD100399F60 /* TFCWatchDataFetch.swift in Sources */,
 				EC050CF11BB84D5B00ECB533 /* TFCFavorites.swift in Sources */,
 				EC050CF31BB84D5B00ECB533 /* TFCStationBase.swift in Sources */,
+				EC8290DA1D9FA035004A041B /* NSManagedObjectContext+AsyncHelpers.swift in Sources */,
 				EC050CEB1BB84D4700ECB533 /* TFCCache.swift in Sources */,
+				EC8290DE1D9FA035004A041B /* NSPersistentStoreCoordinator+AsyncHelpers.swift in Sources */,
 				EC050CED1BB84D4F00ECB533 /* PINCache.m in Sources */,
 				EC050CEE1BB84D4F00ECB533 /* PINDiskCache.m in Sources */,
 				EC050CE91BB84D4700ECB533 /* extensions.swift in Sources */,
 				EC810B071BC7963C0007B874 /* DataModels.xcdatamodeld in Sources */,
 				EC4AB26D1BB6787600DA9759 /* MapViewController.swift in Sources */,
 				EC604D041D8714A200ED1950 /* FavoriteStationsOverviewController.swift in Sources */,
+				EC8290CB1D9FA035004A041B /* Bundle+CoreDataModelHelper.swift in Sources */,
 				EC050CEF1BB84D4F00ECB533 /* PINMemoryCache.m in Sources */,
 				EC4AB2711BB6787600DA9759 /* StationViewController.swift in Sources */,
 				EC050CF51BB84D5B00ECB533 /* TFCURLSession.swift in Sources */,
 				EC050CF21BB84D5B00ECB533 /* TFCLocationManagerBase.swift in Sources */,
+				EC8290D41D9FA035004A041B /* FetchedResultsController.swift in Sources */,
 				ECE74C481BDEC198009CB3CA /* TFCPass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1238,30 +1306,40 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC8290DF1D9FA035004A041B /* NSPersistentStoreCoordinator+SQLiteHelpers.swift in Sources */,
 				EC9BCB321BB5CCD300623F1A /* TFCLocationManager.swift in Sources */,
+				EC8290DD1D9FA035004A041B /* NSPersistentStoreCoordinator+AsyncHelpers.swift in Sources */,
 				EC810B061BC7963C0007B874 /* DataModels.xcdatamodeld in Sources */,
 				EC9BCB2F1BB5CCD300623F1A /* TFCDataStoreBase.swift in Sources */,
+				EC8290DB1D9FA035004A041B /* NSManagedObjectContext+SaveHelpers.swift in Sources */,
 				ECEDA62D1BDAD44F000B63E6 /* Logging.swift in Sources */,
 				ECEBB7FD1BC7238C00AB83B9 /* TFCStationModel.swift in Sources */,
 				ECEBB7FC1BC7238C00AB83B9 /* TFCStationModel+CoreDataProperties.swift in Sources */,
 				EC9BCB341BB5CCD300623F1A /* TFCStation.swift in Sources */,
+				EC8290CF1D9FA035004A041B /* CoreDataStack.swift in Sources */,
 				EC9BCB461BB5CD4D00623F1A /* PINDiskCache.m in Sources */,
 				EC9BCB2B1BB5CCD300623F1A /* SwiftyJSON.swift in Sources */,
+				EC8290D91D9FA035004A041B /* NSManagedObjectContext+AsyncHelpers.swift in Sources */,
 				EC9BCB2C1BB5CCD300623F1A /* TFCBaseViewController.swift in Sources */,
 				EC9BCB311BB5CCD300623F1A /* TFCFavorites.swift in Sources */,
 				ECE74C471BDEBF2B009CB3CA /* TFCPass.swift in Sources */,
 				EC9BCB481BB5CD4D00623F1A /* PINMemoryCache.m in Sources */,
 				EC9BCB291BB5CCD300623F1A /* APIController.swift in Sources */,
+				EC8290CC1D9FA035004A041B /* CoreDataModelable.swift in Sources */,
 				EC9BCB2E1BB5CCD300623F1A /* TFCDataStore.swift in Sources */,
 				EC9BCB361BB5CCD300623F1A /* TFCStations.swift in Sources */,
 				EC9BCB2D1BB5CCD300623F1A /* TFCCache.swift in Sources */,
 				EC68469B1BF9CDBD00BD8531 /* TFCSettings.swift in Sources */,
+				EC8290CA1D9FA035004A041B /* Bundle+CoreDataModelHelper.swift in Sources */,
 				EC18AA931BE4067000488DC4 /* TFCDeparturePass.swift in Sources */,
 				EC9BCB301BB5CCD300623F1A /* TFCDeparture.swift in Sources */,
+				EC8290D71D9FA035004A041B /* NSManagedObject+FetchHelpers.swift in Sources */,
 				EC9BCB441BB5CD4D00623F1A /* PINCache.m in Sources */,
 				EC9BCB331BB5CCD300623F1A /* TFCLocationManagerBase.swift in Sources */,
 				EC9BCB351BB5CCD300623F1A /* TFCStationBase.swift in Sources */,
 				EC9BCB371BB5CCD300623F1A /* TFCURLSession.swift in Sources */,
+				EC8290D11D9FA035004A041B /* EntityMonitor.swift in Sources */,
+				EC8290D31D9FA035004A041B /* FetchedResultsController.swift in Sources */,
 				EC9BCB2A1BB5CCD300623F1A /* extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

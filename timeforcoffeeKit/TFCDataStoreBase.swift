@@ -22,6 +22,21 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
 
     let lockQueue = dispatch_queue_create("group.ch.opendata.timeforcoffee.notificationLock", DISPATCH_QUEUE_SERIAL)
 
+    var myCoreDataStackSetupGroup = dispatch_group_create()
+
+    private var myCoreDataStack:CoreDataStack?
+
+    private lazy var dispatchTime = { return dispatch_time(DISPATCH_TIME_NOW, Int64(10.0 * Double(NSEC_PER_SEC))) }()
+
+    public var mocObjects: NSManagedObjectContext {
+        get {
+            dispatch_group_wait(self.myCoreDataStackSetupGroup, dispatchTime)
+            let ctx = self.myCoreDataStack!.mainQueueContext
+            ctx.stalenessInterval = 0
+            return ctx
+        }
+    }
+
     private let userDefaults: NSUserDefaults? = NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee")
     private let localUserDefaults: NSUserDefaults? = NSUserDefaults(suiteName: "ch.opendata.timeforcoffee.local")
     var keyvaluestore: NSUbiquitousKeyValueStore? { return nil}
@@ -363,87 +378,6 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
         return urls!
         }()
 
-    lazy var managedObjectModel: NSManagedObjectModel = {
-        // The managed object model for the application. This property is not optional. It is a fatal error for the application not to be able to find and load its model.
-        let modelURL = NSBundle(forClass: TFCDataStore.self).URLForResource("DataModels", withExtension: "momd")!
-        return NSManagedObjectModel(contentsOfURL: modelURL)!
-        }()
-
-    lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator = {
-        // The persistent store coordinator for the application. This implementation creates and returns a coordinator, having added the store for the application to it. This property is optional since there are legitimate error conditions that could cause the creation of the store to fail.
-        // Create the coordinator and store
-        let coordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
-        let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("SingleViewCoreData.sqlite")
-        let whichBundle:NSBundle?
-        if (NSBundle.mainBundle().bundleIdentifier == "ch.opendata.timeforcoffee.watchkitapp.watchkitextension") {
-            whichBundle = NSBundle.mainBundle();
-        } else {
-            whichBundle = NSBundle(identifier: "ch.opendata.timeforcoffee.timeforcoffeeKit" )
-        }
-        if let bundle = whichBundle {
-
-            let filePath = bundle.pathForResource("TFC", ofType: "plist")!
-            var forceInstall = false
-            let neededDBVersion = NSDictionary(contentsOfFile:filePath)?.valueForKey("dbVersion") as? Int
-            if let neededDBVersion = neededDBVersion {
-                var installedDBVersion = self.localUserDefaults?.integerForKey("installedDBVersion")
-                if (installedDBVersion == nil || neededDBVersion != installedDBVersion) {
-                    forceInstall = true
-                }
-            }
-            let filemanager = NSFileManager.defaultManager();
-            if (forceInstall || !filemanager.fileExistsAtPath(url!.path!)) {
-
-                let sourceSqliteURLs = [bundle.URLForResource("SingleViewCoreData", withExtension: "sqlite")!, bundle.URLForResource("SingleViewCoreData", withExtension: "sqlite-wal")!, bundle.URLForResource("SingleViewCoreData", withExtension: "sqlite-shm")!]
-                let destSqliteURLs = [self.applicationDocumentsDirectory.URLByAppendingPathComponent("SingleViewCoreData.sqlite"),
-                    self.applicationDocumentsDirectory.URLByAppendingPathComponent("SingleViewCoreData.sqlite-wal"),
-                    self.applicationDocumentsDirectory.URLByAppendingPathComponent("SingleViewCoreData.sqlite-shm")]
-
-                var error:NSError? = nil
-                filemanager.delegate = self
-                for index in 0 ..< sourceSqliteURLs.count {
-                    try! filemanager.copyItemAtURL(sourceSqliteURLs[index], toURL: destSqliteURLs[index]!)
-                    let _ = try? destSqliteURLs[index]!.setResourceValue(true, forKey: NSURLIsExcludedFromBackupKey)
-
-                }
-                if let neededDBVersion = neededDBVersion {
-                    self.localUserDefaults?.setInteger(neededDBVersion, forKey: "installedDBVersion")
-                }
-
-            }
-        }
-        var error: NSError? = nil
-        var failureReason = "There was an error creating or loading the application's saved data."
-        do {
-            try coordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: [
-                NSMigratePersistentStoresAutomaticallyOption: true,
-                NSInferMappingModelAutomaticallyOption: true ]
-            )
-        } catch {
-            // Report any error we got.
-            var dict = [String: AnyObject]()
-            dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data"
-            dict[NSLocalizedFailureReasonErrorKey] = failureReason
-
-            dict[NSUnderlyingErrorKey] = error as NSError
-            let wrappedError = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
-            // Replace this with code to handle the error appropriately.
-            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            DLog("Unresolved error \(wrappedError), \(wrappedError.userInfo)", toFile: true)
-            abort()
-        }
-        
-        return coordinator
-    }()
-
-    lazy public var managedObjectContext: NSManagedObjectContext = {
-        // Returns the managed object context for the application (which is already bound to the persistent store coordinator for the application.) This property is optional since there are legitimate error conditions that could cause the creation of the context to fail.
-        let coordinator = self.persistentStoreCoordinator
-        var managedObjectContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
-        managedObjectContext.persistentStoreCoordinator = coordinator
-        managedObjectContext.undoManager = nil
-        return managedObjectContext
-        }()
 
     // MARK: - Core Data Saving support
 
@@ -462,6 +396,96 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
             return false
         }
     }
+
+
+    public func checkForDBUpdate(DBUpdate:Bool = true, callback: () -> Void) {
+        DLog("dispatch_group_enter")
+        dispatch_group_enter(self.myCoreDataStackSetupGroup)
+        self.checkForSqlite()
+        CoreDataStack.constructSQLiteStack(withModelName: "DataModels", inBundle: self.getBundle()!, withStoreURL: self.getSqliteUrl()) { (result) in
+            switch result {
+            case .Success(let stack):
+                self.myCoreDataStack = stack
+            case .Failure(let error):
+                DLog(error)
+            }
+            dispatch_group_leave(self.myCoreDataStackSetupGroup)
+            DLog("dispatch_group_leave")
+
+            /*if (DBUpdate) {
+                if let neededDBVersion = self.getNeededDBVersion() {
+                    let installedDBVersion = self.userDefaults?.integerForKey("installedDBVersion")
+                    if (installedDBVersion == nil || neededDBVersion != installedDBVersion) {
+                        var error:NSError?
+                        if let bundle = self.getBundle(), url = bundle.pathForResource("stations", ofType: "csv") {
+                            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
+                                self.parseCSV(url, error: &error, neededDBVersion: neededDBVersion)
+                            }
+                        }
+                    }
+                }
+            }*/
+            callback()
+            
+        }
+    }
+
+    private func checkForSqlite() {
+        let url = getSqliteUrl()
+        if let bundle = self.getBundle(), path = url.path {
+
+            let filemanager = NSFileManager.defaultManager();
+            var forceInstall = false
+            let neededDBVersion = self.getNeededDBVersion()
+            if let neededDBVersion = neededDBVersion {
+                let installedDBVersion = self.localUserDefaults?.integerForKey("installedDBVersion")
+                if (installedDBVersion == nil || neededDBVersion != installedDBVersion) {
+                    forceInstall = true
+                }
+            }
+            if (forceInstall || !filemanager.fileExistsAtPath(path)) {
+                DLog("Install URL: \(url)")
+
+                let sourceSqliteURLs = [bundle.URLForResource("SingleViewCoreData", withExtension: "sqlite")!, bundle.URLForResource("SingleViewCoreData", withExtension: "sqlite-wal")!, bundle.URLForResource("SingleViewCoreData", withExtension: "sqlite-shm")!]
+                let destSqliteURLs = [self.applicationDocumentsDirectory.URLByAppendingPathComponent("SingleViewCoreData.sqlite"), self.applicationDocumentsDirectory.URLByAppendingPathComponent("SingleViewCoreData.sqlite-wal"), self.applicationDocumentsDirectory.URLByAppendingPathComponent("SingleViewCoreData.sqlite-shm")]
+
+                filemanager.delegate = self
+                for index in 0 ..< sourceSqliteURLs.count {
+                    try! filemanager.copyItemAtURL(sourceSqliteURLs[index], toURL: destSqliteURLs[index]!)
+                    let _ = try? destSqliteURLs[index]!.setResourceValue(true, forKey: NSURLIsExcludedFromBackupKey)
+
+                }
+                if let neededDBVersion = self.getNeededDBVersion() {
+                    self.localUserDefaults?.setInteger(neededDBVersion, forKey: "installedDBVersion")
+                    self.localUserDefaults?.synchronize()
+                }
+            }
+        }
+    }
+    
+    private func getBundle() -> NSBundle? {
+        let whichBundle:NSBundle?
+        if (NSBundle.mainBundle().bundleIdentifier == "ch.opendata.timeforcoffee.watchkitapp.watchkitextension") {
+            whichBundle = NSBundle.mainBundle();
+        } else {
+            whichBundle = NSBundle(identifier: "ch.opendata.timeforcoffee.timeforcoffeeKit" )
+        }
+        return whichBundle
+    }
+
+    private func getSqliteUrl() -> NSURL {
+        return self.applicationDocumentsDirectory.URLByAppendingPathComponent("SingleViewCoreData.sqlite")!
+
+    }
+
+    private func getNeededDBVersion() -> Int? {
+        if let bundle = getBundle() {
+            let filePath = bundle.pathForResource("TFC", ofType: "plist")!
+            return NSDictionary(contentsOfFile:filePath)?.valueForKey("dbVersion") as? Int
+        }
+        return nil
+    }
+
 
     func updateComplicationData() {
     }
@@ -550,7 +574,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
         #endif
     }
 
-    public func saveContext () {
+   /* public func saveContext () {
         if TFCDataStore.sharedInstance.managedObjectContext.hasChanges {
             do {
                 try TFCDataStore.sharedInstance.managedObjectContext.save()
@@ -562,6 +586,36 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
             }
         }
     }
+*/
+    public func saveContext(context: NSManagedObjectContext, root: Bool = false, callback:((Bool) -> Void)? = nil ) {
+        context.performBlock({
+            self.saveContextWithoutBlock(context)
+            callback?(false)
+        })
+        if (root) {
+            func callbackRoot(root:Bool) {
+                callback?(true)
+            }
+            if let parentContext = context.parentContext {
+                self.saveContext(parentContext, root: false, callback: callbackRoot)
+            }
+        }
+    }
+
+    public func saveContextWithoutBlock(context: NSManagedObjectContext) {
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                // Replace this implementation with code to handle the error appropriately.
+                // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                let nserror = error as NSError
+                DLog("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
+        }
+    }
+
+
 
     func fetchDepartureData() {
     }

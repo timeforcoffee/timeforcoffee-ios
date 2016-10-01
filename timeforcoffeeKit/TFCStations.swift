@@ -314,7 +314,7 @@ public final class TFCStations: NSObject, SequenceType, CollectionType, TFCLocat
             let pred = NSPredicate(format: "latitude BETWEEN {\(latMin), \(latMax)} AND  longitude BETWEEN {\(lonMin), \(lonMax)}")
 
             fetchRequest.predicate = pred
-            if let results = try TFCDataStoreBase.sharedInstance.managedObjectContext.executeFetchRequest(fetchRequest) as? [TFCStationModel] {
+            if let results = try TFCDataStoreBase.sharedInstance.mocObjects.executeFetchRequest(fetchRequest) as? [TFCStationModel] {
                 return results.filter({ (row) -> Bool in
                     return (row.id != nil)
                     }).map({ (row) -> String in

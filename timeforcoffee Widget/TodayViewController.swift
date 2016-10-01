@@ -173,6 +173,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
     override func awakeFromNib() {
         DLog("awakeFromNib")
+
         let userDefaults = TFCDataStore.sharedInstance.getUserDefaults()
 
         TFCFavorites.sharedInstance.doGeofences = false
@@ -180,29 +181,30 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         if let preferredHeight = userDefaults?.objectForKey("lastPreferredContentHeight") as? CGFloat {
             self.preferredContentSize = CGSize(width: CGFloat(0.0), height: preferredHeight)
         }
-        if (getLastUsedView() == "nearbyStations") {
-            showStations = true
-            populateStationsFromLastUsed()
-            dataIsFromInitCache = true
-        } else {
-            self.currentStation = self.lastViewedStation
-            if (self.currentStation != nil && self.currentStation?.getDepartures()?.count > 0) {
-                showStations = false
-                self.appsTableView?.reloadData()
-                // if lastUsedView is a single station and we did look at it no longer than
-                // 5 minutes ago, just show it again without even checking the location later
-                if (self.lastUsedViewUpdatedInterval() > -300) {
-                    self.dataIsFromInitCache = false
-                    self.currentStation?.updateDepartures(self)
-                } else {
-                    dataIsFromInitCache = true
-                }
+        TFCDataStore.sharedInstance.checkForDBUpdate(false) {
+            if (self.getLastUsedView() == "nearbyStations") {
+                self.showStations = true
+                self.populateStationsFromLastUsed()
+                self.dataIsFromInitCache = true
             } else {
-                self.currentStation = nil
-                showStations = false
+                self.currentStation = self.lastViewedStation
+                if (self.currentStation != nil && self.currentStation?.getDepartures()?.count > 0) {
+                    self.showStations = false
+                    self.appsTableView?.reloadData()
+                    // if lastUsedView is a single station and we did look at it no longer than
+                    // 5 minutes ago, just show it again without even checking the location later
+                    if (self.lastUsedViewUpdatedInterval() > -300) {
+                        self.dataIsFromInitCache = false
+                        self.currentStation?.updateDepartures(self)
+                    } else {
+                        self.dataIsFromInitCache = true
+                    }
+                } else {
+                    self.currentStation = nil
+                    self.showStations = false
+                }
             }
         }
-
         DLog("awakeFromNib")
     }
     
@@ -253,7 +255,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     override func viewDidDisappear(animated: Bool) {
         DLog("viewDidDisappear")
         TFCURLSession.sharedInstance.cancelURLSession()
-        TFCDataStore.sharedInstance.saveContext()
+        TFCDataStore.sharedInstance.saveContext(TFCDataStore.sharedInstance.mocObjects)
 
     }
     func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)) {
@@ -544,7 +546,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
     override func didReceiveMemoryWarning() {
         TFCCache.clearMemoryCache()
-        TFCDataStore.sharedInstance.saveContext()
+        TFCDataStore.sharedInstance.saveContext(TFCDataStore.sharedInstance.mocObjects)
         super.didReceiveMemoryWarning()
     }
     
