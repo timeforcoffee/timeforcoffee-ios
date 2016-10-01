@@ -130,7 +130,9 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
     public func startCrunchQueue(closure: (() -> Void)) {
         let queue:dispatch_queue_t
         if self.noCrunchQueue {
-            closure()
+            TFCDataStore.sharedInstance.mocObjects?.performBlockAndWait {
+                closure()
+            }
         } else {
             #if DEBUG
                 let stacktrace = NSThread.callStackSymbols()
@@ -147,7 +149,9 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
             TFCWatchData.crunchQueueTasks += 1
             dispatch_async(queue, {
                 DLog("crunchQueue started")
-                closure()
+                TFCDataStore.sharedInstance.mocObjects?.performBlockAndWait {
+                    closure()
+                }
                 TFCWatchData.crunchQueueTasks -= 1
             })
 

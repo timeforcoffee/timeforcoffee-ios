@@ -153,25 +153,27 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         [unowned self] in
 
         var returnObj:TFCStationModel? = nil
-        TFCDataStore.sharedInstance.mocObjects.performBlockAndWait {
-            let fetchRequest = NSFetchRequest(entityName: "TFCStationModel")
-            do {
-                let pred = NSPredicate(format: "id == %@", self.st_id)
-                fetchRequest.predicate = pred
-                if let results = try TFCDataStore.sharedInstance.mocObjects.executeFetchRequest(fetchRequest) as? [TFCStationModel] {
-                    if let first = results.first {
-                        returnObj = first
-                        return
+        if let moc = TFCDataStore.sharedInstance.mocObjects {
+            moc.performBlockAndWait {
+                let fetchRequest = NSFetchRequest(entityName: "TFCStationModel")
+                do {
+                    let pred = NSPredicate(format: "id == %@", self.st_id)
+                    fetchRequest.predicate = pred
+                    if let results = try moc.executeFetchRequest(fetchRequest) as? [TFCStationModel] {
+                        if let first = results.first {
+                            returnObj = first
+                            return
+                        }
                     }
+                } catch let error as NSError {
+                    DLog("Could not fetch \(error), \(error.userInfo)")
                 }
-            } catch let error as NSError {
-                DLog("Could not fetch \(error), \(error.userInfo)")
-            }
 
-            if let obj = NSEntityDescription.insertNewObjectForEntityForName("TFCStationModel", inManagedObjectContext: TFCDataStore.sharedInstance.mocObjects) as? TFCStationModel {
-                obj.id = self.st_id
-                returnObj = obj
-                return
+                if let obj = NSEntityDescription.insertNewObjectForEntityForName("TFCStationModel", inManagedObjectContext: moc) as? TFCStationModel {
+                    obj.id = self.st_id
+                    returnObj = obj
+                    return
+                }
             }
         }
         return returnObj

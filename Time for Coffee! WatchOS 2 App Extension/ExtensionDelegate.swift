@@ -20,6 +20,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     lazy var watchdata: TFCWatchData = {
         return TFCWatchData()
     }()
+    private lazy var dispatchTime = { return dispatch_time(DISPATCH_TIME_NOW, Int64(6.0 * Double(NSEC_PER_SEC))) }()
 
     var tickStart:NSDate? = nil
     func applicationDidFinishLaunching() {
@@ -52,10 +53,14 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 
             }
         }
+        // wait until db is setup
+        dispatch_group_wait(TFCDataStore.sharedInstance.myCoreDataStackSetupGroup, self.dispatchTime)
     }
 
     func applicationDidBecomeActive() {
         DLog("__", toFile: true)
+        // wait until db is setup
+        dispatch_group_wait(TFCDataStore.sharedInstance.myCoreDataStackSetupGroup, self.dispatchTime)
         TFCWatchDataFetch.sharedInstance.fetchDepartureData()
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
             TFCDataStore.sharedInstance.registerWatchConnectivity()
@@ -81,7 +86,9 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         { expired in
             if !expired {
 
-                TFCDataStore.sharedInstance.saveContext(TFCDataStore.sharedInstance.mocObjects)
+                if let moc = TFCDataStore.sharedInstance.mocObjects {
+                    TFCDataStore.sharedInstance.saveContext(moc)
+                }
                 SendLogs2Phone()
             } else {
                 DLog("applicationWillResignActive expired", toFile: true)

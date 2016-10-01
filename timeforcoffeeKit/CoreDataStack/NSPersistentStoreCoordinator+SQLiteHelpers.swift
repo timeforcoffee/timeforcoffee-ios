@@ -36,7 +36,12 @@ public extension NSPersistentStoreCoordinator {
     public class func setupSQLiteBackedCoordinator(managedObjectModel: NSManagedObjectModel,
                                                    storeFileURL: NSURL,
                                                    completion: (CoreDataStack.CoordinatorResult) -> Void) {
-        let backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)
+        // added by chregu. on watchOS run it on high priority, so that it actually finishes
+        #if os(watchOS)
+            let backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)
+        #else
+            let backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)
+        #endif
         dispatch_async(backgroundQueue) {
             do {
                 let coordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
