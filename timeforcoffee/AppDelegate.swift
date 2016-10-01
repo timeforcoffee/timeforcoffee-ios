@@ -53,7 +53,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         DLog("WARNING: applicationDidReceiveMemoryWarning", toFile: true)
         TFCFavorites.sharedInstance.clearStationCache()
         GATracker.sharedInstance?.deinitTracker()
-        TFCDataStore.sharedInstance.saveContext(TFCDataStore.sharedInstance.mocObjects)
+        if let moc = TFCDataStore.sharedInstance.mocObjects {
+            TFCDataStore.sharedInstance.saveContext(moc)
+        }
     }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -238,7 +240,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-        TFCDataStore.sharedInstance.saveContext(TFCDataStore.sharedInstance.mocObjects)
+        if let moc = TFCDataStore.sharedInstance.mocObjects {
+            TFCDataStore.sharedInstance.saveContext(moc)
+        }
     }
 
     func applicationWillEnterForeground(application: UIApplication) {
@@ -257,7 +261,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-        TFCDataStore.sharedInstance.saveContext(TFCDataStore.sharedInstance.mocObjects)
+        if let moc = TFCDataStore.sharedInstance.mocObjects {
+            TFCDataStore.sharedInstance.saveContext(moc)
+        }
     }
 
     @available(iOS 9.0, *)

@@ -273,8 +273,9 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     override func viewDidDisappear(animated: Bool) {
         DLog("viewDidDisappear")
         TFCURLSession.sharedInstance.cancelURLSession()
-        TFCDataStore.sharedInstance.saveContext(TFCDataStore.sharedInstance.mocObjects)
-
+        if let moc = TFCDataStore.sharedInstance.mocObjects {
+            TFCDataStore.sharedInstance.saveContext(moc)
+        }
     }
     func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)) {
         // Perform any setup necessary in order to update the view.
@@ -609,7 +610,9 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
     override func didReceiveMemoryWarning() {
         TFCCache.clearMemoryCache()
-        TFCDataStore.sharedInstance.saveContext(TFCDataStore.sharedInstance.mocObjects)
+        if let moc = TFCDataStore.sharedInstance.mocObjects {
+            TFCDataStore.sharedInstance.saveContext(moc)
+        }
         super.didReceiveMemoryWarning()
     }
     

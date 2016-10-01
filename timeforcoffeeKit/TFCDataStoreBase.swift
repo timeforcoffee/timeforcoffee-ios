@@ -26,12 +26,15 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
 
     private lazy var dispatchTime = { return dispatch_time(DISPATCH_TIME_NOW, Int64(10.0 * Double(NSEC_PER_SEC))) }()
 
-    public var mocObjects: NSManagedObjectContext {
+    public var mocObjects: NSManagedObjectContext? {
         get {
             dispatch_group_wait(self.myCoreDataStackSetupGroup, dispatchTime)
-            let ctx = self.myCoreDataStack!.mainQueueContext
-            ctx.stalenessInterval = 0
-            return ctx
+            if let stack = self.myCoreDataStack {
+                let ctx = stack.mainQueueContext
+                ctx.stalenessInterval = 0
+                return ctx
+            }
+            return nil
         }
     }
 
@@ -411,15 +414,19 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
         DLog("dispatch_group_enter")
         dispatch_group_enter(self.myCoreDataStackSetupGroup)
         self.checkForSqlite()
-        CoreDataStack.constructSQLiteStack(withModelName: "DataModels", inBundle: self.getBundle()!, withStoreURL: self.getSqliteUrl()) { (result) in
+        DLog("sqlite installed")
+        // Call the callback as high prio. We wait for it anyway...
+        let queue:dispatch_queue_t = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)
+
+        CoreDataStack.constructSQLiteStack(withModelName: "DataModels", inBundle: self.getBundle()!, withStoreURL: self.getSqliteUrl(), callbackQueue: queue) { (result) in
             switch result {
             case .Success(let stack):
                 self.myCoreDataStack = stack
             case .Failure(let error):
-                DLog(error)
+                DLog("dispatch error: \(error)")
             }
-            dispatch_group_leave(self.myCoreDataStackSetupGroup)
             DLog("dispatch_group_leave")
+            dispatch_group_leave(self.myCoreDataStackSetupGroup)
 
             /*if (DBUpdate) {
                 if let neededDBVersion = self.getNeededDBVersion() {
