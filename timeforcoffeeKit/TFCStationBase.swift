@@ -157,27 +157,29 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     private lazy var realmObject:TFCStationModel? = {
         [unowned self] in
 
-        let fetchRequest = NSFetchRequest(entityName: "TFCStationModel")
-        do {
-            let pred = NSPredicate(format: "id == %@", self.st_id)
-            fetchRequest.predicate = pred
-            if let results = try TFCDataStore.sharedInstance.managedObjectContext.executeFetchRequest(fetchRequest) as? [TFCStationModel] {
-                if let first = results.first {
-                    return first
+        var returnObj:TFCStationModel? = nil
+        TFCDataStore.sharedInstance.mocObjects.performBlockAndWait {
+            let fetchRequest = NSFetchRequest(entityName: "TFCStationModel")
+            do {
+                let pred = NSPredicate(format: "id == %@", self.st_id)
+                fetchRequest.predicate = pred
+                if let results = try TFCDataStore.sharedInstance.mocObjects.executeFetchRequest(fetchRequest) as? [TFCStationModel] {
+                    if let first = results.first {
+                        returnObj = first
+                        return
+                    }
                 }
+            } catch let error as NSError {
+                DLog("Could not fetch \(error), \(error.userInfo)")
             }
-        } catch let error as NSError {
-            DLog("Could not fetch \(error), \(error.userInfo)")
-        }
 
-        if let obj = NSEntityDescription.insertNewObjectForEntityForName("TFCStationModel", inManagedObjectContext: TFCDataStore.sharedInstance.managedObjectContext) as? TFCStationModel {
-            obj.id = self.st_id
-            return obj
+            if let obj = NSEntityDescription.insertNewObjectForEntityForName("TFCStationModel", inManagedObjectContext: TFCDataStore.sharedInstance.mocObjects) as? TFCStationModel {
+                obj.id = self.st_id
+                returnObj = obj
+                return
+            }
         }
-        #if DEBUG
-            DLog("WARNING: realmObject IS NIL!!!! ", toFile: true)
-        #endif
-        return nil
+        return returnObj
     }()
 
 
