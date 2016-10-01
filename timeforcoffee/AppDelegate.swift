@@ -80,6 +80,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let gtracker = GATracker.sharedInstance
         gtracker.setCustomDimension(7, value: "yes")
+        gtracker.setCustomDimension(9, value: UIDevice.currentDevice().systemVersion)
         #if !((arch(i386) || arch(x86_64)) && os(iOS))
         Fabric.with([Crashlytics.self])
         #endif
@@ -119,7 +120,6 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202775921-Is-there-a-map-view-somewhere-")
             recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202772511-Who-is-behind-Time-for-Coffee-")
 */
-            gtracker.setCustomDimension(9, value: UIDevice.currentDevice().systemVersion)
             if let currentUser = SKTUser.currentUser() {
                 if (userdefaults?.objectForKey("favorites2") != nil) {
                     currentUser.addProperties(["usedFavorites": true])
