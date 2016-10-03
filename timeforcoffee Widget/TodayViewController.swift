@@ -38,7 +38,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     }()
 
 
-//    private lazy var dispatchTime = { return dispatch_time(DISPATCH_TIME_NOW, Int64(6.0 * Double(NSEC_PER_SEC))) }()
+    private lazy var dispatchTime = { return dispatch_time(DISPATCH_TIME_NOW, Int64(6.0 * Double(NSEC_PER_SEC))) }()
 
     var networkErrorMsg: String?
     lazy var numberOfCells:Int = {
@@ -223,6 +223,11 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                 }
             }
         }
+        DLog("__", toFile: true)
+        // wait until db is setup
+        dispatch_group_wait(TFCDataStore.sharedInstance.myCoreDataStackSetupGroup, self.dispatchTime)
+        DLog("__", toFile: true)
+
         DLog("awakeFromNib")
     }
     
@@ -282,19 +287,21 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         // If an error is encountered, use NCUpdateResult.Failed
         // If there's no update required, use NCUpdateResult.NoData
         // If there's an update, use NCUpdateResult.NewData
-        DLog("widgetPerformUpdateWithCompletionHandler")
+        DLog("widgetPerformUpdateWithCompletionHandler", toFile: true)
         self.completionHandlerCallback = completionHandler
+        guard self.datastore.checkForCoreDataStackSetup(
+            self,
+            selector: #selector(self.updateViewAfterStart(_:))
+            ) else {
+                return
+        }
         updateViewAfterStart()
     }
 
     func updateViewAfterStart(notification:NSNotification? = nil) {
         if let notification = notification {
-            DLog("was notified", toFile: true)
             NSNotificationCenter.defaultCenter().removeObserver(self, name: notification.name, object: nil)
         }
-        DLog("sendCompletionHandler", toFile: true)
-
-        self.sendCompletionHandler()
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             DLog("updateViewAfterStart", toFile: true)

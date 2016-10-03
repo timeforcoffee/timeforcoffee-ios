@@ -142,10 +142,18 @@ final public class TFCFavorites: NSObject {
         return nil
     }
 
+    public func updateGeofencesCoreDataCallback(notification:NSNotification) {
+        updateGeofences()
+    }
+
     public func updateGeofences(force force:Bool = true) {
         if #available(iOSApplicationExtension 9.0, *) {
             #if os(iOS)
                 if (self.doGeofences) {
+                    guard TFCDataStore.sharedInstance.checkForCoreDataStackSetup(
+                        self,
+                        selector: #selector(self.updateGeofencesCoreDataCallback(_:))
+                        ) else { return }
                     dispatch_async(dispatch_get_main_queue()) {
 
                         let currLoc = TFCLocationManager.getCurrentLocation()
@@ -162,7 +170,6 @@ final public class TFCFavorites: NSObject {
                         } else {
                             DLog("fence: No lastGeofenceUpdate was set", toFile: true)
                         }
-                        self.lastGeofenceUpdate = currLoc
 
                         let locationManager = CLLocationManager()
                         DLog("updateGeofences", toFile: true)
@@ -173,6 +180,8 @@ final public class TFCFavorites: NSObject {
                         let radius = 1000.0
                         var nearestStationId:String? = nil
                         if TFCDataStore.sharedInstance.complicationEnabled() {
+                            self.lastGeofenceUpdate = currLoc
+
                             DLog("# of favorite stations before \(self.stations.count)", toFile: true)
                             self.repopulateFavorites()
                             DLog("# of favorite stations after \(self.stations.count)", toFile: true)

@@ -20,7 +20,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
 
     let lockQueue = dispatch_queue_create("group.ch.opendata.timeforcoffee.notificationLock", DISPATCH_QUEUE_SERIAL)
 
-    var myCoreDataStackSetupGroup = dispatch_group_create()
+    public var myCoreDataStackSetupGroup = dispatch_group_create()
 
     private var myCoreDataStack:CoreDataStack?
 
@@ -36,6 +36,23 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
             }
             return nil
         }
+    }
+
+    public func coreDataStackIsSetup() -> Bool {
+        return (myCoreDataStack != nil)
+    }
+
+
+    public func checkForCoreDataStackSetup(receiver: AnyObject, selector: Selector) -> Bool {
+        if (!self.coreDataStackIsSetup()) {
+            NSNotificationCenter.defaultCenter().addObserver(
+                receiver,
+                selector: selector,
+                name: "TFCCoreDataStackSetup",
+                object: nil)
+            return false
+        }
+        return true
     }
 
     private let userDefaults: NSUserDefaults? = NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee")
@@ -427,6 +444,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
             }
             DLog("dispatch_group_leave")
             dispatch_group_leave(self.myCoreDataStackSetupGroup)
+            NSNotificationCenter.defaultCenter().postNotificationName("TFCCoreDataStackSetup", object: nil, userInfo: nil)
 
             /*if (DBUpdate) {
                 if let neededDBVersion = self.getNeededDBVersion() {
@@ -454,7 +472,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
             var forceInstall = false
             let neededDBVersion = self.getNeededDBVersion()
             if let neededDBVersion = neededDBVersion {
-                let installedDBVersion = self.localUserDefaults?.integerForKey("installedDBVersion")
+                let installedDBVersion = self.userDefaults?.integerForKey("installedDBVersion")
                 if (installedDBVersion == nil || neededDBVersion != installedDBVersion) {
                     forceInstall = true
                 }
@@ -472,8 +490,8 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
 
                 }
                 if let neededDBVersion = self.getNeededDBVersion() {
-                    self.localUserDefaults?.setInteger(neededDBVersion, forKey: "installedDBVersion")
-                    self.localUserDefaults?.synchronize()
+                    self.userDefaults?.setInteger(neededDBVersion, forKey: "installedDBVersion")
+                    self.userDefaults?.synchronize()
                 }
             }
         }
@@ -526,13 +544,11 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
     public func sendComplicationUpdate(station: TFCStation?, coord: CLLocationCoordinate2D? = nil) {
         #if os(iOS)
             if #available(iOS 9, *) {
-                if (WCSession.isSupported()) {
-                    if (self.session?.complicationEnabled == true) {
-                        if let firstStation = station, ud = TFCDataStore.sharedInstance.getUserDefaults() {
-                            if (ud.stringForKey("lastFirstStationId") != firstStation.st_id) {
-                                DLog("update Departures for \(firstStation.name)")
-                                firstStation.updateDepartures(self, context: ["coordinates": coord])
-                            }
+                if (self.complicationEnabled() == true) {
+                    if let firstStation = station, ud = TFCDataStore.sharedInstance.getUserDefaults() {
+                        if (ud.stringForKey("lastFirstStationId") != firstStation.st_id) {
+                            DLog("update Departures for \(firstStation.name)")
+                            firstStation.updateDepartures(self, context: ["coordinates": coord])
                         }
                     }
                 }

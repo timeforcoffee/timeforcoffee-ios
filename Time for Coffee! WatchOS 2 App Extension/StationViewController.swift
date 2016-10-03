@@ -133,7 +133,19 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         super.didDeactivate()
     }
 
+    func setStationValuesCallback(notification:NSNotification) {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: notification.name, object: nil)
+        setStationValues()
+    }
+    
     private func setStationValues() {
+        guard TFCDataStore.sharedInstance.checkForCoreDataStackSetup(
+            self,
+            selector: #selector(self.setStationValuesCallback(_:))
+            ) else { return }
+
+
+
         let isInBackground:Bool
 
         if #available(watchOSApplicationExtension 3.0, *) {

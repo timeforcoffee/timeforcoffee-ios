@@ -63,10 +63,21 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
         super.viewWillAppear(animated)
     }
 
+
+    func refreshFromCoreDataSetup(notification: NSNotification) {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: notification.name, object: nil)
+        self.viewDidLoad()
+    }
+
+
     override func viewDidLoad() {
         DLog("viewDidLoad")
         super.viewDidLoad()
         self.edgesForExtendedLayout = UIRectEdge.None;
+        guard TFCDataStore.sharedInstance.checkForCoreDataStackSetup(
+            self,
+            selector: #selector(self.refreshFromCoreDataSetup(_:))
+            ) else { return }
 
         nameLabel.text = self.station?.name
         let currentLocation = TFCLocationManager.getCurrentLocation()
