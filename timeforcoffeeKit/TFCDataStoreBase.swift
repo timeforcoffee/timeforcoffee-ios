@@ -49,6 +49,18 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
         }
         // make sure complications are updated as soon as possible with the new values
         userDefaults?.setObject(nil, forKey: "lastComplicationUpdate")
+        if let ud = NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee"),
+            lastComplicationStationId = ud.stringForKey("lastComplicationStationId")
+        {
+            if (forKey == "favorite\(lastComplicationStationId)") {
+                DLog("updateComplicationData for \(forKey) since favorites changed")
+                let st = TFCStation.initWithCacheId(lastComplicationStationId)
+                st.repopulateFavoriteLines()
+                st.needsCacheSave = true
+                TFCStationBase.saveToPincache(st)
+                updateComplicationData()
+            }
+        }
     }
 
     func objectForKey(forKey: String) -> AnyObject? {
@@ -172,11 +184,6 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
 
     @available(iOSApplicationExtension 9.0, *)
     public func session(session: WCSession, didReceiveUserInfo userInfo: [String : AnyObject]) {
-        for (myKey,_) in userInfo {
-            if (myKey != "__logThis__") {
-                DLog("didReceiveUserInfo: \(myKey)", toFile: true)
-            }
-        }
         parseReceiveInfo(userInfo)
     }
 

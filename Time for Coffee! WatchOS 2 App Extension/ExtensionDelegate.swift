@@ -28,25 +28,26 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
             TFCDataStore.sharedInstance.registerWatchConnectivity()
             /* Request for all Favorite Data every 24 hours (or if never done)
-                I'm not sure, how reliable the WatchConnectivity is and if never
-                gets a message lost, so let's sync every 24 hours. Shouldn't be
-                that much data anyway
-            
-                Or if we never did get a allDataResponse, do it every time until we get one.
-            */
+             I'm not sure, how reliable the WatchConnectivity is and if never
+             gets a message lost, so let's sync every 24 hours. Shouldn't be
+             that much data anyway
+
+             Or if we never did get a allDataResponse, do it every time until we get one.
+             */
 
             let lastRequest = self.lastRequestForAllData()
             let allDataResponseSent = TFCDataStore.sharedInstance.getUserDefaults()?.boolForKey("allDataResponseSent")
             if (allDataResponseSent != true || lastRequest == nil || lastRequest < -(24 * 60 * 60)) {
-                var delayItBy = 1.0
+                var delayItBy = 6.0
                 /* if it's a daily update, delay it by 10 seconds, to have other requests (like location updates from the phone) give some time to be handled before */
                 if (lastRequest != nil) {
-                    delayItBy = 10.0
+                    delayItBy = 6.0
                 }
                 delay(delayItBy, closure: {
                     TFCDataStore.sharedInstance.requestAllDataFromPhone()
                 })
                 TFCDataStore.sharedInstance.getUserDefaults()?.setObject(NSDate(), forKey: "lastRequestForAllData")
+
             }
 
         }

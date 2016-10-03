@@ -570,6 +570,10 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         return getMarkedLinesShared(true)
     }
 
+    public func repopulateFavoriteLines() {
+        self.favoriteLines = self.getFavoriteLines()
+    }
+
     private func getFilteredLines() -> [String: [String: Bool]] {
         return getMarkedLinesShared(false)
     }
