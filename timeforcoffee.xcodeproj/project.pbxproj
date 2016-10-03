@@ -293,6 +293,7 @@
 		EC0E4D581BCBB09F0046D70C /* SingleViewCoreData.sqlite-shm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "SingleViewCoreData.sqlite-shm"; sourceTree = "<group>"; };
 		EC0E4D591BCBB09F0046D70C /* SingleViewCoreData.sqlite-wal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "SingleViewCoreData.sqlite-wal"; sourceTree = "<group>"; };
 		EC1834D81BCADA0E008B44F3 /* SingleViewCoreData.sqlite */ = {isa = PBXFileReference; lastKnownFileType = text; path = SingleViewCoreData.sqlite; sourceTree = "<group>"; };
+		EC1862CB1DA2BB0A002A8A91 /* BreakBackgroundUIDraws.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BreakBackgroundUIDraws.m; sourceTree = "<group>"; };
 		EC18AA921BE4067000488DC4 /* TFCDeparturePass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCDeparturePass.swift; sourceTree = "<group>"; };
 		EC1B2F4E1D82AC9E00399F60 /* TFCWatchDataFetch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCWatchDataFetch.swift; sourceTree = "<group>"; };
 		EC28EA451BD3E3F0004977B0 /* DataModels 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DataModels 2.xcdatamodel"; sourceTree = "<group>"; };
@@ -596,6 +597,7 @@
 			children = (
 				EC4AB2261BB5E40200DA9759 /* timeforcoffee Widget.entitlements */,
 				EC46C50D1BB5C71100F2A963 /* TodayViewController.swift */,
+				EC1862CB1DA2BB0A002A8A91 /* BreakBackgroundUIDraws.m */,
 				EC4AB2281BB5E74100DA9759 /* NearbyStationsTableViewCell.swift */,
 				EC46C50F1BB5C71100F2A963 /* MainInterface.storyboard */,
 				EC46C5121BB5C71100F2A963 /* Info.plist */,

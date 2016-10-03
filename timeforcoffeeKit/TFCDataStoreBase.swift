@@ -28,7 +28,6 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
 
     public var mocObjects: NSManagedObjectContext? {
         get {
-            dispatch_group_wait(self.myCoreDataStackSetupGroup, dispatchTime)
             if let stack = self.myCoreDataStack {
                 let ctx = stack.mainQueueContext
                 ctx.stalenessInterval = 0

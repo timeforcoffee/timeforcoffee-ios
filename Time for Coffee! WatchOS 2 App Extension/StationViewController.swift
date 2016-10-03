@@ -22,6 +22,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     var numberOfRows: Int = 0
     var initTable = false
     var userActivity: [String:String]?
+    private lazy var dispatchTime = { return dispatch_time(DISPATCH_TIME_NOW, Int64(15.0 * Double(NSEC_PER_SEC))) }()
 
     @IBOutlet weak var infoGroup: WKInterfaceGroup!
     @IBOutlet weak var infoLabel: WKInterfaceLabel!
@@ -226,6 +227,9 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         if (notification.userInfo == nil) {
             station = nil
         } else {
+            // as a precaution, we check if core data is setup and if not, wait until it is.
+            // the better way would be to listen to the DB Setup event up in the stack
+            dispatch_group_wait(TFCDataStore.sharedInstance.myCoreDataStackSetupGroup, dispatchTime)
             let uI:[String:String]? = notification.userInfo as? [String:String]
             if let st_id = uI?["st_id"] {
                 if (self.station == nil) {
