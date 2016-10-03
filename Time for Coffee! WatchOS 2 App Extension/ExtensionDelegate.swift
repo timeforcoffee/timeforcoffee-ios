@@ -40,10 +40,10 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 let lastRequest = self.lastRequestForAllData()
                 let allDataResponseSent = TFCDataStore.sharedInstance.getUserDefaults()?.boolForKey("allDataResponseSent")
                 if (allDataResponseSent != true || lastRequest == nil || lastRequest < -(24 * 60 * 60)) {
-                    var delayItBy = 1.0
+                    var delayItBy = 6.0
                     /* if it's a daily update, delay it by 10 seconds, to have other requests (like location updates from the phone) give some time to be handled before */
                     if (lastRequest != nil) {
-                        delayItBy = 2.0
+                        delayItBy = 6.0
                     }
                     delay(delayItBy, closure: {
                         TFCDataStore.sharedInstance.requestAllDataFromPhone()
