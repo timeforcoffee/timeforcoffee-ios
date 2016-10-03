@@ -108,7 +108,11 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
     var _calculatedDistanceLastCoord: CLLocation? = nil
 
-    var walkingDistanceString: String? = nil
+    var walkingDistanceString: String? = nil {
+        didSet {
+            self.needsCacheSave = true
+        }
+    }
     var walkingDistanceLastCoord: CLLocation? = nil
     public var lastDepartureUpdate: NSDate? = nil
     private var lastDepartureCount: Int? = nil
@@ -261,7 +265,9 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             if (saveStation.needsCacheSave)  {
                 DLog("set PinCache for \(saveStation.name)", toFile: true)
                 cache.setObject(saveStation, forKey: saveStation.st_id)
+                saveStation.needsCacheSave = false
             }
+
         }
     }
 
