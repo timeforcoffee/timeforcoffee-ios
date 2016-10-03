@@ -85,6 +85,9 @@ final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataS
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if (!TFCDataStore.sharedInstance.coreDataStackIsSetup()) {
+            return 1
+        }
         if (stations.count() == nil || stations.count() == 0) {
             if (stations.isLoading || stations.networkErrorMsg != nil) {
                 return 1
@@ -102,13 +105,19 @@ final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataS
         let textLabel = cell.StationNameLabel
         let detailTextLabel = cell.StationDescriptionLabel
 
-        let stationsCount = stations.count()
-
+        var stationsCount:Int? = nil
+        if (TFCDataStore.sharedInstance.coreDataStackIsSetup()) {
+            stationsCount = stations.count()
+        } else {
+            DLog("coreDataStackIsSetup is not setup")
+        }
         if (stationsCount == nil || stationsCount == 0) {
             cell.userInteractionEnabled = false;
             if (stationsCount == nil) {
                 textLabel?.text = NSLocalizedString("Loading", comment: "Loading ..")
-                detailTextLabel?.text = stations.loadingMessage
+                if (TFCDataStore.sharedInstance.coreDataStackIsSetup()) {
+                    detailTextLabel?.text = stations.loadingMessage
+                }
             } else {
                 textLabel?.text = NSLocalizedString("No stations found.", comment: "")
                 detailTextLabel.text = stations.networkErrorMsg

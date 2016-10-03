@@ -184,34 +184,31 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             self.preferredContentSize = CGSize(width: CGFloat(0.0), height: preferredHeight)
         }
         TFCDataStore.sharedInstance.checkForDBUpdate(false) {
-            if (self.getLastUsedView() == "nearbyStations") {
-                self.showStations = true
-                self.populateStationsFromLastUsed()
-                self.dataIsFromInitCache = true
-            } else {
-                self.currentStation = self.lastViewedStation
-                if (self.currentStation != nil && self.currentStation?.getDepartures()?.count > 0) {
-                    self.showStations = false
-                    self.appsTableView?.reloadData()
-                    // if lastUsedView is a single station and we did look at it no longer than
-                    // 5 minutes ago, just show it again without even checking the location later
-                    if (self.lastUsedViewUpdatedInterval() > -300) {
-                        self.dataIsFromInitCache = false
-                        self.currentStation?.updateDepartures(self)
-                    } else {
-                        self.dataIsFromInitCache = true
-                    }
+            dispatch_sync(dispatch_get_main_queue()) {
+                if (self.getLastUsedView() == "nearbyStations") {
+                    self.showStations = true
+                    self.populateStationsFromLastUsed()
+                    self.dataIsFromInitCache = true
                 } else {
-                    self.currentStation = nil
-                    self.showStations = false
+                    self.currentStation = self.lastViewedStation
+                    if (self.currentStation != nil && self.currentStation?.getDepartures()?.count > 0) {
+                        self.showStations = false
+                        self.appsTableView?.reloadData()
+                        // if lastUsedView is a single station and we did look at it no longer than
+                        // 5 minutes ago, just show it again without even checking the location later
+                        if (self.lastUsedViewUpdatedInterval() > -300) {
+                            self.dataIsFromInitCache = false
+                            self.currentStation?.updateDepartures(self)
+                        } else {
+                            self.dataIsFromInitCache = true
+                        }
+                    } else {
+                        self.currentStation = nil
+                        self.showStations = false
+                    }
                 }
             }
         }
-        DLog("__", toFile: true)
-        // wait until db is setup
-        dispatch_group_wait(TFCDataStore.sharedInstance.myCoreDataStackSetupGroup, self.dispatchTime)
-        DLog("__", toFile: true)
-
         DLog("awakeFromNib")
     }
     

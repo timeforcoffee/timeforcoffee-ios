@@ -154,7 +154,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     private var realmObject:TFCStationModel? {
         get {
 
-            if _realmObject != nil { return _realmObject }
+            if (_realmObject != nil &&  _realmObject?.faultingState == 0) { return _realmObject }
 
             if let moc = TFCDataStore.sharedInstance.mocObjects {
                 moc.performBlockAndWait {

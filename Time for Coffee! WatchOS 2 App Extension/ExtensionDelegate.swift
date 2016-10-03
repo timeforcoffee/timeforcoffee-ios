@@ -43,7 +43,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                     var delayItBy = 1.0
                     /* if it's a daily update, delay it by 10 seconds, to have other requests (like location updates from the phone) give some time to be handled before */
                     if (lastRequest != nil) {
-                        delayItBy = 10.0
+                        delayItBy = 2.0
                     }
                     delay(delayItBy, closure: {
                         TFCDataStore.sharedInstance.requestAllDataFromPhone()
@@ -143,6 +143,16 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         return nil
     }
 
+    func fetchLastFirstStationId(notification: NSNotification? = nil) {
+        if let notification = notification {
+            NSNotificationCenter.defaultCenter().removeObserver(self, name: notification.name, object: nil)
+        }
+
+        if let lastId = NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee")?.stringForKey("lastFirstStationId") {
+            TFCWatchDataFetch.sharedInstance.fetchDepartureDataForStation(TFCStation.initWithCacheId(lastId))
+        }
+    }
+
     func handleUserActivity(userInfo: [NSObject : AnyObject]?) {
         DLog("handleUserActivity \(userInfo)", toFile: true)
 
@@ -153,13 +163,21 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 if let lastId = NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee")?.stringForKey("lastFirstStationId") {
                     uI = ["st_id": lastId]
                     DLog("\(uI)", toFile: true)
-                    TFCWatchDataFetch.sharedInstance.fetchDepartureDataForStation(TFCStation.initWithCacheId(lastId))
+
+                    if (TFCDataStore.sharedInstance.checkForCoreDataStackSetup(
+                        self,
+                        selector: #selector(self.fetchLastFirstStationId(_:))
+                    )) {
+                        fetchLastFirstStationId()
+                    }
                 }
             } else {
                 uI = userInfo as? [String:String]
                 DLog("handleUserActivity StationViewController")
             }
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
             NSNotificationCenter.defaultCenter().postNotificationName("TFCWatchkitSelectStation", object: nil, userInfo: uI)
+            }
         }
     }
 
