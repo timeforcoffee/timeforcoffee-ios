@@ -655,7 +655,10 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                 return s1.getScheduledTimeAsNSDate() < s2.getScheduledTimeAsNSDate()
             })
             var i = 0
-            let aMinuteAgo = NSDate().dateByAddingTimeInterval(-60)
+            //dont add departures which may go away pretty soon anyway again
+            // that's why we only go back 50 seconds and not the full 60
+            
+            let aMinuteAgo = NSDate().dateByAddingTimeInterval(-50)
             for departure in sorted {
                 if (departure.getScheduledTimeAsNSDate() < aMinuteAgo) {
                     sorted.removeAtIndex(i)
