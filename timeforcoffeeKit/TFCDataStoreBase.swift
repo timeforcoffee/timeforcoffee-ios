@@ -30,12 +30,12 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
     public var localNotificationCallback:((String?) -> Void)? = nil
 
     @available(iOSApplicationExtension 9.0, *)
-    public var session: WCSession? {
+    public lazy var session: WCSession? = {
         if (WCSession.isSupported()) {
             return WCSession.defaultSession()
         }
         return nil
-    }
+    }()
 
 
     func setObject(anObject: AnyObject?, forKey: String, withWCTransfer: Bool = true) {
@@ -213,12 +213,10 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
         // if we have too many outstandingUserInfoTransfers, something is wrong, try to send as sendMessage as alternative
 
         var sessionActive = true
-
         if #available(iOSApplicationExtension 9.3, *) {
             sessionActive = (self.session?.activationState == .Activated)
         }
-
-        if (sessionActive || retryCounter > 15) {
+        if (sessionActive) {
             if (self.session?.reachable == true && (trySendMessage || self.session?.outstandingUserInfoTransfers.count > 10)) {
                 DLog("outstanding UserInfoTransfers \(self.session?.outstandingUserInfoTransfers.count )")
                 self.session?.sendMessage(message, replyHandler: nil, errorHandler: {(error: NSError) in
@@ -228,15 +226,6 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
             } else {
                 self.session?.transferUserInfo(message)
             }
-        } else {
-            delay(3.0, closure: {
-                let newCounter = retryCounter + 1
-                if (retryCounter > 7) {
-                    self.session?.activateSession()
-                }
-                DLog("Session not active, retry #\(newCounter)", toFile: true)
-                self.sendData( message, trySendMessage: trySendMessage, retryCounter: newCounter)
-            })
         }
     }
 
