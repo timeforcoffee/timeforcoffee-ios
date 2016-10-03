@@ -20,8 +20,9 @@ private struct Constants {
 class ComplicationController: NSObject, CLKComplicationDataSource, TFCDeparturesUpdatedProtocol {
     
     // MARK: - Timeline Configuration
-    
-    lazy var watchdata: TFCWatchData = { 
+    private lazy var dispatchTime = { return dispatch_time(DISPATCH_TIME_NOW, Int64(15.0 * Double(NSEC_PER_SEC))) }()
+
+    lazy var watchdata: TFCWatchData = {
         let watchdata = TFCWatchData()
         watchdata.noCrunchQueue = true
         return watchdata
@@ -55,6 +56,8 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     
     func getTimelineEndDateForComplication(complication: CLKComplication, withHandler handler: (NSDate?) -> Void) {
         DLog("started getTimelineEndDateForComplication", toFile: true)
+        dispatch_group_wait(TFCDataStore.sharedInstance.myCoreDataStackSetupGroup, self.dispatchTime)
+
         func handleReply(stations: TFCStations?) {
             if let station = stations?.first {
                 let departures = station.getScheduledFilteredDepartures()
@@ -97,6 +100,8 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     
     func getCurrentTimelineEntryForComplication(complication: CLKComplication, withHandler handler: ((CLKComplicationTimelineEntry?) -> Void)) {
         DLog("started getCurrentTimelineEntryForComplication", toFile: true)
+        dispatch_group_wait(TFCDataStore.sharedInstance.myCoreDataStackSetupGroup, self.dispatchTime)
+
         // Take the first entry before the current date
         getTimelineEntriesForComplication(complication, beforeDate: NSDate(), limit: 1) { (entries) -> Void in
             handler(entries?.first)
@@ -107,6 +112,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     func getTimelineEntriesForComplication(complication: CLKComplication, beforeDate date: NSDate, limit: Int, withHandler handler: (([CLKComplicationTimelineEntry]?) -> Void)) {
         // Call the handler with the timeline entries after to the given date
         DLog("started getTimelineEntriesForComplication beforeDate \(date)", toFile: true)
+        dispatch_group_wait(TFCDataStore.sharedInstance.myCoreDataStackSetupGroup, self.dispatchTime)
         func handleReply(stations: TFCStations?) {
             var entries = [CLKComplicationTimelineEntry]()
             
@@ -146,6 +152,8 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     func getTimelineEntriesForComplication(complication: CLKComplication, afterDate date: NSDate, limit: Int, withHandler handler: (([CLKComplicationTimelineEntry]?) -> Void)) {
         // Call the handler with the timeline entries after to the given date
         DLog("started getTimelineEntriesForComplication afterDate: \(date)", toFile: true)
+        dispatch_group_wait(TFCDataStore.sharedInstance.myCoreDataStackSetupGroup, self.dispatchTime)
+
         func handleReply(stations: TFCStations?) {
             var entries = [CLKComplicationTimelineEntry]()
             if let station = stations?.first { // corresponds to the favorited/closest station

@@ -34,6 +34,12 @@ final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataS
         self.addSubview(refreshControl2!)
     }
 
+
+    func refreshFromCoreDataSetup(notification: NSNotification) {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: notification.name, object: nil)
+        self.refreshLocation(false)
+    }
+
     internal func refresh(sender:AnyObject)
     {
         refreshLocation(true)
@@ -44,6 +50,11 @@ final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataS
     }
 
     func refreshLocation(force: Bool) {
+        guard TFCDataStore.sharedInstance.checkForCoreDataStackSetup(
+            self,
+            selector: #selector(self.refreshFromCoreDataSetup(_:))
+            ) else { return }
+
         if ((showFavorites) == true) {
             self.stations.loadFavorites()
             self.reloadData()

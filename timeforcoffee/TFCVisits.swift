@@ -61,9 +61,11 @@ class TFCVisits: NSObject, TFCLocationManagerDelegate, TFCStationsUpdatedProtoco
         if arrival {
             DLog("TFCVisits locationVisit updateStations")
             self.stations.updateStations()
-            if let callback = self.callback {
-                callback(text: "Visit. Date: \(date) arrival: \(arrival) lat: \(coord.latitude.roundToPlaces(3)), lng: \(coord.longitude.roundToPlaces(3)) ")
-            }
+            #if DEBUG
+                if let callback = self.callback {
+                    callback(text: "Visit. Date: \(date) arrival: \(arrival) lat: \(coord.latitude.roundToPlaces(3)), lng: \(coord.longitude.roundToPlaces(3)) ")
+                }
+            #endif
             DLog("just before updateGeofences", toFile:true)
             TFCFavorites.sharedInstance.updateGeofences(force: false)
         }

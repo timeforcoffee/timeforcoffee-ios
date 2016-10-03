@@ -149,35 +149,44 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     }()
 
 
-    private lazy var realmObject:TFCStationModel? = {
-        [unowned self] in
+    private var _realmObject:TFCStationModel? = nil
 
-        var returnObj:TFCStationModel? = nil
-        if let moc = TFCDataStore.sharedInstance.mocObjects {
-            moc.performBlockAndWait {
-                let fetchRequest = NSFetchRequest(entityName: "TFCStationModel")
-                do {
-                    let pred = NSPredicate(format: "id == %@", self.st_id)
-                    fetchRequest.predicate = pred
-                    if let results = try moc.executeFetchRequest(fetchRequest) as? [TFCStationModel] {
-                        if let first = results.first {
-                            returnObj = first
-                            return
+    private var realmObject:TFCStationModel? {
+        get {
+
+            if _realmObject != nil { return _realmObject }
+
+            if let moc = TFCDataStore.sharedInstance.mocObjects {
+                moc.performBlockAndWait {
+                    let fetchRequest = NSFetchRequest(entityName: "TFCStationModel")
+                    do {
+                        let pred = NSPredicate(format: "id == %@", self.st_id)
+                        fetchRequest.predicate = pred
+                        if let results = try moc.executeFetchRequest(fetchRequest) as? [TFCStationModel] {
+                            if let first = results.first {
+                                self._realmObject = first
+                                return
+                            }
                         }
+                    } catch let error as NSError {
+                        DLog("Could not fetch \(error), \(error.userInfo)")
                     }
-                } catch let error as NSError {
-                    DLog("Could not fetch \(error), \(error.userInfo)")
-                }
 
-                if let obj = NSEntityDescription.insertNewObjectForEntityForName("TFCStationModel", inManagedObjectContext: moc) as? TFCStationModel {
-                    obj.id = self.st_id
-                    returnObj = obj
-                    return
+                    if let obj = NSEntityDescription.insertNewObjectForEntityForName("TFCStationModel", inManagedObjectContext: moc) as? TFCStationModel {
+                        obj.id = self.st_id
+                        self._realmObject = obj
+                        return
+                    }
                 }
             }
+            #if DEBUG
+                if _realmObject == nil {
+                    DLog("realmObject IS NIL!!!! ", toFile: true)
+                }
+            #endif
+            return _realmObject
         }
-        return returnObj
-    }()
+    }
 
 
 

@@ -29,6 +29,8 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
     weak var currentStation: TFCStation?
 
+    private lazy var dispatchTime = { return dispatch_time(DISPATCH_TIME_NOW, Int64(6.0 * Double(NSEC_PER_SEC))) }()
+
     var networkErrorMsg: String?
     lazy var numberOfCells:Int = {
         var number = 6
@@ -205,6 +207,11 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                 }
             }
         }
+        DLog("__", toFile: true)
+        // wait until db is setup
+        dispatch_group_wait(TFCDataStore.sharedInstance.myCoreDataStackSetupGroup, self.dispatchTime)
+        DLog("__", toFile: true)
+
         DLog("awakeFromNib")
     }
     
@@ -266,6 +273,19 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         // If there's an update, use NCUpdateResult.NewData
         DLog("widgetPerformUpdateWithCompletionHandler")
         completionHandler(NCUpdateResult.NewData)
+
+        guard TFCDataStore.sharedInstance.checkForCoreDataStackSetup(
+            self,
+            selector: #selector(self.updateViewAfterStart(_:))
+            ) else { return }
+
+        updateViewAfterStart()
+    }
+
+    func updateViewAfterStart(notification:NSNotification? = nil) {
+        if let notification = notification {
+            NSNotificationCenter.defaultCenter().removeObserver(self, name: notification.name, object: nil)
+        }
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             if (self.getLastUsedView() == "nearbyStations") {

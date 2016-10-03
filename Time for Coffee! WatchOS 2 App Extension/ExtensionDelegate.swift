@@ -54,13 +54,25 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             }
         }
         // wait until db is setup
-        dispatch_group_wait(TFCDataStore.sharedInstance.myCoreDataStackSetupGroup, self.dispatchTime)
     }
 
     func applicationDidBecomeActive() {
         DLog("__", toFile: true)
-        // wait until db is setup
-        dispatch_group_wait(TFCDataStore.sharedInstance.myCoreDataStackSetupGroup, self.dispatchTime)
+
+        guard TFCDataStore.sharedInstance.checkForCoreDataStackSetup(
+            self,
+            selector: #selector(self.applicationDidBecomeActiveAfter(_:))
+            ) else { return }
+
+        self.applicationDidBecomeActiveAfter()
+
+    }
+
+    func applicationDidBecomeActiveAfter(notification: NSNotification? = nil) {
+        DLog("__", toFile: true)
+        if let notification = notification {
+            NSNotificationCenter.defaultCenter().removeObserver(self, name: notification.name, object: nil)
+        }
         TFCWatchDataFetch.sharedInstance.fetchDepartureData()
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
             TFCDataStore.sharedInstance.registerWatchConnectivity()

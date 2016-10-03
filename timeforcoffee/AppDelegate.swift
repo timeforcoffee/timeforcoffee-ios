@@ -49,10 +49,36 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             return NSBundle.mainBundle().bundleIdentifier! + ".\(self.rawValue)"
         }
     }
+    func applicationDidReceiveMemoryWarning(application: UIApplication) {
+        DLog("applicationDidReceiveMemoryWarning", toFile: true)
+    }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         TFCDataStore.sharedInstance.checkForDBUpdate(true) {
+            dispatch_sync(dispatch_get_main_queue()) {
 
+                if (TFCDataStore.sharedInstance.complicationEnabled()) {
+                    self.visits = TFCVisits(callback: self.receivedNewVisit)
+                } else {
+                    let loc = CLLocationManager()
+                    DLog("CLLocationManager()")
+                    if loc.monitoredRegions.count > 0 {
+                        //delete all geofences, we don't need them if no complications
+                        for region in loc.monitoredRegions {
+                            if let circularRegion = region as? CLCircularRegion {
+                                loc.stopMonitoringForRegion(circularRegion)
+                            }
+                        }
+
+                    }
+                }
+                #if DEBUG
+                    if (self.visits?.willReceive() == true) {
+                        application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Alert, .Sound] , categories: nil))
+                    }
+                #endif
+
+            }
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
                 TFCDataStore.sharedInstance.registerWatchConnectivity()
                 TFCDataStore.sharedInstance.registerForNotifications()
@@ -61,6 +87,93 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                     let noti = TFCNotification()
                     TFCDataStore.sharedInstance.localNotificationCallback = noti.send
                 #endif
+
+
+
+
+                let gtracker = GATracker.sharedInstance
+                gtracker.setCustomDimension(7, value: "yes")
+                gtracker.setCustomDimension(9, value: UIDevice.currentDevice().systemVersion)
+                #if !((arch(i386) || arch(x86_64)) && os(iOS))
+                    Fabric.with([Crashlytics.self])
+                #endif
+                if let lO = launchOptions?["UIApplicationLaunchOptionsLocationKey"] {
+                    DLog("app launched with UIApplicationLaunchOptionsLocationKey: \(lO)", toFile: true)
+                }
+                
+                #if !((arch(i386) || arch(x86_64)) && os(iOS))
+                    let settings = SKTSettings(appToken: "7n3aaqyp9fr5kr7y1wjssd231")
+                    //            settings.knowledgeBaseURL = "https://timeforcoffee.zendesk.com"
+                    Smooch.initWithSettings(settings)
+                #endif
+                let userdefaults = TFCDataStore.sharedInstance.getUserDefaults()
+                let lastusedTodayScreen: NSDate? = userdefaults?.objectForKey("lastUsedViewUpdate") as! NSDate?
+                /* var recommendations: [String] = []
+                 recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202701502-How-to-use-the-favourite-station-feature-")
+                 recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202701512-Can-I-exclude-some-destinations-from-a-station-")
+                 recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202775921-Is-there-a-map-view-somewhere-")
+                 recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202772511-Who-is-behind-Time-for-Coffee-")
+                 */
+                if let currentUser = SKTUser.currentUser() {
+                    if (userdefaults?.objectForKey("favorites2") != nil) {
+                        currentUser.addProperties(["usedFavorites": true])
+                        gtracker.setCustomDimension(4, value: "yes")
+                    } else {
+                        currentUser.addProperties(["usedFavorites": false])
+                        gtracker.setCustomDimension(4, value: "no")
+                    }
+                    if (lastusedTodayScreen != nil) {
+                        currentUser.addProperties(["lastUsedTodayScreen": lastusedTodayScreen!])
+                        currentUser.addProperties(["usedTodayScreen": true])
+                        gtracker.setCustomDimension(3, value: "yes")
+                    } else {
+                        currentUser.addProperties(["usedTodayScreen": false])
+                        gtracker.setCustomDimension(3, value: "no")
+                    }
+
+                    if (currentUser.signedUpAt == nil) {
+                        currentUser.signedUpAt = NSDate()
+                        currentUser.addProperties(["signedUpDate" : NSDate()])
+                        if let lang =  NSLocale.preferredLanguages().first {
+                            let langSplit = lang.componentsSeparatedByString("-")
+                            currentUser.addProperties(["language": langSplit[0]])
+                            gtracker.setCustomDimension(5, value: langSplit[0])
+                        }
+
+                    }
+                    if #available(iOS 9.0, *) {
+                        delay(5.0, closure: {
+                            if let wcsession = TFCDataStore.sharedInstance.session {
+                                if (wcsession.paired) {
+                                    currentUser.addProperties(["hasWatch": true])
+                                    gtracker.setCustomDimension(8, value: "yes")
+                                    if (wcsession.watchAppInstalled) {
+                                        currentUser.addProperties(["hasWatchAppInstalled": true])
+                                        gtracker.setCustomDimension(2, value: "yes")
+
+                                    } else {
+                                        currentUser.addProperties(["hasWatchAppInstalled": false])
+                                        gtracker.setCustomDimension(2, value: "no")
+                                    }
+                                    if (wcsession.complicationEnabled == true) {
+                                        currentUser.addProperties(["hasComplicationsEnabled": true])
+                                        gtracker.setCustomDimension(1, value: "yes")
+
+                                    } else {
+                                        currentUser.addProperties(["hasComplicationsEnabled": false])
+                                        gtracker.setCustomDimension(1, value: "no")
+                                    }
+                                }
+                            }
+                        })
+                    }
+                }
+                /*            Smooch.setDefaultRecommendations(recommendations)
+                 if (lastusedTodayScreen == nil) {
+                 Smooch.setTopRecommendation("https://timeforcoffee.zendesk.com/hc/en-us/articles/202698032-How-to-add-Time-for-Coffee-to-the-Today-Screen-")
+                 
+                 }
+                 */
             }
 
         }
@@ -78,112 +191,6 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
 
-
-
-
-        let gtracker = GATracker.sharedInstance
-        gtracker.setCustomDimension(7, value: "yes")
-        gtracker.setCustomDimension(9, value: UIDevice.currentDevice().systemVersion)
-        #if !((arch(i386) || arch(x86_64)) && os(iOS))
-        Fabric.with([Crashlytics.self])
-        #endif
-        if let lO = launchOptions?["UIApplicationLaunchOptionsLocationKey"] {
-            DLog("app launched with UIApplicationLaunchOptionsLocationKey: \(lO)", toFile: true)
-        }
-        if (TFCDataStore.sharedInstance.complicationEnabled()) {
-            self.visits = TFCVisits(callback: self.receivedNewVisit)
-        } else {
-            let loc = CLLocationManager()
-            if loc.monitoredRegions.count > 0 {
-                //delete all geofences, we don't need them if no complications
-                for region in loc.monitoredRegions {
-                    if let circularRegion = region as? CLCircularRegion {
-                        loc.stopMonitoringForRegion(circularRegion)
-                    }
-                }
-
-            }
-        }
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
-            #if DEBUG
-            if (self.visits?.willReceive() == true) {
-                application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Alert, .Sound] , categories: nil))
-            }
-            #endif
-            #if !((arch(i386) || arch(x86_64)) && os(iOS))
-            let settings = SKTSettings(appToken: "7n3aaqyp9fr5kr7y1wjssd231")
-//            settings.knowledgeBaseURL = "https://timeforcoffee.zendesk.com"
-            Smooch.initWithSettings(settings)
-            #endif
-            let userdefaults = TFCDataStore.sharedInstance.getUserDefaults()
-            let lastusedTodayScreen: NSDate? = userdefaults?.objectForKey("lastUsedViewUpdate") as! NSDate?
-           /* var recommendations: [String] = []
-            recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202701502-How-to-use-the-favourite-station-feature-")
-            recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202701512-Can-I-exclude-some-destinations-from-a-station-")
-            recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202775921-Is-there-a-map-view-somewhere-")
-            recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202772511-Who-is-behind-Time-for-Coffee-")
-*/
-            if let currentUser = SKTUser.currentUser() {
-                if (userdefaults?.objectForKey("favorites2") != nil) {
-                    currentUser.addProperties(["usedFavorites": true])
-                    gtracker.setCustomDimension(4, value: "yes")
-                } else {
-                    currentUser.addProperties(["usedFavorites": false])
-                    gtracker.setCustomDimension(4, value: "no")
-                }
-                if (lastusedTodayScreen != nil) {
-                    currentUser.addProperties(["lastUsedTodayScreen": lastusedTodayScreen!])
-                    currentUser.addProperties(["usedTodayScreen": true])
-                    gtracker.setCustomDimension(3, value: "yes")
-                } else {
-                    currentUser.addProperties(["usedTodayScreen": false])
-                    gtracker.setCustomDimension(3, value: "no")
-                }
-
-                if (currentUser.signedUpAt == nil) {
-                    currentUser.signedUpAt = NSDate()
-                    currentUser.addProperties(["signedUpDate" : NSDate()])
-                    if let lang =  NSLocale.preferredLanguages().first {
-                        let langSplit = lang.componentsSeparatedByString("-")
-                        currentUser.addProperties(["language": langSplit[0]])
-                        gtracker.setCustomDimension(5, value: langSplit[0])
-                    }
-
-                }
-                if #available(iOS 9.0, *) {
-                    delay(5.0, closure: {
-                        if let wcsession = TFCDataStore.sharedInstance.session {
-                            if (wcsession.paired) {
-                                currentUser.addProperties(["hasWatch": true])
-                                gtracker.setCustomDimension(8, value: "yes")
-                                if (wcsession.watchAppInstalled) {
-                                    currentUser.addProperties(["hasWatchAppInstalled": true])
-                                    gtracker.setCustomDimension(2, value: "yes")
-
-                                } else {
-                                    currentUser.addProperties(["hasWatchAppInstalled": false])
-                                    gtracker.setCustomDimension(2, value: "no")
-                                }
-                                if (wcsession.complicationEnabled == true) {
-                                    currentUser.addProperties(["hasComplicationsEnabled": true])
-                                    gtracker.setCustomDimension(1, value: "yes")
-
-                                } else {
-                                    currentUser.addProperties(["hasComplicationsEnabled": false])
-                                    gtracker.setCustomDimension(1, value: "no")
-                                }
-                            }
-                        }
-                    })
-                }
-            }
-/*            Smooch.setDefaultRecommendations(recommendations)
-            if (lastusedTodayScreen == nil) {
-                Smooch.setTopRecommendation("https://timeforcoffee.zendesk.com/hc/en-us/articles/202698032-How-to-add-Time-for-Coffee-to-the-Today-Screen-")
-
-            }
-*/
-        }
         return shouldPerformAdditionalDelegateHandling
     }
 
