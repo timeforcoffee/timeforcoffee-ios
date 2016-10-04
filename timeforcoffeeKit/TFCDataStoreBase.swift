@@ -86,6 +86,8 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
         {
             if (forKey == "favorite\(lastComplicationStationId)") {
                 DLog("updateComplicationData for \(forKey) since favorites changed")
+                //this could be called before DB is setup, so wait, if that's the case..
+                dispatch_group_wait(TFCDataStore.sharedInstance.myCoreDataStackSetupGroup, dispatch_time(DISPATCH_TIME_NOW, Int64(15.0 * Double(NSEC_PER_SEC))))
                 let st = TFCStation.initWithCacheId(lastComplicationStationId)
                 st.repopulateFavoriteLines()
                 st.needsCacheSave = true
@@ -274,6 +276,8 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                 DLog("parseReceiveInfo: \(myKey)", toFile: true)
             }
             if (myKey == "__updateComplicationData__") {
+                //sometimes this is called before DB is setup, so wait, if that's the case..
+                dispatch_group_wait(TFCDataStore.sharedInstance.myCoreDataStackSetupGroup, dispatch_time(DISPATCH_TIME_NOW, Int64(15.0 * Double(NSEC_PER_SEC))))
                 if let value = myValue as? [String: AnyObject], coordinates = value["coordinates"] as? [String: AnyObject], lng = coordinates["longitude"] as? CLLocationDegrees, lat = coordinates["latitude"] as? CLLocationDegrees {
                     TFCLocationManagerBase.setCurrentLocation(CLLocation(latitude: lat, longitude: lng ), time: coordinates["time"] as? NSDate)
                     DLog("coord was sent with __updateComplicationData__ \(lat), \(lng)", toFile: true)
