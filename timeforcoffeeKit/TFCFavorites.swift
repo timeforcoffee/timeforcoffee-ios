@@ -251,15 +251,15 @@ final public class TFCFavorites: NSObject {
                                             first = false
                                         }
                                         // if we have another station within this radius
-                                        // set that station radius 200 m less than distance
+                                        // set that station radius to half the distance
                                         // but max 200m, so that we get a hit, when we get closer
                                         // but not for the nearest station
                                         if (station.st_id != nearestStationId) {
-                                            stationRadius = max(200, distance - 300.0)
+                                            stationRadius = max(200, distance / 2)
                                         }
                                     } else if (distance < radius + 200) {
                                         // if near radius, deduct some meters as well
-                                        stationRadius = distance - 300
+                                        stationRadius = distance / 2
                                     }
                                 }
                                 let region = CLCircularRegion(center: coord.coordinate, radius: stationRadius, identifier: station.st_id)
