@@ -236,7 +236,12 @@ private func DLog2File(text:String) {
         let file = getWatchLogFileName()
         let iCloudDocumentsURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first
     #else
-        let file = "log-\(NSDate().formattedWithDateFormatter(DLogDayHourFormatter)).txt"
+        let file:String
+        if NSBundle.mainBundle().bundleIdentifier == "ch.opendata.timeforcoffee.timeforcoffee" {
+            file = "today-log-\(NSDate().formattedWithDateFormatter(DLogDayHourFormatter)).txt"
+        } else {
+            file = "log-\(NSDate().formattedWithDateFormatter(DLogDayHourFormatter)).txt"
+        }
         let iCloudDocumentsURL = NSFileManager.defaultManager().URLForUbiquityContainerIdentifier("iCloud.ch.opendata.timeforcoffee")?.URLByAppendingPathComponent("Documents")!
     #endif
 
