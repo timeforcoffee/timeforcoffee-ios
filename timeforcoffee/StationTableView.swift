@@ -117,6 +117,8 @@ final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataS
                 textLabel?.text = NSLocalizedString("Loading", comment: "Loading ..")
                 if (TFCDataStore.sharedInstance.coreDataStackIsSetup()) {
                     detailTextLabel?.text = stations.loadingMessage
+                } else {
+                    detailTextLabel?.text = "" // DB setup, but I don't think we have to inform the user. Superfluous information
                 }
             } else {
                 textLabel?.text = NSLocalizedString("No stations found.", comment: "")

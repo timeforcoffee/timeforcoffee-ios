@@ -184,34 +184,38 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             self.preferredContentSize = CGSize(width: CGFloat(0.0), height: preferredHeight)
         }
         TFCDataStore.sharedInstance.checkForDBUpdate(false) {
-            dispatch_sync(dispatch_get_main_queue()) {
-                if (self.getLastUsedView() == "nearbyStations") {
-                    self.showStations = true
-                    self.populateStationsFromLastUsed()
-                    self.dataIsFromInitCache = true
+            self.afterAwakeFromNib()
+        }
+        DLog("awakeFromNib end")
+    }
+
+    func afterAwakeFromNib() {
+        DLog("afterAwakeFromNib")
+
+        if (self.getLastUsedView() == "nearbyStations") {
+            self.showStations = true
+            self.populateStationsFromLastUsed()
+            self.dataIsFromInitCache = true
+        } else {
+            self.currentStation = self.lastViewedStation
+            if (self.currentStation != nil && self.currentStation?.getDepartures()?.count > 0) {
+                self.showStations = false
+                self.appsTableView?.reloadData()
+                // if lastUsedView is a single station and we did look at it no longer than
+                // 5 minutes ago, just show it again without even checking the location later
+                if (self.lastUsedViewUpdatedInterval() > -300) {
+                    self.dataIsFromInitCache = false
+                    self.currentStation?.updateDepartures(self)
                 } else {
-                    self.currentStation = self.lastViewedStation
-                    if (self.currentStation != nil && self.currentStation?.getDepartures()?.count > 0) {
-                        self.showStations = false
-                        self.appsTableView?.reloadData()
-                        // if lastUsedView is a single station and we did look at it no longer than
-                        // 5 minutes ago, just show it again without even checking the location later
-                        if (self.lastUsedViewUpdatedInterval() > -300) {
-                            self.dataIsFromInitCache = false
-                            self.currentStation?.updateDepartures(self)
-                        } else {
-                            self.dataIsFromInitCache = true
-                        }
-                    } else {
-                        self.currentStation = nil
-                        self.showStations = false
-                    }
+                    self.dataIsFromInitCache = true
                 }
+            } else {
+                self.currentStation = nil
+                self.showStations = false
             }
         }
-        DLog("awakeFromNib")
     }
-    
+
     private func setPreferredContentSize() {
         if #available(iOSApplicationExtension 10.0, *) {
         } else {
@@ -269,14 +273,15 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         // If there's no update required, use NCUpdateResult.NoData
         // If there's an update, use NCUpdateResult.NewData
         DLog("widgetPerformUpdateWithCompletionHandler")
-        completionHandler(NCUpdateResult.NewData)
-
         guard TFCDataStore.sharedInstance.checkForCoreDataStackSetup(
             self,
             selector: #selector(self.updateViewAfterStart(_:))
-            ) else { return }
-
+            ) else {
+                completionHandler(NCUpdateResult.NewData)
+                return
+        }
         updateViewAfterStart()
+        completionHandler(NCUpdateResult.NewData)
     }
 
     func updateViewAfterStart(notification:NSNotification? = nil) {
@@ -285,6 +290,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         }
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            DLog("updateViewAfterStart")
             if (self.getLastUsedView() == "nearbyStations") {
                 self.sendScreenNameToGA("todayviewNearby")
                 self.showStations = true
@@ -305,6 +311,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     override func lazyInitLocationManager() -> TFCLocationManager? {
         if (currentStation == nil || self.dataIsFromInitCache == true) {
             dispatch_async(dispatch_get_main_queue(), {
+                DLog("Looking for nearest station ...")
                 self.titleLabel.text = NSLocalizedString("Looking for nearest station ...", comment: "")
             })
         }

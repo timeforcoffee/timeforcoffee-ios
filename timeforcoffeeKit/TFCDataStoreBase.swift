@@ -415,6 +415,11 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
 
 
     public func checkForDBUpdate(DBUpdate:Bool = true, callback: () -> Void) {
+
+        if (self.coreDataStackIsSetup()) {
+            callback()
+            return
+        }
         DLog("dispatch_group_enter")
         dispatch_group_enter(self.myCoreDataStackSetupGroup)
         self.checkForSqlite()
@@ -429,25 +434,11 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
             case .Failure(let error):
                 DLog("dispatch error: \(error)")
             }
-            DLog("dispatch_group_leave. DB is setup")
             dispatch_group_leave(self.myCoreDataStackSetupGroup)
-            NSNotificationCenter.defaultCenter().postNotificationName("TFCCoreDataStackSetup", object: nil, userInfo: nil)
-
-            /*if (DBUpdate) {
-                if let neededDBVersion = self.getNeededDBVersion() {
-                    let installedDBVersion = self.userDefaults?.integerForKey("installedDBVersion")
-                    if (installedDBVersion == nil || neededDBVersion != installedDBVersion) {
-                        var error:NSError?
-                        if let bundle = self.getBundle(), url = bundle.pathForResource("stations", ofType: "csv") {
-                            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
-                                self.parseCSV(url, error: &error, neededDBVersion: neededDBVersion)
-                            }
-                        }
-                    }
-                }
-            }*/
             callback()
-            
+            NSNotificationCenter.defaultCenter().postNotificationName("TFCCoreDataStackSetup", object: nil, userInfo: nil)
+            DLog("dispatch_group_leave. DB is setup")
+
         }
     }
 
