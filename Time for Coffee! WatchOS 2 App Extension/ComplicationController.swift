@@ -128,6 +128,11 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                         let nextDeparture: TFCDeparture? = (departures.count >= 2) ? departures[1] : nil
                         if let station = station, tmpl = templateForStationDepartures(station, departure: departure, nextDeparture: nextDeparture, complication: complication) {
                             let entry = CLKComplicationTimelineEntry(date: thisEntryDate, complicationTemplate: tmpl)
+                            DLog("tl 0: \(thisEntryDate)"   )
+                            DLog("tl 1: \(departure.getLine()): \(departure.getDestination()) \(departure.getScheduledTime()!)")
+                            if let nextDeparture = nextDeparture {
+                                DLog("tl 2: \(nextDeparture.getLine()): \(nextDeparture.getDestination()) \(nextDeparture.getScheduledTime()!) ")
+                            }
                             entries.append(entry)
                         }
                     }
@@ -170,9 +175,17 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                             while let thisDeparture = departure {
                                 let thisEntryDate = timelineEntryDateForDeparture(thisDeparture, previousDeparture: previousDeparture)
                                 if date.compare(thisEntryDate) == .OrderedAscending { // check if the entry date is "correctly" after the given date
-                                    if let tmpl = templateForStationDepartures(station, departure: thisDeparture, nextDeparture: nextDeparture, complication: complication) {
-                                        let entry = CLKComplicationTimelineEntry(date: thisEntryDate, complicationTemplate: tmpl)
-                                        entries.append(entry)
+                                    // only add it, if previous departure is before this departure (when they are the same, it was added with the previous one (or if we have more than 2, then nr 3+ won't be added, which is fine)
+                                    if (previousDeparture?.getScheduledTime() < thisDeparture.getScheduledTime()) {
+                                        if let tmpl = templateForStationDepartures(station, departure: thisDeparture, nextDeparture: nextDeparture, complication: complication) {
+                                            let entry = CLKComplicationTimelineEntry(date: thisEntryDate, complicationTemplate: tmpl)
+                                            DLog("tl 0: \(thisEntryDate)"   )
+                                            DLog("tl 1: \(thisDeparture.getLine()): \(thisDeparture.getDestination()) \(thisDeparture.getScheduledTime()!)")
+                                            if let nextDeparture = nextDeparture {
+                                                DLog("tl 2: \(nextDeparture.getLine()): \(nextDeparture.getDestination()) \(nextDeparture.getScheduledTime()!) ")
+                                            }
+                                            entries.append(entry)
+                                        }
                                     }
                                     lastDepartureTimeNew = thisDeparture.getScheduledTimeAsNSDate()
                                     if entries.count >= (limit - 1) {break} // break if we reached the limit of entries
