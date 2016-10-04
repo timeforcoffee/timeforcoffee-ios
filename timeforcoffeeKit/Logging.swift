@@ -100,7 +100,7 @@ func DLog<T>(@autoclosure object: () -> T, toFile: Bool = false, _ file: String 
         let queueLabel = String(UTF8String: dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL))
         let currentThread = "\(NSThread.currentThread())"
         let date = NSDate().formattedWithDateFormatter(DLogDateFormatter)
-        dispatch_async(logQueue) {
+        dispatch_sync(logQueue) {
         let stringRepresentation: String
 
         if let value = value as? CustomDebugStringConvertible {
