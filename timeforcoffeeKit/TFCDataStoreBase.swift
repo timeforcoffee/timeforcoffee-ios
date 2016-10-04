@@ -92,7 +92,8 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                 st.repopulateFavoriteLines()
                 st.needsCacheSave = true
                 TFCStationBase.saveToPincache(st)
-                updateComplicationData()
+                //delay the complication update by 5 seconds to give other tasks some room to breath
+                delay(5.0, closure: { self.updateComplicationData() })                
             }
         }
     }
