@@ -200,7 +200,9 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             self.currentStation = self.lastViewedStation
             if (self.currentStation != nil && self.currentStation?.getDepartures()?.count > 0) {
                 self.showStations = false
-                self.appsTableView?.reloadData()
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.appsTableView?.reloadData()
+                }
                 // if lastUsedView is a single station and we did look at it no longer than
                 // 5 minutes ago, just show it again without even checking the location later
                 if (self.lastUsedViewUpdatedInterval() > -300) {
@@ -655,7 +657,9 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             let stationDictFavs = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastUsedStationsFavorites") as? [String]?
             if (stationDict != nil && stationDictFavs != nil) {
                 self.stations?.populateWithIds(stationDictFavs!, nonfavorites:stationDict!)
-                self.appsTableView?.reloadData()
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.appsTableView?.reloadData()
+                }
             }
         }
     }
