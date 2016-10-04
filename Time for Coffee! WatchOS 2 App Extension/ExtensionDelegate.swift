@@ -24,7 +24,11 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     var tickStart:NSDate? = nil
     func applicationDidFinishLaunching() {
         DLog("__", toFile: true)
+        self.askForFavoriteData()
+    }
 
+
+    func askForFavoriteData(noDelay:Bool = false) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
             TFCDataStore.sharedInstance.registerWatchConnectivity()
             /* Request for all Favorite Data every 24 hours (or if never done)
@@ -39,15 +43,14 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             let allDataResponseSent = TFCDataStore.sharedInstance.getUserDefaults()?.boolForKey("allDataResponseSent")
             if (allDataResponseSent != true || lastRequest == nil || lastRequest < -(24 * 60 * 60)) {
                 var delayItBy = 6.0
-                /* if it's a daily update, delay it by 10 seconds, to have other requests (like location updates from the phone) give some time to be handled before */
-                if (lastRequest != nil) {
-                    delayItBy = 6.0
+                if (noDelay) {
+                    delayItBy = 0.0
                 }
+                DLog("request giveMeAllTheData in \(delayItBy) seconds")
                 delay(delayItBy, closure: {
                     TFCDataStore.sharedInstance.requestAllDataFromPhone()
                 })
                 TFCDataStore.sharedInstance.getUserDefaults()?.setObject(NSDate(), forKey: "lastRequestForAllData")
-
             }
 
         }
@@ -81,6 +84,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             if !expired {
 
                 TFCDataStore.sharedInstance.saveContext()
+                self.askForFavoriteData(true)
                 SendLogs2Phone()
             } else {
                 DLog("applicationWillResignActive expired", toFile: true)
