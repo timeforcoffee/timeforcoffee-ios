@@ -429,7 +429,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
             case .Failure(let error):
                 DLog("dispatch error: \(error)")
             }
-            DLog("dispatch_group_leave")
+            DLog("dispatch_group_leave. DB is setup")
             dispatch_group_leave(self.myCoreDataStackSetupGroup)
             NSNotificationCenter.defaultCenter().postNotificationName("TFCCoreDataStackSetup", object: nil, userInfo: nil)
 
