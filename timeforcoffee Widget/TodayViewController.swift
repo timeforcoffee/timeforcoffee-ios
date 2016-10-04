@@ -225,9 +225,8 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                 }
             }
         }
-        DLog("awakeFromNib")
     }
-    
+
     private func setPreferredContentSize() {
         if #available(iOSApplicationExtension 10.0, *) {
         } else {
@@ -284,15 +283,16 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         // If an error is encountered, use NCUpdateResult.Failed
         // If there's no update required, use NCUpdateResult.NoData
         // If there's an update, use NCUpdateResult.NewData
-        DLog("widgetPerformUpdateWithCompletionHandler", toFile: true)
-        self.completionHandlerCallback = completionHandler
-        guard self.datastore.checkForCoreDataStackSetup(
+        DLog("widgetPerformUpdateWithCompletionHandler")
+        guard TFCDataStore.sharedInstance.checkForCoreDataStackSetup(
             self,
             selector: #selector(self.updateViewAfterStart(_:))
             ) else {
+                completionHandler(NCUpdateResult.NewData)
                 return
         }
         updateViewAfterStart()
+        completionHandler(NCUpdateResult.NewData)
     }
 
     func updateViewAfterStart(notification:NSNotification? = nil) {
