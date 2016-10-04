@@ -200,11 +200,30 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             self.preferredContentSize = CGSize(width: CGFloat(0.0), height: preferredHeight)
         }
         TFCDataStore.sharedInstance.checkForDBUpdate(false) {
-            dispatch_sync(dispatch_get_main_queue()) {
-                if (self.getLastUsedView() == "nearbyStations") {
-                    self.showStations = true
-                    self.populateStationsFromLastUsed()
-                    self.needsLocationUpdate = true
+            self.afterAwakeFromNib()
+        }
+        DLog("awakeFromNib end")
+    }
+
+    func afterAwakeFromNib() {
+        DLog("afterAwakeFromNib")
+
+        if (self.getLastUsedView() == "nearbyStations") {
+            self.showStations = true
+            self.populateStationsFromLastUsed()
+            self.needsLocationUpdate = true
+        } else {
+            self.currentStation = self.lastViewedStation
+            if (self.currentStation != nil && self.currentStation?.getDepartures()?.count > 0) {
+                self.showStations = false
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.appsTableView?.reloadData()
+                }
+                // if lastUsedView is a single station and we did look at it no longer than
+                // 5 minutes ago, just show it again without even checking the location later
+                if (self.lastUsedViewUpdatedInterval() > -300) {
+                    self.needsLocationUpdate = false
+                    self.currentStation?.updateDepartures(self)
                 } else {
                     self.currentStation = self.lastViewedStation
                     if (self.currentStation != nil && self.currentStation?.getDepartures()?.count > 0) {
@@ -694,7 +713,9 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             let stationDictFavs = self.datastore.getUserDefaults()?.objectForKey("lastUsedStationsFavorites") as? [String]?
             if (stationDict != nil && stationDictFavs != nil) {
                 self.stations?.populateWithIds(stationDictFavs!, nonfavorites:stationDict!)
-                self.appsTableView?.reloadData()
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.appsTableView?.reloadData()
+                }
             }
         }
     }
