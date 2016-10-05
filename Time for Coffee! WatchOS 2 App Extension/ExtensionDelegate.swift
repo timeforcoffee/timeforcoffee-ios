@@ -32,6 +32,12 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         DLog("__", toFile: true)
         // wait until db is setup
         self.askForFavoriteData()
+       /* let server = CLKComplicationServer.sharedInstance()
+        if let activeComplications = server.activeComplications {
+            for complication in activeComplications {
+                server.reloadTimelineForComplication(complication)
+            }
+        }*/
     }
 
 
@@ -196,8 +202,12 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         for task : WKRefreshBackgroundTask in backgroundTasks {
             DLog("received \(task) Backgroundtask" , toFile: true)
             if let arTask = task as? WKApplicationRefreshBackgroundTask {
+                //this could be called before DB is setup, so wait, if that's the case..
+                dispatch_group_wait(TFCDataStore.sharedInstance.myCoreDataStackSetupGroup, dispatch_time(DISPATCH_TIME_NOW, Int64(15.0 * Double(NSEC_PER_SEC))))
                 TFCWatchDataFetch.sharedInstance.fetchDepartureData(task: arTask)
             } else if let urlTask = task as? WKURLSessionRefreshBackgroundTask {
+                //this could be called before DB is setup, so wait, if that's the case..
+                dispatch_group_wait(TFCDataStore.sharedInstance.myCoreDataStackSetupGroup, dispatch_time(DISPATCH_TIME_NOW, Int64(15.0 * Double(NSEC_PER_SEC))))
                 TFCWatchDataFetch.sharedInstance.rejoinURLSession(urlTask)
             } else if let wcBackgroundTask = task as? WKWatchConnectivityRefreshBackgroundTask {
                 //just wait 15 seconds and assume it's finished FIXME. Could be improved, but it's hard to keep track and sometimes there's just nothing to do.
@@ -212,6 +222,8 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 })
                 TFCDataStore.sharedInstance.registerWatchConnectivity()
             } else if let snapshotTask = task as? WKSnapshotRefreshBackgroundTask {
+                //this could be called before DB is setup, so wait, if that's the case..
+                dispatch_group_wait(TFCDataStore.sharedInstance.myCoreDataStackSetupGroup, dispatch_time(DISPATCH_TIME_NOW, Int64(15.0 * Double(NSEC_PER_SEC))))
 
                 delaySnapshotComplete(snapshotTask,startTime: NSDate())
             } else {
