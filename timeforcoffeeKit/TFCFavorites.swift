@@ -233,7 +233,7 @@ final public class TFCFavorites: NSObject {
                                     if (distance < radius) {
                                         DLog("we are within geofence")
                                         if (!first) {
-                                            maxDistance = radius
+                                            maxDistance = radius + 200
                                         }
                                         if (distance < nearestDistance ) {
                                             nearestStationWithinRadius = station
@@ -246,7 +246,7 @@ final public class TFCFavorites: NSObject {
                                         // but max 200m, so that we get a hit, when we get closer
                                         // but not for the nearest station
                                         if (station.st_id != nearestStationId) {
-                                            stationRadius = max(200, distance / 2)
+                                            stationRadius = max(180, distance / 2)
                                         }
                                     } else if (distance < radius + 200) {
                                         // if near radius, deduct some meters as well
