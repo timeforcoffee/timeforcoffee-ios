@@ -144,7 +144,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     }
     
     required init?(coder aDecoder: NSCoder) {
-        DLog("init")
+        DLog("init", toFile: true)
         super.init(coder: aDecoder)
         self.setLoadingStage(2)
         self.lastViewedStation?.removeObsoleteDepartures()
@@ -162,7 +162,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     }
 
     deinit {
-        DLog("deinit widget")
+        DLog("deinit widget", toFile: true)
         TFCURLSession.sharedInstance.cancelURLSession()
         self.datastore.removeNotifications()
     }
@@ -302,20 +302,20 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         // If an error is encountered, use NCUpdateResult.Failed
         // If there's no update required, use NCUpdateResult.NoData
         // If there's an update, use NCUpdateResult.NewData
-        DLog("widgetPerformUpdateWithCompletionHandler")
+        DLog("widgetPerformUpdateWithCompletionHandler", toFile: true)
+        self.completionHandlerCallback = completionHandler
         guard TFCDataStore.sharedInstance.checkForCoreDataStackSetup(
             self,
             selector: #selector(self.updateViewAfterStart(_:))
             ) else {
-                completionHandler(NCUpdateResult.NewData)
                 return
         }
         updateViewAfterStart()
-        completionHandler(NCUpdateResult.NewData)
     }
 
     func updateViewAfterStart(notification:NSNotification? = nil) {
         if let notification = notification {
+            DLog("was notified", toFile: true)
             NSNotificationCenter.defaultCenter().removeObserver(self, name: notification.name, object: nil)
         }
 
@@ -330,9 +330,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                 // if we're within the 5 minutes from last time (checked in awakeFromNiB)
                 // don't do anything
                 if (self.currentStation != nil && self.needsLocationUpdate == false) {
-                    DLog("5 minutes rule", toFile: true)
-                    /* DLog("sendCompletionHandler", toFile: true)
-                     self.sendCompletionHandler()*/
+                    self.sendCompletionHandler()
                     return
                 }
                 DLog("show new nearest station", toFile: true)
@@ -343,6 +341,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                 self.locManager?.refreshLocation()
             }
             self.stations?.updateStations()
+            self.sendCompletionHandler()
         }
     }
 
@@ -354,7 +353,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             self.completionHandlerCallback = nil
         }
     }
-
+    
     override func lazyInitLocationManager() -> TFCLocationManager? {
         if (currentStation == nil || self.needsLocationUpdate == true) {
             dispatch_async(dispatch_get_main_queue(), {
@@ -636,6 +635,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         if let moc = TFCDataStore.sharedInstance.mocObjects {
             TFCDataStore.sharedInstance.saveContext(moc)
         }
+        DLog("didReceiveMemoryWarning memory warning", toFile: true)
         super.didReceiveMemoryWarning()
     }
     
