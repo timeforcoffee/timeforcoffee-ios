@@ -54,6 +54,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         return number
     }()
 
+    private var completionHandlerCallback:((NCUpdateResult) -> Void)? = nil
 
     var viewDidAppear = false
     var dataIsFromInitCache = false
@@ -130,7 +131,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     }
 
     required init?(coder aDecoder: NSCoder) {
-        DLog("init")
+        DLog("init", toFile: true)
         super.init(coder: aDecoder)
         #if !((arch(i386) || arch(x86_64)) && os(iOS))
             Fabric.with([Crashlytics.self])
@@ -146,7 +147,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     }
 
     deinit {
-        DLog("deinit widget")
+        DLog("deinit widget", toFile: true)
         TFCURLSession.sharedInstance.cancelURLSession()
         TFCDataStore.sharedInstance.removeNotifications()
     }
@@ -274,25 +275,25 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         // If an error is encountered, use NCUpdateResult.Failed
         // If there's no update required, use NCUpdateResult.NoData
         // If there's an update, use NCUpdateResult.NewData
-        DLog("widgetPerformUpdateWithCompletionHandler")
+        DLog("widgetPerformUpdateWithCompletionHandler", toFile: true)
+        self.completionHandlerCallback = completionHandler
         guard TFCDataStore.sharedInstance.checkForCoreDataStackSetup(
             self,
             selector: #selector(self.updateViewAfterStart(_:))
             ) else {
-                completionHandler(NCUpdateResult.NewData)
                 return
         }
         updateViewAfterStart()
-        completionHandler(NCUpdateResult.NewData)
     }
 
     func updateViewAfterStart(notification:NSNotification? = nil) {
         if let notification = notification {
+            DLog("was notified", toFile: true)
             NSNotificationCenter.defaultCenter().removeObserver(self, name: notification.name, object: nil)
         }
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            DLog("updateViewAfterStart")
+            DLog("updateViewAfterStart", toFile: true)
             if (self.getLastUsedView() == "nearbyStations") {
                 self.sendScreenNameToGA("todayviewNearby")
                 self.showStations = true
@@ -301,12 +302,22 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                 // if we're within the 5 minutes from last time (checked in awakeFromNiB)
                 // don't do anything
                 if (self.currentStation != nil && self.dataIsFromInitCache == false) {
+                    self.sendCompletionHandler()
                     return
                 }
                 self.showStations = false
                 self.locManager?.refreshLocation()
             }
             self.stations?.updateStations()
+            self.sendCompletionHandler()
+        }
+    }
+
+    private func sendCompletionHandler() {
+        if let completionHandler = self.completionHandlerCallback {
+            DLog("do completionHandler", toFile: true)
+            completionHandler(NCUpdateResult.NewData)
+            self.completionHandlerCallback = nil
         }
     }
 
@@ -576,6 +587,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         if let moc = TFCDataStore.sharedInstance.mocObjects {
             TFCDataStore.sharedInstance.saveContext(moc)
         }
+        DLog("didReceiveMemoryWarning memory warning", toFile: true)
         super.didReceiveMemoryWarning()
     }
     
