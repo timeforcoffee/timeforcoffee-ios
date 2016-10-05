@@ -659,9 +659,12 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             // that's why we only go back 50 seconds and not the full 60
             
             let aMinuteAgo = NSDate().dateByAddingTimeInterval(-50)
+            var newSorted = sorted
             for departure in sorted {
                 if (departure.getScheduledTimeAsNSDate() < aMinuteAgo) {
-                    sorted.removeAtIndex(i)
+                    if (newSorted.indices.contains(i)) {
+                        newSorted.removeAtIndex(i)
+                    }
                     i += 1
                 } else {
                     //if we find one, which is not obsolete, we can stop here
@@ -669,8 +672,8 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                 }
             }
 
-            if (sorted.count > 0) {
-                return sorted
+            if (newSorted.count > 0) {
+                return newSorted
             }
         }
 
