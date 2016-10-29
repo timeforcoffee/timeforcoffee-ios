@@ -17,11 +17,10 @@ public class TFCWatchDataFetch: NSObject, NSURLSessionDownloadDelegate {
     var sessionRefreshTasks:[String:AnyObject] = [:]
     var validSessions:[String:Bool] = [:]
 
-    public class var sharedInstance: TFCWatchDataFetch {
-        struct Static {
-            static let instance: TFCWatchDataFetch = TFCWatchDataFetch()
-        }
-        return Static.instance
+    public static let sharedInstance = TFCWatchDataFetch()
+
+    override private init() {
+        super.init()
     }
 
     public func setLastViewedStation(station: TFCStation?) {

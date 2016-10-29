@@ -11,12 +11,7 @@ import CoreLocation
 
 final public class TFCFavorites: NSObject {
 
-    public class var sharedInstance: TFCFavorites {
-        struct Static {
-            static let instance: TFCFavorites = TFCFavorites()
-        }
-        return Static.instance
-    }
+    public static let sharedInstance = TFCFavorites()
 
     public var doGeofences = true
     var lastGeofenceUpdate:CLLocation? = nil
@@ -32,7 +27,7 @@ final public class TFCFavorites: NSObject {
     private var temporarlyRemovedStations = false
     private var needsSave = false
 
-    override init() {
+    private override init() {
         super.init()
     }
 

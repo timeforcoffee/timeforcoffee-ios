@@ -10,11 +10,9 @@ import Foundation
 
 public class TFCSettings {
 
-    public class var sharedInstance: TFCSettings {
-        struct Static {
-            static let instance: TFCSettings = TFCSettings()
-        }
-        return Static.instance
+    public static let sharedInstance = TFCSettings()
+
+    private init() {
     }
 
     public func showRealTimeDebugInfo() -> Bool {
