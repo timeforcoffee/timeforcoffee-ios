@@ -11,11 +11,10 @@ import Foundation
 
 public final class TFCURLSession: NSObject {
 
-    public class var sharedInstance: TFCURLSession {
-        struct Static {
-            static let instance: TFCURLSession = TFCURLSession()
-        }
-        return Static.instance
+    public static let sharedInstance = TFCURLSession()
+
+    override private init() {
+        super.init()
     }
 
     lazy var session: NSURLSession = {
