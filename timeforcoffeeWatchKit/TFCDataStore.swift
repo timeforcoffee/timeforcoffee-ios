@@ -11,6 +11,12 @@ import ClockKit
 
 public class TFCDataStore: TFCDataStoreBase {
 
+    public static let sharedInstance = TFCDataStore()
+
+    private override init() {
+        super.init()
+    }
+
     lazy var watchdata: TFCWatchData = {
         return TFCWatchData()
     }()

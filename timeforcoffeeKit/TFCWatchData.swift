@@ -106,7 +106,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
         if let activeComplications = server.activeComplications {
             if (activeComplications.count > 0) {
                 for complication in activeComplications {
-                    let ud = TFCDataStoreBase.sharedInstance.getUserDefaults()
+                    let ud = TFCDataStore.sharedInstance.getUserDefaults()
 
                     if let lastComplicationUpdate = ud?.objectForKey("lastComplicationUpdate") as? NSDate,
                         lastComplicationStationId = ud?.stringForKey("lastComplicationStationId"),

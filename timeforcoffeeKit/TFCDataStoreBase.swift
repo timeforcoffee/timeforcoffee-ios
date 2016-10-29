@@ -13,11 +13,9 @@ import MapKit
 
 public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegate, TFCDeparturesUpdatedProtocol {
 
-    public class var sharedInstance: TFCDataStore {
-        struct Static {
-            static let instance: TFCDataStore = TFCDataStore()
-        }
-        return Static.instance
+    override init() {
+        super.init()
+        DLog("init DataStoreBase", toFile: true)
     }
 
     let lockQueue = dispatch_queue_create("group.ch.opendata.timeforcoffee.notificationLock", DISPATCH_QUEUE_SERIAL)

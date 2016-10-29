@@ -9,20 +9,16 @@
 import Foundation
 
 public class TFCDataStore: TFCDataStoreBase {
+    
+    public static let sharedInstance = TFCDataStore()
+
     override var keyvaluestore: NSUbiquitousKeyValueStore? {
         return NSUbiquitousKeyValueStore.defaultStore()
     }
 
-    override public func getTFCID() -> String? {
-
-        let uid = super.getTFCID()
-        if uid == nil  {
-            if let uid = UIDevice.currentDevice().identifierForVendor?.UUIDString {
-                self.setObject(uid, forKey: "TFCID");
-                return uid
-            }
-        }
-        return uid
+    private override init() {
+        super.init()
     }
+
 }
 
