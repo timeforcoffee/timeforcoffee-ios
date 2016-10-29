@@ -9,8 +9,15 @@
 import Foundation
 
 public class TFCDataStore: TFCDataStoreBase {
+    
+    public static let sharedInstance = TFCDataStore()
+
     override var keyvaluestore: NSUbiquitousKeyValueStore? {
         return NSUbiquitousKeyValueStore.defaultStore()
+    }
+
+    private override init() {
+        super.init()
     }
 
 }

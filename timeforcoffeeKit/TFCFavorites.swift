@@ -26,7 +26,7 @@ final public class TFCFavorites: NSObject {
         }()
     
     private struct objects {
-        static let  dataStore: TFCDataStore? = TFCDataStore()
+        static let  dataStore: TFCDataStore? = TFCDataStore.sharedInstance
     }
 
     private var temporarlyRemovedStations = false
