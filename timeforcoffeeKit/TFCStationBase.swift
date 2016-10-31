@@ -186,7 +186,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             }
             #if DEBUG
                 if _realmObject == nil {
-                    DLog("realmObject IS NIL!!!! ", toFile: true)
+                    DLog("WARNING: realmObject IS NIL!!!! ", toFile: true)
                     #if DEBUG
                         abort()
                     #endif
@@ -341,10 +341,43 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         }
         // try to find it in the cache
         let cache: PINCache = TFCCache.objects.stations
+        // as a precaution, we check if core data is setup and if not, wait until it is.
+        // the better way would be to listen to the DB Setup event up in the stack
+        #if DEBUG
+            // This is for debugging purposes to check when we call the DB before it's actually setup
+            if (dispatch_group_wait(TFCDataStore.sharedInstance.myCoreDataStackSetupGroup, dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC)))) != 0) {
+                let stacktrace = NSThread.callStackSymbols()
+                let first = stacktrace.prefix(5)
+                DLog("WARNING: initWithCacheId db not set up, called from \(first)", toFile: true)
+            }
+        #endif
+
+        // this is for safeguarding in case we access the DB before it's setup
+        // FIXME: could block  main thread ...
+
+        // as a precaution, we check if core data is setup and if not, wait until it is.
+        // the better way would be to listen to the DB Setup event up in the stack
+        #if DEBUG
+            // This is for debugging purposes to check when we call the DB before it's actually setup
+            if (dispatch_group_wait(TFCDataStore.sharedInstance.myCoreDataStackSetupGroup, dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC)))) != 0) {
+                let stacktrace = NSThread.callStackSymbols()
+                let first = stacktrace.prefix(5)
+                DLog("WARNING: initWithCacheId db not set up, called from \(first)", toFile: true)
+            }
+        #endif
+
+
+        if (dispatch_group_wait(TFCDataStore.sharedInstance.myCoreDataStackSetupGroup, dispatch_time(DISPATCH_TIME_NOW, Int64(10.0 * Double(NSEC_PER_SEC)))) != 0) {
+            #if DEBUG
+                let stacktrace = NSThread.callStackSymbols()
+                let first = stacktrace.prefix(5)
+                DLog("WARNING: initWithCacheId timed out, called from \(first)", toFile: true)
+            #endif
+        }
         if let newStation = getFromMemoryCaches(trimmed_id) {
             return newStation
         }
-       
+
         let newStation: TFCStation? = cache.objectForKey(trimmed_id) as? TFCStation
         //if not in the cache, or no coordinates set or the name is "unknown"
         if (newStation == nil || newStation?.coord == nil || newStation?.name == "unknown") {
