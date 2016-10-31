@@ -229,6 +229,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                     self.needsLocationUpdate = false
                     self.currentStation?.updateDepartures(self)
                 } else {
+                    self.needsLocationUpdate = true
                 }
             }
         }
@@ -360,6 +361,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             if (locManager?.currentLocation != nil) {
                 // if lastUsedView is a single station and we did look at it no longer than 30 minutes
                 // and the distance is not much more (200m), just show it again
+                if (self.needsLocationUpdate && showStations == false) {
                     if (lastUsedViewUpdatedInterval() > -(60 * 30)) {
                         let distance2lastViewedStationNow: CLLocationDistance? = locManager?.currentLocation?.distanceFromLocation((lastViewedStation?.coord)!)
                         let distance2lastViewedStationLasttime: CLLocationDistance? = self.datastore.getUserDefaults()?.objectForKey("lastUsedStationDistance") as! CLLocationDistance?
