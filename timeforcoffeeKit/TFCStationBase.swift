@@ -187,6 +187,9 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             #if DEBUG
                 if _realmObject == nil {
                     DLog("realmObject IS NIL!!!! ", toFile: true)
+                    #if DEBUG
+                        abort()
+                    #endif
                 }
             #endif
             return _realmObject
