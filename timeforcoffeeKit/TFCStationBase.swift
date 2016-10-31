@@ -169,6 +169,9 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             obj.id = self.st_id
             return obj
         }
+        #if DEBUG
+            DLog("WARNING: realmObject IS NIL!!!! ", toFile: true)
+        #endif
         return nil
     }()
 
