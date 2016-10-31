@@ -147,8 +147,10 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         DLog("init", toFile: true)
         super.init(coder: aDecoder)
         self.setLoadingStage(2)
-        self.lastViewedStation?.removeObsoleteDepartures()
-        self.currentStation = self.lastViewedStation
+        self.datastore.checkForDBUpdate(false) {
+            self.lastViewedStation?.removeObsoleteDepartures()
+            self.currentStation = self.lastViewedStation
+        }
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
             #if !((arch(i386) || arch(x86_64)) && os(iOS))
                 Fabric.with([Crashlytics.self])
@@ -192,14 +194,14 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     override func awakeFromNib() {
         DLog("awakeFromNib")
 
-        let userDefaults = TFCDataStore.sharedInstance.getUserDefaults()
+        let userDefaults = self.datastore.getUserDefaults()
 
         TFCFavorites.sharedInstance.doGeofences = false
 
         if let preferredHeight = userDefaults?.objectForKey("lastPreferredContentHeight") as? CGFloat {
             self.preferredContentSize = CGSize(width: CGFloat(0.0), height: preferredHeight)
         }
-        TFCDataStore.sharedInstance.checkForDBUpdate(false) {
+        self.datastore.checkForDBUpdate(false) {
             self.afterAwakeFromNib()
         }
         DLog("awakeFromNib end")
@@ -208,6 +210,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     func afterAwakeFromNib() {
         DLog("afterAwakeFromNib")
 
+        self.needsLocationUpdate = true
         if (self.getLastUsedView() == "nearbyStations") {
             self.showStations = true
             self.populateStationsFromLastUsed()
@@ -221,26 +224,11 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                 }
                 // if lastUsedView is a single station and we did look at it no longer than
                 // 5 minutes ago, just show it again without even checking the location later
-                if (self.lastUsedViewUpdatedInterval() > -300) {
+                if (self.lastUsedViewUpdatedInterval() > -60) { //FIXME: Put back to 300
+                    self.setLoadingStage(1)
                     self.needsLocationUpdate = false
                     self.currentStation?.updateDepartures(self)
                 } else {
-                    self.currentStation = self.lastViewedStation
-                    if (self.currentStation != nil && self.currentStation?.getDepartures()?.count > 0) {
-                        self.showStations = false
-                        self.appsTableView?.reloadData()
-                        // if lastUsedView is a single station and we did look at it no longer than
-                        // 5 minutes ago, just show it again without even checking the location later
-                        if (self.lastUsedViewUpdatedInterval() > -300) {
-                            self.needsLocationUpdate = false
-                            self.currentStation?.updateDepartures(self)
-                        } else {
-                            self.needsLocationUpdate = true
-                        }
-                    } else {
-                        self.currentStation = nil
-                        self.showStations = false
-                    }
                 }
             }
         }
@@ -293,8 +281,8 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     override func viewDidDisappear(animated: Bool) {
         DLog("viewDidDisappear")
         TFCURLSession.sharedInstance.cancelURLSession()
-        if let moc = TFCDataStore.sharedInstance.mocObjects {
-            TFCDataStore.sharedInstance.saveContext(moc)
+        if let moc = self.datastore.mocObjects {
+            self.datastore.saveContext(moc)
         }
     }
     func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)) {
@@ -304,7 +292,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         // If there's an update, use NCUpdateResult.NewData
         DLog("widgetPerformUpdateWithCompletionHandler", toFile: true)
         self.completionHandlerCallback = completionHandler
-        guard TFCDataStore.sharedInstance.checkForCoreDataStackSetup(
+        guard self.datastore.checkForCoreDataStackSetup(
             self,
             selector: #selector(self.updateViewAfterStart(_:))
             ) else {
@@ -318,6 +306,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             DLog("was notified", toFile: true)
             NSNotificationCenter.defaultCenter().removeObserver(self, name: notification.name, object: nil)
         }
+        self.sendCompletionHandler()
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             DLog("updateViewAfterStart", toFile: true)
@@ -330,18 +319,16 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                 // if we're within the 5 minutes from last time (checked in awakeFromNiB)
                 // don't do anything
                 if (self.currentStation != nil && self.needsLocationUpdate == false) {
-                    self.sendCompletionHandler()
                     return
                 }
                 DLog("show new nearest station", toFile: true)
 
                 self.showStations = false
-                DLog("Refresh Location", toFile: true)
+                DLog("Looking for nearest station ...")
                 self.setLoadingStage(2)
                 self.locManager?.refreshLocation()
             }
             self.stations?.updateStations()
-            self.sendCompletionHandler()
         }
     }
 
@@ -369,30 +356,22 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
     override func locationFixed(coord: CLLocation?) {
         self.setLoadingStage(1)
-
-        DLog("locationFixed \(coord)", toFile: true)
         if (coord != nil) {
             if (locManager?.currentLocation != nil) {
                 // if lastUsedView is a single station and we did look at it no longer than 30 minutes
                 // and the distance is not much more (200m), just show it again
-                if (self.needsLocationUpdate && showStations == false) {
                     if (lastUsedViewUpdatedInterval() > -(60 * 30)) {
-                        DLog("__", toFile: true)
-                        if (lastViewedStation != nil) {
-                            let distance2lastViewedStationNow: CLLocationDistance? = locManager?.currentLocation?.distanceFromLocation((lastViewedStation?.coord)!)
-                            let distance2lastViewedStationLasttime: CLLocationDistance? = self.datastore.getUserDefaults()?.objectForKey("lastUsedStationDistance") as! CLLocationDistance?
-                            if (distance2lastViewedStationNow != nil && distance2lastViewedStationLasttime != nil && distance2lastViewedStationNow! < distance2lastViewedStationLasttime! + 200) {
-                                DLog("not moved more than 200m", toFile: true)
-                                DLog("__", toFile: true)
-                                needsLocationUpdate = false
-                                self.setLoadingStage(1)
-                                self.currentStation?.updateDepartures(self)
-                            }
+                        let distance2lastViewedStationNow: CLLocationDistance? = locManager?.currentLocation?.distanceFromLocation((lastViewedStation?.coord)!)
+                        let distance2lastViewedStationLasttime: CLLocationDistance? = self.datastore.getUserDefaults()?.objectForKey("lastUsedStationDistance") as! CLLocationDistance?
+                        if (distance2lastViewedStationNow != nil && distance2lastViewedStationLasttime != nil && distance2lastViewedStationNow! < distance2lastViewedStationLasttime! + 200) {
+                            needsLocationUpdate = false
+                            self.setLoadingStage(1)
+                            self.currentStation?.updateDepartures(self)
                         }
                     }
                 }
             }
-        }
+
     }
 
     override func locationDenied(manager: CLLocationManager, err:NSError) {
@@ -631,11 +610,11 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     }
 
     override func didReceiveMemoryWarning() {
-        TFCCache.clearMemoryCache()
-        if let moc = TFCDataStore.sharedInstance.mocObjects {
-            TFCDataStore.sharedInstance.saveContext(moc)
-        }
         DLog("didReceiveMemoryWarning memory warning", toFile: true)
+        TFCCache.clearMemoryCache()
+        if let moc = self.datastore.mocObjects {
+            self.datastore.saveContext(moc)
+        }
         super.didReceiveMemoryWarning()
     }
     
