@@ -214,6 +214,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                     self.needsLocationUpdate = false
                     self.currentStation?.updateDepartures(self)
                 } else {
+                    self.needsLocationUpdate = true
                 }
             } else {
                 self.currentStation = nil
@@ -320,7 +321,6 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         }
     }
 
-
     private func sendCompletionHandler() {
         DLog("locationFixed")
         if let completionHandler = self.completionHandlerCallback {
@@ -352,7 +352,6 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                 // if lastUsedView is a single station and we did look at it no longer than 30 minutes
                 // and the distance is not much more (200m), just show it again
                 if (self.needsLocationUpdate && showStations == false) {
-                    DLog("__", toFile: true)
                     if (lastUsedViewUpdatedInterval() > -(60 * 30)) {
                         DLog("__", toFile: true)
                         if (lastViewedStation != nil) {
