@@ -111,10 +111,13 @@ public class TFCWatchDataFetch: NSObject, NSURLSessionDownloadDelegate {
             }
             taskCallback?()
         }
-        if lastViewedStation != nil {
-            self.fetchDepartureDataForStation(lastViewedStation!)
-        }
         self.watchdata.startCrunchQueue {
+            //this could be called before DB is setup, so wait, if that's the case..
+            dispatch_group_wait(TFCDataStore.sharedInstance.myCoreDataStackSetupGroup, dispatch_time(DISPATCH_TIME_NOW, Int64(15.0 * Double(NSEC_PER_SEC))))
+
+            if lastViewedStation != nil {
+                self.fetchDepartureDataForStation(lastViewedStation!)
+            }
             DLog("call getStations", toFile: true)
             TFCDataStore.sharedInstance.watchdata.getStations(handleReply, errorReply: errorReply, stopWithFavorites: true)
         }

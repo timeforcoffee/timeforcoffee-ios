@@ -419,6 +419,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
 
     public func checkForDBUpdate(DBUpdate:Bool = true, callback: () -> Void) {
 
+        dispatch_group_wait(self.myCoreDataStackSetupGroup, dispatch_time(DISPATCH_TIME_NOW, Int64(5.0 * Double(NSEC_PER_SEC))))
         if (self.coreDataStackIsSetup()) {
             callback()
             return

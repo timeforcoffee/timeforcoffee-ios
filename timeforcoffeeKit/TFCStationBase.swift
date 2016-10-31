@@ -369,6 +369,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     }
 
     public class func initWithCacheId(id:String)-> TFCStation {
+        //this could be called before DB is setup, so wait, if that's the case..
         return initWithCache("", id: id, coord: nil)
     }
 
@@ -671,7 +672,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             depts = self.getFilteredDepartures()
         }
         if let depts = depts {
-            var sorted = depts.sort({ (s1, s2) -> Bool in
+            let sorted = depts.sort({ (s1, s2) -> Bool in
                 return s1.getScheduledTimeAsNSDate() < s2.getScheduledTimeAsNSDate()
             })
             var i = 0
