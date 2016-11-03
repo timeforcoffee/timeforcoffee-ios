@@ -50,7 +50,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     func applicationDidReceiveMemoryWarning(application: UIApplication) {
-        DLog("applicationDidReceiveMemoryWarning", toFile: true)
+        DLog("WARNING: applicationDidReceiveMemoryWarning", toFile: true)
     }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -261,7 +261,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 rootView.dismissViewControllerAnimated(false, completion: nil)
                 rootView.popToRootViewControllerAnimated(true)
                 if let pagedView:PagedStationsViewController = rootView.viewControllers.first as! PagedStationsViewController? {
-                    pagedView.moveToFavorites()
+                    TFCDataStore.sharedInstance.waitForDBSetupAsyncOnMainQueue(15.0) {
+                        pagedView.moveToFavorites()
+                    }
                 }
             }
             handled = true
@@ -272,7 +274,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 rootView.dismissViewControllerAnimated(false, completion: nil)
                 rootView.popToRootViewControllerAnimated(true)
                 if let pagedView:PagedStationsViewController = rootView.viewControllers.first as! PagedStationsViewController? {
-                   pagedView.searchClicked()
+                    TFCDataStore.sharedInstance.waitForDBSetupAsyncOnMainQueue(15.0) {
+                        pagedView.searchClicked()
+                    }
                 }
             }
             handled = true
@@ -282,8 +286,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             handled = true
             if let ua: [String: String] = shortcutItem.userInfo as? [String: String] {
                 if (ua["st_id"] != nil) {
-                    let station = TFCStation.initWithCache(ua)
-                    popUpStation(station)
+                    TFCDataStore.sharedInstance.waitForDBSetupAsyncOnMainQueue(15.0) {
+                        let station = TFCStation.initWithCache(ua)
+                        self.popUpStation(station)
+                    }
                 }
             }
 
@@ -297,39 +303,40 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
-
-        if (url.host == "nearby") {
-            if let rootView = self.window?.rootViewController as! UINavigationController? {
-                rootView.dismissViewControllerAnimated(false, completion: nil)
-                rootView.popToRootViewControllerAnimated(false)
-                if let pagedView:PagedStationsViewController = rootView.viewControllers.first as! PagedStationsViewController? {
-                    pagedView.moveToNearbyStations()
+        TFCDataStore.sharedInstance.waitForDBSetupAsyncOnMainQueue(15.0) {
+            if (url.host == "nearby") {
+                if let rootView = self.window?.rootViewController as! UINavigationController? {
+                    rootView.dismissViewControllerAnimated(false, completion: nil)
+                    rootView.popToRootViewControllerAnimated(false)
+                    if let pagedView:PagedStationsViewController = rootView.viewControllers.first as! PagedStationsViewController? {
+                        pagedView.moveToNearbyStations()
+                    }
                 }
-            }
 
-        } else if (url.host == "station" && url.query != nil) {
-         
-            var queryStrings = [String: String]()
-            if let query = url.query {
-                for qs in query.componentsSeparatedByString("&") {
-                    // Get the parameter name
-                    let key = qs.componentsSeparatedByString("=")[0]
-                    // Get the parameter name
-                    var value = qs.componentsSeparatedByString("=")[1]
-                    value = value.stringByReplacingOccurrencesOfString("+", withString: " ")
-                    value = value.stringByRemovingPercentEncoding!
+            } else if (url.host == "station" && url.query != nil) {
 
-                    
-                    queryStrings[key] = value
+                var queryStrings = [String: String]()
+                if let query = url.query {
+                    for qs in query.componentsSeparatedByString("&") {
+                        // Get the parameter name
+                        let key = qs.componentsSeparatedByString("=")[0]
+                        // Get the parameter name
+                        var value = qs.componentsSeparatedByString("=")[1]
+                        value = value.stringByReplacingOccurrencesOfString("+", withString: " ")
+                        value = value.stringByRemovingPercentEncoding!
+
+
+                        queryStrings[key] = value
+                    }
                 }
-            }
-            if let name = queryStrings["name"] as String? {
-                var Clocation: CLLocation? = nil
-                if (queryStrings["lat"] != nil) {
-                    Clocation = CLLocation(latitude: NSString(string: queryStrings["lat"]!).doubleValue, longitude: NSString(string: queryStrings["long"]!).doubleValue)
+                if let name = queryStrings["name"] as String? {
+                    var Clocation: CLLocation? = nil
+                    if (queryStrings["lat"] != nil) {
+                        Clocation = CLLocation(latitude: NSString(string: queryStrings["lat"]!).doubleValue, longitude: NSString(string: queryStrings["long"]!).doubleValue)
+                    }
+                    let station = TFCStation.initWithCache(name, id: queryStrings["id"]!, coord: Clocation)
+                    self.popUpStation(station)
                 }
-                let station = TFCStation.initWithCache(name, id: queryStrings["id"]!, coord: Clocation)
-                popUpStation(station)
             }
         }
         return true

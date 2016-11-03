@@ -300,7 +300,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             // This is for debugging purposes to check when we call the DB before it's actually setup
             if (dispatch_group_wait(TFCDataStore.sharedInstance.myCoreDataStackSetupGroup, dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC)))) != 0) {
                 let stacktrace = NSThread.callStackSymbols()
-                let first = stacktrace.first
+                let first = stacktrace.prefix(5)
                 DLog("WARNING: initWithCacheId db not set up, called from \(first)", toFile: true)
             }
         #endif

@@ -655,4 +655,11 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
         return false
     }
 
+    public func waitForDBSetupAsyncOnMainQueue(time: Double, callback: (() -> Void)) {
+        dispatch_async(dispatch_get_main_queue()) {
+            dispatch_group_wait(self.myCoreDataStackSetupGroup, dispatch_time(DISPATCH_TIME_NOW, Int64(time * Double(NSEC_PER_SEC))))
+            callback()
+        }
+    }
+
 }
