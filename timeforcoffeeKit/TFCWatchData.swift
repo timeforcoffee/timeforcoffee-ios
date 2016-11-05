@@ -305,9 +305,6 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
             ud?.setObject(nextUpdate, forKey: "lastBackgroundRefreshDate")
             WKExtension.sharedExtension().scheduleBackgroundRefreshWithPreferredDate(nextUpdate, userInfo: nil) { (error) in
                 DLog("updated next schedule at \(nextUpdate.formattedWithDateFormatter(DLogDateFormatter)) error: \(error)", toFile: true)
-                if error == nil {
-                    //successful
-                }
             }
         }        
     }
