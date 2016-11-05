@@ -373,7 +373,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                     }
                 }
             }
-
+        }
     }
 
     override func locationDenied(manager: CLLocationManager, err:NSError) {

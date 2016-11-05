@@ -36,6 +36,9 @@
 		EC18AA931BE4067000488DC4 /* TFCDeparturePass.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC18AA921BE4067000488DC4 /* TFCDeparturePass.swift */; };
 		EC18AA941BE406BC00488DC4 /* TFCDeparturePass.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC18AA921BE4067000488DC4 /* TFCDeparturePass.swift */; };
 		EC1B2F521D846CD100399F60 /* TFCWatchDataFetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1B2F4E1D82AC9E00399F60 /* TFCWatchDataFetch.swift */; };
+		EC2F1F211E2933D4008B80A9 /* TFCStationCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2F1F201E2933D4008B80A9 /* TFCStationCollection.swift */; };
+		EC2F1F221E2933D7008B80A9 /* TFCStationCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2F1F201E2933D4008B80A9 /* TFCStationCollection.swift */; };
+		EC2F1F241E293417008B80A9 /* PINCacheObjectSubscripting.h in Headers */ = {isa = PBXBuildFile; fileRef = EC2F1F231E293417008B80A9 /* PINCacheObjectSubscripting.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EC46C4DF1BB5C69800F2A963 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC46C4DE1BB5C69800F2A963 /* AppDelegate.swift */; };
 		EC46C4E61BB5C69800F2A963 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC46C4E41BB5C69800F2A963 /* Main.storyboard */; };
 		EC46C50B1BB5C71100F2A963 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC46C50A1BB5C71100F2A963 /* NotificationCenter.framework */; };
@@ -294,6 +297,8 @@
 		EC18AA921BE4067000488DC4 /* TFCDeparturePass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCDeparturePass.swift; sourceTree = "<group>"; };
 		EC1B2F4E1D82AC9E00399F60 /* TFCWatchDataFetch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCWatchDataFetch.swift; sourceTree = "<group>"; };
 		EC28EA451BD3E3F0004977B0 /* DataModels 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DataModels 2.xcdatamodel"; sourceTree = "<group>"; };
+		EC2F1F201E2933D4008B80A9 /* TFCStationCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCStationCollection.swift; sourceTree = "<group>"; };
+		EC2F1F231E293417008B80A9 /* PINCacheObjectSubscripting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PINCacheObjectSubscripting.h; sourceTree = "<group>"; };
 		EC46C4DB1BB5C69800F2A963 /* timeforcoffee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = timeforcoffee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC46C4DE1BB5C69800F2A963 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EC46C4E51BB5C69800F2A963 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -672,6 +677,7 @@
 				EC9BCB221BB5CCD300623F1A /* TFCLocationManagerBase.swift */,
 				EC9BCB231BB5CCD300623F1A /* TFCStation.swift */,
 				EC9BCB241BB5CCD300623F1A /* TFCStationBase.swift */,
+				EC2F1F201E2933D4008B80A9 /* TFCStationCollection.swift */,
 				EC9BCB251BB5CCD300623F1A /* TFCStations.swift */,
 				EC9BCB261BB5CCD300623F1A /* TFCURLSession.swift */,
 				EC9BCB271BB5CCD300623F1A /* TFCWatchData.swift */,
@@ -734,6 +740,7 @@
 		EC9BCB3A1BB5CD4D00623F1A /* PINCache */ = {
 			isa = PBXGroup;
 			children = (
+				EC2F1F231E293417008B80A9 /* PINCacheObjectSubscripting.h */,
 				EC9BCB3B1BB5CD4D00623F1A /* Nullability.h */,
 				EC9BCB3C1BB5CD4D00623F1A /* PINCache.h */,
 				EC9BCB3D1BB5CD4D00623F1A /* PINCache.m */,
@@ -764,6 +771,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC9BCB471BB5CD4D00623F1A /* PINMemoryCache.h in Headers */,
+				EC2F1F241E293417008B80A9 /* PINCacheObjectSubscripting.h in Headers */,
 				EC9BCB421BB5CD4D00623F1A /* Nullability.h in Headers */,
 				EC8290CE1D9FA035004A041B /* CoreDataStack.h in Headers */,
 				EC46C55C1BB5C82800F2A963 /* timeforcoffeeKit.h in Headers */,
@@ -1272,6 +1280,7 @@
 				EC050CFA1BB84DD200ECB533 /* TFCStation.swift in Sources */,
 				EC8290DC1D9FA035004A041B /* NSManagedObjectContext+SaveHelpers.swift in Sources */,
 				ECEBB7FE1BC7241A00AB83B9 /* TFCStationModel.swift in Sources */,
+				EC2F1F221E2933D7008B80A9 /* TFCStationCollection.swift in Sources */,
 				EC050CF61BB84D5B00ECB533 /* TFCWatchData.swift in Sources */,
 				EC050CF81BB84DC700ECB533 /* TFCLocationManager.swift in Sources */,
 				ECEBB7FF1BC7241D00AB83B9 /* TFCStationModel+CoreDataProperties.swift in Sources */,
@@ -1332,6 +1341,7 @@
 				EC9BCB361BB5CCD300623F1A /* TFCStations.swift in Sources */,
 				EC9BCB2D1BB5CCD300623F1A /* TFCCache.swift in Sources */,
 				EC68469B1BF9CDBD00BD8531 /* TFCSettings.swift in Sources */,
+				EC2F1F211E2933D4008B80A9 /* TFCStationCollection.swift in Sources */,
 				EC8290CA1D9FA035004A041B /* Bundle+CoreDataModelHelper.swift in Sources */,
 				EC18AA931BE4067000488DC4 /* TFCDeparturePass.swift in Sources */,
 				EC9BCB301BB5CCD300623F1A /* TFCDeparture.swift in Sources */,

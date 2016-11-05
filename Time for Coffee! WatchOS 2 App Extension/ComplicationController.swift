@@ -56,40 +56,40 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     
     func getTimelineEndDateForComplication(complication: CLKComplication, withHandler handler: (NSDate?) -> Void) {
         DLog("started getTimelineEndDateForComplication", toFile: true)
-        dispatch_group_wait(TFCDataStore.sharedInstance.myCoreDataStackSetupGroup, self.dispatchTime)
-
-        func handleReply(stations: TFCStations?) {
-            if let station = stations?.getStation(0) {
-                let departures = station.getScheduledFilteredDepartures()
-                DLog("firstStation: \(station.name) with \(departures?.count) filtered departures", toFile: true)
-                if let ud =  NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee") {
-                    ud.setObject(NSDate(), forKey: "lastComplicationUpdate")
-                    ud.setValue(station.st_id, forKey: "lastComplicationStationId")
-                }
-
-                func handleReply2(station: TFCStation?) {
-                    let departures = station?.getScheduledFilteredDepartures()
-
-                    if let endDate = departures?.last?.getScheduledTimeAsNSDate() {
-                        if let ud =  NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee") {
-                            ud.setObject(endDate, forKey: "lastDepartureTime")
-                        }
-                        DLog("last Departure: \(endDate)", toFile: true)
-                        handler(endDate.dateByAddingTimeInterval(70))
-                    } else {
-                        if let ud =  NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee") {
-                            ud.setObject(nil, forKey: "lastDepartureTime")
-                        }
-                        let endDate = NSDate().dateByAddingTimeInterval(60)
-                        DLog("no last Departure, set it to \(endDate)", toFile: true)
-                        handler(endDate)
+        TFCDataStore.sharedInstance.waitForDBSetupAsyncOnMainQueue(15.0) {
+            func handleReply(stations: TFCStations?) {
+                if let station = stations?.getStation(0) {
+                    let departures = station.getScheduledFilteredDepartures()
+                    DLog("firstStation: \(station.name) with \(departures?.count) filtered departures", toFile: true)
+                    if let ud =  NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee") {
+                        ud.setObject(NSDate(), forKey: "lastComplicationUpdate")
+                        ud.setValue(station.st_id, forKey: "lastComplicationStationId")
                     }
-                    DLog("finished getTimelineEndDateForComplication", toFile: true)
+
+                    func handleReply2(station: TFCStation?) {
+                        let departures = station?.getScheduledFilteredDepartures()
+
+                        if let endDate = departures?.last?.getScheduledTimeAsNSDate() {
+                            if let ud =  NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee") {
+                                ud.setObject(endDate, forKey: "lastDepartureTime")
+                            }
+                            DLog("last Departure: \(endDate)", toFile: true)
+                            handler(endDate.dateByAddingTimeInterval(70))
+                        } else {
+                            if let ud =  NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee") {
+                                ud.setObject(nil, forKey: "lastDepartureTime")
+                            }
+                            let endDate = NSDate().dateByAddingTimeInterval(60)
+                            DLog("no last Departure, set it to \(endDate)", toFile: true)
+                            handler(endDate)
+                        }
+                        DLog("finished getTimelineEndDateForComplication", toFile: true)
+                    }
+                    self.updateDepartures(station, context: handleReply2)
                 }
-                self.updateDepartures(station, context: handleReply2)
             }
+            self.watchdata.getStations(handleReply, errorReply: nil, stopWithFavorites: true)
         }
-        self.watchdata.getStations(handleReply, errorReply: nil, stopWithFavorites: true)
     }
     
     func getPrivacyBehaviorForComplication(complication: CLKComplication, withHandler handler: (CLKComplicationPrivacyBehavior) -> Void) {
@@ -100,72 +100,71 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     
     func getCurrentTimelineEntryForComplication(complication: CLKComplication, withHandler handler: ((CLKComplicationTimelineEntry?) -> Void)) {
         DLog("started getCurrentTimelineEntryForComplication", toFile: true)
-        dispatch_group_wait(TFCDataStore.sharedInstance.myCoreDataStackSetupGroup, self.dispatchTime)
-
-        // Take the first entry before the current date
-        getTimelineEntriesForComplication(complication, beforeDate: NSDate(), limit: 1) { (entries) -> Void in
-            handler(entries?.first)
+        TFCDataStore.sharedInstance.waitForDBSetupAsyncOnMainQueue(10.0) {
+            // Take the first entry before the current date
+            self.getTimelineEntriesForComplication(complication, beforeDate: NSDate(), limit: 1) { (entries) -> Void in
+                handler(entries?.first)
+            }
+            DLog("finished getCurrentTimelineEntryForComplication", toFile: true)
         }
-        DLog("finished getCurrentTimelineEntryForComplication", toFile: true)
     }
     
     func getTimelineEntriesForComplication(complication: CLKComplication, beforeDate date: NSDate, limit: Int, withHandler handler: (([CLKComplicationTimelineEntry]?) -> Void)) {
         // Call the handler with the timeline entries after to the given date
         DLog("started getTimelineEntriesForComplication beforeDate \(date)", toFile: true)
-        dispatch_group_wait(TFCDataStore.sharedInstance.myCoreDataStackSetupGroup, self.dispatchTime)
-        func handleReply(stations: TFCStations?) {
-            var entries = [CLKComplicationTimelineEntry]()
-            
-            if let station = stations?.getStation(0) { // corresponds to the last favorited station or closest station
-                func handleReply2(station:TFCStation?) {
-                    //just take the first entry here... It's the one we want to display
-                    station?.removeObsoleteDepartures()
-                    if let departures = station?.getScheduledFilteredDepartures(),
-                        departure = departures.first {
-                        DLog("firstStation: \(station?.name) with \(departures.count) filtered departures", toFile: true)
+        TFCDataStore.sharedInstance.waitForDBSetupAsyncOnMainQueue(15.0) {
+            func handleReply(stations: TFCStations?) {
+                var entries = [CLKComplicationTimelineEntry]()
 
-                        let thisEntryDate = timelineEntryDateForDeparture(departure, previousDeparture: nil)
-                        let nextDeparture: TFCDeparture? = (departures.count >= 2) ? departures[1] : nil
-                        if let station = station, tmpl = templateForStationDepartures(station, departure: departure, nextDeparture: nextDeparture, complication: complication) {
-                            let entry = CLKComplicationTimelineEntry(date: thisEntryDate, complicationTemplate: tmpl)
-                            DLog("tl 0: \(thisEntryDate)"   )
-                            DLog("tl 1: \(departure.getLine()): \(departure.getDestination()) \(departure.getScheduledTime()!)")
-                            if let nextDeparture = nextDeparture {
-                                DLog("tl 2: \(nextDeparture.getLine()): \(nextDeparture.getDestination()) \(nextDeparture.getScheduledTime()!) ")
+                if let station = stations?.getStation(0) { // corresponds to the last favorited station or closest station
+                    func handleReply2(station:TFCStation?) {
+                        //just take the first entry here... It's the one we want to display
+                        station?.removeObsoleteDepartures()
+                        if let departures = station?.getScheduledFilteredDepartures(),
+                            departure = departures.first {
+                            DLog("firstStation: \(station?.name) with \(departures.count) filtered departures", toFile: true)
+
+                            let thisEntryDate = self.timelineEntryDateForDeparture(departure, previousDeparture: nil)
+                            let nextDeparture: TFCDeparture? = (departures.count >= 2) ? departures[1] : nil
+                            if let station = station, tmpl = self.templateForStationDepartures(station, departure: departure, nextDeparture: nextDeparture, complication: complication) {
+                                let entry = CLKComplicationTimelineEntry(date: thisEntryDate, complicationTemplate: tmpl)
+                                //   DLog("tl 0: \(thisEntryDate)"   )
+                                //   DLog("tl 1: \(departure.getLine()): \(departure.getDestination()) \(departure.getScheduledTime()!)")
+                                //     if let nextDeparture = nextDeparture {
+                                //       DLog("tl 2: \(nextDeparture.getLine()): \(nextDeparture.getDestination()) \(nextDeparture.getScheduledTime()!) ")
+                                //   }
+                                entries.append(entry)
                             }
-                            entries.append(entry)
                         }
+                        DLog("entries count: \(entries.count) limit \(limit)", toFile: true)
+
+                        handler(entries)
+                        DLog("finished getTimelineEntriesForComplication beforeDate", toFile: true)
+
                     }
+                    self.updateDepartures(station, context: handleReply2)
+                } else {
                     DLog("entries count: \(entries.count) limit \(limit)", toFile: true)
 
                     handler(entries)
                     DLog("finished getTimelineEntriesForComplication beforeDate", toFile: true)
-
                 }
-                self.updateDepartures(station, context: handleReply2)
-            } else {
-                DLog("entries count: \(entries.count) limit \(limit)", toFile: true)
-
-                handler(entries)
-                DLog("finished getTimelineEntriesForComplication beforeDate", toFile: true)
             }
+            self.watchdata.getStations(handleReply, errorReply: nil, stopWithFavorites: true)
         }
-        
-        watchdata.getStations(handleReply, errorReply: nil, stopWithFavorites: true)
     }
     
     func getTimelineEntriesForComplication(complication: CLKComplication, afterDate date: NSDate, limit: Int, withHandler handler: (([CLKComplicationTimelineEntry]?) -> Void)) {
         // Call the handler with the timeline entries after to the given date
         DLog("started getTimelineEntriesForComplication afterDate: \(date)", toFile: true)
-        dispatch_group_wait(TFCDataStore.sharedInstance.myCoreDataStackSetupGroup, self.dispatchTime)
-
-        func handleReply(stations: TFCStations?) {
-            var entries = [CLKComplicationTimelineEntry]()
-            if let station = stations?.getStation(0) { // corresponds to the favorited/closest station
-                func handleReply2(station: TFCStation?) {
-                    if let station = station,
-                        departures = station.getScheduledFilteredDepartures(limit) {
-                        DLog("firstStation: \(station.name) with \(departures.count) filtered departures", toFile: true)
+        TFCDataStore.sharedInstance.waitForDBSetupAsyncOnMainQueue(15.0) {
+            func handleReply(stations: TFCStations?) {
+                var entries = [CLKComplicationTimelineEntry]()
+                if let station = stations?.getStation(0) { // corresponds to the favorited/closest station
+                    func handleReply2(station: TFCStation?) {
+                        if let station = station,
+                            departures = station.getScheduledFilteredDepartures(limit) {
+                            DLog("firstStation: \(station.name) with \(departures.count) filtered departures", toFile: true)
 
                             var index = 0
                             var previousDeparture: TFCDeparture? = nil
@@ -173,11 +172,11 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                             var nextDeparture: TFCDeparture? = (departures.count >= 2) ? departures[1] : nil
                             var lastDepartureTimeNew:NSDate? = departure?.getScheduledTimeAsNSDate()
                             while let thisDeparture = departure {
-                                let thisEntryDate = timelineEntryDateForDeparture(thisDeparture, previousDeparture: previousDeparture)
+                                let thisEntryDate = self.timelineEntryDateForDeparture(thisDeparture, previousDeparture: previousDeparture)
                                 if date.compare(thisEntryDate) == .OrderedAscending { // check if the entry date is "correctly" after the given date
                                     // only add it, if previous departure is before this departure (when they are the same, it was added with the previous one (or if we have more than 2, then nr 3+ won't be added, which is fine)
                                     if (previousDeparture?.getScheduledTime() < thisDeparture.getScheduledTime()) {
-                                        if let tmpl = templateForStationDepartures(station, departure: thisDeparture, nextDeparture: nextDeparture, complication: complication) {
+                                        if let tmpl = self.templateForStationDepartures(station, departure: thisDeparture, nextDeparture: nextDeparture, complication: complication) {
                                             let entry = CLKComplicationTimelineEntry(date: thisEntryDate, complicationTemplate: tmpl)
                                         /*    DLog("tl 0: \(thisEntryDate)"   )
                                             DLog("tl 1: \(thisDeparture.getLine()): \(thisDeparture.getDestination()) \(thisDeparture.getScheduledTime()!)")
@@ -199,25 +198,26 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                             DLog("entries count: \(entries.count) limit \(limit)", toFile: true)
                             if (entries.count > 0) {
                                 //remove all entries until we're one below the limit
-                                while (entries.count >= limit) {                                
+                                while (entries.count >= limit) {
                                     entries.popLast()
                                 }
-                                if let lastDepartureTimeNew = lastDepartureTimeNew, tmpl = templateForStationDepartures(station, departure: nil, nextDeparture: nil, complication: complication) {
+                                if let lastDepartureTimeNew = lastDepartureTimeNew, tmpl = self.templateForStationDepartures(station, departure: nil, nextDeparture: nil, complication: complication) {
                                     let entry = CLKComplicationTimelineEntry(date: (lastDepartureTimeNew.dateByAddingTimeInterval(60)), complicationTemplate: tmpl)
                                     entries.append(entry)
                                 }
-                            }                           
+                            }
+                        }
+                        handler(entries)
+                        DLog("finished getTimelineEntriesForComplication afterDate", toFile: true)
                     }
+                    self.updateDepartures(station, context: handleReply2)
+                } else {
                     handler(entries)
                     DLog("finished getTimelineEntriesForComplication afterDate", toFile: true)
                 }
-                self.updateDepartures(station, context: handleReply2)
-            } else {
-                handler(entries)
-                DLog("finished getTimelineEntriesForComplication afterDate", toFile: true)
             }
+            self.watchdata.getStations(handleReply, errorReply: nil, stopWithFavorites: true)
         }
-        watchdata.getStations(handleReply, errorReply: nil, stopWithFavorites: true)
     }
     
     // MARK: - Update Scheduling

@@ -226,25 +226,25 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         DLog("selectStation", toFile: true)
         if (notification.userInfo == nil) {
             station = nil
+            self.becomeCurrentPage()
         } else {
-            // as a precaution, we check if core data is setup and if not, wait until it is.
-            // the better way would be to listen to the DB Setup event up in the stack
-            dispatch_group_wait(TFCDataStore.sharedInstance.myCoreDataStackSetupGroup, dispatchTime)
-            let uI:[String:String]? = notification.userInfo as? [String:String]
-            if let st_id = uI?["st_id"] {
-                if (self.station == nil) {
-                    self.station = TFCStation.initWithCacheId(st_id)
-                    self.initTable = true
-                } else if let self_st_id = self.station?.st_id {
-                    if (self_st_id != st_id) {
+            TFCDataStore.sharedInstance.waitForDBSetupAsyncOnMainQueue(15.0) {
+                let uI:[String:String]? = notification.userInfo as? [String:String]
+                if let st_id = uI?["st_id"] {
+                    if (self.station == nil) {
                         self.station = TFCStation.initWithCacheId(st_id)
                         self.initTable = true
+                    } else if let self_st_id = self.station?.st_id {
+                        if (self_st_id != st_id) {
+                            self.station = TFCStation.initWithCacheId(st_id)
+                            self.initTable = true
+                        }
                     }
                 }
+                self.becomeCurrentPage()
             }
         }
 
-        self.becomeCurrentPage()
     }
 
     func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?) {
