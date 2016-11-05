@@ -101,7 +101,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     func applicationDidEnterBackground() {
         #if DEBUG
             self.tickStart = NSDate()
-            self.tick()
+         //   self.tick()
         #endif
     }
 
@@ -164,7 +164,9 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         }
 
         if let lastId = NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee")?.stringForKey("lastFirstStationId") {
-            TFCWatchDataFetch.sharedInstance.fetchDepartureDataForStation(TFCStation.initWithCacheId(lastId))
+            TFCDataStore.sharedInstance.waitForDBSetupAsyncOnMainQueue(10.0) {
+                TFCWatchDataFetch.sharedInstance.fetchDepartureDataForStation(TFCStation.initWithCacheId(lastId))
+            }
         }
     }
 
