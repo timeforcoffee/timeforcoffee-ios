@@ -20,6 +20,7 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
     public var sortTime: NSDate?
     public var sortOrder: Int?
     public var key: String?
+    private var signature: String?
     private var _station: TFCStation?
     var passlist: [TFCPass]? = nil
 
@@ -73,7 +74,7 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
         self.key = aDecoder.decodeObjectForKey("key") as? String
         self.arrivalScheduled = aDecoder.decodeObjectForKey("arrivalScheduled") as? NSDate
         self.arrivalRealtime = aDecoder.decodeObjectForKey("arrivalRealtime") as? NSDate
-
+        self.signature = aDecoder.decodeObjectForKey("signature") as? String
     }
 
     public func encodeWithCoder(aCoder: NSCoder) {
@@ -93,6 +94,8 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
         aCoder.encodeObject(key, forKey: "key")
         aCoder.encodeObject(arrivalScheduled, forKey: "arrivalScheduled")
         aCoder.encodeObject(arrivalRealtime, forKey: "arrivalRealtime")
+        aCoder.encodeObject(signature, forKey: "signature")
+
     }
 
     func getKey() -> String {
@@ -103,6 +106,9 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
     }
 
     public func getSignature() -> String {
+        if let sig = self.signature {
+            return sig
+        }
         var props:[String:AnyObject] = ["type": type, "accessible": accessible]
 
         props["isFavorite"] = isFavorite()
@@ -138,6 +144,7 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
         if let arrivalScheduled = arrivalScheduled {
             props["arrivalScheduled"] = arrivalScheduled
         }
+        self.signature = props.description
         return props.description
     }
 
