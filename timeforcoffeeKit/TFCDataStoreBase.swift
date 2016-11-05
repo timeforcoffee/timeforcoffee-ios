@@ -37,6 +37,10 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
         }
     }
 
+    deinit {
+        DLog("deinit TFCDataStoreBase", toFile: true)
+    }
+
     public func coreDataStackIsSetup() -> Bool {
         return (myCoreDataStack != nil)
     }
@@ -437,10 +441,10 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
             callback()
             return
         }
-        DLog("dispatch_group_enter")
+        DLog("dispatch_group_enter", toFile: true)
         dispatch_group_enter(self.myCoreDataStackSetupGroup)
         self.checkForSqlite()
-        DLog("sqlite installed")
+        DLog("sqlite installed", toFile: true)
         // Call the callback as high prio. We wait for it anyway...
         let queue:dispatch_queue_t = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)
 
@@ -449,12 +453,15 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
             case .Success(let stack):
                 self.myCoreDataStack = stack
             case .Failure(let error):
-                DLog("dispatch error: \(error)")
+                DLog("dispatch error: \(error)", toFile: true)
             }
+            DLog("____", toFile: true)
             dispatch_group_leave(self.myCoreDataStackSetupGroup)
+            DLog("____", toFile: true)
             callback()
+            DLog("____", toFile: true)
             NSNotificationCenter.defaultCenter().postNotificationName("TFCCoreDataStackSetup", object: nil, userInfo: nil)
-            DLog("dispatch_group_leave. DB is setup")
+            DLog("dispatch_group_leave. DB is setup", toFile: true)
 
         }
     }
@@ -674,7 +681,13 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
 
     public func waitForDBSetupAsyncOnMainQueue(time: Double, callback: (() -> Void)) {
         dispatch_async(dispatch_get_main_queue()) {
-            dispatch_group_wait(self.myCoreDataStackSetupGroup, dispatch_time(DISPATCH_TIME_NOW, Int64(time * Double(NSEC_PER_SEC))))
+            if (dispatch_group_wait(self.myCoreDataStackSetupGroup, dispatch_time(DISPATCH_TIME_NOW, Int64(time * Double(NSEC_PER_SEC)))) != 0) {
+                #if DEBUG
+                    let stacktrace = NSThread.callStackSymbols()
+                    let first = stacktrace.prefix(5)
+                    DLog("WARNING: waitForDBSetupAsyncOnMainQueue timed out, called from \(first)", toFile: true)
+                #endif
+            }
             callback()
         }
     }
