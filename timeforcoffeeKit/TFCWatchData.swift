@@ -134,7 +134,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
                 closure()
             }
         } else {
-            #if DEBUG
+/*            #if DEBUG
                 let stacktrace = NSThread.callStackSymbols()
                 if (stacktrace.count > 1) {
                     let first = stacktrace[1]
@@ -144,7 +144,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
                 
                 (WKExtension.sharedExtension().delegate as! ExtensionDelegate).tickDebugLog()
             #endif
-
+*/
             queue = TFCWatchData.crunchQueue
             TFCWatchData.crunchQueueTasks += 1
             dispatch_async(queue, {
