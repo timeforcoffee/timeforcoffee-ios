@@ -100,7 +100,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
     func applicationDidEnterBackground() {
         #if DEBUG
-            self.tickStart = NSDate()
+         //   self.tickStart = NSDate()
          //   self.tick()
         #endif
     }
