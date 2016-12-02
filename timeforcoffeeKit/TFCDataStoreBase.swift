@@ -528,7 +528,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                         data["station"] =  NSKeyedArchiver.archivedDataWithRootObject(firstStation)
                         firstStation.serializeDepartures = true
                         if let filteredDepartures = firstStation.getFilteredDepartures() {
-                            data["departures"] =  NSKeyedArchiver.archivedDataWithRootObject(Array(filteredDepartures.prefix(20)))
+                            data["departures"] =  NSKeyedArchiver.archivedDataWithRootObject(Array(filteredDepartures.prefix(10)))
                         }
 
                         let dict:[String:[String:AnyObject]] = ["__updateComplicationData__": data]

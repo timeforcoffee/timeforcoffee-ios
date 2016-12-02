@@ -167,9 +167,11 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
             return TFCDeparture.withJSONFromTransport2TFC(allResults, st_id: st_id)
         }
         if let results = allResults?["departures"].array {
+            let station = TFCStation.initWithCacheId(st_id)
             var sortOrder = 1
             var sortTimeBefore:NSDate? = nil
             departures = [TFCDeparture]()
+            var count = 0
             for result in results {
                 let name = result["name"].stringValue
                 let type = result["type"].stringValue
@@ -205,7 +207,21 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
                     }
                     sortTimeBefore = sortTime
                     let newDeparture = TFCDeparture(name: name, type: type, accessible: accessible, to: to, destination_id: destination_id, scheduled: scheduled, realtime: realtime, arrivalRealtime: arrivalRealtime, arrivalScheduled: arrivalScheduled, sortTime: sortTime, sortOrder: sortOrder, colorFg: colorFg, colorBg: colorBg, platform: platform, st_id: st_id)
-                    departures?.append(newDeparture)
+                    // in watchOS only add departure, if it's a favorite... and only 10
+                    #if os(watchOS)
+                        let maxCount = 10
+                        if ((!station.hasFavoriteDepartures() || newDeparture.isFavorite()) && count < maxCount) {
+                            DLog("add \(newDeparture.getKey())", toFile: true)
+                            count += 1
+                            departures?.append(newDeparture)
+                            if (count >= maxCount) {
+                                DLog("break", toFile: true)
+                                break
+                            }
+                        }
+                    #else
+                        departures?.append(newDeparture)
+                    #endif
                 }
             }
             return departures
