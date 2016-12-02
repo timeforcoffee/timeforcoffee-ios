@@ -178,11 +178,11 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                                     if (previousDeparture?.getScheduledTime() < thisDeparture.getScheduledTime()) {
                                         if let tmpl = self.templateForStationDepartures(station, departure: thisDeparture, nextDeparture: nextDeparture, complication: complication) {
                                             let entry = CLKComplicationTimelineEntry(date: thisEntryDate, complicationTemplate: tmpl)
-                                            DLog("tl 0: \(thisEntryDate)"   )
+                                        /*    DLog("tl 0: \(thisEntryDate)"   )
                                             DLog("tl 1: \(thisDeparture.getLine()): \(thisDeparture.getDestination()) \(thisDeparture.getScheduledTime()!)")
                                             if let nextDeparture = nextDeparture {
                                                 DLog("tl 2: \(nextDeparture.getLine()): \(nextDeparture.getDestination()) \(nextDeparture.getScheduledTime()!) ")
-                                            }
+                                            }*/
                                             entries.append(entry)
                                         }
                                     }
