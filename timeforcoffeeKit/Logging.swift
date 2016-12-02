@@ -94,57 +94,66 @@ let DLogDayHourMinuteFormatter:NSDateFormatter = {
     return formatter
 }()
 
-func DLog<T>(@autoclosure object: () -> T, toFile: Bool = false, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
+func DLog<T>(@autoclosure object: () -> T, toFile: Bool = false, sync:Bool = false, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
     #if DEBUG
         let value = object()
         let queueLabel = String(UTF8String: dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL))
         let currentThread = "\(NSThread.currentThread())"
         let date = NSDate().formattedWithDateFormatter(DLogDateFormatter)
-        dispatch_sync(logQueue) {
-        let stringRepresentation: String
+        func logIt() {
+            let stringRepresentation: String
 
-        if let value = value as? CustomDebugStringConvertible {
-            stringRepresentation = value.debugDescription
-        } else if let value = value as? CustomStringConvertible {
-            stringRepresentation = value.description
-        } else {
-            fatalError("loggingPrint only works for values that conform to CustomDebugStringConvertible or CustomStringConvertible")
-        }
-        let fileEscaped = file.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLPathAllowedCharacterSet())
-        let fileURL = NSURL(string: fileEscaped!)?.lastPathComponent ?? "Unknown file"
-        //  <NSThread: 0x17066e7c0>{number = 11, name = (null)}
-        var matches:String = ""
-        if let queueLabel = queueLabel {
-            if queueLabel == "ch.opendata.timeforcoffee.crunch" {
-                matches = "CQ"
-            } else if (queueLabel == "com.apple.main-thread") {
-                matches = "UI"
-            } else if (queueLabel.containsString("NSOperationQueue")) {
-                matches = queueLabel.replace("NSOperationQueue (.+) :: .*QOS: (.*)\\)", template: "$1 $2")
+            if let value = value as? CustomDebugStringConvertible {
+                stringRepresentation = value.debugDescription
+            } else if let value = value as? CustomStringConvertible {
+                stringRepresentation = value.description
             } else {
-                matches = "\(queueLabel)"
+                fatalError("loggingPrint only works for values that conform to CustomDebugStringConvertible or CustomStringConvertible")
+            }
+            let fileEscaped = file.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLPathAllowedCharacterSet())
+            let fileURL = NSURL(string: fileEscaped!)?.lastPathComponent ?? "Unknown file"
+            //  <NSThread: 0x17066e7c0>{number = 11, name = (null)}
+            var matches:String = ""
+            if let queueLabel = queueLabel {
+                if queueLabel == "ch.opendata.timeforcoffee.crunch" {
+                    matches = "CQ"
+                } else if (queueLabel == "com.apple.main-thread") {
+                    matches = "UI"
+                } else if (queueLabel.containsString("NSOperationQueue")) {
+                    matches = queueLabel.replace("NSOperationQueue (.+) :: .*QOS: (.*)\\)", template: "$1 $2")
+                } else {
+                    matches = "\(queueLabel)"
+                }
+            } else {
+                let pattern = ".* 0x(.*)>\\{number = ([0-9]+).*"
+                matches = currentThread.replace(pattern, template: "$1 #$2")
+            }
+
+            let queue = matches
+            //print("\(NSDate().formattedWithDateFormatter(DLogDateFormatter)) <\(queue)> \(fileURL) \(function)[\(line)] - " + stringRepresentation)
+            NSLog("<\(queue)> %@ (\(fileURL) \(function)[\(line)])", stringRepresentation)
+            #if os(watchOS)
+                let alwaysLogToFile = true
+            #else
+                let alwaysLogToFile = false
+            #endif
+            if (toFile || alwaysLogToFile) {
+                let text = "\(date) <\(queue)> \(stringRepresentation)  (\(fileURL) \(function)[\(line)])"
+                /*  #if os(watchOS)
+                 DLog2WatchConnectivity(text)
+                 #endif
+                 */
+                DLog2File(text)
+            }
+        }
+        if (sync) {
+            dispatch_sync(logQueue) {
+                logIt()
             }
         } else {
-            let pattern = ".* 0x(.*)>\\{number = ([0-9]+).*"
-            matches = currentThread.replace(pattern, template: "$1 #$2")
-        }
-
-        let queue = matches
-        //print("\(NSDate().formattedWithDateFormatter(DLogDateFormatter)) <\(queue)> \(fileURL) \(function)[\(line)] - " + stringRepresentation)
-        NSLog("<\(queue)> %@ (\(fileURL) \(function)[\(line)])", stringRepresentation)
-        #if os(watchOS)
-            let alwaysLogToFile = true
-        #else
-            let alwaysLogToFile = false
-        #endif
-        if (toFile || alwaysLogToFile) {
-            let text = "\(date) <\(queue)> \(stringRepresentation)  (\(fileURL) \(function)[\(line)])"
-          /*  #if os(watchOS)
-                DLog2WatchConnectivity(text)
-            #endif
-           */
-            DLog2File(text)
-        }
+            dispatch_async(logQueue) {
+                logIt()
+            }
         }
     #endif
 }
