@@ -181,8 +181,10 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             }
             #if DEBUG
                 if _realmObject == nil {
-                    DLog("WARNING: realmObject IS NIL!!!! ", toFile: true)
                     #if DEBUG
+                        let stacktrace = NSThread.callStackSymbols()
+                        let first = stacktrace.prefix(10)
+                        DLog("WARNING: realmObject IS NIL!!!! \(first)", toFile: true, sync: true)
                         abort()
                     #endif
                 }
