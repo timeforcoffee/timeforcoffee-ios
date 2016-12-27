@@ -7,11 +7,10 @@ $odp_companies_json = json_decode(file_get_contents($url), true);
 $odp_companies = [];
 foreach ($odp_companies_json['result']['records'] as $r) {
     if ($r['Company-GO-ID'] != 11) { //SBB, we let zvv handle that one
-        if ($r['Company-GO-ID'] != 870) { //ASM Auto has no at all
-            $odp_companies[] = $r['Company-GO-ID'];
-        }
+        $odp_companies[] = $r['Company-GO-ID'];
     }
 }
+
 //$stations = getDataFromAPI($odp_companies);
 $stations = getDataFromCSV($odp_companies);
 foreach ($stations as $r) {
