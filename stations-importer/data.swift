@@ -30,6 +30,7 @@ public class TFCDataStore: NSObject {
 
     lazy var applicationDocumentsDirectory: NSURL = {
         // The directory the application uses to store the Core Data store file. This code uses a directory named "ch.opendata.timeforcoffee.timeforcoffee" in the application's documents Application Support directory.
+        return NSURL(fileURLWithPath: "/opt/git/timeforcoffee/timeforcoffeeKit", isDirectory: true)
         let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
         return urls[urls.count-1]
         }()
@@ -102,6 +103,7 @@ func saveContext () {
     if TFCDataStore.sharedInstance.managedObjectContext.hasChanges {
         do {
             try TFCDataStore.sharedInstance.managedObjectContext.save()
+
         } catch {
             // Replace this implementation with code to handle the error appropriately.
             // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -116,6 +118,11 @@ func updateGeolocationInfo(realmObject: TFCStationModel, callback: () -> Void) {
     let iso = realmObject.countryISO
     if (iso == nil) {
         let geocoder = CLGeocoder()
+        if (realmObject.latitude == nil) {
+            print ("nil")
+            delay(0.2, closure: callback)
+            return
+        }
         let coordinates = CLLocation(latitude: Double(realmObject.latitude!), longitude: Double(realmObject.longitude!))
 
         geocoder.reverseGeocodeLocation(coordinates) { (places:[CLPlacemark]?, error:NSError?) -> Void in

@@ -7,7 +7,8 @@
 //
 
 /* This is a very ugly "script" to import the station data from
-   http://www.fahrplanfelder.ch/ with it's geolocation and then
+   https://opentransportdata.swiss/dataset/695c7af6-d486-4cde-9bf0-a92fdd581a4e/resource/b92a372f-7843-4ddd-b1c6-c9c6397e1097/download/bfkoordgeo.csv
+   with it's geolocation and then
    reverse lookup those coordinates to store, in which country
    and county those stations are. So that we later can query the
    correct source (currently it's about getting data from 
@@ -17,7 +18,7 @@
 import Foundation
 import CoreData
 let doReadImportFile = true
-let StationsPlainTextFile = "/opt/git/timeforcoffee/stations-importer/BFKOORD_GEO"
+let StationsPlainTextFile = "/opt/git/timeforcoffee/stations-importer/bfkoordgeo.csv"
 
 func getPart(line: String, start: Int, end: Int) -> String {
     let part:String
@@ -36,21 +37,31 @@ if (doReadImportFile) {
         }
         while let line = aStreamReader.nextLine() {
             print(line)
-            let id = getPart(line, start: 0, end: 8).replace("^0*", template: "")
+            let station = line.componentsSeparatedByString(",")
+
+
+            //let csv = CS
+
+            let id = station[0].replace("^0*", template: "")
+            if (id == "StationID") {
+                continue;
+            }
             let obj = getCDObject(id)
-            let lon = Double(getPart(line, start: 8, end: 19))
+            let lon = Double(station[1])
             if (lon != obj.longitude) {
                 obj.longitude = lon
                 obj.countryISO = nil
                 obj.lastUpdated = NSDate()
             }
-            let lat = Double(getPart(line, start: 19, end: 30))
+            let lat = Double(station[2])
             if (lat != obj.latitude) {
                 obj.latitude = lat
                 obj.countryISO = nil
                 obj.lastUpdated = NSDate()
             }
-            let name = getPart(line, start: 39, end: 0)
+            let name = (station.suffix(station.count - 4)).joinWithSeparator(",").stringByTrimmingCharactersInSet(
+                NSCharacterSet.whitespaceAndNewlineCharacterSet()
+            ).stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "\""))
             if (name != obj.name) {
                 obj.name = name
                 obj.lastUpdated = NSDate()
