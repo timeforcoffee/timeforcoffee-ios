@@ -182,8 +182,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
         if let iCloudDocumentsURL = NSFileManager.defaultManager().URLForUbiquityContainerIdentifier("iCloud.ch.opendata.timeforcoffee")?.URLByAppendingPathComponent("Documents") {
             let fileManager = NSFileManager.defaultManager()
             do {
-                let url = file.fileURL
-                if let filename = url.lastPathComponent, moveTo = iCloudDocumentsURL.URLByAppendingPathComponent(filename) {
+                if let url = file.fileURL as NSURL?, filename = url.lastPathComponent, moveTo = iCloudDocumentsURL.URLByAppendingPathComponent(filename) {
                     DLog("received file \(filename)", toFile: true)
                     if fileManager.fileExistsAtPath(moveTo.path!) {
                         try fileManager.removeItemAtURL(moveTo)
