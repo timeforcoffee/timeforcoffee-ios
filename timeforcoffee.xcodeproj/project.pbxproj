@@ -111,7 +111,6 @@
 		EC8290E01D9FA035004A041B /* NSPersistentStoreCoordinator+SQLiteHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8290C91D9FA035004A041B /* NSPersistentStoreCoordinator+SQLiteHelpers.swift */; };
 		EC84FEC11BD9652400A0F9E3 /* TFCVisits.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC84FEC01BD9652400A0F9E3 /* TFCVisits.swift */; };
 		EC855BA31BC99649001ABD35 /* StreamReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC855BA21BC99649001ABD35 /* StreamReader.swift */; };
-		EC855BA81BC99A4D001ABD35 /* BFKOORD_GEO in Resources */ = {isa = PBXBuildFile; fileRef = EC855BA41BC99767001ABD35 /* BFKOORD_GEO */; };
 		EC855BB21BC9A2BF001ABD35 /* data.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC855BB11BC9A2BF001ABD35 /* data.swift */; };
 		EC9BCAFA1BB5CB7700623F1A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC9BCAF81BB5CB7700623F1A /* LaunchScreen.xib */; };
 		EC9BCB0A1BB5CC3500623F1A /* About.html in Resources */ = {isa = PBXBuildFile; fileRef = EC9BCAFB1BB5CC3500623F1A /* About.html */; };
@@ -376,7 +375,6 @@
 		EC8290C91D9FA035004A041B /* NSPersistentStoreCoordinator+SQLiteHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSPersistentStoreCoordinator+SQLiteHelpers.swift"; sourceTree = "<group>"; };
 		EC84FEC01BD9652400A0F9E3 /* TFCVisits.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCVisits.swift; sourceTree = "<group>"; };
 		EC855BA21BC99649001ABD35 /* StreamReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamReader.swift; sourceTree = "<group>"; };
-		EC855BA41BC99767001ABD35 /* BFKOORD_GEO */ = {isa = PBXFileReference; explicitFileType = text; fileEncoding = 4; path = BFKOORD_GEO; sourceTree = "<group>"; };
 		EC855BB11BC9A2BF001ABD35 /* data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = data.swift; sourceTree = "<group>"; };
 		EC9BCAF91BB5CB7700623F1A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		EC9BCAFB1BB5CC3500623F1A /* About.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = About.html; sourceTree = "<group>"; };
@@ -756,7 +754,6 @@
 			isa = PBXGroup;
 			children = (
 				ECEDDAD11BC991800088AFB2 /* main.swift */,
-				EC855BA41BC99767001ABD35 /* BFKOORD_GEO */,
 				EC855BA21BC99649001ABD35 /* StreamReader.swift */,
 				EC855BB11BC9A2BF001ABD35 /* data.swift */,
 			);
@@ -1085,7 +1082,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC855BA81BC99A4D001ABD35 /* BFKOORD_GEO in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
