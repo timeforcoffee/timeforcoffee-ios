@@ -34,6 +34,11 @@ public final class TFCURLSession: NSObject {
         let config = NSURLSessionConfiguration.defaultSessionConfiguration()
         config.timeoutIntervalForRequest = 10.0
         config.timeoutIntervalForResource = 10.0
+        #if os(iOS)
+            if let uid = UIDevice.currentDevice().identifierForVendor?.UUIDString {
+                config.HTTPAdditionalHeaders = ["TFCID": uid]
+            }
+        #endif
         return NSURLSession(configuration: config)
     }
 
