@@ -10,7 +10,7 @@ import Foundation
 
 class GATracker {
 
-    class var sharedInstance: GATracker {
+    class var sharedInstance: GATracker? {
         struct Static {
             static let instance: GATracker = GATracker()
         }

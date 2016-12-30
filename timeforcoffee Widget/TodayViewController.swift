@@ -156,8 +156,8 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             self.datastore.registerForNotifications()
             self.datastore.synchronize()
             let gtracker = GATracker.sharedInstance
-            gtracker.setCustomDimension(6, value: "yes")
-            gtracker.setCustomDimension(9, value: UIDevice.currentDevice().systemVersion)
+            gtracker?.setCustomDimension(6, value: "yes")
+            gtracker?.setCustomDimension(9, value: UIDevice.currentDevice().systemVersion)
         }
     }
 
@@ -684,7 +684,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     }
 
     private func sendScreenNameToGA(screenname: String) {
-        GATracker.sharedInstance.sendScreenName(screenname)
+        GATracker.sharedInstance?.sendScreenName(screenname)
     }
 
     private func populateStationsFromLastUsed() {
