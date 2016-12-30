@@ -92,8 +92,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
                 let gtracker = GATracker.sharedInstance
-                gtracker.setCustomDimension(7, value: "yes")
-                gtracker.setCustomDimension(9, value: UIDevice.currentDevice().systemVersion)
+                gtracker?.setCustomDimension(7, value: "yes")
+                gtracker?.setCustomDimension(9, value: UIDevice.currentDevice().systemVersion)
                 #if !((arch(i386) || arch(x86_64)) && os(iOS))
                     Fabric.with([Crashlytics.self])
                 #endif
@@ -117,18 +117,18 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 if let currentUser = SKTUser.currentUser() {
                     if (userdefaults?.objectForKey("favorites2") != nil) {
                         currentUser.addProperties(["usedFavorites": true])
-                        gtracker.setCustomDimension(4, value: "yes")
+                        gtracker?.setCustomDimension(4, value: "yes")
                     } else {
                         currentUser.addProperties(["usedFavorites": false])
-                        gtracker.setCustomDimension(4, value: "no")
+                        gtracker?.setCustomDimension(4, value: "no")
                     }
                     if (lastusedTodayScreen != nil) {
                         currentUser.addProperties(["lastUsedTodayScreen": lastusedTodayScreen!])
                         currentUser.addProperties(["usedTodayScreen": true])
-                        gtracker.setCustomDimension(3, value: "yes")
+                        gtracker?.setCustomDimension(3, value: "yes")
                     } else {
                         currentUser.addProperties(["usedTodayScreen": false])
-                        gtracker.setCustomDimension(3, value: "no")
+                        gtracker?.setCustomDimension(3, value: "no")
                     }
 
                     if (currentUser.signedUpAt == nil) {
@@ -137,7 +137,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                         if let lang =  NSLocale.preferredLanguages().first {
                             let langSplit = lang.componentsSeparatedByString("-")
                             currentUser.addProperties(["language": langSplit[0]])
-                            gtracker.setCustomDimension(5, value: langSplit[0])
+                            gtracker?.setCustomDimension(5, value: langSplit[0])
                         }
 
                     }
@@ -146,22 +146,22 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                             if let wcsession = TFCDataStore.sharedInstance.session {
                                 if (wcsession.paired) {
                                     currentUser.addProperties(["hasWatch": true])
-                                    gtracker.setCustomDimension(8, value: "yes")
+                                    gtracker?.setCustomDimension(8, value: "yes")
                                     if (wcsession.watchAppInstalled) {
                                         currentUser.addProperties(["hasWatchAppInstalled": true])
-                                        gtracker.setCustomDimension(2, value: "yes")
+                                        gtracker?.setCustomDimension(2, value: "yes")
 
                                     } else {
                                         currentUser.addProperties(["hasWatchAppInstalled": false])
-                                        gtracker.setCustomDimension(2, value: "no")
+                                        gtracker?.setCustomDimension(2, value: "no")
                                     }
                                     if (wcsession.complicationEnabled == true) {
                                         currentUser.addProperties(["hasComplicationsEnabled": true])
-                                        gtracker.setCustomDimension(1, value: "yes")
+                                        gtracker?.setCustomDimension(1, value: "yes")
 
                                     } else {
                                         currentUser.addProperties(["hasComplicationsEnabled": false])
-                                        gtracker.setCustomDimension(1, value: "no")
+                                        gtracker?.setCustomDimension(1, value: "no")
                                     }
                                 }
                             }

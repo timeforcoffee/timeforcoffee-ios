@@ -106,7 +106,7 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
     override func viewDidAppear(animated: Bool) {
         DLog("viewDidAppear")
         super.viewDidAppear(animated)
-        GATracker.sharedInstance.sendScreenName("passlist")
+        GATracker.sharedInstance?.sendScreenName("passlist")
         viewAppeared = true
 
     }
