@@ -15,12 +15,11 @@ import MapKit
 public final class TFCStations: NSObject, SequenceType, CollectionType, TFCLocationManagerDelegate, APIControllerProtocol {
 
     private weak var delegate: TFCStationsUpdatedProtocol?
-
-    var stations:[TFCStation]? {
+    var stations:TFCStationCollection? {
         get {
 
-            if  let nearbyFavorites = nearbyFavorites {
-                if let _stations = _stations {
+            if  nearbyFavorites.count > 0 {
+                if _stations.count > 0 {
                     return nearbyFavorites + _stations
                 }
                 return nearbyFavorites
@@ -29,8 +28,8 @@ public final class TFCStations: NSObject, SequenceType, CollectionType, TFCLocat
         }
     }
 
-    private var _stations:[TFCStation]?
-    private var nearbyFavorites:[TFCStation]?
+    private var _stations:TFCStationCollection = TFCStationCollection()
+    private var nearbyFavorites:TFCStationCollection = TFCStationCollection()
     private var inStationsArrayAsFavorite: [String: Bool] = [:]
     private var maxStations:Int = 100
 
@@ -74,8 +73,8 @@ public final class TFCStations: NSObject, SequenceType, CollectionType, TFCLocat
     }
 
     public func empty() {
-        _stations = []
-        nearbyFavorites = []
+        _stations.empty()
+        nearbyFavorites.empty()
     }
 
     public func addWithJSON(allResults: JSON?) {
@@ -133,7 +132,7 @@ public final class TFCStations: NSObject, SequenceType, CollectionType, TFCLocat
                     }
                 }
             }
-            _stations = newStations
+            _stations.replace(newStations)
         }
     }
 
@@ -147,15 +146,15 @@ public final class TFCStations: NSObject, SequenceType, CollectionType, TFCLocat
     }
 
     class func isFavoriteStation(index: String) -> Bool {
-        if (favorite.s.stations[index] != nil) {
+        if (favorite.s.stations.indexOf(index) != nil) {
             return true
         }
         return false
     }
 
     public func initWithNearbyFavorites(location: CLLocation) -> Bool {
-        self.nearbyFavorites = []
-        self._stations = []
+        self.nearbyFavorites.empty()
+        self._stations.empty()
 
         inStationsArrayAsFavorite = [:]
         var hasNearbyFavs = false
@@ -167,15 +166,15 @@ public final class TFCStations: NSObject, SequenceType, CollectionType, TFCLocat
         }
         favorite.s.repopulateFavorites()
 
-        for (st_id, station) in favorite.s.stations {
+        for (station) in favorite.s.stations {
             if (station.calculatedDistance < favDistance) {
                 hasNearbyFavs = true
                 if (inStationsArrayAsFavorite[station.st_id] != true) {
-                    self.nearbyFavorites!.append(station)
+                    self.nearbyFavorites.append(station)
                     inStationsArrayAsFavorite[station.st_id] = true
                 }
             } else {
-                removeFromFavorites.append(st_id)
+                removeFromFavorites.append(station.st_id)
             }
         }
         // for memory reasons...
@@ -184,10 +183,10 @@ public final class TFCStations: NSObject, SequenceType, CollectionType, TFCLocat
         }
 
         if (hasNearbyFavs) {
-            self.nearbyFavorites!.sortInPlace({ $0.calculatedDistance < $1.calculatedDistance })
+            self.nearbyFavorites.sortInPlace({ $0.calculatedDistance < $1.calculatedDistance })
             return true
         }
-        self.nearbyFavorites = nil
+        self.nearbyFavorites.empty()
         return false
     }
 
@@ -196,13 +195,12 @@ public final class TFCStations: NSObject, SequenceType, CollectionType, TFCLocat
     }
 
     public func loadFavorites(location: CLLocation?) {
-        self._stations = []
+        self._stations.empty()
         TFCFavorites.sharedInstance.repopulateFavorites()
-        for (_, station) in favorite.s.stations {
-            self._stations?.append(station)
-        }
+        self._stations = favorite.s.stations
+
         if (location != nil) {
-            self._stations!.sortInPlace({ $0.calculatedDistance < $1.calculatedDistance })
+            self._stations.sortInPlace({ $0.calculatedDistance < $1.calculatedDistance })
         }
         #if os(iOS)
             DLog("just before updateGeofences", toFile:true)
@@ -289,7 +287,8 @@ public final class TFCStations: NSObject, SequenceType, CollectionType, TFCLocat
         //sort by distance
         stations.sortInPlace({ $0.calculatedDistance < $1.calculatedDistance })
 
-        self._stations = Array(stations.prefix(self.maxStations)) //only add max stations
+        self._stations.replace(Array(stations.prefix(self.maxStations))) //only add max stations
+
         if (!(self.stations?.count > 0)) {
             //this can happen, when we filter out station above, so increase the search radius
             if (distance < 50000) {
@@ -411,9 +410,9 @@ public final class TFCStations: NSObject, SequenceType, CollectionType, TFCLocat
         return stations![range.start...range.end]
     }
 
-    public func generate() -> IndexingGenerator<[TFCStation]> {
+    public func generate() -> TFCStationCollectionGenerator {
         if (stations == nil) {
-            return [].generate()
+            return TFCStationCollection().generate()
         }
         return stations!.generate()
     }
@@ -423,13 +422,13 @@ public final class TFCStations: NSObject, SequenceType, CollectionType, TFCLocat
         if let favorites = favorites {
             for (id) in favorites {
                 let station = TFCStation.initWithCache("", id: id, coord: nil)
-                self.nearbyFavorites!.append(station)
+                self.nearbyFavorites.append(station)
             }
         }
         if let nonfavorites = nonfavorites {
             for (id) in nonfavorites {
                 let station = TFCStation.initWithCache("", id: id, coord: nil)
-                self._stations!.append(station)
+                self._stations.append(station)
             }
         }
     }

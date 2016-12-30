@@ -170,7 +170,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                                         } else {
                                             self.userDefaults?.removeObjectForKey(key)
                                         }
-                                        if (key == "favorites2") {
+                                        if (key == "favorites3") {
                                             TFCFavorites.sharedInstance.repopulateFavorites()
                                         }
                                         if #available(iOS 9, *) {
