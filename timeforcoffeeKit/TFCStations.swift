@@ -15,6 +15,18 @@ import MapKit
 public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerProtocol {
 
     private weak var delegate: TFCStationsUpdatedProtocol?
+    var stations:TFCStationCollection? {
+        get {
+
+            if  nearbyFavorites.count > 0 {
+                if _stations.count > 0 {
+                    return nearbyFavorites + _stations
+                }
+                return nearbyFavorites
+            }
+            return _stations
+        }
+    }
 
     private var _stations:TFCStationCollection = TFCStationCollection()
     private var nearbyFavorites:TFCStationCollection = TFCStationCollection()
@@ -150,7 +162,8 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
     }
 
     public func initWithNearbyFavorites(location: CLLocation) -> Bool {
-//        self._stations.empty()
+        self.nearbyFavorites.empty()
+        self._stations.empty()
 
         inStationsArrayAsFavorite = [:]
         var hasNearbyFavs = false

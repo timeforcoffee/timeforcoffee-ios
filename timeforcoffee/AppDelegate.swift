@@ -120,7 +120,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                  recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202772511-Who-is-behind-Time-for-Coffee-")
                  */
                 if let currentUser = SKTUser.currentUser() {
-                    if (userdefaults?.objectForKey("favorites2") != nil) {
+                    if (userdefaults?.objectForKey("favorites3") != nil) {
                         currentUser.addProperties(["usedFavorites": true])
                         gtracker?.setCustomDimension(4, value: "yes")
                     } else {
