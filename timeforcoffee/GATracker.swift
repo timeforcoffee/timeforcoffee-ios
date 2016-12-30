@@ -10,14 +10,6 @@ import Foundation
 
 class GATracker {
 
-    /*class var sharedInstance: GATracker? {
-        struct Static {
-            static var instance: GATracker = GATracker()
-        }
-     //   return nil
-        return Static.instance
-    }*/
-
     static var sharedInstance:GATracker? = GATracker()
 
     var gtracker:GAI? = nil
