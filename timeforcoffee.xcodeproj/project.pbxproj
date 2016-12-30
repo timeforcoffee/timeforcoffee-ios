@@ -29,6 +29,7 @@
 		EC050CFA1BB84DD200ECB533 /* TFCStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4AB24D1BB6712200DA9759 /* TFCStation.swift */; };
 		EC0AD15F1BB694CC004217FD /* SmoochLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC0AD15E1BB694CC004217FD /* SmoochLocalizable.strings */; };
 		EC0AD1621BB69539004217FD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC0AD1641BB69539004217FD /* Localizable.strings */; };
+		EC0B0EAC1E16C214000E52AE /* TFCStationCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0B0EAB1E16C214000E52AE /* TFCStationCollection.swift */; };
 		EC0E4D5A1BCBB09F0046D70C /* SingleViewCoreData.sqlite-shm in Resources */ = {isa = PBXBuildFile; fileRef = EC0E4D581BCBB09F0046D70C /* SingleViewCoreData.sqlite-shm */; };
 		EC0E4D5B1BCBB09F0046D70C /* SingleViewCoreData.sqlite-wal in Resources */ = {isa = PBXBuildFile; fileRef = EC0E4D591BCBB09F0046D70C /* SingleViewCoreData.sqlite-wal */; };
 		EC1834DB1BCADA0E008B44F3 /* SingleViewCoreData.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = EC1834D81BCADA0E008B44F3 /* SingleViewCoreData.sqlite */; };
@@ -263,6 +264,7 @@
 		EC0AD1631BB69539004217FD /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EC0AD1661BB69593004217FD /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MainInterface.strings; sourceTree = "<group>"; };
 		EC0AD1671BB69593004217FD /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		EC0B0EAB1E16C214000E52AE /* TFCStationCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCStationCollection.swift; sourceTree = "<group>"; };
 		EC0E4D581BCBB09F0046D70C /* SingleViewCoreData.sqlite-shm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "SingleViewCoreData.sqlite-shm"; sourceTree = "<group>"; };
 		EC0E4D591BCBB09F0046D70C /* SingleViewCoreData.sqlite-wal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "SingleViewCoreData.sqlite-wal"; sourceTree = "<group>"; };
 		EC1834D81BCADA0E008B44F3 /* SingleViewCoreData.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = SingleViewCoreData.sqlite; sourceTree = "<group>"; };
@@ -632,6 +634,7 @@
 				EC9BCB221BB5CCD300623F1A /* TFCLocationManagerBase.swift */,
 				EC9BCB231BB5CCD300623F1A /* TFCStation.swift */,
 				EC9BCB241BB5CCD300623F1A /* TFCStationBase.swift */,
+				EC0B0EAB1E16C214000E52AE /* TFCStationCollection.swift */,
 				EC9BCB251BB5CCD300623F1A /* TFCStations.swift */,
 				EC9BCB261BB5CCD300623F1A /* TFCURLSession.swift */,
 				EC9BCB271BB5CCD300623F1A /* TFCWatchData.swift */,
@@ -1204,6 +1207,7 @@
 				EC050CF41BB84D5B00ECB533 /* TFCStations.swift in Sources */,
 				EC050CFA1BB84DD200ECB533 /* TFCStation.swift in Sources */,
 				ECEBB7FE1BC7241A00AB83B9 /* TFCStationModel.swift in Sources */,
+				EC0B0EAD1E16DD33000E52AE /* TFCStationCollection.swift in Sources */,
 				EC050CF61BB84D5B00ECB533 /* TFCWatchData.swift in Sources */,
 				EC050CF81BB84DC700ECB533 /* TFCLocationManager.swift in Sources */,
 				ECEBB7FF1BC7241D00AB83B9 /* TFCStationModel+CoreDataProperties.swift in Sources */,
@@ -1252,6 +1256,7 @@
 				EC9BCB361BB5CCD300623F1A /* TFCStations.swift in Sources */,
 				EC9BCB2D1BB5CCD300623F1A /* TFCCache.swift in Sources */,
 				EC68469B1BF9CDBD00BD8531 /* TFCSettings.swift in Sources */,
+				EC0B0EAC1E16C214000E52AE /* TFCStationCollection.swift in Sources */,
 				EC18AA931BE4067000488DC4 /* TFCDeparturePass.swift in Sources */,
 				EC9BCB301BB5CCD300623F1A /* TFCDeparture.swift in Sources */,
 				EC9BCB441BB5CD4D00623F1A /* PINCache.m in Sources */,

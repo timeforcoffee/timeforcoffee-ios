@@ -16,8 +16,12 @@ final public class TFCFavorites: NSObject {
     public var doGeofences = true
     var lastGeofenceUpdate:CLLocation? = nil
 
-    public lazy var stations: [String: TFCStation] = { [unowned self] in
-        return self.getCurrentFavoritesFromDefaults()
+    public lazy var stations: TFCStationCollection = { [unowned self] in
+        let favs = self.getCurrentFavoritesFromDefaults()
+        if (self.needsSave) {
+            self.saveFavorites()
+        }
+        return favs
         }()
     
     private struct objects {
@@ -34,6 +38,9 @@ final public class TFCFavorites: NSObject {
     public func repopulateFavorites() {
         temporarlyRemovedStations = false
         self.stations = getCurrentFavoritesFromDefaults()
+        if (self.needsSave) {
+            self.saveFavorites()
+        }
     }
 
     public func getSearchRadius() -> Int {
@@ -46,44 +53,44 @@ final public class TFCFavorites: NSObject {
         return favoritesSearchRadius!
     }
 
-    private func getCurrentFavoritesFromDefaults() -> [String: TFCStation] {
-        var st: [String: TFCStation]?
-        if let unarchivedObject = objects.dataStore?.objectForKey("favorites2") as? NSData {
-            NSKeyedUnarchiver.setClass(TFCStation.classForKeyedUnarchiver(), forClassName: "timeforcoffeeKit.TFCStation")
-            NSKeyedUnarchiver.setClass(TFCStation.classForKeyedUnarchiver(), forClassName: "timeforcoffeeWatchKit.TFCStation")
-            NSKeyedUnarchiver.setClass(TFCStation.classForKeyedUnarchiver(), forClassName: "Time_for_Coffee__WatchOS_2_App_Extension.TFCStation")
-            st = NSKeyedUnarchiver.unarchiveObjectWithData(unarchivedObject) as? [String: TFCStation]
+    private func getCurrentFavoritesFromDefaults() -> TFCStationCollection {
+       // return [:]
+        DLog("getCurrentFavoritesFromDefaults", toFile: true);
+        var stationIds = objects.dataStore?.objectForKey("favorites3") as? [String]
+        if (stationIds == nil) {
+            stationIds = []
         }
-        let cache = TFCCache.objects.stations
-        guard st != nil else { return [:] }
-        // get if from the cache, if it's already there.
-        for (st_id, _) in st! {
-            // trim id since we sometimes saved this wrong
-
-            let trimmed_id = st_id.replace("^0*", template: "")
-            if (trimmed_id != st_id) {
-                DLog("Trim favourite ID \(st_id)")
-                st![trimmed_id] = st![st_id]
-                st![trimmed_id]?.st_id = trimmed_id
-                st!.removeValueForKey(st_id)
+        //upgrade from old versions
+        let favoritesVersion = objects.dataStore?.objectForKey("favoritesVersion") as! Int?
+        if (favoritesVersion == nil || favoritesVersion < 3) {
+            var st: [String: TFCStation]?
+            if let unarchivedObject = objects.dataStore?.objectForKey("favorites2") as? NSData {
+                NSKeyedUnarchiver.setClass(TFCStation.classForKeyedUnarchiver(), forClassName: "timeforcoffeeKit.TFCStation")
+                NSKeyedUnarchiver.setClass(TFCStation.classForKeyedUnarchiver(), forClassName: "timeforcoffeeWatchKit.TFCStation")
+                NSKeyedUnarchiver.setClass(TFCStation.classForKeyedUnarchiver(), forClassName: "Time_for_Coffee__WatchOS_2_App_Extension.TFCStation")
+                st = NSKeyedUnarchiver.unarchiveObjectWithData(unarchivedObject) as? [String: TFCStation]
+            }
+            if let st = st {
+                for (st_id, _) in st {
+                    let trimmed_id = st_id.replace("^0*", template: "")
+                    //FIXME: do stuff here for favorites 3
+                    stationIds?.append(trimmed_id)
+                }
                 needsSave = true
             }
-            var newStation: TFCStation? = cache.objectForKey(trimmed_id) as? TFCStation
-            if (newStation?.name == "unknown") {
-                newStation = TFCStation.initWithCacheId(trimmed_id)
-                needsSave = true
-            }
-            if (newStation != nil && newStation?.coord != nil) {
-                st![trimmed_id] = newStation
-            }
+            objects.dataStore?.setObject(3, forKey: "favoritesVersion")
         }
-        return st!
+        // end of update
 
+
+        guard stationIds != nil else { return TFCStationCollection() }
+
+        return TFCStationCollection(strings: stationIds!)
     }
 
     func removeTemporarly(st_id: String) {
         temporarlyRemovedStations = true
-        stations.removeValueForKey(st_id)
+        stations.removeValue(st_id)
     }
 
     func unset(st_id: String?) {
@@ -91,7 +98,7 @@ final public class TFCFavorites: NSObject {
             if (temporarlyRemovedStations) {
                 repopulateFavorites()
             }
-            stations.removeValueForKey(st_id)
+            stations.removeValue(st_id)
             self.saveFavorites()
         }
     }
@@ -105,38 +112,36 @@ final public class TFCFavorites: NSObject {
             if (temporarlyRemovedStations) {
                 repopulateFavorites()
             }
-            stations[station.st_id] = station
-            self.saveFavorites()
+            if (stations.indexOf(station.st_id) != nil) {
+                stations.append(station)
+                self.saveFavorites()
+            }
         }
     }
 
     func isFavorite(st_id: String?) -> Bool {
-        if let st_id = st_id, station = self.stations[st_id] {
-            if (station.isFavorite() == true) {
-                return true
-            }
+        if let st_id = st_id, _ = self.stations.getStationIfExists(st_id) {
+            return true
         }
         return false
     }
 
 
     private func saveFavorites() {
-        for (_, station) in stations {
-            station.serializeDepartures = false
-        }
-        let archivedFavorites = NSKeyedArchiver.archivedDataWithRootObject(stations)
-        for (_, station) in stations {
-            station.serializeDepartures = true
-            //make sure all favorites are indexed
+
+        var stationIds:[String] = []
+        for (station) in stations {
+            stationIds.append(station.st_id)
             station.setStationSearchIndex()
         }
-        objects.dataStore?.setObject(archivedFavorites , forKey: "favorites2")
+        objects.dataStore?.setObject(stationIds , forKey: "favorites3")
+        needsSave = false
         objects.dataStore?.synchronize()
     }
 
     public func getByDistance() -> [TFCStation]? {
         if (self.stations.count > 0) {
-            var stations = Array(self.stations.values)
+            var stations = self.stations.getStations()
             stations.sortInPlace({ $0.calculatedDistance < $1.calculatedDistance })
             return stations
         }
