@@ -334,7 +334,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                 var allDataDict:[String:AnyObject] = [:]
                 for (myKey, myValue) in allData {
                     // only send key starting with favorite
-                    if (myKey.hasPrefix("favorite") || myKey.hasPrefix("filtered")) {
+                    if (myKey != "favorites2" && (myKey.hasPrefix("favorite") || myKey.hasPrefix("filtered"))) {
                         allDataDict[myKey] = myValue
                     }
                 }
