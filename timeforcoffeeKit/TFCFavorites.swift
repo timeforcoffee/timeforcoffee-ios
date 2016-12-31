@@ -112,7 +112,7 @@ final public class TFCFavorites: NSObject {
             if (temporarlyRemovedStations) {
                 repopulateFavorites()
             }
-            if (stations.indexOf(station.st_id) != nil) {
+            if (stations.indexOf(station.st_id) == nil) {
                 stations.append(station)
                 self.saveFavorites()
             }
