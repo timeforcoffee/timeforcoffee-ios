@@ -329,7 +329,13 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                 DLog("WARNING: initWithCacheId timed out, called from \(first)", toFile: true)
             #endif
         }
-        let newStation: TFCStation? = cache.objectForKey(trimmed_id) as? TFCStation
+        // if already in the cache, we can just return it
+        if let newStation = cache?.memoryCache.objectForKey(trimmed_id) as? TFCStation {
+            return newStation
+        }
+        DLog("_ \(trimmed_id)")
+
+        let newStation: TFCStation? = cache?.objectForKey(trimmed_id) as? TFCStation
         //if not in the cache, or no coordinates set or the name is "unknown"
         if (newStation == nil || newStation?.coord == nil || newStation?.name == "unknown") {
             //if name is not set, we only have the id, try to get it from the DB or from a server
