@@ -130,7 +130,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                         currentUser.addProperties(["usedTodayScreen": false])
                         gtracker?.setCustomDimension(3, value: "no")
                     }
-
+                    if let uid = UIDevice.currentDevice().identifierForVendor?.UUIDString {
+                        currentUser.addProperties(["TFCID": uid])
+                    }
                     if (currentUser.signedUpAt == nil) {
                         currentUser.signedUpAt = NSDate()
                         currentUser.addProperties(["signedUpDate" : NSDate()])
