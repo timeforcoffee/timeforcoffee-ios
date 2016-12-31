@@ -648,7 +648,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     }
     
     func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?) {
-        DLog("departuresUpdated", toFile: true)
+        DLog("departuresUpdated \(forStation?.name)", toFile: true)
         dispatch_async(dispatch_get_main_queue()) {
         self.setLoadingStage(0)
         if (self.showStations) {
@@ -679,13 +679,13 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
     func departuresStillCached(context: Any?, forStation: TFCStation?) {
         // do nothing
-        DLog("departuresStillCached", toFile: true)
+        DLog("departuresStillCached \(forStation?.name)", toFile: true)
         self.departuresUpdated(nil, context: context, forStation: forStation)
     }
 
     func stationsUpdated(error: String?, favoritesOnly: Bool, context: Any?) {
-        DLog("stationsUpdated", toFile: true)
         dispatch_async(dispatch_get_main_queue(), {
+        DLog("stationsUpdated", toFile: true)
             // if we show a single station, but it's not determined which one
             //   try to get one from the stations array
             DLog("self.needsLocationUpdate \(self.needsLocationUpdate)", toFile: true)
