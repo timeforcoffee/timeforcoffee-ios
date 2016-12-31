@@ -134,7 +134,7 @@ final public class TFCFavorites: NSObject {
             stationIds.append(station.st_id)
             station.setStationSearchIndex()
         }
-        objects.dataStore?.setObject(stationIds , forKey: "favorites3")
+        objects.dataStore?.setObject(stationIds.sort() , forKey: "favorites3")
         needsSave = false
         objects.dataStore?.synchronize()
     }
