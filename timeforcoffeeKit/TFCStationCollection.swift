@@ -165,6 +165,15 @@ public class TFCStationCollection: NSObject, SequenceType, CollectionType, Range
 
 }
 
+public func +(left: TFCStationCollection, right: TFCStationCollection) -> TFCStationCollection {
+
+    return TFCStationCollection(strings: left.getStationIds() + right.getStationIds())
+}
+
+public func += (inout left: TFCStationCollection, right: TFCStationCollection) {
+    left = left + right
+}
+
 public struct TFCStationCollectionGenerator: GeneratorType {
     let value: TFCStationCollection
     var indexInSequence = 0
