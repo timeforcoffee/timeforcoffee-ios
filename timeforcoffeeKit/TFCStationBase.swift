@@ -284,7 +284,12 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         }
         // try to find it in the cache
         let cache: PINCache = TFCCache.objects.stations
-        let newStation: TFCStation? = cache.objectForKey(trimmed_id) as? TFCStation
+        if let newStation = cache?.memoryCache.objectForKey(trimmed_id) as? TFCStation {
+            return newStation
+        }
+        DLog("_ \(trimmed_id)")
+
+        let newStation: TFCStation? = cache?.objectForKey(trimmed_id) as? TFCStation
         //if not in the cache, or no coordinates set or the name is "unknown"
         if (newStation == nil || newStation?.coord == nil || newStation?.name == "unknown") {
             //if name is not set, we only have the id, try to get it from the DB or from a server
