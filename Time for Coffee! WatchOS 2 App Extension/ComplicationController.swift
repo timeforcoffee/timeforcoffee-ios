@@ -56,7 +56,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     
     func getTimelineEndDateForComplication(complication: CLKComplication, withHandler handler: (NSDate?) -> Void) {
         DLog("started getTimelineEndDateForComplication", toFile: true)
-        TFCDataStore.sharedInstance.waitForDBSetupAsyncOnMainQueue(15.0) {
+        TFCDataStore.sharedInstance.waitForDBSetupAsyncOnMainQueue(20.0) {
             func handleReply(stations: TFCStations?) {
                 if let station = stations?.getStation(0) {
                     let departures = station.getScheduledFilteredDepartures()
@@ -100,7 +100,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     
     func getCurrentTimelineEntryForComplication(complication: CLKComplication, withHandler handler: ((CLKComplicationTimelineEntry?) -> Void)) {
         DLog("started getCurrentTimelineEntryForComplication", toFile: true)
-        TFCDataStore.sharedInstance.waitForDBSetupAsyncOnMainQueue(10.0) {
+        TFCDataStore.sharedInstance.waitForDBSetupAsyncOnMainQueue(20.0) {
             // Take the first entry before the current date
             self.getTimelineEntriesForComplication(complication, beforeDate: NSDate(), limit: 1) { (entries) -> Void in
                 handler(entries?.first)
@@ -112,7 +112,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     func getTimelineEntriesForComplication(complication: CLKComplication, beforeDate date: NSDate, limit: Int, withHandler handler: (([CLKComplicationTimelineEntry]?) -> Void)) {
         // Call the handler with the timeline entries after to the given date
         DLog("started getTimelineEntriesForComplication beforeDate \(date)", toFile: true)
-        TFCDataStore.sharedInstance.waitForDBSetupAsyncOnMainQueue(15.0) {
+        TFCDataStore.sharedInstance.waitForDBSetupAsyncOnMainQueue(20.0) {
             func handleReply(stations: TFCStations?) {
                 var entries = [CLKComplicationTimelineEntry]()
 
@@ -157,7 +157,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     func getTimelineEntriesForComplication(complication: CLKComplication, afterDate date: NSDate, limit: Int, withHandler handler: (([CLKComplicationTimelineEntry]?) -> Void)) {
         // Call the handler with the timeline entries after to the given date
         DLog("started getTimelineEntriesForComplication afterDate: \(date)", toFile: true)
-        TFCDataStore.sharedInstance.waitForDBSetupAsyncOnMainQueue(15.0) {
+        TFCDataStore.sharedInstance.waitForDBSetupAsyncOnMainQueue(20.0) {
             func handleReply(stations: TFCStations?) {
                 var entries = [CLKComplicationTimelineEntry]()
                 if let station = stations?.getStation(0) { // corresponds to the favorited/closest station
