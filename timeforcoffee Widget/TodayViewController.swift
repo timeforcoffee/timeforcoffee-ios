@@ -608,7 +608,8 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
     override func didReceiveMemoryWarning() {
         DLog("didReceiveMemoryWarning memory warning", toFile: true)
-        TFCCache.clearMemoryCache()
+        //TFCCache.clearMemoryCache()
+        GATracker.sharedInstance?.deinitTracker()
         TFCDataStore.sharedInstance.saveContext()
         super.didReceiveMemoryWarning()
     }
