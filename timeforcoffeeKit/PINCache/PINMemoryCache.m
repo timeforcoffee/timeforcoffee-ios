@@ -385,6 +385,16 @@ static NSString * const PINMemoryCachePrefix = @"com.pinterest.PINMemoryCache";
 }
 
 #pragma mark - Public Synchronous Methods -
+- (NSUInteger)count
+{
+    return _dictionary.count;
+}
+
+
+- (NSArray *)allKeys
+{
+    return _dictionary.allKeys;
+}
 
 - (__nullable id)objectForKey:(NSString *)key
 {
