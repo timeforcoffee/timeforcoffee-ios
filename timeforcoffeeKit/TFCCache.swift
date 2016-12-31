@@ -50,4 +50,13 @@ public final class TFCCache {
         TFCCache.objects.stations.memoryCache.removeAllObjects()
         TFCCache.objects.apicalls.memoryCache.removeAllObjects()
     }
+
+    public class func getMemoryCacheCount() -> UInt {
+        let cache = TFCCache.objects.stations
+        return cache.memoryCache.count
+    }
+    public class func allKeys() -> [NSString]? {
+        let cache = TFCCache.objects.stations
+        return cache.memoryCache.allKeys as? [NSString]
+    }
 }

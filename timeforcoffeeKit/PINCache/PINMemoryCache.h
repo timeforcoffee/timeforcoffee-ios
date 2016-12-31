@@ -53,6 +53,10 @@ typedef void (^PINMemoryCacheObjectBlock)(PINMemoryCache *cache, NSString *key, 
  */
 @property (readonly) NSUInteger totalCost;
 
+@property (readonly) NSUInteger count;
+
+@property (readonly) NSArray* allKeys;
+
 /**
  The maximum cost allowed to accumulate before objects begin to be removed with <trimToCostByDate:>.
  */
