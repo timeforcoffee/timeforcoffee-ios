@@ -164,7 +164,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         }
 
         if let lastId = NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee")?.stringForKey("lastFirstStationId") {
-            TFCDataStore.sharedInstance.waitForDBSetupAsyncOnMainQueue(10.0) {
+            TFCDataStore.sharedInstance.waitForDBSetupAsyncOnMainQueue(20.0) {
                 TFCWatchDataFetch.sharedInstance.fetchDepartureDataForStation(TFCStation.initWithCacheId(lastId))
             }
         }
