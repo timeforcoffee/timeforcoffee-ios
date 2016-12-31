@@ -341,6 +341,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                     //if coords are set and the id is not empty, set it to the cache
                     if (tryStation.coord != nil && tryStation.st_id != "") {
                         tryStation.setStationSearchIndex()
+                        tryStation.needsCacheSave = true
                         TFCStationBase.saveToPincache(tryStation)
                     }
                     return tryStation
@@ -369,6 +370,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             // from something with only the id
             if (name != "" && newStation2.st_id != "" && newStation2.coord != nil) {
                 newStation2.setStationSearchIndex()
+                newStation2.needsCacheSave = true
                 TFCStationBase.saveToPincache(newStation2)
             }
             return newStation2
