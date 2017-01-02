@@ -109,43 +109,10 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
         if let sig = self.signature {
             return sig
         }
-        var props:[String:AnyObject] = ["type": type, "accessible": accessible]
 
-        props["isFavorite"] = isFavorite()
+        self.signature = "\(type),\(accessible),\(isFavorite()),\(sortTime?.formattedWithDateFormatter(DLogShortFormatter)),\(sortOrder),\(destination_id),\(colorFg),\(colorBg),\(platform),\(realtime?.formattedWithDateFormatter(DLogShortFormatter)),\(arrivalRealtime?.formattedWithDateFormatter(DLogShortFormatter)),\(arrivalScheduled?.formattedWithDateFormatter(DLogShortFormatter))".replace("Optional",template: "").replace("[\\\"()#]",template: "")
 
-
-        if let sortTime = sortTime {
-            props["sortTime"] = sortTime
-        }
-
-        if let sortOrder = sortOrder {
-            props["sortOrder"] = sortOrder
-        }
-
-        if let destination_id = destination_id {
-            props["destination_id"] = destination_id
-        }
-        if let colorFg = colorFg {
-            props["colorFg"] = colorFg
-        }
-        if let colorBg = colorBg {
-            props["colorBg"] = colorBg
-        }
-        if let platform = platform {
-            props["platform"] = platform
-        }
-
-        if let realtime = realtime {
-            props["realtime"] = realtime
-        }
-        if let arrivalRealtime = arrivalRealtime {
-            props["arrivalRealtime"] = arrivalRealtime
-        }
-        if let arrivalScheduled = arrivalScheduled {
-            props["arrivalScheduled"] = arrivalScheduled
-        }
-        self.signature = props.description
-        return props.description
+        return self.signature!
     }
 
     public class func getStationNameFromJson(result: JSON) -> String? {

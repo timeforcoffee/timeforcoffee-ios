@@ -94,6 +94,13 @@ let DLogDayHourMinuteFormatter:NSDateFormatter = {
     return formatter
 }()
 
+let DLogShortFormatter:NSDateFormatter = {
+    let formatter = NSDateFormatter()
+    formatter.dateFormat = "d-H:m"
+    formatter.timeZone = NSTimeZone(name: "Europe/Zurich")
+    return formatter
+}()
+
 func DLog<T>(@autoclosure object: () -> T, toFile: Bool = false, sync:Bool = false, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
     #if DEBUG
         let value = object()
