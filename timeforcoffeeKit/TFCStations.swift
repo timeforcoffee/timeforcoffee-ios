@@ -420,16 +420,10 @@ public final class TFCStations: NSObject, SequenceType, CollectionType, TFCLocat
     public func populateWithIds(favorites: [String]?, nonfavorites: [String]?) {
         self.empty()
         if let favorites = favorites {
-            for (id) in favorites {
-                let station = TFCStation.initWithCache("", id: id, coord: nil)
-                self.nearbyFavorites.append(station)
-            }
+            self.nearbyFavorites.replace(stationIds: favorites)
         }
         if let nonfavorites = nonfavorites {
-            for (id) in nonfavorites {
-                let station = TFCStation.initWithCache("", id: id, coord: nil)
-                self._stations.append(station)
-            }
+            self._stations.replace(stationIds: nonfavorites)
         }
     }
 }

@@ -133,6 +133,10 @@ public class TFCStationCollection: NSObject, SequenceType, CollectionType, Range
         stationIds = self.getStationIds(stations)
     }
 
+    public func replace(stationIds stationIds:[String]) {
+        self.stationIds = stationIds
+    }
+
     public func replaceRange<C : CollectionType where C.Generator.Element ==  TFCStationCollection.Generator.Element>(subRange: Range<TFCStationCollection.Index>, with newElements: C) {
         stationIds.replaceRange(subRange, with: self.getStationIds(Array(newElements)))
     }
