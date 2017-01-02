@@ -267,7 +267,8 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             let cache: PINCache = TFCCache.objects.stations
             if (saveStation.needsCacheSave)  {
                 DLog("set PinCache for \(saveStation.name)", toFile: true)
-                cache.setObject(saveStation, forKey: saveStation.st_id)
+                cache.setObject(saveStation, forKey: saveStation.st_id, block: { (_) in
+                })
                 saveStation.needsCacheSave = false
             }
 
