@@ -238,9 +238,9 @@ private func DLog2File(text:String) {
     #else
         let file:String
         if NSBundle.mainBundle().bundleIdentifier == "ch.opendata.timeforcoffee.timeforcoffee" {
-            file = "today-log-\(NSDate().formattedWithDateFormatter(DLogDayHourFormatter)).txt"
+            file = "today-log-\(NSDate().formattedWithDateFormatter(DLogDayHourFormatter))-\(UIDevice.currentDevice().name).txt"
         } else {
-            file = "log-\(NSDate().formattedWithDateFormatter(DLogDayHourFormatter)).txt"
+            file = "log-\(NSDate().formattedWithDateFormatter(DLogDayHourFormatter))-\(UIDevice.currentDevice().name).txt"
         }
         let iCloudDocumentsURL = NSFileManager.defaultManager().URLForUbiquityContainerIdentifier("iCloud.ch.opendata.timeforcoffee")?.URLByAppendingPathComponent("Documents")!
     #endif
