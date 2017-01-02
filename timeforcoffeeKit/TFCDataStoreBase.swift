@@ -132,6 +132,11 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                                         }
                                         if (key == "favorites3") {
                                             TFCFavorites.sharedInstance.repopulateFavorites()
+                                        } else if (key.hasPrefix("favorite")) {
+                                            let st_id = key.replace("favorite", template: "")
+                                            if let inMemoryObj = TFCCache.objects.stations.memoryCache.objectForKey(st_id) as! TFCStation? {
+                                                inMemoryObj.repopulateFavoriteLines()
+                                            }
                                         }
                                         if #available(iOS 9, *) {
                                             if let value = self.keyvaluestore?.objectForKey(key) {
@@ -298,6 +303,14 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                 #endif
             } else {
                 self.setObject(myValue, forKey: myKey, withWCTransfer: false)
+                if (myKey == "favorites3") {
+                    TFCFavorites.sharedInstance.repopulateFavorites()
+                } else if (myKey.hasPrefix("favorite")) {
+                    let st_id = myKey.replace("favorite", template: "")
+                    if let inMemoryObj = TFCCache.objects.stations.memoryCache.objectForKey(st_id) as! TFCStation? {
+                        inMemoryObj.repopulateFavoriteLines()
+                    }
+                }
             }
         }
     }
