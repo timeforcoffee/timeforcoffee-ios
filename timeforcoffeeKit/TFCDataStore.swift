@@ -20,5 +20,17 @@ public class TFCDataStore: TFCDataStoreBase {
         super.init()
     }
 
+    override public func getTFCID() -> String? {
+
+        let uid = super.getTFCID()
+        if uid == nil  {
+            if let uid = UIDevice.currentDevice().identifierForVendor?.UUIDString {
+                let userdefaults = self.getUserDefaults()
+                userdefaults?.setValue(uid, forKey: "TFCID")
+                return uid
+            }
+        }
+        return uid
+    }
 }
 

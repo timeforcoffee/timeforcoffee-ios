@@ -143,6 +143,11 @@ public class TFCWatchDataFetch: NSObject, NSURLSessionDownloadDelegate {
             backgroundConfigObject = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier((NSUUID().UUIDString))
         }
         backgroundConfigObject.requestCachePolicy = .UseProtocolCachePolicy
+
+        if let uid = TFCDataStore.sharedInstance.getTFCID() {
+            backgroundConfigObject.HTTPAdditionalHeaders = ["TFCID": uid]
+        }
+
         let backgroundSession = NSURLSession(configuration: backgroundConfigObject, delegate: self, delegateQueue: nil)
 
         backgroundConfigObject.sessionSendsLaunchEvents = true

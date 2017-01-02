@@ -384,6 +384,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                 //  until this is done, the watch will keep asking for it
                 //  This is to avoid haveing no favourites on the watch to start with
                 //allDataDict["__allDataResponseSent__"] = true
+                allDataDict["TFCID"] = self.getTFCID()
                 sendData(allDataDict)
                 sendData(["__allDataResponseSent__": true])
             }
@@ -672,6 +673,11 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
             }
             callback()
         }
+    }
+
+    public func getTFCID() -> String? {
+        let userdefaults = self.getUserDefaults()
+        return userdefaults?.stringForKey("TFCID")
     }
 
 }
