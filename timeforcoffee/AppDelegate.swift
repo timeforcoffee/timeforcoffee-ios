@@ -136,6 +136,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                     currentUser.addProperties(["usedTodayScreen": false])
                     gtracker.setCustomDimension(3, value: "no")
                 }
+                
+                if let uid = TFCDataStore.sharedInstance.getTFCID() {
+                    currentUser.addProperties(["TFCID": uid])
+                }
 
                 if (currentUser.signedUpAt == nil) {
                     currentUser.signedUpAt = NSDate()
