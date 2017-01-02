@@ -588,7 +588,6 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
     }
 
     public func getTFCID() -> String? {
-        let userdefaults = self.getUserDefaults()
-        return userdefaults?.stringForKey("TFCID")
+        return self.objectForKey("TFCID") as! String?
     }
 }
