@@ -20,6 +20,7 @@ final class NearbyStationsTableViewCell: UITableViewCell {
     @IBOutlet weak var StationFavoriteButton: UIButton!
 
     weak var station: TFCStation?
+    var stationId: String?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -30,11 +31,20 @@ final class NearbyStationsTableViewCell: UITableViewCell {
         StationFavoriteButton.addTarget(self, action: #selector(NearbyStationsTableViewCell.favoriteButtonTouched(_:)), forControlEvents: UIControlEvents.TouchUpInside)
     }
 
+    func getStation() -> TFCStation? {
+        if (station == nil && stationId != nil) {
+            station = TFCStation.initWithCacheId(stationId!)
+        }
+        return station
+    }
 
     func drawCell() {
         self.selectionStyle = UITableViewCellSelectionStyle.None
+        if (station == nil && stationId != nil) {
+            getStation()
+        }
         station?.removeObsoleteDepartures()
-        drawIcon()
+        drawIcon(station)
         let departures = station?.getFilteredDepartures(1)
         let firstDeparture = departures?.first
      /*   let iconLabel = cell.viewWithTag(500) as! UIImageView
@@ -55,9 +65,10 @@ final class NearbyStationsTableViewCell: UITableViewCell {
             StationsDestinationLabel.text = nil
         }
         self.userInteractionEnabled = true
+        self.stationId = self.station?.st_id
     }
 
-    func drawIcon() {
+    func drawIcon(station: TFCStation?) {
         StationFavoriteButton.setImage(station?.getIcon(), forState: UIControlState.Normal)
 
         StationIconView.transform = CGAffineTransformMakeScale(1, 1);
@@ -66,15 +77,19 @@ final class NearbyStationsTableViewCell: UITableViewCell {
     }
 
     func favoriteButtonTouched(sender: UIButton) {
+        if let stationId = stationId {
+            let station = TFCStation.initWithCacheId(stationId)
 
-        func completion() -> Void {
-            self.drawIcon()
-            return
+            func completion() -> Void {
+                self.drawIcon(station)
+                return
+            }
+            station.toggleIcon(self.StationFavoriteButton!, icon: StationIconView, completion: completion)
         }
-
-        self.station?.toggleIcon(self.StationFavoriteButton!, icon: StationIconView, completion: completion)
-
     }
 
-
+    override func prepareForReuse() {
+        self.station = nil
+        self.stationId = nil
+    }
 }
