@@ -55,7 +55,7 @@ static NSString * const PINMemoryCachePrefix = @"com.pinterest.PINMemoryCache";
 {
     if (self = [super init]) {
         _lockSemaphore = dispatch_semaphore_create(1);
-        NSString *queueName = [[NSString alloc] initWithFormat:@"%@.%p", PINMemoryCachePrefix, self];
+        NSString *queueName = [[NSString alloc] initWithFormat:@"%@.%p", PINMemoryCachePrefix, (void *)self];
         _concurrentQueue = dispatch_queue_create([queueName UTF8String], DISPATCH_QUEUE_CONCURRENT);
 
         _dictionary = [[NSMutableDictionary alloc] init];
@@ -80,18 +80,17 @@ static NSString * const PINMemoryCachePrefix = @"com.pinterest.PINMemoryCache";
         _removeAllObjectsOnMemoryWarning = YES;
         _removeAllObjectsOnEnteringBackground = YES;
 
-		#if TARGET_OS_IPHONE && defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_4_0 && !TARGET_OS_WATCH
-        for (NSString *name in @[UIApplicationDidReceiveMemoryWarningNotification, UIApplicationDidEnterBackgroundNotification]) {
-            [[NSNotificationCenter defaultCenter] addObserver:self
-                                                     selector:@selector(didObserveApocalypticNotification:)
-                                                         name:name
-#if !defined(PIN_APP_EXTENSIONS)
-                                                       object:[UIApplication sharedApplication]];
-#else
-                                                       object:nil];
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_4_0 && !TARGET_OS_WATCH
+      [[NSNotificationCenter defaultCenter] addObserver:self
+                                               selector:@selector(didReceiveEnterBackgroundNotification:)
+                                                   name:UIApplicationDidEnterBackgroundNotification
+                                                 object:nil];
+      [[NSNotificationCenter defaultCenter] addObserver:self
+                                               selector:@selector(didReceiveMemoryWarningNotification:)
+                                                   name:UIApplicationDidReceiveMemoryWarningNotification
+                                                 object:nil];
+
 #endif
-        }
-        #endif
     }
     return self;
 }
@@ -110,51 +109,47 @@ static NSString * const PINMemoryCachePrefix = @"com.pinterest.PINMemoryCache";
 
 #pragma mark - Private Methods -
 
-- (void)didObserveApocalypticNotification:(NSNotification *)notification
+- (void)didReceiveMemoryWarningNotification:(NSNotification *)notification {
+    if (self.removeAllObjectsOnMemoryWarning)
+        [self removeAllObjects:nil];
+
+    __weak PINMemoryCache *weakSelf = self;
+
+    dispatch_async(_concurrentQueue, ^{
+        PINMemoryCache *strongSelf = weakSelf;
+        if (!strongSelf) {
+            return;
+        }
+
+        [strongSelf lock];
+        PINMemoryCacheBlock didReceiveMemoryWarningBlock = strongSelf->_didReceiveMemoryWarningBlock;
+        [strongSelf unlock];
+
+        if (didReceiveMemoryWarningBlock)
+            didReceiveMemoryWarningBlock(strongSelf);
+    });
+}
+
+- (void)didReceiveEnterBackgroundNotification:(NSNotification *)notification
 {
-    #if TARGET_OS_IPHONE && defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_4_0 && !TARGET_OS_WATCH
+    if (self.removeAllObjectsOnEnteringBackground)
+        [self removeAllObjects:nil];
 
-    if ([[notification name] isEqualToString:UIApplicationDidReceiveMemoryWarningNotification]) {
-        if (self.removeAllObjectsOnMemoryWarning)
-            [self removeAllObjects:nil];
+    __weak PINMemoryCache *weakSelf = self;
 
-        __weak PINMemoryCache *weakSelf = self;
+    dispatch_async(_concurrentQueue, ^{
+        PINMemoryCache *strongSelf = weakSelf;
+        if (!strongSelf) {
+            return;
+        }
 
-        dispatch_async(_concurrentQueue, ^{
-            PINMemoryCache *strongSelf = weakSelf;
-            if (!strongSelf) {
-                return;
-            }
-            
-            [strongSelf lock];
-                PINMemoryCacheBlock didReceiveMemoryWarningBlock = strongSelf->_didReceiveMemoryWarningBlock;
-            [strongSelf unlock];
-            
-            if (didReceiveMemoryWarningBlock)
-                didReceiveMemoryWarningBlock(strongSelf);
-        });
-    } else if ([[notification name] isEqualToString:UIApplicationDidEnterBackgroundNotification]) {
-        if (self.removeAllObjectsOnEnteringBackground)
-            [self removeAllObjects:nil];
+        [strongSelf lock];
+            PINMemoryCacheBlock didEnterBackgroundBlock = strongSelf->_didEnterBackgroundBlock;
+        [strongSelf unlock];
 
-        __weak PINMemoryCache *weakSelf = self;
-
-        dispatch_async(_concurrentQueue, ^{
-            PINMemoryCache *strongSelf = weakSelf;
-            if (!strongSelf) {
-                return;
-            }
-
-            [strongSelf lock];
-                PINMemoryCacheBlock didEnterBackgroundBlock = strongSelf->_didEnterBackgroundBlock;
-            [strongSelf unlock];
-            
-            if (didEnterBackgroundBlock)
-                didEnterBackgroundBlock(strongSelf);
-        });
-    }
-    
-    #endif
+        if (didEnterBackgroundBlock)
+            didEnterBackgroundBlock(strongSelf);
+    });
 }
 
 - (void)removeObjectAndExecuteBlocksForKey:(NSString *)key
@@ -177,7 +172,8 @@ static NSString * const PINMemoryCachePrefix = @"com.pinterest.PINMemoryCache";
         [_dates removeObjectForKey:key];
         [_costs removeObjectForKey:key];
     [self unlock];
-    
+    NSLog(@"init remove from memory for key %@", key);
+
     if (didRemoveObjectBlock)
         didRemoveObjectBlock(self, key, nil);
 }
@@ -274,6 +270,21 @@ static NSString * const PINMemoryCachePrefix = @"com.pinterest.PINMemoryCache";
 }
 
 #pragma mark - Public Asynchronous Methods -
+
+- (void)containsObjectForKey:(NSString *)key block:(PINMemoryCacheContainmentBlock)block
+{
+    if (!key || !block)
+        return;
+    
+    __weak PINMemoryCache *weakSelf = self;
+    
+    dispatch_async(_concurrentQueue, ^{
+        PINMemoryCache *strongSelf = weakSelf;
+        BOOL containsObject = [strongSelf containsObjectForKey:key];
+        
+        block(containsObject);
+    });
+}
 
 - (void)objectForKey:(NSString *)key block:(PINMemoryCacheObjectBlock)block
 {
@@ -390,10 +401,20 @@ static NSString * const PINMemoryCachePrefix = @"com.pinterest.PINMemoryCache";
     return _dictionary.count;
 }
 
-
 - (NSArray *)allKeys
 {
     return _dictionary.allKeys;
+}
+
+- (BOOL)containsObjectForKey:(NSString *)key
+{
+    if (!key)
+        return NO;
+    
+    [self lock];
+        BOOL containsObject = (_dictionary[key] != nil);
+    [self unlock];
+    return containsObject;
 }
 
 - (__nullable id)objectForKey:(NSString *)key
@@ -414,14 +435,27 @@ static NSString * const PINMemoryCachePrefix = @"com.pinterest.PINMemoryCache";
         [self lock];
             _dates[key] = now;
         [self unlock];
+        NSLog(@"init read from memory for key %@", key);
+
     }
 
     return object;
 }
 
+- (id)objectForKeyedSubscript:(NSString *)key
+{
+    return [self objectForKey:key];
+}
+
 - (void)setObject:(id)object forKey:(NSString *)key
 {
+    NSLog(@"init setMemObject for key %@", key);
     [self setObject:object forKey:key withCost:0];
+}
+
+- (void)setObject:(id)object forKeyedSubscript:(NSString *)key
+{
+    [self setObject:object forKey:key];
 }
 
 - (void)setObject:(id)object forKey:(NSString *)key withCost:(NSUInteger)cost
@@ -439,6 +473,10 @@ static NSString * const PINMemoryCachePrefix = @"com.pinterest.PINMemoryCache";
         willAddObjectBlock(self, key, object);
     
     [self lock];
+        NSNumber* oldCost = _costs[key];
+        if (oldCost)
+            _totalCost -= [oldCost unsignedIntegerValue];
+
         _dictionary[key] = object;
         _dates[key] = [[NSDate alloc] init];
         _costs[key] = @(cost);
@@ -486,6 +524,8 @@ static NSString * const PINMemoryCachePrefix = @"com.pinterest.PINMemoryCache";
 
 - (void)removeAllObjects
 {
+    NSLog(@"init remove all objects from memory for key");
+
     [self lock];
         PINMemoryCacheBlock willRemoveAllObjectsBlock = _willRemoveAllObjectsBlock;
         PINMemoryCacheBlock didRemoveAllObjectsBlock = _didRemoveAllObjectsBlock;
