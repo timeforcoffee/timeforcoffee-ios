@@ -77,6 +77,7 @@
 		EC4AB2711BB6787600DA9759 /* StationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4AB26C1BB6787600DA9759 /* StationViewController.swift */; };
 		EC4F0C871BB5D06700CE7C24 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC4F0C861BB5D06700CE7C24 /* UIKit.framework */; };
 		EC4F0C891BB5D54B00CE7C24 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC4F0C881BB5D54B00CE7C24 /* Images.xcassets */; };
+		EC5C0CBA1E1C521C00B2EC96 /* PINCacheObjectSubscripting.h in Headers */ = {isa = PBXBuildFile; fileRef = EC5C0CB91E1C521C00B2EC96 /* PINCacheObjectSubscripting.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EC604D041D8714A200ED1950 /* FavoriteStationsOverviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC604D031D8714A200ED1950 /* FavoriteStationsOverviewController.swift */; };
 		EC60B0121BB680B600D10238 /* gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = EC60B00D1BB680B600D10238 /* gradient.png */; };
 		EC60B0141BB680B600D10238 /* launchicon.png in Resources */ = {isa = PBXBuildFile; fileRef = EC60B00F1BB680B600D10238 /* launchicon.png */; };
@@ -355,6 +356,7 @@
 		EC4F0C881BB5D54B00CE7C24 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		EC5AD0901C9774C1004AF7E5 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
 		EC5AD0921C977569004AF7E5 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Main.strings; sourceTree = "<group>"; };
+		EC5C0CB91E1C521C00B2EC96 /* PINCacheObjectSubscripting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PINCacheObjectSubscripting.h; sourceTree = "<group>"; };
 		EC604D031D8714A200ED1950 /* FavoriteStationsOverviewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteStationsOverviewController.swift; sourceTree = "<group>"; };
 		EC60B00D1BB680B600D10238 /* gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradient.png; sourceTree = "<group>"; };
 		EC60B00E1BB680B600D10238 /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
@@ -744,6 +746,7 @@
 				EC2F1F231E293417008B80A9 /* PINCacheObjectSubscripting.h */,
 				EC9BCB3B1BB5CD4D00623F1A /* Nullability.h */,
 				EC9BCB3C1BB5CD4D00623F1A /* PINCache.h */,
+				EC5C0CB91E1C521C00B2EC96 /* PINCacheObjectSubscripting.h */,
 				EC9BCB3D1BB5CD4D00623F1A /* PINCache.m */,
 				EC9BCB3E1BB5CD4D00623F1A /* PINDiskCache.h */,
 				EC9BCB3F1BB5CD4D00623F1A /* PINDiskCache.m */,
@@ -1716,6 +1719,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 183;
@@ -1746,6 +1750,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 183;
