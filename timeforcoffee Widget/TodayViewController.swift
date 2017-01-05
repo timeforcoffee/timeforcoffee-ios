@@ -380,14 +380,16 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                     DLog("__", toFile: true)
                     if (lastUsedViewUpdatedInterval() > -(60 * 30)) {
                         DLog("__", toFile: true)
-                        let distance2lastViewedStationNow: CLLocationDistance? = locManager?.currentLocation?.distanceFromLocation((lastViewedStation?.coord)!)
-                        let distance2lastViewedStationLasttime: CLLocationDistance? = self.datastore.getUserDefaults()?.objectForKey("lastUsedStationDistance") as! CLLocationDistance?
-                        if (distance2lastViewedStationNow != nil && distance2lastViewedStationLasttime != nil && distance2lastViewedStationNow! < distance2lastViewedStationLasttime! + 200) {
-                            DLog("not moved more than 200m", toFile: true)
-                            DLog("__", toFile: true)
-                            needsLocationUpdate = false
-                            self.setLoadingStage(1)
-                            self.currentStation?.updateDepartures(self)
+                        if (lastViewedStation != nil) {
+                            let distance2lastViewedStationNow: CLLocationDistance? = locManager?.currentLocation?.distanceFromLocation((lastViewedStation?.coord)!)
+                            let distance2lastViewedStationLasttime: CLLocationDistance? = self.datastore.getUserDefaults()?.objectForKey("lastUsedStationDistance") as! CLLocationDistance?
+                            if (distance2lastViewedStationNow != nil && distance2lastViewedStationLasttime != nil && distance2lastViewedStationNow! < distance2lastViewedStationLasttime! + 200) {
+                                DLog("not moved more than 200m", toFile: true)
+                                DLog("__", toFile: true)
+                                needsLocationUpdate = false
+                                self.setLoadingStage(1)
+                                self.currentStation?.updateDepartures(self)
+                            }
                         }
                     }
                 }
