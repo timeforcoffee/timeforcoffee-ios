@@ -134,7 +134,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                                             TFCFavorites.sharedInstance.repopulateFavorites()
                                         } else if (key.hasPrefix("favorite")) {
                                             let st_id = key.replace("favorite", template: "")
-                                            if let inMemoryObj = TFCCache.objects.stations.memoryCache.objectForKey(st_id) as! TFCStation? {
+                                            if let inMemoryObj = TFCStationBase.getFromMemoryCaches(st_id) {
                                                 inMemoryObj.repopulateFavoriteLines()
                                             }
                                         }
@@ -307,7 +307,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                     TFCFavorites.sharedInstance.repopulateFavorites()
                 } else if (myKey.hasPrefix("favorite")) {
                     let st_id = myKey.replace("favorite", template: "")
-                    if let inMemoryObj = TFCCache.objects.stations.memoryCache.objectForKey(st_id) as! TFCStation? {
+                    if let inMemoryObj = TFCStationBase.getFromMemoryCaches(st_id) {
                         inMemoryObj.repopulateFavoriteLines()
                     }
                 }
