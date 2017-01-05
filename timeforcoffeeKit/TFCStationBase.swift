@@ -878,6 +878,10 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             clearDepartures()
             someRemoved = true
         }
+        if (someRemoved) {
+            self.needsCacheSave = true
+            TFCStationBase.saveToPincache(self)
+        }
         return someRemoved
     }
 
