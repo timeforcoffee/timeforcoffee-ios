@@ -272,9 +272,15 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     }
 
     public class func initWithCache(name: String, id: String, coord: CLLocation?) -> TFCStation {
-        let trimmed_id = id.replace("^0*", template: "")
-        let cache: PINCache = TFCCache.objects.stations
+        let trimmed_id: String
+
+        if (id.hasPrefix("0")) {
+            trimmed_id = id.replace("^0*", template: "")
+        } else {
+            trimmed_id = id
+        }
         // try to find it in the cache
+        let cache: PINCache = TFCCache.objects.stations
         let newStation: TFCStation? = cache.objectForKey(trimmed_id) as? TFCStation
         //if not in the cache, or no coordinates set or the name is "unknown"
         if (newStation == nil || newStation?.coord == nil || newStation?.name == "unknown") {
