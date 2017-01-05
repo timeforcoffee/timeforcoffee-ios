@@ -28,7 +28,6 @@ final public class TFCFavorites: NSObject {
         static let  dataStore: TFCDataStore? = TFCDataStore.sharedInstance
     }
 
-    private var temporarlyRemovedStations = false
     private var needsSave = false
 
     private override init() {
@@ -36,7 +35,6 @@ final public class TFCFavorites: NSObject {
     }
 
     public func repopulateFavorites() {
-        temporarlyRemovedStations = false
         self.stations = getCurrentFavoritesFromDefaults(false)
         if (self.needsSave) {
             self.saveFavorites()
@@ -95,16 +93,8 @@ final public class TFCFavorites: NSObject {
 
     }
 
-    func removeTemporarly(st_id: String) {
-        temporarlyRemovedStations = true
-        stations.removeValue(st_id)
-    }
-
     func unset(st_id: String?) {
         if let st_id = st_id {
-            if (temporarlyRemovedStations) {
-                repopulateFavorites()
-            }
             stations.removeValue(st_id)
             self.saveFavorites()
         }
@@ -116,9 +106,6 @@ final public class TFCFavorites: NSObject {
 
     func set(station: TFCStation?) {
         if let station = station {
-            if (temporarlyRemovedStations) {
-                repopulateFavorites()
-            }
             if (stations.indexOf(station.st_id) == nil) {
                 stations.append(station)
                 self.saveFavorites()

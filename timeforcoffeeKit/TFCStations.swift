@@ -173,10 +173,6 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
                 removeFromFavorites.append(station.st_id)
             }
         }
-        // for memory reasons...
-        for (st_id) in removeFromFavorites {
-            favorite.s.removeTemporarly(st_id)
-        }
 
         if (hasNearbyFavs) {
             self.nearbyFavorites.sortInPlace({ $0.calculatedDistance < $1.calculatedDistance })
