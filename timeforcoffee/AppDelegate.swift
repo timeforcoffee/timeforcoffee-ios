@@ -49,6 +49,12 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             return NSBundle.mainBundle().bundleIdentifier! + ".\(self.rawValue)"
         }
     }
+    func applicationDidReceiveMemoryWarning(application: UIApplication) {
+        DLog("WARNING: applicationDidReceiveMemoryWarning", toFile: true)
+        TFCFavorites.sharedInstance.clearStationCache()
+        GATracker.sharedInstance?.deinitTracker()
+        TFCDataStore.sharedInstance.saveContext()
+    }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
