@@ -635,8 +635,8 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             for dept in depts {
                 let key = dept.getKey()
                 let oldDept = newDepartures[key]
-                if let oldSig = oldDept?.getSignature() {
-                    let newSig = dept.getSignature()
+                if let oldSig = oldDept?.getSignature(self as? TFCStation) {
+                    let newSig = dept.getSignature(self as? TFCStation)
                     if (oldSig != newSig) {
                         newDepartures[key] = dept
                         count += 1
