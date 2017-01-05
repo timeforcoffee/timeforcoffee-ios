@@ -37,10 +37,14 @@ final public class TFCFavorites: NSObject {
 
     public func repopulateFavorites() {
         temporarlyRemovedStations = false
-        self.stations = getCurrentFavoritesFromDefaults()
+        self.stations = getCurrentFavoritesFromDefaults(false)
         if (self.needsSave) {
             self.saveFavorites()
         }
+    }
+
+    public func clearStationCache() {
+        self.stations.clearStationCache()
     }
 
     public func getSearchRadius() -> Int {
@@ -53,7 +57,7 @@ final public class TFCFavorites: NSObject {
         return favoritesSearchRadius!
     }
 
-    private func getCurrentFavoritesFromDefaults() -> TFCStationCollection {
+    private func getCurrentFavoritesFromDefaults(newCollection:Bool = true) -> TFCStationCollection {
        // return [:]
         DLog("getCurrentFavoritesFromDefaults", toFile: true);
         var stationIds = objects.dataStore?.objectForKey("favorites3") as? [String]
@@ -82,10 +86,13 @@ final public class TFCFavorites: NSObject {
         }
         // end of update
 
-
         guard stationIds != nil else { return TFCStationCollection() }
+        if (newCollection) {
+            return TFCStationCollection(strings: stationIds!)
+        }
+        self.stations.replace(stationIds: stationIds!)
+        return self.stations
 
-        return TFCStationCollection(strings: stationIds!)
     }
 
     func removeTemporarly(st_id: String) {
