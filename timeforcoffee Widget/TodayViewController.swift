@@ -537,7 +537,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             self.setLoadingStage(1)
             station?.updateDepartures(self, context: ["indexPath": indexPath], onlyFirstDownload: true)
             if let cellinstance = cell as? NearbyStationsTableViewCell {
-                cellinstance.station = station
+                cellinstance.stationId = station?.st_id
                 cellinstance.drawCell()
             }
             return cell
@@ -621,12 +621,15 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         if (self.showStations) {
             if let context2 = context as? [String: NSIndexPath],
                 indexPath = context2["indexPath"],
-                cellinstance = self.appsTableView?.cellForRowAtIndexPath(indexPath) as? NearbyStationsTableViewCell {
+                let cellinstance = self.appsTableView?.cellForRowAtIndexPath(indexPath) as? NearbyStationsTableViewCell {
                 //self.appsTableView?.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
-                if (cellinstance.station?.st_id == forStation?.st_id) {
-                    cellinstance.drawCell()
-                } else {
-                    cellinstance.station?.updateDepartures(self, onlyFirstDownload: true)
+                if (cellinstance.stationId != nil) {
+                    if (cellinstance.stationId == forStation?.st_id) {
+                        cellinstance.drawCell()
+                    } else {
+                        cellinstance.getStation()
+                        cellinstance.station?.updateDepartures(self, onlyFirstDownload: true)
+                    }
                 }
             } else {
                 self.appsTableView?.reloadData()
