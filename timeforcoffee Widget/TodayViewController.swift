@@ -724,7 +724,10 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     }
 
     private func setLoadingStage(stage:Int) {
-        self.loadingStage = stage
+        if (loadingStage != stage) {
+            DLog("loadingStage \(stage)", toFile: true)
+            self.loadingStage = stage
+        }
         self.setTitleText()
     }
 }
