@@ -18,7 +18,13 @@ public final class TFCCache {
             return p
             }()
         static var stations: PINCache = {
-            let p = TFCCache.getCacheInstance("stations")
+            let p:PINCache = TFCCache.getCacheInstance("stations")
+            #if DEBUG
+            p.memoryCache.didRemoveAllObjectsBlock = {
+                (cache) in
+                DLog("did remove all objects in pinmemcache \(TFCStationBase.countStationsCache()) memsize: \(TFCCache.getMemorySize())", toFile: true)
+            }
+            #endif
             #if os(watchOS)
                 p.diskCache.byteLimit = 3 * 1024 * 1024 // 2 MB
             #else
@@ -58,5 +64,32 @@ public final class TFCCache {
     public class func allKeys() -> [NSString]? {
         let cache = TFCCache.objects.stations
         return cache.memoryCache.allKeys as? [NSString]
+    }
+
+    public class func getMemorySize() -> Float? {
+        #if DEBUG
+            let MACH_TASK_BASIC_INFO_COUNT = (sizeof(mach_task_basic_info_data_t) / sizeof(natural_t))
+
+            // prepare parameters
+            let name   = mach_task_self_
+            let flavor = task_flavor_t(MACH_TASK_BASIC_INFO)
+            var size   = mach_msg_type_number_t(MACH_TASK_BASIC_INFO_COUNT)
+
+            // allocate pointer to mach_task_basic_info
+            let infoPointer = UnsafeMutablePointer<mach_task_basic_info>.alloc(1)
+
+            // call task_info - note extra UnsafeMutablePointer(...) call
+            let kerr = task_info(name, flavor, UnsafeMutablePointer(infoPointer), &size)
+
+            // get mach_task_basic_info struct out of pointer
+            let info = infoPointer.move()
+
+            // deallocate pointer
+            infoPointer.dealloc(1)
+            if kerr == KERN_SUCCESS {
+                return Float(info.resident_size) / (1024 * 1024)
+            }
+        #endif
+        return nil
     }
 }
