@@ -91,7 +91,7 @@ class TFCVisits: NSObject, TFCLocationManagerDelegate, TFCStationsUpdatedProtoco
     func stationsUpdated(error: String?, favoritesOnly: Bool, context: Any?) {
         if (favoritesOnly == false) { // wait for all stations, should be fast anyway with the DB lookup nowadays (in Switzerland at least) and doesn't matter in this case how fast it is
             DLog("TFCVisits stationsUpdate")
-            if let station = self.stations.first {
+            if let station = self.stations.getStation(0) {
                 var doComplicationUpdate = true
                 // don't update complication, if the first staion is not a favorite and we're coming from a region update
                 // this can happen when we hardly touch a region perimeter but are out of it again when we have the first station

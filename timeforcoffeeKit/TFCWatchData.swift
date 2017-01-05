@@ -66,7 +66,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
     }
 
     public func updateComplication(stations: TFCStations) {
-        if let firstStation = stations.first {
+        if let firstStation = stations.getStation(0) {
             if self.needsTimelineDataUpdate(firstStation) {
                 DLog("updateComplicationData", toFile: true)
                 updateComplicationData()

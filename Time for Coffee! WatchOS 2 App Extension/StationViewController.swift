@@ -71,7 +71,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
                 return
             }
             infoGroup.setHidden(true)
-            if let station = stations?[0] {
+            if let station = stations?.getStation(0) {
                 var station2 = station
                 if let uA = self.userActivity, name = uA["name"], st_id = uA["st_id"]{
                     station2 = TFCStation.initWithCache(name, id: st_id, coord: nil)

@@ -12,21 +12,9 @@ import WatchConnectivity
 import CoreData
 import MapKit
 
-public final class TFCStations: NSObject, SequenceType, CollectionType, TFCLocationManagerDelegate, APIControllerProtocol {
+public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerProtocol {
 
     private weak var delegate: TFCStationsUpdatedProtocol?
-    var stations:TFCStationCollection? {
-        get {
-
-            if  nearbyFavorites.count > 0 {
-                if _stations.count > 0 {
-                    return nearbyFavorites + _stations
-                }
-                return nearbyFavorites
-            }
-            return _stations
-        }
-    }
 
     private var _stations:TFCStationCollection = TFCStationCollection()
     private var nearbyFavorites:TFCStationCollection = TFCStationCollection()
@@ -66,15 +54,20 @@ public final class TFCStations: NSObject, SequenceType, CollectionType, TFCLocat
     }
 
     public func count() -> Int? {
-        if let stations = stations {
-            return stations.count
-        }
-        return nil
+        return nearbyFavorites.count + _stations.count
     }
 
     public func empty() {
         _stations.empty()
         nearbyFavorites.empty()
+    }
+
+    public func getNearbyFavoriteIds() -> [String] {
+        return nearbyFavorites.getStationIds()
+    }
+
+    public func getNearbyNonFavoriteIds() -> [String] {
+        return _stations.getStationIds()
     }
 
     public func addWithJSON(allResults: JSON?) {
@@ -137,10 +130,14 @@ public final class TFCStations: NSObject, SequenceType, CollectionType, TFCLocat
     }
 
     public func getStation(index: Int) -> TFCStation? {
-        if let stations = stations {
-            if (index < stations.count) {
-                return stations[index]
-            }
+        let nearbyFavoritesCount = nearbyFavorites.count
+        if index < nearbyFavoritesCount {
+            return nearbyFavorites[index]
+        }
+        let stationCount = _stations.count
+
+        if index < nearbyFavoritesCount + stationCount {
+            return _stations[index - nearbyFavoritesCount]
         }
         return nil
     }
@@ -153,8 +150,7 @@ public final class TFCStations: NSObject, SequenceType, CollectionType, TFCLocat
     }
 
     public func initWithNearbyFavorites(location: CLLocation) -> Bool {
-        self.nearbyFavorites.empty()
-        self._stations.empty()
+//        self._stations.empty()
 
         inStationsArrayAsFavorite = [:]
         var hasNearbyFavs = false
@@ -289,7 +285,7 @@ public final class TFCStations: NSObject, SequenceType, CollectionType, TFCLocat
 
         self._stations.replace(Array(stations.prefix(self.maxStations))) //only add max stations
 
-        if (!(self.stations?.count > 0)) {
+        if (!(self._stations.count > 0)) {
             //this can happen, when we filter out station above, so increase the search radius
             if (distance < 50000) {
                 return searchForStationsInDB(coord, distance: distance * 2, context: context)
@@ -333,7 +329,7 @@ public final class TFCStations: NSObject, SequenceType, CollectionType, TFCLocat
                 err =  "Network error. Please try again"
             } else {
                 self.addWithJSON(results)
-                if (!(self.stations?.count > 0)) {
+                if (!(self._stations.count > 0)) {
                     err = self.getReasonForNoStationFound()
                 }
             }
@@ -354,12 +350,12 @@ public final class TFCStations: NSObject, SequenceType, CollectionType, TFCLocat
             if (err == TFCLocationManager.k.AirplaneMode) {
                 self.loadingMessage = "Airplane Mode?"
             } else {
-                if (!(self.stations?.count > 0)) {
+                if (!(self.count() > 0)) {
                     self.empty()
                 }
                 self.networkErrorMsg = err
             }
-            if let firstStation = self.stations?.first {
+            if let firstStation = self.getStation(0) {
                 //only send a complication update, if it's a favorite
                 if firstStation.isFavorite() {
                     TFCDataStore.sharedInstance.sendComplicationUpdate(firstStation, coord: TFCLocationManagerBase.getCurrentLocation()?.coordinate)
@@ -391,34 +387,17 @@ public final class TFCStations: NSObject, SequenceType, CollectionType, TFCLocat
 
     }
 
-    public var startIndex: Int {
-        return 0
-    }
-
-    public var endIndex: Int {
-        if let count = stations?.count {
-            return count
+    public func getStationsAsArray(limit: Int = 1000) -> [TFCStation] {
+        var stations = nearbyFavorites.getStations(limit)
+        if (stations.count < limit) {
+            for (station) in _stations.getStations(limit - stations.count) {
+                stations.append(station)
+            }
         }
-        return 0
-    }
-
-    public subscript(i: Int) -> TFCStation {
-        return stations![i]
-    }
-
-    public subscript(range: ClosedInterval<Int>) -> ArraySlice<TFCStation> {
-        return stations![range.start...range.end]
-    }
-
-    public func generate() -> TFCStationCollectionGenerator {
-        if (stations == nil) {
-            return TFCStationCollection().generate()
-        }
-        return stations!.generate()
+        return stations
     }
 
     public func populateWithIds(favorites: [String]?, nonfavorites: [String]?) {
-        self.empty()
         if let favorites = favorites {
             self.nearbyFavorites.replace(stationIds: favorites)
         }

@@ -64,7 +64,7 @@ public class TFCWatchDataFetch: NSObject, NSURLSessionDownloadDelegate {
 
         func handleReply(stations: TFCStations?) {
             DLog("handleReply fetchDepartureData:", toFile: true)
-            if let station = stations?.first {
+            if let station = stations?.getStation(0) {
                 DLog("handleReply fetchDepartureData: \(station.name))", toFile: true)
                 if let defaults = TFCDataStore.sharedInstance.getUserDefaults() {
                     // check if new station id and make it download complication, if so, later

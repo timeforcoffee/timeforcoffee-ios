@@ -92,9 +92,9 @@ class StationsOverviewViewController: WKInterfaceController {
                     let ctxStations:Array<TFCStation>
                     // show all stations in favorites
                     if (self.showOnlyFavorites()) {
-                        ctxStations = Array(stations)
+                        ctxStations = stations.getStationsAsArray()
                     } else {
-                        ctxStations = Array(stations.prefix(10))
+                        ctxStations = stations.getStationsAsArray(10)
                     }
                     if (self.numberOfRows != ctxStations.count) {
                         stationsTable.setNumberOfRows(ctxStations.count, withRowType: "stations")
