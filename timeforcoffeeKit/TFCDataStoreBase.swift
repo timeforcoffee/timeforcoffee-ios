@@ -24,6 +24,8 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
 
     private var myCoreDataStack:CoreDataStack?
 
+    private var lastComplicationEnabled:NSDate? = nil
+
     private lazy var dispatchTime = { return dispatch_time(DISPATCH_TIME_NOW, Int64(10.0 * Double(NSEC_PER_SEC))) }()
 
     public var mocObjects: NSManagedObjectContext? {
@@ -64,6 +66,10 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
     private var notificationObserver: AnyObject?
 
     public var localNotificationCallback:((String?) -> Void)? = nil
+
+    public lazy var settingsLastUpdated: NSDate? = {
+        return TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("settingsLastUpdated") as! NSDate?
+    }()
 
     @available(iOSApplicationExtension 9.0, *)
     public lazy var session: WCSession? = {
@@ -435,6 +441,10 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
 
 
     public func checkForDBUpdate(DBUpdate:Bool = true, callback: () -> Void) {
+        // since we cache this value and checkForDBUpdate is called usually at the beginning, we can set it here
+        // not in the constructor, since this is eg. not called in the Today Extension when we come back
+        // and may have changed settings in the app itself
+        self.settingsLastUpdated = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("settingsLastUpdated") as! NSDate?
 
         dispatch_group_wait(self.myCoreDataStackSetupGroup, dispatch_time(DISPATCH_TIME_NOW, Int64(5.0 * Double(NSEC_PER_SEC))))
         if (self.coreDataStackIsSetup()) {
@@ -655,20 +665,36 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
     }
 
     public func complicationEnabled() -> Bool {
+        // that is set to false in today extension, so the thing before is not needed
+        if (TFCFavorites.sharedInstance.doGeofences == false) {
+            return false
+        }
         #if os(iOS)
             if #available(iOS 9, *) {
                 if (WCSession.isSupported()) {
                     if (self.session?.complicationEnabled == true) {
-                        userDefaults?.setObject(NSDate(), forKey: "lastComplicationEnabled")
+                        self.lastComplicationEnabled = NSDate()
+                        userDefaults?.setObject(self.lastComplicationEnabled, forKey: "lastComplicationEnabled")
                         return true
                     }
-                    if let lastComplicationEnabled = userDefaults?.objectForKey("lastComplicationEnabled") as? NSDate {
-                        // if we had complications enabled in the last 24 hours, assume it's enabled
-                        // so to not loose the fences, when we switch faces temporarly
+                    if let lastComplicationEnabled = self.lastComplicationEnabled {
                         if lastComplicationEnabled.dateByAddingTimeInterval(24 * 3600) > NSDate() {
                             return true
                         }
                     }
+
+                    if let lastComplicationEnabled = userDefaults?.objectForKey("lastComplicationEnabled") as? NSDate {
+                        // if we had complications enabled in the last 24 hours, assume it's enabled
+                        // so to not loose the fences, when we switch faces temporarly
+                        self.lastComplicationEnabled = lastComplicationEnabled
+                        if lastComplicationEnabled.dateByAddingTimeInterval(24 * 3600) > NSDate() {
+                            return true
+                        }
+                    }
+                }
+                // so that we don't have to check userDefaults all the time
+                if (self.lastComplicationEnabled == nil) {
+                    self.lastComplicationEnabled = NSDate().dateByAddingTimeInterval(-25 * 3600)
                 }
             }
         #endif
