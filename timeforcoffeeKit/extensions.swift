@@ -151,6 +151,15 @@ public func <(lhs: NSDate, rhs: NSDate) -> Bool {
     return lhs.compare(rhs) == .OrderedAscending
 }
 
+
+struct WeakBox<T: AnyObject> {
+    weak var value: T?
+    // Initializer to remove the `value:` label in the initializer call.
+    init(_ value: T?) {
+        self.value = value
+    }
+}
+
 extension NSDate: Comparable { }
 
 

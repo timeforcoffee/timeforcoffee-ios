@@ -38,6 +38,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         }
     }
 
+    static var stationsCache:[String:WeakBox<TFCStation>] = [:]
     private var _name: String?
 
     public var coord: CLLocation? {
@@ -287,8 +288,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         }
         // try to find it in the cache
         let cache: PINCache = TFCCache.objects.stations
-        // if already in the cache, we can just return it
-        if let newStation = cache.memoryCache.objectForKey(trimmed_id) as? TFCStation {
+        if let newStation = getFromMemoryCaches(trimmed_id) {
             return newStation
         }
        
@@ -336,6 +336,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                 newStation2.needsCacheSave = true
                 TFCStationBase.saveToPincache(newStation2)
             }
+            addToStationCache(newStation2)
             return newStation2
         } else {
             let countBefore = newStation!.departures?.count
@@ -352,7 +353,38 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             }
             newStation!.favoriteLines = newStation!.getFavoriteLines()
         }
+        addToStationCache(newStation!)
         return newStation!
+    }
+
+    public class func getFromMemoryCaches(id: String) -> TFCStation? {
+        let cache: PINCache = TFCCache.objects.stations
+
+        // if already in the PINCcache cache, we can just return it
+        if let newStation = cache.memoryCache.objectForKey(id) as? TFCStation {
+            return newStation
+        }
+        // check if we have it in the stationCache
+        if let newStation = stationsCache[id]?.value {
+            DLog("init in stationsCache \(id) ")
+            cache.memoryCache.setObject(newStation, forKey: id)
+            return newStation
+        }
+        return nil
+    }
+
+    public class func countStationsCache() -> Int {
+        for (id, station) in stationsCache {
+            if (station.value == nil) {
+                stationsCache.removeValueForKey(id)
+            }
+        }
+        return stationsCache.count
+
+    }
+
+    public class func addToStationCache(station: TFCStation) {
+        TFCStationBase.stationsCache[station.st_id] = WeakBox(station)
     }
 
     public class func initWithCache(dict: [String: String]) -> TFCStation {
