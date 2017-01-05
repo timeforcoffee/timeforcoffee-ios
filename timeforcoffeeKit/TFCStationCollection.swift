@@ -53,10 +53,15 @@ public class TFCStationCollection: NSObject, SequenceType, CollectionType, Range
         return nil
     }
 
-    public func getStations() -> [TFCStation] {
+    public func getStations(limit: Int = 1000) -> [TFCStation] {
         var stations:[TFCStation] = []
+        var c = 0
         for (id) in self.stationIds {
             stations.append(self.getStation(id))
+            c += 1
+            if (c >= limit) {
+                break
+            }
         }
         return stations
     }
