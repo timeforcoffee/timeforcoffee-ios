@@ -105,12 +105,12 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
         return "name=\(self.getDestination()),scheduled=\(self.getScheduledTimeAsNSDate()),line=\(self.getLine())"
     }
 
-    public func getSignature() -> String {
+    public func getSignature(station:TFCStation? = nil) -> String {
         if let sig = self.signature {
             return sig
         }
 
-        self.signature = "\(type),\(accessible),\(isFavorite()),\(sortTime?.formattedWithDateFormatter(DLogShortFormatter)),\(sortOrder),\(destination_id),\(colorFg),\(colorBg),\(platform),\(realtime?.formattedWithDateFormatter(DLogShortFormatter)),\(arrivalRealtime?.formattedWithDateFormatter(DLogShortFormatter)),\(arrivalScheduled?.formattedWithDateFormatter(DLogShortFormatter))".replace("Optional",template: "").replace("[\\\"()#]",template: "")
+        self.signature = "\(type),\(accessible),\(isFavorite(station)),\(sortTime?.formattedWithDateFormatter(DLogShortFormatter)),\(sortOrder),\(destination_id),\(colorFg),\(colorBg),\(platform),\(realtime?.formattedWithDateFormatter(DLogShortFormatter)),\(arrivalRealtime?.formattedWithDateFormatter(DLogShortFormatter)),\(arrivalScheduled?.formattedWithDateFormatter(DLogShortFormatter))".replace("Optional",template: "").replace("[\\\"()#]",template: "")
 
         return self.signature!
     }
