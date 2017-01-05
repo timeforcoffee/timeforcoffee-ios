@@ -329,6 +329,9 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
     }
 
     public func isFavorite(station: TFCStation? = nil) -> Bool {
+        if let station = station {
+            return station.showAsFavoriteDeparture(self)
+        }
         if let isfav = self.getStation(station)?.showAsFavoriteDeparture(self) {
             return isfav
         }
