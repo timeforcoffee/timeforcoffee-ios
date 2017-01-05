@@ -842,6 +842,8 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             }
         }
 
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+
             var context2: contextData = contextData()
             context2.completionDelegate = completionDelegate
             context2.context = context
@@ -881,6 +883,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                     return  
                 })
             }
+        }
 
     }
 
