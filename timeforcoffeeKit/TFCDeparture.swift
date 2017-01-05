@@ -20,7 +20,7 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
     public var sortTime: NSDate?
     public var sortOrder: Int?
     public var key: String?
-    private var _station: TFCStation?
+    weak private var _station: TFCStation?
     var passlist: [TFCPass]? = nil
 
     struct contextData {
