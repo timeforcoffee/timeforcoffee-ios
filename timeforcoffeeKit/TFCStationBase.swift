@@ -648,7 +648,10 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             }
             self.departures = newDepartures
             DLog("Added \(count) depts to \(self.name)", toFile: true)
-            TFCStationBase.saveToPincache(self)
+            if (count > 0) {
+                self.needsCacheSave = true
+                TFCStationBase.saveToPincache(self)
+            }
             DLog("_", toFile: true)
         }
     }
