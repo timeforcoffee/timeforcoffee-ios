@@ -230,6 +230,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                 self.walkingDistanceLastCoord = try aDecoder.decodeTopLevelObjectForKey("walkingDistanceLastCoord") as! CLLocation?
                 self._calculatedDistance = try aDecoder.decodeTopLevelObjectForKey("_calculatedDistance") as! Double?
                 self._calculatedDistanceLastCoord = try aDecoder.decodeTopLevelObjectForKey("_calculatedDistanceLastCoord") as! CLLocation?
+                self.lastDepartureUpdate = try aDecoder.decodeTopLevelObjectForKey("lastDepartureUpdate") as! NSDate?
 
             } else {
                 self.departures = aDecoder.decodeObjectForKey("departuresDict") as! [String:TFCDeparture]?
@@ -255,6 +256,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         aCoder.encodeObject(walkingDistanceLastCoord, forKey: "walkingDistanceLastCoord")
         aCoder.encodeObject(_calculatedDistance, forKey: "_calculatedDistance")
         aCoder.encodeObject(_calculatedDistanceLastCoord, forKey: "_calculatedDistanceLastCoord")
+        aCoder.encodeObject(lastDepartureUpdate, forKey:"lastDepartureUpdate")
     }
 
     override public convenience init() {
