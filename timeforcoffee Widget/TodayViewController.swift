@@ -667,19 +667,10 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                 }
             }
             if (self.showStations) {
-                var lastUsedStationsNormal:[String] = []
-                var lastUsedStationsFavorites:[String] = []
                 if let stations = self.stations {
                     let userDefaults = self.datastore.getUserDefaults()
-                    for (station) in stations {
-                        if (station.isFavorite()) {
-                            lastUsedStationsFavorites.append(station.st_id)
-                        } else {
-                            lastUsedStationsNormal.append(station.st_id)
-                        }
-                    }
-                    userDefaults?.setObject(lastUsedStationsNormal, forKey: "lastUsedStationsNormal")
-                    userDefaults?.setObject(lastUsedStationsFavorites, forKey: "lastUsedStationsFavorites")
+                    userDefaults?.setObject(stations.getNearbyNonFavoriteIds(), forKey: "lastUsedStationsNormal")
+                    userDefaults?.setObject(stations.getNearbyFavoriteIds(), forKey: "lastUsedStationsFavorites")
                 }
             }
             self.needsLocationUpdate = false
