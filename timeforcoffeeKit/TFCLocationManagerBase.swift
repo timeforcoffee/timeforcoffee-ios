@@ -128,7 +128,7 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
                         self.currentLocation = CLLocation(latitude: 47.386142, longitude: 8.529163)
                         //currentLocation = CLLocation(latitude: 46.386142, longitude: 7.529163)
                         // random location in zurich
-                        // currentLocation = CLLocation(latitude: 47.33 + (Double(arc4random_uniform(100)) / 1000.0), longitude: 8.5 + (Double(arc4random_uniform(100)) / 1000.0))
+                         //self.currentLocation = CLLocation(latitude: 47.38 + (Double(arc4random_uniform(100)) / 7000.0), longitude: 8.529163 + (Double(arc4random_uniform(100)) / 7000.0))
                         self.locationManager.stopUpdatingLocation()
                         if (classvar.currentPlacemark == nil || classvar.currentPlacemark?.location?.distanceFromLocation(self.currentLocation!) > 1000) {
                             self.updateGeocodedPlacemark()
@@ -153,7 +153,7 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
             if (self.locationFixAchieved == false) {
                 self.locationFixAchieved = true
                 //random location, sometimes needed for testing ...
-                //self.currentLocation = CLLocation(latitude: 47.33 + (Double(arc4random_uniform(100)) / 1000.0), longitude: 8.5 + (Double(arc4random_uniform(100)) / 1000.0))
+                //self.currentLocation = CLLocation(latitude: 47.38 + (Double(arc4random_uniform(100)) / 7000.0), longitude: 8.53 + (Double(arc4random_uniform(100)) / 7000.0))
                 if (classvar.currentPlacemark == nil || (self.currentLocation != nil && classvar.currentPlacemark?.location?.distanceFromLocation(self.currentLocation!) > 2000)) {
                     self.updateGeocodedPlacemark()
                 }
