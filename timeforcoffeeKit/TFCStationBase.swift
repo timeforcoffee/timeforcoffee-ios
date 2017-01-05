@@ -37,6 +37,10 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             }
         }
     }
+    #if DEBUG
+    static var InstanceCounter:Int = 0
+    static var instances:[String:Int] = [:]
+    #endif
 
     static var stationsCache:[String:WeakBox<TFCStation>] = [:]
     private var _name: String?
@@ -182,6 +186,8 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         self.st_id = id
         super.init()
         self.name = name
+        self.instanceCounter("coord")
+
 
         if let c = coord?.coordinate {
             // round coordinates to 6 places to make sure they are the same with different sources
@@ -195,6 +201,24 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     public init(id: String) {
         self.st_id = id
         super.init()
+        self.instanceCounter("id")
+
+    }
+
+    private func instanceCounter(name: String) {
+        #if DEBUG
+        TFCStationBase.InstanceCounter += 1;
+        DLog("init stationbase \(name) \(self.st_id) \(TFCStationBase.InstanceCounter)");
+
+        if let count = TFCStationBase.instances[self.st_id] {
+            TFCStationBase.instances[self.st_id] = count + 1
+        } else {
+            TFCStationBase.instances[self.st_id]  = 1
+        }
+        if (TFCStationBase.instances[self.st_id] > 1) {
+            DLog("WARN: init of \(self.st_id) \(self.name) has \(TFCStationBase.instances[self.st_id]) instances ", toFile: true)
+        }
+        #endif
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -205,9 +229,12 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                 self.st_id = aDecoder.decodeObjectForKey("st_id") as! String
             }
             super.init()
+            self.instanceCounter("coder")
+
         } catch let (err) {
             self.st_id = "0000"
             super.init()
+            self.instanceCounter("coder error")
 
             DLog("Decoder error: \(err)", toFile: true)
         }
@@ -258,6 +285,16 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         aCoder.encodeObject(_calculatedDistance, forKey: "_calculatedDistance")
         aCoder.encodeObject(_calculatedDistanceLastCoord, forKey: "_calculatedDistanceLastCoord")
         aCoder.encodeObject(lastDepartureUpdate, forKey:"lastDepartureUpdate")
+    }
+
+    deinit {
+        #if DEBUG
+        TFCStationBase.InstanceCounter -= 1;
+        if let count = TFCStationBase.instances[self.st_id] {
+            TFCStationBase.instances[self.st_id] = count - 1
+        }
+        DLog("deinit stationbase \(self.st_id) \(self.name) \(TFCStationBase.InstanceCounter)")
+        #endif
     }
 
     override public convenience init() {
