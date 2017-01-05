@@ -343,9 +343,6 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             let countBefore = newStation!.departures?.count
             if (countBefore > 0) {
                 newStation!.removeObsoleteDepartures()
-                if (countBefore > newStation!.departures?.count) {
-                    TFCStationBase.saveToPincache(newStation!)
-                }
             }
             newStation!.filteredLines = newStation!.getFilteredLines()
             // if country is not set, try updating it
