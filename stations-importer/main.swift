@@ -46,6 +46,10 @@ if (doReadImportFile) {
             if (id == "StationID") {
                 continue;
             }
+            if (station[3] == "") {
+                print("No height, assuming it's a tunnel. continue")
+                continue
+            }
             let obj = getCDObject(id)
             let lon = Double(station[1])
             if (lon != obj.longitude) {

@@ -30,7 +30,7 @@ public class TFCDataStore: NSObject {
 
     lazy var applicationDocumentsDirectory: NSURL = {
         // The directory the application uses to store the Core Data store file. This code uses a directory named "ch.opendata.timeforcoffee.timeforcoffee" in the application's documents Application Support directory.
-        return NSURL(fileURLWithPath: "/opt/git/timeforcoffee/timeforcoffeeKit", isDirectory: true)
+        return NSURL(fileURLWithPath: "/opt/git/tramboard-clj/", isDirectory: true)
         let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
         return urls[urls.count-1]
         }()
@@ -47,7 +47,7 @@ public class TFCDataStore: NSObject {
         // The persistent store coordinator for the application. This implementation creates and returns a coordinator, having added the store for the application to it. This property is optional since there are legitimate error conditions that could cause the creation of the store to fail.
         // Create the coordinator and store
         let coordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
-        let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("SingleViewCoreData.sqlite")
+        let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("stations.sqlite")
         var failureReason = "There was an error creating or loading the application's saved data."
         do {
             try coordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: nil)
