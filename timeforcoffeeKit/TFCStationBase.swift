@@ -305,6 +305,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                     if (tryStation.coord != nil && tryStation.st_id != "") {
                         tryStation.setStationSearchIndex()
                         tryStation.needsCacheSave = true
+                        addToStationCache(tryStation)
                         TFCStationBase.saveToPincache(tryStation)
                     }
                     return tryStation
@@ -600,7 +601,9 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         }
         objects.dataStore?.synchronize()
         self.filteredDepartures = nil
+        TFCDataStore.sharedInstance.settingsLastUpdated = NSDate()
         TFCDataStore.sharedInstance.getUserDefaults()?.setObject(NSDate(), forKey: "settingsLastUpdate")
+
     }
 
     private func getMarkedLinesShared(favorite: Bool) -> [String: [String: Bool]] {
