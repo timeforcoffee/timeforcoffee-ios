@@ -691,7 +691,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             // if we show a single station, but it's not determined which one
             //   try to get one from the stations array
             DLog("self.needsLocationUpdate \(self.needsLocationUpdate)", toFile: true)
-            if (self.showStations == false && (self.currentStation == nil ||                             self.needsLocationUpdate == true)) {
+            if (self.showStations == false && (self.currentStation == nil || self.needsLocationUpdate == true)) {
                 DLog("___", toFile: true)
                 self.currentStation = self.stations?.getStation(0)
                 DLog("currentStation: \(self.currentStation?.name)", toFile: true)
