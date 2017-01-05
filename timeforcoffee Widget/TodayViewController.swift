@@ -437,8 +437,8 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         } else {
             if (self.currentStation != nil) {
                 userDefaults?.setObject("singleStation", forKey: "lastUsedView")
-                self.currentStation?.isLastUsed = true
                 self.lastViewedStation?.isLastUsed = false
+                self.currentStation?.isLastUsed = true
                 // FIXME, use NSCoding serialisation ..
                 // and maybe one object for all these values
                 userDefaults?.setObject(self.currentStation?.getAsDict(), forKey: "lastUsedStation")
