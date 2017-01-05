@@ -161,12 +161,12 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
             favDistance = location.horizontalAccuracy + 500.0
         }
         favorite.s.repopulateFavorites()
-
+        var favs:[TFCStation] = []
         for (station) in favorite.s.stations {
             if (station.calculatedDistance < favDistance) {
                 hasNearbyFavs = true
                 if (inStationsArrayAsFavorite[station.st_id] != true) {
-                    self.nearbyFavorites.append(station)
+                    favs.append(station)
                     inStationsArrayAsFavorite[station.st_id] = true
                 }
             } else {
@@ -175,7 +175,8 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
         }
 
         if (hasNearbyFavs) {
-            self.nearbyFavorites.sortInPlace({ $0.calculatedDistance < $1.calculatedDistance })
+            favs.sortInPlace({ $0.calculatedDistance < $1.calculatedDistance })
+            self.nearbyFavorites.replace(favs)
             return true
         }
         self.nearbyFavorites.empty()
