@@ -757,7 +757,6 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             } else if (loadingStage == 3) {
                 loadingIndicator = " ..."
             }
-            DLog("Set title text to: \(newText)\(loadingIndicator)", toFile: true)
 
             dispatch_async(dispatch_get_main_queue()) {
                 textLabel.text = "\(newText)\(loadingIndicator)"
