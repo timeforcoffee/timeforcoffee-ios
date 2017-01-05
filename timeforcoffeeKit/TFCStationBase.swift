@@ -264,15 +264,15 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     }
 
     public class func saveToPincache(saveStation: TFCStationBase) {
-        dispatch_async(dispatch_get_main_queue()) {
-
+        if (saveStation.needsCacheSave)  {
             let cache: PINCache = TFCCache.objects.stations
-            if (saveStation.needsCacheSave)  {
-                DLog("set PinCache for \(saveStation.name)", toFile: true)
-                cache.setObject(saveStation, forKey: saveStation.st_id, block: { (_) in
-                })
-                saveStation.needsCacheSave = false
-            }
+            //immediatly set to memory cache
+            cache.memoryCache.setObject(saveStation, forKey: saveStation.st_id)
+            DLog("set PinCache for \(saveStation.name) \(saveStation.st_id)", toFile: true)
+
+            cache.setObject(saveStation, forKey: saveStation.st_id , block: { (_) in
+            })
+            saveStation.needsCacheSave = false
 
         }
     }
