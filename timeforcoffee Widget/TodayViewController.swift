@@ -621,8 +621,8 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         self.setLoadingStage(0)
         if (self.showStations) {
             if let context2 = context as? [String: NSIndexPath],
-                indexPath = context2["indexPath"],
-                let cellinstance = self.appsTableView?.cellForRowAtIndexPath(indexPath) as? NearbyStationsTableViewCell {
+                   indexPath = context2["indexPath"],
+                   cellinstance = self.appsTableView?.cellForRowAtIndexPath(indexPath) as? NearbyStationsTableViewCell {
                 //self.appsTableView?.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
                 if (cellinstance.stationId != nil) {
                     if (cellinstance.stationId == forStation?.st_id) {
