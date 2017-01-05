@@ -862,7 +862,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                     dontUpdate = true
                 }
             }
-            let settingsLastUpdated: NSDate? = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("settingsLastUpdate") as! NSDate?
+            let settingsLastUpdated: NSDate? = TFCDataStore.sharedInstance.settingsLastUpdated
             if (force ||
                     (!dontUpdate &&
                         (self.lastDepartureUpdate == nil ||
