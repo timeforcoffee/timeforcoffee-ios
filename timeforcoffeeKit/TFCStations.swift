@@ -120,7 +120,7 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
                         Clocation = CLLocation(latitude: latitude!, longitude: longitude!)
                     }
                     if let name = name {
-                        let newStation = TFCStation.initWithCache(name, id: id, coord: Clocation)
+                        let newStation = TFCStation.initWithCacheId(id, name: name, coord: Clocation)
                         newStations.append(newStation)
                     }
                 }

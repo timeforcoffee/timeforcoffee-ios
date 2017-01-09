@@ -74,7 +74,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             if let station = stations?.getStation(0) {
                 var station2 = station
                 if let uA = self.userActivity, name = uA["name"], st_id = uA["st_id"]{
-                    station2 = TFCStation.initWithCache(name, id: st_id, coord: nil)
+                    station2 = TFCStation.initWithCacheId(st_id, name: name)
                     self.userActivity = nil
                 }
                 if (self.station?.st_id != station2.st_id) {
@@ -233,7 +233,6 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
 
     func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?) {
         DLog("departuresUpdated for \(forStation?.name)", toFile: true)
-        forStation
         let displayed = self.displayDepartures(forStation)
         let context2:[String:String]? = context as? [String:String]
         if (displayed && context2?["cached"] != "true") {

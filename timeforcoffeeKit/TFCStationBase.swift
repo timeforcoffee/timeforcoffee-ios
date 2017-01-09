@@ -434,12 +434,12 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         } else {
             name = ""
         }
-        let station = initWithCache(name, id: dict["st_id"] as String!, coord: location)
+        let station = initWithCacheId(dict["st_id"] as String!, name: name, coord: location)
         return station
     }
 
-    public class func initWithCacheId(id:String)-> TFCStation {
-        return initWithCache("", id: id, coord: nil)
+    public class func initWithCacheId(id:String, name:String = "", coord: CLLocation? = nil)-> TFCStation {
+        return initWithCache(name, id: id, coord: coord)
     }
 
     public class func isStations(results: JSON) -> Bool {
