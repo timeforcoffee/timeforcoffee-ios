@@ -157,7 +157,9 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                     dispatch_barrier_async(TFCWatchData.crunchQueue) {
                     DLog("finished WKWatchConnectivityRefreshBackgroundTask Backgroundtask part 1", toFile: true)
                     DLog("was: \(wcBackgroundTask) part 2", toFile: true)
-                    wcBackgroundTask.setTaskCompleted()
+                    dispatch_async(dispatch_get_main_queue(), {
+                          wcBackgroundTask.setTaskCompleted()
+                    })
                     }
                 })
                 TFCDataStore.sharedInstance.registerWatchConnectivity()

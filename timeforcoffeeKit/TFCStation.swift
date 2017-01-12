@@ -57,6 +57,8 @@ public class TFCStation: TFCStationBase {
                 let meters = Int(route.distance);
                 self.walkingDistanceString = "\(meters) m, \(time) min "
                 self.walkingDistanceLastCoord = location
+                TFCStationBase.saveToPincache(self)
+
                 completion(self.walkingDistanceString)
             }  else {
                 self.walkingDistanceLastCoord = nil

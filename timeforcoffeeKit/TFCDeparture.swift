@@ -36,7 +36,7 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
 
     init(name: String, type: String, accessible: Bool, to: String, destination_id: String?, scheduled: NSDate?, realtime: NSDate?, arrivalRealtime: NSDate?, arrivalScheduled: NSDate?, sortTime: NSDate, sortOrder: Int, colorFg: String?, colorBg: String?, platform: String?, st_id: String? ) {
         // TODO: strip "Zurich, " from name
-        self.name = name
+        self.name = name.replace("S +([0-9]+)", template: "S$1")
         self.type = type
         self.to = to
         self.destination_id = destination_id

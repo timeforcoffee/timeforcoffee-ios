@@ -108,7 +108,11 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
     var _calculatedDistanceLastCoord: CLLocation? = nil
 
-    var walkingDistanceString: String? = nil
+    var walkingDistanceString: String? = nil {
+        didSet {
+            self.needsCacheSave = true
+        }
+    }
     var walkingDistanceLastCoord: CLLocation? = nil
     public var lastDepartureUpdate: NSDate? = nil
     private var lastDepartureCount: Int? = nil
@@ -261,7 +265,9 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             if (saveStation.needsCacheSave)  {
                 DLog("set PinCache for \(saveStation.name)", toFile: true)
                 cache.setObject(saveStation, forKey: saveStation.st_id)
+                saveStation.needsCacheSave = false
             }
+
         }
     }
 
@@ -371,11 +377,13 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
     public func setFavorite() {
         TFCFavorites.sharedInstance.set(self as? TFCStation)
+        DLog("just before updateGeofences", toFile:true)
         TFCFavorites.sharedInstance.updateGeofences()
     }
 
     public func unsetFavorite() {
         TFCFavorites.sharedInstance.unset(station: self as? TFCStation)
+        DLog("just before updateGeofences", toFile:true)
         TFCFavorites.sharedInstance.updateGeofences()
     }
 
@@ -565,23 +573,25 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         // can happen when network request didn't work properly
         if let depts = departures {
             var count = 0;
+            var newDepartures:[String:TFCDeparture] = [:]
+            if let oldDepts = self.departures {
+                newDepartures = oldDepts
+            }
             for dept in depts {
-                if self.departures == nil {
-                    self.departures = [:]
-                }
                 let key = dept.getKey()
-                let oldDept = self.departures![key]
+                let oldDept = newDepartures[key]
                 if let oldSig = oldDept?.getSignature() {
                     let newSig = dept.getSignature()
                     if (oldSig != newSig) {
-                        self.departures![key] = dept
+                        newDepartures[key] = dept
                         count += 1
                     }
                 } else {
-                    self.departures![key] = dept
+                    newDepartures[key] = dept
                     count += 1
                 }
             }
+            self.departures = newDepartures
             DLog("Added \(count) depts to \(self.name)", toFile: true)
             TFCStationBase.saveToPincache(self)
             DLog("_", toFile: true)
@@ -629,6 +639,38 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             let endIndex = min(maxDepartures, filteredDepartures.count)
             return filteredDepartures[0..<endIndex]
         }
+        return nil
+    }
+
+
+    public func getScheduledFilteredDepartures(limit:Int? = nil) -> [TFCDeparture]? {
+        let depts:[TFCDeparture]?
+        if let limit = limit, departures = self.getFilteredDepartures(limit) {
+            depts = Array(departures)
+        } else {
+            depts = self.getFilteredDepartures()
+        }
+        if let depts = depts {
+            var sorted = depts.sort({ (s1, s2) -> Bool in
+                return s1.getScheduledTimeAsNSDate() < s2.getScheduledTimeAsNSDate()
+            })
+            var i = 0
+            let aMinuteAgo = NSDate().dateByAddingTimeInterval(-60)
+            for departure in sorted {
+                if (departure.getScheduledTimeAsNSDate() < aMinuteAgo) {
+                    sorted.removeAtIndex(i)
+                    i += 1
+                } else {
+                    //if we find one, which is not obsolete, we can stop here
+                    break
+                }
+            }
+
+            if (sorted.count > 0) {
+                return sorted
+            }
+        }
+
         return nil
     }
 
@@ -876,12 +918,12 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             if (country == "CH") {
                 return "https://tfc.chregu.tv/api/zvv/stationboard/\(self.st_id)/\(formattedDate)"
             }
-            return "http://transport.opendata.ch/v1/stationboard?id=\(self.st_id)&limit=40&datetime=\(formattedDate)"
+            return "https://transport.opendata.ch/v1/stationboard?id=\(self.st_id)&limit=40&datetime=\(formattedDate)"
         }
         if (country == "CH") {
             return "https://tfc.chregu.tv/api/ch/stationboard/\(self.st_id)"
         }
-        return "http://transport.opendata.ch/v1/stationboard?id=\(self.st_id)&limit=40"
+        return "https://transport.opendata.ch/v1/stationboard?id=\(self.st_id)&limit=40"
     }
 }
 

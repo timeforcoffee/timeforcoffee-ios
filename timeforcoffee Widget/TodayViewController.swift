@@ -137,7 +137,9 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             TFCDataStore.sharedInstance.registerForNotifications()
             TFCDataStore.sharedInstance.synchronize()
         }
-        GATracker.sharedInstance.setCustomDimension(6, value: "yes")
+        let gtracker = GATracker.sharedInstance
+        gtracker.setCustomDimension(6, value: "yes")
+        gtracker.setCustomDimension(9, value: UIDevice.currentDevice().systemVersion)
 
     }
 

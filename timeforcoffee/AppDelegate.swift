@@ -71,11 +71,16 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             TFCDataStore.sharedInstance.registerWatchConnectivity()
             TFCDataStore.sharedInstance.registerForNotifications()
             TFCDataStore.sharedInstance.synchronize()
+            #if DEBUG
+                let noti = TFCNotification()
+                TFCDataStore.sharedInstance.localNotificationCallback = noti.send
+            #endif
         }
 
 
         let gtracker = GATracker.sharedInstance
         gtracker.setCustomDimension(7, value: "yes")
+        gtracker.setCustomDimension(9, value: UIDevice.currentDevice().systemVersion)
         #if !((arch(i386) || arch(x86_64)) && os(iOS))
         Fabric.with([Crashlytics.self])
         #endif
@@ -116,7 +121,6 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202772511-Who-is-behind-Time-for-Coffee-")
 */
             if let currentUser = SKTUser.currentUser() {
-                gtracker.setCustomDimension(9, value: UIDevice.currentDevice().systemVersion)
                 if (userdefaults?.objectForKey("favorites2") != nil) {
                     currentUser.addProperties(["usedFavorites": true])
                     gtracker.setCustomDimension(4, value: "yes")
@@ -182,10 +186,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func receivedNewVisit(text: String) {
         #if DEBUG
-        let noti = UILocalNotification()
-        noti.alertBody = text
-        noti.soundName = UILocalNotificationDefaultSoundName
-        UIApplication.sharedApplication().presentLocalNotificationNow(noti)
+            let noti = TFCNotification()
+            noti.send(text)
         #endif
     }
 
@@ -359,4 +361,18 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         rootView.pushViewController(detailViewController, animated: false)
     }
 
+
+
+    func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
+        #if DEBUG
+            if (application.applicationState == .Active) {
+                let alert = UIAlertView()
+                alert.title = "Notification"
+                alert.message = notification.alertBody
+                alert.addButtonWithTitle("Dismiss")
+                alert.show()
+            }
+        #endif
+        
+    }
 }

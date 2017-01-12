@@ -144,13 +144,14 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         DLog("setStationValues. isInBackground: \(isInBackground)", toFile: true)
 
         if (station == nil) {
-            if (isInBackground) {
-                return
-            }
             // infoGroup.setHidden(false)
             if let laststation = TFCWatchDataFetch.sharedInstance.getLastViewedStation() {
                 self.station = laststation
+                self.lastShownStationId = laststation.st_id
             } else {
+                if (isInBackground) {
+                    return
+                }
                 getStation()
                 return
             }

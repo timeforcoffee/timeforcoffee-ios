@@ -78,10 +78,11 @@ public final class TFCLocationManager: TFCLocationManagerBase {
     }
 
     func locationManager(manager: CLLocationManager!, monitoringDidFailForRegion region: CLRegion!, withError error: NSError!) {
-        DLog("Monitoring failed for fence with identifier: \(region.identifier)")
+        DLog("monitoringDidFailForRegion for fence \(region.identifier), error: \(error)", toFile: true)
     }
 
     func locationManager(manager: CLLocationManager!, didEnterRegion region: CLRegion!) {
+        DLog("fence entered \(region)", toFile: true)
         if let region = region as? CLCircularRegion {
             if (self.delegate != nil) {
                 self.pendingRegionCalls.append(region)
@@ -91,6 +92,7 @@ public final class TFCLocationManager: TFCLocationManagerBase {
     }
 
     public func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
+        DLog("fence exit \(region)", toFile: true)
         if let region = region as? CLCircularRegion {
             if (region.identifier == "__updateGeofences__") {
                 if (self.delegate != nil) {

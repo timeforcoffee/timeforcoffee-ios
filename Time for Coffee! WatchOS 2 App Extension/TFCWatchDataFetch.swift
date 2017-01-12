@@ -37,7 +37,7 @@ public class TFCWatchDataFetch: NSObject, NSURLSessionDownloadDelegate {
     func getLastViewedStation() -> TFCStation? {
         let defaults = TFCDataStore.sharedInstance.getUserDefaults()
         if let date = defaults?.objectForKey("lastViewedStationDate") as? NSDate {
-            // if not older than 70 minuts
+            // if not older than 70 minutes
             if date.dateByAddingTimeInterval(70 * 60) > NSDate() {
                 if let stationId =  defaults?.objectForKey("lastViewedStationId") as? String {
                     return TFCStation.initWithCacheId(stationId)
@@ -49,10 +49,13 @@ public class TFCWatchDataFetch: NSObject, NSURLSessionDownloadDelegate {
     @available(watchOSApplicationExtension 3.0, *)
     public func fetchDepartureData(task task: WKApplicationRefreshBackgroundTask) {
         func handleReply() {
-            DLog("finished WKApplicationRefreshBackgroundTask part 1 \(task)", toFile: true)
-            dispatch_async(dispatch_get_main_queue(), {
-                task.setTaskCompleted()
-            })
+            DLog("finished WKApplicationRefreshBackgroundTask \(task) before barrier", toFile: true)
+            dispatch_barrier_async(TFCWatchData.crunchQueue) {
+                DLog("finished WKApplicationRefreshBackgroundTask \(task)", toFile: true)
+                dispatch_async(dispatch_get_main_queue(), {
+                    task.setTaskCompleted()
+                })
+            }
         }
         fetchDepartureData(handleReply)
     }
