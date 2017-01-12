@@ -343,9 +343,10 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                 // this is so that we can check, if an allData request was sent to the watch
                 //  until this is done, the watch will keep asking for it
                 //  This is to avoid haveing no favourites on the watch to start with
-                allDataDict["__allDataResponseSent__"] = true
                 allDataDict["TFCID"] = self.getTFCID()
                 sendData(allDataDict)
+                sendData(["__allDataResponseSent__": true])
+
             }
         }
     }
