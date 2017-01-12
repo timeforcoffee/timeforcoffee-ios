@@ -657,7 +657,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             depts = self.getFilteredDepartures()
         }
         if let depts = depts {
-            var sorted = depts.sort({ (s1, s2) -> Bool in
+            let sorted = depts.sort({ (s1, s2) -> Bool in
                 return s1.getScheduledTimeAsNSDate() < s2.getScheduledTimeAsNSDate()
             })
             var i = 0
