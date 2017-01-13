@@ -451,6 +451,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
         var managedObjectContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
         managedObjectContext.persistentStoreCoordinator = coordinator
         managedObjectContext.undoManager = nil
+        DLog("new managedObjectContext", toFile: true)
         return managedObjectContext
         }()
 
