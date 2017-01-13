@@ -237,6 +237,9 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                     DLog("set needsLocationUpdate to true \(self.lastUsedViewUpdatedInterval())", toFile: true)
                     self.needsLocationUpdate = true
                 }
+            } else {
+                self.currentStation = nil
+                self.showStations = false
             }
         }
     }
