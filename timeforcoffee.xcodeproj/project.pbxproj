@@ -129,6 +129,7 @@
 		ECC1CD831D971DB20012E64F /* TFCNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC1CD821D971DB20012E64F /* TFCNotification.swift */; };
 		ECD42E521D8B4D72006ED53E /* GATracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD42E511D8B4D72006ED53E /* GATracker.swift */; };
 		ECD42E531D8B4D72006ED53E /* GATracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD42E511D8B4D72006ED53E /* GATracker.swift */; };
+		ECDDEAFC1E28C7470090E78F /* TFCStationCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0B0EAB1E16C214000E52AE /* TFCStationCollection.swift */; };
 		ECE74C431BDEAAD8009CB3CA /* WithMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE74C421BDEAAD8009CB3CA /* WithMapViewController.swift */; };
 		ECE74C451BDEAB54009CB3CA /* PasslistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE74C441BDEAB54009CB3CA /* PasslistViewController.swift */; };
 		ECE74C471BDEBF2B009CB3CA /* TFCPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE74C461BDEBF2B009CB3CA /* TFCPass.swift */; };
@@ -1200,6 +1201,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ECDDEAFC1E28C7470090E78F /* TFCStationCollection.swift in Sources */,
 				EC46C5301BB5C78A00F2A963 /* ExtensionDelegate.swift in Sources */,
 				ECEDA62E1BDAD44F000B63E6 /* Logging.swift in Sources */,
 				EC4AB26F1BB6787600DA9759 /* StationsOverviewViewController.swift in Sources */,
@@ -1211,7 +1213,6 @@
 				EC050CF41BB84D5B00ECB533 /* TFCStations.swift in Sources */,
 				EC050CFA1BB84DD200ECB533 /* TFCStation.swift in Sources */,
 				ECEBB7FE1BC7241A00AB83B9 /* TFCStationModel.swift in Sources */,
-				EC0B0EAD1E16DD33000E52AE /* TFCStationCollection.swift in Sources */,
 				EC050CF61BB84D5B00ECB533 /* TFCWatchData.swift in Sources */,
 				EC050CF81BB84DC700ECB533 /* TFCLocationManager.swift in Sources */,
 				ECEBB7FF1BC7241D00AB83B9 /* TFCStationModel+CoreDataProperties.swift in Sources */,

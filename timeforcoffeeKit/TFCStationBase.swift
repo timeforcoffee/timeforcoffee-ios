@@ -635,7 +635,6 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         }
         objects.dataStore?.synchronize()
         self.filteredDepartures = nil
-        TFCDataStore.sharedInstance.settingsLastUpdated = NSDate()
         TFCDataStore.sharedInstance.getUserDefaults()?.setObject(NSDate(), forKey: "settingsLastUpdate")
 
     }
