@@ -545,11 +545,8 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
             let station = self.stations?.getStation(indexPath.row)
             self.setLoadingStage(1)
+
             station?.updateDepartures(self, context: ["indexPath": indexPath], onlyFirstDownload: true)
-            //reload when in the past
-            if station?.getFilteredDepartures(self.numberOfCells)?.first?.getMinutesAsInt() < 0 {
-                station?.removeObsoleteDepartures(true)
-            }
 
             if let cellinstance = cell as? NearbyStationsTableViewCell {
                 cellinstance.stationId = station?.st_id

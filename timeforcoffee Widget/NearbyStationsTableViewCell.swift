@@ -46,7 +46,7 @@ final class NearbyStationsTableViewCell: UITableViewCell {
         station?.removeObsoleteDepartures()
         drawIcon(station)
         let departures = station?.getFilteredDepartures(6)
-        let firstDeparture = departures?.first
+        var firstDeparture = departures?.first
      /*   let iconLabel = cell.viewWithTag(500) as! UIImageView
         iconLabel.layer.cornerRadius = iconLabel.layer.bounds.width / 2
         iconLabel.clipsToBounds = true
@@ -55,7 +55,13 @@ final class NearbyStationsTableViewCell: UITableViewCell {
         StationsLineNumberLabel.hidden = false
         StationNameLabel.text = station?.getNameWithFilters(false)
 
-        if (firstDeparture != nil && firstDeparture?.getMinutesAsInt() >= 0) {
+        var minutesAsInt = firstDeparture?.getMinutesAsInt()
+        if (minutesAsInt < 0) {
+            station?.removeObsoleteDepartures(true)
+            firstDeparture = departures?.first
+            minutesAsInt = firstDeparture?.getMinutesAsInt()
+        }
+        if (firstDeparture != nil && minutesAsInt >= 0) {
             StationsLineNumberLabel.setStyle("dark", departure: firstDeparture!)
             StationMinuteLabel.text = firstDeparture!.getMinutes()
             StationsDestinationLabel.text = firstDeparture!.getDestination(station, unabridged: false)
