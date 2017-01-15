@@ -45,7 +45,7 @@ final class NearbyStationsTableViewCell: UITableViewCell {
         }
         station?.removeObsoleteDepartures()
         drawIcon(station)
-        let departures = station?.getFilteredDepartures(1)
+        let departures = station?.getFilteredDepartures(6)
         let firstDeparture = departures?.first
      /*   let iconLabel = cell.viewWithTag(500) as! UIImageView
         iconLabel.layer.cornerRadius = iconLabel.layer.bounds.width / 2

@@ -42,6 +42,7 @@ final public class TFCFavorites: NSObject {
     }
 
     public func clearStationCache() {
+        self.stations.removeDeparturesFromMemory()
         self.stations.clearStationCache()
     }
 

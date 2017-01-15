@@ -78,6 +78,13 @@ public class TFCStationCollection: NSObject, SequenceType, CollectionType, Range
         stationCache = [:]
     }
 
+    public func removeDeparturesFromMemory() {
+        for (_, station) in stationCache {
+            station.removeDeparturesFromMemory()
+        }
+    }
+
+
     private func getStationIds(stations: [TFCStation]) -> [String] {
         var ids:[String] = []
         for (station) in stations {

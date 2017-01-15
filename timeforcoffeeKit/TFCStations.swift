@@ -70,6 +70,10 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
         return _stations.getStationIds()
     }
 
+    public func removeDeparturesFromMemory() {
+        self._stations.removeDeparturesFromMemory()
+    }
+
     public func addWithJSON(allResults: JSON?) {
         // Create an empty array of Albums to append to from this list
         // Store the results in our table data array
