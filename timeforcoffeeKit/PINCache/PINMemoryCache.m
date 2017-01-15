@@ -172,8 +172,9 @@ static NSString * const PINMemoryCachePrefix = @"com.pinterest.PINMemoryCache";
         [_dates removeObjectForKey:key];
         [_costs removeObjectForKey:key];
     [self unlock];
-    NSLog(@"init remove from memory for key %@", key);
-
+    #if DEBUG
+        NSLog(@"init remove from memory for key %@", key);
+    #endif
     if (didRemoveObjectBlock)
         didRemoveObjectBlock(self, key, nil);
 }
@@ -435,7 +436,9 @@ static NSString * const PINMemoryCachePrefix = @"com.pinterest.PINMemoryCache";
         [self lock];
             _dates[key] = now;
         [self unlock];
-        NSLog(@"init read from memory for key %@", key);
+        #if DEBUG
+            NSLog(@"init read from memory for key %@", key);
+        #endif
 
     }
 
@@ -449,7 +452,9 @@ static NSString * const PINMemoryCachePrefix = @"com.pinterest.PINMemoryCache";
 
 - (void)setObject:(id)object forKey:(NSString *)key
 {
-    NSLog(@"init setMemObject for key %@", key);
+    #if DEBUG
+        NSLog(@"init setMemObject for key %@", key);
+    #endif
     [self setObject:object forKey:key withCost:0];
 }
 
@@ -524,7 +529,9 @@ static NSString * const PINMemoryCachePrefix = @"com.pinterest.PINMemoryCache";
 
 - (void)removeAllObjects
 {
-    NSLog(@"init remove all objects from memory for key");
+    #if DEBUG
+        NSLog(@"init remove all objects from memory for key");
+    #endif
 
     [self lock];
         PINMemoryCacheBlock willRemoveAllObjectsBlock = _willRemoveAllObjectsBlock;
