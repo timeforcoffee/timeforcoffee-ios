@@ -251,7 +251,6 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                             let sentDepartures = NSKeyedUnarchiver.unarchiveObjectWithData(departures) as? [TFCDeparture]
                             DLog("station sent with __updateComplicationData__: \(sentStation?.name) id: \(sentStation?.st_id) with \(sentDepartures?.count) departures")
                             if let sentStation = sentStation {
-                                sentStation.serializeDepartures = true
                                 sentStation.addDepartures(sentDepartures)
                                 sentStation.lastDepartureUpdate = NSDate()
                                 #if DEBUG
@@ -538,9 +537,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                                 self.localNotificationCallback?("Complication sent for \(name). Remaining: \(remaining)")
                             }
                         #endif
-                        firstStation.serializeDepartures = false
                         data["station"] =  NSKeyedArchiver.archivedDataWithRootObject(firstStation)
-                        firstStation.serializeDepartures = true
                         if let filteredDepartures = firstStation.getFilteredDepartures() {
                             data["departures"] =  NSKeyedArchiver.archivedDataWithRootObject(Array(filteredDepartures.prefix(10)))
                         }

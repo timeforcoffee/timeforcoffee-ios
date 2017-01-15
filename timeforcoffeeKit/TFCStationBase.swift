@@ -136,7 +136,6 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     private var departureUpdateDownloading: NSDate? = nil
 
     public var isLastUsed: Bool = false
-    public var serializeDepartures: Bool = true
 
     private struct objects {
         static let  dataStore: TFCDataStore? = TFCDataStore.sharedInstance
