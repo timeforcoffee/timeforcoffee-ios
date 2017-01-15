@@ -536,6 +536,11 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             let station = self.stations?.getStation(indexPath.row)
             self.setLoadingStage(1)
             station?.updateDepartures(self, context: ["indexPath": indexPath], onlyFirstDownload: true)
+            //reload when in the past
+            if station?.getFilteredDepartures(self.numberOfCells)?.first?.getMinutesAsInt() < 0 {
+                station?.removeObsoleteDepartures(true)
+            }
+
             if let cellinstance = cell as? NearbyStationsTableViewCell {
                 cellinstance.stationId = station?.st_id
                 cellinstance.drawCell()
@@ -572,6 +577,13 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         if let departures = departures {
             if (indexPath.row < departures.count) {
                 if let departure: TFCDeparture = departures[indexPath.row] {
+                    //if on first row and it's in the past, remove obsolete departures and reload
+                    if (indexPath.row == 0 && departure.getMinutesAsInt() < 0) {
+                        dispatch_async(dispatch_get_main_queue()) {
+                            station?.removeObsoleteDepartures(true)
+                            self.appsTableView?.reloadData()
+                        }
+                    }
                     var unabridged = false
                     if (UIDeviceOrientationIsLandscape(UIDevice.currentDevice().orientation)) {
                         unabridged = true
