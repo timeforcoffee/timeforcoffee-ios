@@ -22,6 +22,10 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     @IBOutlet weak var ContainerViewWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var ContainerViewTrailingConstraint: NSLayoutConstraint!
 
+    // some older devices (my 4S for example) don't always properly deinit
+    // sp we keep track of the last init and if it's more than 30 seconds, reload the tableview
+    private var lastInitTime:NSDate? = nil
+
     lazy var stations: TFCStations? =  {
         [unowned self] in
         return TFCStations(delegate: self, maxStations: 6)
@@ -145,6 +149,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     
     required init?(coder aDecoder: NSCoder) {
         DLog("init")
+        self.lastInitTime = NSDate()
         super.init(coder: aDecoder)
         self.setLoadingStage(2)
         self.lastViewedStation?.removeObsoleteDepartures()
@@ -244,6 +249,12 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         DLog("viewWillAppear")
+        // some old devices (my 4S) don't deinit/init properly, that's a way to not show outdated info
+        if (self.lastInitTime?.timeIntervalSinceNow < -10 && (
+            floor(self.lastInitTime!.timeIntervalSinceReferenceDate / 60) !=  floor(NSDate.timeIntervalSinceReferenceDate() / 60))) {
+            self.lastInitTime = NSDate()
+            awakeFromNib()
+        }
 
         self.datastore.synchronize()
         //sometimes strange things happen with the calculated width
@@ -267,13 +278,12 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         } else {
             self.actionLabel.setTitleColor(UIColor.lightGrayColor(), forState: UIControlState.Highlighted)
         }
+        TFCDataStore.sharedInstance.saveContext()
     }
 
     override func viewDidDisappear(animated: Bool) {
         DLog("viewDidDisappear")
         TFCURLSession.sharedInstance.cancelURLSession()
-        TFCDataStore.sharedInstance.saveContext()
-
     }
     func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)) {
         // Perform any setup necessary in order to update the view.
