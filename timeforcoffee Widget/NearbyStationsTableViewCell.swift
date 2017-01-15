@@ -38,33 +38,38 @@ final class NearbyStationsTableViewCell: UITableViewCell {
         return station
     }
 
-    func drawCell() {
+    func drawCell(drawDepartures:Bool = true) {
         self.selectionStyle = UITableViewCellSelectionStyle.None
         if (station == nil && stationId != nil) {
             getStation()
         }
-        station?.removeObsoleteDepartures()
+        if (drawDepartures) {
+            station?.removeObsoleteDepartures()
+        }
         drawIcon(station)
-        let departures = station?.getFilteredDepartures(6)
-        var firstDeparture = departures?.first
-     /*   let iconLabel = cell.viewWithTag(500) as! UIImageView
-        iconLabel.layer.cornerRadius = iconLabel.layer.bounds.width / 2
-        iconLabel.clipsToBounds = true
-        iconLabel.image = station?.getIcon()
-        iconLabel.hidden = false*/
+
         StationsLineNumberLabel.hidden = false
         StationNameLabel.text = station?.getNameWithFilters(false)
 
-        var minutesAsInt = firstDeparture?.getMinutesAsInt()
-        if (minutesAsInt < 0) {
-            station?.removeObsoleteDepartures(true)
-            firstDeparture = departures?.first
-            minutesAsInt = firstDeparture?.getMinutesAsInt()
-        }
-        if (firstDeparture != nil && minutesAsInt >= 0) {
-            StationsLineNumberLabel.setStyle("dark", departure: firstDeparture!)
-            StationMinuteLabel.text = firstDeparture!.getMinutes()
-            StationsDestinationLabel.text = firstDeparture!.getDestination(station, unabridged: false)
+        if (drawDepartures) {
+            let departures = station?.getFilteredDepartures(6)
+            var firstDeparture = departures?.first
+
+            var minutesAsInt = firstDeparture?.getMinutesAsInt()
+            if (minutesAsInt < 0) {
+                station?.removeObsoleteDepartures(true)
+                firstDeparture = departures?.first
+                minutesAsInt = firstDeparture?.getMinutesAsInt()
+            }
+            if (firstDeparture != nil && minutesAsInt >= 0) {
+                StationsLineNumberLabel.setStyle("dark", departure: firstDeparture!)
+                StationMinuteLabel.text = firstDeparture!.getMinutes()
+                StationsDestinationLabel.text = firstDeparture!.getDestination(station, unabridged: false)
+            } else {
+                StationsLineNumberLabel.hidden = true
+                StationMinuteLabel.text = nil
+                StationsDestinationLabel.text = nil
+            }
         } else {
             StationsLineNumberLabel.hidden = true
             StationMinuteLabel.text = nil
