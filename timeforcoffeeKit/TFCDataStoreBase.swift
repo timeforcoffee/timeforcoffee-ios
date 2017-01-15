@@ -243,34 +243,31 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                 if let value = myValue as? [String: AnyObject], coordinates = value["coordinates"] as? [String: AnyObject], lng = coordinates["longitude"] as? CLLocationDegrees, lat = coordinates["latitude"] as? CLLocationDegrees {
                     TFCLocationManagerBase.setCurrentLocation(CLLocation(latitude: lat, longitude: lng ), time: coordinates["time"] as? NSDate)
                     DLog("coord was sent with __updateComplicationData__ \(lat), \(lng)", toFile: true)
-                    if let station = value["station"] as? NSData {
-                        NSKeyedUnarchiver.setClass(TFCStation.classForKeyedUnarchiver(), forClassName: "timeforcoffeeKit.TFCStation")
-                        let sentStation = NSKeyedUnarchiver.unarchiveObjectWithData(station) as? TFCStation
-                        if let departures = value["departures"] as? NSData {
+                    if let station = value["station"] as? NSData, let sentStationDict = NSKeyedUnarchiver.unarchiveObjectWithData(station) as? [String:String] {
+                        let sentStation = TFCStation.initWithCache(sentStationDict)
+                        if  let departures = value["departures"] as? NSData {
                             NSKeyedUnarchiver.setClass(TFCDeparture.classForKeyedUnarchiver(), forClassName: "timeforcoffeeKit.TFCDeparture")
                             let sentDepartures = NSKeyedUnarchiver.unarchiveObjectWithData(departures) as? [TFCDeparture]
-                            DLog("station sent with __updateComplicationData__: \(sentStation?.name) id: \(sentStation?.st_id) with \(sentDepartures?.count) departures")
-                            if let sentStation = sentStation {
-                                sentStation.addDepartures(sentDepartures)
-                                sentStation.lastDepartureUpdate = NSDate()
-                                #if DEBUG
+                            DLog("station sent with __updateComplicationData__: \(sentStation.name) id: \(sentStation.st_id) with \(sentDepartures?.count) departures")
+                            sentStation.addDepartures(sentDepartures)
+                            sentStation.lastDepartureUpdate = NSDate()
+                            #if DEBUG
                                 self.sendData(["__complicationUpdateReceived__": "Received Complication update on watch for \(sentStation.name)"])
-                                #endif
-                                #if os(watchOS)
-                                    if (sentStation.st_id == TFCWatchDataFetch.sharedInstance.getLastViewedStation()?.st_id) {
-                                        NSNotificationCenter.defaultCenter().postNotificationName("TFCWatchkitUpdateCurrentStation", object: nil, userInfo: nil)
+                            #endif
+                            #if os(watchOS)
+                                if (sentStation.st_id == TFCWatchDataFetch.sharedInstance.getLastViewedStation()?.st_id) {
+                                    NSNotificationCenter.defaultCenter().postNotificationName("TFCWatchkitUpdateCurrentStation", object: nil, userInfo: nil)
+                                }
+                                if let defaults = TFCDataStore.sharedInstance.getUserDefaults() {
+                                    defaults.setValue(sentStation.st_id, forKey: "lastFirstStationId")
+                                    if let departures = sentStation.getFilteredDepartures() {
+                                        defaults.setObject(departures.first?.getScheduledTimeAsNSDate(), forKey: "firstDepartureTime")
+                                    } else {
+                                        defaults.setObject(nil, forKey: "firstDepartureTime")
                                     }
-                                    if let defaults = TFCDataStore.sharedInstance.getUserDefaults() {
-                                        defaults.setValue(sentStation.st_id, forKey: "lastFirstStationId")
-                                        if let departures = sentStation.getFilteredDepartures() {
-                                            defaults.setObject(departures.first?.getScheduledTimeAsNSDate(), forKey: "firstDepartureTime")
-                                        } else {
-                                            defaults.setObject(nil, forKey: "firstDepartureTime")
-                                        }
-                                    }
-                                    updateComplicationData()
-                                #endif
-                            }
+                                }
+                                updateComplicationData()
+                            #endif
                         }
                     }
 
@@ -537,7 +534,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                                 self.localNotificationCallback?("Complication sent for \(name). Remaining: \(remaining)")
                             }
                         #endif
-                        data["station"] =  NSKeyedArchiver.archivedDataWithRootObject(firstStation)
+                        data["station"] =  NSKeyedArchiver.archivedDataWithRootObject(firstStation.getAsDict())
                         if let filteredDepartures = firstStation.getFilteredDepartures() {
                             data["departures"] =  NSKeyedArchiver.archivedDataWithRootObject(Array(filteredDepartures.prefix(10)))
                         }
