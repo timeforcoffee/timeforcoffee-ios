@@ -35,7 +35,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>185</string>
+	<string>186</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string> We need the location to show you nearby stations. We’re only accessing this, when the app or the Today extension is in use and for as short as possible.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
