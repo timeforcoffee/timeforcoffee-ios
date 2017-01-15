@@ -218,7 +218,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     private func instanceCounter(name: String) {
         #if DEBUG
         TFCStationBase.InstanceCounter += 1;
-        DLog("init stationbase \(name) \(self.st_id) \(TFCStationBase.InstanceCounter)");
+        //DLog("init stationbase \(name) \(self.st_id) \(TFCStationBase.InstanceCounter)");
 
         if let count = TFCStationBase.instances[self.st_id] {
             TFCStationBase.instances[self.st_id] = count + 1
@@ -283,7 +283,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         if let count = TFCStationBase.instances[self.st_id] {
             TFCStationBase.instances[self.st_id] = count - 1
         }
-        DLog("deinit stationbase \(self.st_id) \(self.name) \(TFCStationBase.InstanceCounter)")
+        //DLog("deinit stationbase \(self.st_id) \(self.name) \(TFCStationBase.InstanceCounter)")
         #endif
     }
 
@@ -402,7 +402,6 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         }
         // check if we have it in the stationCache
         if let newStation = stationsCache[id]?.value {
-            DLog("init in stationsCache \(id) ")
             cache.memoryCache.setObject(newStation, forKey: id)
             return newStation
         }
