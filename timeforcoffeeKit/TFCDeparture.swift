@@ -177,7 +177,7 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
                     // in watchOS only add departure, if it's a favorite... and only 10
                     #if os(watchOS)
                         let maxCount = 10
-                        if ((!station.hasFavoriteDepartures() || newDeparture.isFavorite()) && count < maxCount) {
+                        if ((station?.hasFavoriteDepartures() == false || newDeparture.isFavorite()) && count < maxCount) {
                             DLog("add \(newDeparture.getKey())", toFile: true)
                             count += 1
                             departures?.append(newDeparture)

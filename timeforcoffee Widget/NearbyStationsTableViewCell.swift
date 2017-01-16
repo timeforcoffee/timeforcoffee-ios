@@ -95,7 +95,7 @@ final class NearbyStationsTableViewCell: UITableViewCell {
                 self.drawIcon(station)
                 return
             }
-            station.toggleIcon(self.StationFavoriteButton!, icon: StationIconView, completion: completion)
+            station?.toggleIcon(self.StationFavoriteButton!, icon: StationIconView, completion: completion)
         }
     }
 

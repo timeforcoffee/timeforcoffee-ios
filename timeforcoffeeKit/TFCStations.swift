@@ -124,8 +124,9 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
                         Clocation = CLLocation(latitude: latitude!, longitude: longitude!)
                     }
                     if let name = name {
-                        let newStation = TFCStation.initWithCacheId(id, name: name, coord: Clocation)
-                        newStations.append(newStation)
+                        if let newStation = TFCStation.initWithCacheId(id, name: name, coord: Clocation) {
+                            newStations.append(newStation)
+                        }
                     }
                 }
             }
@@ -270,17 +271,19 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
                 return false
             })
             //map the id to the actuall station object
-            .map({(id: String) -> TFCStation in
-                return TFCStation.initWithCache(id: id)
-
+            .map({(id: String) -> TFCStation? in
+                if let station = TFCStation.initWithCache(id: id) {
+                    return station
+                }
+                return nil
             })
             //remove stations not within distance
-            .filter({(station: TFCStation) in
-                if (station.calculatedDistance > distance) {
+            .filter({(station: TFCStation?) in
+                if (station == nil || station?.calculatedDistance > distance) {
                     return false
                 }
                 return true
-            })
+            }).flatMap {$0} // remove all optionals
         //sort by distance
         stations.sortInPlace({ $0.calculatedDistance < $1.calculatedDistance })
 

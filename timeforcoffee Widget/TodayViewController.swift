@@ -109,7 +109,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             return nil
         }
         var station = TFCStation.initWithCache(stationDict!)
-        station.isLastUsed = true
+        station?.isLastUsed = true
         return station
     }()
    

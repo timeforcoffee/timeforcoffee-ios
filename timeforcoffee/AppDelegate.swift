@@ -279,8 +279,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             handled = true
             if let ua: [String: String] = shortcutItem.userInfo as? [String: String] {
                 if (ua["st_id"] != nil) {
-                    let station = TFCStation.initWithCache(ua)
-                    popUpStation(station)
+                    if let station = TFCStation.initWithCache(ua) {
+                        popUpStation(station)
+                    }
                 }
             }
 
@@ -325,8 +326,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 if (queryStrings["lat"] != nil) {
                     Clocation = CLLocation(latitude: NSString(string: queryStrings["lat"]!).doubleValue, longitude: NSString(string: queryStrings["long"]!).doubleValue)
                 }
-                let station = TFCStation.initWithCache(name, id: queryStrings["id"]!, coord: Clocation)
-                popUpStation(station)
+                if let station = TFCStation.initWithCache(name, id: queryStrings["id"]!, coord: Clocation) {
+                    popUpStation(station)
+                }
             }
         }
         return true
@@ -337,8 +339,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             if userActivity.activityType == "ch.opendata.timeforcoffee.station" {
                 if let ua: [String: String] = userActivity.userInfo as? [String: String] {
                     if (ua["st_id"] != nil) {
-                        let station = TFCStation.initWithCache(ua)
-                        popUpStation(station)
+                        if let station = TFCStation.initWithCache(ua) {
+                            popUpStation(station)
+                        }
                     }
                 }
 
@@ -348,9 +351,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 // Note that the unique identifier of the Core Spotlight item is set in the activity’s userInfo property for the key CSSearchableItemActivityIdentifier.
                 if let uniqueIdentifier = userActivity.userInfo?[CSSearchableItemActivityIdentifier] as? String {
                 // Next, find and open the item specified by uniqueIdentifer.
-                    let station = TFCStation.initWithCache("", id: uniqueIdentifier, coord: nil)
-                    popUpStation(station)
-
+                    if let station = TFCStation.initWithCache("", id: uniqueIdentifier, coord: nil) {
+                        popUpStation(station)
+                    }
                 }
             }
 

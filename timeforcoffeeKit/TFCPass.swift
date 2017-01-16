@@ -60,7 +60,7 @@ public final class TFCPass: TFCDeparturePass {
         return []
     }
 
-    public func getStation() -> TFCStation {
+    public func getStation() -> TFCStation? {
         return TFCStation.initWithCacheId(self.st_id)
     }
 

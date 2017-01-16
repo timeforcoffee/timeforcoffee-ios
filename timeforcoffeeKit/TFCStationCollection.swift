@@ -37,7 +37,7 @@ public class TFCStationCollection: NSObject, SequenceType, CollectionType, Range
     }
 
 
-    private func getStation(id: String) -> TFCStation {
+    private func getStation(id: String) -> TFCStation? {
         if let station = stationCache[id] {
             return station
         }
@@ -57,10 +57,12 @@ public class TFCStationCollection: NSObject, SequenceType, CollectionType, Range
         var stations:[TFCStation] = []
         var c = 0
         for (id) in self.stationIds {
-            stations.append(self.getStation(id))
-            c += 1
-            if (c >= limit) {
-                break
+            if let station = self.getStation(id) {
+                stations.append(station)
+                c += 1
+                if (c >= limit) {
+                    break
+                }
             }
         }
         return stations
@@ -132,15 +134,15 @@ public class TFCStationCollection: NSObject, SequenceType, CollectionType, Range
     public func removeAtIndex(index: TFCStationCollection.Index) -> TFCStationCollection.Generator.Element {
         let id = stationIds.removeAtIndex(index)
         let station = getStation(id)
-        stationCache.removeValueForKey(station.st_id)
-        return station
+        stationCache.removeValueForKey(station!.st_id)
+        return station!
     }
 
     public func removeLast() -> TFCStationCollection.Generator.Element {
         let last = stationIds.removeLast()
         let station = getStation(last)
-        stationCache.removeValueForKey(station.st_id)
-        return station
+        stationCache.removeValueForKey(station!.st_id)
+        return station!
     }
 
     public func removeLast(n: Int) {
@@ -150,8 +152,8 @@ public class TFCStationCollection: NSObject, SequenceType, CollectionType, Range
     public func removeFirst() -> TFCStationCollection.Generator.Element {
         let id = stationIds.removeFirst()
         let station = getStation(id)
-        stationCache.removeValueForKey(station.st_id)
-        return station
+        stationCache.removeValueForKey(station!.st_id)
+        return station!
     }
 
     public func removeFirst(n: Int) {
@@ -206,14 +208,16 @@ public class TFCStationCollection: NSObject, SequenceType, CollectionType, Range
     }
 
     public subscript(i: Int) -> TFCStation {
-        return self.getStation(stationIds[i])
+        return self.getStation(stationIds[i])!
     }
 
     internal subscript(range: ClosedInterval<Int>) -> ArraySlice<TFCStation> {
         var stations:[TFCStation] = []
 
         for (id) in stationIds[range.start...range.end] {
-            stations.append(self.getStation(id))
+            if let station = self.getStation(id) {
+                stations.append(station)
+            }
         }
         return ArraySlice(stations)
     }

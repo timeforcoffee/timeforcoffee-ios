@@ -79,13 +79,14 @@ class TFCVisits: NSObject, TFCLocationManagerDelegate, TFCStationsUpdatedProtoco
             return
         }
         lastWasRegionVisit = true
-        let station = TFCStation.initWithCacheId(region.identifier)
-        DLog("visited fence for \(station.name)", toFile: true)
-        DLog("fence: currentLocation: \(locManager?.currentLocation)")
-        self.callback?(text: "visited fence for \(station.name). radius: \(region.radius). Date: \(NSDate())")
-        self.stations.updateStations()
-        DLog("just before updateGeofences", toFile:true)
-        TFCFavorites.sharedInstance.updateGeofences(force: false)
+        if let station = TFCStation.initWithCacheId(region.identifier) {
+            DLog("visited fence for \(station.name)", toFile: true)
+            DLog("fence: currentLocation: \(locManager?.currentLocation)")
+            self.callback?(text: "visited fence for \(station.name). radius: \(region.radius). Date: \(NSDate())")
+            self.stations.updateStations()
+            DLog("just before updateGeofences", toFile:true)
+            TFCFavorites.sharedInstance.updateGeofences(force: false)
+        }
     }
 
     func stationsUpdated(error: String?, favoritesOnly: Bool, context: Any?) {

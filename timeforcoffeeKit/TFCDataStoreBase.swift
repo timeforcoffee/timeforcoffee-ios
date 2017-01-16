@@ -52,10 +52,11 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
         {
             if (forKey == "favorite\(lastComplicationStationId)") {
                 DLog("updateComplicationData for \(forKey) since favorites changed")
-                let st = TFCStation.initWithCacheId(lastComplicationStationId)
-                st.repopulateFavoriteLines()
-                st.needsCacheSave = true
-                TFCStationBase.saveToPincache(st)
+                if let st = TFCStation.initWithCacheId(lastComplicationStationId) {
+                    st.repopulateFavoriteLines()
+                    st.needsCacheSave = true
+                    TFCStationBase.saveToPincache(st)
+                }
                 //delay the complication update by 5 seconds to give other tasks some room to breath
                 delay(5.0, closure: { self.updateComplicationData() })                
             }
@@ -244,8 +245,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                     TFCLocationManagerBase.setCurrentLocation(CLLocation(latitude: lat, longitude: lng ), time: coordinates["time"] as? NSDate)
                     DLog("coord was sent with __updateComplicationData__ \(lat), \(lng)", toFile: true)
                     if let station = value["station"] as? NSData, let sentStationDict = NSKeyedUnarchiver.unarchiveObjectWithData(station) as? [String:String] {
-                        let sentStation = TFCStation.initWithCache(sentStationDict)
-                        if  let departures = value["departures"] as? NSData {
+                        if let sentStation = TFCStation.initWithCache(sentStationDict), let departures = value["departures"] as? NSData {
                             NSKeyedUnarchiver.setClass(TFCDeparture.classForKeyedUnarchiver(), forClassName: "timeforcoffeeKit.TFCDeparture")
                             let sentDepartures = NSKeyedUnarchiver.unarchiveObjectWithData(departures) as? [TFCDeparture]
                             DLog("station sent with __updateComplicationData__: \(sentStation.name) id: \(sentStation.st_id) with \(sentDepartures?.count) departures")

@@ -180,36 +180,37 @@ public class TFCWatchDataFetch: NSObject, NSURLSessionDownloadDelegate {
     }
 
     private func handleURLSession(fileContent:NSData?, st_id: String, sess_id: String? ) {
-        let station = TFCStation.initWithCacheId(st_id)
         //let fileContent = try? NSString(contentsOfURL: location, encoding: NSUTF8StringEncoding)
         if let fileContent = fileContent {
-            let  data = JSON(data: fileContent)
-            station.didReceiveAPIResults(data, error: nil, context: nil)
-            let isActive:Bool
-            if #available(watchOSApplicationExtension 3.0, *) {
-                isActive = (WKExtension.sharedExtension().applicationState == .Active)
-            } else {
-                isActive = false
-            }
+            if let station = TFCStation.initWithCacheId(st_id) {
+                let  data = JSON(data: fileContent)
+                station.didReceiveAPIResults(data, error: nil, context: nil)
+                let isActive:Bool
+                if #available(watchOSApplicationExtension 3.0, *) {
+                    isActive = (WKExtension.sharedExtension().applicationState == .Active)
+                } else {
+                    isActive = false
+                }
 
-            if (st_id == self.getLastViewedStation()?.st_id  && isActive) {
-                DLog("notification TFCWatchkitUpdateCurrentStation")
-                NSNotificationCenter.defaultCenter().postNotificationName("TFCWatchkitUpdateCurrentStation", object: nil, userInfo: nil)
-            }
-            // check if we fetched the one in the complication and then update it
-            if let defaults = TFCDataStore.sharedInstance.getUserDefaults() {
-                DLog("\(st_id) == \(defaults.stringForKey("lastFirstStationId"))", toFile: true)
-                if (st_id == defaults.stringForKey("lastFirstStationId")) {
-                    if (CLKComplicationServer.sharedInstance().activeComplications?.count > 0) {
-                        if self.watchdata.needsTimelineDataUpdate(station) {
-                            DLog("updateComplicationData", toFile: true)
-                            self.watchdata.updateComplicationData()
+                if (st_id == self.getLastViewedStation()?.st_id  && isActive) {
+                    DLog("notification TFCWatchkitUpdateCurrentStation")
+                    NSNotificationCenter.defaultCenter().postNotificationName("TFCWatchkitUpdateCurrentStation", object: nil, userInfo: nil)
+                }
+                // check if we fetched the one in the complication and then update it
+                if let defaults = TFCDataStore.sharedInstance.getUserDefaults() {
+                    DLog("\(st_id) == \(defaults.stringForKey("lastFirstStationId"))", toFile: true)
+                    if (st_id == defaults.stringForKey("lastFirstStationId")) {
+                        if (CLKComplicationServer.sharedInstance().activeComplications?.count > 0) {
+                            if self.watchdata.needsTimelineDataUpdate(station) {
+                                DLog("updateComplicationData", toFile: true)
+                                self.watchdata.updateComplicationData()
+                            }
                         }
-                    }
-                    if let departures = station.getFilteredDepartures() {
-                        defaults.setObject(departures.first?.getScheduledTimeAsNSDate(), forKey: "firstDepartureTime")
-                    } else {
-                        defaults.setObject(nil, forKey: "firstDepartureTime")
+                        if let departures = station.getFilteredDepartures() {
+                            defaults.setObject(departures.first?.getScheduledTimeAsNSDate(), forKey: "firstDepartureTime")
+                        } else {
+                            defaults.setObject(nil, forKey: "firstDepartureTime")
+                        }
                     }
                 }
             }

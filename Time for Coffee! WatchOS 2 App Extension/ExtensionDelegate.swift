@@ -137,7 +137,9 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 if let lastId = NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee")?.stringForKey("lastFirstStationId") {
                     uI = ["st_id": lastId]
                     DLog("\(uI)", toFile: true)
-                    TFCWatchDataFetch.sharedInstance.fetchDepartureDataForStation(TFCStation.initWithCacheId(lastId))
+                    if let station = TFCStation.initWithCacheId(lastId) {
+                        TFCWatchDataFetch.sharedInstance.fetchDepartureDataForStation(station)
+                    }
                 }
             } else {
                 uI = userInfo as? [String:String]

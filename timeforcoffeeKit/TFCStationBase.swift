@@ -322,7 +322,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         }
     }
 
-    public class func initWithCache(name: String = "", id: String, coord: CLLocation? = nil) -> TFCStation {
+    public class func initWithCache(name: String = "", id: String, coord: CLLocation? = nil) -> TFCStation? {
         let trimmed_id: String
 
         if (id.hasPrefix("0")) {
@@ -342,7 +342,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             //if name is not set, we only have the id, try to get it from the DB or from a server
             if (name == "") {
                 // try to get it from core data
-                let tryStation = TFCStation(id: id)
+                let tryStation = TFCStation(id: trimmed_id)
                 //if the name from the DB is not "unknown", return it
                 if (tryStation.name != "unknown") {
                     //if coords are set and the id is not empty, set it to the cache
@@ -371,6 +371,8 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                             return TFCStation.initWithCache(name, id: id, coord: location)
                         }
                     }
+                } else {
+                    return nil
                 }
             }
             let newStation2 = TFCStation(name: name, id: trimmed_id, coord: coord)
@@ -384,15 +386,20 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             addToStationCache(newStation2)
             return newStation2
         } else {
-            newStation!.filteredLines = newStation!.getFilteredLines()
-            // if country is not set, try updating it
-            if (newStation!.getCountryISO() == "") {
-                newStation!.updateGeolocationInfo()
+            if let newStation = newStation {
+                newStation.filteredLines = newStation.getFilteredLines()
+                // if country is not set, try updating it
+                if (newStation.getCountryISO() == "") {
+                    newStation.updateGeolocationInfo()
+                }
+                newStation.favoriteLines = newStation.getFavoriteLines()
             }
-            newStation!.favoriteLines = newStation!.getFavoriteLines()
         }
-        addToStationCache(newStation!)
-        return newStation!
+        if let newStation = newStation {
+            addToStationCache(newStation)
+            return newStation
+        }
+        return nil
     }
 
     public class func getFromMemoryCaches(id: String) -> TFCStation? {
@@ -424,7 +431,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         TFCStationBase.stationsCache[station.st_id] = WeakBox(station)
     }
 
-    public class func initWithCache(dict: [String: String]) -> TFCStation {
+    public class func initWithCache(dict: [String: String]) -> TFCStation? {
         var location: CLLocation? = nil;
         if let lat: String = (dict["latitude"] as String?),
             let long: String = (dict["longitude"] as String?) {
@@ -436,11 +443,10 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         } else {
             name = ""
         }
-        let station = initWithCacheId(dict["st_id"] as String!, name: name, coord: location)
-        return station
+        return initWithCacheId(dict["st_id"] as String!, name: name, coord: location)
     }
 
-    public class func initWithCacheId(id:String, name:String = "", coord: CLLocation? = nil)-> TFCStation {
+    public class func initWithCacheId(id:String, name:String = "", coord: CLLocation? = nil)-> TFCStation? {
         return initWithCache(name, id: id, coord: coord)
     }
 
