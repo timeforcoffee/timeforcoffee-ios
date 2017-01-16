@@ -133,6 +133,8 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     public var lastDepartureUpdate: NSDate? = nil
     private var lastDepartureCount: Int? = nil
 
+    private var lastSettingsRead: NSDate
+
     private var departureUpdateDownloading: NSDate? = nil
 
     public var isLastUsed: Bool = false
@@ -194,6 +196,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
     public init(name: String, id: String, coord: CLLocation?) {
         self.st_id = id
+        self.lastSettingsRead = NSDate()
         super.init()
         self.name = name
         self.instanceCounter("coord")
@@ -210,6 +213,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
     public init(id: String) {
         self.st_id = id
+        self.lastSettingsRead = NSDate()
         super.init()
         self.instanceCounter("id")
 
@@ -232,6 +236,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     }
 
     public required init?(coder aDecoder: NSCoder) {
+        self.lastSettingsRead = NSDate()
         do {
             if #available(iOSApplicationExtension 9.0, *) {
                 self.st_id = try aDecoder.decodeTopLevelObjectForKey("st_id") as! String
@@ -255,8 +260,6 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                 self.walkingDistanceLastCoord = try aDecoder.decodeTopLevelObjectForKey("walkingDistanceLastCoord") as! CLLocation?
                 self._calculatedDistance = try aDecoder.decodeTopLevelObjectForKey("_calculatedDistance") as! Double?
                 self._calculatedDistanceLastCoord = try aDecoder.decodeTopLevelObjectForKey("_calculatedDistanceLastCoord") as! CLLocation?
-                self.lastDepartureUpdate = try aDecoder.decodeTopLevelObjectForKey("lastDepartureUpdate") as! NSDate?
-
             } else {
                 self.walkingDistanceString = aDecoder.decodeObjectForKey("walkingDistanceString") as! String?
                 self.walkingDistanceLastCoord = aDecoder.decodeObjectForKey("walkingDistanceLastCoord") as! CLLocation?
@@ -274,7 +277,6 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         aCoder.encodeObject(walkingDistanceLastCoord, forKey: "walkingDistanceLastCoord")
         aCoder.encodeObject(_calculatedDistance, forKey: "_calculatedDistance")
         aCoder.encodeObject(_calculatedDistanceLastCoord, forKey: "_calculatedDistanceLastCoord")
-        aCoder.encodeObject(lastDepartureUpdate, forKey:"lastDepartureUpdate")
     }
 
     deinit {
@@ -798,14 +800,19 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                 }
             }
             let settingsLastUpdated: NSDate? = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("settingsLastUpdate") as! NSDate?
-            if (force ||
+            // if settings were changed since the last DepartureUpdate, reload favorite Lines
+            var settingsChanged = false
+            if (settingsLastUpdated != nil && self.lastSettingsRead.timeIntervalSinceDate(settingsLastUpdated!) < 0) {
+                DLog("reload filtered Lines for \(self.name)", toFile: true)
+                self.filteredLines = self.getFilteredLines()
+                self.favoriteLines = self.getFavoriteLines()
+                self.lastSettingsRead = NSDate()
+                settingsChanged = true
+            }
+            if (force || settingsChanged ||
                     (!dontUpdate &&
                         (self.lastDepartureUpdate == nil ||
-                         (self.lastDepartureUpdate?.timeIntervalSinceNow)! < -cachettl ||
-                            (settingsLastUpdated != nil &&
-                             self.lastDepartureUpdate?.timeIntervalSinceDate(settingsLastUpdated!) < 0
-                            )
-                        )
+                         (self.lastDepartureUpdate?.timeIntervalSinceNow)! < -cachettl)
                     )
                 )
             {
