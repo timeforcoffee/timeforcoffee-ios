@@ -271,7 +271,7 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
             })
             //map the id to the actuall station object
             .map({(id: String) -> TFCStation in
-                return TFCStation.initWithCacheId(id)
+                return TFCStation.initWithCache(id: id)
 
             })
             //remove stations not within distance

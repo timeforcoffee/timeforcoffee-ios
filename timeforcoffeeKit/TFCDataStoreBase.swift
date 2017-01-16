@@ -299,7 +299,9 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                 #endif
             } else {
                 self.setObject(myValue, forKey: myKey, withWCTransfer: false)
-                if (myKey == "favorites3") {
+                if (myKey == "favoritesVersion") {
+                    //do nothing in this case
+                } else if (myKey == "favorites3") {
                     TFCFavorites.sharedInstance.repopulateFavorites()
                 } else if (myKey.hasPrefix("favorite")) {
                     let st_id = myKey.replace("favorite", template: "")

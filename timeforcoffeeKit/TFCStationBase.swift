@@ -322,7 +322,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         }
     }
 
-    public class func initWithCache(name: String, id: String, coord: CLLocation?) -> TFCStation {
+    public class func initWithCache(name: String = "", id: String, coord: CLLocation? = nil) -> TFCStation {
         let trimmed_id: String
 
         if (id.hasPrefix("0")) {
