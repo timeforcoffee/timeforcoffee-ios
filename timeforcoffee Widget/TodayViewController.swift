@@ -115,7 +115,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
    
     override func viewDidLoad() {
         super.viewDidLoad()
-        DLog("viewDidLoad")
+        DLog("viewDidLoad", toFile: true)
         titleLabel.userInteractionEnabled = true;
         if #available(iOSApplicationExtension 10.0, *) {
         } else {
@@ -148,11 +148,12 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     }
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+        DLog("init", toFile: true)
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
     
     required init?(coder aDecoder: NSCoder) {
-        DLog("init")
+        DLog("init", toFile: true)
         self.lastInitTime = NSDate()
         super.init(coder: aDecoder)
         self.setLoadingStage(2)
@@ -171,14 +172,14 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     }
 
     deinit {
-        DLog("deinit widget")
+        DLog("deinit widget", toFile: true)
         TFCURLSession.sharedInstance.cancelURLSession()
         self.datastore.removeNotifications()
     }
 
     override func viewDidAppear(animated: Bool) {
         //actionLabel.hidden = false
-        DLog("viewDidAppear")
+        DLog("viewDidAppear", toFile: true)
         viewDidAppear = true
         super.viewDidAppear(animated)
         // adjust containerView height, if it's too big
@@ -199,7 +200,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     }
 
     override func awakeFromNib() {
-        DLog("awakeFromNib")
+        DLog("awakeFromNib", toFile: true)
 
         let userDefaults = self.datastore.getUserDefaults()
 
@@ -252,7 +253,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        DLog("viewWillAppear")
+        DLog("viewWillAppear \(self.lastInitTime?.timeIntervalSinceNow)", toFile: true)
         // some old devices (my 4S) don't deinit/init properly, that's a way to not show outdated info
         if (self.lastInitTime?.timeIntervalSinceNow < -10 && (
             floor(self.lastInitTime!.timeIntervalSinceReferenceDate / 60) !=  floor(NSDate.timeIntervalSinceReferenceDate() / 60))) {
@@ -275,7 +276,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     }
 
     override func viewWillDisappear(animated: Bool) {
-        DLog("viewWillDisappear")
+        DLog("viewWillDisappear", toFile: true)
         super.viewWillDisappear(animated)
         if #available(iOSApplicationExtension 10.0, *) {
             self.actionLabel.setTitleColor(UIColor.darkGrayColor(), forState: UIControlState.Highlighted)
@@ -286,7 +287,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     }
 
     override func viewDidDisappear(animated: Bool) {
-        DLog("viewDidDisappear")
+        DLog("viewDidDisappear, memsize: \(TFCCache.getMemorySize())", toFile: true)
         TFCURLSession.sharedInstance.cancelURLSession()
     }
     func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)) {
