@@ -17,28 +17,20 @@ final public class TFCFavorites: NSObject {
     var lastGeofenceUpdate:CLLocation? = nil
 
     public lazy var stations: TFCStationCollection = { [unowned self] in
-        let favs = self.getCurrentFavoritesFromDefaults()
-        if (self.needsSave) {
-            self.saveFavorites()
-        }
-        return favs
+        return self.getCurrentFavoritesFromDefaults()
         }()
     
     private struct objects {
         static let  dataStore: TFCDataStore? = TFCDataStore.sharedInstance
     }
 
-    private var needsSave = false
-
     private override init() {
         super.init()
+        checkUpdateFromOldVersion()
     }
 
     public func repopulateFavorites() {
         self.stations = getCurrentFavoritesFromDefaults(false)
-        if (self.needsSave) {
-            self.saveFavorites()
-        }
     }
 
     public func clearStationCache() {
@@ -63,9 +55,21 @@ final public class TFCFavorites: NSObject {
         if (stationIds == nil) {
             stationIds = []
         }
+
+        guard stationIds != nil else { return TFCStationCollection() }
+        if (newCollection) {
+            return TFCStationCollection(strings: stationIds!)
+        }
+        self.stations.replace(stationIds: stationIds!)
+        return self.stations
+
+    }
+
+    private func checkUpdateFromOldVersion() {
         //upgrade from old versions
         let favoritesVersion = objects.dataStore?.objectForKey("favoritesVersion") as! Int?
         if (favoritesVersion == nil || favoritesVersion < 3) {
+            var stationIds:[String] = []
             var st: [String: TFCStation]?
             if let unarchivedObject = objects.dataStore?.objectForKey("favorites2") as? NSData {
                 NSKeyedUnarchiver.setClass(TFCStation.classForKeyedUnarchiver(), forClassName: "timeforcoffeeKit.TFCStation")
@@ -76,22 +80,14 @@ final public class TFCFavorites: NSObject {
             if let st = st {
                 for (st_id, _) in st {
                     let trimmed_id = st_id.replace("^0*", template: "")
-                    //FIXME: do stuff here for favorites 3
-                    stationIds?.append(trimmed_id)
+                    stationIds.append(trimmed_id)
                 }
-                needsSave = true
             }
+            self.stations.replace(stationIds: stationIds)
+            self.saveFavorites()
             objects.dataStore?.setObject(3, forKey: "favoritesVersion")
         }
         // end of update
-
-        guard stationIds != nil else { return TFCStationCollection() }
-        if (newCollection) {
-            return TFCStationCollection(strings: stationIds!)
-        }
-        self.stations.replace(stationIds: stationIds!)
-        return self.stations
-
     }
 
     func unset(st_id: String?) {
@@ -130,7 +126,6 @@ final public class TFCFavorites: NSObject {
             station.setStationSearchIndex()
         }
         objects.dataStore?.setObject(stationIds.sort() , forKey: "favorites3")
-        needsSave = false
         objects.dataStore?.synchronize()
     }
 
