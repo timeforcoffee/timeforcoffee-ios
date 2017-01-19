@@ -332,15 +332,27 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.performSegueWithIdentifier("SegueBackToStationView", sender: nil)
+        if let _ = getStationForSelect(indexPath) {
+            self.performSegueWithIdentifier("SegueBackToStationView", sender: nil)
+        }
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let detailsViewController: DeparturesViewController = segue.destinationViewController as! DeparturesViewController
-        let index = appsTableView?.indexPathForSelectedRow?.row
-        if let index = index, station = self.departure?.getPasslist()?[index].getStation() {
+
+        if let station = getStationForSelect(appsTableView?.indexPathForSelectedRow) {
             detailsViewController.setStation(station: station)
         }
     }
-    
+
+    private func getStationForSelect(indexpath:NSIndexPath?) -> TFCStation? {
+        if let index = indexpath?.row, let stations = self.departure?.getPasslist() {
+            if (index < stations.count) {
+                if let station = stations[index].getStation() {
+                    return station
+                }
+            }
+        }
+        return nil
+    }
 }
