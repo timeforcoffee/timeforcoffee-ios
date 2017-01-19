@@ -339,57 +339,59 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
                 return cell
             }
             lineNumberLabel.hidden = false
-            if (indexPath.row < departures!.count) {
-                if let departure: TFCDeparture = departures![indexPath.row] {
-                    //if on first row and it's in the past, remove obsolete departures and reload
-                    if (indexPath.row == 0 && departure.getMinutesAsInt() < 0) {
-                        dispatch_async(dispatch_get_main_queue()) {
-                            self.station?.removeObsoleteDepartures(true)
+            if let departures = departures {
+                if (indexPath.row < departures.count) {
+                    if let departure: TFCDeparture = departures[indexPath.row] {
+                        //if on first row and it's in the past, remove obsolete departures and reload
+                        if (indexPath.row == 0 && departure.getMinutesAsInt() < 0) {
+                            dispatch_async(dispatch_get_main_queue()) {
+                                self.station?.removeObsoleteDepartures(true)
+                                self.appsTableView?.reloadData()
+                            }
+                        }
+
+                        var unabridged = false
+                        if (UIDeviceOrientationIsLandscape(UIDevice.currentDevice().orientation)) {
+                            unabridged = true
+                        }
+                        if (segmentedView.selectedSegmentIndex == 1) {
+                            destinationLabel.text = departure.getDestination(station, unabridged: unabridged)
+                        } else {
+                            destinationLabel.text = departure.getDestinationWithSign(station, unabridged: unabridged)
+                        }
+
+                        minutesLabel.text = departure.getMinutes()
+                        destinationLabel.textColor = UIColor.blackColor()
+                        minutesLabel.textColor = UIColor.blackColor()
+
+                        let (departureTimeAttr, departureTimeString) = departure.getDepartureTime()
+                        if (departureTimeAttr != nil) {
+                            departureLabel.text = nil
+                            departureLabel.attributedText = departureTimeAttr
+                        } else {
+                            departureLabel.attributedText = nil
+                            departureLabel.text = departureTimeString
+                        }
+                        lineNumberLabel.setStyle("normal", departure: departure)
+                        lineNumberLabel.linelabelClickedCallback = {
+                            [unowned self] in
+                            departure.toggleFavorite(station2)
                             self.appsTableView?.reloadData()
                         }
-                    }
 
-                    var unabridged = false
-                    if (UIDeviceOrientationIsLandscape(UIDevice.currentDevice().orientation)) {
-                        unabridged = true
-                    }
-                    if (segmentedView.selectedSegmentIndex == 1) {
-                        destinationLabel.text = departure.getDestination(station, unabridged: unabridged)
-                    } else {
-                        destinationLabel.text = departure.getDestinationWithSign(station, unabridged: unabridged)
-                    }
+                        if let minutes = departure.getMinutesAsInt(), time = departure.getRealDepartureDateAsShortDate() {
 
-                    minutesLabel.text = departure.getMinutes()
-                    destinationLabel.textColor = UIColor.blackColor()
-                    minutesLabel.textColor = UIColor.blackColor()
+                            var access = "\(departure.getLine()) \(departure.getDestination(station, unabridged: false)) in \(minutes) minutes."
+                            var platformStr = ""
 
-                    let (departureTimeAttr, departureTimeString) = departure.getDepartureTime()
-                    if (departureTimeAttr != nil) {
-                        departureLabel.text = nil
-                        departureLabel.attributedText = departureTimeAttr
-                    } else {
-                        departureLabel.attributedText = nil
-                        departureLabel.text = departureTimeString
-                    }
-                    lineNumberLabel.setStyle("normal", departure: departure)
-                    lineNumberLabel.linelabelClickedCallback = {
-                        [unowned self] in
-                        departure.toggleFavorite(station2)
-                        self.appsTableView?.reloadData()
-                    }
-
-                    if let minutes = departure.getMinutesAsInt(), time = departure.getRealDepartureDateAsShortDate() {
-
-                        var access = "\(departure.getLine()) \(departure.getDestination(station, unabridged: false)) in \(minutes) minutes."
-                        var platformStr = ""
-
-                        if let platform = departure.platform {
-                            platformStr = NSLocalizedString("Platform", comment: "On platform") + " " + platform
+                            if let platform = departure.platform {
+                                platformStr = NSLocalizedString("Platform", comment: "On platform") + " " + platform
+                            }
+                            access = String.localizedStringWithFormat(
+                                NSLocalizedString("%@ %@ in %d minutes. %@ At %@",
+                                    comment: "Accessibilty Departure"), departure.getLine(), departure.getDestination(station, unabridged: false), minutes, platformStr, time)
+                            cell.accessibilityLabel = access
                         }
-                        access = String.localizedStringWithFormat(
-                            NSLocalizedString("%@ %@ in %d minutes. %@ At %@",
-                                comment: "Accessibilty Departure"), departure.getLine(), departure.getDestination(station, unabridged: false), minutes, platformStr, time)
-                        cell.accessibilityLabel = access
                     }
                 }
             }
