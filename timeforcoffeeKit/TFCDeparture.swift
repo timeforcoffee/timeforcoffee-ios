@@ -355,7 +355,7 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
     }
 
     private func getDateForPasslist() -> String? {
-        if let arrival = arrivalScheduled, scheduled = scheduled {
+        if let arrival = arrivalScheduled, let scheduled = scheduled {
             return scheduled.formattedWith("yyyy-MM-dd'T'HH:mm") + "/" + arrival.formattedWith("yyyy-MM-dd'T'HH:mm")
         }
         return self.scheduled?.formattedWith("yyyy-MM-dd'T'HH:mm")
@@ -400,7 +400,7 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
     }
 
     func getPasslistUrl() -> String? {
-        if let st_id = st_id, date = getDateForPasslist() {
+        if let st_id = st_id, let date = getDateForPasslist() {
             var dest_name:String?
             if let destination_id = self.destination_id {
                 dest_name = destination_id
