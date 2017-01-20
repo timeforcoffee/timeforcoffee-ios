@@ -417,7 +417,7 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
             let station2 = self.station!
             let departures: [TFCDeparture] = self.getDeparturesDependentOnView(station2)!
             let departure: TFCDeparture = departures[cell.tag]
-            SKTUser.currentUser().addProperties(["usedFilters": true])
+            SKTUser.currentUser()?.addProperties(["usedFilters": true])
             let index = 0
             if (station2.isFavoriteDeparture(departure)) {
                 station2.unsetFavoriteDeparture(departure)
@@ -466,7 +466,7 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
         let departures: [TFCDeparture] = getDeparturesDependentOnView(station2)!
 
         let departure: TFCDeparture = departures[cell.tag]
-        SKTUser.currentUser().addProperties(["usedFilters": true])
+        SKTUser.currentUser()?.addProperties(["usedFilters": true])
         var index = 0
         if (cell.rightButtons.count == 2) {
             index = 1

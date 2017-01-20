@@ -85,9 +85,11 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/MGSwipeTableCell/MGSwipeTableCell.framework"
+  install_framework "${PODS_ROOT}/Smooch/Smooch.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SwipeView/SwipeView.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/MGSwipeTableCell/MGSwipeTableCell.framework"
+  install_framework "${PODS_ROOT}/Smooch/Smooch.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SwipeView/SwipeView.framework"
 fi

@@ -47,8 +47,8 @@
 /* Begin PBXFileReference section */
 		0D9066D2C6BD25713277871644FEAE03 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0E39FBD800194BABB3A7D8D6E1090F72 /* Pods-timeforcoffee.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-timeforcoffee.release.xcconfig"; sourceTree = "<group>"; };
+		167623E6BD0EF8A02A4C727EEBBB1BD6 /* SKTMessageAction.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SKTMessageAction.h; path = Smooch.framework/Headers/SKTMessageAction.h; sourceTree = "<group>"; };
 		16BA5496A36900186BC6C7866A52AFA3 /* Pods-timeforcoffee-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-timeforcoffee-umbrella.h"; sourceTree = "<group>"; };
-		196F18F37C6ACF87FC3D6A48CB9C91A8 /* SKTSettings.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SKTSettings.h; path = Smooch.framework/Versions/A/Headers/SKTSettings.h; sourceTree = "<group>"; };
 		1F728328E3DD861F48771C59DC8997E5 /* CLSReport.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CLSReport.h; path = iOS/Crashlytics.framework/Headers/CLSReport.h; sourceTree = "<group>"; };
 		22B5533FD64219A9E61EC31DC25831BC /* Pods-timeforcoffee-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-timeforcoffee-acknowledgements.markdown"; sourceTree = "<group>"; };
 		22C3F966CB2C89D9B4A04C9CD9971B60 /* Crashlytics.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Crashlytics.h; path = iOS/Crashlytics.framework/Headers/Crashlytics.h; sourceTree = "<group>"; };
@@ -62,21 +62,21 @@
 		391B149C2493D5E899213CBBE86F43C2 /* SwipeView.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = SwipeView.modulemap; sourceTree = "<group>"; };
 		3997B0462B187F896356712A61FAEA2C /* SwipeView-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SwipeView-dummy.m"; sourceTree = "<group>"; };
 		3C5E4A1E91BB4C464F17027E9178BC1B /* Pods-timeforcoffee Widget-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-timeforcoffee Widget-acknowledgements.markdown"; sourceTree = "<group>"; };
-		3E450C17BDBF5F76693C54944789D1F7 /* SKTMessageAction.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SKTMessageAction.h; path = Smooch.framework/Versions/A/Headers/SKTMessageAction.h; sourceTree = "<group>"; };
 		3FA759479F8D4B19A4E9E7F13A4D7532 /* Pods-timeforcoffee-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-timeforcoffee-dummy.m"; sourceTree = "<group>"; };
 		40E9C454112ED4D608B29EC406DBC0E3 /* Answers.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Answers.h; path = iOS/Crashlytics.framework/Headers/Answers.h; sourceTree = "<group>"; };
 		4596CB89C47FFF93E865CBF6DE8D144B /* MGSwipeTableCell.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MGSwipeTableCell.h; path = MGSwipeTableCell/MGSwipeTableCell.h; sourceTree = "<group>"; };
+		4A474892F7213DD6193F527F954A3CB0 /* Smooch.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Smooch.framework; sourceTree = "<group>"; };
 		503DB3652342D6F8BBC9863AF347BB5A /* SwipeView-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwipeView-prefix.pch"; sourceTree = "<group>"; };
 		521A766EF03FF50E8FA8886B6540A6C1 /* Pods-timeforcoffee Widget-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-timeforcoffee Widget-umbrella.h"; sourceTree = "<group>"; };
 		57AABDE79DF3CF7C7E668AE9FB42B883 /* SwipeView-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwipeView-umbrella.h"; sourceTree = "<group>"; };
+		5B8B42A087336B071927CE96B40C5B30 /* Smooch.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Smooch.h; path = Smooch.framework/Headers/Smooch.h; sourceTree = "<group>"; };
 		66383887B734DD8D99BDEED7E0F27C0D /* SwipeView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SwipeView.framework; path = SwipeView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BA7D1A9C1F5E17A04D13906E4F58B78 /* SwipeView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SwipeView.h; path = SwipeView/SwipeView.h; sourceTree = "<group>"; };
 		6BB15A5E3CFDDA8F15AD3385DAD39EF2 /* CLSAttributes.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CLSAttributes.h; path = iOS/Crashlytics.framework/Headers/CLSAttributes.h; sourceTree = "<group>"; };
 		7520DC14990F3BFDFE53471C0B3C0002 /* SwipeView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SwipeView.m; path = SwipeView/SwipeView.m; sourceTree = "<group>"; };
 		7948714851A6A98EAC70AEC122B085D7 /* MGSwipeTableCell.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = MGSwipeTableCell.xcconfig; sourceTree = "<group>"; };
-		80B73B09816D3B71A8BBB1751195C806 /* Smooch.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Smooch.h; path = Smooch.framework/Versions/A/Headers/Smooch.h; sourceTree = "<group>"; };
 		8213216F9AFFD100CCFC6A961EB28E47 /* ANSCompatibility.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ANSCompatibility.h; path = iOS/Crashlytics.framework/Headers/ANSCompatibility.h; sourceTree = "<group>"; };
-		82BEEBFCF75269330E2453068E95BFE2 /* Smooch.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; path = Smooch.bundle; sourceTree = "<group>"; };
+		834ECE8A572A10ED90C49A4C5D2B069B /* SKTUser.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SKTUser.h; path = Smooch.framework/Headers/SKTUser.h; sourceTree = "<group>"; };
 		8575E8C17719CBAF45B303F272984EE3 /* CLSStackFrame.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CLSStackFrame.h; path = iOS/Crashlytics.framework/Headers/CLSStackFrame.h; sourceTree = "<group>"; };
 		88285BBF82B843AC8EC8C6418972FE2D /* Pods-timeforcoffee Widget.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-timeforcoffee Widget.debug.xcconfig"; sourceTree = "<group>"; };
 		8A0F9F3040601DF3D098D7F1321A64BA /* Pods-timeforcoffee Widget.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-timeforcoffee Widget.release.xcconfig"; sourceTree = "<group>"; };
@@ -88,22 +88,22 @@
 		9B771EACADF100FEEC5DD7EC7C90C97E /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Fabric.framework; path = iOS/Fabric.framework; sourceTree = "<group>"; };
 		9C394B8121E17FFF6F07472FBDCCAE55 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A4115EB4AD459ADB94387D5BCE5F4C16 /* Pods_timeforcoffee.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_timeforcoffee.framework; path = "Pods-timeforcoffee.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A76CB11D76BA89366E4BF094663BB8FE /* SKTMessage.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SKTMessage.h; path = Smooch.framework/Versions/A/Headers/SKTMessage.h; sourceTree = "<group>"; };
+		A4BFD862B0BDFCD5D47D52EE545219FC /* SKTConversation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SKTConversation.h; path = Smooch.framework/Headers/SKTConversation.h; sourceTree = "<group>"; };
+		A75223B6488F1B8163EB4DB83723B555 /* SKTMessage.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SKTMessage.h; path = Smooch.framework/Headers/SKTMessage.h; sourceTree = "<group>"; };
 		A9C7739973654CBBC3D8640A68896849 /* Pods-timeforcoffee.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-timeforcoffee.debug.xcconfig"; sourceTree = "<group>"; };
 		AC28320EDD8E96445BBDB5A9674EB15A /* MGSwipeTableCell-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "MGSwipeTableCell-dummy.m"; sourceTree = "<group>"; };
 		ADB547E7AA091F19B697DA837BB4A273 /* MGSwipeButton.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MGSwipeButton.m; path = MGSwipeTableCell/MGSwipeButton.m; sourceTree = "<group>"; };
 		AFD140E4B8B4116D00523F06A76145AD /* MGSwipeTableCell.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = MGSwipeTableCell.modulemap; sourceTree = "<group>"; };
 		C129F35B38202E5DBCB9030DDE543EAB /* Pods_timeforcoffee_Widget.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_timeforcoffee_Widget.framework; path = "Pods-timeforcoffee Widget.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C87B3AAACD4C2EC00FF17B14895FD300 /* SKTUser.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SKTUser.h; path = Smooch.framework/Versions/A/Headers/SKTUser.h; sourceTree = "<group>"; };
+		C5C1FECF42AE959D6A5D75AF4A02DC1F /* SKTConversationActivity.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SKTConversationActivity.h; path = Smooch.framework/Headers/SKTConversationActivity.h; sourceTree = "<group>"; };
 		CBB3DE36805AF21409EC968A9691732F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		D03880FA982536ECB236B7EDE75ABD72 /* SKTConversation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SKTConversation.h; path = Smooch.framework/Versions/A/Headers/SKTConversation.h; sourceTree = "<group>"; };
 		D5D947CDFA89689D2DE3A57733715DFA /* Pods-timeforcoffee Widget-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-timeforcoffee Widget-acknowledgements.plist"; sourceTree = "<group>"; };
 		E1D448C0D2D79D1C0FAAFED6D1416226 /* MGSwipeTableCell-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MGSwipeTableCell-prefix.pch"; sourceTree = "<group>"; };
+		E9BE7698B9D43CF781A30AC63517856B /* SKTSettings.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SKTSettings.h; path = Smooch.framework/Headers/SKTSettings.h; sourceTree = "<group>"; };
 		EFCD4C7713D10669240CF67E841BE63F /* Pods-timeforcoffee-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-timeforcoffee-acknowledgements.plist"; sourceTree = "<group>"; };
 		F2DF19819E8FE780167FAA1FA5236F22 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = iOS/Crashlytics.framework; sourceTree = "<group>"; };
 		F9389DA33A27FA36CA1A78C4B19E3613 /* Pods-timeforcoffee Widget-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-timeforcoffee Widget-resources.sh"; sourceTree = "<group>"; };
 		FC1F195E24247AD2813E2236FDEFC699 /* CLSLogging.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CLSLogging.h; path = iOS/Crashlytics.framework/Headers/CLSLogging.h; sourceTree = "<group>"; };
-		FCD5A6316B1CCBBFE7EE84537C41D8A2 /* Smooch.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Smooch.framework; sourceTree = "<group>"; };
 		FE59A6E98BA4EFC80CC3B1FBF9DF57BB /* Pods-timeforcoffee Widget.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-timeforcoffee Widget.modulemap"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -185,30 +185,6 @@
 			path = Fabric;
 			sourceTree = "<group>";
 		};
-		29945D2396122B2E6631444A0793EB2C /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				FCD5A6316B1CCBBFE7EE84537C41D8A2 /* Smooch.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		5A14C60EA0FE4A47FCAD84772B33831E /* Smooch */ = {
-			isa = PBXGroup;
-			children = (
-				D03880FA982536ECB236B7EDE75ABD72 /* SKTConversation.h */,
-				A76CB11D76BA89366E4BF094663BB8FE /* SKTMessage.h */,
-				3E450C17BDBF5F76693C54944789D1F7 /* SKTMessageAction.h */,
-				196F18F37C6ACF87FC3D6A48CB9C91A8 /* SKTSettings.h */,
-				C87B3AAACD4C2EC00FF17B14895FD300 /* SKTUser.h */,
-				80B73B09816D3B71A8BBB1751195C806 /* Smooch.h */,
-				29945D2396122B2E6631444A0793EB2C /* Frameworks */,
-				7790B189D509BCD2896FA5795597D0AC /* Resources */,
-			);
-			name = Smooch;
-			path = Smooch;
-			sourceTree = "<group>";
-		};
 		5CC8A2912C9AF214EB301822D74EAAA2 /* SwipeView */ = {
 			isa = PBXGroup;
 			children = (
@@ -276,14 +252,6 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
-		7790B189D509BCD2896FA5795597D0AC /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				82BEEBFCF75269330E2453068E95BFE2 /* Smooch.bundle */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-		};
 		7DB346D0F39D3F0E887471402A8071AB = {
 			isa = PBXGroup;
 			children = (
@@ -304,6 +272,22 @@
 				66383887B734DD8D99BDEED7E0F27C0D /* SwipeView.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		83E7E3DDDA4A6DFF29994A00478A9369 /* Smooch */ = {
+			isa = PBXGroup;
+			children = (
+				A4BFD862B0BDFCD5D47D52EE545219FC /* SKTConversation.h */,
+				C5C1FECF42AE959D6A5D75AF4A02DC1F /* SKTConversationActivity.h */,
+				A75223B6488F1B8163EB4DB83723B555 /* SKTMessage.h */,
+				167623E6BD0EF8A02A4C727EEBBB1BD6 /* SKTMessageAction.h */,
+				E9BE7698B9D43CF781A30AC63517856B /* SKTSettings.h */,
+				834ECE8A572A10ED90C49A4C5D2B069B /* SKTUser.h */,
+				5B8B42A087336B071927CE96B40C5B30 /* Smooch.h */,
+				F39C9342BC4A7B8F1FA5D631CE790A5C /* Frameworks */,
+			);
+			name = Smooch;
+			path = Smooch;
 			sourceTree = "<group>";
 		};
 		BB1E6F4A6CE6829BFFBAD751627CEB53 /* Frameworks */ = {
@@ -328,7 +312,7 @@
 				1013ACA607F36019F973B1DEFAA09C9E /* Crashlytics */,
 				295FF1DB498FEDB62122ECF7825F4A4D /* Fabric */,
 				6A2D5B65DD426C9C32F43C811FC14474 /* MGSwipeTableCell */,
-				5A14C60EA0FE4A47FCAD84772B33831E /* Smooch */,
+				83E7E3DDDA4A6DFF29994A00478A9369 /* Smooch */,
 				5CC8A2912C9AF214EB301822D74EAAA2 /* SwipeView */,
 			);
 			name = Pods;
@@ -360,6 +344,14 @@
 			);
 			name = "Support Files";
 			path = "../Target Support Files/MGSwipeTableCell";
+			sourceTree = "<group>";
+		};
+		F39C9342BC4A7B8F1FA5D631CE790A5C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4A474892F7213DD6193F527F954A3CB0 /* Smooch.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
