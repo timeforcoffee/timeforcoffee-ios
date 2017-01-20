@@ -76,6 +76,7 @@ let DLogDateFormatter:NSDateFormatter = {
     let formatter = NSDateFormatter()
     formatter.dateFormat = "YYYY-MM-dd HH:mm:ss.SSS"
     formatter.timeZone = NSTimeZone(name: "Europe/Zurich")
+    formatter.locale = NSLocale(localeIdentifier: "de_CH")
     return formatter
 }()
 
@@ -83,6 +84,7 @@ let DLogDayHourFormatter:NSDateFormatter = {
     let formatter = NSDateFormatter()
     formatter.dateFormat = "YYYY-MM-dd-HH"
     formatter.timeZone = NSTimeZone(name: "Europe/Zurich")
+    formatter.locale = NSLocale(localeIdentifier: "de_CH")
     return formatter
 }()
 
@@ -91,6 +93,7 @@ let DLogDayHourMinuteFormatter:NSDateFormatter = {
     let formatter = NSDateFormatter()
     formatter.dateFormat = "YYYY-MM-dd-HH-mm"
     formatter.timeZone = NSTimeZone(name: "Europe/Zurich")
+    formatter.locale = NSLocale(localeIdentifier: "de_CH")
     return formatter
 }()
 
@@ -98,6 +101,7 @@ let DLogShortFormatter:NSDateFormatter = {
     let formatter = NSDateFormatter()
     formatter.dateFormat = "d-H:m"
     formatter.timeZone = NSTimeZone(name: "Europe/Zurich")
+    formatter.locale = NSLocale(localeIdentifier: "de_CH")
     return formatter
 }()
 
