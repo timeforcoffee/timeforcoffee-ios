@@ -341,8 +341,13 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         if (newStation == nil || newStation?.coord == nil || newStation?.name == "unknown") {
             //if name is not set, we only have the id, try to get it from the DB or from a server
             if (name == "") {
-                // try to get it from core data
-                let tryStation = TFCStation(id: trimmed_id)
+                let tryStation:TFCStation
+                if (newStation != nil) {
+                    tryStation = newStation!
+                } else {
+                    // try to get it from core data
+                    tryStation = TFCStation(id: trimmed_id)
+                }
                 //if the name from the DB is not "unknown", return it
                 if (tryStation.name != "unknown") {
                     //if coords are set and the id is not empty, set it to the cache
@@ -357,23 +362,33 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                 // if we couldn't get it from the DB, fetch it from opendata
                 // this is done synchronously, so butt ugly, but we have a timeout of 5 seconds
                 let api = APIController(delegate: nil)
-                DLog("Station Name missing. Fetch station info from opendata.ch for \(trimmed_id)")
-                if let result = api.getStationInfo(trimmed_id) {
-                    if let name = result["stations"][0]["name"].string {
+                DLog("Station Name missing. Fetch station info from opendata.ch for \(trimmed_id)", toFile: true)
+                api.getStationInfo(trimmed_id, callback: { (result) in
+                    if let result = result, let name = result["stations"][0]["name"].string {
                         if let id = result["stations"][0]["id"].string?.replace("^0*", template: "") {
                             var location:CLLocation? = nil
                             if let lat = result["stations"][0]["coordinate"]["x"].double {
                                 if let long = result["stations"][0]["coordinate"]["y"].double {
-                                location = CLLocation(latitude: lat, longitude: long)
+                                    location = CLLocation(latitude: lat, longitude: long)
                                 }
                             }
                             // try again, this time with a name
-                            return TFCStation.initWithCache(name, id: id, coord: location)
+                            if let newStation = getFromMemoryCaches(id) {
+                                newStation.name = name
+                                newStation.coord = location
+                                newStation.needsCacheSave = true
+                                addToStationCache(newStation)
+                                TFCStationBase.saveToPincache(newStation)
+
+                            } else {
+                                TFCStation.initWithCache(name, id: id, coord: location)
+                            }
                         }
+                    } else {
+                        DLog("Something went wrong with fetching data")
                     }
-                } else {
-                    return nil
-                }
+                })
+                return tryStation
             }
             let newStation2 = TFCStation(name: name, id: trimmed_id, coord: coord)
             //only cache it when name is != "" otherwise it comes

@@ -69,10 +69,10 @@ final class APIController {
         self.fetchUrl(urlPath, fetchId: 3, context: context, cacheKey: nil)
     }
 
-    func getStationInfo(id: String) -> JSON? {
+    func getStationInfo(id: String, callback:(result:JSON?) -> Void) {
         let urlPath = "https://transport.opendata.ch/v1/locations?query=\(id)"
         let cacheKey = "stationsinfo/\(id)"
-        return self.fetchUrlSync(urlPath, cacheKey: cacheKey)
+        self.fetchUrlWithCallback(urlPath, cacheKey: cacheKey, callback: callback)
     }
     
     private func fetchUrl(urlPath: String, fetchId: Int, cacheKey: String?) {
@@ -149,16 +149,10 @@ final class APIController {
 
         }
     }
-    /* only use this if you know what you're doing
-        we use it in TFCStationBase to get the name and coords of a station
+    /*  we use it in TFCStationBase to get the name and coords of a station
         if it's not known yet */
-    private func fetchUrlSync(urlPath: String, cacheKey: String?) -> JSON? {
-        if let result = self.getFromCache(cacheKey) {
-            DLog("Sync fetch was still in cache \(cacheKey)", toFile: true)
-            return result
-        }
-        let semaphore = dispatch_semaphore_create(0)
-        guard let url = NSURL(string: urlPath) else { return nil }
+    private func fetchUrlWithCallback(urlPath: String, cacheKey: String?, callback:(result:JSON?) -> Void) {
+        guard let url = NSURL(string: urlPath) else { callback(result: nil); return }
 
         let absUrl = url.absoluteString
         DLog("Start fetching sync data \(absUrl)")
@@ -179,17 +173,9 @@ final class APIController {
             } else {
                 jsonResult = JSON(NSNull())
             }
-            dispatch_semaphore_signal(semaphore)
-
+            callback(result:jsonResult)
         })
         dataFetch?.resume()
-
-        let timeout =  dispatch_time(DISPATCH_TIME_NOW, 3000000000) // 3 seconds
-        if dispatch_semaphore_wait(semaphore, timeout) != 0 {
-            DLog("stationInfo sync call timed out.")
-        }
-
-        return jsonResult
     }
 
     private func getFromCache(cacheKey: String?) -> JSON? {
