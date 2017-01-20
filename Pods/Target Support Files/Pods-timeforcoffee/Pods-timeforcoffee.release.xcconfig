@@ -1,8 +1,10 @@
-FRAMEWORK_SEARCH_PATHS = $(inherited) $(PODS_ROOT)/Smooch "${PODS_ROOT}/Crashlytics/iOS" "${PODS_ROOT}/Fabric/iOS" "${PODS_ROOT}/Smooch"
+ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO
+FRAMEWORK_SEARCH_PATHS = $(inherited) $(PODS_ROOT)/Smooch "$PODS_CONFIGURATION_BUILD_DIR/MGSwipeTableCell" "$PODS_CONFIGURATION_BUILD_DIR/SwipeView" "${PODS_ROOT}/Crashlytics/iOS" "${PODS_ROOT}/Fabric/iOS" "${PODS_ROOT}/Smooch"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
 HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/Crashlytics" "${PODS_ROOT}/Headers/Public/Fabric" "${PODS_ROOT}/Headers/Public/Smooch"
 LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
-OTHER_CFLAGS = $(inherited) -iquote "$CONFIGURATION_BUILD_DIR/MGSwipeTableCell.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/SwipeView.framework/Headers" -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/Crashlytics" -isystem "${PODS_ROOT}/Headers/Public/Fabric" -isystem "${PODS_ROOT}/Headers/Public/Smooch"
+OTHER_CFLAGS = $(inherited) -iquote "$PODS_CONFIGURATION_BUILD_DIR/MGSwipeTableCell/MGSwipeTableCell.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/SwipeView/SwipeView.framework/Headers" -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/Crashlytics" -isystem "${PODS_ROOT}/Headers/Public/Fabric" -isystem "${PODS_ROOT}/Headers/Public/Smooch"
 OTHER_LDFLAGS = $(inherited) -ObjC -l"c++" -l"icucore" -l"z" -framework "AVFoundation" -framework "AssetsLibrary" -framework "CFNetwork" -framework "CoreGraphics" -framework "CoreTelephony" -framework "CoreText" -framework "Crashlytics" -framework "Fabric" -framework "Foundation" -framework "MGSwipeTableCell" -framework "Photos" -framework "QuartzCore" -framework "Security" -framework "Smooch" -framework "SwipeView" -framework "SystemConfiguration" -framework "UIKit"
-PODS_FRAMEWORK_BUILD_PATH = $(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Pods-timeforcoffee
+PODS_BUILD_DIR = $BUILD_DIR
+PODS_CONFIGURATION_BUILD_DIR = $PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
 PODS_ROOT = ${SRCROOT}/Pods

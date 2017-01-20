@@ -1,4 +1,4 @@
-xcodeproj 'timeforcoffee'
+project 'timeforcoffee'
 
 use_frameworks!
 
@@ -21,7 +21,7 @@ end
 
 
 target 'timeforcoffee' do
-    platform :ios, '8.0'
+    platform :ios, '8.2'
     pod 'MGSwipeTableCell'
     pod 'SwipeView'
     shared_pods
