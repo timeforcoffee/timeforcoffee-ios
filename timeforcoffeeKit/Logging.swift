@@ -144,7 +144,9 @@ public func DLog<T>(@autoclosure object: () -> T, toFile: Bool = false, sync:Boo
             //print("\(NSDate().formattedWithDateFormatter(DLogDateFormatter)) <\(queue)> \(fileURL) \(function)[\(line)] - " + stringRepresentation)
             let text = "<\(queue)> \(stringRepresentation) (\(fileURL) \(function)[\(line)])"
             NSLog("%@", text)
-            DLog2CLS("%@", text: [text])
+            if (toFile == true) {
+                DLog2CLS("%@", text: [text])
+            }
             #if os(watchOS)
                 let alwaysLogToFile = true
             #else
@@ -169,29 +171,31 @@ public func DLog<T>(@autoclosure object: () -> T, toFile: Bool = false, sync:Boo
             }
         }
     #else
-        let value = object()
-        func logIt() {
-            let stringRepresentation: String
+        if (toFile == true) {
+            let value = object()
+            func logIt() {
+                let stringRepresentation: String
 
-            if let value = value as? CustomDebugStringConvertible {
-                stringRepresentation = value.debugDescription
-            } else if let value = value as? CustomStringConvertible {
-                stringRepresentation = value.description
+                if let value = value as? CustomDebugStringConvertible {
+                    stringRepresentation = value.debugDescription
+                } else if let value = value as? CustomStringConvertible {
+                    stringRepresentation = value.description
+                } else {
+                    return
+                }
+                let fileEscaped = file.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLPathAllowedCharacterSet())
+                let fileURL = NSURL(string: fileEscaped!)?.lastPathComponent ?? "Unknown file"
+                let text = "\(stringRepresentation) (\(fileURL) \(function)[\(line)])"
+                DLog2CLS("%@", text: [text])
+            }
+            if (sync) {
+                dispatch_sync(logQueue) {
+                    logIt()
+                }
             } else {
-                return
-            }
-            let fileEscaped = file.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLPathAllowedCharacterSet())
-            let fileURL = NSURL(string: fileEscaped!)?.lastPathComponent ?? "Unknown file"
-            let text = "\(stringRepresentation) (\(fileURL) \(function)[\(line)])"
-            DLog2CLS("%@", text: [text])
-        }
-        if (sync) {
-            dispatch_sync(logQueue) {
-                logIt()
-            }
-        } else {
-            dispatch_async(logQueue) {
-                logIt()
+                dispatch_async(logQueue) {
+                    logIt()
+                }
             }
         }
     #endif

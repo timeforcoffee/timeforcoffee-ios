@@ -15,7 +15,6 @@ final public class TFCCrashlytics: NSObject, CrashlyticsDelegate {
 
     public func crashlyticsDidDetectReportForLastExecution(report: CLSReport, completionHandler: (Bool) -> Void) {
         report.setObjectValue(TFCDataStore.sharedInstance.getTFCID(), forKey: "TFCID")
-        report.setObjectValue("bar", forKey: "foo")
         DLog("Crashlytics: crashedOnDate: \(report.crashedOnDate)", toFile: true);
         DLog("Crashlytics: isCrash: \(report.isCrash)", toFile: true);
         dispatch_async(dispatch_get_main_queue(), {
