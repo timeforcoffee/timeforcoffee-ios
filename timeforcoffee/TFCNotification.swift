@@ -16,7 +16,6 @@ class TFCNotification {
                 noti.alertBody = text
                 noti.soundName = UILocalNotificationDefaultSoundName
                 UIApplication.sharedApplication().presentLocalNotificationNow(noti)
-                DLog("Sent notification: \(text)", toFile: true)
             }
         #endif
     }

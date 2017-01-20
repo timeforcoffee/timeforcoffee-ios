@@ -51,7 +51,6 @@ class GATracker {
                 s = s.set(value, forKey: key)
             }
             self.toBeSentCustomDimensions.removeAll()
-            DLog("\(s.build() as [NSObject : AnyObject])")
             self.gtracker?.defaultTracker.send(s.build() as [NSObject : AnyObject]!)
         }
 

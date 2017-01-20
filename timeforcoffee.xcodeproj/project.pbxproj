@@ -127,9 +127,11 @@
 		ECA109D91BB6C00000FDB6F9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC0AD1641BB69539004217FD /* Localizable.strings */; };
 		ECA9558D1E32B4B1008ABFC6 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECA9558B1E32B4B1008ABFC6 /* Crashlytics.framework */; };
 		ECA9558E1E32B4B1008ABFC6 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECA9558C1E32B4B1008ABFC6 /* Fabric.framework */; };
+		ECA955911E32B9E9008ABFC6 /* GATracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD42E511D8B4D72006ED53E /* GATracker.swift */; };
+		ECA955921E32B9EA008ABFC6 /* GATracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD42E511D8B4D72006ED53E /* GATracker.swift */; };
 		ECC1CD831D971DB20012E64F /* TFCNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC1CD821D971DB20012E64F /* TFCNotification.swift */; };
-		ECD42E521D8B4D72006ED53E /* GATracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD42E511D8B4D72006ED53E /* GATracker.swift */; };
-		ECD42E531D8B4D72006ED53E /* GATracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD42E511D8B4D72006ED53E /* GATracker.swift */; };
+		ECDB98E11E327FC3003FA5A1 /* TFCCrashlytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDB98DF1E327F36003FA5A1 /* TFCCrashlytics.swift */; };
+		ECDB98EC1E329DB3003FA5A1 /* TFCCrashlytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDB98EB1E329DB3003FA5A1 /* TFCCrashlytics.swift */; };
 		ECDDEAFC1E28C7470090E78F /* TFCStationCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0B0EAB1E16C214000E52AE /* TFCStationCollection.swift */; };
 		ECE74C431BDEAAD8009CB3CA /* WithMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE74C421BDEAAD8009CB3CA /* WithMapViewController.swift */; };
 		ECE74C451BDEAB54009CB3CA /* PasslistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE74C441BDEAB54009CB3CA /* PasslistViewController.swift */; };
@@ -139,16 +141,14 @@
 		ECEBB7FD1BC7238C00AB83B9 /* TFCStationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FB1BC7238C00AB83B9 /* TFCStationModel.swift */; };
 		ECEBB7FE1BC7241A00AB83B9 /* TFCStationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FB1BC7238C00AB83B9 /* TFCStationModel.swift */; };
 		ECEBB7FF1BC7241D00AB83B9 /* TFCStationModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FA1BC7238C00AB83B9 /* TFCStationModel+CoreDataProperties.swift */; };
-		ECEDA62B1BDAD44F000B63E6 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEDA62A1BDAD44F000B63E6 /* Logging.swift */; };
-		ECEDA62C1BDAD44F000B63E6 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEDA62A1BDAD44F000B63E6 /* Logging.swift */; };
 		ECEDA62D1BDAD44F000B63E6 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEDA62A1BDAD44F000B63E6 /* Logging.swift */; };
 		ECEDA62E1BDAD44F000B63E6 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEDA62A1BDAD44F000B63E6 /* Logging.swift */; };
 		ECEDDAD21BC991800088AFB2 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEDDAD11BC991800088AFB2 /* main.swift */; };
 		ECEDDAD61BC992240088AFB2 /* TFCStationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FB1BC7238C00AB83B9 /* TFCStationModel.swift */; };
 		ECEDDAD71BC992270088AFB2 /* TFCStationModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FA1BC7238C00AB83B9 /* TFCStationModel+CoreDataProperties.swift */; };
 		ECEDDAD81BC9922A0088AFB2 /* DataModels.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EC810B041BC7963C0007B874 /* DataModels.xcdatamodeld */; };
-		ECEF28161BCBC951000F4094 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
-		ECEF28171BCBC95F000F4094 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		ECEF28161BCBC951000F4094 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		ECEF28171BCBC95F000F4094 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		ECEF281A1BCBC98F000F4094 /* TFC.plist in Resources */ = {isa = PBXBuildFile; fileRef = ECEF28191BCBC98F000F4094 /* TFC.plist */; };
 		ECEF281B1BCBC999000F4094 /* TFC.plist in Resources */ = {isa = PBXBuildFile; fileRef = ECEF28191BCBC98F000F4094 /* TFC.plist */; };
 		ECEF281C1BCBC9D7000F4094 /* SingleViewCoreData.sqlite-shm in Resources */ = {isa = PBXBuildFile; fileRef = EC0E4D581BCBB09F0046D70C /* SingleViewCoreData.sqlite-shm */; };
@@ -382,6 +382,8 @@
 		ECCDFA4D1BFA084C002DD92D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/MainInterface.strings; sourceTree = "<group>"; };
 		ECCDFA4F1BFA084C002DD92D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		ECD42E511D8B4D72006ED53E /* GATracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GATracker.swift; sourceTree = "<group>"; };
+		ECDB98DF1E327F36003FA5A1 /* TFCCrashlytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCCrashlytics.swift; sourceTree = "<group>"; };
+		ECDB98EB1E329DB3003FA5A1 /* TFCCrashlytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCCrashlytics.swift; sourceTree = "<group>"; };
 		ECE74C421BDEAAD8009CB3CA /* WithMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WithMapViewController.swift; sourceTree = "<group>"; };
 		ECE74C441BDEAB54009CB3CA /* PasslistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasslistViewController.swift; sourceTree = "<group>"; };
 		ECE74C461BDEBF2B009CB3CA /* TFCPass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCPass.swift; sourceTree = "<group>"; };
@@ -608,6 +610,7 @@
 			children = (
 				EC46C5481BB5C7FD00F2A963 /* timeforcoffeeWatchKit.h */,
 				EC4AB24B1BB6712200DA9759 /* TFCDataStore.swift */,
+				ECDB98DF1E327F36003FA5A1 /* TFCCrashlytics.swift */,
 				EC4AB24C1BB6712200DA9759 /* TFCLocationManager.swift */,
 				EC4AB24D1BB6712200DA9759 /* TFCStation.swift */,
 				EC46C54A1BB5C7FD00F2A963 /* Info.plist */,
@@ -625,6 +628,7 @@
 				EC9BCB181BB5CCD300623F1A /* APIController.swift */,
 				EC9BCB191BB5CCD300623F1A /* extensions.swift */,
 				ECEDA62A1BDAD44F000B63E6 /* Logging.swift */,
+				ECDB98EB1E329DB3003FA5A1 /* TFCCrashlytics.swift */,
 				EC9BCB1A1BB5CCD300623F1A /* SwiftyJSON.swift */,
 				EC9BCB1B1BB5CCD300623F1A /* TFCBaseViewController.swift */,
 				EC9BCB1C1BB5CCD300623F1A /* TFCCache.swift */,
@@ -999,7 +1003,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ECEF281B1BCBC999000F4094 /* TFC.plist in Resources */,
-				ECEF28171BCBC95F000F4094 /* BuildFile in Resources */,
+				ECEF28171BCBC95F000F4094 /* (null) in Resources */,
 				ECEF281D1BCBC9D9000F4094 /* SingleViewCoreData.sqlite-wal in Resources */,
 				EC46C5341BB5C78A00F2A963 /* Assets.xcassets in Resources */,
 				ECEF281C1BCBC9D7000F4094 /* SingleViewCoreData.sqlite-shm in Resources */,
@@ -1011,7 +1015,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ECEF28161BCBC951000F4094 /* BuildFile in Resources */,
+				ECEF28161BCBC951000F4094 /* (null) in Resources */,
 				EC0E4D5A1BCBB09F0046D70C /* SingleViewCoreData.sqlite-shm in Resources */,
 				EC1834DB1BCADA0E008B44F3 /* SingleViewCoreData.sqlite in Resources */,
 				ECEF281A1BCBC98F000F4094 /* TFC.plist in Resources */,
@@ -1121,13 +1125,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC9BCB131BB5CC3500623F1A /* StationTableView.swift in Sources */,
-				ECEDA62B1BDAD44F000B63E6 /* Logging.swift in Sources */,
 				EC9BCB0C1BB5CC3500623F1A /* DepartureLineLabel.swift in Sources */,
 				EC84FEC11BD9652400A0F9E3 /* TFCVisits.swift in Sources */,
 				EC9BCB121BB5CC3500623F1A /* StationsViewController.swift in Sources */,
 				EC9BCB141BB5CC3500623F1A /* StationTableViewCell.swift in Sources */,
-				ECD42E521D8B4D72006ED53E /* GATracker.swift in Sources */,
 				ECE74C431BDEAAD8009CB3CA /* WithMapViewController.swift in Sources */,
+				ECA955921E32B9EA008ABFC6 /* GATracker.swift in Sources */,
 				EC9BCB0B1BB5CC3500623F1A /* AboutPagedViewController.swift in Sources */,
 				EC9BCB161BB5CC3500623F1A /* TFCNavigationController.swift in Sources */,
 				ECE74C451BDEAB54009CB3CA /* PasslistViewController.swift in Sources */,
@@ -1145,11 +1148,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ECD42E531D8B4D72006ED53E /* GATracker.swift in Sources */,
 				EC4AB23A1BB5F3C000DA9759 /* DepartureLineLabel.swift in Sources */,
 				EC46C50E1BB5C71100F2A963 /* TodayViewController.swift in Sources */,
+				ECA955911E32B9E9008ABFC6 /* GATracker.swift in Sources */,
 				EC4AB2291BB5E74100DA9759 /* NearbyStationsTableViewCell.swift in Sources */,
-				ECEDA62C1BDAD44F000B63E6 /* Logging.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1180,6 +1182,7 @@
 				EC1B2F521D846CD100399F60 /* TFCWatchDataFetch.swift in Sources */,
 				EC050CF11BB84D5B00ECB533 /* TFCFavorites.swift in Sources */,
 				EC050CF31BB84D5B00ECB533 /* TFCStationBase.swift in Sources */,
+				ECDB98E11E327FC3003FA5A1 /* TFCCrashlytics.swift in Sources */,
 				EC050CEB1BB84D4700ECB533 /* TFCCache.swift in Sources */,
 				EC050CED1BB84D4F00ECB533 /* PINCache.m in Sources */,
 				EC050CEE1BB84D4F00ECB533 /* PINDiskCache.m in Sources */,
@@ -1203,6 +1206,7 @@
 				EC810B061BC7963C0007B874 /* DataModels.xcdatamodeld in Sources */,
 				EC9BCB2F1BB5CCD300623F1A /* TFCDataStoreBase.swift in Sources */,
 				ECEDA62D1BDAD44F000B63E6 /* Logging.swift in Sources */,
+				ECDB98EC1E329DB3003FA5A1 /* TFCCrashlytics.swift in Sources */,
 				ECEBB7FD1BC7238C00AB83B9 /* TFCStationModel.swift in Sources */,
 				ECEBB7FC1BC7238C00AB83B9 /* TFCStationModel+CoreDataProperties.swift in Sources */,
 				EC9BCB341BB5CCD300623F1A /* TFCStation.swift in Sources */,
@@ -1419,11 +1423,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E6FAD2398FD70FEE993997B1 /* Pods-timeforcoffee.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = timeforcoffee/timeforcoffee.entitlements;
 				ENABLE_BITCODE = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = timeforcoffee/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1434,6 +1436,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "timeforcoffee/timeforcoffee-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
@@ -1442,11 +1445,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 90087806BCCE940C1B7B4FCE /* Pods-timeforcoffee.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = timeforcoffee/timeforcoffee.entitlements;
 				ENABLE_BITCODE = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = timeforcoffee/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1457,7 +1458,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "timeforcoffee/timeforcoffee-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
@@ -1485,7 +1485,6 @@
 		EC46C5181BB5C71100F2A963 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_STATIC_ANALYZER_MODE = shallow;
 				CODE_SIGN_ENTITLEMENTS = "timeforcoffee Widget/timeforcoffee Widget.entitlements";
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = "timeforcoffee Widget/Info.plist";

@@ -9,8 +9,6 @@
 import UIKit
 import timeforcoffeeKit
 import CoreLocation
-import Fabric
-import Crashlytics
 import CoreSpotlight
 import MobileCoreServices
 import CoreData
@@ -108,9 +106,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             let gtracker = GATracker.sharedInstance
             gtracker?.setCustomDimension(7, value: "yes")
             gtracker?.setCustomDimension(9, value: UIDevice.currentDevice().systemVersion)
-            #if !((arch(i386) || arch(x86_64)) && os(iOS))
-                Fabric.with([Crashlytics.self])
-            #endif
+
+            TFCCrashlytics.sharedInstance.initCrashlytics()
             if let lO = launchOptions?["UIApplicationLaunchOptionsLocationKey"] {
                 DLog("app launched with UIApplicationLaunchOptionsLocationKey: \(lO)", toFile: true)
             }
@@ -233,6 +230,18 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        let state = UIApplication.sharedApplication().applicationState
+        let stateString:String
+        if state == .Background {
+            stateString = "Background"
+        } else if state == .Active {
+            stateString = "Active"
+        } else if state == .Inactive {
+            stateString = "Inactive"
+        } else {
+            stateString = "Unknown \(state.rawValue)"
+        }
+        DLog("applicationWillTerminate. State \(stateString)", toFile: true, sync: true)
         TFCDataStore.sharedInstance.saveContext()
     }
 

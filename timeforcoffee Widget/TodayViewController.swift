@@ -10,8 +10,6 @@ import UIKit
 import NotificationCenter
 import CoreLocation
 import timeforcoffeeKit
-import Fabric
-import Crashlytics
 
 final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate,  TFCDeparturesUpdatedProtocol, TFCStationsUpdatedProtocol {
     @IBOutlet weak var titleLabel: UILabel!
@@ -160,9 +158,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         self.lastViewedStation?.removeObsoleteDepartures()
         self.currentStation = self.lastViewedStation
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
-            #if !((arch(i386) || arch(x86_64)) && os(iOS))
-                Fabric.with([Crashlytics.self])
-            #endif
+            TFCCrashlytics.sharedInstance.initCrashlytics()
             self.datastore.registerForNotifications()
             self.datastore.synchronize()
             let gtracker = GATracker.sharedInstance
