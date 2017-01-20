@@ -142,14 +142,14 @@ public func DLog<T>(@autoclosure object: () -> T, toFile: Bool = false, sync:Boo
 
             let queue = matches
             //print("\(NSDate().formattedWithDateFormatter(DLogDateFormatter)) <\(queue)> \(fileURL) \(function)[\(line)] - " + stringRepresentation)
-            let text = "<\(queue)> \(stringRepresentation) (\(fileURL) \(function)[\(line)])"
-            NSLog("%@", text)
-            if (toFile == true) {
-                DLog2CLS("%@", text: [text])
-            }
+            let msg = "<\(queue)> \(stringRepresentation) (\(fileURL) \(function)[\(line)])"
+            NSLog("%@", msg)
             #if os(watchOS)
                 let alwaysLogToFile = true
             #else
+                if (toFile == true) {
+                    DLog2CLS("%@", text: [msg])
+                }
                 let alwaysLogToFile = false
             #endif
             if (toFile || alwaysLogToFile) {
@@ -185,8 +185,8 @@ public func DLog<T>(@autoclosure object: () -> T, toFile: Bool = false, sync:Boo
                 }
                 let fileEscaped = file.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLPathAllowedCharacterSet())
                 let fileURL = NSURL(string: fileEscaped!)?.lastPathComponent ?? "Unknown file"
-                let text = "\(stringRepresentation) (\(fileURL) \(function)[\(line)])"
-                DLog2CLS("%@", text: [text])
+                let msg = "\(stringRepresentation) (\(fileURL) \(function)[\(line)])"
+                DLog2CLS("%@", text: [msg])
             }
             if (sync) {
                 dispatch_sync(logQueue) {
