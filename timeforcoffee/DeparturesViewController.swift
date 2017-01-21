@@ -414,26 +414,27 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
     func swipeTableCell(cell: MGSwipeTableCell!, swipeButtonsForDirection direction: MGSwipeDirection, swipeSettings: MGSwipeSettings!, expansionSettings: MGSwipeExpansionSettings!) -> [AnyObject]! {
 
         let buttonClickCallbackFavorite : MGSwipeButtonCallback = { (cell: MGSwipeTableCell!) in
-            let station2 = self.station!
-            let departures: [TFCDeparture] = self.getDeparturesDependentOnView(station2)!
-            let departure: TFCDeparture = departures[cell.tag]
-            SKTUser.currentUser()?.addProperties(["usedFilters": true])
-            let index = 0
-            if (station2.isFavoriteDeparture(departure)) {
-                station2.unsetFavoriteDeparture(departure)
-                let button = cell.rightButtons[index] as! MGSwipeButton
-                button.backgroundColor = UIColor.greenColor();
-            } else {
-                station2.setFavoriteDeparture(departure);
-                let button = cell.rightButtons[index] as! MGSwipeButton
-                button.backgroundColor = UIColor.redColor();
+            if let station2 = self.station {
+                if let departures: [TFCDeparture] = self.getDeparturesDependentOnView(station2) {
+                    let departure: TFCDeparture = departures[cell.tag]
+                    SKTUser.currentUser()?.addProperties(["usedFilters": true])
+                    let index = 0
+                    if (station2.isFavoriteDeparture(departure)) {
+                        station2.unsetFavoriteDeparture(departure)
+                        let button = cell.rightButtons[index] as! MGSwipeButton
+                        button.backgroundColor = UIColor.greenColor();
+                    } else {
+                        station2.setFavoriteDeparture(departure);
+                        let button = cell.rightButtons[index] as! MGSwipeButton
+                        button.backgroundColor = UIColor.redColor();
+                    }
+                    self.displayDepartures()
+                }
             }
-            self.displayDepartures()
             return true
         }
         var buttons:[AnyObject] = []
-        if (station != nil) {
-            let station2 = station!
+        if let station2 = station {
             let departures = getDeparturesDependentOnView(station2)
             if (departures != nil) {
                 if (direction == MGSwipeDirection.RightToLeft) {
