@@ -244,6 +244,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                 if let value = myValue as? [String: AnyObject], coordinates = value["coordinates"] as? [String: AnyObject], lng = coordinates["longitude"] as? CLLocationDegrees, lat = coordinates["latitude"] as? CLLocationDegrees {
                     TFCLocationManagerBase.setCurrentLocation(CLLocation(latitude: lat, longitude: lng ), time: coordinates["time"] as? NSDate)
                     DLog("coord was sent with __updateComplicationData__ \(lat), \(lng)", toFile: true)
+                    NSKeyedUnarchiver.setClass(TFCStation.classForKeyedUnarchiver(), forClassName: "timeforcoffeeKit.TFCStation")
                     if let station = value["station"] as? NSData, let sentStationDict = NSKeyedUnarchiver.unarchiveObjectWithData(station) as? [String:String] {
                         if let sentStation = TFCStation.initWithCache(sentStationDict), let departures = value["departures"] as? NSData {
                             NSKeyedUnarchiver.setClass(TFCDeparture.classForKeyedUnarchiver(), forClassName: "timeforcoffeeKit.TFCDeparture")
