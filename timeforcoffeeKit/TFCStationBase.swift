@@ -50,7 +50,11 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             if (self._coord != nil) {
                 return self._coord
             }
-            self._coord = CLLocation(latitude: (self.realmObject?.latitude?.doubleValue)!, longitude: (self.realmObject?.longitude?.doubleValue)!)
+
+            if let lat = self.realmObject?.latitude?.doubleValue,
+                let lon = self.realmObject?.longitude?.doubleValue {
+                    self._coord = CLLocation(latitude: lat, longitude: lon)
+            }
             return self._coord
         }
         set(location) {
@@ -875,9 +879,29 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                     //prevent loop in case we don't get new data
                     if (lastScheduledBefore == nil || lastScheduledBefore?.timeIntervalSinceReferenceDate < lastScheduled.timeIntervalSinceReferenceDate) {
                         // either go 2 hours into the future or at least until 8 o'clock in the morning (if the last one is after midnight and not more than 10 hours away)
-                        if ((lastScheduled.dateByAddingTimeInterval(2 * -3600).timeIntervalSinceNow < 0) ||
-                            ((lastScheduled.timeIntervalSinceDate(NSCalendar.currentCalendar().startOfDayForDate(lastScheduled)) < 3600 * 8)
-                                && (lastScheduled.dateByAddingTimeInterval(10 * -3600).timeIntervalSinceNow < 0))) {
+                        let hours:Double
+                        let doMorning:Bool
+                        var doIt:Bool = true
+                        #if os(watchOS)
+                            hours = 1.0
+                            doMorning = false
+                            // dont get more than 9 on watch to save some CPU, we don't show more anyway
+                            if (self.getFilteredDepartures()?.count > 8) {
+                                doIt = false
+                            }
+                        #else
+                            hours = 2.0
+                            doMorning = true
+                        #endif
+                        if (doIt && (
+                                (lastScheduled.dateByAddingTimeInterval(hours * -3600).timeIntervalSinceNow < 0)
+                                || (doMorning
+                                    && ((lastScheduled.timeIntervalSinceDate(NSCalendar.currentCalendar().startOfDayForDate(lastScheduled)) < 3600 * 8)
+                                        && (lastScheduled.dateByAddingTimeInterval(10 * -3600).timeIntervalSinceNow < 0)
+                                        )
+                                    )
+                                )
+                            ) {
                             self.updateDepartures(contextInfo?.completionDelegate, force: true, context: contextInfo?.context, startTime: lastScheduled)
                         }
                     }
@@ -890,9 +914,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
     }
     private func getLastDepartureDate() -> NSDate? {
-
-        return self.getDepartures()?.last?.getScheduledTimeAsNSDate()
-
+        return self.getFilteredDepartures()?.last?.getScheduledTimeAsNSDate()
     }
 
 
