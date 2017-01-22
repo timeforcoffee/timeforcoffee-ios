@@ -756,8 +756,8 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         return filteredDepartures
     }
 
-    public func getScheduledFilteredDepartures(limit:Int? = nil) -> [TFCDeparture]? {
-        let depts = self.getFilteredDepartures(limit)
+    public func getScheduledFilteredDepartures() -> [TFCDeparture]? {
+        let depts = self.getFilteredDepartures()
         if let depts = depts {
             let sorted = depts.sort({ (s1, s2) -> Bool in
                 return s1.getScheduledTimeAsNSDate() < s2.getScheduledTimeAsNSDate()
@@ -914,7 +914,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
     }
     private func getLastDepartureDate() -> NSDate? {
-        return self.getFilteredDepartures()?.last?.getScheduledTimeAsNSDate()
+        return self.getDepartures()?.last?.getScheduledTimeAsNSDate()
     }
 
 

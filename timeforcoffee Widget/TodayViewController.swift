@@ -496,7 +496,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         if (viewDidAppear == false && currentStation == nil) {
             return 0
         }
-        let departures = self.currentStation?.getFilteredDepartures(self.numberOfCells)
+        let departures = self.currentStation?.getFilteredDepartures(6)
         if (departures == nil || departures!.count == 0) {
             return 1
         }
@@ -562,7 +562,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             return cell
         }
         let station = currentStation
-        let departures = currentStation?.getFilteredDepartures(self.numberOfCells)
+        let departures = currentStation?.getFilteredDepartures(6)
         if (departures == nil || departures!.count == 0) {
             lineNumberLabel.hidden = true
             departureLabel.text = nil

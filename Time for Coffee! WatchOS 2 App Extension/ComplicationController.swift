@@ -156,7 +156,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
             if let station = stations?.getStation(0) { // corresponds to the favorited/closest station
                 func handleReply2(station: TFCStation?) {
                     if let station = station,
-                        departures = station.getScheduledFilteredDepartures(limit) {
+                        departures = station.getScheduledFilteredDepartures() {
                         DLog("firstStation: \(station.name) with \(departures.count) filtered departures", toFile: true)
 
                             var index = 0
