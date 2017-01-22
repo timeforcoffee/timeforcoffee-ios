@@ -133,7 +133,7 @@ public class TFCDataStoreBase: NSObject, WCSessionDelegate, NSFileManagerDelegat
                                         }
                                         if (key == "favorites3") {
                                             TFCFavorites.sharedInstance.repopulateFavorites()
-                                        } else if (key.hasPrefix("favorite")) {
+                                        } else if (key.hasPrefix("favorite") && key != "favorites2") {
                                             let st_id = key.replace("favorite", template: "")
                                             if let inMemoryObj = TFCStationBase.getFromMemoryCaches(st_id) {
                                                 inMemoryObj.repopulateFavoriteLines()
