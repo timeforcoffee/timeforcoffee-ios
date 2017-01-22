@@ -83,9 +83,10 @@ final public class TFCFavorites: NSObject {
                     stationIds.append(trimmed_id)
                 }
             }
-            self.stations.replace(stationIds: stationIds)
-            self.saveFavorites()
-            objects.dataStore?.setObject(3, forKey: "favoritesVersion")
+            if (stationIds.count > 0) {
+                self.stations.replace(stationIds: stationIds)
+                self.saveFavorites()
+            }
         }
         // end of update
     }
@@ -126,6 +127,7 @@ final public class TFCFavorites: NSObject {
             station.setStationSearchIndex()
         }
         objects.dataStore?.setObject(stationIds.sort() , forKey: "favorites3")
+        objects.dataStore?.setObject(3, forKey: "favoritesVersion")
         objects.dataStore?.synchronize()
     }
 
