@@ -194,11 +194,11 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                                 while (entries.count >= limit) {                                
                                     entries.popLast()
                                 }
-                                if let lastDepartureTimeNew = lastDepartureTimeNew, tmpl = templateForStationDepartures(station, departure: nil, nextDeparture: nil, complication: complication) {
+                            }
+                            if let lastDepartureTimeNew = lastDepartureTimeNew, tmpl = templateForStationDepartures(station, departure: nil, nextDeparture: nil, complication: complication) {
                                     let entry = CLKComplicationTimelineEntry(date: (lastDepartureTimeNew.dateByAddingTimeInterval(60)), complicationTemplate: tmpl)
                                     entries.append(entry)
-                                }
-                            }                           
+                            }
                     }
                     handler(entries)
                     DLog("finished getTimelineEntriesForComplication afterDate", toFile: true)
