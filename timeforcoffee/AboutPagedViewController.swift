@@ -18,8 +18,6 @@ final class AboutPagedViewController: UIViewController, SwipeViewDataSource, Swi
     @IBOutlet weak var bgImageLeft: NSLayoutConstraint!
     @IBAction func closeButtonAction(sender: AnyObject) {
         self.dismissViewControllerAnimated(true, completion: nil)
-
-
     }
 
     func numberOfItemsInSwipeView(swipeView: SwipeView!) -> Int {
@@ -49,6 +47,9 @@ final class AboutPagedViewController: UIViewController, SwipeViewDataSource, Swi
 
             let chatbutton = aboutview?.viewWithTag(20) as! UIButton
             chatbutton.addTarget(self, action: #selector(AboutPagedViewController.startChat), forControlEvents: UIControlEvents.TouchUpInside
+            )
+            let reviewbutton = aboutview?.viewWithTag(30) as! UIButton
+            reviewbutton.addTarget(self, action: #selector(AboutPagedViewController.reviewApp), forControlEvents: UIControlEvents.TouchUpInside
             )
 
             if let coffeeimg = aboutview?.viewWithTag(40) as? UIImageView {
@@ -84,6 +85,12 @@ final class AboutPagedViewController: UIViewController, SwipeViewDataSource, Swi
 
     func startChat() {
         Smooch.show()
+    }
+
+    func reviewApp() {
+        if let path = NSURL(string: "itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=990987379&onlyLatestVersion=true&pageNumber=0&sortOrdering=1&type=Purple+Software") {
+            UIApplication.sharedApplication().openURL(path)
+        }
     }
 
     func openSettings() {
