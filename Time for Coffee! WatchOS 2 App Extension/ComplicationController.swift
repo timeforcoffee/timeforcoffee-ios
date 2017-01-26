@@ -482,11 +482,11 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
 
     private func updateDepartures(station: TFCStation, context: Any) {
         station.removeObsoleteDepartures()
-        // if we have at least 2 departures, that's enough to update the complications
+        // if we have at least 4 departures, that's enough to update the complications
         // the data will be updated somewhere else later
-        if (station.getFilteredDepartures()?.count > 1) {
+        if (station.getFilteredDepartures()?.count > 3) {
             if let reply = context as? replyStation {
-                DLog("we already have departures for a complication update, dont get new ones")
+                DLog("we already have \(station.getFilteredDepartures()?.count) departures for a complication update, dont get new ones")
                 reply(station)
                 return
             }
