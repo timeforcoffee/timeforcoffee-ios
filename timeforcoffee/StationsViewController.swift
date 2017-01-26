@@ -53,11 +53,15 @@ class StationsViewController: TFCBaseViewController {
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let detailsViewController: DeparturesViewController = segue.destinationViewController as! DeparturesViewController
-
+        if let station = sender as! TFCStation? {
+            detailsViewController.setStation(station: station)
+            return
+        }
         let index = appsTableView?.indexPathForSelectedRow?.row
         if (index != nil) {
-            let station = appsTableView?.stations.getStation(index!)
-            detailsViewController.setStation(station: station!);
+            if let station = appsTableView?.stations.getStation(index!) {
+                detailsViewController.setStation(station: station);
+            }
         }
 
     }

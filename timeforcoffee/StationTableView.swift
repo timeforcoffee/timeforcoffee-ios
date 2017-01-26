@@ -116,7 +116,8 @@ final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.stationsViewController?.performSegueWithIdentifier("SegueToStationView", sender: tableView)
+        let cell:StationTableViewCell? = tableView.cellForRowAtIndexPath(indexPath) as! StationTableViewCell?
+        self.stationsViewController?.performSegueWithIdentifier("SegueToStationView", sender: cell?.station)
     }
 
     func removePullToRefresh() {
