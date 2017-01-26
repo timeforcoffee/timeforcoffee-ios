@@ -797,7 +797,8 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         // somehow ugly, but couldn't come up with a better solution
         if let downloadingSince = self.departureUpdateDownloading {
             if (downloadingSince.timeIntervalSinceNow > -5) {
-                delay(1.0, closure: {
+                let delayTime = Double.random(0.7, max: 1.2)
+                delay(delayTime, closure: {
                       self.updateDepartures(completionDelegate, force: force, context: context, cachettl: cachettl, startTime: startTime, onlyFirstDownload: true)
                     }
                     )
