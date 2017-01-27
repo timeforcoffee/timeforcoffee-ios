@@ -261,7 +261,7 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
         }
         if (sessionActive) {
             if (self.session?.isReachable == true && (trySendMessage || self.session?.outstandingUserInfoTransfers.count > 10)) {
-                DLog("outstanding UserInfoTransfers \(self.session?.outstandingUserInfoTransfers.count )")
+                DLog("outstanding UserInfoTransfers \(String(describing: self.session?.outstandingUserInfoTransfers.count ))")
                 self.session?.sendMessage(message, replyHandler: nil, errorHandler: {(error: Error) in
                     DLog("sendMessage failed due to error \(error): Send via transferUserInfo")
                     self.session?.transferUserInfo(message)
@@ -287,7 +287,7 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
                         if let sentStation = TFCStation.initWithCache(sentStationDict), let departures = value["departures"] as? Data {
                             NSKeyedUnarchiver.setClass(TFCDeparture.classForKeyedUnarchiver(), forClassName: "timeforcoffeeKit.TFCDeparture")
                             let sentDepartures = NSKeyedUnarchiver.unarchiveObject(with: departures) as? [TFCDeparture]
-                            DLog("station sent with __updateComplicationData__: \(sentStation.name) id: \(sentStation.st_id) with \(sentDepartures?.count) departures")
+                            DLog("station sent with __updateComplicationData__: \(sentStation.name) id: \(sentStation.st_id) with \(String(describing: sentDepartures?.count)) departures")
                             sentStation.addDepartures(sentDepartures)
                             sentStation.lastDepartureUpdate = Date()
                             #if DEBUG
@@ -355,7 +355,7 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
     @available(iOSApplicationExtension 9.3, *)
     @available(watchOSApplicationExtension 2.2, *)
     open func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        DLog("activationDidCompleteWithState. state \(activationState) error \(error)")
+        DLog("activationDidCompleteWithState. state \(activationState) error \(String(describing: error))")
     }
 
     @available(iOSApplicationExtension 9.0, *)
@@ -549,20 +549,20 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
                             if (!(remaining > 0)) {
                                 useComplicationTransfer = false
                             }
-                            DLog("remainingComplicationUserInfoTransfers: \(remaining)", toFile: true)
+                            DLog("remainingComplicationUserInfoTransfers: \(String(describing: remaining))", toFile: true)
                         }
                         var data:[String:Any] = [:]
 
                         if let coord = coord {
-                            DLog("send __updateComplicationData__ \(coord) (triggered for \(station?.name)) id: \(station?.st_id)", toFile: true)
+                            DLog("send __updateComplicationData__ \(coord) (triggered for \(String(describing: station?.name))) id: \(station?.st_id)", toFile: true)
                             data["coordinates"] = [ "longitude": coord.longitude, "latitude": coord.latitude, "time": Date()]
                         } else if let coord = firstStation.coord?.coordinate {
-                            DLog("send __updateComplicationData__ with \(coord) for \(station?.name) id: \(station?.st_id)", toFile: true)
+                            DLog("send __updateComplicationData__ with \(coord) for \(String(describing: station?.name)) id: \(station?.st_id)", toFile: true)
                             data["coordinates"] = [ "longitude": coord.longitude, "latitude": coord.latitude]
                         }
                         #if DEBUG
                             if let name = station?.name {
-                                self.localNotificationCallback?("Complication sent for \(name). Remaining: \(remaining)")
+                                self.localNotificationCallback?("Complication sent for \(name). Remaining: \(String(describing: remaining))")
                             }
                         #endif
                         data["station"] =  NSKeyedArchiver.archivedData(withRootObject: firstStation.getAsDict())

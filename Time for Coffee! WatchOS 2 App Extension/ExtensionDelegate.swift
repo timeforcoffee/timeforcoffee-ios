@@ -42,7 +42,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
 
     func askForFavoriteData(_ noDelay:Bool = false) {
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async {
+        DispatchQueue.global(qos: .utility).async {
             TFCDataStore.sharedInstance.registerWatchConnectivity()
             /* Request for all Favorite Data every 24 hours (or if never done)
              I'm not sure, how reliable the WatchConnectivity is and if never
@@ -72,7 +72,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     func applicationDidBecomeActive() {
         DLog("__", toFile: true)
         TFCWatchDataFetch.sharedInstance.fetchDepartureData()
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async {
+        DispatchQueue.global(qos: .utility).async {
             TFCDataStore.sharedInstance.registerWatchConnectivity()
         }
     }
@@ -114,7 +114,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     }
 
     func handleUserActivity(_ userInfo: [AnyHashable: Any]?) {
-        DLog("handleUserActivity \(userInfo ?? nil)", toFile: true)
+        DLog("handleUserActivity \(String(describing: userInfo ?? nil))", toFile: true)
 
         if let userInfo = userInfo {
             var uI:[String:String]? = nil
@@ -122,7 +122,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 //TFCURLSession.sharedInstance.cancelURLSession()
                 if let lastId = UserDefaults(suiteName: "group.ch.opendata.timeforcoffee")?.string(forKey: "lastFirstStationId") {
                     uI = ["st_id": lastId]
-                    DLog("\(uI ?? nil)", toFile: true)
+                    DLog("\(String(describing: uI))", toFile: true)
                     if let station = TFCStation.initWithCacheId(lastId) {
                         TFCWatchDataFetch.sharedInstance.fetchDepartureDataForStation(station)
                     }
@@ -205,7 +205,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 let ud = TFCDataStore.sharedInstance.getUserDefaults()
                 let lastBackgroundRefreshDate = ud?.object(forKey: "lastBackgroundRefreshDate") as? Date
                 if (lastBackgroundRefreshDate == nil || lastBackgroundRefreshDate < Date()) {
-                    DLog("lastBackgroundRefreshDate \(lastBackgroundRefreshDate) older than now. set new schedule ", toFile: true)
+                    DLog("lastBackgroundRefreshDate \(String(describing: lastBackgroundRefreshDate)) older than now. set new schedule ", toFile: true)
                     self.watchdata.scheduleNextUpdate(noBackOffIncr: true)
                 }
                 DispatchQueue.main.async(execute: {

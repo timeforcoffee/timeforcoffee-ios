@@ -186,7 +186,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         var drawAsNewStation = false
 
         let isNewStation = (self.lastShownStationId != station?.st_id)
-        DLog("\(self.lastShownStationId) != \(station?.st_id) || \(self.initTable) || \(station?.getDepartures()?.count)", toFile: true)
+        DLog("\(String(describing: self.lastShownStationId)) != \(String(describing: station?.st_id)) || \(self.initTable) || \(String(describing: station?.getDepartures()?.count))", toFile: true)
         if (!isInBackground && (isNewStation || self.initTable || !(station?.getDepartures()?.count > 0))) {
             DLog("Load new station", toFile: true)
             drawAsNewStation = true
@@ -200,8 +200,8 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             self.lastShownStationId = station?.st_id
         }
         self.initTable = false
-        self.station?.removeObsoleteDepartures()
-        self.displayDepartures(self.station)
+        let _ = self.station?.removeObsoleteDepartures()
+        let _ = self.displayDepartures(self.station)
         if drawAsNewStation {
             self.clearAllMenuItems()
             if (self.station?.isFavorite() == true) {
@@ -225,11 +225,11 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         if (self.activated) {
             DispatchQueue.main.async {
                 // reload station from cache
-                DLog("count before for \(self.station?.name): \(self.station?.getDepartures()?.count)", toFile: true)
+                DLog("count before for \(String(describing: self.station?.name)): \(String(describing: self.station?.getDepartures()?.count))", toFile: true)
                 if let st_id = self.station?.st_id {
                     self.station = TFCStation.initWithCacheId(st_id)
                 }
-                DLog("count after for \(self.station?.name): \(self.station?.getDepartures()?.count)", toFile: true)
+                DLog("count after for \(String(describing: self.station?.name)): \(String(describing: self.station?.getDepartures()?.count))", toFile: true)
                 self.departuresUpdated(nil, context: nil, forStation: self.station)
             }
         }
@@ -258,7 +258,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     }
 
     func departuresUpdated(_ error: Error?, context: Any?, forStation: TFCStation?) {
-        DLog("departuresUpdated for \(forStation?.name)", toFile: true)
+        DLog("departuresUpdated for \(String(describing: forStation?.name))", toFile: true)
         let displayed = self.displayDepartures(forStation)
         let context2:[String:String]? = context as? [String:String]
         if (displayed && context2?["cached"] != "true") {
@@ -271,7 +271,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     }
 
     fileprivate func displayDepartures(_ station: TFCStation?) -> Bool {
-        DLog("displayDepartures for \(station?.name)", toFile: true)
+        DLog("displayDepartures for \(String(describing: station?.name))", toFile: true)
         if (station == nil) {
             DLog("end displayDepartures. returnValue: station == nil", toFile: true)
 

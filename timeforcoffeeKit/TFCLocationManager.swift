@@ -49,7 +49,7 @@ public final class TFCLocationManager: TFCLocationManagerBase {
             DLog("arrival Date: \(visit.arrivalDate)")
             DLog("arrival Loc: \(visit.coordinate)")
 
-            self.delegate?.locationVisit?(visit.coordinate, date: visit.arrivalDate, arrival: true)
+            let _ = self.delegate?.locationVisit?(visit.coordinate, date: visit.arrivalDate, arrival: true)
         } else {
             DLog("did Visit received gone")
             DLog("departed Date: \(visit.departureDate)")

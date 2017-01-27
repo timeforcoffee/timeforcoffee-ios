@@ -78,7 +78,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
 
     public func locationFixed(_ loc: CLLocation?) {
         if let coord = loc?.coordinate {
-            DLog("location fixed \(loc)", toFile: true)
+            DLog("location fixed \(String(describing: loc))", toFile: true)
             replyNearby!(["lat" : coord.latitude, "long": coord.longitude]);
         } 
     }
@@ -118,7 +118,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
 
     public func waitForNewLocation(within seconds:Int, callback: @escaping () -> Void) {
 
-        let queue = DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default)
+        let queue = DispatchQueue.global(qos: .default)
         queue.async {
             self.waitForNewLocation(within: seconds, counter: 0, queue: queue, callback: callback)
         }
@@ -196,7 +196,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
         #endif
         func handleReply(_ replyInfo: [AnyHashable: Any]!) {
             startCrunchQueue {
-                DLog("searchForStationsInDB handleReply getStations \(replyInfo) \(reply)", toFile: true)
+                DLog("searchForStationsInDB handleReply getStations \(replyInfo) \(String(describing: reply))", toFile: true)
                 if(replyInfo["lat"] != nil) {
                     let loc = CLLocation(latitude: replyInfo["lat"] as! Double, longitude: replyInfo["long"] as! Double)
                     if (favoritesOnly == true) {
@@ -216,7 +216,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
                         reply!(self.stations)
                         return
                     }
-                    self.stations?.initWithNearbyFavorites(loc)
+                    let _ = self.stations?.initWithNearbyFavorites(loc)
                     if (stopWithFavorites == true && self.stations?.count() > 0 && reply != nil ) {
                         DLog("searchForStationsInDB stopWithFavorites", toFile: true)
                         reply!(self.stations)
@@ -315,7 +315,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
             nextUpdateDate =  getBackOffTime(noBackOffIncr: noBackOffIncr) // request an update in 5 minutes, if no lastDepartureTime was set.
         }
         if nextUpdateDate < Date() {
-            DLog("WARNING: \(nextUpdateDate) < \(Date())")
+            DLog("WARNING: \(String(describing: nextUpdateDate)) < \(Date())")
             nextUpdateDate = getBackOffTime(noBackOffIncr: true)
         }
         if let minTime = minTime {
@@ -337,21 +337,21 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
 
             ud?.set(nextUpdate, forKey: "lastBackgroundRefreshDate")
             WKExtension.shared().scheduleBackgroundRefresh(withPreferredDate: nextUpdate, userInfo: nil) { (error) in
-                DLog("updated next schedule at \(nextUpdate.formattedWithDateFormatter(DLogDateFormatter)) error: \(error)", toFile: true)
+                DLog("updated next schedule at \(nextUpdate.formattedWithDateFormatter(DLogDateFormatter)) error: \(String(describing: error))", toFile: true)
             }
         }        
     }
     public func needsTimelineDataUpdate(_ station: TFCStation) -> Bool {
         let ud = TFCDataStore.sharedInstance.getUserDefaults()
 
-        DLog("lastDepartureTime:NSDate = \(ud?.object(forKey: "lastDepartureTime") as? Date)", toFile: true)
-        DLog("lastFirstStationId = \(ud?.string(forKey: "lastFirstStationId"))", toFile: true)
-        DLog("departures = \(station.getFilteredDepartures()?.count))", toFile: true)
+        DLog("lastDepartureTime:NSDate = \(String(describing: ud?.object(forKey: "lastDepartureTime") as? Date))", toFile: true)
+        DLog("lastFirstStationId = \(String(describing: ud?.string(forKey: "lastFirstStationId")))", toFile: true)
+        DLog("departures = \(String(describing: station.getFilteredDepartures()?.count)))", toFile: true)
 
         if let ud = ud, let lastDepartureTime:Date = ud.object(forKey: "lastDepartureTime") as? Date,
             let lastFirstStationId = ud.string(forKey: "lastFirstStationId"),
             let departures = station.getFilteredDepartures() {
-            DLog("\(departures.last?.getScheduledTimeAsNSDate()) <= \(lastDepartureTime)", toFile: true)
+            DLog("\(String(describing: departures.last?.getScheduledTimeAsNSDate())) <= \(lastDepartureTime)", toFile: true)
 
             let backthreehours = Date().addingTimeInterval(-3600 * 3)
             // if complication code didn't run for thre hours, try it
@@ -396,7 +396,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
             DLog("timeIntervalSinceNow \(lastDepartureTime.addingTimeInterval(4 * -3600).timeIntervalSinceNow)")
             DLog("lastDepartureTime: \(lastDepartureTime)")
             DLog("lastFirstStationId: \(lastFirstStationId)")
-            DLog("station.getFilteredDepartures()?.count: \(station.getFilteredDepartures()?.count)")
+            DLog("station.getFilteredDepartures()?.count: \(String(describing: station.getFilteredDepartures()?.count))")
 
         }
         return true

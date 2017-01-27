@@ -45,7 +45,7 @@ class GATracker {
     }
 
     func sendScreenName(_ name:String) {
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async {
+        DispatchQueue.global(qos: .utility).async {
             self.gtracker?.defaultTracker.set(kGAIScreenName, value: name)
             var s = GAIDictionaryBuilder.createScreenView()
             for (key, value) in self.toBeSentCustomDimensions {

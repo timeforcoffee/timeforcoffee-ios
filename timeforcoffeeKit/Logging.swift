@@ -283,10 +283,10 @@ private func DLog2WatchConnectivity(_ text:String) {
         let message = ["__logThis__": text]
         let session = WCSession.default()
         if (session.isReachable == true) {
-            session.sendMessage(message, replyHandler: nil, errorHandler: {(error: NSError) in
+            session.sendMessage(message, replyHandler: nil, errorHandler: {(error: Error) in
                 DLog("send Log Message failed due to error \(error): Send via transferUserInfo")
                 session.transferUserInfo(message)
-            } as! (Error) -> Void)
+            })
         } else {
             session.transferUserInfo(message)
         }

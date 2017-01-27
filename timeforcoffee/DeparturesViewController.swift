@@ -133,7 +133,7 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
     override func viewDidAppear(_ animated: Bool) {
         DLog("viewDidAppear")
         super.viewDidAppear(animated)
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async {
+        DispatchQueue.global(qos: .utility).async {
             let gtracker = GATracker.sharedInstance
             gtracker?.sendScreenName("departures")
         }
@@ -143,7 +143,7 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
         if let station2 = self.station {
             //check if the icon is cache already for mapview later.
             if (!self.checkIfIconIsCachedAsImage(station2)) {
-                self.getIconViewAsImage(self.stationIconView, station: station2)
+               let _ = self.getIconViewAsImage(self.stationIconView, station: station2)
             }
             station2.setStationActivity()
             if #available(iOS 9.0, *) {
@@ -341,7 +341,7 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
             lineNumberLabel.isHidden = false
             if let departures = departures {
                 if (indexPath.row < departures.count) {
-                    if let departure: TFCDeparture = departures[indexPath.row] {
+                    let departure = departures[indexPath.row]
                         //if on first row and it's in the past, remove obsolete departures and reload
                         if (indexPath.row == 0 && departure.getMinutesAsInt()! < 0) {
                             DispatchQueue.main.async {
@@ -392,7 +392,6 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
                                     comment: "Accessibilty Departure"), departure.getLine(), departure.getDestination(station, unabridged: false), minutes, platformStr, time)
                             cell.accessibilityLabel = access
                         }
-                    }
                 }
             }
 

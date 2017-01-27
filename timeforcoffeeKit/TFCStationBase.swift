@@ -136,7 +136,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                     // don't store it on watchOS, it's slower than calculating it on startup
                     #if os(watchOS)
                     #else
-                        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async {
+                        DispatchQueue.global(qos: .utility).async {
                             let cache: PINCache = TFCCache.objects.stations
                             cache.setObject(self, forKey: self.st_id)
                         }
@@ -258,7 +258,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             TFCStationBase.instances[self.st_id]  = 1
         }
         if (TFCStationBase.instances[self.st_id] > 1) {
-            DLog("WARN: init of \(self.st_id) \(self.name) has \(TFCStationBase.instances[self.st_id]) instances ", toFile: true)
+            DLog("WARN: init of \(self.st_id) \(self.name) has \(String(describing: TFCStationBase.instances[self.st_id])) instances ", toFile: true)
         }
         #endif
     }
@@ -409,7 +409,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                                 TFCStationBase.saveToPincache(newStation)
 
                             } else {
-                                TFCStation.initWithCache(name, id: id, coord: location)
+                                let _ = TFCStation.initWithCache(name, id: id, coord: location)
                             }
                         }
                     } else {
@@ -449,7 +449,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         let cache: PINCache = TFCCache.objects.stations
 
         // if already in the PINCcache cache, we can just return it
-        if let newStation = cache.memoryCache.object(forKey: id) as? TFCStation {
+        if let newStation = cache.memoryCache.object(forKey: id as String?) as? TFCStation {
             return newStation
         }
         // check if we have it in the stationCache
@@ -833,7 +833,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             }
         }
 
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async {
+        DispatchQueue.global(qos: .default).async {
             var context2: contextData = contextData()
             context2.completionDelegate = completionDelegate
             context2.context = context
@@ -1073,11 +1073,11 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                                 self.realmObject?.countryISO = iso
                             }
                         } else {
-                            DLog("object \(self.name) could not be saved: \(self.realmObject?.faultingState)")
+                            DLog("object \(self.name) could not be saved: \(String(describing: self.realmObject?.faultingState))")
                         }
                     } else {
                         if (error != nil) {
-                            DLog("\(self.name) error getting Location data: \((error as! NSError).userInfo)")
+                            DLog("\(self.name) error getting Location data: \(error!)")
                         }
                     }
                 }

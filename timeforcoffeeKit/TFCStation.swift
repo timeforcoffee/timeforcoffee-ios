@@ -76,9 +76,8 @@ open class TFCStation: TFCStationBase {
             }  else {
                 self.walkingDistanceLastCoord = nil
                 self.walkingDistanceString = nil
-                DLog("No response")
+                DLog("No response \(error)")
                 completion(nil)
-                print((error as? NSError)?.description)
             }
 
         })
@@ -212,8 +211,8 @@ open class TFCStation: TFCStationBase {
         let attributeSet = CSSearchableItemAttributeSet(itemContentType: kUTTypeText as String)
         attributeSet.title = self.getName(false)
         attributeSet.supportsNavigation = 1
-        attributeSet.latitude = self.getLatitude() as! NSNumber
-        attributeSet.longitude = self.getLongitude() as! NSNumber
+        attributeSet.latitude = self.getLatitude() as NSNumber?
+        attributeSet.longitude = self.getLongitude() as NSNumber?
         attributeSet.relatedUniqueIdentifier = self.st_id
         attributeSet.keywords = getKeywords()
         return attributeSet

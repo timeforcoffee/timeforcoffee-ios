@@ -82,7 +82,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
         func handleReply(_ stations: TFCStations?) {
             if let station = stations?.getStation(0) {
                 let departures = station.getScheduledFilteredDepartures()
-                DLog("firstStation: \(station.name) with \(departures?.count) filtered departures", toFile: true)
+                DLog("firstStation: \(station.name) with \(String(describing: departures?.count)) filtered departures", toFile: true)
                 if let ud =  UserDefaults(suiteName: "group.ch.opendata.timeforcoffee") {
                     ud.set(Date(), forKey: "lastComplicationUpdate")
                     ud.setValue(station.st_id, forKey: "lastComplicationStationId")
@@ -137,10 +137,10 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
             if let station = stations?.getStation(0) { // corresponds to the last favorited station or closest station
                 func handleReply2(_ station:TFCStation?) {
                     //just take the first entry here... It's the one we want to display
-                    station?.removeObsoleteDepartures()
+                    let _ = station?.removeObsoleteDepartures()
                     if let departures = station?.getScheduledFilteredDepartures(),
                         let departure = departures.first {
-                        DLog("firstStation: \(station?.name) with \(departures.count) filtered departures", toFile: true)
+                        DLog("firstStation: \(String(describing: station?.name)) with \(departures.count) filtered departures", toFile: true)
 
                         let thisEntryDate = timelineEntryDateForDeparture(departure, previousDeparture: nil)
                         let nextDeparture: TFCDeparture? = (departures.count >= 2) ? departures[1] : nil
@@ -216,7 +216,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                             if (entries.count > 0) {
                                 //remove all entries until we're one below the limit
                                 while (entries.count >= limit) {                                
-                                    entries.popLast()
+                                    let _ = entries.popLast()
                                 }
                             }
                             if let lastDepartureTimeNew = lastDepartureTimeNew, let tmpl = templateForStationDepartures(station, departure: nil, nextDeparture: nil, complication: complication) {
@@ -505,12 +505,12 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     }
 
     fileprivate func updateDepartures(_ station: TFCStation, context: Any) {
-        station.removeObsoleteDepartures()
+        let _ = station.removeObsoleteDepartures()
         // if we have at least 4 departures, that's enough to update the complications
         // the data will be updated somewhere else later
         if (station.getFilteredDepartures()?.count > 3) {
             if let reply = context as? replyStation {
-                DLog("we already have \(station.getFilteredDepartures()?.count) departures for a complication update, dont get new ones")
+                DLog("we already have \(String(describing: station.getFilteredDepartures()?.count)) departures for a complication update, dont get new ones")
                 reply(station)
                 return
             }

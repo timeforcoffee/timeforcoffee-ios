@@ -253,7 +253,7 @@ open class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
         if (classvar._lastUpdateCurrentLocation?.timeIntervalSinceNow < TimeInterval(-notOlderThanSeconds)) {
             return nil
         }
-        DLog("still cached since \(classvar._lastUpdateCurrentLocation) , \(currentLocation)")
+        DLog("still cached since \(String(describing: classvar._lastUpdateCurrentLocation)) , \(String(describing: currentLocation))")
 
         return currentLocation
     }

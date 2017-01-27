@@ -155,9 +155,9 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         self.lastInitTime = Date()
         super.init(coder: aDecoder)
         self.setLoadingStage(2)
-        self.lastViewedStation?.removeObsoleteDepartures()
+        let _ = self.lastViewedStation?.removeObsoleteDepartures()
         self.currentStation = self.lastViewedStation
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async {
+        DispatchQueue.global(qos: .utility).async {
             TFCCrashlytics.sharedInstance.initCrashlytics()
             self.datastore.registerForNotifications()
             self.datastore.synchronize()
@@ -249,7 +249,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        DLog("viewWillAppear \(self.lastInitTime?.timeIntervalSinceNow)", toFile: true)
+        DLog("viewWillAppear \(String(describing: self.lastInitTime?.timeIntervalSinceNow))", toFile: true)
         // some old devices (my 4S) don't deinit/init properly, that's a way to not show outdated info
         if (self.lastInitTime?.timeIntervalSinceNow < -10 && (
             floor(self.lastInitTime!.timeIntervalSinceReferenceDate / 60) !=  floor(Date.timeIntervalSinceReferenceDate / 60))) {
@@ -283,7 +283,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     }
 
     override func viewDidDisappear(_ animated: Bool) {
-        DLog("viewDidDisappear, memsize: \(TFCCache.getMemorySize())", toFile: true)
+        DLog("viewDidDisappear, memsize: \(String(describing: TFCCache.getMemorySize()))", toFile: true)
         TFCURLSession.sharedInstance.cancelURLSession()
     }
     func widgetPerformUpdate(completionHandler: @escaping ((NCUpdateResult) -> Void)) {
@@ -305,7 +305,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
         self.sendCompletionHandler()
 
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async {
+        DispatchQueue.global(qos: .default).async {
             DLog("updateViewAfterStart", toFile: true)
             if (self.getLastUsedView() == "nearbyStations") {
                 self.sendScreenNameToGA("todayviewNearby")
@@ -328,7 +328,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                 self.setLoadingStage(2)
                 self.locManager?.refreshLocation()
             }
-            self.stations?.updateStations()
+            let _ = self.stations?.updateStations()
         }
     }
 
@@ -357,7 +357,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     override func locationFixed(_ coord: CLLocation?) {
         self.setLoadingStage(1)
 
-        DLog("locationFixed \(coord)", toFile: true)
+        DLog("locationFixed \(String(describing: coord))", toFile: true)
         if (coord != nil) {
             if (locManager?.currentLocation != nil) {
                 // if lastUsedView is a single station and we did look at it no longer than 30 minutes
@@ -415,7 +415,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         } else { // if (stations?.count() > 0) {
             showStations = true
             populateStationsFromLastUsed()
-            stations?.updateStations(false)
+            let _ = stations?.updateStations(false)
             self.appsTableView?.reloadData()
             sendScreenNameToGA("todayviewNearby")
         }
@@ -590,33 +590,32 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         cell.textLabel?.text = nil
         if let departures = departures {
             if (indexPath.row < departures.count) {
-                if let departure: TFCDeparture = departures[indexPath.row] {
-                    //if on first row and it's in the past, remove obsolete departures and reload
-                    if (indexPath.row == 0 && departure.getMinutesAsInt() < 0) {
-                        DispatchQueue.main.async {
-                            station?.removeObsoleteDepartures(true)
-                            self.appsTableView?.reloadData()
-                        }
+                let departure: TFCDeparture = departures[indexPath.row]
+                //if on first row and it's in the past, remove obsolete departures and reload
+                if (indexPath.row == 0 && departure.getMinutesAsInt() < 0) {
+                    DispatchQueue.main.async {
+                        let _ = station?.removeObsoleteDepartures(true)
+                        self.appsTableView?.reloadData()
                     }
-                    var unabridged = false
-                    if (UIDeviceOrientationIsLandscape(UIDevice.current.orientation)) {
-                        unabridged = true
-                    }
-                    destinationLabel.text = departure.getDestination(station, unabridged: unabridged)
-
-                    let (departureTimeAttr, departureTimeString) = departure.getDepartureTime()
-                    if (departureTimeAttr != nil) {
-                        departureLabel.text = nil
-                        departureLabel.attributedText = departureTimeAttr
-                    } else {
-                        departureLabel.attributedText = nil
-                        departureLabel.text = departureTimeString
-                    }
-
-                    minutesLabel.text = departure.getMinutes()
-                    lineNumberLabel.isHidden = false
-                    lineNumberLabel.setStyle("dark", departure: departure)
                 }
+                var unabridged = false
+                if (UIDeviceOrientationIsLandscape(UIDevice.current.orientation)) {
+                    unabridged = true
+                }
+                destinationLabel.text = departure.getDestination(station, unabridged: unabridged)
+
+                let (departureTimeAttr, departureTimeString) = departure.getDepartureTime()
+                if (departureTimeAttr != nil) {
+                    departureLabel.text = nil
+                    departureLabel.attributedText = departureTimeAttr
+                } else {
+                    departureLabel.attributedText = nil
+                    departureLabel.text = departureTimeString
+                }
+
+                minutesLabel.text = departure.getMinutes()
+                lineNumberLabel.isHidden = false
+                lineNumberLabel.setStyle("dark", departure: departure)
             }
         }
         return cell
@@ -655,7 +654,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                     if (cellinstance.stationId == forStation?.st_id) {
                         cellinstance.drawCell()
                     } else {
-                        cellinstance.getStation()
+                        let _ = cellinstance.getStation()
                         cellinstance.station?.updateDepartures(self, onlyFirstDownload: true)
                     }
                 }

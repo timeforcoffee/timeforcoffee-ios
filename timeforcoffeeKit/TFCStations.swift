@@ -352,7 +352,7 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
     public func didReceiveAPIResults(_ results: JSON?, error: Error?, context: Any?) {
         isLoading = false
         var err: String? = nil
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async {
+        DispatchQueue.global(qos: .default).async {
             if (error != nil && (error! as NSError).code != -999 || results == nil) {
                 err =  "Network error. Please try again"
             } else {
@@ -374,7 +374,7 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
     }
 
     fileprivate func callStationsUpdatedDelegate(_ err: String?, favoritesOnly: Bool, context: Any?) {
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async {
+        DispatchQueue.global(qos: .default).async {
             if (err == TFCLocationManager.k.AirplaneMode) {
                 self.loadingMessage = "Airplane Mode?"
             } else {

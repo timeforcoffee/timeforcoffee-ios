@@ -41,10 +41,10 @@ final class NearbyStationsTableViewCell: UITableViewCell {
     func drawCell(_ drawDepartures:Bool = true) {
         self.selectionStyle = UITableViewCellSelectionStyle.none
         if (station == nil && stationId != nil) {
-            getStation()
+            let _ = getStation()
         }
         if (drawDepartures) {
-            station?.removeObsoleteDepartures()
+            let _ = station?.removeObsoleteDepartures()
         }
         drawIcon(station)
 
@@ -57,7 +57,7 @@ final class NearbyStationsTableViewCell: UITableViewCell {
 
             var minutesAsInt = firstDeparture?.getMinutesAsInt()
             if (minutesAsInt != nil && minutesAsInt! < 0) {
-                station?.removeObsoleteDepartures(true)
+                let _ = station?.removeObsoleteDepartures(true)
                 firstDeparture = departures?.first
                 minutesAsInt = firstDeparture?.getMinutesAsInt()
             }
