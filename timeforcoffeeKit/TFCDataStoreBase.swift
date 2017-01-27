@@ -232,7 +232,7 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
         if let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: "iCloud.ch.opendata.timeforcoffee")?.appendingPathComponent("Documents") {
             let fileManager = FileManager.default
             do {
-                if let url = file.fileURL {
+                if let url = file.fileURL as URL? {
                     let filename = url.lastPathComponent
                     let moveTo = iCloudDocumentsURL.appendingPathComponent(filename)
                     DLog("received file \(filename)", toFile: true)
@@ -241,7 +241,6 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
                     }
                     try fileManager.moveItem(at: url, to: moveTo)
                 }
-
             }
             catch let error {
                 DLog("Ooops! Something went wrong: \(error)")

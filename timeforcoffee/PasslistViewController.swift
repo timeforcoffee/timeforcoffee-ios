@@ -29,7 +29,7 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
     @IBOutlet weak var stationIconButton: DepartureLineLabel!
 
     @IBAction func BackButtonClicked(_ sender: UIButton) {
-        self.navigationController?.popViewController(animated: true)
+        let _ = self.navigationController?.popViewController(animated: true)
     }
 
     @IBAction func iconTouchUp(_ sender: UIButton) {

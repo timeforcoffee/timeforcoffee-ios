@@ -29,7 +29,7 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
     @IBOutlet weak var stationIconButton: UIButton!
 
     @IBAction func BackButtonClicked(_ sender: UIButton) {
-        self.navigationController?.popViewController(animated: true)
+        let _ = self.navigationController?.popViewController(animated: true)
     }
 
     var viewAppeared: Bool = false

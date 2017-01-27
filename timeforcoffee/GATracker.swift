@@ -52,7 +52,9 @@ class GATracker {
                 s = s?.set(value, forKey: key)
             }
             self.toBeSentCustomDimensions.removeAll()
-            self.gtracker?.defaultTracker.send(s?.build() as! [AnyHashable: Any]!)
+            if let builder = s?.build() {
+                self.gtracker?.defaultTracker.send(builder as [NSObject : AnyObject])
+            }
         }
 
     }
