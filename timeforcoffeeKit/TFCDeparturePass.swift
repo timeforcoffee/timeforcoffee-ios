@@ -158,7 +158,6 @@ open class TFCDeparturePass: NSObject {
     }
 
     fileprivate class func parseDate(_ dateStr:String) -> Date? {
-        DLog("parseDate \(dateStr)", toFile: true, sync: true)
         if let date = LongDateFormatter.date(from: dateStr) {
             return date
         }
