@@ -585,14 +585,18 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
     }
 
     open func saveContext () {
-        if TFCDataStore.sharedInstance.managedObjectContext.hasChanges {
-            do {
-                try TFCDataStore.sharedInstance.managedObjectContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nserror = error as NSError
-                DLog("Unresolved error \(nserror), \(nserror.userInfo)")
+        TFCDataStore.sharedInstance.managedObjectContext.perform {
+            if TFCDataStore.sharedInstance.managedObjectContext.hasChanges {
+                do {
+                    DLog("saveContext")
+                    try TFCDataStore.sharedInstance.managedObjectContext.save()
+                } catch let error as NSError {
+                    // Replace this implementation with code to handle the error appropriately.
+                    // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                    DLog("WARN: Unresolved nserror \(error), \(error.userInfo)", toFile: true)
+                } catch let error {
+                    DLog("WARN: Unresolved error \(error), \((error as NSError).userInfo)", toFile: true)
+                }
             }
         }
     }
