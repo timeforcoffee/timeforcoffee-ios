@@ -145,9 +145,22 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
             return sig
         }
 
-        self.signature = "\(type),\(accessible),\(isFavorite(station)),\(sortTime?.formattedWithDateFormatter(DLogShortFormatter) ?? ""),\(sortOrder ?? ""),\(destination_id),\(colorFg ?? ""),\(colorBg ?? ""),\(platform ?? ""),\(realtime?.formattedWithDateFormatter(DLogShortFormatter) ?? ""),\(arrivalRealtime?.formattedWithDateFormatter(DLogShortFormatter) ?? ""),\(arrivalScheduled?.formattedWithDateFormatter(DLogShortFormatter) ?? "")".replace("[\\\"()#]",template: "")
+        let sortOrder = self.sortOrder ?? 0
+        let destination_id = self.destination_id ?? ""
+        let colorFg = self.colorFg ?? ""
+        let colorBg = self.colorBg ?? ""
+        let platform = self.platform ?? ""
+
+        self.signature = "\(type),\(accessible),\(isFavorite(station)),\(getDateForSig(sortTime)),\(sortOrder),\(destination_id),\(colorFg),\(colorBg),\(platform),\(getDateForSig(realtime)),\(getDateForSig(arrivalRealtime)),\(getDateForSig(arrivalScheduled))".replace("[\\\"()#]",template: "")
 
         return self.signature!
+    }
+
+    func getDateForSig(_ date: Date?) -> String {
+        if let datestr = date?.formattedWithDateFormatter(DLogShortFormatter) {
+            return datestr
+        }
+        return ""
     }
 
     public class func getStationNameFromJson(_ result: JSON) -> String? {
