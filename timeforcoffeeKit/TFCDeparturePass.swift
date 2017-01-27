@@ -129,28 +129,41 @@ open class TFCDeparturePass: NSObject {
         return (timestringAttr, timestring)
     }
 
+    let ShortDateFormatter:DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        formatter.timeZone = TimeZone.current
+        formatter.locale = Locale(identifier: "de_CH")
+        return formatter
+    }()
+
+    static let LongDateFormatter:DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        formatter.timeZone = TimeZone.current
+        formatter.locale = Locale(identifier: "de_CH")
+        return formatter
+    }()
+
+    static let LongDateFormatterTransport:DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        formatter.timeZone = TimeZone.current
+        formatter.locale = Locale(identifier: "de_CH")
+        return formatter
+    }()
+
     func getShortDate(_ date:Date) -> String {
-        let format = "HH:mm"
-        let dateFmt = DateFormatter()
-        dateFmt.timeZone = TimeZone.current
-        dateFmt.locale = Locale(identifier: "de_CH")
-        dateFmt.dateFormat = format
-        return dateFmt.string(from: date)
+        return ShortDateFormatter.string(from: date)
     }
 
     fileprivate class func parseDate(_ dateStr:String) -> Date? {
-        var format = "yyyy-MM-dd'T'HH:mm:ss.'000'ZZZZZ"
-        let dateFmt = DateFormatter()
-        dateFmt.timeZone = TimeZone.current
-        dateFmt.locale = Locale(identifier: "de_CH")
-        dateFmt.dateFormat = format
-        if let date =  dateFmt.date(from: dateStr) {
+        DLog("parseDate \(dateStr)", toFile: true, sync: true)
+        if let date = LongDateFormatter.date(from: dateStr) {
             return date
         }
         //used by transport.opendata.ch, if the one above fails
-        format = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-        dateFmt.dateFormat = format
-        return dateFmt.date(from: dateStr)
+        return LongDateFormatterTransport.date(from: dateStr)
     }
 
     open func getMinutesAsInt(_ from:Date = Date()) -> Int? {

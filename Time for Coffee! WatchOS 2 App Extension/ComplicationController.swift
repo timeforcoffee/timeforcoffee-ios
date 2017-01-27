@@ -487,14 +487,16 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
             reply(forStation)
         }
     }
+    let ShortDateFormatter:DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        formatter.timeZone = TimeZone.current
+        formatter.locale = Locale(identifier: "de_CH")
+        return formatter
+    }()
 
     fileprivate func getShortDate(_ date:Date) -> String {
-        let format = "HH:mm"
-        let dateFmt = DateFormatter()
-        dateFmt.timeZone = TimeZone.current
-        dateFmt.locale = Locale(identifier: "de_CH")
-        dateFmt.dateFormat = format
-        return dateFmt.string(from: date)
+        return ShortDateFormatter.string(from: date)
     }
 
     fileprivate func getDepartureTTL(_ station: TFCStation) -> Int {
