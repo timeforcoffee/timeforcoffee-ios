@@ -140,6 +140,8 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             setStationValues()
         }
         self.activated = true
+        TFCWatchDataFetch.sharedInstance.fetchDepartureData()
+
     }
 
     override func didAppear() {
@@ -255,6 +257,10 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         }
 
         self.becomeCurrentPage()
+        if let station = self.station {
+            TFCWatchDataFetch.sharedInstance.fetchDepartureDataForStation(station)
+        }
+
     }
 
     func departuresUpdated(_ error: Error?, context: Any?, forStation: TFCStation?) {

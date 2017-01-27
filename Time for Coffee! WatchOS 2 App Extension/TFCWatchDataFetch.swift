@@ -84,66 +84,66 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
     }
 
     open func fetchDepartureData(_ taskCallback:(() -> Void)? = nil) {
-        let lastViewedStation = self.getLastViewedStation();
+        DispatchQueue.global(qos: .utility).async {
+            let lastViewedStation = self.getLastViewedStation();
 
-        func handleReply(_ stations: TFCStations?) {
-            DLog("handleReply fetchDepartureData:", toFile: true)
-            if let station = stations?.getStation(0) {
-                DLog("handleReply fetchDepartureData: \(station.name))", toFile: true)
-                if let defaults = TFCDataStore.sharedInstance.getUserDefaults() {
-                    // check if new station id and make it download complication, if so, later
-                    let lastFirstStationId = defaults.string(forKey: "lastFirstStationId")
-                    if (lastFirstStationId != station.st_id) {
-                        DLog("set lastFirstStationId to \(station.st_id) for \(station.name)", toFile: true)
-                        defaults.setValue(station.st_id, forKey: "lastFirstStationId")
-                        defaults.set(nil, forKey: "lastDepartureTime")
-                        defaults.set(nil, forKey: "firstDepartureTime")
-                        TFCDataStore.sharedInstance.getUserDefaults()?.set(0.0, forKey: "backoffCount")
+            func handleReply(_ stations: TFCStations?) {
+                DLog("handleReply fetchDepartureData:", toFile: true)
+                if let station = stations?.getStation(0) {
+                    DLog("handleReply fetchDepartureData: \(station.name))", toFile: true)
+                    if let defaults = TFCDataStore.sharedInstance.getUserDefaults() {
+                        // check if new station id and make it download complication, if so, later
+                        let lastFirstStationId = defaults.string(forKey: "lastFirstStationId")
+                        if (lastFirstStationId != station.st_id) {
+                            DLog("set lastFirstStationId to \(station.st_id) for \(station.name)", toFile: true)
+                            defaults.setValue(station.st_id, forKey: "lastFirstStationId")
+                            defaults.set(nil, forKey: "lastDepartureTime")
+                            defaults.set(nil, forKey: "firstDepartureTime")
+                            TFCDataStore.sharedInstance.getUserDefaults()?.set(0.0, forKey: "backoffCount")
 
+                        }
                     }
-                }
-                DLog("\(String(describing: lastViewedStation?.st_id)) != \(station.st_id)")
-                if (watchdata.needsTimelineDataUpdate(station)) {
-                    if (lastViewedStation?.st_id != station.st_id) {
-                        self.fetchDepartureDataForStation(station)
+                    DLog("\(String(describing: lastViewedStation?.st_id)) != \(station.st_id)")
+                    if (self.watchdata.needsTimelineDataUpdate(station)) {
+                        if (lastViewedStation?.st_id != station.st_id) {
+                            self.fetchDepartureDataForStation(station)
+                        }
+                    } else {
+                        DLog("no timeline update needed", toFile: true)
                     }
                 } else {
-                    DLog("no timeline update needed", toFile: true)
+                    DLog("No station set", toFile: true)
+                    // try again in 5 minutes
+                    if #available(watchOSApplicationExtension 3.0, *) {
+                        WKExtension.shared().scheduleBackgroundRefresh(withPreferredDate: self.watchdata.getBackOffTime() , userInfo: nil) { (error) in
+                            if error == nil {
+                                //successful
+                            }
+                        }
+                    }
                 }
-            } else {
-                DLog("No station set", toFile: true)
+                taskCallback?()
+            }
+            func errorReply(_ error: String) {
+                DLog("error \(error)", toFile: true)
                 // try again in 5 minutes
                 if #available(watchOSApplicationExtension 3.0, *) {
-                    WKExtension.shared().scheduleBackgroundRefresh(withPreferredDate: watchdata.getBackOffTime() , userInfo: nil) { (error) in
+                    WKExtension.shared().scheduleBackgroundRefresh(withPreferredDate: self.watchdata.getBackOffTime(), userInfo: nil) { (error) in
                         if error == nil {
                             //successful
                         }
                     }
                 }
+                taskCallback?()
             }
-            taskCallback?()
-        }
-        func errorReply(_ error: String) {
-            DLog("error \(error)", toFile: true)
-            // try again in 5 minutes
-            if #available(watchOSApplicationExtension 3.0, *) {
-                WKExtension.shared().scheduleBackgroundRefresh(withPreferredDate: watchdata.getBackOffTime(), userInfo: nil) { (error) in
-                    if error == nil {
-                        //successful
-                    }
-                }
+            if lastViewedStation != nil {
+                self.fetchDepartureDataForStation(lastViewedStation!)
             }
-            taskCallback?()
+            self.watchdata.startCrunchQueue {
+                DLog("call getStations", toFile: true)
+                TFCDataStore.sharedInstance.watchdata.getStations(handleReply, errorReply: errorReply, stopWithFavorites: true)
+            }
         }
-        if lastViewedStation != nil {
-            self.fetchDepartureDataForStation(lastViewedStation!)
-        }
-        self.watchdata.startCrunchQueue {
-            DLog("call getStations", toFile: true)
-            TFCDataStore.sharedInstance.watchdata.getStations(handleReply, errorReply: errorReply, stopWithFavorites: true)
-        }
-
-
     }
 
     open func fetchDepartureDataForStation(_ station:TFCStation) {
@@ -158,12 +158,7 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
         let sampleDownloadURL = URL(string: station.getDeparturesURL())!
         DLog("Download \(sampleDownloadURL)", toFile: true)
 
-        let backgroundConfigObject:URLSessionConfiguration
-        if #available(watchOSApplicationExtension 3.0, *) {
-            backgroundConfigObject = URLSessionConfiguration.background(withIdentifier: (UUID().uuidString))
-        } else {
-            backgroundConfigObject = URLSessionConfiguration.background(withIdentifier: (UUID().uuidString))
-        }
+        let backgroundConfigObject = URLSessionConfiguration.background(withIdentifier: (UUID().uuidString))
         backgroundConfigObject.requestCachePolicy = .useProtocolCachePolicy
 
         if let uid = TFCDataStore.sharedInstance.getTFCID() {

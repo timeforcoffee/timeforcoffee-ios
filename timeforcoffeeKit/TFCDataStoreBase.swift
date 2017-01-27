@@ -473,11 +473,12 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
 
     lazy open var managedObjectContext: NSManagedObjectContext = {
         // Returns the managed object context for the application (which is already bound to the persistent store coordinator for the application.) This property is optional since there are legitimate error conditions that could cause the creation of the context to fail.
+        DLog("start new managedObjectContext", toFile: true)
         let coordinator = self.persistentStoreCoordinator
         var managedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         managedObjectContext.persistentStoreCoordinator = coordinator
         managedObjectContext.undoManager = nil
-        DLog("new managedObjectContext", toFile: true)
+        DLog("end   new managedObjectContext", toFile: true)
         return managedObjectContext
         }()
 
