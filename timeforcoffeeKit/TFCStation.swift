@@ -76,7 +76,7 @@ open class TFCStation: TFCStationBase {
             }  else {
                 self.walkingDistanceLastCoord = nil
                 self.walkingDistanceString = nil
-                DLog("No response \(error)")
+                DLog("No response \(String(describing: error))")
                 completion(nil)
             }
 

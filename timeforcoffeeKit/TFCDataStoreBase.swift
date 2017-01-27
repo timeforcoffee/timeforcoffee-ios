@@ -554,10 +554,10 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
                         var data:[String:Any] = [:]
 
                         if let coord = coord {
-                            DLog("send __updateComplicationData__ \(coord) (triggered for \(String(describing: station?.name))) id: \(station?.st_id)", toFile: true)
+                            DLog("send __updateComplicationData__ \(coord) (triggered for \(String(describing: station?.name))) id: \(String(describing: station?.st_id))", toFile: true)
                             data["coordinates"] = [ "longitude": coord.longitude, "latitude": coord.latitude, "time": Date()]
                         } else if let coord = firstStation.coord?.coordinate {
-                            DLog("send __updateComplicationData__ with \(coord) for \(String(describing: station?.name)) id: \(station?.st_id)", toFile: true)
+                            DLog("send __updateComplicationData__ with \(coord) for \(String(describing: station?.name)) id: \(String(describing: station?.st_id))", toFile: true)
                             data["coordinates"] = [ "longitude": coord.longitude, "latitude": coord.latitude]
                         }
                         #if DEBUG

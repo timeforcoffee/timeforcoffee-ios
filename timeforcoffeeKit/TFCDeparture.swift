@@ -137,7 +137,7 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
         if let key = self.key {
             return key
         }
-        return "name=\(self.getDestination()),scheduled=\(self.getScheduledTimeAsNSDate()),line=\(self.getLine())"
+        return "name=\(self.getDestination()),scheduled=\(String(describing: self.getScheduledTimeAsNSDate())),line=\(self.getLine())"
     }
 
     public func getSignature(_ station:TFCStation? = nil) -> String {
@@ -145,7 +145,7 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
             return sig
         }
 
-        self.signature = "\(type),\(accessible),\(isFavorite(station)),\(sortTime?.formattedWithDateFormatter(DLogShortFormatter)),\(sortOrder),\(destination_id),\(colorFg),\(colorBg),\(platform),\(realtime?.formattedWithDateFormatter(DLogShortFormatter)),\(arrivalRealtime?.formattedWithDateFormatter(DLogShortFormatter)),\(arrivalScheduled?.formattedWithDateFormatter(DLogShortFormatter))".replace("Optional",template: "").replace("[\\\"()#]",template: "")
+        self.signature = "\(type),\(accessible),\(isFavorite(station)),\(sortTime?.formattedWithDateFormatter(DLogShortFormatter) ?? ""),\(sortOrder ?? ""),\(destination_id),\(colorFg ?? ""),\(colorBg ?? ""),\(platform ?? ""),\(realtime?.formattedWithDateFormatter(DLogShortFormatter) ?? ""),\(arrivalRealtime?.formattedWithDateFormatter(DLogShortFormatter) ?? ""),\(arrivalScheduled?.formattedWithDateFormatter(DLogShortFormatter) ?? "")".replace("[\\\"()#]",template: "")
 
         return self.signature!
     }
@@ -405,7 +405,7 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
   //      }
 
         if (self.getPasslist()?.count == 0) {
-            DLog("Passlist didn't have results for \(contextInfo?.url) - error was \(error)")
+            DLog("Passlist didn't have results for \(String(describing: contextInfo?.url)) - error was \(String(describing: error))")
         }
         DispatchQueue.main.async(execute: {
             contextInfo?.completionDelegate?.passlistUpdated(error, context: contextInfo?.context, forDeparture: self)

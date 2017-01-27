@@ -256,7 +256,7 @@ final public class TFCFavorites: NSObject {
                                     }
                                 }
                                 let region = CLCircularRegion(center: coord.coordinate, radius: stationRadius, identifier: station.st_id)
-                                DLog("add Geofence for \(station.name) with distance: \(distance) and radius \(stationRadius)")
+                                DLog("add Geofence for \(station.name) with distance: \(String(describing: distance)) and radius \(stationRadius)")
 
                                 region.notifyOnExit = false
                                 region.notifyOnEntry = true
