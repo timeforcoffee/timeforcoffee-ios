@@ -431,12 +431,13 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             let name = station.name.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
             let long = station.getLongitude()
             let lat = station.getLatitude()
-            var urlstring = "timeforcoffee://station?id=\(station.st_id)&name=\(String(describing: name))"
+            var urlstring = "timeforcoffee://station?id=\(station.st_id)&name=\(name ?? ""))"
             if (long != nil && lat != nil) {
                 urlstring = "\(urlstring)&long=\(long!)&lat=\(lat!)"
             }
-            let url: URL = URL(string: urlstring)!
-            self.extensionContext?.open(url, completionHandler: nil);
+            if let url: URL = URL(string: urlstring) {
+                self.extensionContext?.open(url, completionHandler: nil);
+            }
         }
     }
 
