@@ -290,13 +290,22 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
         return nil
     }
 
+    static let commaStarRegex = {
+        return Regex(pattern: ", *")
+    }()
+    static let starCommaStarRegex = {
+        return Regex(pattern: ".*, *")
+    }()
+    static let commaSpaceStarRegex = {
+        return Regex(pattern: ", *.*")
+    }()
 
     public func getDestination(_ station: TFCStation) -> String {
         let fullName = self.to
-        if (fullName.match(", *") && station.name.match(", *")) {
-            let destinationStationName = fullName.replace(".*, *", template: "")
-            let destinationCityName = fullName.replace(", *.*", template: "")
-            let stationCityName = station.name.replace(", *.*", template: "")
+        if (fullName.matchRegex(TFCDeparture.commaStarRegex) && station.name.matchRegex(TFCDeparture.commaStarRegex)) {
+            let destinationStationName = fullName.replaceRegex(TFCDeparture.starCommaStarRegex, template: "")
+            let destinationCityName = fullName.replaceRegex(TFCDeparture.commaSpaceStarRegex, template: "")
+            let stationCityName = station.name.replaceRegex(TFCDeparture.commaSpaceStarRegex, template: "")
             if (stationCityName == destinationCityName) {
                 return destinationStationName
             }
