@@ -6,13 +6,22 @@ PODS:
 DEPENDENCIES:
   - MGSwipeTableCell
   - Smooch
-  - SwipeView
+  - SwipeView (from `https://github.com/nicklockwood/SwipeView.git`)
+
+EXTERNAL SOURCES:
+  SwipeView:
+    :git: https://github.com/nicklockwood/SwipeView.git
+
+CHECKOUT OPTIONS:
+  SwipeView:
+    :commit: b3d7b667d05325b9c0383e718c05a16240eccf07
+    :git: https://github.com/nicklockwood/SwipeView.git
 
 SPEC CHECKSUMS:
   MGSwipeTableCell: 616700eb0ffd1c611ba909066cb7fd739790a0a7
   Smooch: f699a7808c42cdb9dcecaadf381b67ba1ffef57a
   SwipeView: bd67cfaf7760c036438446b3ccb28a3b84fce009
 
-PODFILE CHECKSUM: 536ae40b3419aba0fbea431356b340b672b7a0da
+PODFILE CHECKSUM: fa4fe322de777b1cc59cffe265a51172313f9c06
 
 COCOAPODS: 1.1.1
