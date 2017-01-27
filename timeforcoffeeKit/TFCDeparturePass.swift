@@ -129,7 +129,7 @@ open class TFCDeparturePass: NSObject {
         return (timestringAttr, timestring)
     }
 
-    let ShortDateFormatter:DateFormatter = {
+    static let ShortDateFormatter:DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm"
         formatter.timeZone = TimeZone.current
@@ -139,7 +139,7 @@ open class TFCDeparturePass: NSObject {
 
     static let LongDateFormatter:DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm"
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.'000'ZZZZZ"
         formatter.timeZone = TimeZone.current
         formatter.locale = Locale(identifier: "de_CH")
         return formatter
@@ -147,14 +147,14 @@ open class TFCDeparturePass: NSObject {
 
     static let LongDateFormatterTransport:DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm"
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         formatter.timeZone = TimeZone.current
         formatter.locale = Locale(identifier: "de_CH")
         return formatter
     }()
 
     func getShortDate(_ date:Date) -> String {
-        return ShortDateFormatter.string(from: date)
+        return TFCDeparturePass.ShortDateFormatter.string(from: date)
     }
 
     fileprivate class func parseDate(_ dateStr:String) -> Date? {

@@ -137,7 +137,8 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
         if let key = self.key {
             return key
         }
-        return "name=\(self.getDestination()),scheduled=\(String(describing: self.getScheduledTimeAsNSDate())),line=\(self.getLine())"
+        self.key = "name=\(self.getDestination()),scheduled=\(String(describing: self.getScheduledTimeAsNSDate())),line=\(self.getLine())"
+        return self.key!
     }
 
     public func getSignature(_ station:TFCStation? = nil) -> String {
