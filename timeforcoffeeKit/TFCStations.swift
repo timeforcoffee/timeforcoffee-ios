@@ -331,22 +331,24 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
         let latMax = region.center.latitude + 0.5 * region.span.latitudeDelta;
         let lonMin = region.center.longitude - 0.5 * region.span.longitudeDelta;
         let lonMax = region.center.longitude + 0.5 * region.span.longitudeDelta;
+        var resultValue:[String] = []
+        TFCDataStore.sharedInstance.managedObjectContext.performAndWait {
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "TFCStationModel")
+            do {
+                let pred = NSPredicate(format: "latitude BETWEEN {\(latMin), \(latMax)} AND  longitude BETWEEN {\(lonMin), \(lonMax)}")
 
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "TFCStationModel")
-        do {
-            let pred = NSPredicate(format: "latitude BETWEEN {\(latMin), \(latMax)} AND  longitude BETWEEN {\(lonMin), \(lonMax)}")
-
-            fetchRequest.predicate = pred
-            if let results = try TFCDataStore.sharedInstance.managedObjectContext.fetch(fetchRequest) as? [TFCStationModel] {
-                return results.filter({ (row) -> Bool in
-                    return (row.id != nil)
+                fetchRequest.predicate = pred
+                if let results = try TFCDataStore.sharedInstance.managedObjectContext.fetch(fetchRequest) as? [TFCStationModel] {
+                    resultValue = results.filter({ (row) -> Bool in
+                        return (row.id != nil)
                     }).map({ (row) -> String in
-                    return row.id!})
+                        return row.id!})
+                }
+            } catch let error as NSError {
+                print("Could not fetch \(error), \(error.userInfo)")
             }
-        } catch let error as NSError {
-            print("Could not fetch \(error), \(error.userInfo)")
         }
-        return []
+        return resultValue
     }
 
     public func didReceiveAPIResults(_ results: JSON?, error: Error?, context: Any?) {

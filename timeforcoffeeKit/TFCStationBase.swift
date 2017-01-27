@@ -49,15 +49,17 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             return _name!
         }
         set(name) {
-            if (name != self.realmObject?.name) {
-                var name2 = name
-                if (name2 == "") {
-                    name2 = "unknown"
+            TFCDataStore.sharedInstance.managedObjectContext.performAndWait {
+                if (name != self.realmObject?.name) {
+                    var name2 = name
+                    if (name2 == "") {
+                        name2 = "unknown"
+                    }
+                    DLog("set new name in DB for \(name2) \(self.st_id)")
+                    self.realmObject?.name = name2
+                    self.realmObject?.lastUpdated = Date()
+                    self._name = name2
                 }
-                DLog("set new name in DB for \(name2) \(st_id)")
-                self.realmObject?.name = name2
-                self.realmObject?.lastUpdated = Date()
-                _name = name2
             }
         }
     }
@@ -976,7 +978,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                     if (departure.getMinutesAsInt() < 0) {
                         i += 1
                         someRemoved = true
-                        departures?.removeValue(forKey: departure.getKey())
+                        let _ = departures?.removeValue(forKey: departure.getKey())
                     } else {
                         //if we find one, which is not obsoelte, we can stop here
                         break
