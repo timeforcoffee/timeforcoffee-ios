@@ -23,20 +23,20 @@ final class StationTableViewCell: UITableViewCell {
         StationIconView.layer.cornerRadius = StationIconView.layer.bounds.width / 2
         StationIconView.clipsToBounds = true
         
-        StationFavoriteButton.addTarget(self, action: #selector(StationTableViewCell.favoriteButtonTouched(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        StationFavoriteButton.addTarget(self, action: #selector(StationTableViewCell.favoriteButtonTouched(_:)), for: UIControlEvents.touchUpInside)
     }
 
     deinit {
         DLog("cell deinit")
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
     }
 
-    func favoriteButtonTouched(sender: UIButton) {
+    func favoriteButtonTouched(_ sender: UIButton) {
 
         func completion() -> Void {
             self.drawIcon()
@@ -44,13 +44,13 @@ final class StationTableViewCell: UITableViewCell {
         }
 
         self.station.toggleIcon(self.StationFavoriteButton!, icon: StationIconView, completion: completion)
-        if let currentUser = SKTUser.currentUser() {
+        if let currentUser = SKTUser.current() {
             currentUser.addProperties(["usedFavorites": true])
         }
     }
 
     func drawCell() {
-        self.selectionStyle = UITableViewCellSelectionStyle.None;
+        self.selectionStyle = UITableViewCellSelectionStyle.none;
         drawIcon()
         StationNameLabel?.text = station.getName(false)
         StationNameLabel.accessibilityLabel = station.getName(true)
@@ -68,8 +68,8 @@ final class StationTableViewCell: UITableViewCell {
     }
 
     func drawIcon() {
-        StationFavoriteButton.setImage(station.getIcon(), forState: UIControlState.Normal)
-        StationIconView.transform = CGAffineTransformMakeScale(1, 1);
+        StationFavoriteButton.setImage(station.getIcon(), for: UIControlState.normal)
+        StationIconView.transform = CGAffineTransform(scaleX: 1, y: 1);
         StationIconView.alpha = 1.0
         StationFavoriteButton.isAccessibilityElement = false
 

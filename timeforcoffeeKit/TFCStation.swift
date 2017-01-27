@@ -11,14 +11,27 @@ import CoreLocation
 import MapKit
 import CoreSpotlight
 import MobileCoreServices
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
 
-public class TFCStation: TFCStationBase {
-    private lazy var activity : NSUserActivity = {
+
+open class TFCStation: TFCStationBase {
+    fileprivate lazy var activity : NSUserActivity = {
         [unowned self] in
         NSUserActivity(activityType: "ch.opendata.timeforcoffee.station")
     }()
 
-    private func getWalkingDistance(location: CLLocation?, completion: (String?) -> Void ) {
+    fileprivate func getWalkingDistance(_ location: CLLocation?, completion: @escaping (String?) -> Void ) {
         let walkingDistanceValidString = getLastValidWalkingDistanceValid(location)
         if (walkingDistanceValidString != nil) {
             completion(walkingDistanceValidString)
@@ -40,14 +53,14 @@ public class TFCStation: TFCStationBase {
 
         directionRequest.source = source
         directionRequest.destination = destination
-        directionRequest.transportType = MKDirectionsTransportType.Walking
+        directionRequest.transportType = MKDirectionsTransportType.walking
         directionRequest.requestsAlternateRoutes = true
 
         let directions:MKDirections = MKDirections(request: directionRequest)
 
 
-        directions.calculateDirectionsWithCompletionHandler({
-            (response: MKDirectionsResponse?, error: NSError?) in
+        directions.calculate(completionHandler: {
+            (response: MKDirectionsResponse?, error: Error?) in
             if error != nil{
                 DLog("Error")
             }
@@ -65,52 +78,55 @@ public class TFCStation: TFCStationBase {
                 self.walkingDistanceString = nil
                 DLog("No response")
                 completion(nil)
-                print(error?.description)
+                print((error as? NSError)?.description)
             }
 
         })
     }
 
-    public func getDistanceForDisplay(location: CLLocation?, completion: (String?) -> Void) -> String {
+    open func getDistanceForDisplay(_ location: CLLocation?, completion: @escaping (String?) -> Void) -> String {
         if (location == nil || coord == nil) {
             completion("")
             return ""
         }
-        let directDistance = getDistanceInMeter(location)
-        var distanceString: String? = ""
-        if let directDistance = directDistance {
-            if (directDistance > 5000) {
-                let km = Int(round(Double(directDistance) / 1000))
-                distanceString = "\(km) Kilometer"
-                completion(distanceString)
-            } else {
-                // calculate exact distance
-                //check if one is in the cache
-                distanceString = getLastValidWalkingDistanceValid(location)
-                if (distanceString == nil) {
-                    distanceString = "\(directDistance) Meter"
-                    self.getWalkingDistance(location, completion: completion)
-                } else {
+        if let location = location {
+            let directDistance = getDistanceInMeter(location)
+            var distanceString: String? = ""
+            if let directDistance = directDistance {
+                if (directDistance > 5000) {
+                    let km = Int(round(Double(directDistance) / 1000))
+                    distanceString = "\(km) Kilometer"
                     completion(distanceString)
+                } else {
+                    // calculate exact distance
+                    //check if one is in the cache
+                    distanceString = getLastValidWalkingDistanceValid(location)
+                    if (distanceString == nil) {
+                        distanceString = "\(directDistance) Meter"
+                        self.getWalkingDistance(location, completion: completion)
+                    } else {
+                        completion(distanceString)
+                    }
                 }
             }
-        }
-        if let distanceString = distanceString {
-            return distanceString
+            if let distanceString = distanceString {
+                return distanceString
+            }
         }
         return ""
     }
 
-    public func getDistanceInMeter(location: CLLocation?) -> Int? {
-        if let coord = coord , distance = location?.distanceFromLocation(coord) {
+    open func getDistanceInMeter(_ location: CLLocation) -> Int? {
+        if let coord = coord {
+            let distance = location.distance(from: coord)
             return Int(distance as Double)
         }
         return nil
     }
 
-    private func getLastValidWalkingDistanceValid(location: CLLocation?) -> String? {
+    fileprivate func getLastValidWalkingDistanceValid(_ location: CLLocation?) -> String? {
         if (walkingDistanceLastCoord != nil && walkingDistanceString != nil) {
-            let distanceToLast = location?.distanceFromLocation(walkingDistanceLastCoord!)
+            let distanceToLast = location?.distance(from: walkingDistanceLastCoord!)
             if (distanceToLast < 50) {
                 return walkingDistanceString
             }
@@ -118,7 +134,7 @@ public class TFCStation: TFCStationBase {
         return nil
     }
 
-    public func toggleIcon(button: UIButton, icon: UIView, completion: () -> Void) {
+    open func toggleIcon(_ button: UIButton, icon: UIView, completion: @escaping () -> Void) {
         let newImage: UIImage?
 
         self.toggleFavorite()
@@ -126,20 +142,20 @@ public class TFCStation: TFCStationBase {
         newImage = self.getIcon()
 
         button.imageView?.alpha = 1.0
-        icon.transform = CGAffineTransformMakeScale(1, 1);
+        icon.transform = CGAffineTransform(scaleX: 1, y: 1);
 
-        UIView.animateWithDuration(0.2,
+        UIView.animate(withDuration: 0.2,
             delay: 0.0,
-            options: UIViewAnimationOptions.CurveLinear,
+            options: UIViewAnimationOptions.curveLinear,
             animations: {
-                icon.transform = CGAffineTransformMakeScale(0.1, 0.1);
+                icon.transform = CGAffineTransform(scaleX: 0.1, y: 0.1);
                 icon.alpha = 0.0
                 return
             }, completion: { (finished:Bool) in
                 button.imageView?.image = newImage
-                UIView.animateWithDuration(0.2,
+                UIView.animate(withDuration: 0.2,
                     animations: {
-                        icon.transform = CGAffineTransformMakeScale(1, 1);
+                        icon.transform = CGAffineTransform(scaleX: 1, y: 1);
                         icon.alpha = 1.0
                         return
                     }, completion: { (finished:Bool) in
@@ -150,7 +166,7 @@ public class TFCStation: TFCStationBase {
         
     }
 
-    override public func setStationActivity() {
+    override open func setStationActivity() {
         if #available(iOS 9, *) {
             let uI = self.getAsDict()
 
@@ -165,14 +181,14 @@ public class TFCStation: TFCStationBase {
             activity.title = self.getName(false)
             activity.userInfo = uI
             activity.requiredUserInfoKeys = ["st_id", "name", "longitude", "latitude"]
-            activity.eligibleForSearch = true
-            activity.eligibleForPublicIndexing = true
+            activity.isEligibleForSearch = true
+            activity.isEligibleForPublicIndexing = true
             activity.webpageURL = self.getWebLink()
-            let userCalendar = NSCalendar.currentCalendar()
-            let OneWeekFromNow = userCalendar.dateByAddingUnit(
-                [.Day],
+            let userCalendar = Calendar.current
+            let OneWeekFromNow = (userCalendar as NSCalendar).date(
+                byAdding: [.day],
                 value: 7,
-                toDate: NSDate(),
+                to: Date(),
                 options: [])!
             activity.expirationDate = OneWeekFromNow
             activity.keywords = Set(getKeywords())
@@ -180,11 +196,11 @@ public class TFCStation: TFCStationBase {
         }
     }
 
-    override public func setStationSearchIndex() {
+    override open func setStationSearchIndex() {
         if #available(iOS 9, *) {
-            if (NSBundle.mainBundle().bundleIdentifier == "ch.opendata.timeforcoffee") {
+            if (Bundle.main.bundleIdentifier == "ch.opendata.timeforcoffee") {
                 let item = CSSearchableItem(uniqueIdentifier: self.st_id, domainIdentifier: "stations", attributeSet: getAttributeSet())
-                CSSearchableIndex.defaultSearchableIndex().indexSearchableItems([item], completionHandler: { (error) -> Void in
+                CSSearchableIndex.default().indexSearchableItems([item], completionHandler: { (error) -> Void in
 
                 })
             }
@@ -192,18 +208,18 @@ public class TFCStation: TFCStationBase {
     }
 
     @available(iOSApplicationExtension 9.0, *)
-    private func getAttributeSet() -> CSSearchableItemAttributeSet {
+    fileprivate func getAttributeSet() -> CSSearchableItemAttributeSet {
         let attributeSet = CSSearchableItemAttributeSet(itemContentType: kUTTypeText as String)
         attributeSet.title = self.getName(false)
         attributeSet.supportsNavigation = 1
-        attributeSet.latitude = self.getLatitude()
-        attributeSet.longitude = self.getLongitude()
+        attributeSet.latitude = self.getLatitude() as! NSNumber
+        attributeSet.longitude = self.getLongitude() as! NSNumber
         attributeSet.relatedUniqueIdentifier = self.st_id
         attributeSet.keywords = getKeywords()
         return attributeSet
     }
 
-    private func getKeywords() -> [String] {
+    fileprivate func getKeywords() -> [String] {
         let abridged = self.getNameAbridged()
         var keywords = ["Fahrplan", "Timetable", "ZVV", "SBB"]
         if abridged != self.name {

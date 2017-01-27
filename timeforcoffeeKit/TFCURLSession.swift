@@ -13,11 +13,11 @@ public final class TFCURLSession: NSObject {
 
     public static let sharedInstance = TFCURLSession()
 
-    override private init() {
+    override fileprivate init() {
         super.init()
     }
 
-    lazy var session: NSURLSession = {
+    lazy var session: URLSession = {
         [unowned self] in
         return self.getSession()
     }()
@@ -28,15 +28,15 @@ public final class TFCURLSession: NSObject {
         self.session = getSession()
     }
 
-    private func getSession() -> NSURLSession {
+    fileprivate func getSession() -> URLSession {
         //let config = NSURLSessionConfiguration.ephemeralSessionConfiguration()
-        let config = NSURLSessionConfiguration.defaultSessionConfiguration()
+        let config = URLSessionConfiguration.default
         config.timeoutIntervalForRequest = 10.0
         config.timeoutIntervalForResource = 10.0
         if let uid = TFCDataStore.sharedInstance.getTFCID() {
-            config.HTTPAdditionalHeaders = ["TFCID": uid]
+            config.httpAdditionalHeaders = ["TFCID": uid]
         }
-        return NSURLSession(configuration: config)
+        return URLSession(configuration: config)
     }
 
 }

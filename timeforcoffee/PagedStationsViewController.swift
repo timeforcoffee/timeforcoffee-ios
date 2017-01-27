@@ -24,20 +24,20 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
     var scrollView: UIScrollView?
     var registeredObserver: Bool = false
     lazy var nearbyStationsView: StationsViewController = {
-        let view = self.storyboard?.instantiateViewControllerWithIdentifier("StationsView") as! StationsViewController
+        let view = self.storyboard?.instantiateViewController(withIdentifier: "StationsView") as! StationsViewController
         view.showFavorites = false
         view.pageIndex = 0
         return view
     }()
 
     lazy var favoritesView: StationsViewController = {
-        let newVc: StationsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("StationsView") as! StationsViewController
+        let newVc: StationsViewController = self.storyboard?.instantiateViewController(withIdentifier: "StationsView") as! StationsViewController
         newVc.pageIndex = 1
         newVc.showFavorites = true
         return newVc
     }()
 
-     private lazy var locManager: TFCLocationManager? = { return TFCLocationManager(delegate: self)}()
+     fileprivate lazy var locManager: TFCLocationManager? = { return TFCLocationManager(delegate: self)}()
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -49,23 +49,23 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         self.delegate = self
         moveToNearbyStations()
 
-        let aboutButton = UIBarButtonItem(title: "☕︎", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(PagedStationsViewController.aboutClicked(_:)))
+        let aboutButton = UIBarButtonItem(title: "☕︎", style: UIBarButtonItemStyle.plain, target: self, action: #selector(PagedStationsViewController.aboutClicked(_:)))
         aboutButton.image = UIImage(named: "icon-coffee")
         aboutButton.tintColor = UIColor(netHexString: "555555")
         aboutButton.accessibilityLabel = NSLocalizedString("About", comment: "")
         aboutButton.accessibilityHint = NSLocalizedString("Help and chat with us", comment: "")
 
-        let font = UIFont.systemFontOfSize(30)
+        let font = UIFont.systemFont(ofSize: 30)
         let buttonAttr = [NSFontAttributeName: font]
-        aboutButton.setTitleTextAttributes(buttonAttr, forState: UIControlState.Normal)
+        aboutButton.setTitleTextAttributes(buttonAttr, for: UIControlState())
         self.navigationItem.leftBarButtonItem = aboutButton
-        self.edgesForExtendedLayout = UIRectEdge.None;
+        self.edgesForExtendedLayout = UIRectEdge();
 
         setSearchButton()
         setTitleView()
         
         for v in self.view.subviews {
-            if v.isKindOfClass(UIScrollView){
+            if v.isKind(of: UIScrollView.self){
                 scrollView = (v as! UIScrollView)
                 scrollView?.delegate = self
             }
@@ -76,19 +76,19 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
 
     }
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 
-    func applicationDidBecomeActive(notification: NSNotification) {
+    func applicationDidBecomeActive(_ notification: Notification) {
         refreshLocation()
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         if (!registeredObserver) {
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UIApplicationDelegate.applicationDidBecomeActive(_:)), name: "UIApplicationDidBecomeActiveNotification", object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(UIApplicationDelegate.applicationDidBecomeActive(_:)), name: NSNotification.Name(rawValue: "UIApplicationDidBecomeActiveNotification"), object: nil)
             registeredObserver = true
         }
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         if (appDelegate.startedWithShortcut == "ch.opendata.timeforcoffee.favorites") {
             // wait somehow until we have a location....
             if (locManager!.currentLocation != nil) {
@@ -102,26 +102,26 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         }
     }
 
-    internal func locationDenied(manager: CLLocationManager, err: NSError) {
+    internal func locationDenied(_ manager: CLLocationManager, err: Error) {
         moveToFavorites()
     }
-    internal func locationFixed(coord: CLLocation?) {
+    internal func locationFixed(_ coord: CLLocation?) {
         moveToFavorites()
     }
 
-    internal func locationStillTrying(manager: CLLocationManager, err: NSError) {
+    internal func locationStillTrying(_ manager: CLLocationManager, err: Error) {
 
     }
 
-    private func refreshLocation() {
+    fileprivate func refreshLocation() {
         if (self.searchController == nil) {
             let currentView: StationsViewController  = self.viewControllers!.first as! StationsViewController
             currentView.appsTableView?.refreshLocation()
         }
     }
 
-    private func setTitleView () {
-        scrollViewWidth = UIScreen.mainScreen().bounds.size.width
+    fileprivate func setTitleView () {
+        scrollViewWidth = UIScreen.main.bounds.size.width
         
         let titleView = UIView(frame: CGRect(x: 0, y: 0, width: scrollViewWidth! / 2, height: 30))
 
@@ -134,13 +134,13 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         let pageLabel1 = UILabel(frame: CGRect(x: 0, y: 0, width: scrollViewWidth! / 2, height: 20))
         pageLabel1.text = NSLocalizedString("Nearby Stations", comment: "")
         pageLabel1.font = labelFont
-        pageLabel1.textAlignment = NSTextAlignment.Center
+        pageLabel1.textAlignment = NSTextAlignment.center
         pageLabel1.tag = 1
 
         let pageLabel2 = UILabel(frame: CGRect(x: scrollViewWidth! / 2, y: 0, width: scrollViewWidth! / 2, height: 20))
         pageLabel2.text = NSLocalizedString("Favourites", comment: "")
         pageLabel2.font = labelFont
-        pageLabel2.textAlignment = NSTextAlignment.Center
+        pageLabel2.textAlignment = NSTextAlignment.center
         pageLabel2.tag = 2
         
 
@@ -152,10 +152,10 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         titlePageControl.tag = 50
         titlePageControl.numberOfPages = 2
         titlePageControl.currentPage = 0
-        titlePageControl.currentPageIndicatorTintColor = UIColor.blackColor()
-        titlePageControl.pageIndicatorTintColor = UIColor.grayColor()
-        titlePageControl.transform = CGAffineTransformScale(titlePageControl.transform, 0.75, 0.75)
-        titlePageControl.userInteractionEnabled = false
+        titlePageControl.currentPageIndicatorTintColor = UIColor.black
+        titlePageControl.pageIndicatorTintColor = UIColor.gray
+        titlePageControl.transform = titlePageControl.transform.scaledBy(x: 0.75, y: 0.75)
+        titlePageControl.isUserInteractionEnabled = false
         titlePageControl.isAccessibilityElement = false
         titleView.addSubview(titlePageControl)
 
@@ -166,7 +166,7 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         self.navigationItem.titleView?.clipsToBounds = false
     }
 
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if (currentPageIndex == 0) {
             scrollViewOffset = scrollView.contentOffset.x - scrollView.frame.width
             self.navigationItem.titleView?.viewWithTag(1)?.layer.opacity = 1 - Float(((scrollView.contentOffset.x - scrollViewWidth!) / scrollViewWidth!))
@@ -179,7 +179,7 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         self.navigationItem.titleView?.viewWithTag(100)?.layer.position.x = (-scrollViewOffset! / 2) + scrollViewWidth! / 2
     }
 
-    func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         let vc:StationsViewController = viewController as! StationsViewController
         if (vc.pageIndex == 1) {
             return nil;
@@ -187,7 +187,7 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         return favoritesView
     }
 
-    func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         let vc:StationsViewController = viewController as! StationsViewController
         if (vc.pageIndex == 0) {
             return nil;
@@ -195,7 +195,7 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         return nearbyStationsView
     }
     
-    func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if (completed == true && finished == true) {
             if let currentViewController = pageViewController.viewControllers?.first as? StationsViewController {
                 if (currentViewController.pageIndex != currentPageIndex) {
@@ -206,7 +206,7 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         }
     }
 
-    private func setPageControlDot() {
+    fileprivate func setPageControlDot() {
         let currentViewController = getCurrentView()
         currentPageIndex = currentViewController.pageIndex
         let pc: UIPageControl? = self.navigationItem.titleView?.viewWithTag(50) as! UIPageControl?
@@ -223,9 +223,9 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         moveTo(favoritesView)
     }
 
-    func moveTo(view: StationsViewController) {
+    func moveTo(_ view: StationsViewController) {
 
-        self.setViewControllers( [view], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: {(finished:Bool) -> Void in
+        self.setViewControllers( [view], direction: UIPageViewControllerNavigationDirection.forward, animated: false, completion: {(finished:Bool) -> Void in
 
             }
         )
@@ -236,12 +236,12 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         setPageControlDot()
     }
 
-    private func getCurrentView() -> StationsViewController {
+    fileprivate func getCurrentView() -> StationsViewController {
         return self.viewControllers?.first as! StationsViewController
     }
 
-    private func setSearchButton() {
-        let searchButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(PagedStationsViewController.searchClicked(_:)))
+    fileprivate func setSearchButton() {
+        let searchButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: self, action: #selector(PagedStationsViewController.searchClicked(_:)))
 
         searchButton.image = UIImage(named: "icon-search")
         searchButton.tintColor = UIColor(netHexString: "555555")
@@ -250,18 +250,18 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         self.navigationItem.rightBarButtonItem = searchButton
     }
     
-    func searchClicked(sender: UIBarButtonItem) {
+    func searchClicked(_ sender: UIBarButtonItem) {
         searchClicked()
     }
 
     func searchClicked() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let ssv: StationsSearchViewController = storyboard.instantiateViewControllerWithIdentifier("StationsSearchView") as! StationsSearchViewController;
+        let ssv: StationsSearchViewController = storyboard.instantiateViewController(withIdentifier: "StationsSearchView") as! StationsSearchViewController;
 
         self.navigationController?.pushViewController(ssv, animated: false)
     }
 
-    func aboutClicked(sender: UIBarButtonItem) {
+    func aboutClicked(_ sender: UIBarButtonItem) {
         /* #if DEBUG
         TFCFavorites.sharedInstance.repopulateFavorites()
         let favs = Array(TFCFavorites.sharedInstance.stations.values)
@@ -273,8 +273,8 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         return
         #endif */
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc: UIViewController! = storyboard.instantiateViewControllerWithIdentifier("AboutPagedViewController") as UIViewController
-        self.navigationController?.presentViewController(vc, animated: true, completion: nil)
+        let vc: UIViewController! = storyboard.instantiateViewController(withIdentifier: "AboutPagedViewController") as UIViewController
+        self.navigationController?.present(vc, animated: true, completion: nil)
 
     }
 }

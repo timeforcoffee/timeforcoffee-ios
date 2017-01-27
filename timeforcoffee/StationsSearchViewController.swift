@@ -23,7 +23,7 @@ final class StationsSearchViewController: StationsViewController, UISearchBarDel
         self.searchController?.hidesNavigationBarDuringPresentation = false;
         self.searchController?.dimsBackgroundDuringPresentation = false;
         let searchBar = self.searchController?.searchBar
-        self.navigationController?.navigationBar.tintColor = UIColor.darkGrayColor()
+        self.navigationController?.navigationBar.tintColor = UIColor.darkGray
         self.navigationItem.rightBarButtonItem = nil;
         self.navigationItem.titleView = searchBar
 
@@ -40,29 +40,29 @@ final class StationsSearchViewController: StationsViewController, UISearchBarDel
     }
 
     deinit {
-        self.searchController?.dismissViewControllerAnimated(false, completion: { () -> Void in
+        self.searchController?.dismiss(animated: false, completion: { () -> Void in
 
         })
         self.searchController?.removeFromParentViewController()
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.edgesForExtendedLayout = UIRectEdge.None;
+        self.edgesForExtendedLayout = [];
 
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated, noReload: true)
-        if (!(self.searchController?.isViewLoaded() == true && self.searchController?.view.window != nil)) {
-            self.presentViewController(self.searchController!, animated: true, completion: {
+        if (!(self.searchController?.isViewLoaded == true && self.searchController?.view.window != nil)) {
+            self.present(self.searchController!, animated: true, completion: {
                 self.searchController?.searchBar.becomeFirstResponder()
                 return
             })
         }
 
-        let duration: NSTimeInterval = 0.5
-        UIView.animateWithDuration(duration,
+        let duration: TimeInterval = 0.5
+        UIView.animate(withDuration: duration,
             animations: {
                 self.view.alpha = 1.0
                 self.searchController?.searchBar.alpha = 1.0
@@ -73,12 +73,12 @@ final class StationsSearchViewController: StationsViewController, UISearchBarDel
         GATracker.sharedInstance?.sendScreenName("search")
     }
 
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         self.searchController?.searchBar.resignFirstResponder()
     }
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let detailsViewController: DeparturesViewController = segue.destinationViewController as! DeparturesViewController
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let detailsViewController: DeparturesViewController = segue.destination as! DeparturesViewController
 
         if (self.searchController != nil) {
             self.searchController?.searchBar.resignFirstResponder()

@@ -8,21 +8,21 @@
 
 import Foundation
 
-public class TFCSettings {
+open class TFCSettings {
 
-    public static let sharedInstance = TFCSettings()
+    open static let sharedInstance = TFCSettings()
 
-    private init() {
+    fileprivate init() {
     }
 
-    public func showRealTimeDebugInfo() -> Bool {
+    open func showRealTimeDebugInfo() -> Bool {
         if let showIt = TFCDataStore.sharedInstance.objectForKey("showRealTimeDebugInfo") as? Bool {
             return showIt
         }
         return false
     }
 
-    public func setRealTimeDebugInfo(showit: Bool) {
-        TFCDataStore.sharedInstance.setObject(showit, forKey: "showRealTimeDebugInfo")
+    open func setRealTimeDebugInfo(_ showit: Bool) {
+        TFCDataStore.sharedInstance.setObject(showit as AnyObject, forKey: "showRealTimeDebugInfo")
     }
 }

@@ -9,11 +9,11 @@
 import Foundation
 import ClockKit
 
-public class TFCDataStore: TFCDataStoreBase {
+open class TFCDataStore: TFCDataStoreBase {
 
-    public static let sharedInstance = TFCDataStore()
+    open static let sharedInstance = TFCDataStore()
 
-    private override init() {
+    fileprivate override init() {
         super.init()
     }
 

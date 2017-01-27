@@ -28,13 +28,13 @@ final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataS
         self.dataSource = self
 
         self.refreshControl2 = UIRefreshControl()
-        self.refreshControl2?.addTarget(self, action: #selector(StationTableView.refresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl2?.addTarget(self, action: #selector(StationTableView.refresh(_:)), for: UIControlEvents.valueChanged)
         self.refreshControl2?.backgroundColor = UIColor(red: 242.0/255.0, green: 243.0/255.0, blue: 245.0/255.0, alpha: 1.0)
         self.refreshControl2?.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.addSubview(refreshControl2!)
     }
 
-    internal func refresh(sender:AnyObject)
+    internal func refresh(_ sender:AnyObject)
     {
         refreshLocation(true)
     }
@@ -43,37 +43,37 @@ final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataS
         refreshLocation(false)
     }
 
-    func refreshLocation(force: Bool) {
+    func refreshLocation(_ force: Bool) {
         if ((showFavorites) == true) {
             self.stations.loadFavorites()
             self.reloadData()
             self.refreshControl2?.endRefreshing()
         } else {
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
             if (!self.stations.updateStations(force)) {
-                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 self.refreshControl2?.endRefreshing()
             }
         }
     }
 
-    func stationsUpdated(err: String?, favoritesOnly: Bool, context: Any?) {
-        dispatch_async(dispatch_get_main_queue(), {
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+    func stationsUpdated(_ err: String?, favoritesOnly: Bool, context: Any?) {
+        DispatchQueue.main.async(execute: {
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
             self.refreshControl2?.endRefreshing()
             self.reloadData()
         })
     }
 
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
-        let whitespaceCharacterSet = NSCharacterSet.whitespaceCharacterSet()
-        let strippedString = searchController.searchBar.text!.stringByTrimmingCharactersInSet(whitespaceCharacterSet)
+    func updateSearchResults(for searchController: UISearchController) {
+        let whitespaceCharacterSet = CharacterSet.whitespaces
+        let strippedString = searchController.searchBar.text!.trimmingCharacters(in: whitespaceCharacterSet)
         if (strippedString != "") {
-            self.stations.updateStations(searchFor: strippedString)
+            let _ = self.stations.updateStations(searchFor: strippedString)
         }
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (stations.count() == nil || stations.count() == 0) {
             if (stations.isLoading || stations.networkErrorMsg != nil) {
                 return 1
@@ -83,8 +83,8 @@ final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataS
         return stations.count()!
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("StationTableViewCell", forIndexPath: indexPath) as! StationTableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "StationTableViewCell", for: indexPath) as! StationTableViewCell
 
         cell.tag = indexPath.row
 
@@ -94,17 +94,17 @@ final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataS
         let stationsCount = stations.count()
 
         if (stationsCount == nil || stationsCount == 0) {
-            cell.userInteractionEnabled = false;
+            cell.isUserInteractionEnabled = false;
             if (stationsCount == nil) {
                 textLabel?.text = NSLocalizedString("Loading", comment: "Loading ..")
                 detailTextLabel?.text = stations.loadingMessage
             } else {
                 textLabel?.text = NSLocalizedString("No stations found.", comment: "")
-                detailTextLabel.text = stations.networkErrorMsg
+                detailTextLabel?.text = stations.networkErrorMsg
             }
             return cell
         }
-        cell.userInteractionEnabled = true;
+        cell.isUserInteractionEnabled = true;
 
 
         let station = self.stations.getStation(indexPath.row)
@@ -115,9 +115,9 @@ final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataS
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell:StationTableViewCell? = tableView.cellForRowAtIndexPath(indexPath) as! StationTableViewCell?
-        self.stationsViewController?.performSegueWithIdentifier("SegueToStationView", sender: cell?.station)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell:StationTableViewCell? = tableView.cellForRow(at: indexPath) as! StationTableViewCell?
+        self.stationsViewController?.performSegue(withIdentifier: "SegueToStationView", sender: cell?.station)
     }
 
     func removePullToRefresh() {
@@ -127,7 +127,7 @@ final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataS
         }
     }
 
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
             searchBar?.resignFirstResponder()
     }
 }

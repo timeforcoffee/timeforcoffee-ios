@@ -19,7 +19,7 @@ extension TFCStationModel {
     @NSManaged var county: String?
     @NSManaged var departuresURL: String?
     @NSManaged var id: String?
-    @NSManaged var lastUpdated: NSDate?
+    @NSManaged var lastUpdated: Date?
     @NSManaged var latitude: NSNumber?
     @NSManaged var longitude: NSNumber?
     @NSManaged var name: String

@@ -16,8 +16,8 @@ class MapViewController: WKInterfaceController {
     @IBOutlet weak var map: WKInterfaceMap!
     weak var station: TFCStation?
 
-    override func awakeWithContext(context: AnyObject?) {
-        super.awakeWithContext(context)
+    override func awake(withContext context: Any?) {
+        super.awake(withContext: context)
         DLog("awake StationsOverviewViewController")
         self.station = context as? TFCStation
 
@@ -30,9 +30,9 @@ class MapViewController: WKInterfaceController {
             if let coordinate = station.coord?.coordinate {
                 let region = MKCoordinateRegionMakeWithDistance(coordinate, 1000, 1000);
                 map.setRegion(region)
-                map.addAnnotation(coordinate, withPinColor: WKInterfaceMapPinColor.Red)
+                map.addAnnotation(coordinate, with: WKInterfaceMapPinColor.red)
                 if let currentCoord = TFCLocationManager.getCurrentLocation()?.coordinate {
-                    map.addAnnotation(currentCoord, withPinColor: WKInterfaceMapPinColor.Green)
+                    map.addAnnotation(currentCoord, with: WKInterfaceMapPinColor.green)
                 }
             }
         }

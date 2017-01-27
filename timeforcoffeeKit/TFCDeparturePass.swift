@@ -9,17 +9,17 @@
 import Foundation
 import UIKit
 
-public class TFCDeparturePass: NSObject {
+open class TFCDeparturePass: NSObject {
 
-    public var scheduled: NSDate?
-    public var realtime: NSDate?
-    public var platform: String?
+    open var scheduled: Date?
+    open var realtime: Date?
+    open var platform: String?
     var accessible: Bool = false
     var outdated: Bool = false
-    public var arrivalScheduled: NSDate?
-    public var arrivalRealtime: NSDate?
+    open var arrivalScheduled: Date?
+    open var arrivalRealtime: Date?
 
-    class func parseJsonForDeparture(result:JSON) -> (NSDate?, NSDate?, NSDate?, NSDate?) {
+    class func parseJsonForDeparture(_ result:JSON) -> (Date?, Date?, Date?, Date?) {
 
         let scheduledStr = result["departure"]["scheduled"].string
         let realtimeStr = result["departure"]["realtime"].string
@@ -34,19 +34,19 @@ public class TFCDeparturePass: NSObject {
         return (scheduled, realtime, arrivalScheduled, arrivalRealtime)
     }
 
-    private class func getDateFromString(datestring:String?) -> NSDate? {
+    fileprivate class func getDateFromString(_ datestring:String?) -> Date? {
         if let datestring = datestring {
             return self.parseDate(datestring);
         }
         return nil
     }
 
-    public func getDepartureTime(additionalInfo: Bool = true) ->
+    open func getDepartureTime(_ additionalInfo: Bool = true) ->
         (NSMutableAttributedString?, String?) {
             return getDepartureTime(self.scheduled, realtime: self.realtime, additionalInfo: additionalInfo)
     }
     
-    public func getDepartureTime(scheduled: NSDate?, realtime: NSDate?, additionalInfo: Bool = true) -> (NSMutableAttributedString?, String?) {
+    open func getDepartureTime(_ scheduled: Date?, realtime: Date?, additionalInfo: Bool = true) -> (NSMutableAttributedString?, String?) {
         var realtimeStr: String = ""
         var scheduledStr: String = ""
         let attributesNoStrike = [
@@ -54,8 +54,8 @@ public class TFCDeparturePass: NSObject {
         ]
         let attributesStrike = [
             NSStrikethroughStyleAttributeName: 1,
-            NSForegroundColorAttributeName: UIColor.grayColor()
-        ]
+            NSForegroundColorAttributeName: UIColor.gray
+        ] as [String : Any]
 
         let additionalInfo2:Bool = (additionalInfo && TFCSettings.sharedInstance.showRealTimeDebugInfo())
 
@@ -88,16 +88,16 @@ public class TFCDeparturePass: NSObject {
 
             //the nostrike is needed due to an apple bug...
             // https://stackoverflow.com/questions/25956183/nsmutableattributedstrings-attribute-nsstrikethroughstyleattributename-doesnt
-            timestringAttr?.appendAttributedString(NSAttributedString(string: "\(realtimeStr) ", attributes: attributesNoStrike))
+            timestringAttr?.append(NSAttributedString(string: "\(realtimeStr) ", attributes: attributesNoStrike))
 
-            timestringAttr?.appendAttributedString(NSAttributedString(string: "\(scheduledStr)", attributes: attributesStrike))
+            timestringAttr?.append(NSAttributedString(string: "\(scheduledStr)", attributes: attributesStrike))
         } else {
             timestring = "\(scheduledStr)"
         }
 
         if (accessible) {
             if (timestringAttr != nil) {
-                timestringAttr?.appendAttributedString(NSAttributedString(string: " ♿︎"))
+                timestringAttr?.append(NSAttributedString(string: " ♿︎"))
             } else {
                 timestring? += " ♿︎"
             }
@@ -105,13 +105,13 @@ public class TFCDeparturePass: NSObject {
         if (additionalInfo2) {
             if (realtime == nil) {
                 if (timestringAttr != nil) {
-                    timestringAttr?.appendAttributedString(NSAttributedString(string: " (no real-time data)"))
+                    timestringAttr?.append(NSAttributedString(string: " (no real-time data)"))
                 } else {
                     timestring? += " (no real-time data)"
                 }
             } else if (self.outdated) {
                 if (timestringAttr != nil) {
-                    timestringAttr?.appendAttributedString(NSAttributedString(string: " (not updated)"))
+                    timestringAttr?.append(NSAttributedString(string: " (not updated)"))
                 } else {
                     timestring? += " (not updated)"
                 }
@@ -120,7 +120,7 @@ public class TFCDeparturePass: NSObject {
 
         if let platform = self.platform {
             if (timestringAttr != nil) {
-                timestringAttr?.appendAttributedString(NSAttributedString(string: " - Pl: \(platform)"))
+                timestringAttr?.append(NSAttributedString(string: " - Pl: \(platform)"))
             } else {
                 timestring? += " - Pl: \(platform)"
             }
@@ -129,32 +129,32 @@ public class TFCDeparturePass: NSObject {
         return (timestringAttr, timestring)
     }
 
-    func getShortDate(date:NSDate) -> String {
+    func getShortDate(_ date:Date) -> String {
         let format = "HH:mm"
-        let dateFmt = NSDateFormatter()
-        dateFmt.timeZone = NSTimeZone.defaultTimeZone()
-        dateFmt.locale = NSLocale(localeIdentifier: "de_CH")
+        let dateFmt = DateFormatter()
+        dateFmt.timeZone = TimeZone.current
+        dateFmt.locale = Locale(identifier: "de_CH")
         dateFmt.dateFormat = format
-        return dateFmt.stringFromDate(date)
+        return dateFmt.string(from: date)
     }
 
-    private class func parseDate(dateStr:String) -> NSDate? {
+    fileprivate class func parseDate(_ dateStr:String) -> Date? {
         var format = "yyyy-MM-dd'T'HH:mm:ss.'000'ZZZZZ"
-        let dateFmt = NSDateFormatter()
-        dateFmt.timeZone = NSTimeZone.defaultTimeZone()
-        dateFmt.locale = NSLocale(localeIdentifier: "de_CH")
+        let dateFmt = DateFormatter()
+        dateFmt.timeZone = TimeZone.current
+        dateFmt.locale = Locale(identifier: "de_CH")
         dateFmt.dateFormat = format
-        if let date =  dateFmt.dateFromString(dateStr) {
+        if let date =  dateFmt.date(from: dateStr) {
             return date
         }
         //used by transport.opendata.ch, if the one above fails
         format = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         dateFmt.dateFormat = format
-        return dateFmt.dateFromString(dateStr)
+        return dateFmt.date(from: dateStr)
     }
 
-    public func getMinutesAsInt(from:NSDate = NSDate()) -> Int? {
-        var timeInterval: NSTimeInterval?
+    open func getMinutesAsInt(_ from:Date = Date()) -> Int? {
+        var timeInterval: TimeInterval?
 
         if let realdeparture = self.getRealDepartureDate() {
             timeInterval = realdeparture.timeIntervalSinceReferenceDate - from.timeIntervalSinceReferenceDate
@@ -165,7 +165,7 @@ public class TFCDeparturePass: NSObject {
         return nil
     }
 
-    public func getRealDepartureDate() -> NSDate? {
+    open func getRealDepartureDate() -> Date? {
 
         if let realtime = self.realtime {
             return realtime
@@ -173,7 +173,7 @@ public class TFCDeparturePass: NSObject {
         return scheduled
     }
 
-    public func getRealDepartureDateAsShortDate() -> String? {
+    open func getRealDepartureDateAsShortDate() -> String? {
         if let date = getRealDepartureDate() {
             return getShortDate(date)
         }

@@ -8,6 +8,41 @@
 
 import Foundation
 import CoreLocation
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l >= r
+  default:
+    return !(lhs < rhs)
+  }
+}
+
 
 public final class TFCPass: TFCDeparturePass {
 
@@ -17,7 +52,7 @@ public final class TFCPass: TFCDeparturePass {
     public var isFirst = false
     public var isLast = false
 
-    init(name: String, id: String, coord: CLLocationCoordinate2D?, scheduled: NSDate?, realtime: NSDate?, arrivalScheduled: NSDate?, arrivalRealtime: NSDate?) {
+    init(name: String, id: String, coord: CLLocationCoordinate2D?, scheduled: Date?, realtime: Date?, arrivalScheduled: Date?, arrivalRealtime: Date?) {
         self.name = name
         self.coord = coord
         self.st_id = id
@@ -28,7 +63,7 @@ public final class TFCPass: TFCDeparturePass {
         self.arrivalRealtime = arrivalRealtime
     }
 
-    public class func withJSON(allResults: JSON?) -> [TFCPass]? {
+    public class func withJSON(_ allResults: JSON?) -> [TFCPass]? {
         // Create an empty array of Albums to append to from this list
         // Store the results in our table data array
         var passlist: [TFCPass]?
@@ -64,7 +99,7 @@ public final class TFCPass: TFCDeparturePass {
         return TFCStation.initWithCacheId(self.st_id)
     }
 
-    public func getMinutes(from:NSDate) -> String? {
+    public func getMinutes(_ from:Date) -> String? {
         var timeInterval = getMinutesAsInt(from)
         if (timeInterval != nil) {
             if (timeInterval < 0) {
@@ -82,7 +117,7 @@ public final class TFCPass: TFCDeparturePass {
         return nil
     }
 
-    public override func getRealDepartureDate() -> NSDate? {
+    public override func getRealDepartureDate() -> Date? {
 
         if let realtime = self.arrivalRealtime {
             return realtime

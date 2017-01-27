@@ -13,11 +13,11 @@ final public class TFCCrashlytics: NSObject, CrashlyticsDelegate {
         #endif
     }
 
-    public func crashlyticsDidDetectReportForLastExecution(report: CLSReport, completionHandler: (Bool) -> Void) {
+    @nonobjc public func crashlyticsDidDetectReport(forLastExecution report: CLSReport, completionHandler: @escaping (Bool) -> Void) {
         report.setObjectValue(TFCDataStore.sharedInstance.getTFCID(), forKey: "TFCID")
         DLog("Crashlytics: crashedOnDate: \(report.crashedOnDate)", toFile: true);
         DLog("Crashlytics: isCrash: \(report.isCrash)", toFile: true);
-        dispatch_async(dispatch_get_main_queue(), {
+        DispatchQueue.main.async(execute: {
             completionHandler(true)
         })
     }
@@ -27,6 +27,6 @@ final public class TFCCrashlytics: NSObject, CrashlyticsDelegate {
     }
 }
 
-func DLog2CLS(format:String, text: [CVarArgType]) {
+func DLog2CLS(_ format:String, text: [CVarArg]) {
     CLSLogv(format, getVaList(text))
 }

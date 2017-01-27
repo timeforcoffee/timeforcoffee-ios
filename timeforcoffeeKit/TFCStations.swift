@@ -11,23 +11,47 @@ import CoreLocation
 import WatchConnectivity
 import CoreData
 import MapKit
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerProtocol {
 
-    private weak var delegate: TFCStationsUpdatedProtocol?
+    fileprivate weak var delegate: TFCStationsUpdatedProtocol?
 
-    private var _stations:TFCStationCollection = TFCStationCollection()
-    private var nearbyFavorites:TFCStationCollection = TFCStationCollection()
-    private var inStationsArrayAsFavorite: [String: Bool] = [:]
-    private var maxStations:Int = 100
+    fileprivate var _stations:TFCStationCollection = TFCStationCollection()
+    fileprivate var nearbyFavorites:TFCStationCollection = TFCStationCollection()
+    fileprivate var inStationsArrayAsFavorite: [String: Bool] = [:]
+    fileprivate var maxStations:Int = 100
 
     //struct here, because "class var" is not yet supported
-    private struct favorite {
+    fileprivate struct favorite {
         static var s: TFCFavorites = TFCFavorites.sharedInstance
-        static var userDefaults: NSUserDefaults? = TFCDataStore.sharedInstance.getUserDefaults()
+        static var userDefaults: UserDefaults? = TFCDataStore.sharedInstance.getUserDefaults()
     }
 
-    private var lastFirstStationId:String? = nil
+    fileprivate var lastFirstStationId:String? = nil
     public var networkErrorMsg: String?
     public var loadingMessage: String?
     public var isLoading: Bool = false {
@@ -37,10 +61,10 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
             }
         }
     }
-    private var lastRefreshLocation: NSDate?
+    fileprivate var lastRefreshLocation: Date?
 
-    private lazy var locManager: TFCLocationManager? = { return TFCLocationManager(delegate: self)}()
-    private lazy var api : APIController = { return APIController(delegate: self)}()
+    fileprivate lazy var locManager: TFCLocationManager? = { return TFCLocationManager(delegate: self)}()
+    fileprivate lazy var api : APIController = { return APIController(delegate: self)}()
 
     public override init() {
         // can be removed, when everyone moved to the new way of storing favorites
@@ -74,7 +98,7 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
         self._stations.removeDeparturesFromMemory()
     }
 
-    public func addWithJSON(allResults: JSON?) {
+    public func addWithJSON(_ allResults: JSON?) {
         // Create an empty array of Albums to append to from this list
         // Store the results in our table data array
         if (allResults != nil && allResults?["stations"].array?.count>0) {
@@ -85,11 +109,11 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
                 var results2:[JSON] = []
                 // First filter out all double entries (multiple entries for same stationy
                 for result in results {
-                    let id = String(result["id"].stringValue)
-                    if let name = result["name"].string {
+                    if let id = String(result["id"].stringValue),
+                       let name = result["name"].string {
                         // the DB has all the uppercased short Strings as well, we don't want to display them
                         // just don't add them
-                        if (name == name.uppercaseString) {
+                        if (name == name.uppercased()) {
                             continue
                         }
                         if (inStationsArrayAsFavorite[id] == nil && (stationsAdded[id] == nil || stationsAdded[id] < name.characters.count)) {
@@ -97,7 +121,7 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
                             // eg. Rappi
                             if (stationsAdded[id] < name.characters.count) {
                                 if let i = results2.indexOf({$0["id"].stringValue == id}) {
-                                    results2.removeAtIndex(i)
+                                    results2.remove(at: i)
                                 }
                             }
 
@@ -134,7 +158,7 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
         }
     }
 
-    public func getStation(index: Int) -> TFCStation? {
+    public func getStation(_ index: Int) -> TFCStation? {
         let nearbyFavoritesCount = nearbyFavorites.count
         if index < nearbyFavoritesCount {
             return nearbyFavorites[index]
@@ -147,14 +171,14 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
         return nil
     }
 
-    class func isFavoriteStation(index: String) -> Bool {
+    class func isFavoriteStation(_ index: String) -> Bool {
         if (favorite.s.stations.indexOf(index) != nil) {
             return true
         }
         return false
     }
 
-    public func initWithNearbyFavorites(location: CLLocation) -> Bool {
+    public func initWithNearbyFavorites(_ location: CLLocation) -> Bool {
 //        self._stations.empty()
 
         inStationsArrayAsFavorite = [:]
@@ -180,7 +204,7 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
         }
 
         if (hasNearbyFavs) {
-            favs.sortInPlace({ $0.calculatedDistance < $1.calculatedDistance })
+            favs.sort(by: { $0.calculatedDistance < $1.calculatedDistance })
             self.nearbyFavorites.replace(favs)
             return true
         }
@@ -192,7 +216,7 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
         loadFavorites(locManager?.currentLocation)
     }
 
-    public func loadFavorites(location: CLLocation?) {
+    public func loadFavorites(_ location: CLLocation?) {
         self._stations.empty()
         TFCFavorites.sharedInstance.repopulateFavorites()
         self._stations = favorite.s.stations
@@ -206,7 +230,7 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
         #endif
     }
 
-    public func updateStations(searchFor searchFor: String) -> Bool {
+    public func updateStations(searchFor: String) -> Bool {
         isLoading = true
         self.api.searchFor(searchFor)
         return true
@@ -216,12 +240,12 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
         return updateStations(false)
     }
 
-    public func updateStations(force: Bool) -> Bool {
+    public func updateStations(_ force: Bool) -> Bool {
         // dont refresh location within 5 seconds..
         if (force || lastRefreshLocation == nil || lastRefreshLocation?.timeIntervalSinceNow < -5) {
-            lastRefreshLocation = NSDate()
+            lastRefreshLocation = Date()
             isLoading = true
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 self.locManager?.refreshLocation()
                 return
             })
@@ -230,7 +254,7 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
         return false
     }
 
-    public func locationFixed(loc: CLLocation?) {
+    public func locationFixed(_ loc: CLLocation?) {
         if let loc = loc {
             if (self.initWithNearbyFavorites(loc)) {
                 self.callStationsUpdatedDelegate(nil, favoritesOnly: true)
@@ -244,15 +268,15 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
         }
     }
 
-    public func locationDenied(manager: CLLocationManager, err: NSError) {
+    public func locationDenied(_ manager: CLLocationManager, err: Error) {
             callStationsUpdatedDelegate("Location not available")
     }
 
-    public func locationStillTrying(manager: CLLocationManager, err: NSError) {
+    public func locationStillTrying(_ manager: CLLocationManager, err: Error) {
             callStationsUpdatedDelegate(TFCLocationManager.k.AirplaneMode)
     }
 
-    public func searchForStationsInDB(coord: CLLocationCoordinate2D, distance: Double = 1500.0, context: Any? = nil) {
+    public func searchForStationsInDB(_ coord: CLLocationCoordinate2D, distance: Double = 1500.0, context: Any? = nil) {
 
         var err:String?
 
@@ -285,7 +309,7 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
                 return true
             }).flatMap {$0} // remove all optionals
         //sort by distance
-        stations.sortInPlace({ $0.calculatedDistance < $1.calculatedDistance })
+        stations.sort(by: { $0.calculatedDistance < $1.calculatedDistance })
 
         self._stations.replace(Array(stations.prefix(self.maxStations))) //only add max stations
 
@@ -299,7 +323,7 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
         callStationsUpdatedDelegate(err, favoritesOnly: false, context: context)
     }
 
-    private func getStationIdsForCoord(coord: CLLocationCoordinate2D, distance: Double) -> [String]
+    fileprivate func getStationIdsForCoord(_ coord: CLLocationCoordinate2D, distance: Double) -> [String]
     {
         let region = MKCoordinateRegionMakeWithDistance(coord, distance, distance);
 
@@ -308,12 +332,12 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
         let lonMin = region.center.longitude - 0.5 * region.span.longitudeDelta;
         let lonMax = region.center.longitude + 0.5 * region.span.longitudeDelta;
 
-        let fetchRequest = NSFetchRequest(entityName: "TFCStationModel")
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "TFCStationModel")
         do {
             let pred = NSPredicate(format: "latitude BETWEEN {\(latMin), \(latMax)} AND  longitude BETWEEN {\(lonMin), \(lonMax)}")
 
             fetchRequest.predicate = pred
-            if let results = try TFCDataStore.sharedInstance.managedObjectContext.executeFetchRequest(fetchRequest) as? [TFCStationModel] {
+            if let results = try TFCDataStore.sharedInstance.managedObjectContext.fetch(fetchRequest) as? [TFCStationModel] {
                 return results.filter({ (row) -> Bool in
                     return (row.id != nil)
                     }).map({ (row) -> String in
@@ -325,11 +349,11 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
         return []
     }
 
-    public func didReceiveAPIResults(results: JSON?, error: NSError?, context: Any?) {
+    public func didReceiveAPIResults(_ results: JSON?, error: Error?, context: Any?) {
         isLoading = false
         var err: String? = nil
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            if (error != nil && error?.code != -999 || results == nil) {
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async {
+            if (error != nil && (error! as NSError).code != -999 || results == nil) {
                 err =  "Network error. Please try again"
             } else {
                 self.addWithJSON(results)
@@ -341,16 +365,16 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
         }
     }
 
-    private func callStationsUpdatedDelegate(err: String?) {
+    fileprivate func callStationsUpdatedDelegate(_ err: String?) {
         callStationsUpdatedDelegate(err, favoritesOnly: false, context: nil)
     }
 
-    private func callStationsUpdatedDelegate(err: String?, favoritesOnly: Bool) {
+    fileprivate func callStationsUpdatedDelegate(_ err: String?, favoritesOnly: Bool) {
         callStationsUpdatedDelegate(err, favoritesOnly: favoritesOnly, context: nil)
     }
 
-    private func callStationsUpdatedDelegate(err: String?, favoritesOnly: Bool, context: Any?) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+    fileprivate func callStationsUpdatedDelegate(_ err: String?, favoritesOnly: Bool, context: Any?) {
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async {
             if (err == TFCLocationManager.k.AirplaneMode) {
                 self.loadingMessage = "Airplane Mode?"
             } else {
@@ -383,7 +407,7 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
             return "Not in Switzerland?"
         }
         
-        if let distanceFromSwitzerland = locManager?.currentLocation?.distanceFromLocation(CLLocation(latitude: 47, longitude: 8)) where distanceFromSwitzerland > 1000000 {
+        if let distanceFromSwitzerland = locManager?.currentLocation?.distance(from: CLLocation(latitude: 47, longitude: 8)), distanceFromSwitzerland > 1000000 {
                 return "Not in Switzerland?"
         }
 
@@ -391,7 +415,7 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
 
     }
 
-    public func getStationsAsArray(limit: Int = 1000) -> [TFCStation] {
+    public func getStationsAsArray(_ limit: Int = 1000) -> [TFCStation] {
         var stations = nearbyFavorites.getStations(limit)
         if (stations.count < limit) {
             for (station) in _stations.getStations(limit - stations.count) {
@@ -401,7 +425,7 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
         return stations
     }
 
-    public func populateWithIds(favorites: [String]?, nonfavorites: [String]?) {
+    public func populateWithIds(_ favorites: [String]?, nonfavorites: [String]?) {
         if let favorites = favorites {
             self.nearbyFavorites.replace(stationIds: favorites)
         }
@@ -412,5 +436,5 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
 }
 
 public protocol TFCStationsUpdatedProtocol: class {
-    func stationsUpdated(error: String?, favoritesOnly: Bool, context: Any?)
+    func stationsUpdated(_ error: String?, favoritesOnly: Bool, context: Any?)
 }

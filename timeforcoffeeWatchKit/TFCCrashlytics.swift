@@ -1,2 +1,2 @@
-func DLog2CLS(format:String, text: [CVarArgType]) {
+func DLog2CLS(_ format:String, text: [CVarArg]) {
 }

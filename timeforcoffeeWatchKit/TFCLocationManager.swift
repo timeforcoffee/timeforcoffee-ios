@@ -16,7 +16,7 @@ public final class TFCLocationManager: TFCLocationManagerBase {
         self.locationManager.requestLocation()
     }
 
-    public func locationManager(manager: CLLocationManager, didUpdateLocations locations: [AnyObject]) {
+    public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [AnyObject]) {
         self.locationManagerBase(manager, didUpdateLocations: locations)
     }
 }

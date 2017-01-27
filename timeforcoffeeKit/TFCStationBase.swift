@@ -11,10 +11,34 @@ import CoreLocation
 import MapKit
 import UIKit
 import CoreData
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
 
-public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
 
-    public var name: String {
+
+open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
+
+    open var name: String {
         get {
             if (_name == nil) {
                 _name = self.realmObject?.name
@@ -32,7 +56,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                 }
                 DLog("set new name in DB for \(name2) \(st_id)")
                 self.realmObject?.name = name2
-                self.realmObject?.lastUpdated = NSDate()
+                self.realmObject?.lastUpdated = Date()
                 _name = name2
             }
         }
@@ -43,9 +67,9 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     #endif
 
     static var stationsCache:[String:WeakBox<TFCStation>] = [:]
-    private var _name: String?
+    fileprivate var _name: String?
 
-    public var coord: CLLocation? {
+    open var coord: CLLocation? {
         get {
             if (self._coord != nil) {
                 return self._coord
@@ -62,10 +86,10 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             if let lat = location?.coordinate.latitude, let lon = location?.coordinate.longitude {
                 if (self.realmObject?.latitude  == nil ||
                     self.realmObject?.longitude == nil ||
-                    coord?.distanceFromLocation(CLLocation(latitude: self.realmObject?.latitude as! Double , longitude: self.realmObject?.longitude as! Double)) > 10) {
-                        self.realmObject?.latitude = lat
-                        self.realmObject?.longitude = lon
-                        self.realmObject?.lastUpdated = NSDate()
+                    coord?.distance(from: CLLocation(latitude: self.realmObject?.latitude as! Double , longitude: self.realmObject?.longitude as! Double)) > 10) {
+                        self.realmObject?.latitude = lat as NSNumber
+                        self.realmObject?.longitude = lon as NSNumber
+                        self.realmObject?.lastUpdated = Date()
                         DLog("updateGeolocationInfo for \(self.name)")
                         self.updateGeolocationInfo()
                 }
@@ -74,18 +98,18 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         }
     }
 
-    private var _coord: CLLocation?
+    fileprivate var _coord: CLLocation?
 
-    public var st_id: String
+    open var st_id: String
 
-    private var _departures: [String:TFCDeparture]? = nil
-    private var _departuresObsolete:Bool = true
-    private var lastRemovedDepartures:Double? = nil
-    private var departures: [String:TFCDeparture]? {
+    fileprivate var _departures: [String:TFCDeparture]? = nil
+    fileprivate var _departuresObsolete:Bool = true
+    fileprivate var lastRemovedDepartures:Double? = nil
+    fileprivate var departures: [String:TFCDeparture]? {
         get {
             if (_departuresObsolete) {
                 let cache = TFCCache.objects.stations
-                _departures = cache.objectForKey("dept_\(st_id)") as! [String:TFCDeparture]?
+                _departures = cache.object(forKey: "dept_\(st_id)") as! [String:TFCDeparture]?
                 _departuresObsolete = false
             }
             return _departures
@@ -97,22 +121,22 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         }
     }
 
-    public var needsCacheSave:Bool = false
-    private var departuresSorted: [TFCDeparture]?
-    private var filteredDepartures: [TFCDeparture]?
+    open var needsCacheSave:Bool = false
+    fileprivate var departuresSorted: [TFCDeparture]?
+    fileprivate var filteredDepartures: [TFCDeparture]?
 
-    public var calculatedDistance: Double? {
+    open var calculatedDistance: Double? {
         get {
             guard let currentLoc = TFCLocationManager.getCurrentLocation() else { return nil }
             // recalculate distance when we're more than 50m away
-            if (_calculatedDistanceLastCoord == nil || _calculatedDistanceLastCoord?.distanceFromLocation(currentLoc) > 50) {
+            if (_calculatedDistanceLastCoord == nil || _calculatedDistanceLastCoord?.distance(from: currentLoc) > 50) {
                 _calculatedDistanceLastCoord = currentLoc
                 if let coord = self.coord {
-                    _calculatedDistance = currentLoc.distanceFromLocation(coord)
+                    _calculatedDistance = currentLoc.distance(from: coord)
                     // don't store it on watchOS, it's slower than calculating it on startup
                     #if os(watchOS)
                     #else
-                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
+                        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async {
                             let cache: PINCache = TFCCache.objects.stations
                             cache.setObject(self, forKey: self.st_id)
                         }
@@ -124,7 +148,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         }
     }
 
-    private var _calculatedDistance: Double? = nil
+    fileprivate var _calculatedDistance: Double? = nil
 
     var _calculatedDistanceLastCoord: CLLocation? = nil
 
@@ -134,20 +158,20 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         }
     }
     var walkingDistanceLastCoord: CLLocation? = nil
-    public var lastDepartureUpdate: NSDate? = nil
-    private var lastDepartureCount: Int? = nil
+    open var lastDepartureUpdate: Date? = nil
+    fileprivate var lastDepartureCount: Int? = nil
 
-    private var lastSettingsRead: NSDate
+    fileprivate var lastSettingsRead: Date
 
-    private var departureUpdateDownloading: NSDate? = nil
+    fileprivate var departureUpdateDownloading: Date? = nil
 
-    public var isLastUsed: Bool = false
+    open var isLastUsed: Bool = false
 
-    private struct objects {
+    fileprivate struct objects {
         static let  dataStore: TFCDataStore? = TFCDataStore.sharedInstance
     }
 
-    private lazy var api : APIController = {
+    fileprivate lazy var api : APIController = {
         [unowned self] in
         return APIController(delegate: self)
     }()
@@ -159,25 +183,25 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         var context: Any? = nil
     }
 
-    private lazy var filteredLines:[String: [String: Bool]] = {
+    fileprivate lazy var filteredLines:[String: [String: Bool]] = {
         [unowned self] in
         return self.getFilteredLines()
     }()
 
-    private lazy var favoriteLines:[String: [String: Bool]] = {
+    fileprivate lazy var favoriteLines:[String: [String: Bool]] = {
         [unowned self] in
         return self.getFavoriteLines()
     }()
 
 
-    private lazy var realmObject:TFCStationModel? = {
+    fileprivate lazy var realmObject:TFCStationModel? = {
         [unowned self] in
 
-        let fetchRequest = NSFetchRequest(entityName: "TFCStationModel")
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "TFCStationModel")
         do {
             let pred = NSPredicate(format: "id == %@", self.st_id)
             fetchRequest.predicate = pred
-            if let results = try TFCDataStore.sharedInstance.managedObjectContext.executeFetchRequest(fetchRequest) as? [TFCStationModel] {
+            if let results = try TFCDataStore.sharedInstance.managedObjectContext.fetch(fetchRequest) as? [TFCStationModel] {
                 if let first = results.first {
                     return first
                 }
@@ -186,7 +210,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             DLog("Could not fetch \(error), \(error.userInfo)")
         }
 
-        if let obj = NSEntityDescription.insertNewObjectForEntityForName("TFCStationModel", inManagedObjectContext: TFCDataStore.sharedInstance.managedObjectContext) as? TFCStationModel {
+        if let obj = NSEntityDescription.insertNewObject(forEntityName: "TFCStationModel", into: TFCDataStore.sharedInstance.managedObjectContext) as? TFCStationModel {
             obj.id = self.st_id
             return obj
         }
@@ -200,7 +224,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
     public init(name: String, id: String, coord: CLLocation?) {
         self.st_id = id
-        self.lastSettingsRead = NSDate()
+        self.lastSettingsRead = Date()
         super.init()
         self.name = name
         self.instanceCounter("coord")
@@ -217,13 +241,13 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
     public init(id: String) {
         self.st_id = id
-        self.lastSettingsRead = NSDate()
+        self.lastSettingsRead = Date()
         super.init()
         self.instanceCounter("id")
 
     }
 
-    private func instanceCounter(name: String) {
+    fileprivate func instanceCounter(_ name: String) {
         #if DEBUG
         TFCStationBase.InstanceCounter += 1;
         //DLog("init stationbase \(name) \(self.st_id) \(TFCStationBase.InstanceCounter)");
@@ -240,12 +264,12 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     }
 
     public required init?(coder aDecoder: NSCoder) {
-        self.lastSettingsRead = NSDate()
+        self.lastSettingsRead = Date()
         do {
             if #available(iOSApplicationExtension 9.0, *) {
-                self.st_id = try aDecoder.decodeTopLevelObjectForKey("st_id") as! String
+                self.st_id = try aDecoder.decodeTopLevelObject(forKey: "st_id") as! String
             } else {
-                self.st_id = aDecoder.decodeObjectForKey("st_id") as! String
+                self.st_id = aDecoder.decodeObject(forKey: "st_id") as! String
             }
             super.init()
             self.instanceCounter("coder")
@@ -260,27 +284,27 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
         do {
             if #available(iOSApplicationExtension 9.0, *) {
-                self.walkingDistanceString = try aDecoder.decodeTopLevelObjectForKey("walkingDistanceString") as! String?
-                self.walkingDistanceLastCoord = try aDecoder.decodeTopLevelObjectForKey("walkingDistanceLastCoord") as! CLLocation?
-                self._calculatedDistance = try aDecoder.decodeTopLevelObjectForKey("_calculatedDistance") as! Double?
-                self._calculatedDistanceLastCoord = try aDecoder.decodeTopLevelObjectForKey("_calculatedDistanceLastCoord") as! CLLocation?
+                self.walkingDistanceString = try aDecoder.decodeTopLevelObject(forKey: "walkingDistanceString") as! String?
+                self.walkingDistanceLastCoord = try aDecoder.decodeTopLevelObject(forKey: "walkingDistanceLastCoord") as! CLLocation?
+                self._calculatedDistance = try aDecoder.decodeTopLevelObject(forKey: "_calculatedDistance") as! Double?
+                self._calculatedDistanceLastCoord = try aDecoder.decodeTopLevelObject(forKey: "_calculatedDistanceLastCoord") as! CLLocation?
             } else {
-                self.walkingDistanceString = aDecoder.decodeObjectForKey("walkingDistanceString") as! String?
-                self.walkingDistanceLastCoord = aDecoder.decodeObjectForKey("walkingDistanceLastCoord") as! CLLocation?
-                self._calculatedDistance = aDecoder.decodeObjectForKey("_calculatedDistance") as! Double?
-                self._calculatedDistanceLastCoord = aDecoder.decodeObjectForKey("_calculatedDistanceLastCoord") as! CLLocation?
+                self.walkingDistanceString = aDecoder.decodeObject(forKey: "walkingDistanceString") as! String?
+                self.walkingDistanceLastCoord = aDecoder.decodeObject(forKey: "walkingDistanceLastCoord") as! CLLocation?
+                self._calculatedDistance = aDecoder.decodeObject(forKey: "_calculatedDistance") as! Double?
+                self._calculatedDistanceLastCoord = aDecoder.decodeObject(forKey: "_calculatedDistanceLastCoord") as! CLLocation?
             }
         } catch let (err) {
             DLog("Decoder error: \(err)", toFile: true)
         }
     }
 
-    public func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(st_id, forKey: "st_id")
-        aCoder.encodeObject(walkingDistanceString, forKey: "walkingDistanceString")
-        aCoder.encodeObject(walkingDistanceLastCoord, forKey: "walkingDistanceLastCoord")
-        aCoder.encodeObject(_calculatedDistance, forKey: "_calculatedDistance")
-        aCoder.encodeObject(_calculatedDistanceLastCoord, forKey: "_calculatedDistanceLastCoord")
+    open func encode(with aCoder: NSCoder) {
+        aCoder.encode(st_id, forKey: "st_id")
+        aCoder.encode(walkingDistanceString, forKey: "walkingDistanceString")
+        aCoder.encode(walkingDistanceLastCoord, forKey: "walkingDistanceLastCoord")
+        aCoder.encode(_calculatedDistance, forKey: "_calculatedDistance")
+        aCoder.encode(_calculatedDistanceLastCoord, forKey: "_calculatedDistanceLastCoord")
     }
 
     deinit {
@@ -297,7 +321,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         self.init(name: "doesn't exist", id: "0000", coord: nil)
     }
 
-    public class func saveToPincache(saveStation: TFCStationBase) {
+    open class func saveToPincache(_ saveStation: TFCStationBase) {
         if (saveStation.needsCacheSave)  {
             let cache: PINCache = TFCCache.objects.stations
             //immediatly set to memory cache
@@ -311,22 +335,22 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         }
     }
 
-    public func departuresSaveToPincache() {
+    open func departuresSaveToPincache() {
         //immediatly set to memory cache
         let cache = TFCCache.objects.stations
         if let dept = _departures {
             cache.memoryCache.setObject(dept, forKey: "dept_\(st_id)")
             DLog("set PinCache Departures for \(name) \(st_id)", toFile: true)
-            cache.setObject(dept, forKey: "dept_\(st_id)", block: { (_) in
+            cache.setObject(dept as NSDictionary, forKey: "dept_\(st_id)", block: { (_) in
             })
         } else {
-            cache.removeObjectForKey("dept_\(st_id)", block: { (_) in
+            cache.removeObject(forKey: "dept_\(st_id)", block: { (_) in
                 self._departures = nil
             })
         }
     }
 
-    public class func initWithCache(name: String = "", id: String, coord: CLLocation? = nil) -> TFCStation? {
+    open class func initWithCache(_ name: String = "", id: String, coord: CLLocation? = nil) -> TFCStation? {
         let trimmed_id: String
 
         if (id.hasPrefix("0")) {
@@ -340,7 +364,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             return newStation
         }
        
-        let newStation: TFCStation? = cache.objectForKey(trimmed_id) as? TFCStation
+        let newStation: TFCStation? = cache.object(forKey: trimmed_id) as? TFCStation
         //if not in the cache, or no coordinates set or the name is "unknown"
         if (newStation == nil || newStation?.coord == nil || newStation?.name == "unknown") {
             //if name is not set, we only have the id, try to get it from the DB or from a server
@@ -421,11 +445,11 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         return nil
     }
 
-    public class func getFromMemoryCaches(id: String) -> TFCStation? {
+    open class func getFromMemoryCaches(_ id: String) -> TFCStation? {
         let cache: PINCache = TFCCache.objects.stations
 
         // if already in the PINCcache cache, we can just return it
-        if let newStation = cache.memoryCache.objectForKey(id) as? TFCStation {
+        if let newStation = cache.memoryCache.object(forKey: id) as? TFCStation {
             return newStation
         }
         // check if we have it in the stationCache
@@ -436,21 +460,21 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         return nil
     }
 
-    public class func countStationsCache() -> Int {
+    open class func countStationsCache() -> Int {
         for (id, station) in stationsCache {
             if (station.value == nil) {
-                stationsCache.removeValueForKey(id)
+                stationsCache.removeValue(forKey: id)
             }
         }
         return stationsCache.count
 
     }
 
-    public class func addToStationCache(station: TFCStation) {
+    open class func addToStationCache(_ station: TFCStation) {
         TFCStationBase.stationsCache[station.st_id] = WeakBox(station)
     }
 
-    public class func initWithCache(dict: [String: String]) -> TFCStation? {
+    open class func initWithCache(_ dict: [String: String]) -> TFCStation? {
         var location: CLLocation? = nil;
         if let lat: String = (dict["latitude"] as String?),
             let long: String = (dict["longitude"] as String?) {
@@ -465,22 +489,22 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         return initWithCacheId(dict["st_id"] as String!, name: name, coord: location)
     }
 
-    public class func initWithCacheId(id:String, name:String = "", coord: CLLocation? = nil)-> TFCStation? {
+    open class func initWithCacheId(_ id:String, name:String = "", coord: CLLocation? = nil)-> TFCStation? {
         return initWithCache(name, id: id, coord: coord)
     }
 
-    public class func isStations(results: JSON) -> Bool {
+    open class func isStations(_ results: JSON) -> Bool {
         if (results["stations"].array != nil) {
             return true
         }
         return false
     }
     
-    public func isFavorite() -> Bool {
+    open func isFavorite() -> Bool {
         return TFCStations.isFavoriteStation(self.st_id);
     }
 
-    public func toggleFavorite() {
+    open func toggleFavorite() {
         if (self.isFavorite() == true) {
             self.unsetFavorite()
         } else {
@@ -488,27 +512,27 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         }
     }
 
-    public func setFavorite() {
+    open func setFavorite() {
         TFCFavorites.sharedInstance.set(self as? TFCStation)
         DLog("just before updateGeofences", toFile:true)
         TFCFavorites.sharedInstance.updateGeofences()
     }
 
-    public func unsetFavorite() {
+    open func unsetFavorite() {
         TFCFavorites.sharedInstance.unset(station: self as? TFCStation)
         DLog("just before updateGeofences", toFile:true)
         TFCFavorites.sharedInstance.updateGeofences()
     }
 
-    public func getLongitude() -> Double? {
+    open func getLongitude() -> Double? {
         return coord?.coordinate.longitude
     }
 
-    public func getLatitude() -> Double? {
+    open func getLatitude() -> Double? {
         return coord?.coordinate.latitude
     }
     
-    public func getName(cityAfter: Bool) -> String {
+    open func getName(_ cityAfter: Bool) -> String {
         if (cityAfter && name.match(", *")) {
             let stationName = name.replace(".*, *", template: "")
             let cityName = name.replace(", *.*", template: "")
@@ -517,55 +541,55 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         return name
     }
 
-    public func getNameAbridged() -> String {
+    open func getNameAbridged() -> String {
         return self.name.replace(".*,[ ]*", template: "")
     }
 
-    public func getNameWithStar() -> String {
+    open func getNameWithStar() -> String {
         return getNameWithStar(false)
     }
     
-    public func getNameWithStar(cityAfter: Bool) -> String {
+    open func getNameWithStar(_ cityAfter: Bool) -> String {
         if self.isFavorite() {
             return "\(getName(cityAfter)) ★"
         }
         return getName(cityAfter)
     }
 
-    public func getNameWithFilters(cityAfter: Bool) -> String {
+    open func getNameWithFilters(_ cityAfter: Bool) -> String {
         return "\(getName(cityAfter))\(getFilterSign())"
     }
 
-    private func getFilterSign() -> String {
+    fileprivate func getFilterSign() -> String {
         if (self.hasFilters()) {
             return " ✗"
         }
         return ""
     }
 
-    public func getNameWithStarAndFilters() -> String {
+    open func getNameWithStarAndFilters() -> String {
         return getNameWithStarAndFilters(false)
     }
     
-    public func getNameWithStarAndFilters(cityAfter: Bool) -> String {
+    open func getNameWithStarAndFilters(_ cityAfter: Bool) -> String {
         return "\(getNameWithStar(cityAfter))\(getFilterSign())"
     }
     
-    public func hasFilters() -> Bool {
+    open func hasFilters() -> Bool {
         return (filteredLines.count > 0 || hasFavoriteDepartures())
     }
-    public func hasFavoriteDepartures() -> Bool {
+    open func hasFavoriteDepartures() -> Bool {
         return favoriteLines.count > 0
     }
 
-    private func getMarkedLines(favorite: Bool) -> [String: [String: Bool]] {
+    fileprivate func getMarkedLines(_ favorite: Bool) -> [String: [String: Bool]] {
         if (favorite) {
             return favoriteLines
         }
         return filteredLines
     }
 
-    private func isMarkedDeparture(departure: TFCDeparture, favorite: Bool) -> Bool {
+    fileprivate func isMarkedDeparture(_ departure: TFCDeparture, favorite: Bool) -> Bool {
         var lines = getMarkedLines(favorite)
         if (lines[departure.getLine()] != nil) {
             if (lines[departure.getLine()]?[departure.getDestination()] != nil) {
@@ -575,15 +599,15 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         return false
     }
 
-    public func isFavoriteDeparture(departure: TFCDeparture) -> Bool {
+    open func isFavoriteDeparture(_ departure: TFCDeparture) -> Bool {
         return isMarkedDeparture(departure, favorite: true)
     }
 
-    public func isFilteredDeparture(departure: TFCDeparture) -> Bool {
+    open func isFilteredDeparture(_ departure: TFCDeparture) -> Bool {
         return isMarkedDeparture(departure, favorite: false)
     }
 
-    public func showAsFavoriteDeparture(departure: TFCDeparture) -> Bool {
+    open func showAsFavoriteDeparture(_ departure: TFCDeparture) -> Bool {
         if (favoriteLines.count > 0) {
             return isFavoriteDeparture(departure)
         }
@@ -593,7 +617,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         return false
     }
 
-    private func setMarkedDeparture(departure: TFCDeparture, favorite: Bool) {
+    fileprivate func setMarkedDeparture(_ departure: TFCDeparture, favorite: Bool) {
         var lines = getMarkedLines(favorite)
         if (lines[departure.getLine()] == nil) {
             lines[departure.getLine()] = [:]
@@ -610,15 +634,15 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         }
     }
 
-    public func setFavoriteDeparture(departure: TFCDeparture) {
+    open func setFavoriteDeparture(_ departure: TFCDeparture) {
         setMarkedDeparture(departure, favorite: true)
     }
 
-    public func setFilterDeparture(departure: TFCDeparture) {
+    open func setFilterDeparture(_ departure: TFCDeparture) {
         setMarkedDeparture(departure, favorite: false)
     }
 
-    private func unsetMarkedDeparture(departure: TFCDeparture, favorite: Bool) {
+    fileprivate func unsetMarkedDeparture(_ departure: TFCDeparture, favorite: Bool) {
         var lines = getMarkedLines(favorite)
         lines[departure.getLine()]?[departure.getDestination()] = nil
         if let l = lines[departure.getLine()] as [String: Bool]? {
@@ -632,22 +656,22 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
     }
 
-    public func unsetFavoriteDeparture(departure: TFCDeparture) {
+    open func unsetFavoriteDeparture(_ departure: TFCDeparture) {
         unsetMarkedDeparture(departure, favorite: true)
     }
     
-    public func unsetFilterDeparture(departure: TFCDeparture) {
+    open func unsetFilterDeparture(_ departure: TFCDeparture) {
         unsetMarkedDeparture(departure, favorite: false)
     }
 
-    private func getDataStoreKey(id: String, favorite: Bool) -> String {
+    fileprivate func getDataStoreKey(_ id: String, favorite: Bool) -> String {
         if (favorite) {
             return "favorite\(id)"
         }
         return "filtered\(id)"
     }
 
-    private func saveMarkedLines(lines: [String: [String: Bool]], favorite: Bool) {
+    fileprivate func saveMarkedLines(_ lines: [String: [String: Bool]], favorite: Bool) {
         if (favorite) {
             favoriteLines = lines
         } else {
@@ -662,31 +686,34 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         }
         objects.dataStore?.synchronize()
         self.filteredDepartures = nil
-        TFCDataStore.sharedInstance.getUserDefaults()?.setObject(NSDate(), forKey: "settingsLastUpdate")
+        TFCDataStore.sharedInstance.getUserDefaults()?.set(Date(), forKey: "settingsLastUpdate")
 
     }
 
-    private func getMarkedLinesShared(favorite: Bool) -> [String: [String: Bool]] {
+    fileprivate func getMarkedLinesShared(_ favorite: Bool) -> [String: [String: Bool]] {
         let key = getDataStoreKey(st_id, favorite: favorite)
-        let markedDestinationsShared: [String: [String: Bool]]? = objects.dataStore?.objectForKey(key)?.mutableCopy() as! [String: [String: Bool]]?
+        var markedDestinationsShared: [String: [String: Bool]]? =  [:]
+//FIXME: was mutableCopy before... in swift 2.3
+
+        markedDestinationsShared = objects.dataStore?.objectForKey(key) as? [String: [String: Bool]]
 
         guard let markedDestinationsShared2 = markedDestinationsShared else { return [:] }
         return markedDestinationsShared2
     }
 
-    private func getFavoriteLines() -> [String: [String: Bool]] {
+    fileprivate func getFavoriteLines() -> [String: [String: Bool]] {
         return getMarkedLinesShared(true)
     }
 
-    public func repopulateFavoriteLines() {
+    open func repopulateFavoriteLines() {
         self.favoriteLines = self.getFavoriteLines()
     }
 
-    private func getFilteredLines() -> [String: [String: Bool]] {
+    fileprivate func getFilteredLines() -> [String: [String: Bool]] {
         return getMarkedLinesShared(false)
     }
 
-    func addDepartures(departures: [TFCDeparture]?) {
+    func addDepartures(_ departures: [TFCDeparture]?) {
         // don't update departures, if we get nil
         // can happen when network request didn't work properly
         if let depts = departures {
@@ -718,12 +745,12 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         }
     }
 
-    public func getDepartures() -> [TFCDeparture]? {
+    open func getDepartures() -> [TFCDeparture]? {
         if let alreadySorted = self.departuresSorted {
             return alreadySorted
         }
         if let depts = self.departures?.values {
-            let sorted = depts.sort({ (s1, s2) -> Bool in
+            let sorted = depts.sorted(by: { (s1, s2) -> Bool in
                 if s1.sortTime == s2.sortTime {
                     return s1.sortOrder < s2.sortOrder
                 }
@@ -735,7 +762,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         return nil
     }
 
-    public func getFilteredDepartures(count:Int? = nil) -> [TFCDeparture]? {
+    open func getFilteredDepartures(_ count:Int? = nil) -> [TFCDeparture]? {
         if (filteredDepartures != nil) {
             return filteredDepartures
         }
@@ -756,22 +783,22 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         return filteredDepartures
     }
 
-    public func getScheduledFilteredDepartures() -> [TFCDeparture]? {
+    open func getScheduledFilteredDepartures() -> [TFCDeparture]? {
         let depts = self.getFilteredDepartures()
         if let depts = depts {
-            let sorted = depts.sort({ (s1, s2) -> Bool in
+            let sorted = depts.sorted(by: { (s1, s2) -> Bool in
                 return s1.getScheduledTimeAsNSDate() < s2.getScheduledTimeAsNSDate()
             })
             var i = 0
             //dont add departures which may go away pretty soon anyway again
             // that's why we only go back 50 seconds and not the full 60
             
-            let aMinuteAgo = NSDate().dateByAddingTimeInterval(-50)
+            let aMinuteAgo = Date().addingTimeInterval(-50)
             var newSorted = sorted
             for departure in sorted {
                 if (departure.getScheduledTimeAsNSDate() < aMinuteAgo) {
                     if (newSorted.indices.contains(i)) {
-                        newSorted.removeAtIndex(i)
+                        newSorted.remove(at: i)
                     }
                     i += 1
                 } else {
@@ -788,7 +815,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         return nil
     }
 
-    public func updateDepartures(completionDelegate: TFCDeparturesUpdatedProtocol?, force: Bool = false, context: Any? = nil, cachettl:Int = 20, startTime:NSDate? = nil, onlyFirstDownload:Bool = false) {
+    open func updateDepartures(_ completionDelegate: TFCDeparturesUpdatedProtocol?, force: Bool = false, context: Any? = nil, cachettl:Int = 20, startTime:Date? = nil, onlyFirstDownload:Bool = false) {
 
         let removedDepartures = removeObsoleteDepartures()
 
@@ -806,7 +833,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             }
         }
 
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async {
             var context2: contextData = contextData()
             context2.completionDelegate = completionDelegate
             context2.context = context
@@ -825,28 +852,28 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                     dontUpdate = true
                 }
             }
-            let settingsLastUpdated: NSDate? = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("settingsLastUpdate") as! NSDate?
+            let settingsLastUpdated: Date? = TFCDataStore.sharedInstance.getUserDefaults()?.object(forKey: "settingsLastUpdate") as! Date?
             // if settings were changed since the last DepartureUpdate, reload favorite Lines
             var settingsChanged = false
-            if (settingsLastUpdated != nil && self.lastSettingsRead.timeIntervalSinceDate(settingsLastUpdated!) < 0) {
+            if (settingsLastUpdated != nil && self.lastSettingsRead.timeIntervalSince(settingsLastUpdated!) < 0) {
                 DLog("reload filtered Lines for \(self.name)", toFile: true)
                 self.filteredLines = self.getFilteredLines()
                 self.favoriteLines = self.getFavoriteLines()
-                self.lastSettingsRead = NSDate()
+                self.lastSettingsRead = Date()
                 settingsChanged = true
             }
             if (force || settingsChanged ||
                     (!dontUpdate &&
                         (self.lastDepartureUpdate == nil ||
-                         (self.lastDepartureUpdate?.timeIntervalSinceNow)! < -cachettl)
+                         Int((self.lastDepartureUpdate?.timeIntervalSinceNow)!) < -cachettl)
                     )
                 )
             {
-                self.departureUpdateDownloading = NSDate()
+                self.departureUpdateDownloading = Date()
                 self.api.getDepartures(self as! TFCStation, context: context2, startTime: startTime)
 
             } else {
-                dispatch_async(dispatch_get_main_queue(), {
+                DispatchQueue.main.async(execute: {
                     completionDelegate?.departuresStillCached(context2.context, forStation: self as? TFCStation)
                     return  
                 })
@@ -854,9 +881,9 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         }
     }
 
-    public func didReceiveAPIResults(results: JSON?, error: NSError?, context: Any?) {
+    open func didReceiveAPIResults(_ results: JSON?, error: Error?, context: Any?) {
         let contextInfo: contextData? = context as! contextData?
-        var lastScheduledBefore:NSDate? = nil
+        var lastScheduledBefore:Date? = nil
         if (results == nil || (error != nil && self.departures != nil && self.departures?.count > 0)) {
             self.setDeparturesAsOutdated()
         } else {
@@ -870,7 +897,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                 self.name = TFCDeparture.getStationNameFromJson(results!)!;
             }
 
-            self.lastDepartureUpdate = NSDate()
+            self.lastDepartureUpdate = Date()
             self.departureUpdateDownloading = nil
             contextInfo?.completionDelegate?.departuresUpdated(error, context: contextInfo?.context, forStation: self as? TFCStation)
 
@@ -895,10 +922,10 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                             doMorning = true
                         #endif
                         if (doIt && (
-                                (lastScheduled.dateByAddingTimeInterval(hours * -3600).timeIntervalSinceNow < 0)
+                                (lastScheduled.addingTimeInterval(hours * -3600).timeIntervalSinceNow < 0)
                                 || (doMorning
-                                    && ((lastScheduled.timeIntervalSinceDate(NSCalendar.currentCalendar().startOfDayForDate(lastScheduled)) < 3600 * 8)
-                                        && (lastScheduled.dateByAddingTimeInterval(10 * -3600).timeIntervalSinceNow < 0)
+                                    && ((lastScheduled.timeIntervalSince(Calendar.current.startOfDay(for: lastScheduled)) < 3600 * 8)
+                                        && (lastScheduled.addingTimeInterval(10 * -3600).timeIntervalSinceNow < 0)
                                         )
                                     )
                                 )
@@ -914,12 +941,12 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
 
     }
-    private func getLastDepartureDate() -> NSDate? {
+    fileprivate func getLastDepartureDate() -> Date? {
         return self.getDepartures()?.last?.getScheduledTimeAsNSDate()
     }
 
 
-    private func setDeparturesAsOutdated() {
+    fileprivate func setDeparturesAsOutdated() {
         if (self.departures != nil) {
             for (departure) in self.getDepartures()! {
                 departure.outdated = true
@@ -931,8 +958,8 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         self.departures = nil
     }
 
-    public func removeObsoleteDepartures(force:Bool = false) -> Bool {
-        if (force == false && (lastRemovedDepartures != nil && floor(NSDate.timeIntervalSinceReferenceDate() / 60) == lastRemovedDepartures)) {
+    open func removeObsoleteDepartures(_ force:Bool = false) -> Bool {
+        if (force == false && (lastRemovedDepartures != nil && floor(Date.timeIntervalSinceReferenceDate / 60) == lastRemovedDepartures)) {
             return false
         }
         if (departures == nil || departures?.count == 0) {
@@ -949,7 +976,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                     if (departure.getMinutesAsInt() < 0) {
                         i += 1
                         someRemoved = true
-                        departures?.removeValueForKey(departure.getKey())
+                        departures?.removeValue(forKey: departure.getKey())
                     } else {
                         //if we find one, which is not obsoelte, we can stop here
                         break
@@ -966,17 +993,17 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             self.departuresSaveToPincache()
         }
         DLog("removeObsoleteDepartures for \(self.name) \(someRemoved)", toFile: true)
-        lastRemovedDepartures = floor(NSDate.timeIntervalSinceReferenceDate() / 60)
+        lastRemovedDepartures = floor(Date.timeIntervalSinceReferenceDate / 60)
         return someRemoved
     }
 
-    public func removeDeparturesFromMemory() {
+    open func removeDeparturesFromMemory() {
         self._departuresObsolete = true
         self._departures = nil
         self.departuresSorted = nil
     }
 
-    public func getAsDict() -> [String: String] {
+    open func getAsDict() -> [String: String] {
         if (coord == nil) {
             return [
                 "name": getName(false),
@@ -991,7 +1018,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         ]
     }
 
-    public func getIconIdentifier() -> String {
+    open func getIconIdentifier() -> String {
         if (isFavorite()) {
             if (st_id == "8591306") {
                 return "stationicon-liip"
@@ -1001,40 +1028,40 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         return "stationicon-pin"
     }
 
-    public func getIcon() -> UIImage {
+    open func getIcon() -> UIImage {
         return UIImage(named: getIconIdentifier())!
     }
 
-    public func setStationActivity() {
+    open func setStationActivity() {
     }
 
-    public func setStationSearchIndex() {
+    open func setStationSearchIndex() {
     }
 
 
-    public func getWebLink() -> NSURL? {
+    open func getWebLink() -> URL? {
         //        {:location-id :ch_zh, :stops {"008591195" {:id "008591195", :name "Zürich, Höfliweg", :location {:lat 47.367569, :lng 8.51095}, :known-destinations ()}}, :stops-order ["008591195"]
         if (self.getCountryISO() != "CH" && self.getCountryISO() != "") {
-            return NSURL(string: "http://fahrplan.sbb.ch/bin/stboard.exe/dn?input=\(self.st_id)&REQTrain_name=&boardType=dep&time=now&productsFilter=1111111111&selectDate=today&maxJourneys=20&start=yes")
+            return URL(string: "http://fahrplan.sbb.ch/bin/stboard.exe/dn?input=\(self.st_id)&REQTrain_name=&boardType=dep&time=now&productsFilter=1111111111&selectDate=today&maxJourneys=20&start=yes")
         }
         if let lat = self.getLatitude() {
             let hash = "{:location-id :ch, :stops {\"\(self.st_id)\" {:id \"\", :name \"\(self.name)\", :location {:lat \(lat), :lng \(self.getLongitude()!)}, :known-destinations ()}}, :stops-order [\"\(self.st_id)\"]}"
-            let utf8hash = hash.dataUsingEncoding(NSISOLatin1StringEncoding)
-            if let base64 = utf8hash?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0)) {
-                return NSURL(string: "http://www.timeforcoffee.ch/#/link/\(base64)")
+            let utf8hash = hash.data(using: String.Encoding.isoLatin1)
+            if let base64 = utf8hash?.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0)) {
+                return URL(string: "http://www.timeforcoffee.ch/#/link/\(base64)")
             }
         }
         return nil
     }
 
-    private func updateGeolocationInfo() {
+    fileprivate func updateGeolocationInfo() {
         let iso = realmObject?.countryISO
         if (iso == nil || iso == "") {
             let geocoder = CLGeocoder()
             if let coordinates = self.coord {
-                geocoder.reverseGeocodeLocation(coordinates) { (places:[CLPlacemark]?, error:NSError?) -> Void in
+                geocoder.reverseGeocodeLocation(coordinates) { (places:[CLPlacemark]?, error:Error?) -> Void in
                     if let place = places?.first {
-                        if self.realmObject?.fault == false {
+                        if self.realmObject?.isFault == false {
                             if let city = place.locality {
                                 self.realmObject?.city = city
                             }
@@ -1042,7 +1069,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                             if let county = place.administrativeArea {
                                 self.realmObject?.county = county
                             }
-                            if let iso = place.ISOcountryCode {
+                            if let iso = place.isoCountryCode {
                                 self.realmObject?.countryISO = iso
                             }
                         } else {
@@ -1050,7 +1077,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                         }
                     } else {
                         if (error != nil) {
-                            DLog("\(self.name) error getting Location data: \(error!.userInfo)")
+                            DLog("\(self.name) error getting Location data: \((error as! NSError).userInfo)")
                         }
                     }
                 }
@@ -1058,7 +1085,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         }
     }
 
-    public func getCountryISO() -> String {
+    open func getCountryISO() -> String {
         var iso = realmObject?.countryISO
         if (iso == nil) {           
             iso = ""
@@ -1066,7 +1093,7 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         return iso!
     }
 
-    public func getDeparturesURL(startTime:NSDate? = nil) -> String {
+    open func getDeparturesURL(_ startTime:Date? = nil) -> String {
         if  let url = self.realmObject?.departuresURL {
             return url
         }
@@ -1087,8 +1114,8 @@ public class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 }
 
 public protocol TFCDeparturesUpdatedProtocol {
-    func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?)
-    func departuresStillCached(context: Any?, forStation: TFCStation?)
+    func departuresUpdated(_ error: Error?, context: Any?, forStation: TFCStation?)
+    func departuresStillCached(_ context: Any?, forStation: TFCStation?)
 }
 
 

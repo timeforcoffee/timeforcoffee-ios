@@ -26,7 +26,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     //
     var startedWithShortcut: String?
     var launchedShortcutItem: AnyObject?
-    private var visits: TFCVisits?
+    fileprivate var visits: TFCVisits?
 
     enum ShortcutIdentifier: String {
         case favorites
@@ -36,7 +36,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         // MARK: Initializers
 
         init?(fullType: String) {
-            guard let last = fullType.componentsSeparatedByString(".").last else { return nil }
+            guard let last = fullType.components(separatedBy: ".").last else { return nil }
 
             self.init(rawValue: last)
         }
@@ -44,24 +44,24 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         // MARK: Properties
 
         var type: String {
-            return NSBundle.mainBundle().bundleIdentifier! + ".\(self.rawValue)"
+            return Bundle.main.bundleIdentifier! + ".\(self.rawValue)"
         }
     }
-    func applicationDidReceiveMemoryWarning(application: UIApplication) {
+    func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
         DLog("WARNING: applicationDidReceiveMemoryWarning", toFile: true)
         TFCFavorites.sharedInstance.clearStationCache()
         GATracker.sharedInstance?.deinitTracker()
         TFCDataStore.sharedInstance.saveContext()
     }
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         // Override point for customization after application launch.
         var shouldPerformAdditionalDelegateHandling = true
 
         // If a shortcut was launched, display its information and take the appropriate action
         if #available(iOS 9.0, *) {
-            if let shortcutItem = launchOptions?[UIApplicationLaunchOptionsShortcutItemKey] as? UIApplicationShortcutItem {
+            if let shortcutItem = launchOptions?[UIApplicationLaunchOptionsKey.shortcutItem] as? UIApplicationShortcutItem {
     
                 launchedShortcutItem = shortcutItem
     
@@ -79,7 +79,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 //delete all geofences, we don't need them if no complications
                 for region in loc.monitoredRegions {
                     if let circularRegion = region as? CLCircularRegion {
-                        loc.stopMonitoringForRegion(circularRegion)
+                        loc.stopMonitoring(for: circularRegion)
                     }
                 }
 
@@ -87,11 +87,11 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         #if DEBUG
             if (self.visits?.willReceive() == true) {
-                application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Alert, .Sound] , categories: nil))
+                application.registerUserNotificationSettings(UIUserNotificationSettings(types: [.alert, .sound] , categories: nil))
             }
         #endif
 
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
+        DispatchQueue.global(qos:  DispatchQoS.QoSClass.utility).async {
             TFCDataStore.sharedInstance.registerWatchConnectivity()
             TFCDataStore.sharedInstance.registerForNotifications()
             TFCDataStore.sharedInstance.synchronize()
@@ -105,28 +105,28 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
             let gtracker = GATracker.sharedInstance
             gtracker?.setCustomDimension(7, value: "yes")
-            gtracker?.setCustomDimension(9, value: UIDevice.currentDevice().systemVersion)
+            gtracker?.setCustomDimension(9, value: UIDevice.current.systemVersion)
 
             TFCCrashlytics.sharedInstance.initCrashlytics()
-            if let lO = launchOptions?["UIApplicationLaunchOptionsLocationKey"] {
+            if let lO = launchOptions?[UIApplicationLaunchOptionsKey.location] {
                 DLog("app launched with UIApplicationLaunchOptionsLocationKey: \(lO)", toFile: true)
             }
 
             #if !((arch(i386) || arch(x86_64)) && os(iOS))
                 let settings = SKTSettings(appToken: "7n3aaqyp9fr5kr7y1wjssd231")
                 //            settings.knowledgeBaseURL = "https://timeforcoffee.zendesk.com"
-                Smooch.initWithSettings(settings)
+                Smooch.initWith(settings)
             #endif
             let userdefaults = TFCDataStore.sharedInstance.getUserDefaults()
-            let lastusedTodayScreen: NSDate? = userdefaults?.objectForKey("lastUsedViewUpdate") as! NSDate?
+            let lastusedTodayScreen: Date? = userdefaults?.object(forKey: "lastUsedViewUpdate") as! Date?
             /* var recommendations: [String] = []
              recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202701502-How-to-use-the-favourite-station-feature-")
              recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202701512-Can-I-exclude-some-destinations-from-a-station-")
              recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202775921-Is-there-a-map-view-somewhere-")
              recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202772511-Who-is-behind-Time-for-Coffee-")
              */
-            if let currentUser = SKTUser.currentUser() {
-                if (userdefaults?.objectForKey("favorites3") != nil) {
+            if let currentUser = SKTUser.current() {
+                if (userdefaults?.object(forKey: "favorites3") != nil) {
                     currentUser.addProperties(["usedFavorites": true])
                     gtracker?.setCustomDimension(4, value: "yes")
                 } else {
@@ -146,10 +146,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                     currentUser.addProperties(["TFCID": uid])
                 }
                 if (currentUser.signedUpAt == nil) {
-                    currentUser.signedUpAt = NSDate()
-                    currentUser.addProperties(["signedUpDate" : NSDate()])
-                    if let lang =  NSLocale.preferredLanguages().first {
-                        let langSplit = lang.componentsSeparatedByString("-")
+                    currentUser.signedUpAt = Date()
+                    currentUser.addProperties(["signedUpDate" : Date()])
+                    if let lang =  Locale.preferredLanguages.first {
+                        let langSplit = lang.components(separatedBy: "-")
                         currentUser.addProperties(["language": langSplit[0]])
                         gtracker?.setCustomDimension(5, value: langSplit[0])
                     }
@@ -158,10 +158,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 if #available(iOS 9.0, *) {
                     delay(5.0, closure: {
                         if let wcsession = TFCDataStore.sharedInstance.session {
-                            if (wcsession.paired) {
+                            if (wcsession.isPaired) {
                                 currentUser.addProperties(["hasWatch": true])
                                 gtracker?.setCustomDimension(8, value: "yes")
-                                if (wcsession.watchAppInstalled) {
+                                if (wcsession.isWatchAppInstalled) {
                                     currentUser.addProperties(["hasWatchAppInstalled": true])
                                     gtracker?.setCustomDimension(2, value: "yes")
 
@@ -169,7 +169,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                                     currentUser.addProperties(["hasWatchAppInstalled": false])
                                     gtracker?.setCustomDimension(2, value: "no")
                                 }
-                                if (wcsession.complicationEnabled == true) {
+                                if (wcsession.isComplicationEnabled == true) {
                                     currentUser.addProperties(["hasComplicationsEnabled": true])
                                     gtracker?.setCustomDimension(1, value: "yes")
 
@@ -192,7 +192,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         return shouldPerformAdditionalDelegateHandling
     }
 
-    func receivedNewVisit(text: String) {
+    func receivedNewVisit(_ text: String) {
         #if DEBUG
             let noti = TFCNotification()
             noti.send(text)
@@ -200,7 +200,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 
-    func applicationWillResignActive(application: UIApplication) {
+    func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
 
@@ -208,35 +208,35 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     }
 
-    func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         TFCDataStore.sharedInstance.saveContext()
     }
 
-    func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
         TFCDataStore.sharedInstance.synchronize()
     }
 
-    func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         if #available(iOS 9.0, *) {
             guard let shortcut = launchedShortcutItem else { return }
-            handleShortCutItem(shortcut as! UIApplicationShortcutItem)
+            let _ = handleShortCutItem(shortcut as! UIApplicationShortcutItem)
             launchedShortcutItem = nil
         }
     }
 
-    func applicationWillTerminate(application: UIApplication) {
+    func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-        let state = UIApplication.sharedApplication().applicationState
+        let state = UIApplication.shared.applicationState
         let stateString:String
-        if state == .Background {
+        if state == .background {
             stateString = "Background"
-        } else if state == .Active {
+        } else if state == .active {
             stateString = "Active"
-        } else if state == .Inactive {
+        } else if state == .inactive {
             stateString = "Inactive"
         } else {
             stateString = "Unknown \(state.rawValue)"
@@ -246,14 +246,14 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     @available(iOS 9.0, *)
-    func application(application: UIApplication, performActionForShortcutItem shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void) {
+    func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
 
         let handledShortCutItem = handleShortCutItem(shortcutItem)
         completionHandler(handledShortCutItem)
     }
 
     @available(iOS 9.0, *)
-    func handleShortCutItem(shortcutItem: UIApplicationShortcutItem) -> Bool {
+    func handleShortCutItem(_ shortcutItem: UIApplicationShortcutItem) -> Bool {
         // Verify that the provided `shortcutItem`'s `type` is one handled by the application.
         var handled = false
         guard ShortcutIdentifier(fullType: shortcutItem.type) != nil else { return false }
@@ -264,8 +264,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         case ShortcutIdentifier.favorites.type:
             // Handle shortcut 1 (static).
             if let rootView = self.window?.rootViewController as! UINavigationController? {
-                rootView.dismissViewControllerAnimated(false, completion: nil)
-                rootView.popToRootViewControllerAnimated(true)
+                rootView.dismiss(animated: false, completion: nil)
+                rootView.popToRootViewController(animated: true)
                 if let pagedView:PagedStationsViewController = rootView.viewControllers.first as! PagedStationsViewController? {
                     pagedView.moveToFavorites()
                 }
@@ -275,8 +275,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         case ShortcutIdentifier.search.type:
             // Handle shortcut 2 (static).
             if let rootView = self.window?.rootViewController as! UINavigationController? {
-                rootView.dismissViewControllerAnimated(false, completion: nil)
-                rootView.popToRootViewControllerAnimated(true)
+                rootView.dismiss(animated: false, completion: nil)
+                rootView.popToRootViewController(animated: true)
                 if let pagedView:PagedStationsViewController = rootView.viewControllers.first as! PagedStationsViewController? {
                    pagedView.searchClicked()
                 }
@@ -303,12 +303,12 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
 
         if (url.host == "nearby") {
             if let rootView = self.window?.rootViewController as! UINavigationController? {
-                rootView.dismissViewControllerAnimated(false, completion: nil)
-                rootView.popToRootViewControllerAnimated(false)
+                rootView.dismiss(animated: false, completion: nil)
+                rootView.popToRootViewController(animated: false)
                 if let pagedView:PagedStationsViewController = rootView.viewControllers.first as! PagedStationsViewController? {
                     pagedView.moveToNearbyStations()
                 }
@@ -318,15 +318,13 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
          
             var queryStrings = [String: String]()
             if let query = url.query {
-                for qs in query.componentsSeparatedByString("&") {
+                for qs in query.components(separatedBy: "&") {
                     // Get the parameter name
-                    let key = qs.componentsSeparatedByString("=")[0]
+                    let key = qs.components(separatedBy: "=")[0]
                     // Get the parameter name
-                    var value = qs.componentsSeparatedByString("=")[1]
-                    value = value.stringByReplacingOccurrencesOfString("+", withString: " ")
-                    value = value.stringByRemovingPercentEncoding!
-
-                    
+                    var value = qs.components(separatedBy: "=")[1]
+                    value = value.replacingOccurrences(of: "+", with: " ")
+                    value = value.removingPercentEncoding!
                     queryStrings[key] = value
                 }
             }
@@ -342,7 +340,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         return true
     }
-    func application(_: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: [AnyObject]? -> Void) -> Bool {
+    func application(_: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
         if #available(iOS 9, *) {
 
             if userActivity.activityType == "ch.opendata.timeforcoffee.station" {
@@ -374,25 +372,25 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 
-    private func popUpStation(station: TFCStation) {
+    fileprivate func popUpStation(_ station: TFCStation) {
         let rootView = self.window?.rootViewController as! UINavigationController
-        let detailViewController = rootView.storyboard?.instantiateViewControllerWithIdentifier("DeparturesViewController") as! DeparturesViewController
+        let detailViewController = rootView.storyboard?.instantiateViewController(withIdentifier: "DeparturesViewController") as! DeparturesViewController
 
-        rootView.dismissViewControllerAnimated(false, completion: nil)
-        rootView.popToRootViewControllerAnimated(false)
+        rootView.dismiss(animated: false, completion: nil)
+        rootView.popToRootViewController(animated: false)
         detailViewController.setStation(station: station)
         rootView.pushViewController(detailViewController, animated: false)
     }
 
 
 
-    func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
+    func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
         #if DEBUG
-            if (application.applicationState == .Active) {
+            if (application.applicationState == .active) {
                 let alert = UIAlertView()
                 alert.title = "Notification"
                 alert.message = notification.alertBody
-                alert.addButtonWithTitle("Dismiss")
+                alert.addButton(withTitle: "Dismiss")
                 alert.show()
             }
         #endif

@@ -9,29 +9,25 @@
 import Foundation
 import UIKit
 
-public typealias replyClosure = (([NSObject : AnyObject]!) -> Void)
+public typealias replyClosure = (([AnyHashable: Any]!) -> Void)
 public typealias replyStations = ((TFCStations?) -> Void)
 public typealias replyStation = ((TFCStation?) -> Void)
 
-public func delay(delay2:Double, closure:()->()) {
+public func delay(_ delay2:Double, closure:@escaping ()->()) {
     delay(delay2, closure:closure, queue: nil)
 }
 
-public func delay(delay:Double, closure:()->(), queue:dispatch_queue_t?) {
-    let queue2:dispatch_queue_t
+public func delay(_ delay:Double, closure:@escaping ()->(), queue:DispatchQueue?) {
+    let queue2:DispatchQueue
 
     if (queue != nil) {
         queue2 = queue!
     } else {
-        queue2 = dispatch_get_main_queue()
+        queue2 = DispatchQueue.main
     }
 
-    dispatch_after(
-        dispatch_time(
-            DISPATCH_TIME_NOW,
-            Int64(delay * Double(NSEC_PER_SEC))
-        ),
-        queue2, closure)
+    queue2.asyncAfter(
+        deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: closure)
 }
 
 public extension UIColor {
@@ -48,13 +44,13 @@ public extension UIColor {
     }
     
     convenience init(netHexString: String) {
-        var cString:String = netHexString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet() as NSCharacterSet).uppercaseString
-        
+        var cString:String = netHexString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines  as CharacterSet).uppercased()
+
         if (cString.hasPrefix("#")) {
-            cString = (cString as NSString).substringFromIndex(1)
+            cString = (cString as NSString).substring(from: 1)
         }
         var rgbValue:UInt32 = 0
-        NSScanner(string: cString).scanHexInt(&rgbValue)
+        Scanner(string: cString).scanHexInt32(&rgbValue)
         
         self.init(
             red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
@@ -73,16 +69,16 @@ public struct Regex {
             updateRegex()
         }
     }
-    var expressionOptions: NSRegularExpressionOptions {
+    var expressionOptions: NSRegularExpression.Options {
         didSet {
             updateRegex()
         }
     }
-    var matchingOptions: NSMatchingOptions
+    var matchingOptions: NSRegularExpression.MatchingOptions
     
     var regex: NSRegularExpression?
     
-    init(pattern: String, expressionOptions: NSRegularExpressionOptions, matchingOptions: NSMatchingOptions) {
+    init(pattern: String, expressionOptions: NSRegularExpression.Options, matchingOptions: NSRegularExpression.MatchingOptions) {
         self.pattern = pattern
         self.expressionOptions = expressionOptions
         self.matchingOptions = matchingOptions
@@ -91,8 +87,8 @@ public struct Regex {
     
     init(pattern: String) {
         self.pattern = pattern
-        expressionOptions = NSRegularExpressionOptions(rawValue: 0)
-        matchingOptions = NSMatchingOptions(rawValue: 0)
+        expressionOptions = NSRegularExpression.Options(rawValue: 0)
+        matchingOptions = NSRegularExpression.MatchingOptions(rawValue: 0)
         updateRegex()
     }
     
@@ -107,39 +103,39 @@ public struct Regex {
 
 
 extension String {
-    public func matchRegex(pattern: Regex) -> Bool {
+    public func matchRegex(_ pattern: Regex) -> Bool {
         let range: NSRange = NSMakeRange(0, self.characters.count)
         if pattern.regex != nil {
-            let matches: [AnyObject] = pattern.regex!.matchesInString(self, options: pattern.matchingOptions, range: range)
+            let matches: [AnyObject] = pattern.regex!.matches(in: self, options: pattern.matchingOptions, range: range)
             return matches.count > 0
         }
         return false
     }
     
-    public func match(patternString: String) -> Bool {
+    public func match(_ patternString: String) -> Bool {
         return self.matchRegex(Regex(pattern: patternString))
     }
     
-    public func replaceRegex(pattern: Regex, template: String) -> String {
+    public func replaceRegex(_ pattern: Regex, template: String) -> String {
         if self.matchRegex(pattern) {
             let range: NSRange = NSMakeRange(0, self.characters.count)
             if pattern.regex != nil {
-                return pattern.regex!.stringByReplacingMatchesInString(self, options: pattern.matchingOptions, range: range, withTemplate: template)
+                return pattern.regex!.stringByReplacingMatches(in: self, options: pattern.matchingOptions, range: range, withTemplate: template)
             }
         }
         return self
     }
     
-    public func replace(pattern: String, template: String) -> String {
+    public func replace(_ pattern: String, template: String) -> String {
         return self.replaceRegex(Regex(pattern: pattern), template: template)
     }
 }
 
 extension Double {
     /// Rounds the double to decimal places value
-    public func roundToPlaces(places:Int) -> Double {
+    public func roundToPlaces(_ places:Int) -> Double {
         let divisor = pow(10.0, Double(places))
-        return round(self * divisor) / divisor
+        return Darwin.round(self * divisor) / divisor
     }
     /// Returns a random floating point number between 0.0 and 1.0, inclusive.
     public static var random:Double {
@@ -155,19 +151,10 @@ extension Double {
 
      - returns: Double
      */
-    public static func random(min: Double, max: Double) -> Double {
+    public static func random(_ min: Double, max: Double) -> Double {
         return Double.random * (max - min) + min
     }
 }
-
-public func ==(lhs: NSDate, rhs: NSDate) -> Bool {
-    return lhs === rhs || lhs.compare(rhs) == .OrderedSame
-}
-
-public func <(lhs: NSDate, rhs: NSDate) -> Bool {
-    return lhs.compare(rhs) == .OrderedAscending
-}
-
 
 struct WeakBox<T: AnyObject> {
     weak var value: T?
@@ -176,7 +163,5 @@ struct WeakBox<T: AnyObject> {
         self.value = value
     }
 }
-
-extension NSDate: Comparable { }
 
 

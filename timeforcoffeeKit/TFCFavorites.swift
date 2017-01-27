@@ -8,6 +8,19 @@
 
 import Foundation
 import CoreLocation
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 
 final public class TFCFavorites: NSObject {
 
@@ -20,11 +33,11 @@ final public class TFCFavorites: NSObject {
         return self.getCurrentFavoritesFromDefaults()
         }()
     
-    private struct objects {
+    fileprivate struct objects {
         static let  dataStore: TFCDataStore? = TFCDataStore.sharedInstance
     }
 
-    private override init() {
+    fileprivate override init() {
         super.init()
         checkUpdateFromOldVersion()
     }
@@ -40,7 +53,7 @@ final public class TFCFavorites: NSObject {
 
     public func getSearchRadius() -> Int {
         var favoritesSearchRadius =
-        TFCDataStore.sharedInstance.getUserDefaults()?.integerForKey("favoritesSearchRadius")
+        TFCDataStore.sharedInstance.getUserDefaults()?.integer(forKey: "favoritesSearchRadius")
 
         if (favoritesSearchRadius == nil || favoritesSearchRadius == 0) {
             favoritesSearchRadius = 1000
@@ -48,7 +61,7 @@ final public class TFCFavorites: NSObject {
         return favoritesSearchRadius!
     }
 
-    private func getCurrentFavoritesFromDefaults(newCollection:Bool = true) -> TFCStationCollection {
+    fileprivate func getCurrentFavoritesFromDefaults(_ newCollection:Bool = true) -> TFCStationCollection {
        // return [:]
         DLog("getCurrentFavoritesFromDefaults", toFile: true);
         var stationIds = objects.dataStore?.objectForKey("favorites3") as? [String]
@@ -65,17 +78,17 @@ final public class TFCFavorites: NSObject {
 
     }
 
-    private func checkUpdateFromOldVersion() {
+    fileprivate func checkUpdateFromOldVersion() {
         //upgrade from old versions
-        let favoritesVersion = objects.dataStore?.objectForKey("favoritesVersion") as! Int?
-        if (favoritesVersion == nil || favoritesVersion < 3) {
+        let favoritesVersion = objects.dataStore?.objectForKey("favoritesVersion") as? Int?
+        if (favoritesVersion == nil || favoritesVersion! < 3) {
             var stationIds:[String] = []
             var st: [String: TFCStation]?
-            if let unarchivedObject = objects.dataStore?.objectForKey("favorites2") as? NSData {
+            if let unarchivedObject = objects.dataStore?.objectForKey("favorites2") as? Data {
                 NSKeyedUnarchiver.setClass(TFCStation.classForKeyedUnarchiver(), forClassName: "timeforcoffeeKit.TFCStation")
                 NSKeyedUnarchiver.setClass(TFCStation.classForKeyedUnarchiver(), forClassName: "timeforcoffeeWatchKit.TFCStation")
                 NSKeyedUnarchiver.setClass(TFCStation.classForKeyedUnarchiver(), forClassName: "Time_for_Coffee__WatchOS_2_App_Extension.TFCStation")
-                st = NSKeyedUnarchiver.unarchiveObjectWithData(unarchivedObject) as? [String: TFCStation]
+                st = NSKeyedUnarchiver.unarchiveObject(with: unarchivedObject) as? [String: TFCStation]
             }
             if let st = st {
                 for (st_id, _) in st {
@@ -91,18 +104,18 @@ final public class TFCFavorites: NSObject {
         // end of update
     }
 
-    func unset(st_id: String?) {
+    func unset(_ st_id: String?) {
         if let st_id = st_id {
             stations.removeValue(st_id)
             self.saveFavorites()
         }
     }
 
-    func unset(station station: TFCStation?) {
+    func unset(station: TFCStation?) {
         unset(station?.st_id)
     }
 
-    func set(station: TFCStation?) {
+    func set(_ station: TFCStation?) {
         if let station = station {
             if (stations.indexOf(station.st_id) == nil) {
                 stations.append(station)
@@ -111,22 +124,22 @@ final public class TFCFavorites: NSObject {
         }
     }
 
-    func isFavorite(st_id: String?) -> Bool {
-        if let st_id = st_id, _ = self.stations.getStationIfExists(st_id) {
+    func isFavorite(_ st_id: String?) -> Bool {
+        if let st_id = st_id, let _ = self.stations.getStationIfExists(st_id) {
             return true
         }
         return false
     }
 
 
-    private func saveFavorites() {
+    fileprivate func saveFavorites() {
 
         var stationIds:[String] = []
         for (station) in stations {
             stationIds.append(station.st_id)
             station.setStationSearchIndex()
         }
-        objects.dataStore?.setObject(stationIds.sort() , forKey: "favorites3")
+        objects.dataStore?.setObject(stationIds.sorted() , forKey: "favorites3")
         objects.dataStore?.setObject(3, forKey: "favoritesVersion")
         objects.dataStore?.synchronize()
     }
@@ -134,27 +147,27 @@ final public class TFCFavorites: NSObject {
     public func getByDistance() -> [TFCStation]? {
         if (self.stations.count > 0) {
             var stations = self.stations.getStations()
-            stations.sortInPlace({ $0.calculatedDistance < $1.calculatedDistance })
+            stations.sort(by: { $0.calculatedDistance < $1.calculatedDistance })
             return stations
         }
         return nil
     }
 
-    public func updateGeofences(force force:Bool = true) {
+    public func updateGeofences(force:Bool = true) {
         if #available(iOSApplicationExtension 9.0, *) {
             #if os(iOS)
                 if (self.doGeofences) {
-                    dispatch_async(dispatch_get_main_queue()) {
+                    DispatchQueue.main.async {
 
                         let currLoc = TFCLocationManager.getCurrentLocation()
 
                         // don't update geofences, if we didn't move more than 50m from last one
-                        if let lastGeofenceUpdate = self.lastGeofenceUpdate, currLoc = currLoc {
-                            if (!force && currLoc.distanceFromLocation(lastGeofenceUpdate) < 100) {
-                                DLog("fence: location didn't move much (\(currLoc.distanceFromLocation(lastGeofenceUpdate)) m) since last time")
+                        if let lastGeofenceUpdate = self.lastGeofenceUpdate, let currLoc = currLoc {
+                            if (!force && currLoc.distance(from: lastGeofenceUpdate) < 100) {
+                                DLog("fence: location didn't move much (\(currLoc.distance(from: lastGeofenceUpdate)) m) since last time")
                                 return
                             } else {
-                                DLog("fence: location moved by \(currLoc.distanceFromLocation(lastGeofenceUpdate)) m  since last time, force: \(force)")
+                                DLog("fence: location moved by \(currLoc.distance(from: lastGeofenceUpdate)) m  since last time, force: \(force)")
                             }
 
                         } else {
@@ -196,16 +209,16 @@ final public class TFCFavorites: NSObject {
                                 if (circularRegion.identifier == "__updateGeofences__" || nearbyFavorites[region.identifier] == nil) {
 
                                     DLog("Delete geofence \(circularRegion.identifier) with radius \(circularRegion.radius)")
-                                    locationManager.stopMonitoringForRegion(circularRegion)
+                                    locationManager.stopMonitoring(for: circularRegion)
                                 } else {
                                     if nearbyFavorites[circularRegion.identifier]?.calculatedDistance < (radius + 200) {
                                         DLog("geofence for \(circularRegion.identifier) radius: \(circularRegion.radius) is within radius, update it later")
-                                        locationManager.stopMonitoringForRegion(circularRegion)
+                                        locationManager.stopMonitoring(for: circularRegion)
                                     } else if circularRegion.radius < radius {
                                         DLog("geofence for \(circularRegion.identifier) radius: \(circularRegion.radius) has smaller radius, update it later")
-                                        locationManager.stopMonitoringForRegion(circularRegion)
+                                        locationManager.stopMonitoring(for: circularRegion)
                                     } else {
-                                        nearbyFavorites.removeValueForKey(circularRegion.identifier)
+                                        nearbyFavorites.removeValue(forKey: circularRegion.identifier)
                                     }
                                 }
                             }
@@ -217,7 +230,7 @@ final public class TFCFavorites: NSObject {
                         for (_, station) in nearbyFavorites {
                             if let coord = station.coord {
 
-                                let distance = currLoc?.distanceFromLocation(coord)
+                                let distance = currLoc?.distance(from: coord)
                                 var stationRadius = radius
                                 if let distance = distance {
                                     if (distance < radius) {
@@ -247,7 +260,7 @@ final public class TFCFavorites: NSObject {
 
                                 region.notifyOnExit = false
                                 region.notifyOnEntry = true
-                                locationManager.startMonitoringForRegion(region)
+                                locationManager.startMonitoring(for: region)
                             }
                         }
                         if let stationUpdate = nearestStationWithinRadius {
@@ -279,7 +292,7 @@ final public class TFCFavorites: NSObject {
                                 let region = CLCircularRegion(center: currLoc.coordinate, radius: exitradius, identifier: "__updateGeofences__")
                                 region.notifyOnExit = true
                                 region.notifyOnEntry = false
-                                locationManager.startMonitoringForRegion(region)
+                                locationManager.startMonitoring(for: region)
                                 DLog("add Geofence exit update for radius \(exitradius) and coord \(currLoc)", toFile: true)
                             }
                         }
@@ -292,8 +305,8 @@ final public class TFCFavorites: NSObject {
 
 extension Array {
     //  stations.find{($0 as TFCStation).st_id == st_id}
-    func indexOf(includedElement: Element -> Bool) -> Int? {
-        for (idx, element) in self.enumerate() {
+    func indexOf(_ includedElement: (Element) -> Bool) -> Int? {
+        for (idx, element) in self.enumerated() {
             if includedElement(element) {
                 return idx
             }
@@ -301,8 +314,8 @@ extension Array {
         return nil
     }
 
-    func getObject(includedElement: Element -> Bool) -> Element? {
-        for (_, element) in self.enumerate() {
+    func getObject(_ includedElement: (Element) -> Bool) -> Element? {
+        for (_, element) in self.enumerated() {
             if includedElement(element) {
                 return element
             }

@@ -25,7 +25,7 @@ class StationsViewController: TFCBaseViewController {
         appsTableView?.dataSource = appsTableView
         appsTableView?.showFavorites = showFavorites
         appsTableView?.stationsViewController = self
-        appsTableView?.registerNib(UINib(nibName: "StationTableViewCell", bundle: nil), forCellReuseIdentifier: "StationTableViewCell")
+        appsTableView?.register(UINib(nibName: "StationTableViewCell", bundle: nil), forCellReuseIdentifier: "StationTableViewCell")
         appsTableView?.rowHeight = 60
     }
 
@@ -34,14 +34,14 @@ class StationsViewController: TFCBaseViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    func viewDidAppear(animated: Bool, noReload: Bool) {
+    func viewDidAppear(_ animated: Bool, noReload: Bool) {
         super.viewDidAppear(animated)
         if (noReload == false) {
             appsTableView?.refreshLocation()
         }
 
     }
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if (self.showFavorites) {
             GATracker.sharedInstance?.sendScreenName("favorites")
@@ -51,8 +51,9 @@ class StationsViewController: TFCBaseViewController {
         appsTableView?.refreshLocation()
     }
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let detailsViewController: DeparturesViewController = segue.destinationViewController as! DeparturesViewController
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+
+        let detailsViewController: DeparturesViewController = segue.destination as! DeparturesViewController
         if let station = sender as! TFCStation? {
             detailsViewController.setStation(station: station)
             return

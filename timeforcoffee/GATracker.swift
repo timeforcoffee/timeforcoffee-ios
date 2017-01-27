@@ -28,7 +28,7 @@ class GATracker {
         gtracker?.trackUncaughtExceptions = true
         gtracker?.dispatchInterval = 30;
         //GAI.sharedInstance().logger.logLevel = GAILogLevel.Verbose
-        gtracker?.trackerWithTrackingId("UA-37092982-2")
+        let _ = gtracker?.tracker(withTrackingId: "UA-37092982-2")
     }
 
     func deinitTracker() {
@@ -37,21 +37,22 @@ class GATracker {
         GATracker.sharedInstance = nil
     }
 
-    func setCustomDimension(index:UInt, value:String) {
-        let field = GAIFields.customDimensionForIndex(index)
-        gtracker?.defaultTracker.set(field, value: value)
-        toBeSentCustomDimensions[field] = value
+    func setCustomDimension(_ index:UInt, value:String) {
+        if let field = GAIFields.customDimension(for: index) {
+            gtracker?.defaultTracker.set(field, value: value)
+            toBeSentCustomDimensions[field] = value
+        }
     }
 
-    func sendScreenName(name:String) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
+    func sendScreenName(_ name:String) {
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async {
             self.gtracker?.defaultTracker.set(kGAIScreenName, value: name)
             var s = GAIDictionaryBuilder.createScreenView()
             for (key, value) in self.toBeSentCustomDimensions {
-                s = s.set(value, forKey: key)
+                s = s?.set(value, forKey: key)
             }
             self.toBeSentCustomDimensions.removeAll()
-            self.gtracker?.defaultTracker.send(s.build() as [NSObject : AnyObject]!)
+            self.gtracker?.defaultTracker.send(s?.build() as! [AnyHashable: Any]!)
         }
 
     }

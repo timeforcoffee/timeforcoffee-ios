@@ -28,7 +28,7 @@ final class NearbyStationsTableViewCell: UITableViewCell {
         StationIconView.layer.cornerRadius = 16
         StationIconView.clipsToBounds = true
 
-        StationFavoriteButton.addTarget(self, action: #selector(NearbyStationsTableViewCell.favoriteButtonTouched(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        StationFavoriteButton.addTarget(self, action: #selector(NearbyStationsTableViewCell.favoriteButtonTouched(_:)), for: UIControlEvents.touchUpInside)
     }
 
     func getStation() -> TFCStation? {
@@ -38,8 +38,8 @@ final class NearbyStationsTableViewCell: UITableViewCell {
         return station
     }
 
-    func drawCell(drawDepartures:Bool = true) {
-        self.selectionStyle = UITableViewCellSelectionStyle.None
+    func drawCell(_ drawDepartures:Bool = true) {
+        self.selectionStyle = UITableViewCellSelectionStyle.none
         if (station == nil && stationId != nil) {
             getStation()
         }
@@ -48,7 +48,7 @@ final class NearbyStationsTableViewCell: UITableViewCell {
         }
         drawIcon(station)
 
-        StationsLineNumberLabel.hidden = false
+        StationsLineNumberLabel.isHidden = false
         StationNameLabel.text = station?.getNameWithFilters(false)
 
         if (drawDepartures) {
@@ -56,38 +56,38 @@ final class NearbyStationsTableViewCell: UITableViewCell {
             var firstDeparture = departures?.first
 
             var minutesAsInt = firstDeparture?.getMinutesAsInt()
-            if (minutesAsInt < 0) {
+            if (minutesAsInt != nil && minutesAsInt! < 0) {
                 station?.removeObsoleteDepartures(true)
                 firstDeparture = departures?.first
                 minutesAsInt = firstDeparture?.getMinutesAsInt()
             }
-            if (firstDeparture != nil && minutesAsInt >= 0) {
+            if (firstDeparture != nil && (minutesAsInt != nil && minutesAsInt! >= 0)) {
                 StationsLineNumberLabel.setStyle("dark", departure: firstDeparture!)
                 StationMinuteLabel.text = firstDeparture!.getMinutes()
                 StationsDestinationLabel.text = firstDeparture!.getDestination(station, unabridged: false)
             } else {
-                StationsLineNumberLabel.hidden = true
+                StationsLineNumberLabel.isHidden = true
                 StationMinuteLabel.text = nil
                 StationsDestinationLabel.text = nil
             }
         } else {
-            StationsLineNumberLabel.hidden = true
+            StationsLineNumberLabel.isHidden = true
             StationMinuteLabel.text = nil
             StationsDestinationLabel.text = nil
         }
-        self.userInteractionEnabled = true
+        self.isUserInteractionEnabled = true
         self.stationId = self.station?.st_id
     }
 
-    func drawIcon(station: TFCStation?) {
-        StationFavoriteButton.setImage(station?.getIcon(), forState: UIControlState.Normal)
+    func drawIcon(_ station: TFCStation?) {
+        StationFavoriteButton.setImage(station?.getIcon(), for: UIControlState.normal)
 
-        StationIconView.transform = CGAffineTransformMakeScale(1, 1);
+        StationIconView.transform = CGAffineTransform(scaleX: 1, y: 1);
         StationIconView.alpha = 1.0
 
     }
 
-    func favoriteButtonTouched(sender: UIButton) {
+    func favoriteButtonTouched(_ sender: UIButton) {
         if let stationId = stationId {
             let station = TFCStation.initWithCacheId(stationId)
 

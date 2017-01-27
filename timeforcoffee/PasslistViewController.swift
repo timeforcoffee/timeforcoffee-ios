@@ -28,11 +28,11 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
 
     @IBOutlet weak var stationIconButton: DepartureLineLabel!
 
-    @IBAction func BackButtonClicked(sender: UIButton) {
-        self.navigationController?.popViewControllerAnimated(true)
+    @IBAction func BackButtonClicked(_ sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
     }
 
-    @IBAction func iconTouchUp(sender: UIButton) {
+    @IBAction func iconTouchUp(_ sender: UIButton) {
         favoriteClicked(nil)
     }
 
@@ -46,7 +46,7 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.edgesForExtendedLayout = UIRectEdge.None;
+        self.edgesForExtendedLayout = UIRectEdge();
 
         nameLabel.text = self.departure?.getDestination()
         if let stationName = self.departure?.getStation()?.name {
@@ -54,12 +54,12 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
         }
         super.distanceLabelVisibleOnTop = true
         super.distanceLabel.alpha = 0.9
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
 
         startHeight = topBarHeight.constant
         self.appsTableView?.contentInset = UIEdgeInsets(top: startHeight, left: 0, bottom: 0, right: 0)
 
-        favButton.addTarget(self, action: #selector(PasslistViewController.favoriteClicked(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        favButton.addTarget(self, action: #selector(PasslistViewController.favoriteClicked(_:)), for: UIControlEvents.touchUpInside)
  //       stationIconButton.addTarget(self, action: "favoriteClicked:", forControlEvents: UIControlEvents.TouchUpInside)
 
 
@@ -68,7 +68,7 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
             favButton.accessibilityLabel = NSLocalizedString("Favourite Connection?", comment: "Favourite Connection?")
 
             if (departure.isFavorite() == true) {
-                favButton.setTitle("★", forState: UIControlState.Normal)
+                favButton.setTitle("★", for: UIControlState())
                 favButton.accessibilityHint = NSLocalizedString("Double-Tap for unfavouriting this connection", comment: "Double-Tap for unfavouriting this connection")
                 favButton.accessibilityValue = NSLocalizedString("Yes", comment: "Yes")
             } else {
@@ -84,8 +84,8 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
         self.gradientView.image = UIImage(named: "gradient.png")
 
         topViewProperties(0.0)
-        self.mapView?.userInteractionEnabled = false;
-        self.mapView?.rotateEnabled = false
+        self.mapView?.isUserInteractionEnabled = false;
+        self.mapView?.isRotateEnabled = false
 
         if let coordinate = departure?.getStation()?.coord?.coordinate {
             let region = MKCoordinateRegionMakeWithDistance(coordinate ,450,450);
@@ -103,7 +103,7 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
         DLog("viewDidLoad")
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         DLog("viewDidAppear")
         super.viewDidAppear(animated)
         GATracker.sharedInstance?.sendScreenName("passlist")
@@ -111,7 +111,7 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
 
     }
 
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
     }
 
@@ -129,15 +129,18 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
         }
         if let passlist = departure?.getPasslist() {
             for (pass) in passlist {
-                if let coord = pass.coord {
-                    let annotation = StationAnnotation(title: pass.name, distance: nil, coordinate: coord, pass: pass)
+                if let coord = pass.coord
+                {
 
-                    let latitude = coord.latitude
-                    let longitude = coord.longitude
-                    if (latitude > annotationUpper?.latitude) {annotationUpper?.latitude = latitude}
-                    if (latitude < annotationLower?.latitude) {annotationLower?.latitude = latitude}
-                    if (longitude > annotationUpper?.longitude) {annotationUpper?.longitude = longitude}
-                    if (longitude < annotationLower?.longitude) {annotationLower?.longitude = longitude}
+                    let annotation = StationAnnotation(title: pass.name, distance: nil, coordinate: coord, pass: pass) 
+                    if (annotationUpper != nil && annotationLower != nil) {
+                        let latitude = coord.latitude
+                        let longitude = coord.longitude
+                        if (latitude > annotationUpper!.latitude) {annotationUpper!.latitude = latitude}
+                        if (latitude < annotationLower!.latitude) {annotationLower!.latitude = latitude}
+                        if (longitude > annotationUpper!.longitude) {annotationUpper!.longitude = longitude}
+                        if (longitude < annotationLower!.longitude) {annotationLower!.longitude = longitude}
+                    }
                     mapView.addAnnotation(annotation)
                 }
             }
@@ -145,7 +148,7 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
     }
 
     
-    override func getMapIcon(pass:TFCPass? = nil) -> UIImage {
+    override func getMapIcon(_ pass:TFCPass? = nil) -> UIImage {
         if (pass?.isFirst == true) {
             let (image, _) = getIconAsImage(pass?.getStation())
             if let image = image {
@@ -156,16 +159,16 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
         return UIImage(named: "\(ident)")!
     }
 
-    func favoriteClicked(sender: UIBarButtonItem?) {
+    func favoriteClicked(_ sender: UIBarButtonItem?) {
         func completion() {
         }
 
         if (self.departure?.isFavorite() == true) {
             self.departure?.unsetFavorite()
-            favButton.setTitle("☆", forState: UIControlState.Normal)
+            favButton.setTitle("☆", for: UIControlState())
         } else {
             self.departure?.setFavorite()
-            favButton.setTitle("★", forState: UIControlState.Normal)
+            favButton.setTitle("★", for: UIControlState())
         }
         self.stationIconButton.toggleIcon(nil)
         self.appsTableView?.reloadData()
@@ -178,12 +181,12 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
 
     }
 
-    internal func setDeparture(departure departure: TFCDeparture) {
+    internal func setDeparture(departure: TFCDeparture) {
         self.departure = departure
     }
 
-    func passlistUpdated(error: NSError?, context: Any?, forDeparture: TFCDeparture?) {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+    func passlistUpdated(_ error: Error?, context: Any?, forDeparture: TFCDeparture?) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
         if (error != nil) {
             self.networkErrorMsg = NSLocalizedString("Network error. Please try again", comment:"")
         } else {
@@ -192,7 +195,7 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
         self.appsTableView!.reloadData()
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let passlist = self.departure?.getPasslist() {
             let count = passlist.count
             if count == 0 {
@@ -203,7 +206,7 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
         return 1
     }
 
-    override func moveMapViewDown(velocity: Double?) {
+    override func moveMapViewDown(_ velocity: Double?) {
         super.moveMapViewDown(velocity)
     }
 
@@ -214,7 +217,7 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
 
             var locationSpan:MKCoordinateSpan = MKCoordinateSpan()
             var locationCenter:CLLocationCoordinate2D = CLLocationCoordinate2D()
-            if let annotationUpper = annotationUpper, annotationLower = annotationLower {
+            if let annotationUpper = annotationUpper, let annotationLower = annotationLower {
                 locationSpan.latitudeDelta = (annotationUpper.latitude - annotationLower.latitude) * 1.5;
                 locationSpan.longitudeDelta = (annotationUpper.longitude - annotationLower.longitude) * 1.2;
                 locationCenter.latitude = (annotationUpper.latitude + annotationLower.latitude) / 2;
@@ -232,8 +235,8 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
         mapView.showsUserLocation = true
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell:UITableViewCell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier, forIndexPath: indexPath) as UITableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell:UITableViewCell = tableView.dequeueReusableCell(withIdentifier: kCellIdentifier, for: indexPath) as UITableViewCell
 
         cell.tag = indexPath.row
 
@@ -270,7 +273,7 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
                 } else {
                     minutesLabel.text = ""
                 }
-                minutesLabel.textColor = UIColor.blackColor()
+                minutesLabel.textColor = UIColor.black
 
                 let (departureTimeAttr, departureTimeString) = pass.getDepartureTime()
                 let (arrivalTimeAttr, arrivalTimeString) = pass.getDepartureTime(pass.arrivalScheduled, realtime: pass.arrivalRealtime)
@@ -280,19 +283,19 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
                   //  departureLabel.text = "complicated"
                     let labelAttr = NSMutableAttributedString(string: NSLocalizedString("Arr", comment: "Arrival") + ": ")
                     if let arrivalTimeAttr = arrivalTimeAttr {
-                        labelAttr.appendAttributedString(arrivalTimeAttr)
+                        labelAttr.append(arrivalTimeAttr)
                     } else {
                         if let arrivalTimeString = arrivalTimeString {
-                            labelAttr.appendAttributedString(NSMutableAttributedString(string: arrivalTimeString))
+                            labelAttr.append(NSMutableAttributedString(string: arrivalTimeString))
                         }
                     }
 
-                    labelAttr.appendAttributedString(NSMutableAttributedString(string: " / "  + NSLocalizedString("Dep", comment: "Departure") + ": "))
+                    labelAttr.append(NSMutableAttributedString(string: " / "  + NSLocalizedString("Dep", comment: "Departure") + ": "))
                     if let departureTimeAttr = departureTimeAttr {
-                        labelAttr.appendAttributedString(departureTimeAttr)
+                        labelAttr.append(departureTimeAttr)
                     } else {
                         if let departureTimeString = departureTimeString {
-                            labelAttr.appendAttributedString(NSMutableAttributedString(string: departureTimeString))
+                            labelAttr.append(NSMutableAttributedString(string: departureTimeString))
                         }
                     }
                     departureLabel.attributedText = labelAttr
@@ -301,7 +304,7 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
                     if let arrivalTimeAttr = arrivalTimeAttr {
                         departureLabel.text = nil
                         let attrPre = NSMutableAttributedString(string: NSLocalizedString("Arr", comment: "Arrival") + ": ")
-                        attrPre.appendAttributedString(arrivalTimeAttr)
+                        attrPre.append(arrivalTimeAttr)
                         departureLabel.attributedText = attrPre
                     } else {
                         departureLabel.attributedText = nil
@@ -318,7 +321,7 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
                     if let departureTimeAttr = departureTimeAttr {
                         departureLabel.text = nil
                         let attrPre = NSMutableAttributedString(string: arrDepString)
-                        attrPre.appendAttributedString(departureTimeAttr)
+                        attrPre.append(departureTimeAttr)
                         departureLabel.attributedText = attrPre
                     } else {
                         departureLabel.attributedText = nil
@@ -331,21 +334,21 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
         return cell
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath) {
         if let _ = getStationForSelect(indexPath) {
-            self.performSegueWithIdentifier("SegueBackToStationView", sender: nil)
+            self.performSegue(withIdentifier: "SegueBackToStationView", sender: nil)
         }
     }
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let detailsViewController: DeparturesViewController = segue.destinationViewController as! DeparturesViewController
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let detailsViewController: DeparturesViewController = segue.destination as! DeparturesViewController
 
         if let station = getStationForSelect(appsTableView?.indexPathForSelectedRow) {
             detailsViewController.setStation(station: station)
         }
     }
 
-    private func getStationForSelect(indexpath:NSIndexPath?) -> TFCStation? {
+    fileprivate func getStationForSelect(_ indexpath:IndexPath?) -> TFCStation? {
         if let index = indexpath?.row, let stations = self.departure?.getPasslist() {
             if (index < stations.count) {
                 if let station = stations[index].getStation() {

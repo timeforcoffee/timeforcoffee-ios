@@ -28,8 +28,8 @@ class StationsOverviewViewController: WKInterfaceController {
         return TFCWatchData()
     }()
 
-    override func awakeWithContext(context: AnyObject?) {
-        super.awakeWithContext(context)
+    override func awake(withContext context: Any?) {
+        super.awake(withContext: context)
         DLog("awakeWithContext")
         stationsTable.setNumberOfRows(10, withRowType: "stations")
         self.numberOfRows = 10
@@ -53,7 +53,7 @@ class StationsOverviewViewController: WKInterfaceController {
                 self.setTitle("Favorites")
             } else {
                 self.setTitle("Nearby Stations")
-                self.addMenuItemWithItemIcon(WKMenuItemIcon.Resume, title: "Reload", action: #selector(StationsOverviewViewController.contextButtonReload))
+                self.addMenuItem(with: WKMenuItemIcon.resume, title: "Reload", action: #selector(StationsOverviewViewController.contextButtonReload))
             }
             activatedOnce = true
             getStations()
@@ -72,20 +72,20 @@ class StationsOverviewViewController: WKInterfaceController {
     }
 
     func contextButtonReload() {
-        if let ud =  NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee") {
+        if let ud =  UserDefaults(suiteName: "group.ch.opendata.timeforcoffee") {
             ud.setValue(nil, forKey: "lastFirstStationId")
         }
         getStations()
         TFCDataStore.sharedInstance.requestAllDataFromPhone()
     }
 
-    private func getStations() {
-        func handleReply(stations: TFCStations?) {
+    fileprivate func getStations() {
+        func handleReply(_ stations: TFCStations?) {
             if (stations == nil || stations?.count() == nil) {
                 return
             }
             if (self.activated) {
-                WKInterfaceDevice.currentDevice().playHaptic(WKHapticType.Click)
+                WKInterfaceDevice.current().play(WKHapticType.click)
                 infoGroup.setHidden(true)
 
                 if let stations = stations {
@@ -102,7 +102,7 @@ class StationsOverviewViewController: WKInterfaceController {
                     }
                     var i = 0;
                     for (station) in ctxStations {
-                        if let sr = stationsTable.rowControllerAtIndex(i) as? StationsRow {
+                        if let sr = stationsTable.rowController(at: i) as? StationsRow {
                             sr.drawCell(station)
                         }
                         i += 1
@@ -110,7 +110,7 @@ class StationsOverviewViewController: WKInterfaceController {
                 }
             }
         }
-        func errorReply(text: String) {
+        func errorReply(_ text: String) {
             infoGroup.setHidden(false)
             infoLabel.setText(text)
         }
@@ -118,11 +118,11 @@ class StationsOverviewViewController: WKInterfaceController {
         watchdata.getStations(handleReply, errorReply: errorReply, stopWithFavorites: false, favoritesOnly: self.showOnlyFavorites())
     }
 
-    override func table(table: WKInterfaceTable, didSelectRowAtIndex rowIndex: Int) {
-        let row = table.rowControllerAtIndex(rowIndex) as? StationsRow
+    override func table(_ table: WKInterfaceTable, didSelectRowAt rowIndex: Int) {
+        let row = table.rowController(at: rowIndex) as? StationsRow
         if let station = row?.station {
             TFCWatchDataFetch.sharedInstance.fetchDepartureDataForStation(station)
-            NSNotificationCenter.defaultCenter().postNotificationName("TFCWatchkitSelectStation", object: nil, userInfo: ["st_id": station.st_id, "name": station.name])
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "TFCWatchkitSelectStation"), object: nil, userInfo: ["st_id": station.st_id, "name": station.name])
         }
         
     }

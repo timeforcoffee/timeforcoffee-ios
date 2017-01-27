@@ -9,27 +9,40 @@
 import WatchKit
 import Foundation
 import WatchConnectivity
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 
 class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
     override init() {
         super.init()
-        WKExtension.sharedExtension().delegate = self
+        WKExtension.shared().delegate = self
     }
 
     lazy var watchdata: TFCWatchData = {
         return TFCWatchData()
     }()
 
-    var tickStart:NSDate? = nil
+    var tickStart:Date? = nil
     func applicationDidFinishLaunching() {
         DLog("__", toFile: true)
         self.askForFavoriteData()
     }
 
 
-    func askForFavoriteData(noDelay:Bool = false) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
+    func askForFavoriteData(_ noDelay:Bool = false) {
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async {
             TFCDataStore.sharedInstance.registerWatchConnectivity()
             /* Request for all Favorite Data every 24 hours (or if never done)
              I'm not sure, how reliable the WatchConnectivity is and if never
@@ -40,7 +53,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
              */
 
             let lastRequest = self.lastRequestForAllData()
-            let allDataResponseSent = TFCDataStore.sharedInstance.getUserDefaults()?.boolForKey("allDataResponseSent")
+            let allDataResponseSent = TFCDataStore.sharedInstance.getUserDefaults()?.bool(forKey: "allDataResponseSent")
             if (allDataResponseSent != true || lastRequest == nil || lastRequest < -(24 * 60 * 60)) {
                 var delayItBy = 6.0
                 if (noDelay) {
@@ -50,7 +63,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 delay(delayItBy, closure: {
                     TFCDataStore.sharedInstance.requestAllDataFromPhone()
                 })
-                TFCDataStore.sharedInstance.getUserDefaults()?.setObject(NSDate(), forKey: "lastRequestForAllData")
+                TFCDataStore.sharedInstance.getUserDefaults()?.set(Date(), forKey: "lastRequestForAllData")
             }
 
         }
@@ -59,7 +72,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     func applicationDidBecomeActive() {
         DLog("__", toFile: true)
         TFCWatchDataFetch.sharedInstance.fetchDepartureData()
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async {
             TFCDataStore.sharedInstance.registerWatchConnectivity()
         }
     }
@@ -72,14 +85,14 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
     func applicationDidEnterBackground() {
         #if DEBUG
-            self.tickStart = NSDate()
-          //  self.tick()
+            self.tickStart = Date()
+            //  self.tick()
         #endif
     }
 
     func applicationWillResignActive() {
         DLog("__", toFile: true)
-        NSProcessInfo.processInfo().performExpiringActivityWithReason("applicationWillResignActive")
+        ProcessInfo.processInfo.performExpiringActivity(withReason: "applicationWillResignActive")
         { expired in
             if !expired {
 
@@ -93,50 +106,23 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
     }
 
-    func tick() {
-        if let tickStart = tickStart {
-            let running = (NSDate().timeIntervalSinceReferenceDate - tickStart.timeIntervalSinceReferenceDate).roundToPlaces(2)
-            DLog("tick running since \(running) sec", toFile: true)
-            let delayTime = 1.0
-            /*if (running > 27.5 && running < 32) {
-                delayTime = 0.1
-            }*/
-            delay(delayTime, closure: {
-                self.tick()
-            })
-        }
-    }
-
-    func tickDebugLog() {
-        if #available(watchOSApplicationExtension 3.0, *) {
-            DLog("Application State appstate: \(WKExtension.sharedExtension().applicationState.rawValue)")
-        }
-        if let tickStart = tickStart {
-            let running = (NSDate().timeIntervalSinceReferenceDate - tickStart.timeIntervalSinceReferenceDate).roundToPlaces(1)
-
-            DLog("in background since: \(running) sec. ticker.")
-        } else {
-            DLog("not in background. ticker.")
-        }
-    }
-
-    private func lastRequestForAllData() -> NSTimeInterval? {
-        if let lastUpdate = TFCDataStore.sharedInstance.getUserDefaults()?.objectForKey("lastRequestForAllData") as? NSDate { 
+    fileprivate func lastRequestForAllData() -> TimeInterval? {
+        if let lastUpdate = TFCDataStore.sharedInstance.getUserDefaults()?.object(forKey: "lastRequestForAllData") as? Date { 
             return lastUpdate.timeIntervalSinceNow
         }
         return nil
     }
 
-    func handleUserActivity(userInfo: [NSObject : AnyObject]?) {
-        DLog("handleUserActivity \(userInfo)", toFile: true)
+    func handleUserActivity(_ userInfo: [AnyHashable: Any]?) {
+        DLog("handleUserActivity \(userInfo ?? nil)", toFile: true)
 
         if let userInfo = userInfo {
             var uI:[String:String]? = nil
-            if (userInfo.keys.first == "CLKLaunchedTimelineEntryDateKey") {
+            if (userInfo.keys.first == AnyHashable("CLKLaunchedTimelineEntryDateKey")) {
                 //TFCURLSession.sharedInstance.cancelURLSession()
-                if let lastId = NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee")?.stringForKey("lastFirstStationId") {
+                if let lastId = UserDefaults(suiteName: "group.ch.opendata.timeforcoffee")?.string(forKey: "lastFirstStationId") {
                     uI = ["st_id": lastId]
-                    DLog("\(uI)", toFile: true)
+                    DLog("\(uI ?? nil)", toFile: true)
                     if let station = TFCStation.initWithCacheId(lastId) {
                         TFCWatchDataFetch.sharedInstance.fetchDepartureDataForStation(station)
                     }
@@ -145,13 +131,13 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 uI = userInfo as? [String:String]
                 DLog("handleUserActivity StationViewController")
             }
-            NSNotificationCenter.defaultCenter().postNotificationName("TFCWatchkitSelectStation", object: nil, userInfo: uI)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "TFCWatchkitSelectStation"), object: nil, userInfo: uI)
         }
     }
 
 
     @available(watchOSApplicationExtension 3.0, *)
-    func handleBackgroundTasks(backgroundTasks: Set<WKRefreshBackgroundTask>) {
+    func handle(_ backgroundTasks: Set<WKRefreshBackgroundTask>) {
         for task : WKRefreshBackgroundTask in backgroundTasks {
             DLog("received \(task) Backgroundtask" , toFile: true)
             if let arTask = task as? WKApplicationRefreshBackgroundTask {
@@ -161,18 +147,18 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             } else if let wcBackgroundTask = task as? WKWatchConnectivityRefreshBackgroundTask {
                 //just wait 15 seconds and assume it's finished FIXME. Could be improved, but it's hard to keep track and sometimes there's just nothing to do.
                 delay(10.0, closure: {
-                    dispatch_barrier_async(TFCWatchData.crunchQueue) {
+                    TFCWatchData.crunchQueue.async(flags: .barrier, execute: {
                     DLog("finished WKWatchConnectivityRefreshBackgroundTask Backgroundtask part 1", toFile: true)
                     DLog("was: \(wcBackgroundTask) part 2", toFile: true)
-                    dispatch_async(dispatch_get_main_queue(), {
+                    DispatchQueue.main.async(execute: {
                           wcBackgroundTask.setTaskCompleted()
                     })
-                    }
+                    }) 
                 })
                 TFCDataStore.sharedInstance.registerWatchConnectivity()
             } else if let snapshotTask = task as? WKSnapshotRefreshBackgroundTask {
 
-                delaySnapshotComplete(snapshotTask,startTime: NSDate())
+                delaySnapshotComplete(snapshotTask,startTime: Date())
             } else {
                 //DLog("received something else...", toFile: true)
                 // make sure to complete all tasks, even ones you don't handle
@@ -182,13 +168,13 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     }
 
     @available(watchOSApplicationExtension 3.0, *)
-    private func delaySnapshotComplete(snapshotTask: WKSnapshotRefreshBackgroundTask, startTime:NSDate) {
+    fileprivate func delaySnapshotComplete(_ snapshotTask: WKSnapshotRefreshBackgroundTask, startTime:Date) {
         //just wait 2 seconds and assume it's finished
         // we use a queue here to let other tasks finish, before this one shoots
         let delayTime:Double = 2.0
         delay(delayTime, closure: {
             DLog("finished \(snapshotTask) Backgroundtask before barrier. ")
-            dispatch_barrier_async(TFCWatchData.crunchQueue) {
+            TFCWatchData.crunchQueue.async(flags: .barrier, execute: {
 
 /*                if (TFCWatchDataFetch.sharedInstance.downloading.count > 0) {
 
@@ -217,17 +203,17 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 let nextDate = self.watchdata.getNextUpdateTime(noBackOffIncr: true, minTime: 30 * 60)
 
                 let ud = TFCDataStore.sharedInstance.getUserDefaults()
-                let lastBackgroundRefreshDate = ud?.objectForKey("lastBackgroundRefreshDate") as? NSDate
-                if (lastBackgroundRefreshDate == nil || lastBackgroundRefreshDate < NSDate()) {
+                let lastBackgroundRefreshDate = ud?.object(forKey: "lastBackgroundRefreshDate") as? Date
+                if (lastBackgroundRefreshDate == nil || lastBackgroundRefreshDate < Date()) {
                     DLog("lastBackgroundRefreshDate \(lastBackgroundRefreshDate) older than now. set new schedule ", toFile: true)
                     self.watchdata.scheduleNextUpdate(noBackOffIncr: true)
                 }
-                dispatch_async(dispatch_get_main_queue(), {
+                DispatchQueue.main.async(execute: {
                     DLog("finished \(snapshotTask) Backgroundtask, next \(nextDate)", toFile: true)
                     snapshotTask.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: nextDate, userInfo: nil)
                 })
 
-            }
+            }) 
         })
     }
 

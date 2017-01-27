@@ -21,16 +21,16 @@ class StationRow: NSObject {
 
     @IBOutlet weak var numberGroup: WKInterfaceGroup!
 
-    func drawCell(departure: TFCDeparture, station: TFCStation ) {
+    func drawCell(_ departure: TFCDeparture, station: TFCStation ) {
         let to = departure.getDestination(station)
         let name = departure.getLine()
         /* let helvetica = UIFont(name: "HelveticaNeue-Bold", size: 18.0)!
         var fontAttrs = [NSFontAttributeName : helvetica]
         var attrString = NSAttributedString(string: name, attributes: fontAttrs)*/
-        if let group = self.numberGroup, bg = departure.colorBg {
+        if let group = self.numberGroup, let bg = departure.colorBg {
             group.setBackgroundColor(UIColor(netHexString:bg))
         }
-        if let label = self.numberLabel, fg = departure.colorFg {
+        if let label = self.numberLabel, let fg = departure.colorFg {
             label.setTextColor(UIColor(netHexString:fg))
         }
         if let numberLabel = self.numberLabel {

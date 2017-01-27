@@ -10,41 +10,41 @@ import Foundation
 import WatchConnectivity
 
 // from http://stackoverflow.com/questions/28489227/swift-ios-dates-and-times-in-different-format
-extension NSDate {
-    func formattedWith(format:String) -> String {
-        let formatter = NSDateFormatter()
+extension Date {
+    func formattedWith(_ format:String) -> String {
+        let formatter = DateFormatter()
         formatter.dateFormat = format
-        formatter.timeZone = NSTimeZone.defaultTimeZone()
-        formatter.locale = NSLocale(localeIdentifier: "de_CH")
-        return formatter.stringFromDate(self)
+        formatter.timeZone = TimeZone.current
+        formatter.locale = Locale(identifier: "de_CH")
+        return formatter.string(from: self)
     }
-    func formattedWithDateFormatter(formatter:NSDateFormatter) -> String {
-        return formatter.stringFromDate(self)
+    func formattedWithDateFormatter(_ formatter:DateFormatter) -> String {
+        return formatter.string(from: self)
     }
 }
 
 extension String {
-    func appendLineToURL(fileURL: NSURL) throws {
-        try self.stringByAppendingString("\n").appendToURL(fileURL)
+    func appendLineToURL(_ fileURL: URL) throws {
+        try ("\(self)\n").appendToURL(fileURL)
     }
 
-    func appendToURL(fileURL: NSURL) throws {
-        let data = self.dataUsingEncoding(NSUTF8StringEncoding)!
+    func appendToURL(_ fileURL: URL) throws {
+        let data = self.data(using: String.Encoding.utf8)!
         try data.appendToURL(fileURL)
     }
 }
 
-extension NSData {
-    func appendToURL(fileURL: NSURL) throws {
-        if let fileHandle = try? NSFileHandle(forWritingToURL: fileURL) {
+extension Data {
+    func appendToURL(_ fileURL: URL) throws {
+        if let fileHandle = try? FileHandle(forWritingTo: fileURL) {
             defer {
                 fileHandle.closeFile()
             }
             fileHandle.seekToEndOfFile()
-            fileHandle.writeData(self)
+            fileHandle.write(self)
         }
         else {
-            try writeToURL(fileURL, options: .DataWritingAtomic)
+            try write(to: fileURL, options: .atomic)
         }
     }
 }
@@ -68,49 +68,58 @@ your type. Instead, adopt one of the protocols mentioned above.
 :param: line     The line number, defaults to the line number within the file that the call is made.
 */
 
-let logQueue:dispatch_queue_t = {
-    return dispatch_queue_create("ch.opendata.timeforcoffee.log", DISPATCH_QUEUE_SERIAL)
+let logQueue:DispatchQueue = {
+    return DispatchQueue(label: "ch.opendata.timeforcoffee.log", attributes: [])
 }()
 
-let DLogDateFormatter:NSDateFormatter = {
-    let formatter = NSDateFormatter()
+let DLogDateFormatter:DateFormatter = {
+    let formatter = DateFormatter()
     formatter.dateFormat = "YYYY-MM-dd HH:mm:ss.SSS"
-    formatter.timeZone = NSTimeZone(name: "Europe/Zurich")
-    formatter.locale = NSLocale(localeIdentifier: "de_CH")
+    formatter.timeZone = TimeZone(identifier: "Europe/Zurich")
+    formatter.locale = Locale(identifier: "de_CH")
     return formatter
 }()
 
-let DLogDayHourFormatter:NSDateFormatter = {
-    let formatter = NSDateFormatter()
+let DLogDayHourFormatter:DateFormatter = {
+    let formatter = DateFormatter()
     formatter.dateFormat = "YYYY-MM-dd-HH"
-    formatter.timeZone = NSTimeZone(name: "Europe/Zurich")
-    formatter.locale = NSLocale(localeIdentifier: "de_CH")
+    formatter.timeZone = TimeZone(identifier: "Europe/Zurich")
+    formatter.locale = Locale(identifier: "de_CH")
     return formatter
 }()
 
 
-let DLogDayHourMinuteFormatter:NSDateFormatter = {
-    let formatter = NSDateFormatter()
+let DLogDayHourMinuteFormatter:DateFormatter = {
+    let formatter = DateFormatter()
     formatter.dateFormat = "YYYY-MM-dd-HH-mm"
-    formatter.timeZone = NSTimeZone(name: "Europe/Zurich")
-    formatter.locale = NSLocale(localeIdentifier: "de_CH")
+    formatter.timeZone = TimeZone(identifier: "Europe/Zurich")
+    formatter.locale = Locale(identifier: "de_CH")
     return formatter
 }()
 
-let DLogShortFormatter:NSDateFormatter = {
-    let formatter = NSDateFormatter()
+let DLogShortFormatter:DateFormatter = {
+    let formatter = DateFormatter()
     formatter.dateFormat = "d-H:m"
-    formatter.timeZone = NSTimeZone(name: "Europe/Zurich")
-    formatter.locale = NSLocale(localeIdentifier: "de_CH")
+    formatter.timeZone = TimeZone(identifier: "Europe/Zurich")
+    formatter.locale = Locale(identifier: "de_CH")
     return formatter
 }()
 
-public func DLog<T>(@autoclosure object: () -> T, toFile: Bool = false, sync:Bool = false, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
+func print(_ item: @autoclosure () -> Any, separator: String = " ", terminator: String = "\n") {
+    #if DEBUG
+        Swift.print(item(), separator:separator, terminator: terminator)
+    #endif
+}
+
+/*public func DLog(_ object: @autoclosure () -> Any, toFile: Bool = false) {
+    NSLog("\(object)")
+}*/
+public func DLog(_ object: @autoclosure () -> Any, toFile: Bool = false, sync:Bool = false, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
     #if DEBUG
         let value = object()
-        let queueLabel = String(UTF8String: dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL))
-        let currentThread = "\(NSThread.currentThread())"
-        let date = NSDate().formattedWithDateFormatter(DLogDateFormatter)
+        let queueLabel = currentQueueName()
+        let currentThread = "\(Thread.current)"
+        let date = Date().formattedWithDateFormatter(DLogDateFormatter)
         func logIt() {
             let stringRepresentation: String
 
@@ -121,7 +130,7 @@ public func DLog<T>(@autoclosure object: () -> T, toFile: Bool = false, sync:Boo
             } else {
                 fatalError("loggingPrint only works for values that conform to CustomDebugStringConvertible or CustomStringConvertible")
             }
-            let fileEscaped = file.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLPathAllowedCharacterSet())
+            let fileEscaped = file.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlPathAllowed)
             let fileURL = NSURL(string: fileEscaped!)?.lastPathComponent ?? "Unknown file"
             //  <NSThread: 0x17066e7c0>{number = 11, name = (null)}
             var matches:String = ""
@@ -130,7 +139,7 @@ public func DLog<T>(@autoclosure object: () -> T, toFile: Bool = false, sync:Boo
                     matches = "CQ"
                 } else if (queueLabel == "com.apple.main-thread") {
                     matches = "UI"
-                } else if (queueLabel.containsString("NSOperationQueue")) {
+                } else if (queueLabel.contains("NSOperationQueue")) {
                     matches = queueLabel.replace("NSOperationQueue (.+) :: .*QOS: (.*)\\)", template: "$1 $2")
                 } else {
                     matches = "\(queueLabel)"
@@ -162,11 +171,11 @@ public func DLog<T>(@autoclosure object: () -> T, toFile: Bool = false, sync:Boo
             }
         }
         if (sync) {
-            dispatch_sync(logQueue) {
+            logQueue.sync() {
                 logIt()
             }
         } else {
-            dispatch_async(logQueue) {
+            logQueue.async {
                 logIt()
             }
         }
@@ -183,17 +192,17 @@ public func DLog<T>(@autoclosure object: () -> T, toFile: Bool = false, sync:Boo
                 } else {
                     return
                 }
-                let fileEscaped = file.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLPathAllowedCharacterSet())
-                let fileURL = NSURL(string: fileEscaped!)?.lastPathComponent ?? "Unknown file"
+                let fileEscaped = file.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlPathAllowed)
+                let fileURL = URL(string: fileEscaped!)?.lastPathComponent ?? "Unknown file"
                 let msg = "\(stringRepresentation) (\(fileURL) \(function)[\(line)])"
                 DLog2CLS("%@", text: [msg])
             }
             if (sync) {
-                dispatch_sync(logQueue) {
+                logQueue.sync {
                     logIt()
                 }
             } else {
-                dispatch_async(logQueue) {
+                logQueue.async {
                     logIt()
                 }
             }
@@ -201,54 +210,58 @@ public func DLog<T>(@autoclosure object: () -> T, toFile: Bool = false, sync:Boo
     #endif
 }
 
+func currentQueueName() -> String? {
+    let name = __dispatch_queue_get_label(nil)
+    return String(cString: name, encoding: .utf8)
+}
+
 func SendLogs2Phone() {
     #if DEBUG
         if #available(iOS 9.0, *) {
 
-            let filemanager = NSFileManager.defaultManager()
+            let filemanager = FileManager.default
 
-            if let path = filemanager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first {
+            if let path = filemanager.urls(for: .documentDirectory, in: .userDomainMask).first {
 
-                let oldUrl = path.URLByAppendingPathComponent("old", isDirectory: true)
-                if (!filemanager.fileExistsAtPath(oldUrl!.path!, isDirectory: nil)) {
-                    try! filemanager.createDirectoryAtURL(oldUrl!, withIntermediateDirectories: true, attributes: nil)
+                let oldUrl = path.appendingPathComponent("old", isDirectory: true)
+                if (!filemanager.fileExists(atPath: oldUrl.path, isDirectory: nil)) {
+                    try! filemanager.createDirectory(at: oldUrl, withIntermediateDirectories: true, attributes: nil)
                 }
 
-                if let directoryContents = try? filemanager.contentsOfDirectoryAtURL( path, includingPropertiesForKeys: nil, options: []) {
+                if let directoryContents = try? filemanager.contentsOfDirectory( at: path, includingPropertiesForKeys: nil, options: []) {
                     let logFiles = directoryContents.filter{ $0.pathExtension == "txt"}
                     for file in logFiles {
                         let nowFile = getWatchLogFileName()
-                        if let name = file.lastPathComponent {
-                            if (name != nowFile) {
-                                //move to old dir, if not current anymore
-                                if let moveTo = oldUrl!.URLByAppendingPathComponent(name) {
-                                    do {
-                                        if filemanager.fileExistsAtPath(moveTo.path!) {
-                                            try filemanager.removeItemAtURL(moveTo)
-                                        }
-                                        try filemanager.moveItemAtURL(file, toURL: moveTo)
-                                        WCSession.defaultSession().transferFile(moveTo, metadata: nil)
-                                    } catch let error as NSError {
-                                        DLog("\(#function) Error: \(error)", toFile: true)
-                                    }
+                        let name = file.lastPathComponent
+                        if (name != nowFile) {
+                            //move to old dir, if not current anymore
+                            let moveTo = oldUrl.appendingPathComponent(name)
+                            do {
+                                if filemanager.fileExists(atPath: moveTo.path) {
+                                    try filemanager.removeItem(at: moveTo)
                                 }
-                            } else {
-                                WCSession.defaultSession().transferFile(file, metadata: nil)
+                                try filemanager.moveItem(at: file, to: moveTo)
+                                WCSession.default().transferFile(moveTo, metadata: nil)
+                            } catch let error as NSError {
+                                DLog("\(#function) Error: \(error)", toFile: true)
                             }
+                        } else {
+                            WCSession.default().transferFile(file, metadata: nil)
                         }
+
                     }
                 }
                 //delete files older than a day
-                if let directoryContents = try? filemanager.contentsOfDirectoryAtURL( oldUrl!, includingPropertiesForKeys: nil, options: []) {
+                if let directoryContents = try? filemanager.contentsOfDirectory( at: oldUrl, includingPropertiesForKeys: nil, options: []) {
                     let logFiles = directoryContents.filter{ $0.pathExtension == "txt"}
                     for file in logFiles {
-                        var modified: AnyObject?
                         do {
-                            try file.getResourceValue(&modified, forKey: NSURLContentModificationDateKey)
-                            let mod = modified as? NSDate
-                            if mod?.dateByAddingTimeInterval(24 * 3600) < NSDate() {
-                                DLog("\(file.lastPathComponent!) is older than a day, delete it", toFile: true)
-                                try filemanager.removeItemAtURL(file)
+                            if let modified = try file.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate {
+
+                                if modified.addingTimeInterval(24 * 3600) < Date() {
+                                    DLog("\(file.lastPathComponent) is older than a day, delete it", toFile: true)
+                                    try filemanager.removeItem(at: file)
+                                }
                             }
 
                         } catch let error as NSError {
@@ -265,48 +278,48 @@ func SendLogs2Phone() {
 
 
 //we can't read the file from the Watch, so send it to the iPhone to be read from there
-private func DLog2WatchConnectivity(text:String) {
+private func DLog2WatchConnectivity(_ text:String) {
     if #available(iOS 9.0, *) {
         let message = ["__logThis__": text]
-        let session = WCSession.defaultSession()
-        if (session.reachable == true) {
+        let session = WCSession.default()
+        if (session.isReachable == true) {
             session.sendMessage(message, replyHandler: nil, errorHandler: {(error: NSError) in
                 DLog("send Log Message failed due to error \(error): Send via transferUserInfo")
                 session.transferUserInfo(message)
-            })
+            } as! (Error) -> Void)
         } else {
             session.transferUserInfo(message)
         }
     }
 }
 private func getWatchLogFileName() -> String {
-    return "watch-log-\(NSDate().formattedWithDateFormatter(DLogDayHourMinuteFormatter)).txt"
+    return "watch-log-\(Date().formattedWithDateFormatter(DLogDayHourMinuteFormatter)).txt"
 }
 
-private func DLog2File(text:String) {
+private func DLog2File(_ text:String) {
     #if os(watchOS)
         let file = getWatchLogFileName()
-        let iCloudDocumentsURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first
+        let iCloudDocumentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
     #else
         let file:String
-        if NSBundle.mainBundle().bundleIdentifier == "ch.opendata.timeforcoffee.timeforcoffee" {
-            file = "today-log-\(NSDate().formattedWithDateFormatter(DLogDayHourFormatter))-\(UIDevice.currentDevice().name).txt"
+        if Bundle.main.bundleIdentifier == "ch.opendata.timeforcoffee.timeforcoffee" {
+            file = "today-log-\(Date().formattedWithDateFormatter(DLogDayHourFormatter))-\(UIDevice.current.name).txt"
         } else {
-            file = "log-\(NSDate().formattedWithDateFormatter(DLogDayHourFormatter))-\(UIDevice.currentDevice().name).txt"
+            file = "log-\(Date().formattedWithDateFormatter(DLogDayHourFormatter))-\(UIDevice.current.name).txt"
         }
-        let iCloudDocumentsURL = NSFileManager.defaultManager().URLForUbiquityContainerIdentifier("iCloud.ch.opendata.timeforcoffee")?.URLByAppendingPathComponent("Documents")!
+        let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: "iCloud.ch.opendata.timeforcoffee")?.appendingPathComponent("Documents")
     #endif
 
     if  let iCloudDocumentsURL = iCloudDocumentsURL {
         do {
-            if (!NSFileManager.defaultManager().fileExistsAtPath(iCloudDocumentsURL.path!, isDirectory: nil)) {
-                try! NSFileManager.defaultManager().createDirectoryAtURL(iCloudDocumentsURL, withIntermediateDirectories: true, attributes: nil)
+            if (!FileManager.default.fileExists(atPath: iCloudDocumentsURL.path, isDirectory: nil)) {
+                try! FileManager.default.createDirectory(at: iCloudDocumentsURL, withIntermediateDirectories: true, attributes: nil)
             }
-            if let url = iCloudDocumentsURL.URLByAppendingPathComponent(file) {
-                let dtext = "\(text)"
-                let _ = try? url.setResourceValue(true, forKey: NSURLIsExcludedFromBackupKey)
-                try dtext.appendLineToURL(url)
-            }
+            let url = iCloudDocumentsURL.appendingPathComponent(file)
+            let dtext = "\(text)"
+            let _ = try? (url as NSURL).setResourceValue(true, forKey: URLResourceKey.isExcludedFromBackupKey)
+            try dtext.appendLineToURL(url)
+
         } catch {
             // just ignore
         }

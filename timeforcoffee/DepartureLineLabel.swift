@@ -24,8 +24,8 @@ class DepartureLineLabel: UILabel, UITableViewDelegate {
         super.awakeFromNib()
         self.clipsToBounds = true
         self.layer.cornerRadius = cornerradius
-        self.textAlignment = NSTextAlignment.Center
-        self.baselineAdjustment = UIBaselineAdjustment.AlignCenters
+        self.textAlignment = NSTextAlignment.center
+        self.baselineAdjustment = UIBaselineAdjustment.alignCenters
         self.adjustsFontSizeToFitWidth = true
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(DepartureLineLabel.favoriteDepartureClicked))
@@ -39,21 +39,21 @@ class DepartureLineLabel: UILabel, UITableViewDelegate {
         }
     }
     
-    override func drawTextInRect(rect: CGRect) {
-        return super.drawTextInRect(UIEdgeInsetsInsetRect(rect, UIEdgeInsets(top: insets, left: insets, bottom: insets, right: insets)))
+    override func drawText(in rect: CGRect) {
+        return super.drawText(in: UIEdgeInsetsInsetRect(rect, UIEdgeInsets(top: insets, left: insets, bottom: insets, right: insets)))
     }
     
-    func setStyle(style: String, departure: TFCDeparture) {
+    func setStyle(_ style: String, departure: TFCDeparture) {
         self.text = departure.getLine()
         self.layer.borderWidth = 0
         if (linesWithSymbol.contains(departure.getLine()) == true) {
             self.font = UIFont(name: "trainsymbol", size: 20)
-            self.textColor = UIColor.whiteColor()
-            self.backgroundColor = UIColor.redColor()
+            self.textColor = UIColor.white
+            self.backgroundColor = UIColor.red
         } else {
             self.font = UIFont(name: "HelveticaNeue-Bold", size: fontsize)
             if (departure.getLine() == "RE") {
-                self.textColor = UIColor.redColor()
+                self.textColor = UIColor.red
             } else {
                 self.textColor = UIColor(netHexString: departure.colorFg!)
             }
@@ -62,9 +62,9 @@ class DepartureLineLabel: UILabel, UITableViewDelegate {
                 self.backgroundColor = UIColor(netHexString: departure.colorBg!)
             } else {
                 if (departure.type == "train") {
-                    self.backgroundColor = UIColor.whiteColor()
+                    self.backgroundColor = UIColor.white
                     if (style == "normal") {
-                        self.layer.borderColor = UIColor.lightGrayColor().CGColor
+                        self.layer.borderColor = UIColor.lightGray.cgColor
                         self.layer.borderWidth = 0.5
                     }
                 } else {
@@ -74,22 +74,22 @@ class DepartureLineLabel: UILabel, UITableViewDelegate {
         }
     }
 
-    internal func toggleIcon(completion: (() -> Void)?) {
+    internal func toggleIcon(_ completion: (() -> Void)?) {
 
 //        button.imageView?.alpha = 1.0
-        self.transform = CGAffineTransformMakeScale(1, 1);
+        self.transform = CGAffineTransform(scaleX: 1, y: 1);
 
-        UIView.animateWithDuration(0.2,
+        UIView.animate(withDuration: 0.2,
             delay: 0.0,
-            options: UIViewAnimationOptions.CurveLinear,
+            options: UIViewAnimationOptions.curveLinear,
             animations: {
-                self.transform = CGAffineTransformMakeScale(0.1, 0.1);
+                self.transform = CGAffineTransform(scaleX: 0.1, y: 0.1);
                 self.alpha = 0.0
                 return
             }, completion: { (finished:Bool) in
-                UIView.animateWithDuration(0.2,
+                UIView.animate(withDuration: 0.2,
                     animations: {
-                        self.transform = CGAffineTransformMakeScale(1, 1);
+                        self.transform = CGAffineTransform(scaleX: 1, y: 1);
                         self.alpha = 1.0
                         return
                     }, completion: { (finished:Bool) in

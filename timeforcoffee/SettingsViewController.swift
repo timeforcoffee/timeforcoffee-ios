@@ -23,11 +23,11 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var realTimeInfoSwitch: UISwitch!
 
 
-    @IBAction func closeButtionTapped(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func closeButtionTapped(_ sender: AnyObject) {
+        self.dismiss(animated: true, completion: nil)
     }
-    override func viewWillAppear(animated: Bool) {
-        var numberOfCells = TFCDataStore.sharedInstance.getUserDefaults()?.integerForKey("numberOfCellsToday")
+    override func viewWillAppear(_ animated: Bool) {
+        var numberOfCells = TFCDataStore.sharedInstance.getUserDefaults()?.integer(forKey: "numberOfCellsToday")
         if (numberOfCells == nil || numberOfCells == 0) {
             numberOfCells = 6
         }
@@ -38,50 +38,50 @@ class SettingsViewController: UIViewController {
         setRadiusTextValue(favoritesSearchRadius)
         setRadiusSliderValue(favoritesSearchRadius)
 
-        realTimeInfoSwitch.on = TFCSettings.sharedInstance.showRealTimeDebugInfo()
+        realTimeInfoSwitch.isOn = TFCSettings.sharedInstance.showRealTimeDebugInfo()
     }
 
-    @IBAction func sliderChanged(sender: AnyObject) {
+    @IBAction func sliderChanged(_ sender: AnyObject) {
 
         let sliderValue = lroundf(numberCellsTodaySlider.value)
         numberCellsTodayValue.text = String(sliderValue)
         numberCellsTodaySlider.setValue(Float(sliderValue), animated: true)
-        TFCDataStore.sharedInstance.getUserDefaults()?.setInteger(sliderValue, forKey: "numberOfCellsToday")
+        TFCDataStore.sharedInstance.getUserDefaults()?.set(sliderValue, forKey: "numberOfCellsToday")
     }
 
-    @IBAction func sliderChangedValue(sender: AnyObject) {
+    @IBAction func sliderChangedValue(_ sender: AnyObject) {
         let sliderValue = lroundf(numberCellsTodaySlider.value)
         numberCellsTodayValue.text = String(sliderValue)
     }
 
-    private func setRadiusSliderValue(radius:Int) {
+    fileprivate func setRadiusSliderValue(_ radius:Int) {
         let newSliderValue = log(Float(radius)) / log(10)
         favoritesRadiusSlider.setValue(newSliderValue, animated: true)
     }
 
-    private func setRadiusTextValue(radius:Int) {
+    fileprivate func setRadiusTextValue(_ radius:Int) {
         let formatted = String(format: "%.1f km", arguments: [Float(radius) / 1000.0])
         favoritesRadiusValue.text = formatted
     }
 
-    private func getRadiusSliderValueInMeters() -> Float {
+    fileprivate func getRadiusSliderValueInMeters() -> Float {
         let sliderValue = pow(10,favoritesRadiusSlider.value)
         return Float(roundf(sliderValue / 100)) * 100
     }
 
-    @IBAction func favoritesRadiusSliderChanged(sender: AnyObject) {
+    @IBAction func favoritesRadiusSliderChanged(_ sender: AnyObject) {
         let rounded = Int(getRadiusSliderValueInMeters())
         setRadiusSliderValue(rounded)
-        TFCDataStore.sharedInstance.getUserDefaults()?.setInteger(rounded, forKey: "favoritesSearchRadius")
+        TFCDataStore.sharedInstance.getUserDefaults()?.set(rounded, forKey: "favoritesSearchRadius")
     }
 
-    @IBAction func favoritesRadiusSliderChangedValue(sender: AnyObject) {
+    @IBAction func favoritesRadiusSliderChangedValue(_ sender: AnyObject) {
         let rounded = getRadiusSliderValueInMeters()
         setRadiusTextValue(Int(rounded))
     }
 
-    @IBAction func realTimeInfoSwitchChanged(sender: AnyObject) {
-        TFCSettings.sharedInstance.setRealTimeDebugInfo(realTimeInfoSwitch.on)
+    @IBAction func realTimeInfoSwitchChanged(_ sender: AnyObject) {
+        TFCSettings.sharedInstance.setRealTimeDebugInfo(realTimeInfoSwitch.isOn)
     }
 
 

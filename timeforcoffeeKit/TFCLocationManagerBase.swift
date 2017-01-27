@@ -1,3 +1,4 @@
+
 //
 //  LocationManager.swift
 //  timeforcoffee
@@ -8,15 +9,39 @@
 
 import Foundation
 import CoreLocation
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
 
-public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
+
+open class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
     lazy var locationManager : CLLocationManager = self.lazyInitLocationManager()
-    private var locationFixAchieved : Bool = false
-    private var locationStatus : NSString = "Not Started"
-    private var seenError : Bool = false
+    fileprivate var locationFixAchieved : Bool = false
+    fileprivate var locationStatus : NSString = "Not Started"
+    fileprivate var seenError : Bool = false
     weak var delegate: TFCLocationManagerDelegate?
 
-    public var currentLocation: CLLocation? {
+    open var currentLocation: CLLocation? {
         get {
             return classvar.currentLocation
         }
@@ -25,18 +50,18 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
         }
     }
 
-    private struct classvar {
+    fileprivate struct classvar {
         static var currentLocation: CLLocation?
-        static var _lastUpdateCurrentLocation: NSDate?
-        static var currentLocationTimestamp: NSDate?
+        static var _lastUpdateCurrentLocation: Date?
+        static var currentLocationTimestamp: Date?
         static var currentPlacemark: CLPlacemark? {
             get {
                 return _currentPlacemark;
             }
             set (placemark) {
-                if let country = placemark?.ISOcountryCode {
+                if let country = placemark?.isoCountryCode {
                     if (country != _currentCountry) {
-                        NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee")?.setValue(country, forKey: "currentCountry")
+                        UserDefaults(suiteName: "group.ch.opendata.timeforcoffee")?.setValue(country, forKey: "currentCountry")
                     }
                     _currentPlacemark = placemark
                 }
@@ -59,7 +84,7 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
         self.locationManager.delegate = nil
     }
 
-    class func setCurrentLocation(location: CLLocation?, time:NSDate? = nil) {
+    class func setCurrentLocation(_ location: CLLocation?, time:Date? = nil) {
         var newTimestamp = time
         if (location?.timestamp != nil) {
             newTimestamp = location?.timestamp
@@ -67,7 +92,7 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
 
         if classvar.currentLocation == nil {
             TFCLocationManagerBase.setCurrentLocation(location, time:time, force: true)
-        } else if let newTimestamp = newTimestamp, oldTimestamp = classvar.currentLocationTimestamp {
+        } else if let newTimestamp = newTimestamp, let oldTimestamp = classvar.currentLocationTimestamp {
             if (newTimestamp > oldTimestamp) {
                 TFCLocationManagerBase.setCurrentLocation(location, time:time, force: true)
             }
@@ -76,23 +101,23 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
         }
     }
 
-    class func setCurrentLocation(location: CLLocation?, time:NSDate? = nil, force:Bool) {
+    class func setCurrentLocation(_ location: CLLocation?, time:Date? = nil, force:Bool) {
         guard force else { TFCLocationManagerBase.setCurrentLocation(location, time: time); return }
 
         classvar.currentLocation = location
-        classvar._lastUpdateCurrentLocation = NSDate()
+        classvar._lastUpdateCurrentLocation = Date()
 
         if let timestamp = location?.timestamp {
             classvar.currentLocationTimestamp = timestamp
         } else if let time = time {
             classvar.currentLocationTimestamp = time
         } else {
-            classvar.currentLocationTimestamp = NSDate()
+            classvar.currentLocationTimestamp = Date()
         }
 
     }
 
-    private func lazyInitLocationManager() -> CLLocationManager {
+    fileprivate func lazyInitLocationManager() -> CLLocationManager {
         seenError = false
         locationFixAchieved = false
         let lm = CLLocationManager()
@@ -104,15 +129,15 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
         return lm
     }
 
-    func getLocationRequest(lm: CLLocationManager) {
+    func getLocationRequest(_ lm: CLLocationManager) {
         lm.requestWhenInUseAuthorization()
     }
 
-    public func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-        dispatch_async(dispatch_get_main_queue(), {
-                DLog("LocationManager Error \(error) with code \(error.code)")
+    open func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        DispatchQueue.main.async(execute: {
+                DLog("LocationManager Error \(error) with code \(error)")
                 #if !((arch(i386) || arch(x86_64)) && (os(iOS) || os(watchOS)))
-                    if (error.code == CLError.LocationUnknown.rawValue) {
+                    if ((error as NSError).code == CLError.Code.locationUnknown.rawValue) {
                         DLog("LocationManager LocationUnknown")
                         self.delegate?.locationStillTrying(manager, err: error)
                         return
@@ -130,7 +155,7 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
                         // random location in zurich
                          //self.currentLocation = CLLocation(latitude: 47.38 + (Double(arc4random_uniform(100)) / 7000.0), longitude: 8.529163 + (Double(arc4random_uniform(100)) / 7000.0))
                         self.locationManager.stopUpdatingLocation()
-                        if (classvar.currentPlacemark == nil || classvar.currentPlacemark?.location?.distanceFromLocation(self.currentLocation!) > 1000) {
+                        if (classvar.currentPlacemark == nil || classvar.currentPlacemark?.location?.distance(from: self.currentLocation!) > 1000) {
                             self.updateGeocodedPlacemark()
                         }
 
@@ -144,17 +169,17 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
         })
     }
 
-    public func locationManagerBase(manager: CLLocationManager, didUpdateLocations locations: [AnyObject]) {
+    open func locationManagerBase(_ manager: CLLocationManager, didUpdateLocations locations: [AnyObject]) {
         let locationArray = locations as NSArray
         if let locationObj = locationArray.lastObject as? CLLocation {
             self.currentLocation = locationObj;
         }
-        dispatch_async(dispatch_get_main_queue(), {
+        DispatchQueue.main.async(execute: {
             if (self.locationFixAchieved == false) {
                 self.locationFixAchieved = true
                 //random location, sometimes needed for testing ...
                 //self.currentLocation = CLLocation(latitude: 47.38 + (Double(arc4random_uniform(100)) / 7000.0), longitude: 8.53 + (Double(arc4random_uniform(100)) / 7000.0))
-                if (classvar.currentPlacemark == nil || (self.currentLocation != nil && classvar.currentPlacemark?.location?.distanceFromLocation(self.currentLocation!) > 2000)) {
+                if (classvar.currentPlacemark == nil || (self.currentLocation != nil && classvar.currentPlacemark?.location?.distance(from: self.currentLocation!) > 2000)) {
                     self.updateGeocodedPlacemark()
                 }
                 self.delegate?.locationFixed(self.currentLocation)
@@ -166,15 +191,15 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
     }
     
     // authorization status
-    public func locationManager(manager: CLLocationManager,
-        didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    open func locationManager(_ manager: CLLocationManager,
+        didChangeAuthorization status: CLAuthorizationStatus) {
             var shouldIAllow = false
             switch status {
-            case CLAuthorizationStatus.Restricted:
+            case CLAuthorizationStatus.restricted:
                 locationStatus = "Restricted Access to location"
-            case CLAuthorizationStatus.Denied:
+            case CLAuthorizationStatus.denied:
                 locationStatus = "User denied access to location"
-            case CLAuthorizationStatus.NotDetermined:
+            case CLAuthorizationStatus.notDetermined:
                 locationStatus = "Status not determined"
             default:
                 locationStatus = "Allowed to location Access"
@@ -189,15 +214,15 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
             }
     }
     
-    public func refreshLocation() {
+    open func refreshLocation() {
         seenError = false
         locationFixAchieved = false
-        dispatch_async(dispatch_get_main_queue(), {
+        DispatchQueue.main.async(execute: {
             self.requestLocation()
         })
     }
 
-    public class func getCurrentLocation() -> CLLocation? {
+    open class func getCurrentLocation() -> CLLocation? {
         return classvar.currentLocation
     }
     
@@ -205,10 +230,10 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
 
     }
 
-    public func updateGeocodedPlacemark() {
+    open func updateGeocodedPlacemark() {
         let geocoder = CLGeocoder()
         if let currentLoc = classvar.currentLocation {
-            geocoder.reverseGeocodeLocation(currentLoc) { (places:[CLPlacemark]?, error:NSError?) -> Void in
+            geocoder.reverseGeocodeLocation(currentLoc) { (places:[CLPlacemark]?, error:Error?) -> Void in
                 if let place = places?.first {
                     classvar.currentPlacemark = place
                 }
@@ -216,16 +241,16 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
         }
     }
 
-    public class func getISOCountry() -> String? {
-        if let country = NSUserDefaults(suiteName: "group.ch.opendata.timeforcoffee")?.stringForKey("currentCountry") {
+    open class func getISOCountry() -> String? {
+        if let country = UserDefaults(suiteName: "group.ch.opendata.timeforcoffee")?.string(forKey: "currentCountry") {
             return country
         } else {
             return "unknown"
         }
     }
 
-    public func getLastLocation(notOlderThanSeconds: Int) -> CLLocation? {
-        if (classvar._lastUpdateCurrentLocation?.timeIntervalSinceNow < NSTimeInterval(-notOlderThanSeconds)) {
+    open func getLastLocation(_ notOlderThanSeconds: Int) -> CLLocation? {
+        if (classvar._lastUpdateCurrentLocation?.timeIntervalSinceNow < TimeInterval(-notOlderThanSeconds)) {
             return nil
         }
         DLog("still cached since \(classvar._lastUpdateCurrentLocation) , \(currentLocation)")
@@ -235,9 +260,9 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
 }
 
 @objc public protocol TFCLocationManagerDelegate: class {
-    func locationFixed(coord: CLLocation?)
-    func locationDenied(manager: CLLocationManager, err: NSError)
-    func locationStillTrying(manager: CLLocationManager, err: NSError)
-    optional func locationVisit(coord: CLLocationCoordinate2D, date: NSDate, arrival: Bool) -> Bool
-    optional func regionVisit(region: CLCircularRegion)
+    func locationFixed(_ coord: CLLocation?)
+    func locationDenied(_ manager: CLLocationManager, err: Error)
+    func locationStillTrying(_ manager: CLLocationManager, err: Error)
+    @objc optional func locationVisit(_ coord: CLLocationCoordinate2D, date: Date, arrival: Bool) -> Bool
+    @objc optional func regionVisit(_ region: CLCircularRegion)
 }

@@ -43,9 +43,9 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
 
     @IBOutlet weak var mapView: MKMapView!
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         if (UIAccessibilityIsVoiceOverRunning()) {
-            self.mapView.hidden = true
+            self.mapView.isHidden = true
         }
         if (self.mapOnBottom) {
             self.mapView.showsUserLocation = true
@@ -55,31 +55,31 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
         self.navigationController?.interactivePopGestureRecognizer!.delegate = nil
     }
 
-    override final func viewWillDisappear(animated: Bool) {
+    override final func viewWillDisappear(_ animated: Bool) {
         self.mapView.showsUserLocation = false
         self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         self.navigationController?.interactivePopGestureRecognizer!.delegate = gestureRecognizer
     }
 
     override final func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        if (self.mapOnBottom && self.topBarBottomSpace.active == false) {
+        if (self.mapOnBottom && self.topBarBottomSpace.isActive == false) {
             //needed for example on ration
-            NSLayoutConstraint.deactivateConstraints([self.topBarHeight])
-            NSLayoutConstraint.activateConstraints([self.topBarBottomSpace])
+            NSLayoutConstraint.deactivate([self.topBarHeight])
+            NSLayoutConstraint.activate([self.topBarBottomSpace])
             self.view.layoutIfNeeded()
         }
     }
 
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        scrolled(scrollView)
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let _ = scrolled(scrollView)
     }
 
-    func scrolled(scrollView: UIScrollView) -> CGFloat {
+    func scrolled(_ scrollView: UIScrollView) -> CGFloat {
         let offset = scrollView.contentOffset.y + startHeight
         self.topBarHeight.constant = max(min(self.startHeight - offset, self.startHeight), 64)
         if (self.topBarHeight.constant < 71) {
@@ -103,8 +103,8 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
         return offset
     }
 
-    @IBAction final func panOnTopView(sender: UIPanGestureRecognizer) {
-        let location = sender.locationInView(self.topView)
+    @IBAction final func panOnTopView(_ sender: UIPanGestureRecognizer) {
+        let location = sender.location(in: self.topView)
         let releasePoint = CGFloat(200.0)
         var topBarCalculatedHeight = floor(startHeight + (location.y - startHeight) / 3)
 
@@ -115,12 +115,12 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
         if (topBarCalculatedHeight < startHeight) {
             topBarCalculatedHeight = 150.0
         }
-        if (sender.state == UIGestureRecognizerState.Began) {
+        if (sender.state == UIGestureRecognizerState.began) {
             if (self.mapOnBottom == true ) {
-                self.mapSwipeUpStart = UIScreen.mainScreen().bounds.size.height - location.y
-                self.mapView.userInteractionEnabled = false
-                NSLayoutConstraint.deactivateConstraints([self.topBarBottomSpace])
-                NSLayoutConstraint.activateConstraints([self.topBarHeight])
+                self.mapSwipeUpStart = UIScreen.main.bounds.size.height - location.y
+                self.mapView.isUserInteractionEnabled = false
+                NSLayoutConstraint.deactivate([self.topBarBottomSpace])
+                NSLayoutConstraint.activate([self.topBarHeight])
                 self.mapOnBottom = false
                 self.view.layoutIfNeeded()
             } else {
@@ -128,8 +128,8 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
             }
             return
         }
-        if (sender.state == UIGestureRecognizerState.Ended) {
-            let velocity = sender.velocityInView(self.appsTableView)
+        if (sender.state == UIGestureRecognizerState.ended) {
+            let velocity = sender.velocity(in: self.appsTableView)
             let yVelocity = Double(velocity.y)
 
             if (yVelocity < -100) {
@@ -137,7 +137,7 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
             } else if (yVelocity > 100) {
                 moveMapViewDown(yVelocity)
             } else if (mapSwipeUpStart != nil) {
-                if ((UIScreen.mainScreen().bounds.size.height - topBarCalculatedHeight)  > 40) {
+                if ((UIScreen.main.bounds.size.height - topBarCalculatedHeight)  > 40) {
                     moveMapViewUp(yVelocity)
                 } else {
                     moveMapViewDown(yVelocity)
@@ -154,7 +154,7 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
         if (topBarCalculatedHeight < releasePoint) {
             let offsetForAnimation: CGFloat = ((topBarCalculatedHeight - startHeight) / (releasePoint - startHeight))
             topViewProperties(offsetForAnimation)
-            self.releaseToViewLabel.hidden = true
+            self.releaseToViewLabel.isHidden = true
             if (mapSwipeUpStart == nil) {
                 if (self.destinationPlacemark == nil) {
                     drawAnnotations()
@@ -162,7 +162,7 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
             }
         } else {
             if (mapSwipeUpStart == nil) {
-                self.releaseToViewLabel.hidden = false
+                self.releaseToViewLabel.isHidden = false
             }
             topViewProperties(1.0)
         }
@@ -173,23 +173,23 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
         }
     }
 
-    func moveMapViewDown(velocity: Double?) {
-        let height = UIScreen.mainScreen().bounds.size.height
-        self.releaseToViewLabel.hidden = true
-        self.mapView.userInteractionEnabled = true
+    func moveMapViewDown(_ velocity: Double?) {
+        let height = UIScreen.main.bounds.size.height
+        self.releaseToViewLabel.isHidden = true
+        self.mapView.isUserInteractionEnabled = true
         if (self.mapHeight.constant < height + 200) {
             self.mapHeight.constant = height + 200
         }
         let maxDuration = 0.5
-        var duration: NSTimeInterval = maxDuration
+        var duration: TimeInterval = maxDuration
         if (velocity != nil) {
             duration = min(maxDuration, 600.0 / abs(velocity!))
         }
-        NSLayoutConstraint.deactivateConstraints([self.topBarHeight])
-        NSLayoutConstraint.activateConstraints([self.topBarBottomSpace])
+        NSLayoutConstraint.deactivate([self.topBarHeight])
+        NSLayoutConstraint.activate([self.topBarBottomSpace])
         self.topBarBottomSpace?.constant = 0
 
-        UIView.animateWithDuration(duration,
+        UIView.animate(withDuration: duration,
             animations: {
                 self.view.layoutIfNeeded()
                 self.topViewProperties(1.0)
@@ -208,22 +208,22 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
         self.topBarHeight?.constant = self.topView.frame.height
     }
 
-    func moveMapViewUp(velocity: Double?) {
+    func moveMapViewUp(_ velocity: Double?) {
 
         let height = CGFloat(startHeight)
 
-        self.mapView.userInteractionEnabled = false
+        self.mapView.isUserInteractionEnabled = false
         self.topBarHeight.constant = height
         let maxDuration = 0.5
-        var duration: NSTimeInterval = maxDuration
+        var duration: TimeInterval = maxDuration
         if let velo = velocity {
             duration = min(maxDuration, 600.0 / abs(velo))
         }
-        self.mapView.userInteractionEnabled = false
-        NSLayoutConstraint.deactivateConstraints([self.topBarBottomSpace])
-        NSLayoutConstraint.activateConstraints([self.topBarHeight])
-        self.releaseToViewLabel.hidden = true
-        UIView.animateWithDuration(duration,
+        self.mapView.isUserInteractionEnabled = false
+        NSLayoutConstraint.deactivate([self.topBarBottomSpace])
+        NSLayoutConstraint.activate([self.topBarHeight])
+        self.releaseToViewLabel.isHidden = true
+        UIView.animate(withDuration: duration,
             animations: {
                 self.topViewProperties(0.0)
                 self.topView.layoutIfNeeded()
@@ -233,7 +233,7 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
                 if let destinationPlacemark2 = self.destinationPlacemark {
                     self.mapView.removeAnnotation(destinationPlacemark2)
                     if let mapDirectionOverlay2 = self.mapDirectionOverlay {
-                        self.mapView.removeOverlay(mapDirectionOverlay2)
+                        self.mapView.remove(mapDirectionOverlay2)
                     }
                     self.mapView.showsUserLocation = false
                     self.destinationPlacemark = nil
@@ -244,13 +244,13 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
     }
 
 
-    func topViewProperties(offsetForAnimation: CGFloat) {
+    func topViewProperties(_ offsetForAnimation: CGFloat) {
 
         self.mapView?.alpha        = 0.5 + offsetForAnimation * 0.5
         self.gradientView.alpha    = 1.0 - offsetForAnimation
         self.navBarBackgroundView.alpha     = 0.0 + offsetForAnimation
         self.stationIconView.alpha = 1.0 - offsetForAnimation
-        self.stationIconView.transform = CGAffineTransformMakeScale(1 - offsetForAnimation, 1 - offsetForAnimation)
+        self.stationIconView.transform = CGAffineTransform(scaleX: 1 - offsetForAnimation, y: 1 - offsetForAnimation)
         self.borderBottomView.alpha = 0.0 + offsetForAnimation
         self.stationNameBottomSpace.constant = -28.0 - offsetForAnimation * 11.0
         if (!distanceLabelVisibleOnTop) {
@@ -258,17 +258,17 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
         }
     }
 
-    @IBAction func mapUpAction(sender: AnyObject) {
+    @IBAction func mapUpAction(_ sender: AnyObject) {
         moveMapViewUp(nil)
     }
 
 
 
-    func mapViewDidFinishRenderingMap(mapView: MKMapView, fullyRendered: Bool) {
+    func mapViewDidFinishRenderingMap(_ mapView: MKMapView, fullyRendered: Bool) {
         if(self.mapView.alpha <= 0.6) {
-            UIView.animateWithDuration(0.8,
+            UIView.animate(withDuration: 0.8,
                 delay: 0.0,
-                options: UIViewAnimationOptions.CurveLinear,
+                options: UIViewAnimationOptions.curveLinear,
                 animations: {
                     self.mapView?.alpha = 0.5
                     return
@@ -278,19 +278,19 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
         }
     }
 
-    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if overlay is MKPolyline {
             let polylineRenderer = MKPolylineRenderer(overlay: overlay)
-            polylineRenderer.strokeColor = UIColor.blueColor()
+            polylineRenderer.strokeColor = UIColor.blue
             polylineRenderer.lineWidth = 1
             return polylineRenderer
         }
         return MKPolylineRenderer()
     }
 
-    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
 
-        if (annotation.isKindOfClass(MKUserLocation)) {
+        if (annotation.isKind(of: MKUserLocation.self)) {
             return nil
         }
         let stationannotation = annotation as? StationAnnotation
@@ -305,7 +305,7 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
         }
 
         let annotationIdentifier = "CustomViewAnnotation-\(ident)"
-        var annotationView = self.mapView.dequeueReusableAnnotationViewWithIdentifier(annotationIdentifier)
+        var annotationView = self.mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier)
 
         if (annotationView == nil) {
             annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
@@ -314,10 +314,10 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
         annotationView?.canShowCallout = true
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
         let buttonImage = UIImage(named: "Walking")
-        button.setImage(buttonImage, forState: UIControlState.Normal)
+        button.setImage(buttonImage, for: UIControlState())
         annotationView?.leftCalloutAccessoryView = button
         annotationView!.image = getMapIcon(stationannotation?.pass)
-        annotationView!.opaque = false
+        annotationView!.isOpaque = false
         annotationView!.alpha = 1.0
         annotationView!.frame.size.height = 30
         annotationView!.frame.size.width = 30
@@ -326,13 +326,13 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
 
     }
 
-    func getMapIcon(pass:TFCPass? = nil) -> UIImage {
+    func getMapIcon(_ pass:TFCPass? = nil) -> UIImage {
         return UIImage()
     }
 
-    func drawStationAndWay(station:TFCStation, drawStation: Bool? = true) {
+    func drawStationAndWay(_ station:TFCStation, drawStation: Bool? = true) {
 
-        if let stationCoordinate = station.coord?.coordinate, stationDistance = distanceLabel.text {
+        if let stationCoordinate = station.coord?.coordinate, let stationDistance = distanceLabel.text {
 
             let annotation = StationAnnotation(title: station.name, distance: stationDistance, coordinate: stationCoordinate )
             if (drawStation == true) {
@@ -343,7 +343,7 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
             let currentLocation = TFCLocationManager.getCurrentLocation()
             let currentCoordinate = currentLocation?.coordinate
 
-            if (currentCoordinate == nil || station.getDistanceInMeter(currentLocation) >= 5000) {
+            if (currentCoordinate == nil || station.getDistanceInMeter(currentLocation!)! >= 5000) {
                 return
             }
             let sourcePlacemark:MKPlacemark = MKPlacemark(coordinate: currentCoordinate!, addressDictionary: nil)
@@ -354,13 +354,13 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
 
             directionRequest.source = sourceMapItem
             directionRequest.destination = destinationMapItem
-            directionRequest.transportType = MKDirectionsTransportType.Walking
+            directionRequest.transportType = MKDirectionsTransportType.walking
             directionRequest.requestsAlternateRoutes = false
 
             let directions:MKDirections = MKDirections(request: directionRequest)
 
-            directions.calculateDirectionsWithCompletionHandler({
-                (response: MKDirectionsResponse?, error: NSError?) in
+            directions.calculate(completionHandler: {
+                (response: MKDirectionsResponse?, error: Error?) in
                 if error != nil{
                     DLog("Error")
                 }
@@ -368,36 +368,36 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
                     //                for r in response.routes { DLog("route = \(r)") }
                     let route: MKRoute = response!.routes[0] as MKRoute;
                     self.mapDirectionOverlay = route.polyline
-                    self.mapView.addOverlay(self.mapDirectionOverlay!)
+                    self.mapView.add(self.mapDirectionOverlay!)
                 }
                 else{
                     DLog("No response")
                 }
-                print(error?.description)
+                print((error as? NSError)?.description ?? "")
             })
             
         }
     }
 
     // Launch Maps app when the left accessory button is tapped
-    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         if let stationAnnotation = view.annotation as? StationAnnotation {
             if control == view.leftCalloutAccessoryView {
                 let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeWalking]
-                stationAnnotation.mapItem().openInMapsWithLaunchOptions(launchOptions)
+                stationAnnotation.mapItem().openInMaps(launchOptions: launchOptions)
                 mapView.deselectAnnotation(view.annotation, animated: false)
             }
         }
     }
 
-    func getIconIdentifier(station: TFCStation?) -> String {
+    func getIconIdentifier(_ station: TFCStation?) -> String {
         if let ident = station?.getIconIdentifier() {
             return ident
         }
         return "stationicon-pin"
     }
 
-    func getIconIdentifier(pass pass: TFCPass?) -> String {
+    func getIconIdentifier(pass: TFCPass?) -> String {
 
         if (pass?.isFirst == true) {
             return getIconIdentifier(pass?.getStation())
@@ -408,18 +408,18 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
     }
 
 
-    func checkIfIconIsCachedAsImage(station: TFCStation) -> Bool {
+    func checkIfIconIsCachedAsImage(_ station: TFCStation) -> Bool {
         let filePath = getIconAsImageFilepath(station)
-        return  NSFileManager.defaultManager().fileExistsAtPath(filePath)
+        return  FileManager.default.fileExists(atPath: filePath)
     }
 
-    func getIconAsImageFilepath(station: TFCStation?) -> String {
+    func getIconAsImageFilepath(_ station: TFCStation?) -> String {
         let documentsDirectory = (NSTemporaryDirectory() as NSString)
         let ident = getIconIdentifier(station)
-        return documentsDirectory.stringByAppendingPathComponent("\(ident)-round.png")
+        return documentsDirectory.appendingPathComponent("\(ident)-round.png")
     }
 
-    func getIconAsImage(station: TFCStation?) -> (UIImage?, String) {
+    func getIconAsImage(_ station: TFCStation?) -> (UIImage?, String) {
         let filePath = getIconAsImageFilepath(station)
 
         if let image = UIImage(contentsOfFile: filePath) {
@@ -428,28 +428,28 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
         return (nil, filePath)
     }
 
-    func getIconViewAsImage(view: UIView, station: TFCStation?) -> UIImage {
+    func getIconViewAsImage(_ view: UIView, station: TFCStation?) -> UIImage {
         let (image, filePath) = getIconAsImage(station)
         if let image = image {
             return image
         }
-        view.opaque = false
+        view.isOpaque = false
 
-        UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.opaque, 0.0);
-        view.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+        UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.isOpaque, 0.0);
+        view.layer.render(in: UIGraphicsGetCurrentContext()!)
         let img = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-
-        UIImagePNGRepresentation(img!)?.writeToFile(filePath, atomically: true)
+        let filePathURL = URL(fileURLWithPath: filePath)
+        try! UIImagePNGRepresentation(img!)?.write(to: filePathURL, options: .atomic)
         return img!;
     }
 
-    override final func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+    override final func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
 
-        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+        super.viewWillTransition(to: size, with: coordinator)
 
-        coordinator.animateAlongsideTransition(
-            {
+        coordinator.animate(
+            alongsideTransition: {
                 (context) -> Void in
             },
             completion: {

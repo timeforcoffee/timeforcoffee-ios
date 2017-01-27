@@ -25,7 +25,7 @@ public final class TFCLocationManager: TFCLocationManagerBase {
         }*/
     }
 
-    public func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         self.locationManagerBase(manager, didUpdateLocations: locations)
         for region in pendingRegionCalls {
             self.delegate?.regionVisit?(region)
@@ -42,9 +42,9 @@ public final class TFCLocationManager: TFCLocationManagerBase {
         self.locationManager.stopMonitoringVisits()
     }
 
-    public func locationManager(manager: CLLocationManager, didVisit visit: CLVisit) {
+    public func locationManager(_ manager: CLLocationManager, didVisit visit: CLVisit) {
 
-        if visit.departureDate.isEqualToDate(NSDate.distantFuture()) {
+        if visit.departureDate == Date.distantFuture {
             DLog("did Visit received in")
             DLog("arrival Date: \(visit.arrivalDate)")
             DLog("arrival Loc: \(visit.coordinate)")
@@ -64,11 +64,11 @@ public final class TFCLocationManager: TFCLocationManagerBase {
         }
     }
 
-    override func getLocationRequest(lm: CLLocationManager) {
+    override func getLocationRequest(_ lm: CLLocationManager) {
         if #available(iOS 9, *) {
             if (WCSession.isSupported()) {
-                let wcsession = WCSession.defaultSession()
-                if (wcsession.complicationEnabled == true) {
+                let wcsession = WCSession.default()
+                if (wcsession.isComplicationEnabled == true) {
                     lm.requestAlwaysAuthorization()
                     return
                 }
@@ -77,11 +77,11 @@ public final class TFCLocationManager: TFCLocationManagerBase {
         super.getLocationRequest(lm)
     }
 
-    func locationManager(manager: CLLocationManager!, monitoringDidFailForRegion region: CLRegion!, withError error: NSError!) {
+    func locationManager(_ manager: CLLocationManager!, monitoringDidFailForRegion region: CLRegion!, withError error: NSError!) {
         DLog("monitoringDidFailForRegion for fence \(region.identifier), error: \(error)", toFile: true)
     }
 
-    func locationManager(manager: CLLocationManager!, didEnterRegion region: CLRegion!) {
+    func locationManager(_ manager: CLLocationManager!, didEnterRegion region: CLRegion!) {
         DLog("fence entered \(region)", toFile: true)
         if let region = region as? CLCircularRegion {
             if (self.delegate != nil) {
@@ -91,7 +91,7 @@ public final class TFCLocationManager: TFCLocationManagerBase {
         self.requestLocation()
     }
 
-    public func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
+    public func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
         DLog("fence exit \(region)", toFile: true)
         if let region = region as? CLCircularRegion {
             if (region.identifier == "__updateGeofences__") {

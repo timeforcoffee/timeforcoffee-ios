@@ -8,23 +8,23 @@
 
 import Foundation
 
-public class TFCDataStore: TFCDataStoreBase {
+open class TFCDataStore: TFCDataStoreBase {
     
-    public static let sharedInstance = TFCDataStore()
+    open static let sharedInstance = TFCDataStore()
 
     override var keyvaluestore: NSUbiquitousKeyValueStore? {
-        return NSUbiquitousKeyValueStore.defaultStore()
+        return NSUbiquitousKeyValueStore.default()
     }
 
-    private override init() {
+    fileprivate override init() {
         super.init()
     }
 
-    override public func getTFCID() -> String? {
+    override open func getTFCID() -> String? {
         let uid = super.getTFCID()
         if uid == nil  {
-            if let uid = UIDevice.currentDevice().identifierForVendor?.UUIDString {
-                self.setObject(uid, forKey: "TFCID");
+            if let uid = UIDevice.current.identifierForVendor?.uuidString {
+                self.setObject(uid as AnyObject, forKey: "TFCID");
                 return uid
             }
         }

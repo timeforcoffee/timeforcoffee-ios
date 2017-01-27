@@ -8,6 +8,30 @@
 
 import WatchKit
 import Foundation
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol {
     @IBOutlet weak var stationsTable: WKInterfaceTable!
@@ -30,26 +54,28 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         return TFCWatchData()
     }()
 
+
     override init () {
         super.init()
         DLog("init page")
 
     }
-    override func awakeWithContext(context: AnyObject?) {
-        super.awakeWithContext(context)
+
+    override func awake(withContext context: Any?) {
+        super.awake(withContext: context)
         DLog("awakeWithContext")
         if (context == nil) {
             stationsTable.setNumberOfRows(5, withRowType: "station")
             self.numberOfRows = 5
-            NSNotificationCenter.defaultCenter().addObserver(
+            NotificationCenter.default.addObserver(
                 self,
                 selector: #selector(StationViewController.selectStation(_:)),
-                name: "TFCWatchkitSelectStation",
+                name: NSNotification.Name(rawValue: "TFCWatchkitSelectStation"),
                 object: nil)
-            NSNotificationCenter.defaultCenter().addObserver(
+            NotificationCenter.default.addObserver(
                 self,
                 selector: #selector(StationViewController.updateCurrentStation(_:)),
-                name: "TFCWatchkitUpdateCurrentStation",
+                name: NSNotification.Name(rawValue: "TFCWatchkitUpdateCurrentStation"),
                 object: nil)
         } else {
             if let c = context as? TFCPageContext {
@@ -61,19 +87,19 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     }
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: "TFCWatchkitSelectStation", object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: "TFCWatchkitUpdateCurrentStation", object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "TFCWatchkitSelectStation"), object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "TFCWatchkitUpdateCurrentStation"), object: nil)
     }
 
-    private func getStation() {
-        func handleReply(stations: TFCStations?) {
+    fileprivate func getStation() {
+        func handleReply(_ stations: TFCStations?) {
             if (stations == nil || stations?.count() == nil) {
                 return
             }
             infoGroup.setHidden(true)
             if let station = stations?.getStation(0) {
                 var station2:TFCStation? = station
-                if let uA = self.userActivity, name = uA["name"], st_id = uA["st_id"]{
+                if let uA = self.userActivity, let name = uA["name"], let st_id = uA["st_id"]{
                     station2 = TFCStation.initWithCacheId(st_id, name: name)
                     self.userActivity = nil
                 }
@@ -85,7 +111,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
                 self.setStationValues()
             }
         }
-        func errorReply(text: String) {
+        func errorReply(_ text: String) {
             DLog("errorReply")
             infoGroup.setHidden(false)
             infoLabel.setText(text)
@@ -100,11 +126,11 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         DLog("willActivate", toFile: true)
         var doSetValues = true
         if #available(watchOSApplicationExtension 3.0, *) {
-            let state = WKExtension.sharedExtension().applicationState
-            if (state == .Inactive) {
+            let state = WKExtension.shared().applicationState
+            if (state == .inactive) {
                 DLog("WKExtension = Inactive", toFile: true)
                 doSetValues = false
-            } else if (state == .Active) {
+            } else if (state == .active) {
                 DLog("WKExtension = Active", toFile: true)
             } else {
                 DLog("WKExtension = Background", toFile: true)
@@ -133,11 +159,11 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         super.didDeactivate()
     }
 
-    private func setStationValues() {
+    fileprivate func setStationValues() {
         let isInBackground:Bool
 
         if #available(watchOSApplicationExtension 3.0, *) {
-            isInBackground = (WKExtension.sharedExtension().applicationState == .Background)
+            isInBackground = (WKExtension.shared().applicationState == .background)
         } else {
             isInBackground = false
         }
@@ -179,12 +205,12 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         if drawAsNewStation {
             self.clearAllMenuItems()
             if (self.station?.isFavorite() == true) {
-                self.addMenuItemWithItemIcon(WKMenuItemIcon.Decline, title: "Unfavorite Station", action: #selector(StationViewController.contextButtonFavorite))
+                self.addMenuItem(with: WKMenuItemIcon.decline, title: "Unfavorite Station", action: #selector(StationViewController.contextButtonFavorite))
             } else {
-                self.addMenuItemWithItemIcon(WKMenuItemIcon.Add, title: "Favorite Station", action: #selector(StationViewController.contextButtonFavorite))
+                self.addMenuItem(with: WKMenuItemIcon.add, title: "Favorite Station", action: #selector(StationViewController.contextButtonFavorite))
             }
-            self.addMenuItemWithItemIcon(WKMenuItemIcon.Resume, title: "Reload", action: #selector(StationViewController.contextButtonReload))
-            self.addMenuItemWithItemIcon(WKMenuItemIcon.Maybe, title: "Map", action: #selector(StationViewController.contextButtonMap))
+            self.addMenuItem(with: WKMenuItemIcon.resume, title: "Reload", action: #selector(StationViewController.contextButtonReload))
+            self.addMenuItem(with: WKMenuItemIcon.maybe, title: "Map", action: #selector(StationViewController.contextButtonMap))
         }
         if (!isInBackground) {
             if let station2 = self.station {
@@ -194,10 +220,10 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     }
 
 
-    func updateCurrentStation(notification: NSNotification) {
+    func updateCurrentStation(_ notification: Notification) {
         DLog("updateCurrentStation", toFile: true)
         if (self.activated) {
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 // reload station from cache
                 DLog("count before for \(self.station?.name): \(self.station?.getDepartures()?.count)", toFile: true)
                 if let st_id = self.station?.st_id {
@@ -209,7 +235,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         }
     }
 
-    func selectStation(notification: NSNotification) {
+    func selectStation(_ notification: Notification) {
         DLog("selectStation", toFile: true)
         if (notification.userInfo == nil) {
             station = nil
@@ -231,20 +257,20 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         self.becomeCurrentPage()
     }
 
-    func departuresUpdated(error: NSError?, context: Any?, forStation: TFCStation?) {
+    func departuresUpdated(_ error: Error?, context: Any?, forStation: TFCStation?) {
         DLog("departuresUpdated for \(forStation?.name)", toFile: true)
         let displayed = self.displayDepartures(forStation)
         let context2:[String:String]? = context as? [String:String]
         if (displayed && context2?["cached"] != "true") {
             if (self.activated) {
-                WKInterfaceDevice.currentDevice().playHaptic(WKHapticType.Click)
+                WKInterfaceDevice.current().play(WKHapticType.click)
                 DLog("played haptic in Stations ")
             }
         }
 
     }
 
-    private func displayDepartures(station: TFCStation?) -> Bool {
+    fileprivate func displayDepartures(_ station: TFCStation?) -> Bool {
         DLog("displayDepartures for \(station?.name)", toFile: true)
         if (station == nil) {
             DLog("end displayDepartures. returnValue: station == nil", toFile: true)
@@ -266,7 +292,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
                     continue
                 }
                 returnValue = true
-                if let sr = stationsTable.rowControllerAtIndex(i) as? StationRow, station = station {
+                if let sr = stationsTable.rowController(at: i) as? StationRow, let station = station {
                     sr.drawCell(deptstation, station: station)
                 }
                 i += 1
@@ -276,16 +302,16 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         return returnValue
     }
 
-    func departuresStillCached(context: Any?, forStation: TFCStation?) {
+    func departuresStillCached(_ context: Any?, forStation: TFCStation?) {
         DLog("departuresStillCached", toFile: true)
         departuresUpdated(nil, context: ["cached": "true"], forStation: forStation)
     }
 
     func contextButtonReload() {
-        func reload(stations: TFCStations?) {
+        func reload(_ stations: TFCStations?) {
             setStationValues()
         }
-        func errorReply(text: String) {
+        func errorReply(_ text: String) {
             infoGroup.setHidden(false)
             infoLabel.setText(text)
         }
@@ -296,7 +322,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     }
 
     func contextButtonMap() {
-        self.presentControllerWithName("MapPage", context: self.station)
+        self.presentController(withName: "MapPage", context: self.station)
     }
 
     func contextButtonFavorite() {
