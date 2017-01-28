@@ -10,30 +10,6 @@ import Foundation
 import WatchConnectivity
 import CoreData
 import MapKit
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, TFCDeparturesUpdatedProtocol {
 
@@ -259,8 +235,9 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
             sessionActive = (self.session?.activationState == .activated)
         }
         if (sessionActive) {
-            if (self.session?.isReachable == true && (trySendMessage || self.session?.outstandingUserInfoTransfers.count > 10)) {
-                DLog("outstanding UserInfoTransfers \(String(describing: self.session?.outstandingUserInfoTransfers.count ))")
+            let transferCount = self.session?.outstandingUserInfoTransfers.count
+            if (self.session?.isReachable == true && (trySendMessage || (transferCount != nil && transferCount! > 10))) {
+                DLog("outstanding UserInfoTransfers \(String(describing: transferCount))")
                 self.session?.sendMessage(message, replyHandler: nil, errorHandler: {(error: Error) in
                     DLog("sendMessage failed due to error \(error): Send via transferUserInfo")
                     self.session?.transferUserInfo(message)
@@ -368,7 +345,7 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
             // only send allData if the last request was longer than 1 minute ago
             // This prevents multiple data sends, when requests for it pile up in the queue
             let lastRequest = self.lastRequestForAllData()
-            if (lastRequest == nil || lastRequest < -60) {
+            if (lastRequest == nil || lastRequest! < -60) {
                 TFCDataStore.sharedInstance.getUserDefaults()?.set(Date(), forKey: "lastRequestForAllDataToBeSent")
                 var allDataDict:[String:Any] = [:]
                 for (myKey, myValue) in allData {
@@ -546,7 +523,7 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
                         var remaining:Int? = nil
                         if #available(iOSApplicationExtension 10.0, *) {
                             remaining = self.session?.remainingComplicationUserInfoTransfers
-                            if (!(remaining > 0)) {
+                            if (remaining == nil || !(remaining! > 0)) {
                                 useComplicationTransfer = false
                             }
                             DLog("remainingComplicationUserInfoTransfers: \(String(describing: remaining))", toFile: true)

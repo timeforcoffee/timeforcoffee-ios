@@ -9,30 +9,6 @@
 
 import Foundation
 import CoreLocation
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 open class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
     lazy var locationManager : CLLocationManager = self.lazyInitLocationManager()
@@ -179,7 +155,12 @@ open class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
                 self.locationFixAchieved = true
                 //random location, sometimes needed for testing ...
                 //self.currentLocation = CLLocation(latitude: 47.38 + (Double(arc4random_uniform(100)) / 7000.0), longitude: 8.53 + (Double(arc4random_uniform(100)) / 7000.0))
-                if (classvar.currentPlacemark == nil || (self.currentLocation != nil && classvar.currentPlacemark?.location?.distance(from: self.currentLocation!) > 2000)) {
+                if (classvar.currentPlacemark == nil ||
+                    (self.currentLocation != nil &&
+                        classvar.currentPlacemark!.location != nil &&
+                        classvar.currentPlacemark!.location!.distance(from: self.currentLocation!) > 2000
+                    )
+                    ) {
                     self.updateGeocodedPlacemark()
                 }
                 self.delegate?.locationFixed(self.currentLocation)
@@ -250,7 +231,8 @@ open class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
     }
 
     open func getLastLocation(_ notOlderThanSeconds: Int) -> CLLocation? {
-        if (classvar._lastUpdateCurrentLocation?.timeIntervalSinceNow < TimeInterval(-notOlderThanSeconds)) {
+        if (classvar._lastUpdateCurrentLocation == nil ||
+            classvar._lastUpdateCurrentLocation!.timeIntervalSinceNow < TimeInterval(-notOlderThanSeconds)) {
             return nil
         }
         DLog("still cached since \(String(describing: classvar._lastUpdateCurrentLocation)) , \(String(describing: currentLocation))")

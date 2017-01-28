@@ -8,30 +8,6 @@
 
 import WatchKit
 import Foundation
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol {
     @IBOutlet weak var stationsTable: WKInterfaceTable!
@@ -188,8 +164,9 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         var drawAsNewStation = false
 
         let isNewStation = (self.lastShownStationId != station?.st_id)
-        DLog("\(String(describing: self.lastShownStationId)) != \(String(describing: station?.st_id)) || \(self.initTable) || \(String(describing: station?.getDepartures()?.count))", toFile: true)
-        if (!isInBackground && (isNewStation || self.initTable || !(station?.getDepartures()?.count > 0))) {
+        let departuresCount = station?.getDepartures()?.count
+        DLog("\(String(describing: self.lastShownStationId)) != \(String(describing: station?.st_id)) || \(self.initTable) || \(String(describing: departuresCount))", toFile: true)
+        if (!isInBackground && (isNewStation || self.initTable || !(departuresCount != nil && departuresCount! > 0))) {
             DLog("Load new station", toFile: true)
             drawAsNewStation = true
             infoGroup.setHidden(false)

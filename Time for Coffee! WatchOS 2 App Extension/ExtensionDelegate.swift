@@ -9,19 +9,6 @@
 import WatchKit
 import Foundation
 import WatchConnectivity
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
 
 class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
@@ -54,7 +41,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
             let lastRequest = self.lastRequestForAllData()
             let allDataResponseSent = TFCDataStore.sharedInstance.getUserDefaults()?.bool(forKey: "allDataResponseSent")
-            if (allDataResponseSent != true || lastRequest == nil || lastRequest < -(24 * 60 * 60)) {
+            if (allDataResponseSent != true || lastRequest == nil || lastRequest! < -(24 * 60 * 60)) {
                 var delayItBy = 6.0
                 if (noDelay) {
                     delayItBy = 0.0
@@ -199,7 +186,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
                 let ud = TFCDataStore.sharedInstance.getUserDefaults()
                 let lastBackgroundRefreshDate = ud?.object(forKey: "lastBackgroundRefreshDate") as? Date
-                if (lastBackgroundRefreshDate == nil || lastBackgroundRefreshDate < Date()) {
+                if (lastBackgroundRefreshDate == nil || lastBackgroundRefreshDate! < Date()) {
                     DLog("lastBackgroundRefreshDate \(String(describing: lastBackgroundRefreshDate)) older than now. set new schedule ", toFile: true)
                     self.watchdata.scheduleNextUpdate(noBackOffIncr: true)
                 }

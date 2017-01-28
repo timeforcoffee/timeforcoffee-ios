@@ -8,41 +8,6 @@
 
 import Foundation
 import CoreLocation
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l >= r
-  default:
-    return !(lhs < rhs)
-  }
-}
-
 
 public final class TFCPass: TFCDeparturePass {
 
@@ -100,19 +65,18 @@ public final class TFCPass: TFCDeparturePass {
     }
 
     public func getMinutes(_ from:Date) -> String? {
-        var timeInterval = getMinutesAsInt(from)
-        if (timeInterval != nil) {
+        if var timeInterval = getMinutesAsInt(from) {
             if (timeInterval < 0) {
                 if (timeInterval > -1) {
                     timeInterval = 0;
                 }
             }
             if (timeInterval >= 60) {
-                let hours = Int(timeInterval! / 60)
-                let minutes = String (format: "%02d", timeInterval! % 60)
+                let hours = Int(timeInterval / 60)
+                let minutes = String (format: "%02d", timeInterval % 60)
                 return "\(hours):\(minutes)"
             }
-            return "\(timeInterval!)'"
+            return "\(timeInterval)'"
         }
         return nil
     }

@@ -9,30 +9,6 @@
 // create the timeline entries (departures) to populate the complication
 
 import ClockKit
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 //MARK: - Constants
 
@@ -192,7 +168,10 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                                 let thisEntryDate = timelineEntryDateForDeparture(thisDeparture, previousDeparture: previousDeparture)
                                 if date.compare(thisEntryDate) == .orderedAscending { // check if the entry date is "correctly" after the given date
                                     // only add it, if previous departure is before this departure (when they are the same, it was added with the previous one (or if we have more than 2, then nr 3+ won't be added, which is fine)
-                                    if (previousDeparture?.getScheduledTime() < thisDeparture.getScheduledTime()) {
+                                    if (previousDeparture == nil ||
+                                        previousDeparture?.getScheduledTime() == nil ||
+                                        thisDeparture.getScheduledTime() == nil ||
+                                        previousDeparture!.getScheduledTime()! < thisDeparture.getScheduledTime()!) {
                                         if let tmpl = templateForStationDepartures(station, departure: thisDeparture, nextDeparture: nextDeparture, complication: complication) {
                                             let entry = CLKComplicationTimelineEntry(date: thisEntryDate, complicationTemplate: tmpl)
                                             DLog("tl 0: \(thisEntryDate)"   )
@@ -510,11 +489,13 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
         let _ = station.removeObsoleteDepartures()
         // if we have at least 4 departures, that's enough to update the complications
         // the data will be updated somewhere else later
-        if (station.getFilteredDepartures()?.count > 3) {
-            if let reply = context as? replyStation {
-                DLog("we already have \(String(describing: station.getFilteredDepartures()?.count)) departures for a complication update, dont get new ones")
-                reply(station)
-                return
+        if let filteredDeparturesCount = station.getFilteredDepartures()?.count {
+            if (filteredDeparturesCount > 3) {
+                if let reply = context as? replyStation {
+                    DLog("we already have \(filteredDeparturesCount) departures for a complication update, dont get new ones")
+                    reply(station)
+                    return
+                }
             }
         }
         station.updateDepartures(self, context: context, cachettl: self.getDepartureTTL(station))

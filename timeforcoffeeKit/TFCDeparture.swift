@@ -8,41 +8,6 @@
 
 import Foundation
 import UIKit
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l >= r
-  default:
-    return !(lhs < rhs)
-  }
-}
-
 
 public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtocol {
     fileprivate var name: String
@@ -347,8 +312,7 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
     }
 
     public func getMinutes() -> String? {
-        var timeInterval = getMinutesAsInt()
-        if (timeInterval != nil) {
+        if var timeInterval = getMinutesAsInt() {
             if (timeInterval < 0) {
                 if (timeInterval > -1) {
                     timeInterval = 0;
@@ -357,7 +321,7 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
             if (timeInterval >= 60) {
                 return ">59'"
             }
-            return "\(timeInterval!)'"
+            return "\(timeInterval)'"
         }
         return nil
     }

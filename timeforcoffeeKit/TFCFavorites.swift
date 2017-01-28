@@ -8,19 +8,6 @@
 
 import Foundation
 import CoreLocation
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
 
 final public class TFCFavorites: NSObject {
 
@@ -80,7 +67,7 @@ final public class TFCFavorites: NSObject {
 
     fileprivate func checkUpdateFromOldVersion() {
         //upgrade from old versions
-        let favoritesVersion = objects.dataStore?.objectForKey("favoritesVersion") as? Int?
+        let favoritesVersion = objects.dataStore?.objectForKey("favoritesVersion") as? Int
         if (favoritesVersion == nil || favoritesVersion! < 3) {
             var stationIds:[String] = []
             var st: [String: TFCStation]?
@@ -147,7 +134,12 @@ final public class TFCFavorites: NSObject {
     public func getByDistance() -> [TFCStation]? {
         if (self.stations.count > 0) {
             var stations = self.stations.getStations()
-            stations.sort(by: { $0.calculatedDistance < $1.calculatedDistance })
+            stations.sort(by: {
+                if ($0.calculatedDistance == nil || $1.calculatedDistance == nil) {
+                    return false
+                }
+                return $0.calculatedDistance! < $1.calculatedDistance!
+            })
             return stations
         }
         return nil
@@ -211,7 +203,8 @@ final public class TFCFavorites: NSObject {
                                     DLog("Delete geofence \(circularRegion.identifier) with radius \(circularRegion.radius)")
                                     locationManager.stopMonitoring(for: circularRegion)
                                 } else {
-                                    if nearbyFavorites[circularRegion.identifier]?.calculatedDistance < (radius + 200) {
+                                    if (nearbyFavorites[circularRegion.identifier]?.calculatedDistance != nil &&
+                                        nearbyFavorites[circularRegion.identifier]!.calculatedDistance! < (radius + 200)) {
                                         DLog("geofence for \(circularRegion.identifier) radius: \(circularRegion.radius) is within radius, update it later")
                                         locationManager.stopMonitoring(for: circularRegion)
                                     } else if circularRegion.radius < radius {

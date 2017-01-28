@@ -11,19 +11,6 @@ import CoreLocation
 import MapKit
 import CoreSpotlight
 import MobileCoreServices
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
 
 open class TFCStation: TFCStationBase {
     fileprivate lazy var activity : NSUserActivity = {
@@ -125,9 +112,10 @@ open class TFCStation: TFCStationBase {
 
     fileprivate func getLastValidWalkingDistanceValid(_ location: CLLocation?) -> String? {
         if (walkingDistanceLastCoord != nil && walkingDistanceString != nil) {
-            let distanceToLast = location?.distance(from: walkingDistanceLastCoord!)
-            if (distanceToLast < 50) {
-                return walkingDistanceString
+            if let distanceToLast = location?.distance(from: walkingDistanceLastCoord!) {
+                if (distanceToLast < 50) {
+                    return walkingDistanceString
+                }
             }
         }
         return nil
