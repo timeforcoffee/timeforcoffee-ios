@@ -116,9 +116,17 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
         let colorFg = self.colorFg ?? ""
         let colorBg = self.colorBg ?? ""
         let platform = self.platform ?? ""
-
-        self.signature = "\(type),\(accessible),\(isFavorite(station)),\(getDateForSig(sortTime)),\(sortOrder),\(destination_id),\(colorFg),\(colorBg),\(platform),\(getDateForSig(realtime)),\(getDateForSig(arrivalRealtime)),\(getDateForSig(arrivalScheduled))".replace("[\\\"()#]",template: "")
-
+        self.signature = type + "," +
+            "\(accessible),\(isFavorite(station))," +
+            getDateForSig(sortTime) + "," +
+            "\(sortOrder)," +
+            destination_id + "," +
+            colorFg + "," +
+            colorBg + "," +
+            platform + "," +
+            getDateForSig(realtime) + "," +
+            getDateForSig(arrivalRealtime)  + "," +
+            getDateForSig(arrivalScheduled)
         return self.signature!
     }
 
