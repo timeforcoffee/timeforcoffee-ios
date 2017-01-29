@@ -120,7 +120,7 @@ public func DLog(_ object: @autoclosure () -> Any, toFile: Bool = false, sync:Bo
         let queueLabel = currentQueueName()
         let currentThread = "\(Thread.current)"
         let date = Date().formattedWithDateFormatter(DLogDateFormatter)
-        func logIt() {
+        func getMessage() -> String {
             let stringRepresentation: String
 
             if let value = value as? CustomDebugStringConvertible {
@@ -153,6 +153,11 @@ public func DLog(_ object: @autoclosure () -> Any, toFile: Bool = false, sync:Bo
             //print("\(NSDate().formattedWithDateFormatter(DLogDateFormatter)) <\(queue)> \(fileURL) \(function)[\(line)] - " + stringRepresentation)
             let msg = "<\(queue)> \(stringRepresentation) (\(fileURL) \(function)[\(line)])"
             NSLog("%@", msg)
+            return msg
+        }
+
+        func logIt(msg:String) {
+
             #if os(watchOS)
                 let alwaysLogToFile = true
             #else
@@ -162,7 +167,7 @@ public func DLog(_ object: @autoclosure () -> Any, toFile: Bool = false, sync:Bo
                 let alwaysLogToFile = false
             #endif
             if (toFile || alwaysLogToFile) {
-                let text = "\(date) <\(queue)> \(stringRepresentation)  (\(fileURL) \(function)[\(line)])"
+                let text = "\(date) \(msg)"
                 /*  #if os(watchOS)
                  DLog2WatchConnectivity(text)
                  #endif
@@ -171,12 +176,14 @@ public func DLog(_ object: @autoclosure () -> Any, toFile: Bool = false, sync:Bo
             }
         }
         if (sync) {
+            let msg = getMessage()
             logQueue.sync() {
-                logIt()
+                logIt(msg: msg)
             }
         } else {
             logQueue.async {
-                logIt()
+                let msg = getMessage()
+                logIt(msg: msg)
             }
         }
     #else
