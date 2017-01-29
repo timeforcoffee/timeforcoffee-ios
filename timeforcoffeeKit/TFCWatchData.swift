@@ -10,41 +10,6 @@ import Foundation
 import CoreLocation
 import WatchKit
 import ClockKit
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l <= r
-  default:
-    return !(rhs < lhs)
-  }
-}
-
 
 private struct Constants {
     static let FrequencyOfTimelineUpdate = TimeInterval(30*60) // 30 minutes
@@ -217,10 +182,14 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
                         return
                     }
                     let _ = self.stations?.initWithNearbyFavorites(loc)
-                    if (stopWithFavorites == true && self.stations?.count() > 0 && reply != nil ) {
-                        DLog("searchForStationsInDB stopWithFavorites", toFile: true)
-                        reply!(self.stations)
-                        return
+                    if (stopWithFavorites == true) {
+                        if let stationCount = self.stations?.count() {
+                            if (stationCount > 0 && reply != nil ) {
+                                DLog("searchForStationsInDB stopWithFavorites", toFile: true)
+                                reply!(self.stations)
+                                return
+                            }
+                        }
                     }
                     var replyC:replyContext = replyContext()
                     replyC.reply = reply
@@ -314,7 +283,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
         } else {
             nextUpdateDate =  getBackOffTime(noBackOffIncr: noBackOffIncr) // request an update in 5 minutes, if no lastDepartureTime was set.
         }
-        if nextUpdateDate < Date() {
+        if (nextUpdateDate == nil || nextUpdateDate! < Date()) {
             DLog("WARNING: \(String(describing: nextUpdateDate)) < \(Date())")
             nextUpdateDate = getBackOffTime(noBackOffIncr: true)
         }
@@ -327,7 +296,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
 
     public func scheduleNextUpdate(noBackOffIncr:Bool? = false) {
             let nextUpdate:Date
-            if (CLKComplicationServer.sharedInstance().activeComplications?.count > 0) {
+            if let c = CLKComplicationServer.sharedInstance().activeComplications?.count, c > 0 {
                 nextUpdate = self.getNextUpdateTime(noBackOffIncr: noBackOffIncr)
             } else {
                 nextUpdate = Date().addingTimeInterval(30 * 60)
@@ -371,7 +340,8 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
                     DLog("more than 3 hours in store \(lastDepartureTime). return false")
                     return false
                 // else if we don't have a newer than the current last one
-                } else if (departures.last?.getScheduledTimeAsNSDate() <= lastDepartureTime) {
+                } else if (departures.last?.getScheduledTimeAsNSDate() != nil &&
+                    departures.last!.getScheduledTimeAsNSDate()! <= lastDepartureTime) {
                     DLog("no new data. return false.", toFile: true)
                     return false
                 }

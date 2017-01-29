@@ -11,30 +11,6 @@ import CoreLocation
 import MapKit
 import UIKit
 import CoreData
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
@@ -88,7 +64,8 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             if let lat = location?.coordinate.latitude, let lon = location?.coordinate.longitude {
                 if (self.realmObject?.latitude  == nil ||
                     self.realmObject?.longitude == nil ||
-                    coord?.distance(from: CLLocation(latitude: self.realmObject?.latitude as! Double , longitude: self.realmObject?.longitude as! Double)) > 10) {
+                    coord == nil ||
+                    coord!.distance(from: CLLocation(latitude: self.realmObject!.latitude as! Double , longitude: self.realmObject!.longitude as! Double)) > 10) {
                         self.realmObject?.latitude = lat as NSNumber
                         self.realmObject?.longitude = lon as NSNumber
                         self.realmObject?.lastUpdated = Date()
@@ -131,7 +108,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         get {
             guard let currentLoc = TFCLocationManager.getCurrentLocation() else { return nil }
             // recalculate distance when we're more than 50m away
-            if (_calculatedDistanceLastCoord == nil || _calculatedDistanceLastCoord?.distance(from: currentLoc) > 50) {
+            if (_calculatedDistanceLastCoord == nil || _calculatedDistanceLastCoord!.distance(from: currentLoc) > 50.0) {
                 _calculatedDistanceLastCoord = currentLoc
                 if let coord = self.coord {
                     _calculatedDistance = currentLoc.distance(from: coord)
@@ -257,9 +234,9 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         if let count = TFCStationBase.instances[self.st_id] {
             TFCStationBase.instances[self.st_id] = count + 1
         } else {
-            TFCStationBase.instances[self.st_id]  = 1
+            TFCStationBase.instances[self.st_id] = 1
         }
-        if (TFCStationBase.instances[self.st_id] > 1) {
+        if (TFCStationBase.instances[self.st_id]! > 1) {
             DLog("WARN: init of \(self.st_id) \(self.name) has \(String(describing: TFCStationBase.instances[self.st_id])) instances ", toFile: true)
             let stacktrace = Thread.callStackSymbols
 
@@ -761,9 +738,17 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         if let depts = self.departures?.values {
             let sorted = depts.sorted(by: { (s1, s2) -> Bool in
                 if s1.sortTime == s2.sortTime {
-                    return s1.sortOrder < s2.sortOrder
+                    if (s1.sortOrder == nil) {
+                        return true
+                    } else if (s2.sortOrder == nil) {
+                        return false
+                    }
+                    return s1.sortOrder! < s2.sortOrder!
                 }
-                return s1.sortTime < s2.sortTime
+                if (s1.sortTime == nil || s2.sortTime == nil) {
+                    return true
+                }
+                return s1.sortTime! < s2.sortTime!
             })
             self.departuresSorted = sorted
             return sorted
@@ -796,7 +781,11 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         let depts = self.getFilteredDepartures()
         if let depts = depts {
             let sorted = depts.sorted(by: { (s1, s2) -> Bool in
-                return s1.getScheduledTimeAsNSDate() < s2.getScheduledTimeAsNSDate()
+                if let t1 = s1.getScheduledTimeAsNSDate(),
+                    let t2 =  s2.getScheduledTimeAsNSDate() {
+                    return t1 < t2
+                }
+                return false
             })
             var i = 0
             //dont add departures which may go away pretty soon anyway again
@@ -805,7 +794,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             let aMinuteAgo = Date().addingTimeInterval(-50)
             var newSorted = sorted
             for departure in sorted {
-                if (departure.getScheduledTimeAsNSDate() < aMinuteAgo) {
+                if let t = departure.getScheduledTimeAsNSDate(), t < aMinuteAgo {
                     if (newSorted.indices.contains(i)) {
                         newSorted.remove(at: i)
                     }
@@ -857,8 +846,10 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                 // we didn't remove any departures above
                 // and this happens to be not realtime (which I assume normally isnt
                 // if the first departure is that far away)
-                if (!removedDepartures && first.getMinutesAsInt() > 30 && !first.isRealTime()) {
-                    dontUpdate = true
+                if (!removedDepartures) {
+                    if let m = first.getMinutesAsInt(), (m > 30 && !first.isRealTime()) {
+                        dontUpdate = true
+                    }
                 }
             }
             let settingsLastUpdated: Date? = TFCDataStore.sharedInstance.getUserDefaults()?.object(forKey: "settingsLastUpdate") as! Date?
@@ -893,7 +884,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     open func didReceiveAPIResults(_ results: JSON?, error: Error?, context: Any?) {
         let contextInfo: contextData? = context as! contextData?
         var lastScheduledBefore:Date? = nil
-        if (results == nil || (error != nil && self.departures != nil && self.departures?.count > 0)) {
+        if (results == nil || (error != nil && self.departures != nil && self.departures!.count > 0)) {
             self.setDeparturesAsOutdated()
         } else {
             if (contextInfo?.hasStartTime == true) {
@@ -914,7 +905,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                 // get last entry and get more data in case we want more into the future
                 if let lastScheduled = self.getLastDepartureDate() {
                     //prevent loop in case we don't get new data
-                    if (lastScheduledBefore == nil || lastScheduledBefore?.timeIntervalSinceReferenceDate < lastScheduled.timeIntervalSinceReferenceDate) {
+                    if (lastScheduledBefore == nil || lastScheduledBefore!.timeIntervalSinceReferenceDate < lastScheduled.timeIntervalSinceReferenceDate) {
                         // either go 2 hours into the future or at least until 8 o'clock in the morning (if the last one is after midnight and not more than 10 hours away)
                         let hours:Double
                         let doMorning:Bool
@@ -923,7 +914,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                             hours = 1.0
                             doMorning = false
                             // dont get more than 9 on watch to save some CPU, we don't show more anyway
-                            if (self.getFilteredDepartures()?.count > 8) {
+                            if let c = self.getFilteredDepartures()?.count, c > 8 {
                                 doIt = false
                             }
                         #else
@@ -978,11 +969,11 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         var someRemoved = false
         if let depts = self.getDepartures() {
             // if all are in the past, just removeAll
-            if depts.last?.getMinutesAsInt() < 0 {
+            if let m = depts.last?.getMinutesAsInt(), m < 0 {
                 departures?.removeAll()
             } else {
                 for departure in depts {
-                    if (departure.getMinutesAsInt() < 0) {
+                    if let m = departure.getMinutesAsInt(), m < 0 {
                         i += 1
                         someRemoved = true
                         let _ = departures?.removeValue(forKey: departure.getKey())

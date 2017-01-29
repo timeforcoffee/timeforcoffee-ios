@@ -210,12 +210,12 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             populateStationsFromLastUsed()
         } else {
             self.currentStation = self.lastViewedStation
-            if (self.currentStation != nil && self.currentStation?.getDepartures()?.count > 0) {
+            if let c = self.currentStation?.getDepartures()?.count, c > 0 {
                 showStations = false
                 self.appsTableView?.reloadData()
                 // if lastUsedView is a single station and we did look at it no longer than
                 // 5 minutes ago, just show it again without even checking the location later
-                if (self.lastUsedViewUpdatedInterval() > -60) { //FIXME: Put back to 300
+                if let i = self.lastUsedViewUpdatedInterval(), i > -300 {
                     self.setLoadingStage(1)
                     self.needsLocationUpdate = false
                     self.currentStation?.updateDepartures(self)
@@ -251,10 +251,11 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         super.viewWillAppear(animated)
         DLog("viewWillAppear \(String(describing: self.lastInitTime?.timeIntervalSinceNow))", toFile: true)
         // some old devices (my 4S) don't deinit/init properly, that's a way to not show outdated info
-        if (self.lastInitTime?.timeIntervalSinceNow < -10 && (
-            floor(self.lastInitTime!.timeIntervalSinceReferenceDate / 60) !=  floor(Date.timeIntervalSinceReferenceDate / 60))) {
-            self.lastInitTime = Date()
-            awakeFromNib()
+        if let i = self.lastInitTime?.timeIntervalSinceNow, i < -10 {
+            if (floor(self.lastInitTime!.timeIntervalSinceReferenceDate / 60) !=  floor(Date.timeIntervalSinceReferenceDate / 60)) {
+                self.lastInitTime = Date()
+                awakeFromNib()
+            }
         }
 
         self.datastore.synchronize()
@@ -363,7 +364,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                 // if lastUsedView is a single station and we did look at it no longer than 30 minutes
                 // and the distance is not much more (200m), just show it again
                 if (self.needsLocationUpdate && showStations == false) {
-                    if (lastUsedViewUpdatedInterval() > -(60 * 30)) {
+                    if let i = lastUsedViewUpdatedInterval(), i > -(60 * 30) {
                         DLog("__", toFile: true)
                         if (lastViewedStation != nil) {
                             let distance2lastViewedStationNow: CLLocationDistance? = locManager?.currentLocation?.distance(from: (lastViewedStation?.coord)!)
@@ -402,7 +403,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             if (currentStation == nil) {
                 if (lastViewedStation != nil) {
                     currentStation = lastViewedStation
-                } else if (stations?.count() > 0) {
+                } else if let c = stations?.count(), c > 0 {
                     currentStation = stations?.getStation(0)
                 }
             }
@@ -582,7 +583,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                         departureLabel.text = self.networkErrorMsg
                     }
                 }
-                if (station?.hasFilters() == true && station?.getDepartures()?.count > 0) {
+                if let c = station?.getDepartures()?.count, (c > 0 && station?.hasFilters() == true) {
                     departureLabel.text = NSLocalizedString("Remove some filters.", comment: "")
                 }
             }
@@ -593,10 +594,12 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             if (indexPath.row < departures.count) {
                 let departure: TFCDeparture = departures[indexPath.row]
                 //if on first row and it's in the past, remove obsolete departures and reload
-                if (indexPath.row == 0 && departure.getMinutesAsInt() < 0) {
-                    DispatchQueue.main.async {
-                        let _ = station?.removeObsoleteDepartures(true)
-                        self.appsTableView?.reloadData()
+                if (indexPath.row == 0) {
+                    if let i = departure.getMinutesAsInt(), i  < 0 {
+                        DispatchQueue.main.async {
+                            let _ = station?.removeObsoleteDepartures(true)
+                            self.appsTableView?.reloadData()
+                        }
                     }
                 }
                 var unabridged = false
@@ -711,7 +714,8 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     }
 
     fileprivate func populateStationsFromLastUsed() {
-        if (!(self.stations?.count() > 0)) {
+        let c = self.stations?.count()
+        if (c == nil || c == 0) {
             let stationDict = self.datastore.getUserDefaults()?.object(forKey: "lastUsedStationsNormal") as? [String]?
             let stationDictFavs = self.datastore.getUserDefaults()?.object(forKey: "lastUsedStationsFavorites") as? [String]?
             if (stationDict != nil && stationDictFavs != nil) {
@@ -760,30 +764,6 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 }
 
 import UIKit
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 public extension UIDevice {
 

@@ -8,31 +8,6 @@
 
 import Foundation
 import WatchKit
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
-
 
 open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
 
@@ -219,7 +194,7 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
                 if let defaults = TFCDataStore.sharedInstance.getUserDefaults() {
                     DLog("\(st_id) == \(String(describing: defaults.string(forKey: "lastFirstStationId") ?? nil))", toFile: true)
                     if (st_id == defaults.string(forKey: "lastFirstStationId")) {
-                        if (CLKComplicationServer.sharedInstance().activeComplications?.count > 0) {
+                        if let c = CLKComplicationServer.sharedInstance().activeComplications?.count, c > 0 {
                             if self.watchdata.needsTimelineDataUpdate(station) {
                                 DLog("updateComplicationData", toFile: true)
                                 self.watchdata.updateComplicationData()

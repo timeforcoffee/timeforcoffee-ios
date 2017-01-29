@@ -11,30 +11,6 @@ import CoreLocation
 import WatchConnectivity
 import CoreData
 import MapKit
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerProtocol {
 
@@ -99,9 +75,8 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
     }
 
     public func addWithJSON(_ allResults: JSON?) {
-        // Create an empty array of Albums to append to from this list
         // Store the results in our table data array
-        if (allResults != nil && allResults?["stations"].array?.count>0) {
+        if let c = allResults?["stations"].array?.count, c > 0 {
             var newStations:[TFCStation] = []
             // to prevent double entries, the api sometimes returns more than one with the same id
             var stationsAdded:[String: Int] = [:]
@@ -116,10 +91,10 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
                         if (name == name.uppercased()) {
                             continue
                         }
-                        if (inStationsArrayAsFavorite[id] == nil && (stationsAdded[id] == nil || stationsAdded[id] < name.characters.count)) {
+                        if (inStationsArrayAsFavorite[id] == nil && (stationsAdded[id] == nil || stationsAdded[id]! < name.characters.count)) {
                             // if we have a station with the same id but shorter name, remove it
                             // eg. Rappi
-                            if (stationsAdded[id] < name.characters.count) {
+                            if (stationsAdded[id] != nil && stationsAdded[id]! < name.characters.count) {
                                 if let i = results2.indexOf({$0["id"].stringValue == id}) {
                                     results2.remove(at: i)
                                 }
@@ -192,7 +167,7 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
         favorite.s.repopulateFavorites()
         var favs:[TFCStation] = []
         for (station) in favorite.s.stations {
-            if (station.calculatedDistance < favDistance) {
+            if let c = station.calculatedDistance, c < favDistance {
                 hasNearbyFavs = true
                 if (inStationsArrayAsFavorite[station.st_id] != true) {
                     favs.append(station)
@@ -204,7 +179,12 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
         }
 
         if (hasNearbyFavs) {
-            favs.sort(by: { $0.calculatedDistance < $1.calculatedDistance })
+            favs.sort(by: {
+                if ($0.calculatedDistance == nil || $1.calculatedDistance == nil) {
+                    return false
+                }
+                return $0.calculatedDistance! < $1.calculatedDistance!
+            })
             self.nearbyFavorites.replace(favs)
             return true
         }
@@ -222,7 +202,12 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
         self._stations = favorite.s.stations
 
         if (location != nil) {
-            self._stations.sortInPlace({ $0.calculatedDistance < $1.calculatedDistance })
+            self._stations.sortInPlace({
+                if ($0.calculatedDistance == nil || $1.calculatedDistance == nil) {
+                    return false
+                }
+                return $0.calculatedDistance! < $1.calculatedDistance!
+            })
         }
         #if os(iOS)
             DLog("just before updateGeofences", toFile:true)
@@ -242,7 +227,7 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
 
     public func updateStations(_ force: Bool) -> Bool {
         // dont refresh location within 5 seconds..
-        if (force || lastRefreshLocation == nil || lastRefreshLocation?.timeIntervalSinceNow < -5) {
+        if (force || lastRefreshLocation == nil || lastRefreshLocation!.timeIntervalSinceNow < -5) {
             lastRefreshLocation = Date()
             isLoading = true
             DispatchQueue.main.async(execute: {
@@ -303,13 +288,18 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
             })
             //remove stations not within distance
             .filter({(station: TFCStation?) in
-                if (station == nil || station?.calculatedDistance > distance) {
+                if (station?.calculatedDistance == nil || station!.calculatedDistance! > distance) {
                     return false
                 }
                 return true
             }).flatMap {$0} // remove all optionals
         //sort by distance
-        stations.sort(by: { $0.calculatedDistance < $1.calculatedDistance })
+        stations.sort(by: {
+            if ($0.calculatedDistance == nil || $1.calculatedDistance == nil) {
+                return false
+            }
+            return $0.calculatedDistance! < $1.calculatedDistance!
+        })
 
         self._stations.replace(Array(stations.prefix(self.maxStations))) //only add max stations
 
@@ -380,7 +370,8 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
             if (err == TFCLocationManager.k.AirplaneMode) {
                 self.loadingMessage = "Airplane Mode?"
             } else {
-                if (!(self.count() > 0)) {
+                let c = self.count()
+                if (c == nil || c == 0) {
                     self.empty()
                 }
                 self.networkErrorMsg = err
