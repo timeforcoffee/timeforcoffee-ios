@@ -255,7 +255,6 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
             self.watchdata.startCrunchQueue {
                 DLog("crunchQueue start didFinishDownloadingToURL \(st_id) \(String(describing: session.configuration.identifier)) ")
                 self.handleURLSession(fileContent, st_id: st_id, sess_id: session.configuration.identifier)
-                SendLogs2Phone()
                 DLog("crunchQueue end   didFinishDownloadingToURL \(st_id) \(String(describing: session.configuration.identifier)) ")
 
             }
