@@ -169,12 +169,16 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if (currentPageIndex == 0) {
             scrollViewOffset = scrollView.contentOffset.x - scrollView.frame.width
-            self.navigationItem.titleView?.viewWithTag(1)?.layer.opacity = 1 - Float(((scrollView.contentOffset.x - scrollViewWidth!) / scrollViewWidth!))
-            self.navigationItem.titleView?.viewWithTag(2)?.layer.opacity = Float(((scrollView.contentOffset.x - scrollViewWidth!) / scrollViewWidth!))
+            if let scrollViewWidth = self.scrollViewWidth {
+                self.navigationItem.titleView?.viewWithTag(1)?.layer.opacity = 1 - Float(((scrollView.contentOffset.x - scrollViewWidth) / scrollViewWidth))
+                self.navigationItem.titleView?.viewWithTag(2)?.layer.opacity = Float(((scrollView.contentOffset.x - scrollViewWidth) / scrollViewWidth))
+            }
         } else {
             scrollViewOffset = scrollView.contentOffset.x
-            self.navigationItem.titleView?.viewWithTag(1)?.layer.opacity = -Float(((scrollView.contentOffset.x - scrollViewWidth!) / scrollViewWidth!))
-            self.navigationItem.titleView?.viewWithTag(2)?.layer.opacity = 1 + Float(((scrollView.contentOffset.x - scrollViewWidth!) / scrollViewWidth!))
+            if let scrollViewWidth = scrollViewWidth {
+                self.navigationItem.titleView?.viewWithTag(1)?.layer.opacity = -Float(((scrollView.contentOffset.x - scrollViewWidth) / scrollViewWidth))
+                self.navigationItem.titleView?.viewWithTag(2)?.layer.opacity = 1 + Float(((scrollView.contentOffset.x - scrollViewWidth) / scrollViewWidth))
+            }
         }
         self.navigationItem.titleView?.viewWithTag(100)?.layer.position.x = (-scrollViewOffset! / 2) + scrollViewWidth! / 2
     }
