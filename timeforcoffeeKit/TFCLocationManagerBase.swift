@@ -131,7 +131,7 @@ open class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
                         // random location in zurich
                          //self.currentLocation = CLLocation(latitude: 47.38 + (Double(arc4random_uniform(100)) / 7000.0), longitude: 8.529163 + (Double(arc4random_uniform(100)) / 7000.0))
                         self.locationManager.stopUpdatingLocation()
-                        if (classvar.currentPlacemark == nil || classvar.currentPlacemark?.location?.distance(from: self.currentLocation!) > 1000) {
+                        if (classvar.currentPlacemark?.location == nil || classvar.currentPlacemark!.location!.distance(from: self.currentLocation!) > 1000.0) {
                             self.updateGeocodedPlacemark()
                         }
 
