@@ -10,7 +10,7 @@ import WatchKit
 import Foundation
 
 class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol {
-    @IBOutlet var stationsTable: WKInterfaceTable?
+    @IBOutlet weak var stationsTable: WKInterfaceTable?
     var station: TFCStation?
     var activated:Bool = false
     var lastShownStationId: String? {

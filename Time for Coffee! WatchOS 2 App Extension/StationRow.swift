@@ -11,15 +11,15 @@ import WatchKit
 
 class StationRow: NSObject {
 
-    @IBOutlet var destinationLabel: WKInterfaceLabel?
-    @IBOutlet var depatureLabel: WKInterfaceLabel?
-    @IBOutlet var minutesLabel: WKInterfaceLabel?
+    @IBOutlet weak var destinationLabel: WKInterfaceLabel?
+    @IBOutlet weak var depatureLabel: WKInterfaceLabel?
+    @IBOutlet weak var minutesLabel: WKInterfaceLabel?
 
-    @IBOutlet var numberLabel: WKInterfaceLabel?
+    @IBOutlet weak var numberLabel: WKInterfaceLabel?
 
-    @IBOutlet var topGroup: WKInterfaceGroup?
+    @IBOutlet weak var topGroup: WKInterfaceGroup?
 
-    @IBOutlet var numberGroup: WKInterfaceGroup?
+    @IBOutlet weak var numberGroup: WKInterfaceGroup?
 
     func drawCell(_ departure: TFCDeparture, station: TFCStation ) {
         let to = departure.getDestination(station)
