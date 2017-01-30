@@ -154,11 +154,12 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
 
     public func getStations(_ reply: replyStations?, errorReply: ((String) -> Void)?, stopWithFavorites: Bool?, favoritesOnly: Bool? = false) {
 
-        #if DEBUG
+       /* #if DEBUG
             let stacktrace = Thread.callStackSymbols
         #else
             let stacktrace:[String] = []
         #endif
+ */
         func handleReply(_ replyInfo: [AnyHashable: Any]!) {
             startCrunchQueue {
                 DLog("searchForStationsInDB handleReply getStations \(replyInfo) \(String(describing: reply))", toFile: true)
