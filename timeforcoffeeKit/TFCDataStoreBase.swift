@@ -406,10 +406,8 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
             let filemanager = FileManager.default;
             if (forceInstall || !filemanager.fileExists(atPath: url.path)) {
 
-                let sourceSqliteURLs = [bundle.url(forResource: "SingleViewCoreData", withExtension: "sqlite")!, bundle.url(forResource: "SingleViewCoreData", withExtension: "sqlite-wal")!, bundle.url(forResource: "SingleViewCoreData", withExtension: "sqlite-shm")!]
-                let destSqliteURLs = [self.applicationDocumentsDirectory.appendingPathComponent("SingleViewCoreData.sqlite"),
-                    self.applicationDocumentsDirectory.appendingPathComponent("SingleViewCoreData.sqlite-wal"),
-                    self.applicationDocumentsDirectory.appendingPathComponent("SingleViewCoreData.sqlite-shm")]
+                let sourceSqliteURLs = [bundle.url(forResource: "SingleViewCoreData", withExtension: "sqlite")!]
+                let destSqliteURLs = [self.applicationDocumentsDirectory.appendingPathComponent("SingleViewCoreData.sqlite")]
 
                 var error:NSError? = nil
                 filemanager.delegate = self
