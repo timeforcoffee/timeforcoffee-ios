@@ -133,12 +133,12 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
             closure()
         } else {
             #if DEBUG
-                let stacktrace = Thread.callStackSymbols
+              /*  let stacktrace = Thread.callStackSymbols
                 if (stacktrace.count > 1) {
                     let first = stacktrace[1]
 
                     DLog("startCrunchQueue called from \(first)")
-                }
+                }*/
             #endif
 
             queue = TFCWatchData.crunchQueue
@@ -169,11 +169,11 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
 
                         self.stations?.loadFavorites()
                         #if DEBUG
-                        DLog("stacktrace start", toFile: true)
+                       /* DLog("stacktrace start", toFile: true)
                         for line in stacktrace {
                             DLog("stack \(line)", toFile: true)
                         }
-                        DLog("stacktrace end", toFile: true)
+                        DLog("stacktrace end", toFile: true)*/
                         #endif
 
                         DLog("Favorites only, reply! \(reply.debugDescription)", toFile: true)
