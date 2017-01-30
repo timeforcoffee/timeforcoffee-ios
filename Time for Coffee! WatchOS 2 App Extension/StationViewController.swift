@@ -10,7 +10,7 @@ import WatchKit
 import Foundation
 
 class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol {
-    @IBOutlet weak var stationsTable: WKInterfaceTable!
+    @IBOutlet var stationsTable: WKInterfaceTable?
     var station: TFCStation?
     var activated:Bool = false
     var lastShownStationId: String? {
@@ -41,8 +41,9 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         super.awake(withContext: context)
         DLog("awakeWithContext")
         if (context == nil) {
-            stationsTable.setNumberOfRows(5, withRowType: "station")
-            self.numberOfRows = 5
+            stationsTable?.setNumberOfRows(10, withRowType: "station")
+            DLog("setNumberOfRows: 10")
+            self.numberOfRows = 10
             NotificationCenter.default.addObserver(
                 self,
                 selector: #selector(StationViewController.selectStation(_:)),
@@ -171,8 +172,9 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             drawAsNewStation = true
             infoGroup.setHidden(false)
             infoLabel.setText("Loading ...")
-            stationsTable.setNumberOfRows(5, withRowType: "station")
-            self.numberOfRows = 5
+            stationsTable?.setNumberOfRows(10, withRowType: "station")
+            DLog("setNumberOfRows: 10")
+            self.numberOfRows = 10
         }
         if let title = station?.getName(true) {
             self.setTitle(title)
@@ -261,11 +263,12 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             return false
         }
         var returnValue = false
-        let departures = station?.getFilteredDepartures(5)
+        let departures = station?.getFilteredDepartures()?.prefix(10)
         var i = 0;
         if let departures2 = departures {
             if (self.numberOfRows != departures2.count || self.initTable == true) {
-                stationsTable.setNumberOfRows(departures2.count, withRowType: "station")
+                stationsTable?.setNumberOfRows(departures2.count, withRowType: "station")
+                DLog("setNumberOfRows: \(departures2.count)")
                 self.numberOfRows = departures2.count
                 self.initTable = false
             }
@@ -275,8 +278,10 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
                     continue
                 }
                 returnValue = true
-                if let sr = stationsTable.rowController(at: i) as? StationRow, let station = station {
-                    sr.drawCell(deptstation, station: station)
+                if let sT = stationsTable, i < sT.numberOfRows {
+                    if let sr = stationsTable?.rowController(at: i) as? StationRow, let station = station {
+                        sr.drawCell(deptstation, station: station)
+                    }
                 }
                 i += 1
             }

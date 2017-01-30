@@ -11,15 +11,15 @@ import WatchKit
 
 class StationRow: NSObject {
 
-    @IBOutlet weak var destinationLabel: WKInterfaceLabel!
-    @IBOutlet weak var depatureLabel: WKInterfaceLabel!
-    @IBOutlet weak var minutesLabel: WKInterfaceLabel!
+    @IBOutlet var destinationLabel: WKInterfaceLabel?
+    @IBOutlet var depatureLabel: WKInterfaceLabel?
+    @IBOutlet var minutesLabel: WKInterfaceLabel?
 
-    @IBOutlet weak var numberLabel: WKInterfaceLabel!
+    @IBOutlet var numberLabel: WKInterfaceLabel?
 
-    @IBOutlet weak var topGroup: WKInterfaceGroup!
+    @IBOutlet var topGroup: WKInterfaceGroup?
 
-    @IBOutlet weak var numberGroup: WKInterfaceGroup!
+    @IBOutlet var numberGroup: WKInterfaceGroup?
 
     func drawCell(_ departure: TFCDeparture, station: TFCStation ) {
         let to = departure.getDestination(station)
@@ -30,9 +30,11 @@ class StationRow: NSObject {
         if let group = self.numberGroup, let bg = departure.colorBg {
             group.setBackgroundColor(UIColor(netHexString:bg))
         }
+
         if let label = self.numberLabel, let fg = departure.colorFg {
             label.setTextColor(UIColor(netHexString:fg))
         }
+
         if let numberLabel = self.numberLabel {
             numberLabel.setText(name)
         }
@@ -54,11 +56,11 @@ class StationRow: NSObject {
             label.setText(minutes)
         }
         if (topGroup != nil) {
-            topGroup.setHidden(false)
+            topGroup?.setHidden(false)
         }
     }
 
     func setHidden() {
-        topGroup.setHidden(true)
+        topGroup?.setHidden(true)
     }
 }
