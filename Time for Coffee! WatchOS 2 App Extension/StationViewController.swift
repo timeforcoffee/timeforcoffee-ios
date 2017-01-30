@@ -41,9 +41,9 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         super.awake(withContext: context)
         DLog("awakeWithContext")
         if (context == nil) {
-            stationsTable?.setNumberOfRows(10, withRowType: "station")
-            DLog("setNumberOfRows: 10")
-            self.numberOfRows = 10
+            stationsTable?.setNumberOfRows(2, withRowType: "station")
+            DLog("setNumberOfRows: 2")
+            self.numberOfRows = 2
             NotificationCenter.default.addObserver(
                 self,
                 selector: #selector(StationViewController.selectStation(_:)),

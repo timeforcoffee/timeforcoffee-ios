@@ -31,8 +31,8 @@ class StationsOverviewViewController: WKInterfaceController {
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
         DLog("awakeWithContext")
-        stationsTable.setNumberOfRows(10, withRowType: "stations")
-        self.numberOfRows = 10
+        stationsTable.setNumberOfRows(2, withRowType: "stations")
+        self.numberOfRows = 2
 
     }
 
