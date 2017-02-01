@@ -406,13 +406,33 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
             let filemanager = FileManager.default;
             if (forceInstall || !filemanager.fileExists(atPath: url.path)) {
 
+                // delete old files
+                let deleteSqliteURLs = [self.applicationDocumentsDirectory.appendingPathComponent("SingleViewCoreData.sqlite"),
+                                        self.applicationDocumentsDirectory.appendingPathComponent("SingleViewCoreData.sqlite-wal"),
+                                        self.applicationDocumentsDirectory.appendingPathComponent("SingleViewCoreData.sqlite-shm")]
+
+                for index in 0 ..< deleteSqliteURLs.count {
+                    let sqliteURL = deleteSqliteURLs[index]
+                    do {
+                        try filemanager.removeItem(at: sqliteURL)
+                        DLog("Removed \(sqliteURL.absoluteString)")
+                    } catch {
+                        DLog("error deleting \(error)")
+                    }
+                }
+
                 let sourceSqliteURLs = [bundle.url(forResource: "SingleViewCoreData", withExtension: "sqlite")!]
                 let destSqliteURLs = [self.applicationDocumentsDirectory.appendingPathComponent("SingleViewCoreData.sqlite")]
 
                 var error:NSError? = nil
                 filemanager.delegate = self
                 for index in 0 ..< sourceSqliteURLs.count {
-                    try! filemanager.copyItem(at: sourceSqliteURLs[index], to: destSqliteURLs[index])
+                    do {
+                        try filemanager.copyItem(at: sourceSqliteURLs[index], to: destSqliteURLs[index])
+                        DLog("SingleViewCoreData.sqlite copied")
+                    } catch {
+                        DLog("error copying \(error)")
+                    }
                     let _ = try? (destSqliteURLs[index] as NSURL).setResourceValue(true, forKey: URLResourceKey.isExcludedFromBackupKey)
 
                 }
@@ -456,24 +476,6 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
         DLog("end   new managedObjectContext", toFile: true)
         return managedObjectContext
         }()
-
-    // MARK: - Core Data Saving support
-
-    open func fileManager(_ fileManager: FileManager, shouldProceedAfterError error: Error, copyingItemAtPath srcPath: String, toPath dstPath: String) -> Bool {
-        if (error as NSError).code == NSFileWriteFileExistsError {
-            do
-            {
-                try fileManager.removeItem(atPath: dstPath)
-                try fileManager.copyItem(atPath: srcPath, toPath: dstPath)
-            } catch {
-                DLog("\((error as NSError).localizedDescription) in \(srcPath)")
-            }
-
-            return true
-        } else {
-            return false
-        }
-    }
 
     func updateComplicationData() {
     }
