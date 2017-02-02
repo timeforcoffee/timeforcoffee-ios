@@ -187,6 +187,7 @@ public func DLog(_ object: @autoclosure () -> Any, toFile: Bool = false, sync:Bo
             }
         }
     #else
+        #if os(iOS)
         if (toFile == true) {
             let value = object()
             func logIt() {
@@ -214,6 +215,7 @@ public func DLog(_ object: @autoclosure () -> Any, toFile: Bool = false, sync:Bo
                 }
             }
         }
+        #endif
     #endif
 }
 
