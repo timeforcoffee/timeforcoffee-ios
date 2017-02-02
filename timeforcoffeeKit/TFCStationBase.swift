@@ -320,7 +320,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             let cache: PINCache = TFCCache.objects.stations
             //immediatly set to memory cache
             cache.memoryCache.setObject(saveStation, forKey: saveStation.st_id)
-            DLog("set PinCache for \(saveStation.name) \(saveStation.st_id)", toFile: true)
+            DLog("set PinCache for \(saveStation.name) \(saveStation.st_id)")
 
             cache.setObject(saveStation, forKey: saveStation.st_id , block: { (_) in
             })
