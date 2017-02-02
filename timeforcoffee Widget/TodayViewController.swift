@@ -384,6 +384,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     }
 
     override func locationDenied(_ manager: CLLocationManager, err:Error) {
+        DLog("location denied")
         if ((err as NSError).code == CLError.Code.locationUnknown.rawValue) {
             self.networkErrorMsg = "Airplane mode?"
             self.appsTableView?.reloadData()
@@ -391,7 +392,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         }
         DispatchQueue.main.async(execute: {
             self.networkErrorMsg = "Location not available"
-            self.stations?.empty()
+            TFCFavorites.sharedInstance.repopulateFavorites()
             self.setTitleText("Time for Coffee! Error")
             self.appsTableView?.reloadData()
         })

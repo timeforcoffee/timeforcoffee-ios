@@ -254,6 +254,8 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
     }
 
     public func locationDenied(_ manager: CLLocationManager, err: Error) {
+            favorite.s.repopulateFavorites()
+            self.nearbyFavorites = TFCFavorites.sharedInstance.stations
             callStationsUpdatedDelegate("Location not available")
     }
 
