@@ -169,7 +169,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
     deinit {
         DLog("deinit widget", toFile: true)
-        TFCURLSession.sharedInstance.cancelURLSession()
+        //TFCURLSession.sharedInstance.cancelURLSession()
         self.datastore.removeNotifications()
     }
 
@@ -285,7 +285,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
     override func viewDidDisappear(_ animated: Bool) {
         DLog("viewDidDisappear, memsize: \(String(describing: TFCCache.getMemorySize()))", toFile: true)
-        TFCURLSession.sharedInstance.cancelURLSession()
+      //  TFCURLSession.sharedInstance.cancelURLSession()
     }
     func widgetPerformUpdate(completionHandler: @escaping ((NCUpdateResult) -> Void)) {
         // Perform any setup necessary in order to update the view.
