@@ -16,10 +16,12 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
     open var name: String {
         get {
-            if (_name == nil) {
-                _name = self.realmObject?.name
-                if (_name == "" || _name == nil) {
-                    _name = "unknown"
+            if (self._name == nil) {
+                TFCDataStore.sharedInstance.managedObjectContext.performAndWait {
+                    self._name = self.realmObject?.name
+                    if (self._name == "" || self._name == nil) {
+                        self._name = "unknown"
+                    }
                 }
             }
             return _name!
@@ -52,27 +54,29 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             if (self._coord != nil) {
                 return self._coord
             }
-
-            if let lat = self.realmObject?.latitude?.doubleValue,
-                let lon = self.realmObject?.longitude?.doubleValue {
+            TFCDataStore.sharedInstance.managedObjectContext.performAndWait {
+                if let lat = self.realmObject?.latitude?.doubleValue,
+                    let lon = self.realmObject?.longitude?.doubleValue {
                     self._coord = CLLocation(latitude: lat, longitude: lon)
+                }
             }
             return self._coord
         }
         set(location) {
             self._coord = location
             if let lat = location?.coordinate.latitude, let lon = location?.coordinate.longitude {
-                if (self.realmObject?.latitude  == nil ||
-                    self.realmObject?.longitude == nil ||
-                    coord == nil ||
-                    coord!.distance(from: CLLocation(latitude: self.realmObject!.latitude as! Double , longitude: self.realmObject!.longitude as! Double)) > 10) {
+                TFCDataStore.sharedInstance.managedObjectContext.performAndWait {
+                    if (self.realmObject?.latitude  == nil ||
+                        self.realmObject?.longitude == nil ||
+                        self.coord == nil ||
+                        self.coord!.distance(from: CLLocation(latitude: self.realmObject!.latitude as! Double , longitude: self.realmObject!.longitude as! Double)) > 10) {
                         self.realmObject?.latitude = lat as NSNumber
                         self.realmObject?.longitude = lon as NSNumber
                         self.realmObject?.lastUpdated = Date()
                         DLog("updateGeolocationInfo for \(self.name)")
                         self.updateGeolocationInfo()
+                    }
                 }
-
             }
         }
     }
@@ -175,28 +179,33 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
     fileprivate lazy var realmObject:TFCStationModel? = {
         [unowned self] in
+        var result:TFCStationModel? = nil
+        TFCDataStore.sharedInstance.managedObjectContext.performAndWait {
 
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "TFCStationModel")
-        do {
-            let pred = NSPredicate(format: "id == %@", self.st_id)
-            fetchRequest.predicate = pred
-            if let results = try TFCDataStore.sharedInstance.managedObjectContext.fetch(fetchRequest) as? [TFCStationModel] {
-                if let first = results.first {
-                    return first
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "TFCStationModel")
+            do {
+                let pred = NSPredicate(format: "id == %@", self.st_id)
+                fetchRequest.predicate = pred
+                if let results = try TFCDataStore.sharedInstance.managedObjectContext.fetch(fetchRequest) as? [TFCStationModel] {
+                    if let first = results.first {
+                        result = first
+                        return
+                    }
                 }
+            } catch let error as NSError {
+                DLog("Could not fetch \(error), \(error.userInfo)")
             }
-        } catch let error as NSError {
-            DLog("Could not fetch \(error), \(error.userInfo)")
-        }
 
-        if let obj = NSEntityDescription.insertNewObject(forEntityName: "TFCStationModel", into: TFCDataStore.sharedInstance.managedObjectContext) as? TFCStationModel {
-            obj.id = self.st_id
-            return obj
+            if let obj = NSEntityDescription.insertNewObject(forEntityName: "TFCStationModel", into: TFCDataStore.sharedInstance.managedObjectContext) as? TFCStationModel {
+                obj.id = self.st_id
+                result = obj
+                return
+            }
+            #if DEBUG
+                DLog("WARNING: realmObject IS NIL!!!! ", toFile: true)
+            #endif
         }
-        #if DEBUG
-            DLog("WARNING: realmObject IS NIL!!!! ", toFile: true)
-        #endif
-        return nil
+        return result
     }()
 
 
@@ -1054,29 +1063,31 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     }
 
     fileprivate func updateGeolocationInfo() {
-        let iso = realmObject?.countryISO
-        if (iso == nil || iso == "") {
-            let geocoder = CLGeocoder()
-            if let coordinates = self.coord {
-                geocoder.reverseGeocodeLocation(coordinates) { (places:[CLPlacemark]?, error:Error?) -> Void in
-                    if let place = places?.first {
-                        if self.realmObject?.isFault == false {
-                            if let city = place.locality {
-                                self.realmObject?.city = city
-                            }
+        TFCDataStore.sharedInstance.managedObjectContext.perform {
+            let iso = self.realmObject?.countryISO
+            if (iso == nil || iso == "") {
+                let geocoder = CLGeocoder()
+                if let coordinates = self.coord {
+                    geocoder.reverseGeocodeLocation(coordinates) { (places:[CLPlacemark]?, error:Error?) -> Void in
+                        if let place = places?.first {
+                            if self.realmObject?.isFault == false {
+                                if let city = place.locality {
+                                    self.realmObject?.city = city
+                                }
 
-                            if let county = place.administrativeArea {
-                                self.realmObject?.county = county
-                            }
-                            if let iso = place.isoCountryCode {
-                                self.realmObject?.countryISO = iso
+                                if let county = place.administrativeArea {
+                                    self.realmObject?.county = county
+                                }
+                                if let iso = place.isoCountryCode {
+                                    self.realmObject?.countryISO = iso
+                                }
+                            } else {
+                                DLog("object \(self.name) could not be saved: \(String(describing: self.realmObject?.faultingState))")
                             }
                         } else {
-                            DLog("object \(self.name) could not be saved: \(String(describing: self.realmObject?.faultingState))")
-                        }
-                    } else {
-                        if (error != nil) {
-                            DLog("\(self.name) error getting Location data: \(error!)")
+                            if (error != nil) {
+                                DLog("\(self.name) error getting Location data: \(error!)")
+                            }
                         }
                     }
                 }
@@ -1085,18 +1096,17 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     }
 
     open func getCountryISO() -> String {
-        var iso = realmObject?.countryISO
-        if (iso == nil) {           
-            iso = ""
+        var iso:String? = ""
+        TFCDataStore.sharedInstance.managedObjectContext.performAndWait {
+            iso = self.realmObject?.countryISO
+            if (iso == nil) {
+                iso = ""
+            }
         }
         return iso!
     }
 
     open func getDeparturesURL(_ startTime:Date? = nil) -> String {
-        if  let url = self.realmObject?.departuresURL {
-            return url
-        }
-
         let country = self.getCountryISO()
         if let startTime = startTime {
             let formattedDate = startTime.formattedWith("yyyy-MM-dd'T'HH:mm")
