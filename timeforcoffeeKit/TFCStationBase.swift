@@ -27,7 +27,8 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             return _name!
         }
         set(name) {
-            TFCDataStore.sharedInstance.managedObjectContext.performAndWait {
+            self._name = name
+            TFCDataStore.sharedInstance.managedObjectContext.perform {
                 if (name != self.realmObject?.name) {
                     var name2 = name
                     if (name2 == "") {
@@ -65,7 +66,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         set(location) {
             self._coord = location
             if let lat = location?.coordinate.latitude, let lon = location?.coordinate.longitude {
-                TFCDataStore.sharedInstance.managedObjectContext.performAndWait {
+                TFCDataStore.sharedInstance.managedObjectContext.perform {
                     if (self.realmObject?.latitude  == nil ||
                         self.realmObject?.longitude == nil ||
                         self.coord == nil ||
