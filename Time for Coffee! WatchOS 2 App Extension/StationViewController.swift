@@ -19,7 +19,6 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         }
     }
     var pageNumber: Int?
-    var numberOfRows: Int = 0
     var initTable = false
     var userActivity: [String:String]?
 
@@ -43,7 +42,6 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         if (context == nil) {
             stationsTable?.setNumberOfRows(2, withRowType: "station")
             DLog("setNumberOfRows: 2")
-            self.numberOfRows = 2
             NotificationCenter.default.addObserver(
                 self,
                 selector: #selector(StationViewController.selectStation(_:)),
@@ -172,9 +170,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             drawAsNewStation = true
             infoGroup.setHidden(false)
             infoLabel.setText("Loading ...")
-            stationsTable?.setNumberOfRows(10, withRowType: "station")
-            DLog("setNumberOfRows: 10")
-            self.numberOfRows = 10
+            stationsTable?.setHidden(true)
         }
         if let title = station?.getName(true) {
             self.setTitle(title)
@@ -266,13 +262,12 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         let departures = station?.getFilteredDepartures()?.prefix(10)
         var i = 0;
         if let departures2 = departures {
-            if (self.numberOfRows != departures2.count || self.initTable == true) {
-                stationsTable?.setNumberOfRows(departures2.count, withRowType: "station")
-                DLog("setNumberOfRows: \(departures2.count)")
-                self.numberOfRows = departures2.count
+            if (self.stationsTable?.numberOfRows != departures2.count || self.initTable == true) {
+                self.adjustTableSize(newCount: departures2.count)
                 self.initTable = false
             }
             infoGroup.setHidden(true)
+            stationsTable?.setHidden(false)
             for (deptstation) in departures2 {
                 if (station?.st_id != self.station?.st_id) {
                     continue
@@ -289,6 +284,30 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         DLog("end displayDepartures. returnValue: \(returnValue)", toFile: true)
         return returnValue
     }
+
+    fileprivate func adjustTableSize(newCount: Int) {
+        DLog("adjustTableSize to: \(newCount)")
+        if let oldCount = stationsTable?.numberOfRows {
+            let delta = newCount - oldCount
+            if delta > 0 {
+                let rowChangeRange = Range(uncheckedBounds: (lower: oldCount, upper: newCount))
+                let rowChangeIndexSet = IndexSet(integersIn:rowChangeRange)
+                stationsTable?.insertRows(
+                    at: rowChangeIndexSet,
+                    withRowType: "station"
+                ) }
+            else if delta < 0 {
+                let rowChangeRange = Range(uncheckedBounds: (lower: newCount, upper: oldCount))
+                let rowChangeIndexSet = IndexSet(integersIn:rowChangeRange)
+
+                stationsTable?.removeRows(at: rowChangeIndexSet)
+            }
+
+        } else {
+            stationsTable?.setNumberOfRows(newCount, withRowType: "station")
+        }
+    }
+
 
     func departuresStillCached(_ context: Any?, forStation: TFCStation?) {
         DLog("departuresStillCached", toFile: true)

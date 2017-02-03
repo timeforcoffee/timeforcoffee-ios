@@ -11,8 +11,6 @@ import Foundation
 
 class StationsOverviewViewController: WKInterfaceController {
 
-    var numberOfRows: Int = 0
-
     @IBOutlet weak var stationsTable: WKInterfaceTable!
 
     @IBOutlet weak var infoGroup: WKInterfaceGroup!
@@ -32,8 +30,6 @@ class StationsOverviewViewController: WKInterfaceController {
         super.awake(withContext: context)
         DLog("awakeWithContext")
         stationsTable.setNumberOfRows(2, withRowType: "stations")
-        self.numberOfRows = 2
-
     }
 
     override func willActivate() {
@@ -87,7 +83,6 @@ class StationsOverviewViewController: WKInterfaceController {
             if (self.activated) {
                 WKInterfaceDevice.current().play(WKHapticType.click)
                 infoGroup.setHidden(true)
-
                 if let stations = stations {
                     let ctxStations:Array<TFCStation>
                     // show all stations in favorites
@@ -96,9 +91,8 @@ class StationsOverviewViewController: WKInterfaceController {
                     } else {
                         ctxStations = stations.getStationsAsArray(10)
                     }
-                    if (self.numberOfRows != ctxStations.count) {
-                        stationsTable.setNumberOfRows(ctxStations.count, withRowType: "stations")
-                        self.numberOfRows = ctxStations.count
+                    if (self.stationsTable.numberOfRows != ctxStations.count) {
+                        self.adjustTableSize(newCount: ctxStations.count)
                     }
                     var i = 0;
                     for (station) in ctxStations {
@@ -126,5 +120,28 @@ class StationsOverviewViewController: WKInterfaceController {
         }
         
     }
+
+    fileprivate func adjustTableSize(newCount: Int) {
+        DLog("adjustTableSize to: \(newCount)")
+        if let oldCount = stationsTable?.numberOfRows {
+            let delta = newCount - oldCount
+            if delta > 0 {
+                let rowChangeRange = Range(uncheckedBounds: (lower: oldCount, upper: newCount))
+                let rowChangeIndexSet = IndexSet(integersIn:rowChangeRange)
+                stationsTable?.insertRows(
+                    at: rowChangeIndexSet,
+                    withRowType: "stations"
+                ) }
+            else if delta < 0 {
+                let rowChangeRange = Range(uncheckedBounds: (lower: newCount, upper: oldCount))
+                let rowChangeIndexSet = IndexSet(integersIn:rowChangeRange)
+
+                stationsTable?.removeRows(at: rowChangeIndexSet)
+            }
+        } else {
+            stationsTable?.setNumberOfRows(newCount, withRowType: "stations")
+        }
+    }
+
 }
 
