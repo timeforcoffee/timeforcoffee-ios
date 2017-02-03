@@ -528,9 +528,9 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     }
     
     open func getName(_ cityAfter: Bool) -> String {
-        if (cityAfter && name.match(", *")) {
-            let stationName = name.replace(".*, *", template: "")
-            let cityName = name.replace(", *.*", template: "")
+        if (cityAfter && name.matchRegex(TFCDeparture.commaStarRegex)) {
+            let stationName = name.replaceRegex(TFCDeparture.starCommaStarRegex, template: "")
+            let cityName = name.replaceRegex(TFCDeparture.commaSpaceStarRegex, template: "")
             return "\(stationName) (\(cityName))"
         }
         return name
