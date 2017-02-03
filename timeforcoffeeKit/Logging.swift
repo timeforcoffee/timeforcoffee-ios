@@ -306,25 +306,12 @@ private func getWatchLogFileName() -> String {
 }
 
 private func DLog2File(_ text:String) {
-    #if os(watchOS)
-        let file = getWatchLogFileName()
-        let iCloudDocumentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
-    #else
-        let file:String
-        if Bundle.main.bundleIdentifier == "ch.opendata.timeforcoffee.timeforcoffee" {
-            file = "today-log-\(Date().formattedWithDateFormatter(DLogDayHourFormatter))-\(UIDevice.current.name).txt"
-        } else {
-            file = "log-\(Date().formattedWithDateFormatter(DLogDayHourFormatter))-\(UIDevice.current.name).txt"
-        }
-        let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: "iCloud.ch.opendata.timeforcoffee")?.appendingPathComponent("Documents")
-    #endif
 
-    if  let iCloudDocumentsURL = iCloudDocumentsURL {
+
+    if  let iCloudDocumentsURL = iCloudDocumentsURLPath {
         do {
-            if (!FileManager.default.fileExists(atPath: iCloudDocumentsURL.path, isDirectory: nil)) {
-                try! FileManager.default.createDirectory(at: iCloudDocumentsURL, withIntermediateDirectories: true, attributes: nil)
-            }
-            let url = iCloudDocumentsURL.appendingPathComponent(file)
+            let file = getLogFileName()
+            let url = iCloudDocumentsURL.appendingPathComponent(file, isDirectory: false)
             let dtext = "\(text)"
             let _ = try? (url as NSURL).setResourceValue(true, forKey: URLResourceKey.isExcludedFromBackupKey)
             try dtext.appendLineToURL(url)
@@ -334,3 +321,36 @@ private func DLog2File(_ text:String) {
         }
     }
 }
+
+private func getLogFileName() -> String {
+    #if os(watchOS)
+        let file = getWatchLogFileName()
+    #else
+        let file:String
+        if Bundle.main.bundleIdentifier == "ch.opendata.timeforcoffee.timeforcoffee" {
+            file = "today-log-\(Date().formattedWithDateFormatter(DLogDayHourFormatter))-\(UIDevice.current.name).txt"
+        } else {
+            file = "log-\(Date().formattedWithDateFormatter(DLogDayHourFormatter))-\(UIDevice.current.name).txt"
+        }
+    #endif
+    return file
+}
+
+private var iCloudDocumentsURLPath:URL? = {
+    #if DEBUG
+        #if os(watchOS)
+            let iCloudDocumentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+        #else
+            let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: "iCloud.ch.opendata.timeforcoffee")?.appendingPathComponent("Documents")
+        #endif
+        if  let iCloudDocumentsURL = iCloudDocumentsURL {
+
+            if (!FileManager.default.fileExists(atPath: iCloudDocumentsURL.path, isDirectory: nil)) {
+                try! FileManager.default.createDirectory(at: iCloudDocumentsURL, withIntermediateDirectories: true, attributes: nil)
+            }
+            return iCloudDocumentsURL
+        }
+    #endif
+    return nil
+
+}()
