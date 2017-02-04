@@ -296,21 +296,20 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
     }
 
     public func scheduleNextUpdate(noBackOffIncr:Bool? = false) {
-            let nextUpdate:Date
-            if let c = CLKComplicationServer.sharedInstance().activeComplications?.count, c > 0 {
-                nextUpdate = self.getNextUpdateTime(noBackOffIncr: noBackOffIncr)
-            } else {
-                nextUpdate = Date().addingTimeInterval(30 * 60)
-            }
-        if #available(watchOSApplicationExtension 3.0, *) {
-            let ud = TFCDataStore.sharedInstance.getUserDefaults()
+        let nextUpdate:Date
+        if let c = CLKComplicationServer.sharedInstance().activeComplications?.count, c > 0 {
+            nextUpdate = self.getNextUpdateTime(noBackOffIncr: noBackOffIncr)
+        } else {
+            nextUpdate = Date().addingTimeInterval(30 * 60)
+        }
+        let ud = TFCDataStore.sharedInstance.getUserDefaults()
 
-            ud?.set(nextUpdate, forKey: "lastBackgroundRefreshDate")
-            WKExtension.shared().scheduleBackgroundRefresh(withPreferredDate: nextUpdate, userInfo: nil) { (error) in
-                DLog("updated next schedule at \(nextUpdate.formattedWithDateFormatter(DLogDateFormatter)) error: \(String(describing: error))", toFile: true)
-            }
-        }        
+        ud?.set(nextUpdate, forKey: "lastBackgroundRefreshDate")
+        WKExtension.shared().scheduleBackgroundRefresh(withPreferredDate: nextUpdate, userInfo: nil) { (error) in
+            DLog("updated next schedule at \(nextUpdate.formattedWithDateFormatter(DLogDateFormatter)) error: \(String(describing: error))", toFile: true)
+        }
     }
+    
     public func needsTimelineDataUpdate(_ station: TFCStation) -> Bool {
         let ud = TFCDataStore.sharedInstance.getUserDefaults()
 
