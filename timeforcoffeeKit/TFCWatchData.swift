@@ -12,7 +12,7 @@ import WatchKit
 import ClockKit
 
 private struct Constants {
-    static let FrequencyOfTimelineUpdate = TimeInterval(30*60) // 30 minutes
+    static let FrequencyOfTimelineUpdate = TimeInterval(45*60) // 45 minutes
     static let TimelineUpdateMinutesBeforeEnd = TimeInterval(-15*60) // 15 minutes
 }
 
@@ -25,7 +25,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
     fileprivate lazy var stations: TFCStations? =  {return TFCStations(delegate: self)}()
     fileprivate lazy var locManager: TFCLocationManager? = self.lazyInitLocationManager()
     static  var crunchQueue:DispatchQueue = {
-        return DispatchQueue(label: "ch.opendata.timeforcoffee.crunch", attributes: DispatchQueue.Attributes.concurrent)
+        return DispatchQueue(label: "ch.opendata.timeforcoffee.crunch", qos: .userInitiated , attributes: DispatchQueue.Attributes.concurrent)
     }()
 
     fileprivate struct replyContext {
@@ -244,9 +244,9 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
             backoffCount = 1.0
         }
         var backoffTime = exp2(backoffCount!)
-        if (backoffTime > 60) {
-            backoffTime = 60
-            backoffCount = 6
+        if (backoffTime > 30) {
+            backoffTime = 30
+            backoffCount = 5
         } else if noBackOffIncr == false {
             backoffCount = backoffCount! + 1
         }
@@ -274,7 +274,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
             if (lastEntryDate.timeIntervalSinceNow < Date().timeIntervalSinceNow) {
                 DLog("backoff: lastEntryDate \(lastEntryDate) is before now")
                 nextUpdateDate = getBackOffTime(noBackOffIncr: noBackOffIncr)
-                //if lastEntryDate is more in the future than 0.5 hours
+                //if lastEntryDate is more in the future than 45 minutes
             } else if (maxNextUpdateDate.timeIntervalSinceReferenceDate < lastEntryDate.timeIntervalSinceReferenceDate) {
                 nextUpdateDate = maxNextUpdateDate
                 clearBackOffTime()
