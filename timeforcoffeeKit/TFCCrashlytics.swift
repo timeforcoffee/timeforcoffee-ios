@@ -28,5 +28,7 @@ final public class TFCCrashlytics: NSObject, CrashlyticsDelegate {
 }
 
 func DLog2CLS(_ format:String, text: [CVarArg]) {
-    CLSLogv(format, getVaList(text))
+    #if !((arch(i386) || arch(x86_64)) && os(iOS))
+        CLSLogv(format, getVaList(text))
+    #endif
 }
