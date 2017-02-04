@@ -13,7 +13,7 @@ import ClockKit
 
 private struct Constants {
     static let FrequencyOfTimelineUpdate = TimeInterval(45*60) // 45 minutes
-    static let TimelineUpdateMinutesBeforeEnd = TimeInterval(-15*60) // 15 minutes
+    static let TimelineUpdateMinutesBeforeEnd = TimeInterval(-20*60) // 20 minutes
 }
 
 public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStationsUpdatedProtocol {
@@ -269,6 +269,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
             }
         }
         if let nextUpdate = TFCDataStore.sharedInstance.getUserDefaults()?.object(forKey: "lastDepartureTime") as? Date {
+            // take the next update as 20 minutes before the last entry
             let lastEntryDate = nextUpdate.addingTimeInterval(Constants.TimelineUpdateMinutesBeforeEnd)
             //if lastEntryDate is before now, update again in 5 minutes
             if (lastEntryDate.timeIntervalSinceNow < Date().timeIntervalSinceNow) {
