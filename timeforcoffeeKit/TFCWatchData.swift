@@ -144,7 +144,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
             queue = TFCWatchData.crunchQueue
             TFCWatchData.crunchQueueTasks += 1
             queue.async(execute: {
-                DLog("crunchQueue started")
+               // DLog("crunchQueue started")
                 closure()
                 TFCWatchData.crunchQueueTasks -= 1
             })
@@ -272,6 +272,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
             let lastEntryDate = nextUpdate.addingTimeInterval(Constants.TimelineUpdateMinutesBeforeEnd)
             //if lastEntryDate is before now, update again in 5 minutes
             if (lastEntryDate.timeIntervalSinceNow < Date().timeIntervalSinceNow) {
+                DLog("backoff: lastEntryDate \(lastEntryDate) is before now")
                 nextUpdateDate = getBackOffTime(noBackOffIncr: noBackOffIncr)
                 //if lastEntryDate is more in the future than 0.5 hours
             } else if (maxNextUpdateDate.timeIntervalSinceReferenceDate < lastEntryDate.timeIntervalSinceReferenceDate) {
@@ -282,10 +283,11 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
                 clearBackOffTime()
             }
         } else {
+            DLog("backoff: no lastDepartureTime was set")
             nextUpdateDate =  getBackOffTime(noBackOffIncr: noBackOffIncr) // request an update in 5 minutes, if no lastDepartureTime was set.
         }
         if (nextUpdateDate == nil || nextUpdateDate! < Date()) {
-            DLog("WARNING: \(String(describing: nextUpdateDate)) < \(Date())")
+            DLog("WARNING: backoff \(String(describing: nextUpdateDate)) < \(Date())")
             nextUpdateDate = getBackOffTime(noBackOffIncr: true)
         }
         if let minTime = minTime {
@@ -313,10 +315,10 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
     public func needsTimelineDataUpdate(_ station: TFCStation) -> Bool {
         let ud = TFCDataStore.sharedInstance.getUserDefaults()
 
-        DLog("lastDepartureTime:NSDate = \(String(describing: ud?.object(forKey: "lastDepartureTime") as? Date))", toFile: true)
+    /*    DLog("lastDepartureTime:NSDate = \(String(describing: ud?.object(forKey: "lastDepartureTime") as? Date))", toFile: true)
         DLog("lastFirstStationId = \(String(describing: ud?.string(forKey: "lastFirstStationId")))", toFile: true)
         DLog("departures = \(String(describing: station.getFilteredDepartures()?.count)))", toFile: true)
-
+*/
         if let ud = ud, let lastDepartureTime:Date = ud.object(forKey: "lastDepartureTime") as? Date,
             let lastFirstStationId = ud.string(forKey: "lastFirstStationId"),
             let departures = station.getFilteredDepartures() {

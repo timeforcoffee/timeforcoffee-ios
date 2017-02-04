@@ -196,11 +196,11 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         if (self.activated) {
             DispatchQueue.main.async {
                 // reload station from cache
-                DLog("count before for \(String(describing: self.station?.name)): \(String(describing: self.station?.getDepartures()?.count))", toFile: true)
+             //   DLog("count before for \(String(describing: self.station?.name)): \(String(describing: self.station?.getDepartures()?.count))", toFile: true)
                 if let st_id = self.station?.st_id {
                     self.station = TFCStation.initWithCacheId(st_id)
                 }
-                DLog("count after for \(String(describing: self.station?.name)): \(String(describing: self.station?.getDepartures()?.count))", toFile: true)
+             //   DLog("count after for \(String(describing: self.station?.name)): \(String(describing: self.station?.getDepartures()?.count))", toFile: true)
                 self.departuresUpdated(nil, context: nil, forStation: self.station)
             }
         }
@@ -239,7 +239,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         if (displayed && context2?["cached"] != "true") {
             if (self.activated) {
                 WKInterfaceDevice.current().play(WKHapticType.click)
-                DLog("played haptic in Stations ")
+               // DLog("played haptic in Stations ")
             }
         }
 

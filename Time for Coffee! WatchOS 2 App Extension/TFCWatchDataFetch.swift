@@ -47,7 +47,7 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
 
     open func fetchDepartureData(task: WKApplicationRefreshBackgroundTask) {
         func handleReply() {
-            DLog("finished WKApplicationRefreshBackgroundTask \(task) before barrier", toFile: true)
+            //DLog("finished WKApplicationRefreshBackgroundTask \(task) before barrier", toFile: true)
             TFCWatchData.crunchQueue.async(flags: .barrier, execute: {
                 DLog("finished WKApplicationRefreshBackgroundTask \(task)", toFile: true)
                 DispatchQueue.main.async(execute: {
@@ -63,7 +63,7 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
             let lastViewedStation = self.getLastViewedStation();
 
             func handleReply(_ stations: TFCStations?) {
-                DLog("handleReply fetchDepartureData:", toFile: true)
+                //DLog("handleReply fetchDepartureData:", toFile: true)
                 if let station = stations?.getStation(0) {
                     DLog("handleReply fetchDepartureData: \(station.name))", toFile: true)
                     if let defaults = TFCDataStore.sharedInstance.getUserDefaults() {
@@ -87,7 +87,7 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
                         DLog("no timeline update needed", toFile: true)
                     }
                 } else {
-                    DLog("No station set", toFile: true)
+                    DLog("backoff: No station set", toFile: true)
                     // try again in 5 minutes
                     WKExtension.shared().scheduleBackgroundRefresh(withPreferredDate: self.watchdata.getBackOffTime() , userInfo: nil) { (error) in
                         if error == nil {
@@ -98,7 +98,7 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
                 taskCallback?()
             }
             func errorReply(_ error: String) {
-                DLog("error \(error)", toFile: true)
+                DLog("backoff: error \(error)", toFile: true)
                 // try again in 5 minutes
                 WKExtension.shared().scheduleBackgroundRefresh(withPreferredDate: self.watchdata.getBackOffTime(), userInfo: nil) { (error) in
                     if error == nil {
@@ -202,7 +202,7 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
         if let sessID = sess_id {
             self.completeTask(sessID)
         }
-        DLog("remaining tasks: \(self.sessionRefreshTasks.count)")
+      //  DLog("remaining tasks: \(self.sessionRefreshTasks.count)")
     }
 
 
@@ -211,7 +211,7 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
         TFCWatchData.crunchQueue.async(flags: .barrier, execute: {
             if let task = self.sessionRefreshTasks[sessID] as? WKURLSessionRefreshBackgroundTask {
                 DLog("finished WKURLSessionRefreshBackgroundTask part 1 \(sessID)", toFile: true)
-                DLog("was: \(task) part 2 \(sessID)", toFile: true)
+                //DLog("was: \(task) part 2 \(sessID)", toFile: true)
                 DispatchQueue.main.async(execute: {
                     task.setTaskCompleted()
                 })
@@ -236,9 +236,9 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
 
             }
             lastDownload[st_id] = Date()
-            DLog("task: \(String(describing: session.configuration.identifier))", toFile: true)
+          //  DLog("task: \(String(describing: session.configuration.identifier))", toFile: true)
             self.watchdata.startCrunchQueue {
-                DLog("crunchQueue start didFinishDownloadingToURL \(st_id) \(String(describing: session.configuration.identifier)) ")
+                //DLog("crunchQueue start didFinishDownloadingToURL \(st_id) \(String(describing: session.configuration.identifier)) ")
                 self.handleURLSession(fileContent, st_id: st_id, sess_id: session.configuration.identifier)
                 DLog("crunchQueue end   didFinishDownloadingToURL \(st_id) \(String(describing: session.configuration.identifier)) ")
 
@@ -247,10 +247,10 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
     }
 
     open func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        DLog(" didCompleteWithError before crunchQueue \(String(describing: task.taskDescription))")
+       // DLog(" didCompleteWithError before crunchQueue \(String(describing: task.taskDescription))")
 
         self.watchdata.startCrunchQueue {
-            DLog("crunchQueue start didCompleteWithError \(String(describing: task.taskDescription))")
+          //  DLog("crunchQueue start didCompleteWithError \(String(describing: task.taskDescription))")
 
             DLog("URLSession didComplete \(String(describing: task.taskDescription)) task: \(String(describing: session.configuration.identifier)) error: \(String(describing: error))", toFile: true)
             TFCDataStore.sharedInstance.watchdata.scheduleNextUpdate()
@@ -262,7 +262,7 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
             }
 
             session.finishTasksAndInvalidate()
-            DLog("crunchQueue end   didCompleteWithError \(String(describing: task.taskDescription))")
+            //DLog("crunchQueue end   didCompleteWithError \(String(describing: task.taskDescription))")
 
         }
     }
