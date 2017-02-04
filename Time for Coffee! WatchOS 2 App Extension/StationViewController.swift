@@ -100,16 +100,14 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         super.willActivate()
         DLog("willActivate", toFile: true)
         var doSetValues = true
-        if #available(watchOSApplicationExtension 3.0, *) {
-            let state = WKExtension.shared().applicationState
-            if (state == .inactive) {
-                DLog("WKExtension = Inactive", toFile: true)
-                doSetValues = false
-            } else if (state == .active) {
-                DLog("WKExtension = Active", toFile: true)
-            } else {
-                DLog("WKExtension = Background", toFile: true)
-            }
+        let state = WKExtension.shared().applicationState
+        if (state == .inactive) {
+            DLog("WKExtension = Inactive", toFile: true)
+            doSetValues = false
+        } else if (state == .active) {
+            DLog("WKExtension = Active", toFile: true)
+        } else {
+            DLog("WKExtension = Background", toFile: true)
         }
         if (doSetValues) {
             setStationValues()
@@ -139,11 +137,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     fileprivate func setStationValues() {
         let isInBackground:Bool
 
-        if #available(watchOSApplicationExtension 3.0, *) {
-            isInBackground = (WKExtension.shared().applicationState == .background)
-        } else {
-            isInBackground = false
-        }
+        isInBackground = (WKExtension.shared().applicationState == .background)
         DLog("setStationValues. isInBackground: \(isInBackground)", toFile: true)
 
         if (station == nil) {

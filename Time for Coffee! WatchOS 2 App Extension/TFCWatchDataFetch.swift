@@ -44,7 +44,7 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
         }
         return nil
     }
-    @available(watchOSApplicationExtension 3.0, *)
+
     open func fetchDepartureData(task: WKApplicationRefreshBackgroundTask) {
         func handleReply() {
             DLog("finished WKApplicationRefreshBackgroundTask \(task) before barrier", toFile: true)
@@ -89,11 +89,9 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
                 } else {
                     DLog("No station set", toFile: true)
                     // try again in 5 minutes
-                    if #available(watchOSApplicationExtension 3.0, *) {
-                        WKExtension.shared().scheduleBackgroundRefresh(withPreferredDate: self.watchdata.getBackOffTime() , userInfo: nil) { (error) in
-                            if error == nil {
-                                //successful
-                            }
+                    WKExtension.shared().scheduleBackgroundRefresh(withPreferredDate: self.watchdata.getBackOffTime() , userInfo: nil) { (error) in
+                        if error == nil {
+                            //successful
                         }
                     }
                 }
@@ -102,11 +100,9 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
             func errorReply(_ error: String) {
                 DLog("error \(error)", toFile: true)
                 // try again in 5 minutes
-                if #available(watchOSApplicationExtension 3.0, *) {
-                    WKExtension.shared().scheduleBackgroundRefresh(withPreferredDate: self.watchdata.getBackOffTime(), userInfo: nil) { (error) in
-                        if error == nil {
-                            //successful
-                        }
+                WKExtension.shared().scheduleBackgroundRefresh(withPreferredDate: self.watchdata.getBackOffTime(), userInfo: nil) { (error) in
+                    if error == nil {
+                        //successful
                     }
                 }
                 taskCallback?()
@@ -147,10 +143,8 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
         let downloadTask = backgroundSession.downloadTask(with: sampleDownloadURL)
 
         downloadTask.taskDescription = station.st_id
-        if #available(watchOSApplicationExtension 3.0, *) {
-            if WKExtension.shared().applicationState == .active {
-                downloadTask.priority = 1.0
-            }
+        if WKExtension.shared().applicationState == .active {
+            downloadTask.priority = 1.0
         }
         if let id = backgroundConfigObject.identifier {
             self.validSessions[id] = true
@@ -160,8 +154,6 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
 
     }
 
-
-    @available(watchOSApplicationExtension 3.0, *)
     open func rejoinURLSession(_ urlTask: WKURLSessionRefreshBackgroundTask) {
         let backgroundConfigObject = URLSessionConfiguration.background(withIdentifier: urlTask.sessionIdentifier)
         let backgroundSession = Foundation.URLSession(configuration: backgroundConfigObject, delegate: self, delegateQueue: nil)
@@ -180,12 +172,7 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
                 let  data = JSON(data: fileContent)
                 station.didReceiveAPIResults(data, error: nil, context: nil)
                 let isActive:Bool
-                if #available(watchOSApplicationExtension 3.0, *) {
-                    isActive = (WKExtension.shared().applicationState == .active)
-                } else {
-                    isActive = false
-                }
-
+                isActive = (WKExtension.shared().applicationState == .active)
                 if (st_id == self.getLastViewedStation()?.st_id  && isActive) {
                     DLog("notification TFCWatchkitUpdateCurrentStation")
                     NotificationCenter.default.post(name: Notification.Name(rawValue: "TFCWatchkitUpdateCurrentStation"), object: nil, userInfo: nil)
@@ -221,8 +208,7 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
 
 
     fileprivate func completeTask(_ sessID: String) {
-        if #available(watchOSApplicationExtension 3.0, *) {
-            TFCWatchData.crunchQueue.async(flags: .barrier, execute: {
+        TFCWatchData.crunchQueue.async(flags: .barrier, execute: {
             if let task = self.sessionRefreshTasks[sessID] as? WKURLSessionRefreshBackgroundTask {
                 DLog("finished WKURLSessionRefreshBackgroundTask part 1 \(sessID)", toFile: true)
                 DLog("was: \(task) part 2 \(sessID)", toFile: true)
@@ -230,9 +216,8 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
                     task.setTaskCompleted()
                 })
                 self.sessionRefreshTasks.removeValue(forKey: sessID)
-                }
-            })
-        }
+            }
+        })
     }
 
     open func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {

@@ -117,8 +117,6 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         }
     }
 
-
-    @available(watchOSApplicationExtension 3.0, *)
     func handle(_ backgroundTasks: Set<WKRefreshBackgroundTask>) {
         for task : WKRefreshBackgroundTask in backgroundTasks {
             DLog("received \(task) Backgroundtask" , toFile: true)
@@ -149,7 +147,6 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         }
     }
 
-    @available(watchOSApplicationExtension 3.0, *)
     fileprivate func delaySnapshotComplete(_ snapshotTask: WKSnapshotRefreshBackgroundTask, startTime:Date) {
         //just wait 2 seconds and assume it's finished
         // we use a queue here to let other tasks finish, before this one shoots
