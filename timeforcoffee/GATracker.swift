@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import timeforcoffeeKit
 
 class GATracker {
 
@@ -25,13 +26,14 @@ class GATracker {
 
     init() {
         gtracker = GAI.sharedInstance()
-        gtracker?.trackUncaughtExceptions = true
+        gtracker?.trackUncaughtExceptions = false
         gtracker?.dispatchInterval = 30;
         //GAI.sharedInstance().logger.logLevel = GAILogLevel.Verbose
         let _ = gtracker?.tracker(withTrackingId: "UA-37092982-2")
     }
 
     func deinitTracker() {
+        DLog("deinit GATracker", toFile: true)
         gtracker?.dispatchInterval = -1;
         gtracker = nil
         GATracker.sharedInstance = nil

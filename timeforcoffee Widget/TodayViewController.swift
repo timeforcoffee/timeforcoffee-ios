@@ -161,9 +161,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             TFCCrashlytics.sharedInstance.initCrashlytics()
             self.datastore.registerForNotifications()
             self.datastore.synchronize()
-            let gtracker = GATracker.sharedInstance
-            gtracker?.setCustomDimension(6, value: "yes")
-            gtracker?.setCustomDimension(9, value: UIDevice.current.systemVersion)
+            let _ = GATracker.sharedInstance
         }
     }
 
@@ -285,6 +283,12 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
     override func viewDidDisappear(_ animated: Bool) {
         DLog("viewDidDisappear, memsize: \(String(describing: TFCCache.getMemorySize()))", toFile: true)
+
+        DispatchQueue.global(qos: .utility).async {
+            GATracker.sharedInstance?.setCustomDimension(6, value: "yes")
+            GATracker.sharedInstance?.setCustomDimension(9, value: UIDevice.current.systemVersion)
+        }
+
       //  TFCURLSession.sharedInstance.cancelURLSession()
     }
     func widgetPerformUpdate(completionHandler: @escaping ((NCUpdateResult) -> Void)) {
