@@ -59,7 +59,7 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
     }
 
     open func fetchDepartureData(_ taskCallback:(() -> Void)? = nil) {
-        DispatchQueue.global(qos: .utility).async {
+        DispatchQueue.global(qos: .userInitiated).async {
             let lastViewedStation = self.getLastViewedStation();
 
             func handleReply(_ stations: TFCStations?) {
