@@ -46,21 +46,23 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
             }
         }
         // make sure complications are updated as soon as possible with the new values
-        userDefaults?.set(nil, forKey: "lastComplicationUpdate")
-        if let ud = UserDefaults(suiteName: "group.ch.opendata.timeforcoffee"),
-            let lastComplicationStationId = ud.string(forKey: "lastComplicationStationId")
-        {
-            if (forKey == "favorite\(lastComplicationStationId)") {
-                DLog("updateComplicationData for \(forKey) since favorites changed")
-                if let st = TFCStation.initWithCacheId(lastComplicationStationId) {
-                    st.repopulateFavoriteLines()
-                    st.needsCacheSave = true
-                    TFCStationBase.saveToPincache(st)
+        #if os(watchOS)
+            let cmpldata = ComplicationData.initDisplayed()
+            cmpldata?.clearLastUpdate()
+            if let lastComplicationStationId = cmpldata?.getStation().st_id
+            {
+                if (forKey == "favorite\(lastComplicationStationId)") {
+                    DLog("updateComplicationData for \(forKey) since favorites changed")
+                    if let st = TFCStation.initWithCacheId(lastComplicationStationId) {
+                        st.repopulateFavoriteLines()
+                        st.needsCacheSave = true
+                        TFCStationBase.saveToPincache(st)
+                    }
+                    //delay the complication update by 5 seconds to give other tasks some room to breath
+                    delay(5.0, closure: { self.updateComplicationData() })
                 }
-                //delay the complication update by 5 seconds to give other tasks some room to breath
-                delay(5.0, closure: { self.updateComplicationData() })                
             }
-        }
+        #endif
     }
 
     func objectForKey(_ forKey: String) -> AnyObject? {
@@ -76,8 +78,11 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
                 sendData(applicationDict as [String : Any])
             }
         }
-        // make sure complications are updated as soon as possible with the new values
-        userDefaults?.set(nil, forKey: "lastComplicationUpdate")
+        #if os(watchOS)
+            // make sure complications are updated as soon as possible with the new values
+            let cmpldata = ComplicationData.initDisplayed()
+            cmpldata?.clearLastUpdate()
+        #endif
     }
 
     open func synchronize() {

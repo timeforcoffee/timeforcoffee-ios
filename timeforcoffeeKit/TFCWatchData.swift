@@ -107,9 +107,10 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
             if (activeComplications.count > 0) {
                 for complication in activeComplications {
                     let ud = TFCDataStore.sharedInstance.getUserDefaults()
+                    let cmpldata = ComplicationData.initDisplayed()
 
-                    if let lastComplicationUpdate = ud?.object(forKey: "lastComplicationUpdate") as? Date,
-                        let lastComplicationStationId = ud?.string(forKey: "lastComplicationStationId"),
+                    if let lastComplicationUpdate = cmpldata?.getLastUpdate(),
+                        let lastComplicationStationId = cmpldata?.getStation().st_id,
                         let lastFirstStationId = ud?.string(forKey: "lastFirstStationId")
                     {
                         // if last Complication update is less than 5 minutes ago
@@ -263,12 +264,14 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
         var nextUpdateDate:Date?        
         var maxNextUpdateDate = Date().addingTimeInterval(Constants.FrequencyOfTimelineUpdate)
         // if the next first departure Time is further away than usual, wait until that comes and update 15 minutes before
-        if let firstDepartureTime = TFCDataStore.sharedInstance.getUserDefaults()?.object(forKey: "firstDepartureTime") as? Date {
+        let cmpldata = ComplicationData.initDisplayed() as ComplicationData?
+
+        if let firstDepartureTime = cmpldata?.getFirstDepartureDate() {
             if firstDepartureTime.addingTimeInterval(-15 * 60) > maxNextUpdateDate {
                 maxNextUpdateDate = firstDepartureTime.addingTimeInterval(-15 * 60)
             }
         }
-        if let nextUpdate = TFCDataStore.sharedInstance.getUserDefaults()?.object(forKey: "lastDepartureTime") as? Date {
+        if let nextUpdate = cmpldata?.getLastEntryDate() {
             // take the next update as 20 minutes before the last entry
             let lastEntryDate = nextUpdate.addingTimeInterval(Constants.TimelineUpdateMinutesBeforeEnd)
             //if lastEntryDate is before now, update again in 5 minutes
@@ -277,9 +280,11 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
                 nextUpdateDate = getBackOffTime(noBackOffIncr: noBackOffIncr)
                 //if lastEntryDate is more in the future than 45 minutes
             } else if (maxNextUpdateDate.timeIntervalSinceReferenceDate < lastEntryDate.timeIntervalSinceReferenceDate) {
+                DLog("backoff: maxNextUpdateDate < lastEntryDate \(maxNextUpdateDate)")
                 nextUpdateDate = maxNextUpdateDate
                 clearBackOffTime()
             } else {
+                DLog("backoff: lastEntryDate \(lastEntryDate)")
                 nextUpdateDate = lastEntryDate
                 clearBackOffTime()
             }
@@ -314,20 +319,11 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
     }
     
     public func needsTimelineDataUpdate(_ station: TFCStation) -> Bool {
-        let ud = TFCDataStore.sharedInstance.getUserDefaults()
-
-    /*    DLog("lastDepartureTime:NSDate = \(String(describing: ud?.object(forKey: "lastDepartureTime") as? Date))", toFile: true)
-        DLog("lastFirstStationId = \(String(describing: ud?.string(forKey: "lastFirstStationId")))", toFile: true)
-        DLog("departures = \(String(describing: station.getFilteredDepartures()?.count)))", toFile: true)
-*/
-        if let ud = ud, let lastDepartureTime:Date = ud.object(forKey: "lastDepartureTime") as? Date,
-            let lastFirstStationId = ud.string(forKey: "lastFirstStationId"),
-            let departures = station.getFilteredDepartures() {
-            DLog("\(String(describing: departures.last?.getScheduledTimeAsNSDate())) <= \(lastDepartureTime)", toFile: true)
-
+        if let cmpldata = ComplicationData.initDisplayed() as ComplicationData?,
+            let departures = station.getFilteredDepartures()
+        {
             let backthreehours = Date().addingTimeInterval(-3600 * 3)
-            // if complication code didn't run for thre hours, try it
-            if let lastComplicationUpdate = ud.object(forKey: "lastComplicationUpdate") as? Date {
+            if let lastComplicationUpdate = cmpldata.getLastUpdate() {
                 if lastComplicationUpdate < backthreehours {
                     DLog("complication not updated for three hours, do it . return true", toFile: true)
                     return true
@@ -336,17 +332,23 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
                 DLog("no lastComplicationUpdate data. return true", toFile: true)
                 return true
             }
-            let inthreehours = Date().addingTimeInterval(3600 * 3)
-            if (lastFirstStationId == station.st_id) {
-                // if we have more than 3 hours in store still (to avoid too frequent updates)
-                if (lastDepartureTime > inthreehours) {
-                    DLog("more than 3 hours in store \(lastDepartureTime). return false")
-                    return false
-                // else if we don't have a newer than the current last one
-                } else if (departures.last?.getScheduledTimeAsNSDate() != nil &&
-                    departures.last!.getScheduledTimeAsNSDate()! <= lastDepartureTime) {
-                    DLog("no new data. return false.", toFile: true)
-                    return false
+
+            if let thisLastDeparture = departures.last?.getScheduledTimeAsNSDate(),
+                let lastEntryDate:Date = cmpldata.getLastEntryDate(),
+                let lastDepartureDate = cmpldata.getLastDepartureDate()
+            {
+                let lastFirstStationId = cmpldata.getStation().st_id
+                let intwohours = Date().addingTimeInterval(3600 * 2)
+                if (lastFirstStationId == station.st_id) {
+                    // if we have more than 2 hours in store still (to avoid too frequent updates)
+                    if (lastEntryDate > intwohours) {
+                        DLog("more than 2 hours in store \(lastEntryDate). return false")
+                        return false
+                        // else if we don't have a newer than the current last one
+                    } else if (thisLastDeparture <= lastDepartureDate) {
+                        DLog("no new data. return false.", toFile: true)
+                        return false
+                    }
                 }
             }
         }
@@ -355,9 +357,11 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
     }
 
     public func needsDeparturesUpdate(_ station: TFCStation) -> Bool {
-        if let lastDepartureTime = TFCDataStore.sharedInstance.getUserDefaults()?.object(forKey: "lastDepartureTime") as? Date,
-            let lastFirstStationId = TFCDataStore.sharedInstance.getUserDefaults()?.string(forKey: "lastFirstStationId"),
+        if let cmpldata = ComplicationData.initDisplayed() as ComplicationData?,
+            let lastDepartureTime = cmpldata.getLastDepartureDate(),
             let departures = station.getFilteredDepartures() {
+            let lastFirstStationId = cmpldata.getStation().st_id
+
             // if lastDepartureTime is more than 4 hours away and we're in the same place
             // and we still have at least 5 departures, just use the departures from the cache
             if ((lastDepartureTime.addingTimeInterval(4 * -3600).timeIntervalSinceNow > 0)
