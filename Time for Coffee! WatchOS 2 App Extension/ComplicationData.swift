@@ -19,6 +19,9 @@ class ComplicationData: NSObject, NSCoding {
 
     private var station:TFCStation
 
+    private var isDisplayedOnWatch:Bool = false
+
+    private var lastUpdate:Date? = nil
 
     private struct timelineCacheDataStruct {
         var firstDepartureDate:Date?
@@ -35,12 +38,24 @@ class ComplicationData: NSObject, NSCoding {
         super.init()
     }
 
+    init(instance: ComplicationData) {
+        self.station = instance.station
+        self.timelineCacheData = instance.timelineCacheData
+        self.timelineEntries = instance.timelineEntries
+    }
+
+    override func copy() -> Any {
+        return ComplicationData(instance: self)
+    }
+
     func encode(with aCoder: NSCoder) {
         aCoder.encode(self.station.st_id, forKey: "stationId")
         aCoder.encode(self.timelineCacheData.count, forKey: "timelineCacheData.count")
         aCoder.encode(self.timelineCacheData.firstDepartureDate, forKey: "timelineCacheData.count.firstDepartureDate")
         aCoder.encode(self.timelineCacheData.lastDepartureDate, forKey: "timelineCacheData.count.lastDepartureDate")
         aCoder.encode(self.timelineEntries, forKey: "timelineEntries")
+        aCoder.encode(self.lastUpdate, forKey: "lastUpdate")
+        aCoder.encode(self.isDisplayedOnWatch, forKey: "isDisplayedOnWatch")
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -58,6 +73,8 @@ class ComplicationData: NSObject, NSCoding {
         if let timelineEntries = aDecoder.decodeObject(forKey: "timelineEntries") as? [timelineEntry] {
             self.timelineEntries = timelineEntries
         }
+        self.lastUpdate = aDecoder.decodeObject(forKey: "lastUpdate") as? Date
+        self.isDisplayedOnWatch = aDecoder.decodeBool(forKey: "isDisplayedOnWatch")
     }
 
     public static func initWithCache(station:TFCStation) -> ComplicationData {
@@ -71,14 +88,56 @@ class ComplicationData: NSObject, NSCoding {
         return compldata
     }
 
+    public static func initDisplayed() -> ComplicationData? {
+        if let compldata = TFCCache.objects.stations.object(forKey: "compldata_displayed") as? ComplicationData {
+            DLog("ComplicationData displayed from cache")
+            return compldata
+        }
+        DLog("ComplicationData displayed was nil")
+        return nil
+
+    }
+
     private func setPinCache() {
         TFCCache.objects.stations.setObject(self, forKey: "compldata_\(station.st_id)")
+    }
+
+    public func setIsDisplayedOnWatch() {
+        self.isDisplayedOnWatch = true
+        self.lastUpdate = Date()
+        TFCCache.objects.stations.setObject(self, forKey: "compldata_displayed")
+    }
+
+    public func getStation() -> TFCStation {
+        return self.station
+    }
+
+    public func getLastEntryDate() -> Date? {
+        return self.timelineEntries.last?.entryDate
+    }
+
+    public func getFirstDepartureDate() -> Date? {
+        return timelineCacheData.firstDepartureDate
+
+    }
+
+    public func getLastDepartureDate() -> Date? {
+        return timelineCacheData.lastDepartureDate
+    }
+
+    public func getLastUpdate() -> Date? {
+        return self.lastUpdate
+    }
+
+    public func clearLastUpdate() {
+        self.lastUpdate = nil
+        TFCCache.objects.stations.setObject(self, forKey: "compldata_displayed")
     }
 
     public func getTimelineEntries(for complication: CLKComplication, after date:Date? = nil, limit:Int? = nil) -> [CLKComplicationTimelineEntry] {
         var entries = [CLKComplicationTimelineEntry]()
         self.buildTimelineEntries()
-        var lastDepartureTimeNew:Date? = nil
+        var lastDepartureTimeNew:Date? = timelineEntries.first?.departure1?.getScheduledTimeAsNSDate()
 
         for (entry) in timelineEntries {
             if let date = date {
@@ -86,23 +145,27 @@ class ComplicationData: NSObject, NSCoding {
                     continue;
                 }
             }
-            if let clkentry = getClkEntryFor(entry: entry, complication: complication) {
+            if let clkentry = self.getClkEntryFor(entry: entry, complication: complication) {
                 entries.append(clkentry)
-                lastDepartureTimeNew = entry.departure1?.getScheduledTimeAsNSDate()
+                if let lastDepartureTime = entry.departure1?.getScheduledTimeAsNSDate() {
+                    lastDepartureTimeNew  = lastDepartureTime
+                }
                 if let limit = limit, entries.count >= (limit - 1) {
                     break; // break if we reached the limit of entries
                 }
             }
         }
-        if let limit = limit, limit > 1, (entries.count > 0) {
-            //remove all entries until we're one below the limit
-            while (entries.count >= limit) {
-                let _ = entries.popLast()
+        // if after date is set, add an endentry
+        if (date != nil) {
+            if let limit = limit {
+                // remove all end entries until we're one below the limit
+                while (entries.count >= limit) {
+                    let _ = entries.popLast()
+                }
             }
-            if let lastDepartureTimeNew = lastDepartureTimeNew,
-                let lastEntry = self.getLastEntry(lastDeparture: lastDepartureTimeNew),
-                let clkentry = getClkEntryFor(entry: lastEntry, complication: complication) {
-                entries.append(clkentry)
+            if let lastEntry = self.getLastEntry(lastDeparture: lastDepartureTimeNew),
+                let  clkentryLast = getClkEntryFor(entry: lastEntry, complication: complication) {
+                entries.append(clkentryLast)
             }
         }
         return entries
@@ -133,6 +196,9 @@ class ComplicationData: NSObject, NSCoding {
 
     private func buildTimelineEntries() {
         if let departures = station.getScheduledFilteredDepartures() {
+            if (isDisplayedOnWatch) {
+                return
+            }
             //check if cached...
             if let lastDepartureDate = timelineCacheData.lastDepartureDate,
                 let firstDepartureDate = timelineCacheData.firstDepartureDate
@@ -305,40 +371,47 @@ class ComplicationData: NSObject, NSCoding {
 
     fileprivate func getModularLargeTemplate(_ station: TFCStation, departure: TFCDeparture?, nextDeparture: TFCDeparture?) -> CLKComplicationTemplateModularLargeTable {
 
+        // if let departure = departure {
+        let tmpl = CLKComplicationTemplateModularLargeTable() // Currently supports only ModularLarge
+
+        tmpl.headerTextProvider = CLKSimpleTextProvider(text: station.getName(true))
+        tmpl.tintColor = Constants.ComplicationColor // affect only complications setup that allow custom colors
+
+        var departureDestination = "-"
+        var departureLine = "-"
         if let departure = departure {
-            let tmpl = CLKComplicationTemplateModularLargeTable() // Currently supports only ModularLarge
-
-            tmpl.headerTextProvider = CLKSimpleTextProvider(text: station.getName(true))
-            tmpl.tintColor = Constants.ComplicationColor // affect only complications setup that allow custom colors
-
-            let departureLine = departure.getLine()
-            let nextDepartureLine = nextDeparture?.getLine() ?? "-"
-
-            var departureDestination = "-"
-            var nextDepartureDestination = "-"
+            departureLine = departure.getLine()
             departureDestination = departure.getDestination(station)
-            if let nextDeparture = nextDeparture {
-                nextDepartureDestination = nextDeparture.getDestination(station)
-            }
-
             tmpl.row1Column1TextProvider = CLKSimpleTextProvider(text: "\(departureLine): \(departureDestination)")
 
-            if let departureDate = departure.getScheduledTimeAsNSDate() {
-                tmpl.row1Column2TextProvider = getDateProvider(departureDate)
-            } else {
-                tmpl.row1Column2TextProvider = CLKSimpleTextProvider(text: "-")
-            }
-
-            tmpl.row2Column1TextProvider = CLKSimpleTextProvider(text: "\(nextDepartureLine): \(nextDepartureDestination)")
-
-            if let nextDepartureDate = nextDeparture?.getScheduledTimeAsNSDate() {
-                tmpl.row2Column2TextProvider = getDateProvider(nextDepartureDate)
-            } else {
-                tmpl.row2Column2TextProvider = CLKSimpleTextProvider(text: "-")
-            }
-            return tmpl
+        } else {
+            tmpl.row1Column1TextProvider = CLKSimpleTextProvider(text: "No data stored")
         }
-        return getPlaceholderTemplateForComplication(CLKComplicationFamily.modularLarge) as! CLKComplicationTemplateModularLargeTable
+
+        var nextDepartureDestination = "-"
+        let nextDepartureLine = nextDeparture?.getLine() ?? "-"
+
+        if let nextDeparture = nextDeparture {
+            nextDepartureDestination = nextDeparture.getDestination(station)
+        }
+
+
+        if let departureDate = departure?.getScheduledTimeAsNSDate() {
+            tmpl.row1Column2TextProvider = getDateProvider(departureDate)
+        } else {
+            tmpl.row1Column2TextProvider = CLKSimpleTextProvider(text: "-")
+        }
+
+        tmpl.row2Column1TextProvider = CLKSimpleTextProvider(text: "\(nextDepartureLine): \(nextDepartureDestination)")
+
+        if let nextDepartureDate = nextDeparture?.getScheduledTimeAsNSDate() {
+            tmpl.row2Column2TextProvider = getDateProvider(nextDepartureDate)
+        } else {
+            tmpl.row2Column2TextProvider = CLKSimpleTextProvider(text: "-")
+        }
+        return tmpl
+        /*}
+        return getPlaceholderTemplateForComplication(CLKComplicationFamily.modularLarge) as! CLKComplicationTemplateModularLargeTable*/
 
     }
 
