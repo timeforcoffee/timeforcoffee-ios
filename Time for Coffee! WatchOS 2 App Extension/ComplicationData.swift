@@ -250,6 +250,7 @@ class ComplicationData: NSObject, NSCoding {
             timelineCacheData.firstDepartureDate = departures.first?.getScheduledTimeAsNSDate()
             timelineCacheData.lastDepartureDate = departures.last?.getScheduledTimeAsNSDate()
             self.setPinCache()
+            TFCDataStore.sharedInstance.watchdata.scheduleNextUpdate(noBackOffIncr: true)
         }
     }
 
