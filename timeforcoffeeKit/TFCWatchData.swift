@@ -276,15 +276,15 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
             let lastEntryDate = nextUpdate.addingTimeInterval(Constants.TimelineUpdateMinutesBeforeEnd)
             //if lastEntryDate is before now, update again in 5 minutes
             if (lastEntryDate.timeIntervalSinceNow < Date().timeIntervalSinceNow) {
-                DLog("backoff: lastEntryDate \(lastEntryDate) is before now")
+                DLog("backoff: lastEntryDate \(lastEntryDate.formattedWithDateFormatter(DLogDateFormatter)) is before now")
                 nextUpdateDate = getBackOffTime(noBackOffIncr: noBackOffIncr)
                 //if lastEntryDate is more in the future than 45 minutes
             } else if (maxNextUpdateDate.timeIntervalSinceReferenceDate < lastEntryDate.timeIntervalSinceReferenceDate) {
-                DLog("backoff: maxNextUpdateDate < lastEntryDate \(maxNextUpdateDate)")
+                DLog("backoff: maxNextUpdateDate < lastEntryDate \(maxNextUpdateDate.formattedWithDateFormatter(DLogDateFormatter)) < \(lastEntryDate.formattedWithDateFormatter(DLogDateFormatter))")
                 nextUpdateDate = maxNextUpdateDate
                 clearBackOffTime()
             } else {
-                DLog("backoff: lastEntryDate \(lastEntryDate)")
+                DLog("backoff: lastEntryDate \(lastEntryDate.formattedWithDateFormatter(DLogDateFormatter))")
                 nextUpdateDate = lastEntryDate
                 clearBackOffTime()
             }
@@ -293,7 +293,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
             nextUpdateDate =  getBackOffTime(noBackOffIncr: noBackOffIncr) // request an update in 5 minutes, if no lastDepartureTime was set.
         }
         if (nextUpdateDate == nil || nextUpdateDate! < Date()) {
-            DLog("WARNING: backoff \(String(describing: nextUpdateDate)) < \(Date())")
+            DLog("WARNING: backoff \(String(describing: nextUpdateDate?.formattedWithDateFormatter(DLogDateFormatter))) < \(Date())")
             nextUpdateDate = getBackOffTime(noBackOffIncr: true)
         }
         if let minTime = minTime {
