@@ -26,7 +26,8 @@ public final class TFCCache {
             }
             #endif
             #if os(watchOS)
-                p.diskCache.byteLimit = UInt(3 * 1024 * 1024) // 2 MB
+                // It's reduced on resign
+                // p.diskCache.byteLimit = UInt(3 * 1024 * 1024) // 2 MB
             #else
                 // cache for max 24 hours
                 p.diskCache.ageLimit = TimeInterval(60 * 60 * 24) // 1 day
