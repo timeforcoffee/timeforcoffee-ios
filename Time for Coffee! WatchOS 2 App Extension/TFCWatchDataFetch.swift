@@ -72,8 +72,6 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
                         if (lastFirstStationId != station.st_id) {
                             DLog("set lastFirstStationId to \(station.st_id) for \(station.name)", toFile: true)
                             defaults.setValue(station.st_id, forKey: "lastFirstStationId")
-                            defaults.set(nil, forKey: "lastDepartureTime")
-                            defaults.set(nil, forKey: "firstDepartureTime")
                             TFCDataStore.sharedInstance.getUserDefaults()?.set(0.0, forKey: "backoffCount")
 
                         }
@@ -186,11 +184,6 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
                                 DLog("updateComplicationData", toFile: true)
                                 self.watchdata.updateComplicationData()
                             }
-                        }
-                        if let departures = station.getFilteredDepartures() {
-                            defaults.set(departures.first?.getScheduledTimeAsNSDate(), forKey: "firstDepartureTime")
-                        } else {
-                            defaults.set(nil, forKey: "firstDepartureTime")
                         }
                     }
                 }

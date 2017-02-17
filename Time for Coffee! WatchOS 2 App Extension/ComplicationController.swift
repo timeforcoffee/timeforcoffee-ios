@@ -37,15 +37,9 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                     let departures = station?.getScheduledFilteredDepartures()
                     //FIXME: this should go into complicationdata
                     if let endDate = departures?.last?.getScheduledTimeAsNSDate() {
-                        if let ud =  UserDefaults(suiteName: "group.ch.opendata.timeforcoffee") {
-                            ud.set(endDate, forKey: "lastDepartureTime")
-                        }
                         DLog("last Departure: \(endDate)", toFile: true)
                         handler(endDate.addingTimeInterval(70))
                     } else {
-                        if let ud =  UserDefaults(suiteName: "group.ch.opendata.timeforcoffee") {
-                            ud.set(nil, forKey: "lastDepartureTime")
-                        }
                         let endDate = Date().addingTimeInterval(60)
                         DLog("no last Departure, set it to \(endDate)", toFile: true)
                     }
