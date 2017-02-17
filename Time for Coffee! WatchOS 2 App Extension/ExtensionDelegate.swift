@@ -113,7 +113,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         if let userInfo = userInfo {
             var uI:[String:String]? = nil
             if (userInfo.keys.first == AnyHashable("CLKLaunchedTimelineEntryDateKey")) {
-                if let lastId = UserDefaults(suiteName: "group.ch.opendata.timeforcoffee")?.string(forKey: "lastFirstStationId") {
+                if let lastId =  ComplicationData.initDisplayed()?.getStation().st_id {
                     uI = ["st_id": lastId]
                     DLog("\(String(describing: uI))", toFile: true)
                 }

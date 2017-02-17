@@ -280,11 +280,6 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
                                 }
                                 if let defaults = TFCDataStore.sharedInstance.getUserDefaults() {
                                     defaults.setValue(sentStation.st_id, forKey: "lastFirstStationId")
-                                    if let departures = sentStation.getFilteredDepartures() {
-                                        defaults.set(departures.first?.getScheduledTimeAsNSDate(), forKey: "firstDepartureTime")
-                                    } else {
-                                        defaults.set(nil, forKey: "firstDepartureTime")
-                                    }
                                 }
                                 updateComplicationData()
                             #endif
