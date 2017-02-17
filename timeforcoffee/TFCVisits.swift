@@ -73,7 +73,7 @@ class TFCVisits: NSObject, TFCLocationManagerDelegate, TFCStationsUpdatedProtoco
     func regionVisit(_ region: CLCircularRegion) {
         if (region.identifier == "__updateGeofences__") {
             DLog("update geofences call", toFile: true)
-            self.callback?("update geofences call. radius: \(region.radius). coord: \(String(describing: self.locManager?.currentLocation)) Date: \(Date())")
+            self.callback?("update geofences call. radius: \(region.radius.roundToPlaces(1)). coord: \(String(describing: self.locManager?.currentLocation)) Date: \(Date())")
             DLog("just before updateGeofences", toFile:true)
             TFCFavorites.sharedInstance.updateGeofences(force: false)
             return
@@ -82,7 +82,7 @@ class TFCVisits: NSObject, TFCLocationManagerDelegate, TFCStationsUpdatedProtoco
         if let station = TFCStation.initWithCacheId(region.identifier) {
             DLog("visited fence for \(station.name)", toFile: true)
             DLog("fence: currentLocation: \(String(describing: locManager?.currentLocation))")
-            self.callback?("visited fence for \(station.name). radius: \(region.radius). Date: \(Date())")
+            self.callback?("visited fence for \(station.name). radius: \(region.radius.roundToPlaces(1)). Date: \(Date())")
             let _ = self.stations.updateStations()
             DLog("just before updateGeofences", toFile:true)
             TFCFavorites.sharedInstance.updateGeofences(force: false)

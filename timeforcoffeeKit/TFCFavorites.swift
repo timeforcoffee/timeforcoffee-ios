@@ -152,14 +152,13 @@ final public class TFCFavorites: NSObject {
                     DispatchQueue.main.async {
 
                         let currLoc = TFCLocationManager.getCurrentLocation()
-
                         // don't update geofences, if we didn't move more than 50m from last one
                         if let lastGeofenceUpdate = self.lastGeofenceUpdate, let currLoc = currLoc {
                             if (!force && currLoc.distance(from: lastGeofenceUpdate) < 100) {
-                                DLog("fence: location didn't move much (\(currLoc.distance(from: lastGeofenceUpdate)) m) since last time")
+                                DLog("fence: location didn't move much (\(currLoc.distance(from: lastGeofenceUpdate).roundToPlaces(1)) m) since last time")
                                 return
                             } else {
-                                DLog("fence: location moved by \(currLoc.distance(from: lastGeofenceUpdate)) m  since last time, force: \(force)")
+                                DLog("fence: location moved by \(currLoc.distance(from: lastGeofenceUpdate).roundToPlaces(1)) m  since last time, force: \(force)")
                             }
 
                         } else {
@@ -200,15 +199,15 @@ final public class TFCFavorites: NSObject {
                             if let circularRegion = region as? CLCircularRegion {
                                 if (circularRegion.identifier == "__updateGeofences__" || nearbyFavorites[region.identifier] == nil) {
 
-                                    DLog("Delete geofence \(circularRegion.identifier) with radius \(circularRegion.radius)")
+                                    DLog("Delete geofence \(circularRegion.identifier) with radius \(circularRegion.radius.roundToPlaces(1))")
                                     locationManager.stopMonitoring(for: circularRegion)
                                 } else {
                                     if (nearbyFavorites[circularRegion.identifier]?.calculatedDistance != nil &&
                                         nearbyFavorites[circularRegion.identifier]!.calculatedDistance! < (radius + 200)) {
-                                        DLog("geofence for \(circularRegion.identifier) radius: \(circularRegion.radius) is within radius, update it later")
+                                        DLog("geofence for \(circularRegion.identifier) radius: \(circularRegion.radius.roundToPlaces(1)) is within radius, update it later")
                                         locationManager.stopMonitoring(for: circularRegion)
                                     } else if circularRegion.radius < radius {
-                                        DLog("geofence for \(circularRegion.identifier) radius: \(circularRegion.radius) has smaller radius, update it later")
+                                        DLog("geofence for \(circularRegion.identifier) radius: \(circularRegion.radius.roundToPlaces(1)) has smaller radius, update it later")
                                         locationManager.stopMonitoring(for: circularRegion)
                                     } else {
                                         nearbyFavorites.removeValue(forKey: circularRegion.identifier)
