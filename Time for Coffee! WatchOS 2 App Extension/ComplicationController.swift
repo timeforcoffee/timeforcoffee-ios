@@ -99,6 +99,11 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
         let cmpldata = ComplicationData.initDisplayed()
         let entries = cmpldata?.getTimelineEntries(for: complication, after: date, limit: limit)
         handler(entries)
+        #if DEBUG
+            if let entries = entries, (entries.count > 0) {
+            TFCDataStore.sharedInstance.sendData(["__complicationUpdateReceived__": "\(Date().formattedWithDateFormatter(ShortDateFormatter)): Updated \(entries.count) entries on Complication for \(String(describing: cmpldata?.getStation().name))"])
+            }
+        #endif
         DLog("finished getTimelineEntriesForComplication afterDate. count \(String(describing: entries?.count))", toFile: true)
     }
 
