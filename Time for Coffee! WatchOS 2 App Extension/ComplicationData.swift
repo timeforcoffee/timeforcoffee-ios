@@ -17,7 +17,22 @@ private struct Constants {
 
 class ComplicationData: NSObject, NSCoding {
 
-    private var station:TFCStation
+    private var _station:TFCStation? = nil
+    private var stationId:String
+
+    private var station:TFCStation {
+        get {
+            if let st = _station {
+                return st
+            }
+            if let station = TFCStation.initWithCache(id: self.stationId) {
+                self._station = station
+            } else {
+                self._station = TFCStation(name: "unknown", id: "4242424242", coord: nil)
+            }
+            return self._station!
+        }
+    }
 
     private var isDisplayedOnWatch:Bool = false
 
@@ -34,12 +49,12 @@ class ComplicationData: NSObject, NSCoding {
     private var timelineEntries:[timelineEntry] = []
 
     init(station:TFCStation) {
-        self.station = station
+        self.stationId = station.st_id
         super.init()
     }
 
     init(instance: ComplicationData) {
-        self.station = instance.station
+        self.stationId = instance.stationId
         self.timelineCacheData = instance.timelineCacheData
         self.timelineEntries = instance.timelineEntries
     }
@@ -49,7 +64,7 @@ class ComplicationData: NSObject, NSCoding {
     }
 
     func encode(with aCoder: NSCoder) {
-        aCoder.encode(self.station.st_id, forKey: "stationId")
+        aCoder.encode(self.stationId, forKey: "stationId")
         aCoder.encode(self.timelineCacheData.count, forKey: "timelineCacheData.count")
         aCoder.encode(self.timelineCacheData.firstDepartureDate, forKey: "timelineCacheData.count.firstDepartureDate")
         aCoder.encode(self.timelineCacheData.lastDepartureDate, forKey: "timelineCacheData.count.lastDepartureDate")
@@ -59,12 +74,7 @@ class ComplicationData: NSObject, NSCoding {
     }
 
     required init?(coder aDecoder: NSCoder) {
-        let stationId = aDecoder.decodeObject(forKey: "stationId") as! String
-        if let station = TFCStation.initWithCache(id: stationId) {
-            self.station = station
-        } else {
-            self.station = TFCStation(name: "unknown", id: "4242424242", coord: nil)
-        }
+        self.stationId = aDecoder.decodeObject(forKey: "stationId") as! String
         if let timelineCacheDataCount = aDecoder.decodeObject(forKey: "timelineCacheData.count") as? Int {
             self.timelineCacheData.count = timelineCacheDataCount
             self.timelineCacheData.firstDepartureDate = aDecoder.decodeObject(forKey: "timelineCacheData.firstDepartureDate") as! Date?
@@ -99,7 +109,7 @@ class ComplicationData: NSObject, NSCoding {
     }
 
     private func setPinCache() {
-        TFCCache.objects.stations.setObject(self, forKey: "compldata_\(station.st_id)")
+        TFCCache.objects.stations.setObject(self, forKey: "compldata_\(stationId)")
     }
 
     public func setIsDisplayedOnWatch() {
