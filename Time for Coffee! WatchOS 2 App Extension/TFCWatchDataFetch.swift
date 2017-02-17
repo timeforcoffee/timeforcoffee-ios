@@ -77,7 +77,7 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
                         }
                     }
                     DLog("\(String(describing: lastViewedStation?.st_id)) != \(station.st_id)")
-                    if (self.watchdata.needsTimelineDataUpdate(station)) {
+                    if (self.watchdata.needsTimelineDataUpdate(station, checkLastDeparture: false) ) {
                         if (lastViewedStation?.st_id != station.st_id) {
                             self.fetchDepartureDataForStation(station)
                         }

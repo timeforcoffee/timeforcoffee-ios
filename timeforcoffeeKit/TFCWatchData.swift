@@ -318,7 +318,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
         }
     }
     
-    public func needsTimelineDataUpdate(_ station: TFCStation) -> Bool {
+    public func needsTimelineDataUpdate(_ station: TFCStation, checkLastDeparture:Bool = true) -> Bool {
         if let cmpldata = ComplicationData.initDisplayed() as ComplicationData?,
             let departures = station.getFilteredDepartures()
         {
@@ -345,7 +345,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
                         DLog("more than 2 hours in store \(lastEntryDate). return false")
                         return false
                         // else if we don't have a newer than the current last one
-                    } else if (thisLastDeparture <= lastDepartureDate) {
+                    } else if (checkLastDeparture && thisLastDeparture <= lastDepartureDate) {
                         DLog("no new data. return false.", toFile: true)
                         return false
                     }

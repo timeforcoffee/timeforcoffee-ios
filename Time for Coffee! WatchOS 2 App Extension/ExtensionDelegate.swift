@@ -17,7 +17,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         WKExtension.shared().delegate = self
     }
 
-    lazy var watchdata: TFCWatchData = {
+    lazy private var watchdata: TFCWatchData = {
         return TFCWatchData()
     }()
 
