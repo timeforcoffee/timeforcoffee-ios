@@ -50,10 +50,13 @@ open class TFCDeparturePass: NSObject {
         var realtimeStr: String = ""
         var scheduledStr: String = ""
         let attributesNoStrike = [
-            NSStrikethroughStyleAttributeName: 0,
-        ]
+            NSStrikethroughStyleAttributeName: NSUnderlineStyle.styleNone.rawValue,
+            NSBaselineOffsetAttributeName: 0
+        ] as [String : Any]
         let attributesStrike = [
-            NSStrikethroughStyleAttributeName: 1,
+            NSStrikethroughStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue,
+            NSStrikethroughColorAttributeName: UIColor.gray,
+            NSBaselineOffsetAttributeName: 0,
             NSForegroundColorAttributeName: UIColor.gray
         ] as [String : Any]
 
@@ -84,12 +87,11 @@ open class TFCDeparturePass: NSObject {
         // there's a delay
 
         if (self.realtime != nil && self.realtime != self.scheduled) {
-            timestringAttr = NSMutableAttributedString(string: "")
-
             //the nostrike is needed due to an apple bug...
             // https://stackoverflow.com/questions/25956183/nsmutableattributedstrings-attribute-nsstrikethroughstyleattributename-doesnt
-            timestringAttr?.append(NSAttributedString(string: "\(realtimeStr) ", attributes: attributesNoStrike))
 
+            timestringAttr = NSMutableAttributedString(string: "", attributes: attributesStrike)
+            timestringAttr?.append(NSAttributedString(string: "\(realtimeStr) ", attributes: attributesNoStrike))
             timestringAttr?.append(NSAttributedString(string: "\(scheduledStr)", attributes: attributesStrike))
         } else {
             timestring = "\(scheduledStr)"
@@ -105,13 +107,13 @@ open class TFCDeparturePass: NSObject {
         if (additionalInfo2) {
             if (realtime == nil) {
                 if (timestringAttr != nil) {
-                    timestringAttr?.append(NSAttributedString(string: " (no real-time data)"))
+                    timestringAttr?.append(NSAttributedString(string: " (no real-time data)", attributes: attributesNoStrike))
                 } else {
                     timestring? += " (no real-time data)"
                 }
             } else if (self.outdated) {
                 if (timestringAttr != nil) {
-                    timestringAttr?.append(NSAttributedString(string: " (not updated)"))
+                    timestringAttr?.append(NSAttributedString(string: " (not updated)", attributes: attributesNoStrike))
                 } else {
                     timestring? += " (not updated)"
                 }
@@ -120,11 +122,10 @@ open class TFCDeparturePass: NSObject {
 
         if let platform = self.platform {
             if (timestringAttr != nil) {
-                timestringAttr?.append(NSAttributedString(string: " - Pl: \(platform)"))
+                timestringAttr?.append(NSAttributedString(string: " - Pl: \(platform)", attributes: attributesNoStrike))
             } else {
                 timestring? += " - Pl: \(platform)"
             }
-            
         }
         return (timestringAttr, timestring)
     }
