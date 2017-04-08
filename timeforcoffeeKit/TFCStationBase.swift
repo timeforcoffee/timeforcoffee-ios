@@ -396,7 +396,10 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                                 }
                             }
                             // try again, this time with a name
+                            DLog("Station Name missing fetched. Fetched station info from opendata.ch for \(id)", toFile: true)
+
                             if let newStation = getFromMemoryCaches(id) {
+                                DLog("Station Name missing save. Save station info from opendata.ch for \(id)", toFile: true)
                                 newStation.name = name
                                 newStation.coord = location
                                 newStation.needsCacheSave = true
@@ -404,7 +407,15 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                                 TFCStationBase.saveToPincache(newStation)
 
                             } else {
-                                let _ = TFCStation.initWithCache(name, id: id, coord: location)
+                                DLog("Station Name missing not in memoryCaches. Try to save station info from opendata.ch for \(id)", toFile: true)
+                                if let newStation = TFCStation.initWithCache(name, id: id, coord: location) {
+                                    DLog("Station Name missing not in memoryCaches. Saved station info from opendata.ch for \(id)", toFile: true)
+                                    newStation.needsCacheSave = true
+                                    addToStationCache(newStation)
+                                    TFCStationBase.saveToPincache(newStation)
+                                } else {
+                                    DLog("Station Name missing not in memoryCaches on not inited. Info from opendata.ch for \(id)", toFile: true)
+                                }
                             }
                         }
                     } else {

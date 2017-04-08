@@ -130,11 +130,6 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             DLog("received \(task) Backgroundtask" , toFile: true)
             if let arTask = task as? WKApplicationRefreshBackgroundTask {
                 TFCWatchDataFetch.sharedInstance.fetchDepartureData(task: arTask)
-                #if DEBUG
-                    DispatchQueue.global(qos: .background).async {
-                        SendLogs2Phone()
-                    }
-                #endif
             } else if let urlTask = task as? WKURLSessionRefreshBackgroundTask {
                 TFCWatchDataFetch.sharedInstance.rejoinURLSession(urlTask)
             } else if let wcBackgroundTask = task as? WKWatchConnectivityRefreshBackgroundTask {
@@ -202,6 +197,11 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 }
                 DispatchQueue.main.async(execute: {
                     DLog("finished \(snapshotTask) Backgroundtask, next \(nextDate)", toFile: true)
+                    #if DEBUG
+                        DispatchQueue.global(qos: .background).async {
+                            SendLogs2Phone()
+                        }
+                    #endif
                     snapshotTask.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: nextDate, userInfo: nil)
                 })
 
