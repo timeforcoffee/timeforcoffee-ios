@@ -83,17 +83,17 @@ final class AboutPagedViewController: UIViewController, SwipeViewDataSource, Swi
         return view
     }
 
-    func startChat() {
+    @objc func startChat() {
         Smooch.show()
     }
 
-    func reviewApp() {
+    @objc func reviewApp() {
         if let path = URL(string: "itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=990987379&onlyLatestVersion=true&pageNumber=0&sortOrdering=1&type=Purple+Software") {
             UIApplication.shared.openURL(path)
         }
     }
 
-    func openSettings() {
+    @objc func openSettings() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc: UIViewController! = storyboard.instantiateViewController(withIdentifier: "SettingsViewController") as UIViewController
         self.present(vc, animated: true, completion: nil)

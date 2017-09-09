@@ -198,7 +198,7 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
 
     }
 
-    func applicationDidBecomeInactive(_ notification: Notification) {
+    @objc func applicationDidBecomeInactive(_ notification: Notification) {
         NotificationCenter.default.removeObserver(self)
         NotificationCenter.default.addObserver(self, selector: #selector(UIApplicationDelegate.applicationDidBecomeActive(_:)), name: NSNotification.Name(rawValue: "UIApplicationDidBecomeActiveNotification"), object: nil)
         updateOnceQueue.sync {
@@ -215,7 +215,7 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
         displayDepartures()
     }
 
-    func favoriteClicked(_ sender: UIBarButtonItem?) {
+    @objc func favoriteClicked(_ sender: UIBarButtonItem?) {
         func completion() {
         }
         self.station!.toggleIcon(stationIconButton, icon: stationIconView, completion: completion)
@@ -231,13 +231,13 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
     }
 
 
-    func refresh(_ sender:AnyObject)
+    @objc func refresh(_ sender:AnyObject)
     {
         // Code to refresh table view
         self.station?.updateDepartures(self, force: true, context: nil)
     }
 
-    func displayDepartures() {
+    @objc func displayDepartures() {
         if (self.station != nil) {
             updateInAMinute()
             self.station?.updateDepartures(self)

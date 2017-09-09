@@ -56,7 +56,7 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         aboutButton.accessibilityHint = NSLocalizedString("Help and chat with us", comment: "")
 
         let font = UIFont.systemFont(ofSize: 30)
-        let buttonAttr = [NSFontAttributeName: font]
+        let buttonAttr = [NSAttributedStringKey.font: font]
         aboutButton.setTitleTextAttributes(buttonAttr, for: UIControlState())
         self.navigationItem.leftBarButtonItem = aboutButton
         self.edgesForExtendedLayout = UIRectEdge();
@@ -254,7 +254,7 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         self.navigationItem.rightBarButtonItem = searchButton
     }
     
-    func searchClicked(_ sender: UIBarButtonItem) {
+    @objc func searchClicked(_ sender: UIBarButtonItem) {
         searchClicked()
     }
 
@@ -265,7 +265,7 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         self.navigationController?.pushViewController(ssv, animated: false)
     }
 
-    func aboutClicked(_ sender: UIBarButtonItem) {
+    @objc func aboutClicked(_ sender: UIBarButtonItem) {
         /* #if DEBUG
         TFCFavorites.sharedInstance.repopulateFavorites()
         let favs = Array(TFCFavorites.sharedInstance.stations.values)

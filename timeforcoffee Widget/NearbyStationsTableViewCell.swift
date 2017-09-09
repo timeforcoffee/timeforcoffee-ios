@@ -87,7 +87,7 @@ final class NearbyStationsTableViewCell: UITableViewCell {
 
     }
 
-    func favoriteButtonTouched(_ sender: UIButton) {
+    @objc func favoriteButtonTouched(_ sender: UIButton) {
         if let stationId = stationId {
             let station = TFCStation.initWithCacheId(stationId)
 

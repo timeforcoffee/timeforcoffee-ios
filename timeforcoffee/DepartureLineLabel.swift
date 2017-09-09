@@ -33,7 +33,7 @@ class DepartureLineLabel: UILabel, UITableViewDelegate {
         self.addGestureRecognizer(tapGesture)
     }
 
-    func favoriteDepartureClicked() {
+    @objc func favoriteDepartureClicked() {
         if let callback = linelabelClickedCallback {
             self.toggleIcon(callback)
         }

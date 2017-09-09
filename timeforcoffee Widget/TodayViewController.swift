@@ -427,7 +427,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         }
     }
 
-    func handleTap(_ recognizer: UITapGestureRecognizer) {
+    @objc func handleTap(_ recognizer: UITapGestureRecognizer) {
         if (showStations) {
             let urlstring = "timeforcoffee://nearby"
             let url: URL = URL(string: urlstring)!

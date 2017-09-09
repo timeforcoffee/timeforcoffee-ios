@@ -30,7 +30,7 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
     @available(iOSApplicationExtension 9.0, *)
     open lazy var session: WCSession? = {
         if (WCSession.isSupported()) {
-            return WCSession.default()
+            return WCSession.default
         }
         return nil
     }()

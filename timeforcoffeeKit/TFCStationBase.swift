@@ -323,8 +323,9 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             cache.memoryCache.setObject(saveStation, forKey: saveStation.st_id)
            // DLog("set PinCache for \(saveStation.name) \(saveStation.st_id)")
 
-            cache.setObject(saveStation, forKey: saveStation.st_id , block: { (_) in
-            })
+
+            cache.setObject(saveStation, forKey: saveStation.st_id , block: { (_: PINCache, _: String, _: AnyObject?) in
+                } as? PINCacheObjectBlock)
             saveStation.needsCacheSave = false
 
         }
@@ -336,12 +337,11 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         if let dept = _departures {
             cache.memoryCache.setObject(dept, forKey: "dept_\(st_id)")
            // DLog("set PinCache Departures for \(name) \(st_id)", toFile: true)
-            cache.setObject(dept as NSDictionary, forKey: "dept_\(st_id)", block: { (_) in
-            })
+            cache.setObject(dept as NSDictionary, forKey: "dept_\(st_id)", block: { (_: PINCache, _: String, _: AnyObject?) in
+                } as? PINCacheObjectBlock)
         } else {
-            cache.removeObject(forKey: "dept_\(st_id)", block: { (_) in
-                self._departures = nil
-            })
+            cache.removeObject(forKey: "dept_\(st_id)", block: {  (_: PINCache, _: String, _: AnyObject?) in
+                } as? PINCacheObjectBlock)
         }
     }
 

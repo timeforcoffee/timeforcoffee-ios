@@ -67,7 +67,7 @@ class StationsOverviewViewController: WKInterfaceController {
         super.didDeactivate()
     }
 
-    func contextButtonReload() {
+    @objc func contextButtonReload() {
         if let ud =  UserDefaults(suiteName: "group.ch.opendata.timeforcoffee") {
             ud.setValue(nil, forKey: "lastFirstStationId")
         }

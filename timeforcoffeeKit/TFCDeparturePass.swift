@@ -50,15 +50,15 @@ open class TFCDeparturePass: NSObject {
         var realtimeStr: String = ""
         var scheduledStr: String = ""
         let attributesNoStrike = [
-            NSStrikethroughStyleAttributeName: NSUnderlineStyle.styleNone.rawValue,
-            NSBaselineOffsetAttributeName: 0
-        ] as [String : Any]
+            NSAttributedStringKey.strikethroughStyle: NSUnderlineStyle.styleNone.rawValue,
+            NSAttributedStringKey.baselineOffset: 0
+        ] as [NSAttributedStringKey: Any]
         let attributesStrike = [
-            NSStrikethroughStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue,
-            NSStrikethroughColorAttributeName: UIColor.gray,
-            NSBaselineOffsetAttributeName: 0,
-            NSForegroundColorAttributeName: UIColor.gray
-        ] as [String : Any]
+            NSAttributedStringKey.strikethroughStyle: NSUnderlineStyle.styleSingle.rawValue,
+            NSAttributedStringKey.strikethroughColor: UIColor.gray,
+            NSAttributedStringKey.baselineOffset: 0,
+            NSAttributedStringKey.foregroundColor: UIColor.gray
+        ] as [NSAttributedStringKey : Any]
 
         let additionalInfo2:Bool = (additionalInfo && TFCSettings.sharedInstance.showRealTimeDebugInfo())
 

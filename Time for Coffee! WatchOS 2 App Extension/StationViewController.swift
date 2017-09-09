@@ -191,7 +191,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     }
 
 
-    func updateCurrentStation(_ notification: Notification) {
+    @objc func updateCurrentStation(_ notification: Notification) {
         DLog("updateCurrentStation", toFile: true)
         if (self.activated) {
             DispatchQueue.main.async {
@@ -206,7 +206,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         }
     }
 
-    func selectStation(_ notification: Notification) {
+    @objc func selectStation(_ notification: Notification) {
         DLog("selectStation", toFile: true)
         if (notification.userInfo == nil) {
             station = nil
@@ -308,7 +308,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         departuresUpdated(nil, context: ["cached": "true"], forStation: forStation)
     }
 
-    func contextButtonReload() {
+    @objc func contextButtonReload() {
         func reload(_ stations: TFCStations?) {
             setStationValues()
         }
@@ -322,11 +322,11 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         watchdata.getStations(reload, errorReply: errorReply, stopWithFavorites: false)
     }
 
-    func contextButtonMap() {
+    @objc func contextButtonMap() {
         self.presentController(withName: "MapPage", context: self.station)
     }
 
-    func contextButtonFavorite() {
+    @objc func contextButtonFavorite() {
         self.station?.toggleFavorite()
         setStationValues()
     }

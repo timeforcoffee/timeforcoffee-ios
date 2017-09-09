@@ -36,7 +36,7 @@ final class StationTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
-    func favoriteButtonTouched(_ sender: UIButton) {
+    @objc func favoriteButtonTouched(_ sender: UIButton) {
 
         func completion() -> Void {
             self.drawIcon()

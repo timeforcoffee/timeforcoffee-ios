@@ -159,7 +159,7 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
         return UIImage(named: "\(ident)")!
     }
 
-    func favoriteClicked(_ sender: UIBarButtonItem?) {
+    @objc func favoriteClicked(_ sender: UIBarButtonItem?) {
         func completion() {
         }
 

@@ -34,7 +34,7 @@ final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataS
         self.addSubview(refreshControl2!)
     }
 
-    internal func refresh(_ sender:AnyObject)
+    @objc internal func refresh(_ sender:AnyObject)
     {
         refreshLocation(true)
     }

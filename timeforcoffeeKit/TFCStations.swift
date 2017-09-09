@@ -84,8 +84,8 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
                 var results2:[JSON] = []
                 // First filter out all double entries (multiple entries for same stationy
                 for result in results {
-                    if let id = String(result["id"].stringValue),
-                       let name = result["name"].string {
+                    let id = String(result["id"].stringValue)
+                    if let name = result["name"].string {
                         // the DB has all the uppercased short Strings as well, we don't want to display them
                         // just don't add them
                         if (name == name.uppercased()) {

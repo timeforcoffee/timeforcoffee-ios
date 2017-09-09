@@ -250,12 +250,12 @@ func SendLogs2Phone() {
                                     try filemanager.removeItem(at: moveTo)
                                 }
                                 try filemanager.moveItem(at: file, to: moveTo)
-                                WCSession.default().transferFile(moveTo, metadata: nil)
+                                WCSession.default.transferFile(moveTo, metadata: nil)
                             } catch let error as NSError {
                                 DLog("\(#function) Error: \(error)", toFile: true)
                             }
                         } else {
-                            WCSession.default().transferFile(file, metadata: nil)
+                            WCSession.default.transferFile(file, metadata: nil)
                         }
 
                     }
@@ -290,7 +290,7 @@ func SendLogs2Phone() {
 private func DLog2WatchConnectivity(_ text:String) {
     if #available(iOS 9.0, *) {
         let message = ["__logThis__": text]
-        let session = WCSession.default()
+        let session = WCSession.default
         if (session.isReachable == true) {
             session.sendMessage(message, replyHandler: nil, errorHandler: {(error: Error) in
                 DLog("send Log Message failed due to error \(error): Send via transferUserInfo")

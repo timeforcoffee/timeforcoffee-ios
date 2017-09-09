@@ -67,7 +67,7 @@ public final class TFCLocationManager: TFCLocationManagerBase {
     override func getLocationRequest(_ lm: CLLocationManager) {
         if #available(iOS 9, *) {
             if (WCSession.isSupported()) {
-                let wcsession = WCSession.default()
+                let wcsession = WCSession.default
                 if (wcsession.isComplicationEnabled == true) {
                     lm.requestAlwaysAuthorization()
                     return
