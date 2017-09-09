@@ -106,7 +106,12 @@ open class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
     }
 
     func getLocationRequest(_ lm: CLLocationManager) {
-        lm.requestWhenInUseAuthorization()
+        //lm.requestWhenInUseAuthorization()
+        if (TFCDataStore.sharedInstance.complicationEnabled()) {
+            lm.requestAlwaysAuthorization()
+        } else {
+            lm.requestWhenInUseAuthorization()
+        }
     }
 
     open func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
