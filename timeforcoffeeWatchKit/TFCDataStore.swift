@@ -22,7 +22,7 @@ open class TFCDataStore: TFCDataStoreBase {
     }()
 
     // not supported in watchOS yet, set it to nil
-    override var keyvaluestore: NSUbiquitousKeyValueStore? {
+    override var keyvaluestore: AnyObject? {
         return nil
     }
     

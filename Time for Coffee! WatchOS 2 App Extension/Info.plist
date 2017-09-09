@@ -48,6 +48,8 @@
 	<string> We need the location to show you nearby stations. We’re only accessing this, when the app or the Today extension is in use and for as short as possible.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string> We need the location to show you nearby stations. We’re only accessing this, when the app or the Today extension is in use and for as short as possible.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string> We need the location to show you nearby stations. We’re only accessing this, when the app or the Today extension is in use and for as short as possible.</string>
 	<key>RemoteInterfacePrincipalClass</key>
 	<string>$(PRODUCT_MODULE_NAME).StationViewController</string>
 	<key>WKExtensionDelegateClassName</key>

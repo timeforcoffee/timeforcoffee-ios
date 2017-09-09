@@ -22,7 +22,7 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
 
     fileprivate let userDefaults: UserDefaults? = UserDefaults(suiteName: "group.ch.opendata.timeforcoffee")
     fileprivate let localUserDefaults: UserDefaults? = UserDefaults(suiteName: "ch.opendata.timeforcoffee.local")
-    var keyvaluestore: NSUbiquitousKeyValueStore? { return nil}
+    var keyvaluestore: AnyObject? { return nil}
     fileprivate var notificationObserver: AnyObject?
 
     open var localNotificationCallback:((String?) -> Void)? = nil
@@ -87,7 +87,9 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
 
     open func synchronize() {
         userDefaults?.synchronize()
-        keyvaluestore?.synchronize()
+        #if os(iOS)
+            (keyvaluestore as? NSUbiquitousKeyValueStore)?.synchronize()
+        #endif
     }
 
     open func registerWatchConnectivity() {

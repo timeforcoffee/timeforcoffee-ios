@@ -3,7 +3,7 @@ import Foundation
 
 open class TFCStationCollection: NSObject, Sequence, Collection, RangeReplaceableCollection {
 
-    typealias Element = TFCStation
+    public typealias Element = TFCStation
     
     fileprivate var stationIds:[String] = []
 
