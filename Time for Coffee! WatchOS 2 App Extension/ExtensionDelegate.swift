@@ -129,10 +129,14 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         for task : WKRefreshBackgroundTask in backgroundTasks {
             DLog("received \(task) Backgroundtask" , toFile: true)
             if let arTask = task as? WKApplicationRefreshBackgroundTask {
+                DLog("received WKApplicationRefreshBackgroundTask")
                 TFCWatchDataFetch.sharedInstance.fetchDepartureData(task: arTask)
             } else if let urlTask = task as? WKURLSessionRefreshBackgroundTask {
+                DLog("received WKURLSessionRefreshBackgroundTask")
+
                 TFCWatchDataFetch.sharedInstance.rejoinURLSession(urlTask)
             } else if let wcBackgroundTask = task as? WKWatchConnectivityRefreshBackgroundTask {
+                DLog("received WKWatchConnectivityRefreshBackgroundTask")
                 //just wait 15 seconds and assume it's finished FIXME. Could be improved, but it's hard to keep track and sometimes there's just nothing to do.
                 delay(10.0, closure: {
                     TFCWatchData.crunchQueue.async(flags: .barrier, execute: {
@@ -146,9 +150,27 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 TFCDataStore.sharedInstance.registerWatchConnectivity()
             } else if let snapshotTask = task as? WKSnapshotRefreshBackgroundTask {
 
+                DLog("received WKSnapshotRefreshBackgroundTask")
+                if #available(watchOSApplicationExtension 4.0, *) {
+                    if (snapshotTask.reasonForSnapshot == .appBackgrounded) {
+                        DLog("received WKSnapshotRefreshBackgroundTask.appBackgrounded")
+                    } else if (snapshotTask.reasonForSnapshot == .appScheduled) {
+                        DLog("received WKSnapshotRefreshBackgroundTask.appScheduled")
+                    } else if (snapshotTask.reasonForSnapshot == .complicationUpdate) {
+                        DLog("received WKSnapshotRefreshBackgroundTask.complicationUpdate")
+                    } else if (snapshotTask.reasonForSnapshot == .prelaunch) {
+                        DLog("received WKSnapshotRefreshBackgroundTask.prelaunch")
+                    } else if (snapshotTask.reasonForSnapshot == .returnToDefaultState) {
+                        DLog("received WKSnapshotRefreshBackgroundTask.returnToDefaultState")
+
+                    }
+                } else {
+                    // Fallback on earlier versions
+                }
+               // if (snapshotTask.reasonForSnapshot == .complicationUpdate)
                 delaySnapshotComplete(snapshotTask,startTime: Date())
             } else {
-                //DLog("received something else...", toFile: true)
+                DLog("received something else...", toFile: true)
                 // make sure to complete all tasks, even ones you don't handle
                 task.setTaskCompleted()
             }
@@ -200,6 +222,23 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 }
                 DispatchQueue.main.async(execute: {
                     DLog("finished \(snapshotTask) Backgroundtask, next \(nextDate)", toFile: true)
+
+                    if #available(watchOSApplicationExtension 4.0, *) {
+                        if (snapshotTask.reasonForSnapshot == .appBackgrounded) {
+                            DLog("finished WKSnapshotRefreshBackgroundTask.appBackgrounded")
+                        } else if (snapshotTask.reasonForSnapshot == .appScheduled) {
+                            DLog("finished WKSnapshotRefreshBackgroundTask.appScheduled")
+                        } else if (snapshotTask.reasonForSnapshot == .complicationUpdate) {
+                            DLog("finished WKSnapshotRefreshBackgroundTask.complicationUpdate")
+                        } else if (snapshotTask.reasonForSnapshot == .prelaunch) {
+                            DLog("finished WKSnapshotRefreshBackgroundTask.prelaunch")
+                        } else if (snapshotTask.reasonForSnapshot == .returnToDefaultState) {
+                            DLog("finished WKSnapshotRefreshBackgroundTask.returnToDefaultState")
+
+                        }
+                    } else {
+                        // Fallback on earlier versions
+                    }
                     #if DEBUG
                         DispatchQueue.global(qos: .background).async {
                             SendLogs2Phone()
