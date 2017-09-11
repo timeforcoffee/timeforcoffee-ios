@@ -17,7 +17,7 @@ final public class TFCCrashlytics: NSObject, CrashlyticsDelegate {
 
     @nonobjc public func crashlyticsDidDetectReport(forLastExecution report: CLSReport, completionHandler: @escaping (Bool) -> Void) {
         report.setObjectValue(TFCDataStore.sharedInstance.getTFCID(), forKey: "TFCID")
-        DLog("Crashlytics: crashedOnDate: \(report.crashedOnDate)", toFile: true);
+        DLog("Crashlytics: crashedOnDate: \(String(describing: report.crashedOnDate))", toFile: true);
         DLog("Crashlytics: isCrash: \(report.isCrash)", toFile: true);
         DispatchQueue.main.async(execute: {
             completionHandler(true)

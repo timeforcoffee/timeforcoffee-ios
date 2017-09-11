@@ -186,7 +186,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
                     let _ = self.stations?.initWithNearbyFavorites(loc)
                     if (stopWithFavorites == true) {
                         if let stationCount = self.stations?.count() {
-                            if (stationCount > 0 && reply != nil ) {
+                            if (stationCount > 0 ) {
                                 DLog("searchForStationsInDB stopWithFavorites", toFile: true)
                                 reply(self.stations)
                                 return
