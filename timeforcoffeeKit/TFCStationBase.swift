@@ -775,7 +775,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         return nil
     }
 
-    open func getFilteredDepartures(_ count:Int? = nil) -> [TFCDeparture]? {
+    open func getFilteredDepartures(_ count:Int? = nil, fallbackToAll:Bool = false) -> [TFCDeparture]? {
         if (filteredDepartures != nil) {
             return filteredDepartures
         }
@@ -788,6 +788,9 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                     filteredDepartures?.append(departure)
                 }
             }
+        }
+        if (fallbackToAll == true && (self.filteredDepartures == nil || self.filteredDepartures?.count == 0)) {
+            self.filteredDepartures = getDepartures()
         }
 
         if count != nil && filteredDepartures != nil {

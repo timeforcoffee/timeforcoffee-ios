@@ -52,7 +52,7 @@ final class NearbyStationsTableViewCell: UITableViewCell {
         StationNameLabel.text = station?.getNameWithFilters(false)
 
         if (drawDepartures) {
-            let departures = station?.getFilteredDepartures(6)
+            let departures = station?.getFilteredDepartures(6, fallbackToAll: true)
             var firstDeparture = departures?.first
 
             var minutesAsInt = firstDeparture?.getMinutesAsInt()

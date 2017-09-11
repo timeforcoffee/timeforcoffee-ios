@@ -253,7 +253,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             return false
         }
         var returnValue = false
-        let departures = station?.getFilteredDepartures()?.prefix(10)
+        let departures = station?.getFilteredDepartures(nil, fallbackToAll: true)?.prefix(10)
         var i = 0;
         if let departures2 = departures {
             if (self.stationsTable?.numberOfRows != departures2.count || self.initTable == true) {

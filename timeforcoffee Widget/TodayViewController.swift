@@ -503,7 +503,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         if (viewDidAppear == false && currentStation == nil) {
             return 0
         }
-        let departures = self.currentStation?.getFilteredDepartures(6)
+        let departures = self.currentStation?.getFilteredDepartures(6, fallbackToAll: true)
         if (departures == nil || departures!.count == 0) {
             return 1
         }
