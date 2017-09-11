@@ -125,6 +125,12 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
         }
         self.downloading[station.st_id] = Date()
         let sampleDownloadURL = URL(string: station.getDeparturesURL())!
+        if let lastDepartureUpdate = station.lastDepartureUpdate {
+            if (lastDepartureUpdate.addingTimeInterval(60) > Date()) {
+                DLog("Station \(station.st_id) was updated less than a minute ago (at \(lastDepartureUpdate))", toFile: true)
+                return
+            }
+        }
         DLog("Download \(sampleDownloadURL)", toFile: true)
 
         let backgroundConfigObject = URLSessionConfiguration.background(withIdentifier: (UUID().uuidString))
