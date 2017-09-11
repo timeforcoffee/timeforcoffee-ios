@@ -155,7 +155,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         }
     }
 
-    fileprivate func delaySnapshotComplete(_ snapshotTask: WKSnapshotRefreshBackgroundTask, startTime:Date) {
+    fileprivate func delaySnapshotComplete(_ snapshotTask: WKSnapshotRefreshBackgroundTask, startTime:Date, count:Int = 0) {
         //just wait 2 seconds and assume it's finished
         // we use a queue here to let other tasks finish, before this one shoots
         let delayTime:Double = 2.0
@@ -183,8 +183,11 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 }*/
                 if (TFCWatchData.crunchQueueTasks > 0) {
                     DLog("there's a new task in the crunchQueue, finish that first: \(TFCWatchData.crunchQueueTasks).")
-                    self.delaySnapshotComplete(snapshotTask, startTime: startTime)
-                    return
+                    let newCount = count + 1;
+                    if (newCount < 10) {
+                        self.delaySnapshotComplete(snapshotTask, startTime: startTime, count: newCount)
+                        return
+                    }
                 }
 
                 let nextDate = self.watchdata.getNextUpdateTime(noBackOffIncr: true, minTime: 30 * 60)
