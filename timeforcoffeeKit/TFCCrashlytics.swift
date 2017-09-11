@@ -7,9 +7,11 @@ final public class TFCCrashlytics: NSObject, CrashlyticsDelegate {
 
     public func initCrashlytics() {
         #if !((arch(i386) || arch(x86_64)) && os(iOS))
-            Crashlytics.sharedInstance().delegate = self;
-            Fabric.with([Crashlytics.self])
-            Crashlytics.sharedInstance().setUserIdentifier(TFCDataStore.sharedInstance.getTFCID())
+            DispatchQueue.main.async {
+                Crashlytics.sharedInstance().delegate = self;
+                Fabric.with([Crashlytics.self])
+                Crashlytics.sharedInstance().setUserIdentifier(TFCDataStore.sharedInstance.getTFCID())
+            }
         #endif
     }
 

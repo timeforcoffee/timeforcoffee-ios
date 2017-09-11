@@ -115,7 +115,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             #if !((arch(i386) || arch(x86_64)) && os(iOS))
                 let settings = SKTSettings(appToken: "7n3aaqyp9fr5kr7y1wjssd231")
                 //            settings.knowledgeBaseURL = "https://timeforcoffee.zendesk.com"
-                Smooch.initWith(settings)
+
+                DispatchQueue.main.async {
+                    Smooch.initWith(settings)
+                }
             #endif
             let userdefaults = TFCDataStore.sharedInstance.getUserDefaults()
             let lastusedTodayScreen: Date? = userdefaults?.object(forKey: "lastUsedViewUpdate") as! Date?
