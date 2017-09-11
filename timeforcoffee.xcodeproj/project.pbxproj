@@ -124,6 +124,7 @@
 		EC9BCB471BB5CD4D00623F1A /* PINMemoryCache.h in Headers */ = {isa = PBXBuildFile; fileRef = EC9BCB401BB5CD4D00623F1A /* PINMemoryCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EC9BCB481BB5CD4D00623F1A /* PINMemoryCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB411BB5CD4D00623F1A /* PINMemoryCache.m */; };
 		ECA109D91BB6C00000FDB6F9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC0AD1641BB69539004217FD /* Localizable.strings */; };
+		ECA4835B1F66C16D00482E63 /* gallery.ckcomplication in Resources */ = {isa = PBXBuildFile; fileRef = ECA4835A1F66C16800482E63 /* gallery.ckcomplication */; };
 		ECA9558D1E32B4B1008ABFC6 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECA9558B1E32B4B1008ABFC6 /* Crashlytics.framework */; };
 		ECA9558E1E32B4B1008ABFC6 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECA9558C1E32B4B1008ABFC6 /* Fabric.framework */; };
 		ECA955911E32B9E9008ABFC6 /* GATracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD42E511D8B4D72006ED53E /* GATracker.swift */; };
@@ -370,6 +371,7 @@
 		EC9BCB3F1BB5CD4D00623F1A /* PINDiskCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PINDiskCache.m; sourceTree = "<group>"; };
 		EC9BCB401BB5CD4D00623F1A /* PINMemoryCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PINMemoryCache.h; sourceTree = "<group>"; };
 		EC9BCB411BB5CD4D00623F1A /* PINMemoryCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PINMemoryCache.m; sourceTree = "<group>"; };
+		ECA4835A1F66C16800482E63 /* gallery.ckcomplication */ = {isa = PBXFileReference; lastKnownFileType = folder; name = gallery.ckcomplication; path = timeforcoffeeKit/gallery.ckcomplication; sourceTree = SOURCE_ROOT; };
 		ECA72B7B1BB6D23E00506300 /* Time for Coffee! WatchOS 2 App Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Time for Coffee! WatchOS 2 App Extension.entitlements"; sourceTree = "<group>"; };
 		ECA9558B1E32B4B1008ABFC6 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		ECA9558C1E32B4B1008ABFC6 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
@@ -532,6 +534,7 @@
 				EC46C4EC1BB5C69800F2A963 /* Info.plist */,
 				EC84FEC01BD9652400A0F9E3 /* TFCVisits.swift */,
 				ECD42E511D8B4D72006ED53E /* GATracker.swift */,
+				ECA4835A1F66C16800482E63 /* gallery.ckcomplication */,
 			);
 			path = timeforcoffee;
 			sourceTree = "<group>";
@@ -967,6 +970,7 @@
 				EC9BCB171BB5CC3500623F1A /* Time for Coffee!.entitlements in Resources */,
 				EC60B0141BB680B600D10238 /* launchicon.png in Resources */,
 				EC46C4E61BB5C69800F2A963 /* Main.storyboard in Resources */,
+				ECA4835B1F66C16D00482E63 /* gallery.ckcomplication in Resources */,
 				EC0AD15F1BB694CC004217FD /* SmoochLocalizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

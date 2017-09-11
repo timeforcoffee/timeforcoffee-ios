@@ -153,7 +153,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
         }
     }
 
-    public func getStations(_ reply: replyStations?, errorReply: ((String) -> Void)?, stopWithFavorites: Bool?, favoritesOnly: Bool? = false) {
+    public func getStations(_ reply: @escaping replyStations, errorReply: ((String) -> Void)?, stopWithFavorites: Bool?, favoritesOnly: Bool? = false) {
 
        /* #if DEBUG
             let stacktrace = Thread.callStackSymbols
@@ -178,9 +178,9 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
                         DLog("stacktrace end", toFile: true)*/
                         #endif
 
-                        DLog("Favorites only, reply! \(reply.debugDescription)", toFile: true)
+                        DLog("Favorites only, reply! ", toFile: true)
 
-                        reply!(self.stations)
+                        reply(self.stations)
                         return
                     }
                     let _ = self.stations?.initWithNearbyFavorites(loc)
@@ -188,7 +188,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
                         if let stationCount = self.stations?.count() {
                             if (stationCount > 0 && reply != nil ) {
                                 DLog("searchForStationsInDB stopWithFavorites", toFile: true)
-                                reply!(self.stations)
+                                reply(self.stations)
                                 return
                             }
                         }
@@ -320,7 +320,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
     
     public func needsTimelineDataUpdate(_ station: TFCStation, checkLastDeparture:Bool = true) -> Bool {
         if let cmpldata = ComplicationData.initDisplayed() as ComplicationData?,
-            let departures = station.getFilteredDepartures()
+            let departures = station.getFilteredDepartures(nil, fallbackToAll: true)
         {
             let backthreehours = Date().addingTimeInterval(-3600 * 3)
             if let lastComplicationUpdate = cmpldata.getLastUpdate() {
@@ -359,7 +359,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
     public func needsDeparturesUpdate(_ station: TFCStation) -> Bool {
         if let cmpldata = ComplicationData.initDisplayed() as ComplicationData?,
             let lastDepartureTime = cmpldata.getLastDepartureDate(),
-            let departures = station.getFilteredDepartures() {
+            let departures = station.getFilteredDepartures(nil, fallbackToAll: true) {
             let lastFirstStationId = cmpldata.getStation().st_id
 
             // if lastDepartureTime is more than 4 hours away and we're in the same place
@@ -373,7 +373,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
             DLog("timeIntervalSinceNow \(lastDepartureTime.addingTimeInterval(4 * -3600).timeIntervalSinceNow)")
             DLog("lastDepartureTime: \(lastDepartureTime)")
             DLog("lastFirstStationId: \(lastFirstStationId)")
-            DLog("station.getFilteredDepartures()?.count: \(String(describing: station.getFilteredDepartures()?.count))")
+            DLog("station.getFilteredDepartures()?.count: \(String(describing: station.getFilteredDepartures(nil, fallbackToAll: true)?.count))")
 
         }
         return true

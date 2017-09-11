@@ -10,14 +10,13 @@
 import Foundation
 import CoreLocation
 
-open class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
+public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
     lazy var locationManager : CLLocationManager = self.lazyInitLocationManager()
     fileprivate var locationFixAchieved : Bool = false
     fileprivate var locationStatus : NSString = "Not Started"
     fileprivate var seenError : Bool = false
     weak var delegate: TFCLocationManagerDelegate?
-
-    open var currentLocation: CLLocation? {
+    public var currentLocation: CLLocation? {
         get {
             return classvar.currentLocation
         }
@@ -26,10 +25,10 @@ open class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
         }
     }
 
-    fileprivate struct classvar {
-        static var currentLocation: CLLocation?
-        static var _lastUpdateCurrentLocation: Date?
-        static var currentLocationTimestamp: Date?
+    private struct classvar {
+        static var currentLocation: CLLocation? = nil
+        static var _lastUpdateCurrentLocation: Date? = nil
+        static var currentLocationTimestamp: Date? = nil
         static var currentPlacemark: CLPlacemark? {
             get {
                 return _currentPlacemark;
@@ -43,8 +42,8 @@ open class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
                 }
             }
         }
-        static var _currentPlacemark: CLPlacemark?
-        static var _currentCountry: String?
+        static var _currentPlacemark: CLPlacemark? = nil
+        static var _currentCountry: String? = nil
     }
 
     public struct k {
