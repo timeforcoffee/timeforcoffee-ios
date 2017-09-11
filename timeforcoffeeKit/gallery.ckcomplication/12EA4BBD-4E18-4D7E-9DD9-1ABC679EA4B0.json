@@ -1,0 +1,8 @@
+{
+  "textProvider" : {
+    "class" : "CLKSimpleTextProvider",
+    "text" : "--: -"
+  },
+  "class" : "CLKComplicationTemplateUtilitarianSmallFlat",
+  "version" : 30000
+}

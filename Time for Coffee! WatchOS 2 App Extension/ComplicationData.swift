@@ -319,8 +319,9 @@ class ComplicationData: NSObject, NSCoding {
             return tmpl
 
         }
-        return getPlaceholderTemplateForComplication(CLKComplicationFamily.circularSmall) as! CLKComplicationTemplateCircularSmallStackText
+        return ComplicationData.getTemplateForComplication(CLKComplicationFamily.circularSmall) as! CLKComplicationTemplateCircularSmallStackText
     }
+
 
     fileprivate func getExtraLargeTemplate(_ station: TFCStation, departure: TFCDeparture?, nextDeparture: TFCDeparture?) -> CLKComplicationTemplateExtraLargeStackText {
 
@@ -335,7 +336,7 @@ class ComplicationData: NSObject, NSCoding {
             return tmpl
 
         }
-        return getPlaceholderTemplateForComplication(CLKComplicationFamily.extraLarge) as! CLKComplicationTemplateExtraLargeStackText
+        return ComplicationData.getTemplateForComplication(CLKComplicationFamily.extraLarge) as! CLKComplicationTemplateExtraLargeStackText
     }
 
     fileprivate func getUtilitarianLargeTemplate(_ station: TFCStation, departure: TFCDeparture?, nextDeparture: TFCDeparture?) -> CLKComplicationTemplateUtilitarianLargeFlat {
@@ -350,7 +351,7 @@ class ComplicationData: NSObject, NSCoding {
             tmpl.textProvider = CLKSimpleTextProvider(text: "\(departureLine): \(departureTime) \(departureDestination)")
             return tmpl
         }
-        return getPlaceholderTemplateForComplication(CLKComplicationFamily.utilitarianLarge) as! CLKComplicationTemplateUtilitarianLargeFlat
+        return ComplicationData.getTemplateForComplication(CLKComplicationFamily.utilitarianLarge) as! CLKComplicationTemplateUtilitarianLargeFlat
 
     }
 
@@ -363,7 +364,7 @@ class ComplicationData: NSObject, NSCoding {
             tmpl.textProvider = CLKSimpleTextProvider(text: "\(departureLine): \(departureTime)")
             return tmpl
         }
-        return getPlaceholderTemplateForComplication(CLKComplicationFamily.utilitarianSmall) as! CLKComplicationTemplateUtilitarianSmallFlat
+        return ComplicationData.getTemplateForComplication(CLKComplicationFamily.utilitarianSmall) as! CLKComplicationTemplateUtilitarianSmallFlat
     }
 
     fileprivate func getModularSmallTemplate(_ station: TFCStation, departure: TFCDeparture?, nextDeparture: TFCDeparture?) -> CLKComplicationTemplateModularSmallStackText {
@@ -376,7 +377,7 @@ class ComplicationData: NSObject, NSCoding {
             tmpl.line2TextProvider = getDateProvider(departureTime)
             return tmpl
         }
-        return getPlaceholderTemplateForComplication(CLKComplicationFamily.modularSmall) as! CLKComplicationTemplateModularSmallStackText
+        return ComplicationData.getTemplateForComplication(CLKComplicationFamily.modularSmall) as! CLKComplicationTemplateModularSmallStackText
 
     }
 
@@ -421,8 +422,6 @@ class ComplicationData: NSObject, NSCoding {
             tmpl.row2Column2TextProvider = CLKSimpleTextProvider(text: "-")
         }
         return tmpl
-        /*}
-        return getPlaceholderTemplateForComplication(CLKComplicationFamily.modularLarge) as! CLKComplicationTemplateModularLargeTable*/
 
     }
 
@@ -432,14 +431,7 @@ class ComplicationData: NSObject, NSCoding {
         return CLKRelativeDateTextProvider(date: date, style: style, units: units)
     }
 
-    func getPlaceholderTemplate(for complication: CLKComplication, withHandler handler: @escaping (CLKComplicationTemplate?) -> Void) {
-
-        let templ = getPlaceholderTemplateForComplication(complication.family)
-        handler(templ)
-
-    }
-
-    fileprivate func getPlaceholderTemplateForComplication(_ family: CLKComplicationFamily) -> CLKComplicationTemplate {
+    public static func getTemplateForComplication(_ family: CLKComplicationFamily) -> CLKComplicationTemplate {
         switch family {
 
         case CLKComplicationFamily.modularLarge:

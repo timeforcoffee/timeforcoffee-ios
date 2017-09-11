@@ -1,0 +1,12 @@
+{
+  "supported complication families" : {
+    "7" : "30E0009D-F568-4F81-A153-9A638FD607A3.json",
+    "3" : "FDDEA81B-B92B-49D9-9721-55F420FA065A.json",
+    "4" : "5BFABFDC-009A-408E-B7FB-B038EB5C89A4.json",
+    "0" : "2ECD67D8-C4E8-4ABA-A3A2-53C738A26FBB.json",
+    "1" : "877B9949-79AA-4B4B-A9CC-767A2CFB25F6.json",
+    "6" : "12EA4BBD-4E18-4D7E-9DD9-1ABC679EA4B0.json",
+    "2" : "0A69CB1F-4D57-4D5A-9BF2-FAD332F62C44.json"
+  },
+  "client ID" : "ch.opendata.timeforcoffee.watchkitapp.watchkitextension"
+}

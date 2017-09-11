@@ -135,7 +135,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
         let _ = station.removeObsoleteDepartures()
         // if we have at least 4 departures, that's enough to update the complications
         // the data will be updated somewhere else later
-        if let filteredDeparturesCount = station.getFilteredDepartures()?.count {
+        if let filteredDeparturesCount = station.getFilteredDepartures(nil, fallbackToAll: true)?.count {
             if (filteredDeparturesCount > 3) {
                 if let reply = context as? replyStation {
                     DLog("we already have \(filteredDeparturesCount) departures for a complication update, dont get new ones")
@@ -145,5 +145,13 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
             }
         }
         station.updateDepartures(self, context: context, cachettl: self.getDepartureTTL(station))
+    }
+
+
+    func getLocalizableSampleTemplate(for complication: CLKComplication, withHandler handler: @escaping (CLKComplicationTemplate?) -> Void) {
+        DLog("getLocalizableSampleTemplate", toFile: true)
+        let template = ComplicationData.getTemplateForComplication(complication.family)
+        DLog("template: \(template.debugDescription)", toFile: true);
+        handler(template);
     }
 }
