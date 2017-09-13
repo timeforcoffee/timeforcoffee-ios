@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12100" systemVersion="16C32f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12072"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -86,7 +86,7 @@
                     <constraint firstItem="ACB-E4-oCS" firstAttribute="top" secondItem="3U6-W9-VjK" secondAttribute="bottom" id="UBb-ja-wYs"/>
                     <constraint firstItem="3U6-W9-VjK" firstAttribute="top" secondItem="Yda-Qk-YrS" secondAttribute="bottom" id="YHq-iN-4Jc"/>
                     <constraint firstAttribute="centerX" secondItem="3U6-W9-VjK" secondAttribute="centerX" id="aPN-ve-Sdm"/>
-                    <constraint firstItem="eAj-sG-WVb" firstAttribute="top" secondItem="ACB-E4-oCS" secondAttribute="bottom" id="eMS-I3-XlG"/>
+                    <constraint firstAttribute="bottom" secondItem="ACB-E4-oCS" secondAttribute="bottom" id="eMS-I3-XlG"/>
                     <constraint firstItem="ACB-E4-oCS" firstAttribute="leading" secondItem="3U6-W9-VjK" secondAttribute="leading" id="qpV-DS-l1U"/>
                 </constraints>
                 <variation key="default">

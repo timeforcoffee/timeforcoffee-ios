@@ -59,9 +59,6 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
 
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
 
     override func viewDidLoad() {
         DLog("viewDidLoad")
@@ -85,9 +82,18 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
         self.refreshControl.backgroundColor = UIColor(red: 242.0/255.0, green: 243.0/255.0, blue: 245.0/255.0, alpha: 1.0)
         self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.appsTableView?.addSubview(refreshControl)
+        if #available(iOS 11.0, *) {
+            if let navController = self.navigationController {
+                safeAreaTop = navController.view.safeAreaInsets.top
+            }
+        } else {
+            safeAreaTop = 20
+        }
+        topBarHeight.constant = safeAreaTop + 130
 
         startHeight = topBarHeight.constant
-        self.appsTableView?.contentInset = UIEdgeInsets(top: startHeight, left: 0, bottom: 0, right: 0)
+
+        self.appsTableView?.contentInset = UIEdgeInsets(top: 130, left: 0, bottom: 0, right: 0)
 
         favButton.addTarget(self, action: #selector(DeparturesViewController.favoriteClicked(_:)), for: UIControlEvents.touchUpInside)
         stationIconButton.addTarget(self, action: #selector(DeparturesViewController.favoriteClicked(_:)), for: UIControlEvents.touchUpInside)
@@ -188,8 +194,10 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
     }
 
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if (self.viewAppeared) {
         let offset = super.scrolled(scrollView)
         self.segmentedControl.alpha = 1 - (offset / 80)
+        }
     }
 
     override func topViewProperties(_ offsetForAnimation: CGFloat) {
@@ -410,7 +418,7 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
         return false
     }
 
-    func swipeTableCell(_ cell: MGSwipeTableCell!, swipeButtonsForDirection direction: MGSwipeDirection, swipeSettings: MGSwipeSettings!, expansionSettings: MGSwipeExpansionSettings!) -> [AnyObject]! {
+    @objc func swipeTableCell(_ cell: MGSwipeTableCell!, swipeButtonsForDirection direction: MGSwipeDirection, swipeSettings: MGSwipeSettings!, expansionSettings: MGSwipeExpansionSettings!) -> [AnyObject]! {
 
         let buttonClickCallbackFavorite : MGSwipeButtonCallback = { (cell: MGSwipeTableCell?) -> Bool in
             if let station2 = self.station {
@@ -514,7 +522,7 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
     }
 
 
-    func tableView(_ tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath) {
+    @objc func tableView(_ tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath) {
         if let count = self.getDeparturesDependentOnView(station)?.count {
             if (count > 0) {
                 self.performSegue(withIdentifier: "SegueToPasslistView", sender: nil)

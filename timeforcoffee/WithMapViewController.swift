@@ -17,6 +17,8 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
     var mapOnBottom: Bool = false
     var gestureRecognizer: UIGestureRecognizerDelegate?
     var startHeight: CGFloat!
+    var safeAreaTop: CGFloat!
+
     var mapSwipeUpStart: CGFloat?
     var destinationPlacemark: MKPlacemark?
     var mapDirectionOverlay: MKOverlay?
@@ -80,8 +82,9 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
     }
 
     func scrolled(_ scrollView: UIScrollView) -> CGFloat {
-        let offset = scrollView.contentOffset.y + startHeight
-        self.topBarHeight.constant = max(min(self.startHeight - offset, self.startHeight), 64)
+        let offset = scrollView.contentOffset.y + startHeight - safeAreaTop
+            self.topBarHeight.constant = max(min(self.startHeight - offset, self.startHeight), startHeight - 86)
+
         if (self.topBarHeight.constant < 71) {
             self.stationNameBottomSpace.constant = -22 - (self.topBarHeight.constant - 64)
         } else {
@@ -113,7 +116,7 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
         }
 
         if (topBarCalculatedHeight < startHeight) {
-            topBarCalculatedHeight = 150.0
+            topBarCalculatedHeight = startHeight
         }
         if (sender.state == UIGestureRecognizerState.began) {
             if (self.mapOnBottom == true ) {

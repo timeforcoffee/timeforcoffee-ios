@@ -55,9 +55,18 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
         super.distanceLabelVisibleOnTop = true
         super.distanceLabel.alpha = 0.9
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        if #available(iOS 11.0, *) {
+            if let navController = self.navigationController {
+                safeAreaTop = navController.view.safeAreaInsets.top
+            }
+        } else {
+            safeAreaTop = 20
+        }
+        topBarHeight.constant = safeAreaTop + 130
 
         startHeight = topBarHeight.constant
-        self.appsTableView?.contentInset = UIEdgeInsets(top: startHeight, left: 0, bottom: 0, right: 0)
+
+        self.appsTableView?.contentInset = UIEdgeInsets(top: 130, left: 0, bottom: 0, right: 0)
 
         favButton.addTarget(self, action: #selector(PasslistViewController.favoriteClicked(_:)), for: UIControlEvents.touchUpInside)
  //       stationIconButton.addTarget(self, action: "favoriteClicked:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -334,7 +343,7 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
         return cell
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath) {
+    @objc func tableView(_ tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath) {
         if let _ = getStationForSelect(indexPath) {
             self.performSegue(withIdentifier: "SegueBackToStationView", sender: nil)
         }
