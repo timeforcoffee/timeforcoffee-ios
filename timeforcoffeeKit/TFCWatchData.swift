@@ -111,11 +111,15 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
 
                     if let lastComplicationUpdate = cmpldata?.getLastUpdate(),
                         let lastComplicationStationId = cmpldata?.getStation().st_id,
-                        let lastFirstStationId = ud?.string(forKey: "lastFirstStationId")
+                        let lastFirstStationId = ud?.string(forKey: "lastFirstStationId"),
+                        let lastDepartureDate = cmpldata?.getLastDepartureDate()
                     {
                         // if last Complication update is less than 5 minutes ago
+                        // and last departure date is in the future
                         if (lastComplicationUpdate.addingTimeInterval(300) > Date() &&
-                        lastComplicationStationId == lastFirstStationId) {
+                        lastComplicationStationId == lastFirstStationId &&
+                            lastDepartureDate > Date()
+                            ) {
                             DLog("complication was updated less than 5 minutes ago (\(lastComplicationUpdate)) with the same id \(lastFirstStationId), dont reload in this case")
                             return
                         }
