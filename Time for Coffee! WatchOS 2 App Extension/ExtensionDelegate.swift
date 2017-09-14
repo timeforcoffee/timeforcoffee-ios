@@ -247,10 +247,13 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                     }
                     #if DEBUG
                         DispatchQueue.global(qos: .background).async {
+                            delay(3.0, closure: { snapshotTask.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: nextDate, userInfo: nil)})
                             SendLogs2Phone()
+
                         }
+                    #else
+                        snapshotTask.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: nextDate, userInfo: nil)
                     #endif
-                    snapshotTask.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: nextDate, userInfo: nil)
                 })
 
             }) 
