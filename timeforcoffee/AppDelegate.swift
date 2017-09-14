@@ -390,11 +390,12 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
         #if DEBUG
             if (application.applicationState == .active) {
-                let alert = UIAlertView()
-                alert.title = "Notification"
-                alert.message = notification.alertBody
-                alert.addButton(withTitle: "Dismiss")
-                alert.show()
+
+                let alert = UIAlertController(title: "Notification", message: notification.alertBody, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .default))
+
+                let rootView = self.window?.rootViewController as! UINavigationController
+                rootView.present(alert, animated: false, completion: nil)
             }
         #endif
         

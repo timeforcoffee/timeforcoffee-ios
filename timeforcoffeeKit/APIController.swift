@@ -40,7 +40,7 @@ final class APIController {
             let cacheKey:String
             if (name2.hasPrefix("!") == true) {
                 country = "all"
-                name = name2.substring(from:name2.index(name2.startIndex,offsetBy: 1))
+                name = String(name2.dropFirst())
             }
             // search over all possible locations if outside of switzerland or starts with ! (for testing purposes)
             if (country != "CH") {
