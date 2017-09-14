@@ -112,8 +112,9 @@ class ComplicationData: NSObject, NSCoding {
     }
 
     public func setIsDisplayedOnWatch() {
-        self.isDisplayedOnWatch = true
         self.lastUpdate = Date()
+        self.setPinCache()
+        self.isDisplayedOnWatch = true
         TFCCache.objects.stations.setObject(self, forKey: "compldata_displayed")
     }
 
@@ -205,9 +206,10 @@ class ComplicationData: NSObject, NSCoding {
 
     private func buildTimelineEntries() {
         if let departures = station.getScheduledFilteredDepartures() {
-            if (isDisplayedOnWatch) {
+             /*if (isDisplayedOnWatch) {
+                DLog("\(station.name) is displayed on Watch already, don't build Timeline")
                 return
-            }
+            }*/
             //check if cached...
             if let lastDepartureDate = timelineCacheData.lastDepartureDate,
                 let firstDepartureDate = timelineCacheData.firstDepartureDate
@@ -215,6 +217,7 @@ class ComplicationData: NSObject, NSCoding {
                 if (timelineCacheData.count == departures.count
                     && lastDepartureDate == departures.last?.getScheduledTimeAsNSDate()
                     && firstDepartureDate == departures.first?.getScheduledTimeAsNSDate()) {
+                    DLog("\(station.name) didn't change, don't update timeline")
                     return;
                 }
             }
@@ -248,7 +251,6 @@ class ComplicationData: NSObject, NSCoding {
             timelineCacheData.count = departures.count
             timelineCacheData.firstDepartureDate = departures.first?.getScheduledTimeAsNSDate()
             timelineCacheData.lastDepartureDate = departures.last?.getScheduledTimeAsNSDate()
-            self.setPinCache()
             self.setIsDisplayedOnWatch()
             TFCDataStore.sharedInstance.watchdata.scheduleNextUpdate(noBackOffIncr: true)
         }
