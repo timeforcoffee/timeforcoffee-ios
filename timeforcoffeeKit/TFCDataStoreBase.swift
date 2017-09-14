@@ -52,7 +52,7 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
             if let lastComplicationStationId = cmpldata?.getStation().st_id
             {
                 if (forKey == "favorite\(lastComplicationStationId)") {
-                    DLog("updateComplicationData for \(forKey) since favorites changed")
+                    DLog("updateComplicationData for \(forKey) since favorites changed", toFile: true)
                     if let st = TFCStation.initWithCacheId(lastComplicationStationId) {
                         st.repopulateFavoriteLines()
                         st.needsCacheSave = true

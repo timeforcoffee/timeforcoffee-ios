@@ -115,6 +115,7 @@ class StationsOverviewViewController: WKInterfaceController {
     override func table(_ table: WKInterfaceTable, didSelectRowAt rowIndex: Int) {
         let row = table.rowController(at: rowIndex) as? StationsRow
         if let station = row?.station {
+            DLog("call fetchDepartureDataForStation")
             TFCWatchDataFetch.sharedInstance.fetchDepartureDataForStation(station)
             NotificationCenter.default.post(name: Notification.Name(rawValue: "TFCWatchkitSelectStation"), object: nil, userInfo: ["st_id": station.st_id, "name": station.name])
         }

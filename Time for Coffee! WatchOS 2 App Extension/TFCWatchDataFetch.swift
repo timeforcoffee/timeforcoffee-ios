@@ -79,6 +79,7 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
                     DLog("\(String(describing: lastViewedStation?.st_id)) != \(station.st_id)")
                     if (self.watchdata.needsTimelineDataUpdate(station, checkLastDeparture: false) ) {
                         if (lastViewedStation?.st_id != station.st_id) {
+                            DLog("call fetchDepartureDataForStation")
                             self.fetchDepartureDataForStation(station)
                         }
                     } else {
@@ -106,6 +107,8 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
                 taskCallback?()
             }
             if lastViewedStation != nil {
+                DLog("call fetchDepartureDataForStation")
+
                 self.fetchDepartureDataForStation(lastViewedStation!)
             }
             self.watchdata.startCrunchQueue {
@@ -125,6 +128,7 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
         }
         self.downloading[station.st_id] = Date()
         let sampleDownloadURL = URL(string: station.getDeparturesURL())!
+        DLog("station.lastDepartureUpdate: \(String(describing: station.lastDepartureUpdate))")
         if let lastDepartureUpdate = station.lastDepartureUpdate {
             if (lastDepartureUpdate.addingTimeInterval(60) > Date()) {
                 DLog("Station \(station.st_id) was updated less than a minute ago (at \(lastDepartureUpdate))", toFile: true)

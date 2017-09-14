@@ -272,6 +272,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
             }
         }
         if let nextUpdate = cmpldata?.getLastEntryDate() {
+            DLog("backoff: cmpldata?.getLastEntryDate() is \(nextUpdate.formattedWithDateFormatter(DLogDateFormatter))")
             // take the next update as 20 minutes before the last entry
             let lastEntryDate = nextUpdate.addingTimeInterval(Constants.TimelineUpdateMinutesBeforeEnd)
             //if lastEntryDate is before now, update again in 5 minutes

@@ -226,6 +226,7 @@ func currentQueueName() -> String? {
 
 func SendLogs2Phone() {
     #if DEBUG
+        DLog("SendLogs2Phone", toFile: true)
         if #available(iOS 9.0, *) {
 
             let filemanager = FileManager.default
