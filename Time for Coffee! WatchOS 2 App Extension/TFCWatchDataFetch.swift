@@ -45,11 +45,11 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
         return nil
     }
 
-    open func fetchDepartureData(task: WKApplicationRefreshBackgroundTask) {
+    open func fetchDepartureData(task: WKRefreshBackgroundTask) {
         func handleReply() {
             //DLog("finished WKApplicationRefreshBackgroundTask \(task) before barrier", toFile: true)
             TFCWatchData.crunchQueue.async(flags: .barrier, execute: {
-                DLog("finished WKApplicationRefreshBackgroundTask \(task)", toFile: true)
+                DLog("finished WKRefreshBackgroundTask \(task)", toFile: true)
                 DispatchQueue.main.async(execute: {
                     task.setTaskCompleted()
                 })
@@ -162,14 +162,20 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
 
     }
 
-    open func rejoinURLSession(_ urlTask: WKURLSessionRefreshBackgroundTask) {
-        let backgroundConfigObject = URLSessionConfiguration.background(withIdentifier: urlTask.sessionIdentifier)
+    open func rejoinURLSessionId(_ id: String) {
+        let backgroundConfigObject = URLSessionConfiguration.background(withIdentifier: id)
         let backgroundSession = Foundation.URLSession(configuration: backgroundConfigObject, delegate: self, delegateQueue: nil)
-        self.sessionRefreshTasks[urlTask.sessionIdentifier] = urlTask
         let st_id = backgroundSession.configuration.identifier
-        DLog("Rejoining session \(urlTask.sessionIdentifier) for id \(String(describing: st_id))", toFile: true)
-        if  !(self.validSessions[urlTask.sessionIdentifier] == true) {
-            self.completeTask(urlTask.sessionIdentifier)
+        DLog("Rejoining session \(id) for id \(String(describing: st_id)). backgroundSession \(backgroundSession.debugDescription)", toFile: true)
+    }
+
+    open func rejoinURLSession(_ urlTask: WKURLSessionRefreshBackgroundTask) {
+        let id = urlTask.sessionIdentifier
+        self.rejoinURLSessionId(id)
+        self.sessionRefreshTasks[id] = urlTask
+        if  !(self.validSessions[id] == true) {
+            DLog("Session for \(id) was not valid. add to valid sessions")
+            self.validSessions[id] = true
         }
     }
 
@@ -220,6 +226,18 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
                 })
                 self.sessionRefreshTasks.removeValue(forKey: sessID)
             }
+        })
+    }
+
+    open func getValidSessionIdsDump() -> String {
+        return self.getValidSessionIds().joined(separator: ", ");
+    }
+
+    open func getValidSessionIds() -> [String] {
+        return self.validSessions.filter({ (key: String, value: Bool) -> Bool in
+            return value
+        }).map({ (key:String, value: Bool) -> String in
+                return key
         })
     }
 
