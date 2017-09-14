@@ -100,7 +100,6 @@ class ComplicationData: NSObject, NSCoding {
 
     public static func initDisplayed() -> ComplicationData? {
         if let compldata = TFCCache.objects.stations.object(forKey: "compldata_displayed") as? ComplicationData {
-            DLog("ComplicationData displayed from cache")
             return compldata
         }
         DLog("ComplicationData displayed was nil")
@@ -250,6 +249,7 @@ class ComplicationData: NSObject, NSCoding {
             timelineCacheData.firstDepartureDate = departures.first?.getScheduledTimeAsNSDate()
             timelineCacheData.lastDepartureDate = departures.last?.getScheduledTimeAsNSDate()
             self.setPinCache()
+            self.setIsDisplayedOnWatch()
             TFCDataStore.sharedInstance.watchdata.scheduleNextUpdate(noBackOffIncr: true)
         }
     }
