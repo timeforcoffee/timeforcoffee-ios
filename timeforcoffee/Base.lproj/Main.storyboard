@@ -482,7 +482,7 @@
                                 </connections>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g1K-Z1-pZl">
-                                <rect key="frame" x="20" y="25" width="39" height="30"/>
+                                <rect key="frame" x="10" y="25" width="39" height="30"/>
                                 <state key="normal" title="Close">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -495,7 +495,7 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="3UL-Sm-ji9" secondAttribute="bottom" id="9bG-qf-GTk"/>
-                            <constraint firstItem="Vdf-OW-lmL" firstAttribute="leading" secondItem="g1K-Z1-pZl" secondAttribute="leading" constant="-20" id="BWm-kL-1Ha"/>
+                            <constraint firstItem="Vdf-OW-lmL" firstAttribute="leading" secondItem="g1K-Z1-pZl" secondAttribute="leading" constant="-10" id="BWm-kL-1Ha"/>
                             <constraint firstItem="Vdf-OW-lmL" firstAttribute="bottom" secondItem="IB3-FS-UyE" secondAttribute="bottom" constant="-4" id="IHk-0a-6NQ"/>
                             <constraint firstItem="3UL-Sm-ji9" firstAttribute="top" secondItem="vTl-5k-23u" secondAttribute="top" id="IW9-ou-exh"/>
                             <constraint firstAttribute="width" secondItem="IB3-FS-UyE" secondAttribute="width" multiplier="3" constant="-1200" id="IYX-kV-hl1"/>
@@ -710,7 +710,7 @@
                             <constraint firstItem="67I-cf-lcA" firstAttribute="top" secondItem="YVK-Ph-gqv" secondAttribute="top" constant="5" id="mat-vl-ZOk"/>
                             <constraint firstItem="67I-cf-lcA" firstAttribute="leading" secondItem="Bpp-cB-QQS" secondAttribute="leadingMargin" constant="-6" id="p3Q-mi-yj7"/>
                             <constraint firstAttribute="bottom" secondItem="LKV-Yr-NUS" secondAttribute="bottom" constant="359" id="rN2-jf-TLi"/>
-                            <constraint firstItem="67I-cf-lcA" firstAttribute="leading" secondItem="Bpp-cB-QQS" secondAttribute="leadingMargin" constant="-6" id="szs-Wq-egl"/>
+                            <constraint firstItem="67I-cf-lcA" firstAttribute="leading" secondItem="YVK-Ph-gqv" secondAttribute="leading" constant="10" id="szs-Wq-egl"/>
                             <constraint firstItem="67I-cf-lcA" firstAttribute="top" secondItem="YVK-Ph-gqv" secondAttribute="top" constant="10" id="tnR-4S-Xac"/>
                             <constraint firstItem="YVK-Ph-gqv" firstAttribute="bottom" secondItem="LKV-Yr-NUS" secondAttribute="bottom" constant="251" id="uVe-aj-oKr"/>
                             <constraint firstItem="Yuj-55-iz4" firstAttribute="leading" secondItem="Bpp-cB-QQS" secondAttribute="leadingMargin" id="wv6-Hw-0jF"/>
@@ -784,7 +784,7 @@
                 <navigationController storyboardIdentifier="NavigationController" automaticallyAdjustsScrollViewInsets="NO" id="6Gx-yE-V2l" customClass="TFCNavigationController" customModule="timeforcoffee" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="INQ-e5-Pmu">
-                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="48"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
