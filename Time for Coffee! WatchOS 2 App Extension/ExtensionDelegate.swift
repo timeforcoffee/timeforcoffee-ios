@@ -58,9 +58,9 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
     func applicationDidBecomeActive() {
         DLog("__", toFile: true)
-        DispatchQueue.global(qos: .utility).async {
+        //DispatchQueue.global(qos: .utility).async {
             TFCDataStore.sharedInstance.registerWatchConnectivity()
-        }
+        //}
     }
 
     func applicationWillEnterForeground() {
@@ -126,19 +126,13 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     }
 
     func handle(_ backgroundTasks: Set<WKRefreshBackgroundTask>) {
-
-        DLog("Valid Session Ids: \(TFCWatchDataFetch.sharedInstance.getValidSessionIdsDump())")
-      /*  for sessionId: String in TFCWatchDataFetch.sharedInstance.getValidSessionIds() {
-            TFCWatchDataFetch.sharedInstance.rejoinURLSessionId(sessionId)
-        }*/
-
         for task : WKRefreshBackgroundTask in backgroundTasks {
             DLog("received \(task) Backgroundtask" , toFile: true)
             if let arTask = task as? WKApplicationRefreshBackgroundTask {
                 DLog("received WKApplicationRefreshBackgroundTask")
                 TFCWatchDataFetch.sharedInstance.fetchDepartureData(task: arTask)
             } else if let urlTask = task as? WKURLSessionRefreshBackgroundTask {
-                DLog("received WKURLSessionRefreshBackgroundTask")
+                DLog("received WKURLSessionRefreshBackgroundTask for \(urlTask.sessionIdentifier)")
 
                 TFCWatchDataFetch.sharedInstance.rejoinURLSession(urlTask)
             } else if let wcBackgroundTask = task as? WKWatchConnectivityRefreshBackgroundTask {

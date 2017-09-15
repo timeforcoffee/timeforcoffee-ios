@@ -65,15 +65,6 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
         locManager?.refreshLocation()
     }
 
-    public func updateComplication(_ stations: TFCStations) {
-        if let firstStation = stations.getStation(0) {
-            if self.needsTimelineDataUpdate(firstStation) {
-                DLog("updateComplicationData", toFile: true)
-                updateComplicationData()
-            }
-        }
-    }
-
     /*
      * sometimes we want to wait a few seconds to see, if there's a new current location before we
      * start the complication update
@@ -324,9 +315,15 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
     }
     
     public func needsTimelineDataUpdate(_ station: TFCStation, checkLastDeparture:Bool = true) -> Bool {
+        let server = CLKComplicationServer.sharedInstance()
+        if let activeComplications = server.activeComplications, activeComplications.count == 0 {
+            DLog("No active complications, return false")
+            return false
+        }
         if let cmpldata = ComplicationData.initDisplayed() as ComplicationData?,
             let departures = station.getFilteredDepartures(nil, fallbackToAll: true)
         {
+            DLog("__")
             let backthreehours = Date().addingTimeInterval(-3600 * 3)
             if let lastComplicationUpdate = cmpldata.getLastUpdate() {
                 if lastComplicationUpdate < backthreehours {

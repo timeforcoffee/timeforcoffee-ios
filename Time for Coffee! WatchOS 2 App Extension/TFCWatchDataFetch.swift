@@ -118,7 +118,7 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
         }
     }
 
-    open func fetchDepartureDataForStation(_ station:TFCStation) {
+    open func fetchDepartureDataForStation(_ station:TFCStation, forceFromURL:Bool = false) {
         if let downloadingSince = self.downloading[station.st_id]  {
             //if downloading since less than 30 secs. don't again.
             if downloadingSince.addingTimeInterval(30) > Date() {
@@ -127,7 +127,6 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
             }
         }
         self.downloading[station.st_id] = Date()
-        let sampleDownloadURL = URL(string: station.getDeparturesURL())!
         DLog("station.lastDepartureUpdate: \(String(describing: station.lastDepartureUpdate))")
         if let lastDepartureUpdate = station.lastDepartureUpdate {
             if (lastDepartureUpdate.addingTimeInterval(60) > Date()) {
@@ -135,28 +134,41 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
                 return
             }
         }
-        DLog("Download \(sampleDownloadURL)", toFile: true)
+        if (!forceFromURL && TFCDataStore.sharedInstance.updateStationFromPhone(station: station, reply: { (worked) in
+            if (!worked) {
+                DLog("no connection to phone apparenty, fetch with session URL")
+                self.downloading.removeValue(forKey: station.st_id)
+                self.fetchDepartureDataForStation(station, forceFromURL: true)
+            } else {
+                
+            }
+        })) {
+            return
+        }
+
+
+        let sampleDownloadURL = URL(string: station.getDeparturesURL())!
+
+        DLog("Download \(sampleDownloadURL) for \(station.name)", toFile: true)
 
         let backgroundConfigObject = URLSessionConfiguration.background(withIdentifier: (UUID().uuidString))
         backgroundConfigObject.requestCachePolicy = .useProtocolCachePolicy
-
         if let uid = TFCDataStore.sharedInstance.getTFCID() {
             backgroundConfigObject.httpAdditionalHeaders = ["TFCID": uid]
+
         }
 
         let backgroundSession = Foundation.URLSession(configuration: backgroundConfigObject, delegate: self, delegateQueue: nil)
-
         backgroundConfigObject.sessionSendsLaunchEvents = true
 
         let downloadTask = backgroundSession.downloadTask(with: sampleDownloadURL)
-
         downloadTask.taskDescription = station.st_id
         if WKExtension.shared().applicationState == .active {
             downloadTask.priority = 1.0
         }
         if let id = backgroundConfigObject.identifier {
             self.validSessions[id] = true
-            DLog("Starting download task \(id)")
+            DLog("Starting download task \(id)  for \(station.name) ")
         }
         downloadTask.resume()
 
@@ -165,24 +177,49 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
     open func rejoinURLSessionId(_ id: String) {
         let backgroundConfigObject = URLSessionConfiguration.background(withIdentifier: id)
         let backgroundSession = Foundation.URLSession(configuration: backgroundConfigObject, delegate: self, delegateQueue: nil)
-        let st_id = backgroundSession.configuration.identifier
-        DLog("Rejoining session \(id) for id \(String(describing: st_id)). backgroundSession \(backgroundSession.debugDescription)", toFile: true)
+        DLog("Rejoining session \(id)", toFile: true)
+        backgroundSession.getAllTasks { (tasks) in
+            for task in tasks {
+                let stateString:String
+                switch (task.state) {
+                case .canceling:
+                    stateString = "canceling"
+                    break
+                case .completed:
+                    stateString = "completed"
+                    break
+                case .running:
+                    stateString = "running"
+                    break
+                case .suspended:
+                    stateString = "suspended"
+                }
+                DLog("session \(id) state: \(stateString).")
+                task.priority = URLSessionTask.highPriority
+                if (task.state == .suspended || task.state == .running) {
+                    task.resume()
+                }
+            }
+        }
     }
 
     open func rejoinURLSession(_ urlTask: WKURLSessionRefreshBackgroundTask) {
         let id = urlTask.sessionIdentifier
         self.rejoinURLSessionId(id)
         self.sessionRefreshTasks[id] = urlTask
-        if  !(self.validSessions[id] == true) {
-            DLog("Session for \(id) was not valid. add to valid sessions")
+        if !(self.validSessions[id] == true) {
+            DLog("Session for \(id) was not in validSessions. add to valid sessions")
             self.validSessions[id] = true
         }
     }
 
     fileprivate func handleURLSession(_ fileContent:Data?, st_id: String, sess_id: String? ) {
         //let fileContent = try? NSString(contentsOfURL: location, encoding: NSUTF8StringEncoding)
+        DLog("__")
         if let fileContent = fileContent {
+            DLog("__")
             if let station = TFCStation.initWithCacheId(st_id) {
+                DLog("__")
                 let  data = JSON(data: fileContent)
                 station.didReceiveAPIResults(data, error: nil, context: nil)
                 let isActive:Bool
@@ -242,12 +279,14 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
     }
 
     open func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
-       // DLog("Did download \(downloadTask.taskDescription) to \(location)", toFile: true)
+        DLog("Did download \(String(describing: downloadTask.taskDescription)) to \(location)", toFile: true)
         let fileContent = try? Data(contentsOf: location)
         if let st_id = downloadTask.taskDescription {
             if let start = self.downloading[st_id] {
                 let time = Date().timeIntervalSince1970 - start.timeIntervalSince1970
                 DLog("Download of \(st_id) took \(time) seconds. task: \(String(describing: session.configuration.identifier)) ", toFile: true)
+            } else {
+                DLog("Download of \(st_id) took unknown seconds. task: \(String(describing: session.configuration.identifier)) ", toFile: true)
             }
             if let lastDownload = lastDownload[st_id] {
                 if (lastDownload.addingTimeInterval(3) > Date()) {
@@ -259,7 +298,7 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
             lastDownload[st_id] = Date()
           //  DLog("task: \(String(describing: session.configuration.identifier))", toFile: true)
             self.watchdata.startCrunchQueue {
-                //DLog("crunchQueue start didFinishDownloadingToURL \(st_id) \(String(describing: session.configuration.identifier)) ")
+                DLog("crunchQueue start didFinishDownloadingToURL \(st_id) \(String(describing: session.configuration.identifier)) ")
                 self.handleURLSession(fileContent, st_id: st_id, sess_id: session.configuration.identifier)
                 DLog("crunchQueue end   didFinishDownloadingToURL \(st_id) \(String(describing: session.configuration.identifier)) ")
 

@@ -127,6 +127,10 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             DLog("WKExtension = Background", toFile: true)
         }
         super.didAppear()
+        if let title = station?.getName(true) {
+            self.setTitle(title)
+            self.lastShownStationId = station?.st_id
+        }
     }
 
     override func willDisappear() {
@@ -261,6 +265,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             return false
         }
         var returnValue = false
+        let _ = station?.removeObsoleteDepartures()
         let departures = station?.getFilteredDepartures(nil, fallbackToAll: true)?.prefix(10)
         var i = 0;
         if let departures2 = departures {

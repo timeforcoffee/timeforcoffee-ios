@@ -146,6 +146,7 @@ class ComplicationData: NSObject, NSCoding {
 
     public func getTimelineEntries(for complication: CLKComplication, after date:Date? = nil, limit:Int? = nil) -> [CLKComplicationTimelineEntry] {
         var entries = [CLKComplicationTimelineEntry]()
+        DLog("__")
         self.buildTimelineEntries()
         var lastDepartureTimeNew:Date? = timelineEntries.first?.departure1?.getScheduledTimeAsNSDate()
 
@@ -205,7 +206,11 @@ class ComplicationData: NSObject, NSCoding {
     }
 
     private func buildTimelineEntries() {
+        DLog("__")
+
         if let departures = station.getScheduledFilteredDepartures() {
+            DLog("__")
+
              /*if (isDisplayedOnWatch) {
                 DLog("\(station.name) is displayed on Watch already, don't build Timeline")
                 return

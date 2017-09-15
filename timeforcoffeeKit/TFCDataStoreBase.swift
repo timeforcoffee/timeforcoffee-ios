@@ -24,7 +24,7 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
     fileprivate let localUserDefaults: UserDefaults? = UserDefaults(suiteName: "ch.opendata.timeforcoffee.local")
     var keyvaluestore: AnyObject? { return nil}
     fileprivate var notificationObserver: AnyObject?
-
+    private var lastPong:Date? = nil
     open var localNotificationCallback:((String?) -> Void)? = nil
 
     @available(iOSApplicationExtension 9.0, *)
@@ -42,7 +42,7 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
         if #available(iOS 9, *) {
             if (withWCTransfer != false) {
                 let applicationDict = [forKey: anObject!]
-                sendData(applicationDict)
+                let _ = sendData(applicationDict)
             }
         }
         // make sure complications are updated as soon as possible with the new values
@@ -75,7 +75,7 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
         if #available(iOS 9, *) {
             if (withWCTransfer != false) {
                 let applicationDict = ["___remove___": forKey]
-                sendData(applicationDict as [String : Any])
+                let _ = sendData(applicationDict as [String : Any])
             }
         }
         #if os(watchOS)
@@ -148,9 +148,9 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
                                         }
                                         if #available(iOS 9, *) {
                                             if let value = self.keyvaluestore?.object(forKey: key) {
-                                                self.sendData([key: value])
+                                                let _ = self.sendData([key: value])
                                             } else {
-                                                self.sendData(["___remove___": key])
+                                                let _ = self.sendData(["___remove___": key])
                                             }
                                         }
                                     }
@@ -181,7 +181,7 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
     @available(iOSApplicationExtension 9.0, *)
     open func requestAllDataFromPhone() {
         DLog("__giveMeTheData__ sent", toFile: true)
-        sendData(["__giveMeTheData__": Date() as AnyObject], trySendMessage: true)
+        let _ = sendData(["__giveMeTheData__": Date() as AnyObject], trySendMessage: true)
     }
     #if os(iOS)
 
@@ -195,8 +195,16 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
     }
     #endif
 
-    @available(iOSApplicationExtension 9.0, *)
-    open func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+    public func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
+        for (myKey,_) in message {
+            if (myKey != "__logThis__") {
+                DLog("didReceiveMessage: \(myKey)", toFile: true)
+            }
+        }
+        parseReceiveInfo(message, replyHandler: replyHandler)
+    }
+
+    public func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
         for (myKey,_) in message {
             if (myKey != "__logThis__") {
                 DLog("didReceiveMessage: \(myKey)", toFile: true)
@@ -234,64 +242,128 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
 
 
     @available(iOSApplicationExtension 9.0, *)
-    open func sendData(_ message: [String: Any], trySendMessage: Bool = false, retryCounter:Int = 0) {
+    open func sendData(_ message: [String: Any], trySendMessage: Bool = false, fallbackToTransferUserInfo:Bool = true) -> Bool {
         // if we have too many outstandingUserInfoTransfers, something is wrong, try to send as sendMessage as alternative
-
         var sessionActive = true
         if #available(iOSApplicationExtension 9.3, *) {
             sessionActive = (self.session?.activationState == .activated)
+        } else {
+            return false
         }
         if (sessionActive) {
             let transferCount = self.session?.outstandingUserInfoTransfers.count
             if (self.session?.isReachable == true && (trySendMessage || (transferCount != nil && transferCount! > 10))) {
-                DLog("outstanding UserInfoTransfers \(String(describing: transferCount))")
+                DLog("phone is reachable, send as Message. outstanding UserInfoTransfers \(String(describing: transferCount))")
                 self.session?.sendMessage(message, replyHandler: nil, errorHandler: {(error: Error) in
-                    DLog("sendMessage failed due to error \(error): Send via transferUserInfo")
-                    self.session?.transferUserInfo(message)
+                    if (fallbackToTransferUserInfo) {
+                        DLog("sendMessage failed due to error \(error): Send via transferUserInfo")
+                        self.session?.transferUserInfo(message)
+                    }
                 })
             } else {
+                if (self.session?.isReachable == false) {
+                    DLog("phone is not reachable, send as transferUserInfo. trySendMessage: \(trySendMessage)")
+                }
                 self.session?.transferUserInfo(message)
             }
+            return true
+        }
+        return false
+    }
+
+    open func sendMessage(_ message:  [String: Any]) -> Bool {
+        return self.sendData(message, trySendMessage: true)
+    }
+
+    open func updateStationFromPhone(station: TFCStation, reply: ((Bool) -> Void)? = nil) -> Bool {
+        var phoneIsReachable = false
+        if #available(iOSApplicationExtension 9.3, *) {
+            self.registerWatchConnectivity()
+            if (self.session?.activationState == .activated && self.session?.isReachable == true) {
+                DLog("Phone seems to be reachable")
+                phoneIsReachable = true
+                DLog("send ping for pong")
+                self.session?.sendMessage(["__ping__": true], replyHandler: { (message:[String:Any]) in
+                    if let _ = message["__pong__"] as? Bool {
+                        DLog("__gotPong__ via Replyhandler")
+                        self.lastPong = Date()
+                    }
+                })
+            }
+        }
+        DLog("phoneIsReachable \(phoneIsReachable)")
+        if (phoneIsReachable == false) {
+            DLog("Phone is not reachable, use URLSession")
+            return false
+        }
+        if (self.sendMessage(["__getStationData__": station.st_id])) {
+            // check if we got a pong within 2 seconds. if not, fall back to URL
+            delay(3.0, closure: {
+                if (self.lastPong == nil || self.lastPong!.timeIntervalSinceNow < -5) {
+                    DLog("lastPong was too long ago \(String(describing: self.lastPong))")
+                    reply?(false)
+                } else {
+                    reply?(true)
+                }
+            })
+            DLog("Sent message to phone for for station id: \(station.st_id) \(station.name)")
+            return true
+        } else {
+            return false
         }
     }
 
     @available(iOSApplicationExtension 9.0, *)
-    func parseReceiveInfo(_ message: [String: Any]) {
+    func parseReceiveInfo(_ message: [String: Any],  replyHandler: (([String : Any]) -> Void)? = nil) {
         for (myKey,myValue) in message {
             if (myKey != "__logThis__") {
                 DLog("parseReceiveInfo: \(myKey)", toFile: true)
             }
             if (myKey == "__updateComplicationData__") {
                 if let value = myValue as? [String: AnyObject], let coordinates = value["coordinates"] as? [String: AnyObject], let lng = coordinates["longitude"] as? CLLocationDegrees, let lat = coordinates["latitude"] as? CLLocationDegrees {
-                    TFCLocationManagerBase.setCurrentLocation(CLLocation(latitude: lat, longitude: lng ), time: coordinates["time"] as? Date)
-                    DLog("coord was sent with __updateComplicationData__ \(lat), \(lng)", toFile: true)
+                    var complicationUpdate = true
+                    if let complicationUpdate2 = value["complicationUpdate"] as? Bool {
+                        complicationUpdate = complicationUpdate2
+                    }
+                    if (complicationUpdate) {
+                        TFCLocationManagerBase.setCurrentLocation(CLLocation(latitude: lat, longitude: lng ), time: coordinates["time"] as? Date)
+                        DLog("coord was sent with __updateComplicationData__ \(lat), \(lng)", toFile: true)
+                    }
                     NSKeyedUnarchiver.setClass(TFCStation.classForKeyedUnarchiver(), forClassName: "timeforcoffeeKit.TFCStation")
                     if let station = value["station"] as? Data, let sentStationDict = NSKeyedUnarchiver.unarchiveObject(with: station) as? [String:String] {
-                        if let sentStation = TFCStation.initWithCache(sentStationDict), let departures = value["departures"] as? Data {
-                            NSKeyedUnarchiver.setClass(TFCDeparture.classForKeyedUnarchiver(), forClassName: "timeforcoffeeKit.TFCDeparture")
-                            let sentDepartures = NSKeyedUnarchiver.unarchiveObject(with: departures) as? [TFCDeparture]
-                            DLog("station sent with __updateComplicationData__: \(sentStation.name) id: \(sentStation.st_id) with \(String(describing: sentDepartures?.count)) departures")
-                            sentStation.addDepartures(sentDepartures)
-                            sentStation.lastDepartureUpdate = Date()
-                            #if DEBUG
-                                self.sendData(["__complicationUpdateReceived__": "Received Complication update on watch for \(sentStation.name)"])
-                            #endif
+                        if let sentStation = TFCStation.initWithCache(sentStationDict) {
+                            if let departures = value["departures"] as? Data {
+
+                                NSKeyedUnarchiver.setClass(TFCDeparture.classForKeyedUnarchiver(), forClassName: "timeforcoffeeKit.TFCDeparture")
+                                let sentDepartures = NSKeyedUnarchiver.unarchiveObject(with: departures) as? [TFCDeparture]
+                                DLog("station sent with __updateComplicationData__: \(sentStation.name) id: \(sentStation.st_id) with \(String(describing: sentDepartures?.count)) departures and complicationUpdate: \(complicationUpdate)")
+                                sentStation.addDepartures(sentDepartures)
+                                sentStation.lastDepartureUpdate = Date()
+                            }
                             #if os(watchOS)
+
                                 if (sentStation.st_id == TFCWatchDataFetch.sharedInstance.getLastViewedStation()?.st_id) {
                                     NotificationCenter.default.post(name: Notification.Name(rawValue: "TFCWatchkitUpdateCurrentStation"), object: nil, userInfo: nil)
                                 }
-                                if let defaults = TFCDataStore.sharedInstance.getUserDefaults() {
-                                    defaults.setValue(sentStation.st_id, forKey: "lastFirstStationId")
+                                if (complicationUpdate) {
+                                    #if DEBUG
+                                        let _ = self.sendData(["__complicationUpdateReceived__": "Received Complication update on watch for \(sentStation.name)"])
+                                    #endif
+                                    if let depts = sentStation.getFilteredDepartures(nil, fallbackToAll: true), depts.count > 0 {
+                                        self.updateComplicationData()
+                                    }
+                                    if let defaults = TFCDataStore.sharedInstance.getUserDefaults() {
+                                        defaults.setValue(sentStation.st_id, forKey: "lastFirstStationId")
+                                    }
                                 }
-                                updateComplicationData()
                             #endif
                         }
                     }
 
                 } else {
                     DLog("no coord was sent with __updateComplicationData__ ", toFile: true)
+                    self.fetchDepartureData()
                 }
-                self.fetchDepartureData()
             } else if (myKey == "__logThis__") {
                 if let value = myValue as? String {
                     DLog("Watch: " + value, toFile: true)
@@ -302,6 +374,20 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
             } else if (myKey == "__sendLogs__") {
                 DLog("Got __sendLogs__");
                 SendLogs2Phone()
+            } else if (myKey == "__ping__") {
+                DLog("Got __ping__");
+                replyHandler?(["__pong__": true])
+            } else if (myKey == "__pong__") {
+                DLog("Got __pong__");
+                self.lastPong = Date()
+            } else if (myKey == "__getStationData__") {
+                DLog("Got __getStationData__");
+                if let st_id = myValue as? String {
+                    if let station = TFCStation.initWithCache(id: st_id) {
+                        DLog("For station \(st_id) \(station.name)")
+                        station.updateDepartures(self, context: ["complicationUpdate": false])
+                    }
+                }
             } else if (myKey == "___remove___") {
                 if let key = myValue as? String {
                     self.removeObjectForKey(key, withWCTransfer: false)
@@ -338,7 +424,7 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
 
     @available(iOSApplicationExtension 9.0, *)
     open func sessionReachabilityDidChange(_ session: WCSession) {
-        DLog("sessionReachabilityDidChange to \(session.isReachable) ")
+        DLog("sessionReachabilityDidChange to \(session.isReachable) ", toFile: true)
     }
 
     @available(iOSApplicationExtension 9.0, *)
@@ -360,8 +446,8 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
                 //  until this is done, the watch will keep asking for it
                 //  This is to avoid haveing no favourites on the watch to start with
                 allDataDict["TFCID"] = self.getTFCID()
-                sendData(allDataDict)
-                sendData(["__allDataResponseSent__": true])
+                let _ = sendData(allDataDict)
+                let _ = sendData(["__allDataResponseSent__": true])
 
             }
         }
@@ -491,12 +577,17 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
 
     open func departuresUpdated(_ error: Error?, context: Any?, forStation: TFCStation?) {
         var coord:CLLocationCoordinate2D? = nil
-        if let coordDict = context as? [String:CLLocationCoordinate2D?] {
-            if let coord2 = coordDict["coordinates"] {
+        var complicationUpdate = true
+        DLog("departuresUpdated for \(String(describing: forStation?.name))")
+        if let dict = context as? [String:Any?] {
+            if let coord2 = dict["coordinates"] as? CLLocationCoordinate2D {
                 coord = coord2
             }
+            if let complicationUpdate2 = dict["complicationUpdate"] as? Bool {
+                complicationUpdate = complicationUpdate2
+            }
         }
-        sendComplicationUpdate2(forStation, coord: coord)
+        sendComplicationUpdate2(forStation, coord: coord, complicationUpdate:complicationUpdate)
     }
 
     open func sendComplicationUpdate(_ station: TFCStation?, coord: CLLocationCoordinate2D? = nil) {
@@ -516,48 +607,55 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
         #endif
     }
 
-    fileprivate func sendComplicationUpdate2(_ station: TFCStation?, coord: CLLocationCoordinate2D? = nil) {
+    fileprivate func sendComplicationUpdate2(_ station: TFCStation?, coord: CLLocationCoordinate2D? = nil, complicationUpdate: Bool = true) {
         #if os(iOS)
             if #available(iOS 9, *) {
                 if let firstStation = station, let ud = TFCDataStore.sharedInstance.getUserDefaults() {
-                    if (ud.string(forKey: "lastFirstStationId") != firstStation.st_id) {
-                        var useComplicationTransfer = true
-                        var remaining:Int? = nil
-                        if #available(iOSApplicationExtension 10.0, *) {
-                            remaining = self.session?.remainingComplicationUserInfoTransfers
-                            if (remaining == nil || !(remaining! > 0)) {
-                                useComplicationTransfer = false
-                            }
-                            DLog("remainingComplicationUserInfoTransfers: \(String(describing: remaining))", toFile: true)
+                    if (complicationUpdate && ud.string(forKey: "lastFirstStationId") == firstStation.st_id) {
+                        return
+                    }
+                    var useComplicationTransfer = true
+                    var remaining:Int? = nil
+                    if #available(iOSApplicationExtension 10.0, *) {
+                        remaining = self.session?.remainingComplicationUserInfoTransfers
+                        if (remaining == nil || !(remaining! > 0)) {
+                            useComplicationTransfer = false
                         }
-                        var data:[String:Any] = [:]
+                        DLog("remainingComplicationUserInfoTransfers: \(String(describing: remaining))", toFile: true)
+                    }
+                    var data:[String:Any] = [:]
 
-                        if let coord = coord {
-                            DLog("send __updateComplicationData__ \(coord) (triggered for \(String(describing: station?.name))) id: \(String(describing: station?.st_id))", toFile: true)
-                            data["coordinates"] = [ "longitude": coord.longitude, "latitude": coord.latitude, "time": Date()]
-                        } else if let coord = firstStation.coord?.coordinate {
-                            DLog("send __updateComplicationData__ with \(coord) for \(String(describing: station?.name)) id: \(String(describing: station?.st_id))", toFile: true)
-                            data["coordinates"] = [ "longitude": coord.longitude, "latitude": coord.latitude]
-                        }
-                        #if DEBUG
+                    if let coord = coord {
+                        data["coordinates"] = [ "longitude": coord.longitude, "latitude": coord.latitude, "time": Date()]
+                    } else if let coord = firstStation.coord?.coordinate {
+                        data["coordinates"] = [ "longitude": coord.longitude, "latitude": coord.latitude]
+                    }
+                    #if DEBUG
+                        if (complicationUpdate) {
                             if let name = station?.name {
                                 self.localNotificationCallback?("Complication sent for \(name). Remaining: \(String(describing: remaining))")
                             }
-                        #endif
-                        data["station"] =  NSKeyedArchiver.archivedData(withRootObject: firstStation.getAsDict())
-                        if let filteredDepartures = firstStation.getFilteredDepartures() {
-                            data["departures"] =  NSKeyedArchiver.archivedData(withRootObject: Array(filteredDepartures.prefix(10)))
                         }
-
-                        let dict:[String:[String:Any]] = ["__updateComplicationData__": data]
-
-                        if (useComplicationTransfer) {
-                            self.session?.transferCurrentComplicationUserInfo(dict)
-                        } else {
-                            sendData(dict)
-                        }
-                        
+                    #endif
+                    if (complicationUpdate) {
+                        data["complicationUpdate"] = true
                         ud.setValue(firstStation.st_id, forKey: "lastFirstStationId")
+                    } else {
+                        data["complicationUpdate"] = false
+                    }
+                    DLog("send __updateComplicationData__ with \(String(describing: data["coordinates"])) for \(String(describing: station?.name)) id: \(String(describing: station?.st_id)) complicationUpdate: \(complicationUpdate)", toFile: true)
+
+                    data["station"] =  NSKeyedArchiver.archivedData(withRootObject: firstStation.getAsDict())
+                    if let filteredDepartures = firstStation.getFilteredDepartures(nil, fallbackToAll: true) {
+                        data["departures"] =  NSKeyedArchiver.archivedData(withRootObject: Array(filteredDepartures.prefix(10)))
+                    }
+
+                    let dict:[String:[String:Any]] = ["__updateComplicationData__": data]
+
+                    if (useComplicationTransfer && complicationUpdate) {
+                        self.session?.transferCurrentComplicationUserInfo(dict)
+                    } else {
+                        let _ = self.sendMessage(dict)
                     }
                 }
             }
