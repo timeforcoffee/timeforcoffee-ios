@@ -351,10 +351,13 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
                                     #endif
                                     if let depts = sentStation.getFilteredDepartures(nil, fallbackToAll: true), depts.count > 0 {
                                         self.updateComplicationData()
+                                        if let defaults = TFCDataStore.sharedInstance.getUserDefaults() {
+                                            defaults.setValue(sentStation.st_id, forKey: "lastFirstStationId")
+                                        }
                                     }
-                                    if let defaults = TFCDataStore.sharedInstance.getUserDefaults() {
-                                        defaults.setValue(sentStation.st_id, forKey: "lastFirstStationId")
-                                    }
+                                } else {
+                                    //check if we need to update the complication, even if not requested for
+                                    TFCWatchDataFetch.sharedInstance.updateComplicationIfNeeded(sentStation)
                                 }
                             #endif
                         }

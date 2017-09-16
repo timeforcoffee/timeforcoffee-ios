@@ -213,6 +213,21 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
         }
     }
 
+    public func updateComplicationIfNeeded(_ station: TFCStation) {
+        // check if we fetched the one in the complication and then update it
+        if let defaults = TFCDataStore.sharedInstance.getUserDefaults() {
+            DLog("\(station.st_id) == \(String(describing: defaults.string(forKey: "lastFirstStationId") ?? nil))", toFile: true)
+            if (station.st_id == defaults.string(forKey: "lastFirstStationId")) {
+                if let c = CLKComplicationServer.sharedInstance().activeComplications?.count, c > 0 {
+                    if self.watchdata.needsTimelineDataUpdate(station) {
+                        DLog("updateComplicationData", toFile: true)
+                        self.watchdata.updateComplicationData()
+                    }
+                }
+            }
+        }
+    }
+
     fileprivate func handleURLSession(_ fileContent:Data?, st_id: String, sess_id: String? ) {
         //let fileContent = try? NSString(contentsOfURL: location, encoding: NSUTF8StringEncoding)
         DLog("__")
@@ -228,18 +243,7 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
                     DLog("notification TFCWatchkitUpdateCurrentStation")
                     NotificationCenter.default.post(name: Notification.Name(rawValue: "TFCWatchkitUpdateCurrentStation"), object: nil, userInfo: nil)
                 }
-                // check if we fetched the one in the complication and then update it
-                if let defaults = TFCDataStore.sharedInstance.getUserDefaults() {
-                    DLog("\(st_id) == \(String(describing: defaults.string(forKey: "lastFirstStationId") ?? nil))", toFile: true)
-                    if (st_id == defaults.string(forKey: "lastFirstStationId")) {
-                        if let c = CLKComplicationServer.sharedInstance().activeComplications?.count, c > 0 {
-                            if self.watchdata.needsTimelineDataUpdate(station) {
-                                DLog("updateComplicationData", toFile: true)
-                                self.watchdata.updateComplicationData()
-                            }
-                        }
-                    }
-                }
+                self.updateComplicationIfNeeded(station)
             }
         } else {
             DLog("fileContent was nil", toFile: true)
