@@ -216,7 +216,7 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
         }
     }
     
-    func applicationDidBecomeActive(_ notification: Notification) {
+    @objc func applicationDidBecomeActive(_ notification: Notification) {
         self.station?.setStationActivity()
         NotificationCenter.default.removeObserver(self)
           NotificationCenter.default.addObserver(self, selector: #selector(DeparturesViewController.applicationDidBecomeInactive(_:)), name: NSNotification.Name(rawValue: "UIApplicationDidEnterBackgroundNotification"), object: nil)

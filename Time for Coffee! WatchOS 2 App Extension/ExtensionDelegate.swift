@@ -56,7 +56,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         }
     }
 
-    func applicationDidBecomeActive() {
+    @objc func applicationDidBecomeActive() {
         DLog("__", toFile: true)
         //DispatchQueue.global(qos: .utility).async {
             TFCDataStore.sharedInstance.registerWatchConnectivity()
