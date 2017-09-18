@@ -151,22 +151,24 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             } else if let snapshotTask = task as? WKSnapshotRefreshBackgroundTask {
 
                 DLog("received WKSnapshotRefreshBackgroundTask")
-                if #available(watchOSApplicationExtension 4.0, *) {
-                    if (snapshotTask.reasonForSnapshot == .appBackgrounded) {
-                        DLog("received WKSnapshotRefreshBackgroundTask.appBackgrounded")
-                    } else if (snapshotTask.reasonForSnapshot == .appScheduled) {
-                        DLog("received WKSnapshotRefreshBackgroundTask.appScheduled")
-                    } else if (snapshotTask.reasonForSnapshot == .complicationUpdate) {
-                        DLog("received WKSnapshotRefreshBackgroundTask.complicationUpdate")
-                    } else if (snapshotTask.reasonForSnapshot == .prelaunch) {
-                        DLog("received WKSnapshotRefreshBackgroundTask.prelaunch")
-                    } else if (snapshotTask.reasonForSnapshot == .returnToDefaultState) {
-                        DLog("received WKSnapshotRefreshBackgroundTask.returnToDefaultState")
+                #if DEBUG
+                    if #available(watchOSApplicationExtension 4.0, *) {
+                        if (snapshotTask.reasonForSnapshot == .appBackgrounded) {
+                            DLog("received WKSnapshotRefreshBackgroundTask.appBackgrounded")
+                        } else if (snapshotTask.reasonForSnapshot == .appScheduled) {
+                            DLog("received WKSnapshotRefreshBackgroundTask.appScheduled")
+                        } else if (snapshotTask.reasonForSnapshot == .complicationUpdate) {
+                            DLog("received WKSnapshotRefreshBackgroundTask.complicationUpdate")
+                        } else if (snapshotTask.reasonForSnapshot == .prelaunch) {
+                            DLog("received WKSnapshotRefreshBackgroundTask.prelaunch")
+                        } else if (snapshotTask.reasonForSnapshot == .returnToDefaultState) {
+                            DLog("received WKSnapshotRefreshBackgroundTask.returnToDefaultState")
 
+                        }
+                    } else {
+                        // Fallback on earlier versions
                     }
-                } else {
-                    // Fallback on earlier versions
-                }
+                #endif
                // if (snapshotTask.reasonForSnapshot == .complicationUpdate)
                 delaySnapshotComplete(snapshotTask,startTime: Date())
             } else {
@@ -184,25 +186,6 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         delay(delayTime, closure: {
             DLog("finished \(snapshotTask) Backgroundtask before barrier. ")
             TFCWatchData.crunchQueue.async(flags: .barrier, execute: {
-
-/*                if (TFCWatchDataFetch.sharedInstance.downloading.count > 0) {
-
-                    let startedSince = NSDate().timeIntervalSinceReferenceDate - startTime.timeIntervalSinceReferenceDate;
-                    if (startedSince < 10) {
-                        DLog("something \(TFCWatchDataFetch.sharedInstance.downloading.count) is still downloading, wait another 5 secs (waiting since \(startedSince))", toFile:true)
-                        for (key, value) in TFCWatchDataFetch.sharedInstance.downloading {
-                            DLog("\(key) is downloading with value: \(value)")
-                        }
-                        self.delaySnapshotComplete(snapshotTask, startTime: startTime)
-                        return
-                    } else {
-                        DLog("something \(TFCWatchDataFetch.sharedInstance.downloading.count)  is still downloading, but we waited since \(startedSince) seconds, continue", toFile:true)
-                        for (key, value) in TFCWatchDataFetch.sharedInstance.downloading {
-                            DLog("\(key) is downloading with value: \(value)")
-                        }
-
-                    }
-                }*/
                 if (TFCWatchData.crunchQueueTasks > 0) {
                     DLog("there's a new task in the crunchQueue, finish that first: \(TFCWatchData.crunchQueueTasks).")
                     let newCount = count + 1;
@@ -223,27 +206,26 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 DispatchQueue.main.async(execute: {
                     DLog("finished \(snapshotTask) Backgroundtask, next \(nextDate)", toFile: true)
 
-                    if #available(watchOSApplicationExtension 4.0, *) {
-                        if (snapshotTask.reasonForSnapshot == .appBackgrounded) {
-                            DLog("finished WKSnapshotRefreshBackgroundTask.appBackgrounded")
-                        } else if (snapshotTask.reasonForSnapshot == .appScheduled) {
-                            DLog("finished WKSnapshotRefreshBackgroundTask.appScheduled")
-                        } else if (snapshotTask.reasonForSnapshot == .complicationUpdate) {
-                            DLog("finished WKSnapshotRefreshBackgroundTask.complicationUpdate")
-                        } else if (snapshotTask.reasonForSnapshot == .prelaunch) {
-                            DLog("finished WKSnapshotRefreshBackgroundTask.prelaunch")
-                        } else if (snapshotTask.reasonForSnapshot == .returnToDefaultState) {
-                            DLog("finished WKSnapshotRefreshBackgroundTask.returnToDefaultState")
-
-                        }
-                    } else {
-                        // Fallback on earlier versions
-                    }
                     #if DEBUG
+                        if #available(watchOSApplicationExtension 4.0, *) {
+                            if (snapshotTask.reasonForSnapshot == .appBackgrounded) {
+                                DLog("finished WKSnapshotRefreshBackgroundTask.appBackgrounded")
+                            } else if (snapshotTask.reasonForSnapshot == .appScheduled) {
+                                DLog("finished WKSnapshotRefreshBackgroundTask.appScheduled")
+                            } else if (snapshotTask.reasonForSnapshot == .complicationUpdate) {
+                                DLog("finished WKSnapshotRefreshBackgroundTask.complicationUpdate")
+                            } else if (snapshotTask.reasonForSnapshot == .prelaunch) {
+                                DLog("finished WKSnapshotRefreshBackgroundTask.prelaunch")
+                            } else if (snapshotTask.reasonForSnapshot == .returnToDefaultState) {
+                                DLog("finished WKSnapshotRefreshBackgroundTask.returnToDefaultState")
+
+                            }
+                        } else {
+                            // Fallback on earlier versions
+                        }
                         DispatchQueue.global(qos: .background).async {
                             delay(3.0, closure: { snapshotTask.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: nextDate, userInfo: nil)})
                             SendLogs2Phone()
-
                         }
                     #else
                         snapshotTask.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: nextDate, userInfo: nil)

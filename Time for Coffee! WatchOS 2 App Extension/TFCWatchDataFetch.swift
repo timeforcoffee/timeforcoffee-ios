@@ -180,21 +180,23 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
         DLog("Rejoining session \(id)", toFile: true)
         backgroundSession.getAllTasks { (tasks) in
             for task in tasks {
-                let stateString:String
-                switch (task.state) {
-                case .canceling:
-                    stateString = "canceling"
-                    break
-                case .completed:
-                    stateString = "completed"
-                    break
-                case .running:
-                    stateString = "running"
-                    break
-                case .suspended:
-                    stateString = "suspended"
-                }
-                DLog("session \(id) state: \(stateString).")
+                #if DEBUG
+                    let stateString:String
+                    switch (task.state) {
+                    case .canceling:
+                        stateString = "canceling"
+                        break
+                    case .completed:
+                        stateString = "completed"
+                        break
+                    case .running:
+                        stateString = "running"
+                        break
+                    case .suspended:
+                        stateString = "suspended"
+                    }
+                    DLog("session \(id) state: \(stateString).")
+                #endif
                 task.priority = URLSessionTask.highPriority
                 if (task.state == .suspended || task.state == .running) {
                     task.resume()
