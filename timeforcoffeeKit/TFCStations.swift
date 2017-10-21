@@ -91,16 +91,16 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
                         if (name == name.uppercased()) {
                             continue
                         }
-                        if (inStationsArrayAsFavorite[id] == nil && (stationsAdded[id] == nil || stationsAdded[id]! < name.characters.count)) {
+                        if (inStationsArrayAsFavorite[id] == nil && (stationsAdded[id] == nil || stationsAdded[id]! < name.count)) {
                             // if we have a station with the same id but shorter name, remove it
                             // eg. Rappi
-                            if (stationsAdded[id] != nil && stationsAdded[id]! < name.characters.count) {
+                            if (stationsAdded[id] != nil && stationsAdded[id]! < name.count) {
                                 if let i = results2.indexOf({$0["id"].stringValue == id}) {
                                     results2.remove(at: i)
                                 }
                             }
 
-                            stationsAdded[id] = name.characters.count
+                            stationsAdded[id] = name.count
                             results2.append(result)
                         }
                     }

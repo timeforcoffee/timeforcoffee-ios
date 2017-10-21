@@ -104,7 +104,7 @@ public struct Regex {
 
 extension String {
     public func matchRegex(_ pattern: Regex) -> Bool {
-        let range: NSRange = NSMakeRange(0, self.characters.count)
+        let range: NSRange = NSMakeRange(0, self.count)
         if pattern.regex != nil {
             let matches: [AnyObject] = pattern.regex!.matches(in: self, options: pattern.matchingOptions, range: range)
             return matches.count > 0
@@ -118,7 +118,7 @@ extension String {
     
     public func replaceRegex(_ pattern: Regex, template: String) -> String {
         if self.matchRegex(pattern) {
-            let range: NSRange = NSMakeRange(0, self.characters.count)
+            let range: NSRange = NSMakeRange(0, self.count)
             if pattern.regex != nil {
                 return pattern.regex!.stringByReplacingMatches(in: self, options: pattern.matchingOptions, range: range, withTemplate: template)
             }
