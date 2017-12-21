@@ -969,8 +969,8 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
 
     fileprivate func setDeparturesAsOutdated() {
-        if (self.departures != nil) {
-            for (departure) in self.getDepartures()! {
+        if let departures = self.getDepartures() {
+            for (departure) in  departures {
                 departure.outdated = true
             }
         }

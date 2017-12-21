@@ -133,6 +133,10 @@
 		ECDB98E11E327FC3003FA5A1 /* TFCCrashlytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDB98DF1E327F36003FA5A1 /* TFCCrashlytics.swift */; };
 		ECDB98EC1E329DB3003FA5A1 /* TFCCrashlytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDB98EB1E329DB3003FA5A1 /* TFCCrashlytics.swift */; };
 		ECDDEAFC1E28C7470090E78F /* TFCStationCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0B0EAB1E16C214000E52AE /* TFCStationCollection.swift */; };
+		ECE44E4A1F9C8B8000A25FF2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE44E491F9C8B8000A25FF2 /* AppDelegate.swift */; };
+		ECE44E4C1F9C8B8000A25FF2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE44E4B1F9C8B8000A25FF2 /* ViewController.swift */; };
+		ECE44E4E1F9C8B8000A25FF2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ECE44E4D1F9C8B8000A25FF2 /* Assets.xcassets */; };
+		ECE44E511F9C8B8000A25FF2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ECE44E4F1F9C8B8000A25FF2 /* Main.storyboard */; };
 		ECE74C431BDEAAD8009CB3CA /* WithMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE74C421BDEAAD8009CB3CA /* WithMapViewController.swift */; };
 		ECE74C451BDEAB54009CB3CA /* PasslistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE74C441BDEAB54009CB3CA /* PasslistViewController.swift */; };
 		ECE74C471BDEBF2B009CB3CA /* TFCPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE74C461BDEBF2B009CB3CA /* TFCPass.swift */; };
@@ -381,6 +385,14 @@
 		ECD42E511D8B4D72006ED53E /* GATracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GATracker.swift; sourceTree = "<group>"; };
 		ECDB98DF1E327F36003FA5A1 /* TFCCrashlytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCCrashlytics.swift; sourceTree = "<group>"; };
 		ECDB98EB1E329DB3003FA5A1 /* TFCCrashlytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCCrashlytics.swift; sourceTree = "<group>"; };
+		ECE44E411F9C8AFF00A25FF2 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ECE44E471F9C8B7F00A25FF2 /* just-for-logs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "just-for-logs.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		ECE44E491F9C8B8000A25FF2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		ECE44E4B1F9C8B8000A25FF2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		ECE44E4D1F9C8B8000A25FF2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		ECE44E501F9C8B8000A25FF2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		ECE44E521F9C8B8000A25FF2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ECE44E531F9C8B8000A25FF2 /* just_for_logs.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = just_for_logs.entitlements; sourceTree = "<group>"; };
 		ECE74C421BDEAAD8009CB3CA /* WithMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WithMapViewController.swift; sourceTree = "<group>"; };
 		ECE74C441BDEAB54009CB3CA /* PasslistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasslistViewController.swift; sourceTree = "<group>"; };
 		ECE74C461BDEBF2B009CB3CA /* TFCPass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCPass.swift; sourceTree = "<group>"; };
@@ -446,6 +458,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		ECE44E441F9C8B7F00A25FF2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ECEDDACC1BC991800088AFB2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -485,6 +504,7 @@
 				EC46C52C1BB5C78A00F2A963 /* Time for Coffee! WatchOS 2 App Extension */,
 				EC46C5471BB5C7FD00F2A963 /* timeforcoffeeWatchKit */,
 				ECEDDAD01BC991800088AFB2 /* stations-importer */,
+				ECE44E481F9C8B7F00A25FF2 /* just-for-logs */,
 				EC46C5091BB5C71100F2A963 /* Frameworks */,
 				EC46C4DC1BB5C69800F2A963 /* Products */,
 				DAB2CA30A507610FEC3834D1 /* Pods */,
@@ -500,6 +520,7 @@
 				EC46C5281BB5C78A00F2A963 /* Time for Coffee! WatchOS 2 App Extension.appex */,
 				EC46C5591BB5C82800F2A963 /* timeforcoffeeKit.framework */,
 				ECEDDACF1BC991800088AFB2 /* stations-importer */,
+				ECE44E471F9C8B7F00A25FF2 /* just-for-logs.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -697,9 +718,23 @@
 			path = PINCache;
 			sourceTree = "<group>";
 		};
+		ECE44E481F9C8B7F00A25FF2 /* just-for-logs */ = {
+			isa = PBXGroup;
+			children = (
+				ECE44E491F9C8B8000A25FF2 /* AppDelegate.swift */,
+				ECE44E4B1F9C8B8000A25FF2 /* ViewController.swift */,
+				ECE44E4D1F9C8B8000A25FF2 /* Assets.xcassets */,
+				ECE44E4F1F9C8B8000A25FF2 /* Main.storyboard */,
+				ECE44E521F9C8B8000A25FF2 /* Info.plist */,
+				ECE44E531F9C8B8000A25FF2 /* just_for_logs.entitlements */,
+			);
+			path = "just-for-logs";
+			sourceTree = "<group>";
+		};
 		ECEDDAD01BC991800088AFB2 /* stations-importer */ = {
 			isa = PBXGroup;
 			children = (
+				ECE44E411F9C8AFF00A25FF2 /* Info.plist */,
 				ECEDDAD11BC991800088AFB2 /* main.swift */,
 				EC855BA21BC99649001ABD35 /* StreamReader.swift */,
 				EC855BB11BC9A2BF001ABD35 /* data.swift */,
@@ -826,6 +861,23 @@
 			productReference = EC46C5591BB5C82800F2A963 /* timeforcoffeeKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		ECE44E461F9C8B7F00A25FF2 /* just-for-logs */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ECE44E541F9C8B8000A25FF2 /* Build configuration list for PBXNativeTarget "just-for-logs" */;
+			buildPhases = (
+				ECE44E431F9C8B7F00A25FF2 /* Sources */,
+				ECE44E441F9C8B7F00A25FF2 /* Frameworks */,
+				ECE44E451F9C8B7F00A25FF2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "just-for-logs";
+			productName = "just-for-logs";
+			productReference = ECE44E471F9C8B7F00A25FF2 /* just-for-logs.app */;
+			productType = "com.apple.product-type.application";
+		};
 		ECEDDACE1BC991800088AFB2 /* stations-importer */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = ECEDDAD51BC991800088AFB2 /* Build configuration list for PBXNativeTarget "stations-importer" */;
@@ -850,8 +902,8 @@
 		EC46C4D31BB5C69800F2A963 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0900;
+				LastSwiftUpdateCheck = 0910;
+				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = opendata.ch;
 				TargetAttributes = {
 					EC46C4DA1BB5C69800F2A963 = {
@@ -922,6 +974,15 @@
 						DevelopmentTeam = 5J5N2M43JK;
 						LastSwiftMigration = 0900;
 					};
+					ECE44E461F9C8B7F00A25FF2 = {
+						CreatedOnToolsVersion = 9.1;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
+					};
 					ECEDDACE1BC991800088AFB2 = {
 						CreatedOnToolsVersion = 7.0;
 						DevelopmentTeam = 5J5N2M43JK;
@@ -950,6 +1011,7 @@
 				EC46C51B1BB5C78A00F2A963 /* Time for Coffee! WatchOS 2 App */,
 				EC46C5271BB5C78A00F2A963 /* Time for Coffee! WatchOS 2 App Extension */,
 				ECEDDACE1BC991800088AFB2 /* stations-importer */,
+				ECE44E461F9C8B7F00A25FF2 /* just-for-logs */,
 			);
 		};
 /* End PBXProject section */
@@ -1020,6 +1082,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ECE44E451F9C8B7F00A25FF2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ECE44E4E1F9C8B8000A25FF2 /* Assets.xcassets in Resources */,
+				ECE44E511F9C8B8000A25FF2 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1226,6 +1297,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		ECE44E431F9C8B7F00A25FF2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ECE44E4C1F9C8B8000A25FF2 /* ViewController.swift in Sources */,
+				ECE44E4A1F9C8B8000A25FF2 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ECEDDACB1BC991800088AFB2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1309,6 +1389,14 @@
 				EC9BCAF91BB5CB7700623F1A /* Base */,
 			);
 			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+		ECE44E4F1F9C8B8000A25FF2 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				ECE44E501F9C8B8000A25FF2 /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1588,11 +1676,13 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				CURRENT_PROJECT_VERSION = 206;
+				CURRENT_PROJECT_VERSION = 207;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = DN76797UYF;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 206;
+				DYLIB_CURRENT_VERSION = 207;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1623,11 +1713,13 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				CURRENT_PROJECT_VERSION = 206;
+				CURRENT_PROJECT_VERSION = 207;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = DN76797UYF;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 206;
+				DYLIB_CURRENT_VERSION = 207;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1652,12 +1744,75 @@
 			};
 			name = Release;
 		};
+		ECE44E551F9C8B8000A25FF2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = "just-for-logs/just_for_logs.entitlements";
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = DN76797UYF;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INFOPLIST_FILE = "just-for-logs/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.opendata.test.just-for-logs";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		ECE44E561F9C8B8000A25FF2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = "just-for-logs/just_for_logs.entitlements";
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DN76797UYF;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "just-for-logs/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.opendata.test.just-for-logs";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
 		ECEDDAD31BC991800088AFB2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				INFOPLIST_FILE = "$(SRCROOT)/stations-importer/Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = "stations-importer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SWIFT_VERSION = 2.3;
@@ -1668,7 +1823,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
+				INFOPLIST_FILE = "$(SRCROOT)/stations-importer/Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = "stations-importer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -1729,6 +1886,15 @@
 			buildConfigurations = (
 				EC46C5631BB5C82800F2A963 /* Debug */,
 				EC46C5641BB5C82800F2A963 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ECE44E541F9C8B8000A25FF2 /* Build configuration list for PBXNativeTarget "just-for-logs" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ECE44E551F9C8B8000A25FF2 /* Debug */,
+				ECE44E561F9C8B8000A25FF2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
