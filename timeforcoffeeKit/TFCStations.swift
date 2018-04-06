@@ -294,7 +294,7 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
                     return false
                 }
                 return true
-            }).flatMap {$0} // remove all optionals
+            }).compactMap {$0} // remove all optionals
         //sort by distance
         stations.sort(by: {
             if ($0.calculatedDistance == nil || $1.calculatedDistance == nil) {

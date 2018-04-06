@@ -112,7 +112,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 DLog("app launched with UIApplicationLaunchOptionsLocationKey: \(lO)", toFile: true)
             }
 
-            #if !((arch(i386) || arch(x86_64)) && os(iOS))
+            #if !(targetEnvironment(simulator))
                 let settings = SKTSettings(appToken: "7n3aaqyp9fr5kr7y1wjssd231")
                 //            settings.knowledgeBaseURL = "https://timeforcoffee.zendesk.com"
 

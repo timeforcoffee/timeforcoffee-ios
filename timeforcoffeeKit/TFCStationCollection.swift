@@ -1,7 +1,9 @@
 import Foundation
 
 
-open class TFCStationCollection: NSObject, Sequence, Collection, RangeReplaceableCollection {
+open class TFCStationCollection: NSObject, Sequence, Collection {
+
+    
 
     public typealias Element = TFCStation
     

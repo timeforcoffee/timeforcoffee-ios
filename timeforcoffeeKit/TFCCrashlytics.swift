@@ -6,7 +6,7 @@ final public class TFCCrashlytics: NSObject, CrashlyticsDelegate {
     public static let sharedInstance = TFCCrashlytics()
 
     public func initCrashlytics() {
-        #if !((arch(i386) || arch(x86_64)) && os(iOS))
+        #if !(targetEnvironment(simulator))
             DispatchQueue.main.async {
                 Crashlytics.sharedInstance().delegate = self;
                 Fabric.with([Crashlytics.self])
@@ -30,7 +30,7 @@ final public class TFCCrashlytics: NSObject, CrashlyticsDelegate {
 }
 
 func DLog2CLS(_ format:String, text: [CVarArg]) {
-    #if !((arch(i386) || arch(x86_64)) && os(iOS))
+    #if !(targetEnvironment(simulator))
         CLSLogv(format, getVaList(text))
     #endif
 }
