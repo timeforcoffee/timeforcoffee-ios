@@ -1,0 +1,3 @@
+- New feature: Stations available in spotlight search for quick access (only the ones you already looked at from this update on)
+- New feature: Provide walking direction to the station. Tap on a station annotation to show a callout with details and button. Tap on the left accessory control button to launch Maps app with navigation to the station (by Raphael Neuenschwander, many thanks)
+- Fixed some potential crashes
