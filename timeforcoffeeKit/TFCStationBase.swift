@@ -42,6 +42,12 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             }
         }
     }
+
+    fileprivate lazy var activity : NSUserActivity = {
+        [unowned self] in
+        NSUserActivity(activityType: "ch.opendata.timeforcoffee.station")
+        }()
+    
     #if DEBUG
     static var InstanceCounter:Int = 0
     static var instances:[String:Int] = [:]
@@ -1059,7 +1065,6 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
     open func setStationSearchIndex() {
     }
-
 
     open func getWebLink() -> URL? {
         //        {:location-id :ch_zh, :stops {"008591195" {:id "008591195", :name "Zürich, Höfliweg", :location {:lat 47.367569, :lng 8.51095}, :known-destinations ()}}, :stops-order ["008591195"]

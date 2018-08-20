@@ -11,6 +11,7 @@ import CoreLocation
 import MapKit
 import CoreSpotlight
 import MobileCoreServices
+import Intents
 
 open class TFCStation: TFCStationBase {
     fileprivate lazy var activity : NSUserActivity = {
@@ -159,7 +160,7 @@ open class TFCStation: TFCStationBase {
 
             if (uI["st_id"] == nil) {
                 DLog("station dict seems EMPTY")
-                return
+                return 
             }
             
             self.setStationSearchIndex()
@@ -170,6 +171,18 @@ open class TFCStation: TFCStationBase {
             activity.requiredUserInfoKeys = ["st_id", "name", "longitude", "latitude"]
             activity.isEligibleForSearch = true
             activity.isEligibleForPublicIndexing = true
+            activity.isEligibleForHandoff = true
+            if #available(iOSApplicationExtension 12.0, *) {
+                activity.isEligibleForPrediction = true
+                activity.persistentIdentifier = NSUserActivityPersistentIdentifier(self.st_id)
+                if let center = TFCLocationManager.getCurrentLocation()?.coordinate {
+                    let sc = INShortcut(userActivity: activity)
+                    let rsc = INRelevantShortcut(shortcut: sc)
+                    let region = CLCircularRegion(center: center,radius: CLLocationDistance(300), identifier: "currentLoc")
+                    rsc.relevanceProviders = [INLocationRelevanceProvider(region: region)]
+                    INRelevantShortcutStore.default.setRelevantShortcuts([rsc])
+                }
+            }
             activity.webpageURL = self.getWebLink()
             let userCalendar = Calendar.current
             let OneWeekFromNow = (userCalendar as NSCalendar).date(
@@ -180,17 +193,6 @@ open class TFCStation: TFCStationBase {
             activity.expirationDate = OneWeekFromNow
             activity.keywords = Set(getKeywords())
             activity.becomeCurrent()
-        }
-    }
-
-    override open func setStationSearchIndex() {
-        if #available(iOS 9, *) {
-            if (Bundle.main.bundleIdentifier == "ch.opendata.timeforcoffee") {
-                let item = CSSearchableItem(uniqueIdentifier: self.st_id, domainIdentifier: "stations", attributeSet: getAttributeSet())
-                CSSearchableIndex.default().indexSearchableItems([item], completionHandler: { (error) -> Void in
-
-                })
-            }
         }
     }
 
@@ -215,4 +217,14 @@ open class TFCStation: TFCStationBase {
         return keywords
     }
 
+    override open func setStationSearchIndex() {
+        if #available(iOS 9, *) {
+            if (Bundle.main.bundleIdentifier == "ch.opendata.timeforcoffee") {
+                let item = CSSearchableItem(uniqueIdentifier: self.st_id, domainIdentifier: "stations", attributeSet: getAttributeSet())
+                CSSearchableIndex.default().indexSearchableItems([item], completionHandler: { (error) -> Void in
+
+                })
+            }
+        }
+    }
 }

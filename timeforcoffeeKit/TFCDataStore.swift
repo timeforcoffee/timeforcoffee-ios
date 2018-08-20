@@ -10,7 +10,7 @@ import Foundation
 
 open class TFCDataStore: TFCDataStoreBase {
     
-    open static let sharedInstance = TFCDataStore()
+    public static let sharedInstance = TFCDataStore()
 
     override var keyvaluestore: AnyObject? {
         return NSUbiquitousKeyValueStore.default

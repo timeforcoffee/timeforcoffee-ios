@@ -196,7 +196,14 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         }
         if (!isInBackground) {
             if let station2 = self.station {
-                self.updateUserActivity("ch.opendata.timeforcoffee.station", userInfo: station2.getAsDict(), webpageURL: station2.getWebLink())
+
+                if #available(watchOSApplicationExtension 5.0, *) {
+                    station2.setStationActivity()
+                    self.update(station2.activity)
+                } else {
+                    self.updateUserActivity("ch.opendata.timeforcoffee.station", userInfo: station2.getAsDict(), webpageURL: station2.getWebLink())
+                }
+
             }
         }
     }

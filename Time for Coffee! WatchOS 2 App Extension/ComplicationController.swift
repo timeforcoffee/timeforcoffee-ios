@@ -28,6 +28,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     
     func getTimelineEndDate(for complication: CLKComplication, withHandler handler: @escaping (Date?) -> Void) {
         DLog("started getTimelineEndDateForComplication", toFile: true)
+        var replied = false
         func handleReply(_ stations: TFCStations?) {
             if let station = stations?.getStation(0) {
                 //FIXME: this should go into complicationdata
@@ -38,7 +39,10 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                     //FIXME: this should go into complicationdata
                     if let endDate = departures?.last?.getScheduledTimeAsNSDate() {
                         DLog("last Departure: \(endDate)", toFile: true)
-                        handler(endDate.addingTimeInterval(70))
+                        if (!replied) {
+                            handler(endDate.addingTimeInterval(70))
+                            replied = true
+                        }
                     } else {
                         let endDate = Date().addingTimeInterval(60)
                         DLog("no last Departure, set it to \(endDate)", toFile: true)
@@ -51,9 +55,15 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                         let storedData = cmpldata.copy() as! ComplicationData
                         storedData.setIsDisplayedOnWatch()
                         DLog("endDate: \(endDate)", toFile: true)
-                        handler(endDate)
+                        if (!replied) {
+                            handler(endDate)
+                            replied = true
+                        }
                     } else {
-                        handler(Date().addingTimeInterval(60))
+                        if (!replied) {
+                            handler(Date().addingTimeInterval(60))
+                            replied = true
+                        }
                     }
 
                     DLog("finished getTimelineEndDateForComplication", toFile: true)

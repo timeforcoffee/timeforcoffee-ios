@@ -16,7 +16,7 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
     var sessionRefreshTasks:[String:AnyObject] = [:]
     var validSessions:[String:Bool] = [:]
 
-    open static let sharedInstance = TFCWatchDataFetch()
+    public static let sharedInstance = TFCWatchDataFetch()
 
     override fileprivate init() {
         super.init()

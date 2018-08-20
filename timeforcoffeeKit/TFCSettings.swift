@@ -10,7 +10,7 @@ import Foundation
 
 open class TFCSettings {
 
-    open static let sharedInstance = TFCSettings()
+    public static let sharedInstance = TFCSettings()
 
     fileprivate init() {
     }

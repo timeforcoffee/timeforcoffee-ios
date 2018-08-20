@@ -11,7 +11,7 @@ import ClockKit
 
 open class TFCDataStore: TFCDataStoreBase {
 
-    open static let sharedInstance = TFCDataStore()
+    public static let sharedInstance = TFCDataStore()
 
     fileprivate override init() {
         super.init()

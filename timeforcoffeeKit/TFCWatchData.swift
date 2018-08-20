@@ -158,7 +158,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
  */
         func handleReply(_ replyInfo: [AnyHashable: Any]!) {
             startCrunchQueue {
-                DLog("searchForStationsInDB handleReply getStations \(replyInfo) \(String(describing: reply))", toFile: true)
+                DLog("searchForStationsInDB handleReply getStations \(String(describing: replyInfo)) \(String(describing: reply))", toFile: true)
                 if(replyInfo["lat"] != nil) {
                     let loc = CLLocation(latitude: replyInfo["lat"] as! Double, longitude: replyInfo["long"] as! Double)
                     if (favoritesOnly == true) {
