@@ -10,7 +10,6 @@ import Foundation
 import ClockKit
 private struct Constants {
     static let DepartureDuration = TimeInterval(60) // 1 minute
-    static let ComplicationColor = UIColor.orange
 }
 
 
@@ -342,7 +341,6 @@ class ComplicationData: NSObject, NSCoding {
 
         if let departure = departure, let departureTime = departure.getScheduledTimeAsNSDate() {
             let tmpl = CLKComplicationTemplateCircularSmallStackText()
-            tmpl.tintColor = Constants.ComplicationColor
             let departureLine = departure.getLine()
             tmpl.line1TextProvider = getDateProvider(departureTime)
             tmpl.line2TextProvider = CLKSimpleTextProvider(text: "\(departureLine)")
@@ -409,7 +407,6 @@ class ComplicationData: NSObject, NSCoding {
     @available(watchOSApplicationExtension 5.0, *)
     fileprivate func getGraphicsRectangularTemplate(_ station: TFCStation, departure: TFCDeparture?, nextDeparture: TFCDeparture?) -> CLKComplicationTemplateGraphicRectangularStandardBody {
         let tmpl = CLKComplicationTemplateGraphicRectangularStandardBody()
-        tmpl.tintColor = Constants.ComplicationColor
 
         tmpl.headerTextProvider = CLKSimpleTextProvider(text: station.getName(true))
         
@@ -428,7 +425,6 @@ class ComplicationData: NSObject, NSCoding {
         if let departure = departure, let departureTime = departure.getScheduledTimeAsNSDate() {
             let tmpl = CLKComplicationTemplateExtraLargeStackText()
 
-            tmpl.tintColor = Constants.ComplicationColor
             tmpl.highlightLine2 = false
             let departureLine = departure.getLine()
             tmpl.line1TextProvider = getDateProvider(departureTime)
@@ -444,7 +440,6 @@ class ComplicationData: NSObject, NSCoding {
         if let departure = departure {
 
             let tmpl = CLKComplicationTemplateUtilitarianLargeFlat()
-            tmpl.tintColor = Constants.ComplicationColor
             tmpl.textProvider = getTextProviderLong(departure, station)
             return tmpl
         }
@@ -456,7 +451,6 @@ class ComplicationData: NSObject, NSCoding {
 
         if let departure = departure {
             let tmpl = CLKComplicationTemplateUtilitarianSmallFlat()
-            tmpl.tintColor = Constants.ComplicationColor
             tmpl.textProvider = getTextProviderTimeAndLine(departure)
             return tmpl
         }
@@ -467,7 +461,6 @@ class ComplicationData: NSObject, NSCoding {
 
         if let  departure = departure, let departureTime = departure.getScheduledTimeAsNSDate() {
             let tmpl = CLKComplicationTemplateModularSmallStackText()
-            tmpl.tintColor = Constants.ComplicationColor
             let departureLine = departure.getLine()
             tmpl.line1TextProvider = getDateProvider(departureTime)
             tmpl.line2TextProvider = CLKSimpleTextProvider(text: "\(departureLine)")
@@ -484,7 +477,6 @@ class ComplicationData: NSObject, NSCoding {
             {
             let departureDestination = departure.getDestination(station)
             let tmpl = CLKComplicationTemplateGraphicCornerStackText()
-            tmpl.tintColor = Constants.ComplicationColor
             let departureLine = departure.getLine()
             tmpl.innerTextProvider = CLKSimpleTextProvider(text: "\(departureLine) \(departureDestination)")
             tmpl.outerTextProvider = getDateProvider(departureTime)
@@ -534,7 +526,6 @@ class ComplicationData: NSObject, NSCoding {
         let tmpl = CLKComplicationTemplateModularLargeTable() // Currently supports only ModularLarge
 
         tmpl.headerTextProvider = CLKSimpleTextProvider(text: station.getName(true))
-        tmpl.tintColor = Constants.ComplicationColor // affect only complications setup that allow custom colors
 
         var departureDestination = "-"
         var departureLine = "-"
