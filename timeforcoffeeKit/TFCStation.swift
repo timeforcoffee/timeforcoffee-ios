@@ -166,7 +166,7 @@ open class TFCStation: TFCStationBase {
             self.setStationSearchIndex()
 
             activity.contentAttributeSet = getAttributeSet()
-            activity.title = self.getName(false)
+            activity.title = "Show departures from \(self.getName(false))"
             activity.userInfo = uI
             activity.requiredUserInfoKeys = ["st_id", "name", "longitude", "latitude"]
             activity.isEligibleForSearch = true
@@ -185,12 +185,12 @@ open class TFCStation: TFCStationBase {
             }
             activity.webpageURL = self.getWebLink()
             let userCalendar = Calendar.current
-            let OneWeekFromNow = (userCalendar as NSCalendar).date(
+            let FourWeeksFromNow = (userCalendar as NSCalendar).date(
                 byAdding: [.day],
-                value: 7,
+                value: 28,
                 to: Date(),
                 options: [])!
-            activity.expirationDate = OneWeekFromNow
+            activity.expirationDate = FourWeeksFromNow
             activity.keywords = Set(getKeywords())
             activity.becomeCurrent()
         }
