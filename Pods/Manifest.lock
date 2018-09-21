@@ -8,6 +8,11 @@ DEPENDENCIES:
   - Smooch
   - SwipeView (from `https://github.com/nicklockwood/SwipeView.git`)
 
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - MGSwipeTableCell
+    - Smooch
+
 EXTERNAL SOURCES:
   SwipeView:
     :git: https://github.com/nicklockwood/SwipeView.git
@@ -24,4 +29,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: fa4fe322de777b1cc59cffe265a51172313f9c06
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.5.3

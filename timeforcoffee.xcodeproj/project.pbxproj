@@ -129,6 +129,7 @@
 		ECA9558E1E32B4B1008ABFC6 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECA9558C1E32B4B1008ABFC6 /* Fabric.framework */; };
 		ECA955911E32B9E9008ABFC6 /* GATracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD42E511D8B4D72006ED53E /* GATracker.swift */; };
 		ECA955921E32B9EA008ABFC6 /* GATracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD42E511D8B4D72006ED53E /* GATracker.swift */; };
+		ECADE6C121544F9C008B8793 /* CLKTextProvider+NNNCompoundTextProviding.m in Sources */ = {isa = PBXBuildFile; fileRef = ECADE6C021544F9C008B8793 /* CLKTextProvider+NNNCompoundTextProviding.m */; };
 		ECC1CD831D971DB20012E64F /* TFCNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC1CD821D971DB20012E64F /* TFCNotification.swift */; };
 		ECDB98E11E327FC3003FA5A1 /* TFCCrashlytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDB98DF1E327F36003FA5A1 /* TFCCrashlytics.swift */; };
 		ECDB98EC1E329DB3003FA5A1 /* TFCCrashlytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDB98EB1E329DB3003FA5A1 /* TFCCrashlytics.swift */; };
@@ -379,6 +380,8 @@
 		ECA72B7B1BB6D23E00506300 /* Time for Coffee! WatchOS 2 App Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Time for Coffee! WatchOS 2 App Extension.entitlements"; sourceTree = "<group>"; };
 		ECA9558B1E32B4B1008ABFC6 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		ECA9558C1E32B4B1008ABFC6 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		ECADE6BF21544F78008B8793 /* CLKTextProvider+NNNCompoundTextProviding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CLKTextProvider+NNNCompoundTextProviding.h"; sourceTree = "<group>"; };
+		ECADE6C021544F9C008B8793 /* CLKTextProvider+NNNCompoundTextProviding.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CLKTextProvider+NNNCompoundTextProviding.m"; sourceTree = "<group>"; };
 		ECC1CD821D971DB20012E64F /* TFCNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCNotification.swift; sourceTree = "<group>"; };
 		ECCDFA4D1BFA084C002DD92D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/MainInterface.strings; sourceTree = "<group>"; };
 		ECCDFA4F1BFA084C002DD92D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -619,6 +622,8 @@
 				EC604D031D8714A200ED1950 /* FavoriteStationsOverviewController.swift */,
 				EC050CF71BB84D8100ECB533 /* watch-extension-bridging-Header.h */,
 				EC46C5351BB5C78A00F2A963 /* Info.plist */,
+				ECADE6BF21544F78008B8793 /* CLKTextProvider+NNNCompoundTextProviding.h */,
+				ECADE6C021544F9C008B8793 /* CLKTextProvider+NNNCompoundTextProviding.m */,
 			);
 			path = "Time for Coffee! WatchOS 2 App Extension";
 			sourceTree = "<group>";
@@ -774,7 +779,6 @@
 				EC46C5401BB5C78A00F2A963 /* Embed Watch Content */,
 				ECC289121BB6883A00A04CE5 /* ShellScript */,
 				0406B065C480F9FE74105131 /* [CP] Embed Pods Frameworks */,
-				8E026934F4FC4F1652AC1841 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1103,28 +1107,20 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-timeforcoffee/Pods-timeforcoffee-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/MGSwipeTableCell/MGSwipeTableCell.framework",
+				"${PODS_ROOT}/Smooch/Smooch.framework",
+				"${BUILT_PRODUCTS_DIR}/SwipeView/SwipeView.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MGSwipeTableCell.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Smooch.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwipeView.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-timeforcoffee/Pods-timeforcoffee-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8E026934F4FC4F1652AC1841 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-timeforcoffee/Pods-timeforcoffee-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C68156A2BE04A397D54C0E41 /* [CP] Check Pods Manifest.lock */ = {
@@ -1133,13 +1129,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-timeforcoffee-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		ECC289121BB6883A00A04CE5 /* ShellScript */ = {
@@ -1237,6 +1236,7 @@
 				ECEBB7FE1BC7241A00AB83B9 /* TFCStationModel.swift in Sources */,
 				EC050CF61BB84D5B00ECB533 /* TFCWatchData.swift in Sources */,
 				EC050CF81BB84DC700ECB533 /* TFCLocationManager.swift in Sources */,
+				ECADE6C121544F9C008B8793 /* CLKTextProvider+NNNCompoundTextProviding.m in Sources */,
 				ECEBB7FF1BC7241D00AB83B9 /* TFCStationModel+CoreDataProperties.swift in Sources */,
 				EC050CF91BB84DD200ECB533 /* TFCDataStore.swift in Sources */,
 				EC050CF01BB84D5B00ECB533 /* TFCDeparture.swift in Sources */,
@@ -1682,11 +1682,11 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				CURRENT_PROJECT_VERSION = 208;
+				CURRENT_PROJECT_VERSION = 209;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = DN76797UYF;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 208;
+				DYLIB_CURRENT_VERSION = 209;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1719,11 +1719,11 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				CURRENT_PROJECT_VERSION = 208;
+				CURRENT_PROJECT_VERSION = 209;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = DN76797UYF;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 208;
+				DYLIB_CURRENT_VERSION = 209;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (

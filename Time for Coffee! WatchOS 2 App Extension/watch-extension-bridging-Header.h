@@ -17,4 +17,5 @@
 #ifndef watch_Bridging_Header_h
 #define watch_Bridging_Header_h
 #import "../timeforcoffeeKit/PINCache/PINCache.h"
+#import "CLKTextProvider+NNNCompoundTextProviding.h"
 #endif

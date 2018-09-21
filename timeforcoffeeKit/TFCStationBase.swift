@@ -498,7 +498,11 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         } else {
             name = ""
         }
-        return initWithCacheId(dict["st_id"] as String!, name: name, coord: location)
+        if let st_id = dict["st_id"] {
+            return initWithCacheId(st_id, name: name, coord: location)
+        }
+        return initWithCacheId("", name: name, coord: location)
+
     }
 
     open class func initWithCacheId(_ id:String, name:String = "", coord: CLLocation? = nil)-> TFCStation? {
