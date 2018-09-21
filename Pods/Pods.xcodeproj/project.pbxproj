@@ -7,12 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		02C3B5C4CB40FFA9F7D5BF21A06E062F /* MGSwipeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 89390D8E12C6100DF86E464BFF2B8970 /* MGSwipeButton.m */; };
 		10CE4E603FA747522CDA6C946363B039 /* Pods-timeforcoffee-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = ED325752539C0F8A3253EABFFC160B27 /* Pods-timeforcoffee-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		112B3AE3695C10E75BD89585295481AB /* MGSwipeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 89390D8E12C6100DF86E464BFF2B8970 /* MGSwipeButton.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		181A9C4C01FE49B42A1F01A506873F56 /* MGSwipeTableCell-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D303CAA9F2CB0E8D11AB261E96C5508B /* MGSwipeTableCell-dummy.m */; };
+		1CDA9CF3831C4BE7AC9F922031EDB667 /* MGSwipeTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE4BD18099AB4B00BF099F663220BDC3 /* MGSwipeTableCell.m */; };
 		3A7C98AF58E817A8F2EF00F8272BBE3B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A16F4CFC63FAC439D7A04994F579A03 /* Foundation.framework */; };
 		57066CB774C7E851496B1C56BC4F6955 /* SwipeView-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 34E3FDF3B8B916872F4B5E7882D9F8A7 /* SwipeView-dummy.m */; };
 		57C2D7ADB70F63AE006948271813700F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A16F4CFC63FAC439D7A04994F579A03 /* Foundation.framework */; };
-		6CA804342026C8DD0D47F82901AE587D /* MGSwipeTableCell-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D303CAA9F2CB0E8D11AB261E96C5508B /* MGSwipeTableCell-dummy.m */; };
 		78E2B54A9F66749D4244DBEDA3DA8746 /* SwipeView-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 49729946E36A1E3AD164DA55C3E68BFF /* SwipeView-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7FED3C11DCC49492226E10D32917676D /* SwipeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E736109E8A22ACD6FE4F3E18B37896C /* SwipeView.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
 		853A57622AD74BC28B636A4BA38E6873 /* MGSwipeTableCell.h in Headers */ = {isa = PBXBuildFile; fileRef = BBAC774B089681E50062A62070CE3AAB /* MGSwipeTableCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -20,7 +21,6 @@
 		C2A86CD9CE8262A5272387FC6BCD50C1 /* SwipeView.h in Headers */ = {isa = PBXBuildFile; fileRef = 53D4738B218916C8CE54014822CFB182 /* SwipeView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C49B2358778560922EE093857907B2A8 /* Pods-timeforcoffee-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C63A746AB1FEF8EC58EC80615103112C /* Pods-timeforcoffee-dummy.m */; };
 		C9BB9572D929D9F65BD27F9AB29562EB /* MGSwipeTableCell-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ABEA89C2D2AB898C34DEC8F74287F6C /* MGSwipeTableCell-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DB33341B93BFF0A556A6F333BE95CFAD /* MGSwipeTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE4BD18099AB4B00BF099F663220BDC3 /* MGSwipeTableCell.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
 		E4BF47046BA4675E1DA2F34893947702 /* MGSwipeButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D0906E21CF6A72DD488BD25FFB6067C /* MGSwipeButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
@@ -301,7 +301,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 782AD3C225DF6AF102A6DB24AFC59B5F /* Build configuration list for PBXNativeTarget "MGSwipeTableCell" */;
 			buildPhases = (
-				119E444BE35160E7AD3F82008DEF1E29 /* Sources */,
+				E5160283030B58DF7DFFA1BDC106605C /* Sources */,
 				5F86A802147CAEDCD5D2F69F78B5A758 /* Frameworks */,
 				60763A650B6C8007ECC91753A617BAB1 /* Headers */,
 			);
@@ -379,16 +379,6 @@
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		119E444BE35160E7AD3F82008DEF1E29 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				112B3AE3695C10E75BD89585295481AB /* MGSwipeButton.m in Sources */,
-				6CA804342026C8DD0D47F82901AE587D /* MGSwipeTableCell-dummy.m in Sources */,
-				DB33341B93BFF0A556A6F333BE95CFAD /* MGSwipeTableCell.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		12A2938178FE988630C3D48412862806 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -403,6 +393,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				C49B2358778560922EE093857907B2A8 /* Pods-timeforcoffee-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E5160283030B58DF7DFFA1BDC106605C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				02C3B5C4CB40FFA9F7D5BF21A06E062F /* MGSwipeButton.m in Sources */,
+				181A9C4C01FE49B42A1F01A506873F56 /* MGSwipeTableCell-dummy.m in Sources */,
+				1CDA9CF3831C4BE7AC9F922031EDB667 /* MGSwipeTableCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

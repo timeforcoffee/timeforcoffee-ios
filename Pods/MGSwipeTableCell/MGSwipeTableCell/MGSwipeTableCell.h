@@ -39,7 +39,8 @@ typedef NS_ENUM(NSInteger, MGSwipeState) {
 /** Swipe state */
 typedef NS_ENUM(NSInteger, MGSwipeExpansionLayout) {
     MGSwipeExpansionLayoutBorder = 0,
-    MGSwipeExpansionLayoutCenter
+    MGSwipeExpansionLayoutCenter,
+    MGSwipeExpansionLayoutNone
 };
 
 /** Swipe Easing Function */
@@ -85,6 +86,10 @@ typedef NS_ENUM(NSInteger, MGSwipeEasingFunction) {
 @property (nonatomic, assign) CGFloat topMargin;
 /** Bottom margin of the buttons relative to the contentView */
 @property (nonatomic, assign) CGFloat bottomMargin;
+/** Distance between the buttons. Default value : 0 */
+@property (nonatomic, assign) CGFloat buttonsDistance;
+/** If true, expands the last button length by safeAreaInsets. Useful for devices with a notch (e.g. iPhone X) */
+@property (nonatomic, assign) BOOL expandLastButtonBySafeAreaInsets;
 
 /** Animation settings when the swipe buttons are shown */
 @property (nonatomic, strong, nonnull) MGSwipeAnimation * showAnimation;
@@ -110,6 +115,9 @@ typedef NS_ENUM(NSInteger, MGSwipeEasingFunction) {
 /** Coefficient applied to cell movement in bounce zone. Set to value between 0.0 and 1.0
     to make the cell 'resist' swiping after buttons are revealed. Default is 1.0 */
 @property (nonatomic, assign) CGFloat swipeBounceRate;
+
+// default is NO. Controls whether buttons with different width are allowed. Buttons are resized to have the same size by default.
+@property (nonatomic) BOOL allowsButtonsWithDifferentWidth;
 
 @end
 
@@ -236,7 +244,7 @@ typedef NS_ENUM(NSInteger, MGSwipeEasingFunction) {
 // default is NO. Controls whether multiple cells can be swiped simultaneously
 @property (nonatomic) BOOL allowsMultipleSwipe;
 // default is NO. Controls whether buttons with different width are allowed. Buttons are resized to have the same size by default.
-@property (nonatomic) BOOL allowsButtonsWithDifferentWidth;
+@property (nonatomic) BOOL allowsButtonsWithDifferentWidth DEPRECATED_MSG_ATTRIBUTE("Use MGSwipeSettings.allowsButtonsWithDifferentWidth instead");
 //default is YES. Controls whether swipe gesture is allowed when the touch starts into the swiped buttons
 @property (nonatomic) BOOL allowsSwipeWhenTappingButtons;
 //default is YES. Controls whether swipe gesture is allowed in opposite directions. NO value disables swiping in opposite direction once started in one direction
@@ -258,7 +266,7 @@ typedef NS_ENUM(NSInteger, MGSwipeEasingFunction) {
 -(void) showSwipe: (MGSwipeDirection) direction animated: (BOOL) animated;
 -(void) showSwipe: (MGSwipeDirection) direction animated: (BOOL) animated completion:(nullable void(^)(BOOL finished)) completion;
 -(void) setSwipeOffset:(CGFloat)offset animated: (BOOL) animated completion:(nullable void(^)(BOOL finished)) completion;
--(void) setSwipeOffset:(CGFloat)offset animation: (nonnull MGSwipeAnimation *) animation completion:(nullable void(^)(BOOL finished)) completion;
+-(void) setSwipeOffset:(CGFloat)offset animation: (nullable MGSwipeAnimation *) animation completion:(nullable void(^)(BOOL finished)) completion;
 -(void) expandSwipe: (MGSwipeDirection) direction animated: (BOOL) animated;
 
 /** Refresh method to be used when you want to update the cell contents while the user is swiping */
