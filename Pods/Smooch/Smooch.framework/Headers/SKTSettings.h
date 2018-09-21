@@ -2,29 +2,73 @@
 //  SKTSettings.h
 //  Smooch
 //
-//  Copyright (c) 2015 Smooch Technologies. All rights reserved.
-//
 
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
+/**
+ *  @abstract When added to allowedMenuItems, enables the option to take a photo from the conversation view
+ */
+extern NSString * const SKTMenuItemCamera;
+
+/**
+ *  @abstract When added to allowedMenuItems, enables the option to select an image or video from gallery from the conversation view
+ */
+extern NSString * const SKTMenuItemGallery;
+
+/**
+ *  @abstract When added to allowedMenuItems, enables the option to upload a document from the conversation view
+ */
+extern NSString * const SKTMenuItemDocument;
+
+/**
+ *  @abstract When added to allowedMenuItems, enables the option to share location from the conversation view
+ */
+extern NSString * const SKTMenuItemLocation;
+
 @interface SKTSettings : NSObject
 
 /**
- *  @abstract Initializes a settings object with the given app token.
+ *  @abstract Initializes a settings object with the given app id.
  *
- *  @param appToken A valid app token retrieved from the Smooch web portal.
+ *  @param appId A valid app id retrieved from the Smooch web portal.
  */
-+(instancetype)settingsWithAppToken:(NSString*)appToken;
++(instancetype)settingsWithAppId:(NSString*)appId;
 
 /**
- *  @abstract The app token corresponding to your application.
+ *  @abstract Initializes a settings object with the given app id and auth code.
  *
- *  @discussion App tokens are issued on the Smooch web portal. 
+ *  @param appId A valid app id retrieved from the Smooch web portal.
+ *  @param authCode A valid auth code generated from the Smooch API.
+ */
++(instancetype)settingsWithAppId:(NSString*)appId andAuthCode:(NSString*)authCode;
+
+/**
+ *  @abstract The app id corresponding to your application.
+ *
+ *  @discussion App id can be retrieved from the Smooch web portal
  *
  *  This value may only be set once, and must be set at init time.
  */
-@property(nonatomic, copy) NSString* appToken;
+@property(nonatomic, copy) NSString* appId;
+
+/**
+ *  @abstract The auth code being used to authenticate as an existing user.
+ *
+ *  @discussion Auth code can be retrieved from the Smooch API
+ *
+ *  This value may only be set once, and must be set at init time.
+ */
+@property(nonatomic, copy) NSString* authCode;
+
+/**
+ *  @abstract The Smooch region for this account.
+ *
+ *  @discussion Leave unspecified to use the default region (US). Set to "eu-1" to use the EU region.
+ *
+ */
+@property(nonatomic, copy) NSString* region;
 
 /**
  *  @abstract The accent color for the conversation screen.
@@ -39,32 +83,28 @@ NS_ASSUME_NONNULL_BEGIN
  *  @abstract The status bar style to use on the conversation screen.
  *
  *  @discussion You should use this property if your app uses UIAppearance to style UINavigationBar, and your styling requires a specific status bar color.
- * 
+ *
  *  The default value is UIStatusBarStyleDefault.
  */
 @property UIStatusBarStyle conversationStatusBarStyle;
 
 /**
- *  @abstract The distinct id of the current user, if known.
+ *  @abstract The items to display in the conversation menu
  *
- *  @discussion Defaults to the last known user id for the given app token (user login state is persisted between app launches). Defaults to nil if the previous user was anonymous, or if there was no previous user.
+ *  @discussion Valid values are SKTMenuItemCamera, SKTMenuItemGallery, SKTMenuItemDocument and SKTMenuItemLocation
  *
- *  This value may only be set once, and must be set at init time. To change at runtime, use Smooch.login instead.
- *
- *  @see Smooch
+ *  All options are displayed by default. Setting this value to nil or an empty array will hide the menu button
  */
-@property(nonatomic, copy, nullable) NSString* userId;
+@property(nonatomic, strong, nullable) NSArray<NSString *>* allowedMenuItems;
 
 /**
- *  @abstract Optional jwt used to prove the origin of the login request.
+ *  @abstract Allow sending messages from the conversation view when offline
  *
- *  @discussion Used only if userId is not nil. Defaults to the last known jwt for the given app token.
+ *  @discussion Setting this to `YES` allows the user to send messages even when the device is offline. It also prevents an network error banner from showing when offline.
  *
- *  This value may only be set once, and must be set at init time. To change at runtime, use Smooch.login instead.
- *
- *  @see Smooch
+ *  Note that messages that are sent while offline will fail to send and the message will display an option for the user to retry
  */
-@property(nonatomic, copy, nullable) NSString* jwt;
+@property BOOL allowOfflineUsage;
 
 /**
  *  @abstract Maximum number of seconds to display in-app notifications before dismissing.

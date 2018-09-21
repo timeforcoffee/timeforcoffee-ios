@@ -113,7 +113,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             }
 
             #if !(targetEnvironment(simulator))
-                let settings = SKTSettings(appToken: "7n3aaqyp9fr5kr7y1wjssd231")
+                let settings = SKTSettings(appId: "7n3aaqyp9fr5kr7y1wjssd231")
                 //            settings.knowledgeBaseURL = "https://timeforcoffee.zendesk.com"
 
                 DispatchQueue.main.async {
