@@ -8,7 +8,6 @@
 
 import Foundation
 import ClockKit
-
 private struct Constants {
     static let DepartureDuration = TimeInterval(60) // 1 minute
     static let ComplicationColor = UIColor.orange
@@ -300,7 +299,7 @@ class ComplicationData: NSObject, NSCoding {
         case CLKComplicationFamily.modularLarge:
             return getModularLargeTemplate(station, departure: departure, nextDeparture: nextDeparture)
         case CLKComplicationFamily.modularSmall:
-            return getModularSmallTemplate(station, departure: departure, nextDeparture: nextDeparture)
+            return getModularSmallTemplate(station, departure: departure)
         case CLKComplicationFamily.utilitarianLarge:
             return getUtilitarianLargeTemplate(station, departure: departure, nextDeparture: nextDeparture)
         case CLKComplicationFamily.utilitarianSmall:
@@ -311,6 +310,30 @@ class ComplicationData: NSObject, NSCoding {
             return getCircularSmallTemplate(station, departure: departure, nextDeparture: nextDeparture)
         case CLKComplicationFamily.extraLarge:
             return getExtraLargeTemplate(station, departure: departure, nextDeparture: nextDeparture)
+        case .graphicCorner:
+            if #available(watchOSApplicationExtension 5.0, *) {
+                return getGraphicsCornerTemplate(station, departure: departure)
+            } else {
+                return CLKComplicationTemplate()
+            }
+        case .graphicBezel:
+            if #available(watchOSApplicationExtension 5.0, *) {
+                return getGraphicBezelTemplate(station, departure: departure)
+            } else {
+                return CLKComplicationTemplate()
+            }
+        case .graphicCircular:
+            if #available(watchOSApplicationExtension 5.0, *) {
+                return getGraphicCircularTemplate(departure: departure, bottomText: true)
+            } else {
+                return CLKComplicationTemplate()
+            }
+        case .graphicRectangular:
+            if #available(watchOSApplicationExtension 5.0, *) {
+                return getGraphicsRectangularTemplate(station, departure: departure, nextDeparture: nextDeparture)
+            } else {
+                return CLKComplicationTemplate()
+            }
         }
     }
 
@@ -321,15 +344,85 @@ class ComplicationData: NSObject, NSCoding {
             let tmpl = CLKComplicationTemplateCircularSmallStackText()
             tmpl.tintColor = Constants.ComplicationColor
             let departureLine = departure.getLine()
-            tmpl.line1TextProvider = CLKSimpleTextProvider(text: "\(departureLine):")
-            tmpl.line2TextProvider = getDateProvider(departureTime)
+            tmpl.line1TextProvider = getDateProvider(departureTime)
+            tmpl.line2TextProvider = CLKSimpleTextProvider(text: "\(departureLine)")
             return tmpl
 
         }
         return ComplicationData.getTemplateForComplication(CLKComplicationFamily.circularSmall) as! CLKComplicationTemplateCircularSmallStackText
     }
 
+    fileprivate func getTextProviderLong(_ departure: TFCDeparture?, _ station: TFCStation) -> CLKTextProvider {
+        var departureDestination = "-"
+        var departureLine = "-"
 
+        let textProvider:CLKTextProvider
+        if let departure = departure {
+            departureLine = departure.getLine()
+            departureDestination = departure.getDestination(station)
+            
+            let date:CLKTextProvider
+            if let departureDate = departure.getScheduledTimeAsNSDate() {
+                date = getDateProvider(departureDate)
+            } else {
+                date = CLKSimpleTextProvider(text: "-")
+            }
+            textProvider = CLKTextProvider(
+                byJoining: [
+                    date,
+                    CLKSimpleTextProvider(text: " \(departureLine) "),
+                    CLKSimpleTextProvider(text: "\(departureDestination)")
+                ],
+                separator: nil
+            )
+        } else {
+            textProvider = CLKSimpleTextProvider(text: "No data stored")
+        }
+        return textProvider
+    }
+    
+    fileprivate func getTextProviderTimeAndLine (_ departure: TFCDeparture?) -> CLKTextProvider {
+        var departureLine = "-"
+        
+        let textProvider:CLKTextProvider
+        if let departure = departure {
+            departureLine = departure.getLine()
+            let date:CLKTextProvider
+            if let departureDate = departure.getScheduledTimeAsNSDate() {
+                date = getDateProvider(departureDate)
+            } else {
+                date = CLKSimpleTextProvider(text: "-")
+            }
+            textProvider = CLKTextProvider(
+                byJoining: [
+                    date,
+                    CLKSimpleTextProvider(text: " \(departureLine)"),
+                ],
+                separator: nil
+            )
+        } else {
+            textProvider = CLKSimpleTextProvider(text: "No data stored")
+        }
+        return textProvider
+    }
+    
+    @available(watchOSApplicationExtension 5.0, *)
+    fileprivate func getGraphicsRectangularTemplate(_ station: TFCStation, departure: TFCDeparture?, nextDeparture: TFCDeparture?) -> CLKComplicationTemplateGraphicRectangularStandardBody {
+        let tmpl = CLKComplicationTemplateGraphicRectangularStandardBody()
+        tmpl.tintColor = Constants.ComplicationColor
+
+        tmpl.headerTextProvider = CLKSimpleTextProvider(text: station.getName(true))
+        
+        tmpl.body1TextProvider = getTextProviderLong(departure, station)
+        if let nextDeparture = nextDeparture{
+            tmpl.body2TextProvider = getTextProviderLong(nextDeparture, station)
+        } else {
+            tmpl.body2TextProvider = CLKSimpleTextProvider(text: "-")
+        }
+
+        return tmpl
+    }
+    
     fileprivate func getExtraLargeTemplate(_ station: TFCStation, departure: TFCDeparture?, nextDeparture: TFCDeparture?) -> CLKComplicationTemplateExtraLargeStackText {
 
         if let departure = departure, let departureTime = departure.getScheduledTimeAsNSDate() {
@@ -338,8 +431,8 @@ class ComplicationData: NSObject, NSCoding {
             tmpl.tintColor = Constants.ComplicationColor
             tmpl.highlightLine2 = false
             let departureLine = departure.getLine()
-            tmpl.line1TextProvider = CLKSimpleTextProvider(text: "\(departureLine):")
-            tmpl.line2TextProvider = getDateProvider(departureTime)
+            tmpl.line1TextProvider = getDateProvider(departureTime)
+            tmpl.line2TextProvider = CLKSimpleTextProvider(text: "\(departureLine)")
             return tmpl
 
         }
@@ -348,14 +441,11 @@ class ComplicationData: NSObject, NSCoding {
 
     fileprivate func getUtilitarianLargeTemplate(_ station: TFCStation, departure: TFCDeparture?, nextDeparture: TFCDeparture?) -> CLKComplicationTemplateUtilitarianLargeFlat {
 
-        if let departure = departure, let departureTime = departure.getScheduledTime() {
+        if let departure = departure {
 
             let tmpl = CLKComplicationTemplateUtilitarianLargeFlat()
             tmpl.tintColor = Constants.ComplicationColor
-
-            let departureLine = departure.getLine()
-            let departureDestination = departure.getDestination(station)
-            tmpl.textProvider = CLKSimpleTextProvider(text: "\(departureLine): \(departureTime) \(departureDestination)")
+            tmpl.textProvider = getTextProviderLong(departure, station)
             return tmpl
         }
         return ComplicationData.getTemplateForComplication(CLKComplicationFamily.utilitarianLarge) as! CLKComplicationTemplateUtilitarianLargeFlat
@@ -364,28 +454,78 @@ class ComplicationData: NSObject, NSCoding {
 
     fileprivate func getUtilitarianSmallTemplate(_ station: TFCStation, departure: TFCDeparture?, nextDeparture: TFCDeparture?) -> CLKComplicationTemplateUtilitarianSmallFlat {
 
-        if let departure = departure, let departureTime = departure.getScheduledTime() {
+        if let departure = departure {
             let tmpl = CLKComplicationTemplateUtilitarianSmallFlat()
             tmpl.tintColor = Constants.ComplicationColor
-            let departureLine = departure.getLine()
-            tmpl.textProvider = CLKSimpleTextProvider(text: "\(departureLine): \(departureTime)")
+            tmpl.textProvider = getTextProviderTimeAndLine(departure)
             return tmpl
         }
         return ComplicationData.getTemplateForComplication(CLKComplicationFamily.utilitarianSmall) as! CLKComplicationTemplateUtilitarianSmallFlat
     }
 
-    fileprivate func getModularSmallTemplate(_ station: TFCStation, departure: TFCDeparture?, nextDeparture: TFCDeparture?) -> CLKComplicationTemplateModularSmallStackText {
+    fileprivate func getModularSmallTemplate(_ station: TFCStation, departure: TFCDeparture?) -> CLKComplicationTemplateModularSmallStackText {
 
         if let  departure = departure, let departureTime = departure.getScheduledTimeAsNSDate() {
             let tmpl = CLKComplicationTemplateModularSmallStackText()
             tmpl.tintColor = Constants.ComplicationColor
             let departureLine = departure.getLine()
-            tmpl.line1TextProvider = CLKSimpleTextProvider(text: "\(departureLine):")
-            tmpl.line2TextProvider = getDateProvider(departureTime)
+            tmpl.line1TextProvider = getDateProvider(departureTime)
+            tmpl.line2TextProvider = CLKSimpleTextProvider(text: "\(departureLine)")
             return tmpl
         }
         return ComplicationData.getTemplateForComplication(CLKComplicationFamily.modularSmall) as! CLKComplicationTemplateModularSmallStackText
 
+    }
+    
+    @available(watchOSApplicationExtension 5.0, *)
+    fileprivate func getGraphicsCornerTemplate(_ station: TFCStation, departure: TFCDeparture?) -> CLKComplicationTemplateGraphicCornerStackText {
+        
+        if let departure = departure, let departureTime = departure.getScheduledTimeAsNSDate()
+            {
+            let departureDestination = departure.getDestination(station)
+            let tmpl = CLKComplicationTemplateGraphicCornerStackText()
+            tmpl.tintColor = Constants.ComplicationColor
+            let departureLine = departure.getLine()
+            tmpl.innerTextProvider = CLKSimpleTextProvider(text: "\(departureLine) \(departureDestination)")
+            tmpl.outerTextProvider = getDateProvider(departureTime)
+            return tmpl
+        }
+        return ComplicationData.getTemplateForComplication(CLKComplicationFamily.graphicCorner) as! CLKComplicationTemplateGraphicCornerStackText
+    }
+    
+    @available(watchOSApplicationExtension 5.0, *)
+    fileprivate func getGraphicBezelTemplate(_ station: TFCStation, departure: TFCDeparture?) -> CLKComplicationTemplateGraphicBezelCircularText {
+        
+        if let departure = departure
+        {
+            let tmpl = CLKComplicationTemplateGraphicBezelCircularText()
+            let departureLine = departure.getLine()
+            let departureDestination = departure.getDestination(station)
+
+            tmpl.textProvider = CLKSimpleTextProvider(text: "\(departureLine) \(departureDestination)")
+            tmpl.circularTemplate = getGraphicCircularTemplate(departure: departure, bottomText: false)
+            return tmpl
+        }
+        return ComplicationData.getTemplateForComplication(CLKComplicationFamily.graphicBezel) as! CLKComplicationTemplateGraphicBezelCircularText
+    }
+
+    @available(watchOSApplicationExtension 5.0, *)
+    fileprivate func getGraphicCircularTemplate(departure: TFCDeparture?, bottomText: Bool) -> CLKComplicationTemplateGraphicCircularOpenGaugeSimpleText {
+        
+        if let departure = departure, let departureTime = departure.getScheduledTimeAsNSDate()
+        {
+            let tmpl = CLKComplicationTemplateGraphicCircularOpenGaugeSimpleText()
+            let departureLine = departure.getLine()
+            if (bottomText) {
+                tmpl.bottomTextProvider = CLKSimpleTextProvider(text: "\(departureLine)")
+            } else {
+                tmpl.bottomTextProvider = CLKSimpleTextProvider(text: "")
+            }
+            tmpl.centerTextProvider = getDateProviderAbbreviated(departureTime)
+            tmpl.gaugeProvider =  CLKSimpleGaugeProvider(style: CLKGaugeProviderStyle.ring, gaugeColor: UIColor.black, fillFraction: CLKSimpleGaugeProviderFillFractionEmpty)
+            return tmpl
+        }
+        return ComplicationData.getTemplateForComplication(CLKComplicationFamily.graphicCircular) as! CLKComplicationTemplateGraphicCircularOpenGaugeSimpleText
     }
 
     fileprivate func getModularLargeTemplate(_ station: TFCStation, departure: TFCDeparture?, nextDeparture: TFCDeparture?) -> CLKComplicationTemplateModularLargeTable {
@@ -401,10 +541,10 @@ class ComplicationData: NSObject, NSCoding {
         if let departure = departure {
             departureLine = departure.getLine()
             departureDestination = departure.getDestination(station)
-            tmpl.row1Column1TextProvider = CLKSimpleTextProvider(text: "\(departureLine): \(departureDestination)")
+            tmpl.row1Column2TextProvider = CLKSimpleTextProvider(text: "\(departureLine) \(departureDestination)")
 
         } else {
-            tmpl.row1Column1TextProvider = CLKSimpleTextProvider(text: "No data stored")
+            tmpl.row1Column2TextProvider = CLKSimpleTextProvider(text: "No data stored")
         }
 
         var nextDepartureDestination = "-"
@@ -414,19 +554,18 @@ class ComplicationData: NSObject, NSCoding {
             nextDepartureDestination = nextDeparture.getDestination(station)
         }
 
-
         if let departureDate = departure?.getScheduledTimeAsNSDate() {
-            tmpl.row1Column2TextProvider = getDateProvider(departureDate)
+            tmpl.row1Column1TextProvider = getDateProvider(departureDate)
         } else {
-            tmpl.row1Column2TextProvider = CLKSimpleTextProvider(text: "-")
+            tmpl.row1Column1TextProvider = CLKSimpleTextProvider(text: "-")
         }
 
-        tmpl.row2Column1TextProvider = CLKSimpleTextProvider(text: "\(nextDepartureLine): \(nextDepartureDestination)")
+        tmpl.row2Column2TextProvider = CLKSimpleTextProvider(text: "\(nextDepartureLine) \(nextDepartureDestination)")
 
         if let nextDepartureDate = nextDeparture?.getScheduledTimeAsNSDate() {
-            tmpl.row2Column2TextProvider = getDateProvider(nextDepartureDate)
+            tmpl.row2Column1TextProvider = getDateProvider(nextDepartureDate)
         } else {
-            tmpl.row2Column2TextProvider = CLKSimpleTextProvider(text: "-")
+            tmpl.row2Column1TextProvider = CLKSimpleTextProvider(text: "-")
         }
         return tmpl
 
@@ -437,46 +576,91 @@ class ComplicationData: NSObject, NSCoding {
         let style: CLKRelativeDateStyle = .natural
         return CLKRelativeDateTextProvider(date: date, style: style, units: units)
     }
-
+    
+    fileprivate func getDateProviderAbbreviated(_ date: Date) -> CLKRelativeDateTextProvider {
+        let units: NSCalendar.Unit = [.minute, .hour]
+        let style: CLKRelativeDateStyle = .naturalAbbreviated
+        return CLKRelativeDateTextProvider(date: date, style: style, units: units)
+    }
+    
     public static func getTemplateForComplication(_ family: CLKComplicationFamily) -> CLKComplicationTemplate {
         switch family {
-
+            
         case CLKComplicationFamily.modularLarge:
             let tmpl = CLKComplicationTemplateModularLargeTable()
-
+            
             tmpl.headerTextProvider = CLKSimpleTextProvider(text: "Station")
-            tmpl.row1Column1TextProvider = CLKSimpleTextProvider(text: "--: ------", shortText: nil)
+            tmpl.row1Column1TextProvider = CLKSimpleTextProvider(text: "-- ------", shortText: nil)
             tmpl.row1Column2TextProvider = CLKSimpleTextProvider(text: "--", shortText: nil)
-            tmpl.row2Column1TextProvider = CLKSimpleTextProvider(text: "--: ------", shortText: nil)
+            tmpl.row2Column1TextProvider = CLKSimpleTextProvider(text: "-- ------", shortText: nil)
             tmpl.row2Column2TextProvider = CLKSimpleTextProvider(text: "--", shortText: nil)
             return tmpl
         case CLKComplicationFamily.modularSmall:
             let tmpl = CLKComplicationTemplateModularSmallStackText()
-            tmpl.line1TextProvider = CLKSimpleTextProvider(text: "--:");
+            tmpl.line1TextProvider = CLKSimpleTextProvider(text: "--");
             tmpl.line2TextProvider = CLKSimpleTextProvider(text: "-");
             return tmpl
         case CLKComplicationFamily.utilitarianLarge:
             let tmpl = CLKComplicationTemplateUtilitarianLargeFlat()
-            tmpl.textProvider = CLKSimpleTextProvider(text: "--: --:-- ------")
+            tmpl.textProvider = CLKSimpleTextProvider(text: "-- -- ------")
             return tmpl
         case CLKComplicationFamily.utilitarianSmallFlat:
             let tmpl = CLKComplicationTemplateUtilitarianSmallFlat()
-            tmpl.textProvider = CLKSimpleTextProvider(text: "--: -");
+            tmpl.textProvider = CLKSimpleTextProvider(text: "-- --");
             return tmpl
         case CLKComplicationFamily.utilitarianSmall:
             let tmpl = CLKComplicationTemplateUtilitarianSmallFlat()
-            tmpl.textProvider = CLKSimpleTextProvider(text: "--: -");
+            tmpl.textProvider = CLKSimpleTextProvider(text: "-- --");
             return tmpl
         case CLKComplicationFamily.circularSmall:
             let tmpl = CLKComplicationTemplateCircularSmallStackText()
-            tmpl.line1TextProvider = CLKSimpleTextProvider(text: "--:");
+            tmpl.line1TextProvider = CLKSimpleTextProvider(text: "--");
             tmpl.line2TextProvider = CLKSimpleTextProvider(text: "-");
             return tmpl
         case CLKComplicationFamily.extraLarge:
             let tmpl = CLKComplicationTemplateExtraLargeStackText()
-            tmpl.line1TextProvider = CLKSimpleTextProvider(text: "--:");
+            tmpl.line1TextProvider = CLKSimpleTextProvider(text: "--");
             tmpl.line2TextProvider = CLKSimpleTextProvider(text: "-");
             return tmpl
+        case .graphicCorner:
+            if #available(watchOSApplicationExtension 5.0, *) {
+                let tmpl = CLKComplicationTemplateGraphicCornerStackText()
+                tmpl.innerTextProvider =  CLKSimpleTextProvider(text: "-- ------");
+                tmpl.outerTextProvider =  CLKSimpleTextProvider(text: "--");
+                return tmpl
+            } else {
+                return  CLKComplicationTemplate()
+            }
+        case .graphicBezel:
+            if #available(watchOSApplicationExtension 5.0, *) {
+                let tmpl = CLKComplicationTemplateGraphicBezelCircularText()
+                tmpl.textProvider =  CLKSimpleTextProvider(text: "-- ------");
+                tmpl.circularTemplate = getTemplateForComplication(.graphicCircular) as! CLKComplicationTemplateGraphicCircular
+                return tmpl
+            } else {
+                return  CLKComplicationTemplate()
+            }
+        case .graphicCircular:
+            if #available(watchOSApplicationExtension 5.0, *) {
+                let tmpl = CLKComplicationTemplateGraphicCircularOpenGaugeSimpleText()
+                tmpl.bottomTextProvider = CLKSimpleTextProvider(text: "");
+                tmpl.centerTextProvider = CLKSimpleTextProvider(text: "--");
+                
+                tmpl.gaugeProvider = CLKSimpleGaugeProvider(style: CLKGaugeProviderStyle.ring, gaugeColor: UIColor.black, fillFraction: CLKSimpleGaugeProviderFillFractionEmpty)
+                return tmpl
+            } else {
+                return  CLKComplicationTemplate()
+            }
+        case .graphicRectangular:
+            if #available(watchOSApplicationExtension 5.0, *) {
+                let tmpl = CLKComplicationTemplateGraphicRectangularStandardBody()
+                tmpl.headerTextProvider = CLKSimpleTextProvider(text: "Station")
+                tmpl.body1TextProvider = CLKSimpleTextProvider(text: "-- -- ------")
+                tmpl.body2TextProvider = CLKSimpleTextProvider(text: "-- -- ------")
+                return tmpl
+            } else {
+                return  CLKComplicationTemplate()
+            }
         }
     }
 }

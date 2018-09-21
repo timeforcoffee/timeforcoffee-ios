@@ -33,6 +33,10 @@
 		<string>CLKComplicationFamilyCircularSmall</string>
 		<string>CLKComplicationFamilyExtraLarge</string>
 		<string>CLKComplicationFamilyUtilitarianSmallFlat</string>
+		<string>CLKComplicationFamilyGraphicRectangular</string>
+		<string>CLKComplicationFamilyGraphicCorner</string>
+		<string>CLKComplicationFamilyGraphicCircular</string>
+		<string>CLKComplicationFamilyGraphicBezel</string>
 	</array>
 	<key>NSExtension</key>
 	<dict>
@@ -47,7 +51,7 @@
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>We need the location to show you nearby stations. We’re only accessing the location, when the app or the Today extension is in use.
 
-If you have complications installed on your Apple Watch, we subscribe for location events when you're in one of your favourite places, so that we can update your complication with the right info. We need the "Always" option for that, but should also work fine with just "While in use".</string>
+If you have complications installed on your Apple Watch, we subscribe for location events when you&apos;re in one of your favourite places, so that we can update your complication with the right info. We need the &quot;Always&quot; option for that, but should also work fine with just &quot;While in use&quot;.</string>
 	<key>NSLocationUsageDescription</key>
 	<string> We need the location to show you nearby stations. We’re only accessing this, when the app or the Today extension is in use and for as short as possible.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

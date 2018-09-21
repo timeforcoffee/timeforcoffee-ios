@@ -44,13 +44,15 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
     public func locationFixed(_ loc: CLLocation?) {
         if let coord = loc?.coordinate {
             DLog("location fixed \(String(describing: loc))", toFile: true)
-            replyNearby!(["lat" : coord.latitude, "long": coord.longitude]);
+            if let replyNearby = replyNearby {
+                replyNearby(["lat" : coord.latitude, "long": coord.longitude], false);
+            }
         } 
     }
 
     public func locationDenied(_ manager: CLLocationManager, err:Error) {
         DLog("location DENIED \(err)", toFile: true)
-        replyNearby!(["error": err]);
+        replyNearby!(["error": err], true);
     }
 
     public func locationStillTrying(_ manager: CLLocationManager, err: Error) {
@@ -61,8 +63,16 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
         // this is a not so nice way to get the reply Closure to later when we actually have
         // the data from the API... (in locationFixed)
         DLog("get new location in watch", toFile: true)
+        if (self.replyNearby != nil) {
+            self.replyNearby?(nil, true)
+        }
         self.replyNearby = reply
-        locManager?.refreshLocation()
+
+        if (locManager === nil) {
+            reply?(["foo": "bar"], false)
+        } else {
+            locManager?.refreshLocation()
+        }
     }
 
     /*
@@ -156,8 +166,14 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
             let stacktrace:[String] = []
         #endif
  */
-        func handleReply(_ replyInfo: [AnyHashable: Any]!) {
+        func handleReply(_ replyInfo: [AnyHashable: Any]!, _ aborted: Bool?) {
             startCrunchQueue {
+                if let aborted = aborted, aborted == true {
+                    if let errorReply = errorReply {
+                        errorReply("aborted")
+                    }
+                    return
+                }
                 DLog("searchForStationsInDB handleReply getStations \(String(describing: replyInfo)) \(String(describing: reply))", toFile: true)
                 if(replyInfo["lat"] != nil) {
                     let loc = CLLocation(latitude: replyInfo["lat"] as! Double, longitude: replyInfo["long"] as! Double)
@@ -213,7 +229,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
         self.startCrunchQueue {
             if let cachedLoc = self.locManager?.getLastLocation(30)?.coordinate {
                 DLog("still cached location \(cachedLoc)", toFile: true)
-                handleReply(["lat" : cachedLoc.latitude, "long": cachedLoc.longitude])
+                handleReply(["lat" : cachedLoc.latitude, "long": cachedLoc.longitude], false)
             } else {
                 self.getLocation(handleReply)
             }

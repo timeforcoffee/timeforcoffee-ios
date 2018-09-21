@@ -252,14 +252,16 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         } else {
             TFCStationBase.instances[self.st_id] = 1
         }
-        if (TFCStationBase.instances[self.st_id]! > 1) {
-            DLog("WARN: init of \(self.st_id) \(self.name) has \(String(describing: TFCStationBase.instances[self.st_id])) instances ", toFile: true)
-/*           let stacktrace = Thread.callStackSymbols
-            DLog("stacktrace start", toFile: true)
-            for line in stacktrace {
-                DLog("stack \(line)", toFile: true)
+        if let instances = TFCStationBase.instances[self.st_id] {
+            if (instances > 1) {
+                DLog("WARN: init of \(self.st_id) \(self.name) has \(String(describing: instances)) instances ", toFile: true)
+                /*           let stacktrace = Thread.callStackSymbols
+                 DLog("stacktrace start", toFile: true)
+                 for line in stacktrace {
+                 DLog("stack \(line)", toFile: true)
+                 }
+                 DLog("stacktrace end", toFile: true)*/
             }
-            DLog("stacktrace end", toFile: true)*/
         }
         #endif
     }

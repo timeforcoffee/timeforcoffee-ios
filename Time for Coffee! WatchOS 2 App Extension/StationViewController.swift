@@ -185,24 +185,29 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         let _ = self.station?.removeObsoleteDepartures()
         let _ = self.displayDepartures(self.station)
         if drawAsNewStation {
-            self.clearAllMenuItems()
-            if (self.station?.isFavorite() == true) {
-                self.addMenuItem(with: WKMenuItemIcon.decline, title: "Unfavorite Station", action: #selector(StationViewController.contextButtonFavorite))
-            } else {
-                self.addMenuItem(with: WKMenuItemIcon.add, title: "Favorite Station", action: #selector(StationViewController.contextButtonFavorite))
-            }
-            self.addMenuItem(with: WKMenuItemIcon.resume, title: "Reload", action: #selector(StationViewController.contextButtonReload))
-            self.addMenuItem(with: WKMenuItemIcon.maybe, title: "Map", action: #selector(StationViewController.contextButtonMap))
+            DispatchQueue.main.async(execute: {
+                
+                self.clearAllMenuItems()
+                if (self.station?.isFavorite() == true) {
+                    self.addMenuItem(with: WKMenuItemIcon.decline, title: "Unfavorite Station", action: #selector(StationViewController.contextButtonFavorite))
+                } else {
+                    self.addMenuItem(with: WKMenuItemIcon.add, title: "Favorite Station", action: #selector(StationViewController.contextButtonFavorite))
+                }
+                self.addMenuItem(with: WKMenuItemIcon.resume, title: "Reload", action: #selector(StationViewController.contextButtonReload))
+                self.addMenuItem(with: WKMenuItemIcon.maybe, title: "Map", action: #selector(StationViewController.contextButtonMap))
+            })
         }
         if (!isInBackground) {
             if let station2 = self.station {
-
-                if #available(watchOSApplicationExtension 5.0, *) {
-                    station2.setStationActivity()
-                    self.update(station2.activity)
-                } else {
-                    self.updateUserActivity("ch.opendata.timeforcoffee.station", userInfo: station2.getAsDict(), webpageURL: station2.getWebLink())
-                }
+                DispatchQueue.main.async(execute: {
+                
+                    if #available(watchOSApplicationExtension 5.0, *) {
+                        station2.setStationActivity()
+                        self.update(station2.activity)
+                    } else {
+                        self.updateUserActivity("ch.opendata.timeforcoffee.station", userInfo: station2.getAsDict(), webpageURL: station2.getWebLink())
+                    }
+                })
 
             }
         }

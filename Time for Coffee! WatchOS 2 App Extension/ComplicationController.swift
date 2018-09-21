@@ -29,6 +29,12 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
     func getTimelineEndDate(for complication: CLKComplication, withHandler handler: @escaping (Date?) -> Void) {
         DLog("started getTimelineEndDateForComplication", toFile: true)
         var replied = false
+        func errorReply(_ message:String) {
+            if (replied == false) {
+                handler(Date().addingTimeInterval(1))
+                replied = true
+            }
+        }
         func handleReply(_ stations: TFCStations?) {
             if let station = stations?.getStation(0) {
                 //FIXME: this should go into complicationdata
@@ -71,7 +77,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, TFCDepartures
                 self.updateDepartures(station, context: handleReply2)
             }
         }
-        self.watchdata.getStations(handleReply, errorReply: nil, stopWithFavorites: true)
+        self.watchdata.getStations(handleReply, errorReply: errorReply, stopWithFavorites: true)
     }
     
     func getPrivacyBehavior(for complication: CLKComplication, withHandler handler: @escaping (CLKComplicationPrivacyBehavior) -> Void) {

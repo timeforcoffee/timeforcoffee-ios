@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-public typealias replyClosure = (([AnyHashable: Any]?) -> Void)
+public typealias replyClosure = (([AnyHashable: Any]?, Bool?) -> Void)
 public typealias replyStations = ((TFCStations?) -> Void)
 public typealias replyStation = ((TFCStation?) -> Void)
 
