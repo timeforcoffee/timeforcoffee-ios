@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11535.1" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="M4Y-Lb-cyx">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="M4Y-Lb-cyx">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11523"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -30,7 +28,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Hu-2U-LK8" userLabel="ContainerView" colorLabel="IBBuiltInLabel-Red">
-                                <rect key="frame" x="16" y="0.0" width="351" height="667"/>
+                                <rect key="frame" x="16" y="20" width="351" height="647"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZqN-ss-Y5x" userLabel="BoardTitle">
                                         <rect key="frame" x="0.0" y="0.0" width="351" height="32"/>
@@ -70,24 +68,24 @@
                                         </constraints>
                                     </view>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="52" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="5hh-Zj-fgy">
-                                        <rect key="frame" x="0.0" y="32" width="351" height="635"/>
+                                        <rect key="frame" x="0.0" y="32" width="351" height="615"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <prototypes>
                                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="0.0" reuseIdentifier="SearchResultCellWidget" rowHeight="52" id="IfH-9c-VDG">
                                                 <rect key="frame" x="0.0" y="22" width="351" height="52"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="IfH-9c-VDG" id="evy-VU-QI2">
-                                                    <rect key="frame" x="0.0" y="0.0" width="351" height="51"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="351" height="51.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="300" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Stk-Nb-fZC" userLabel="DepartureLabel">
-                                                            <rect key="frame" x="42" y="27" width="301" height="16"/>
+                                                            <rect key="frame" x="41.5" y="26.5" width="294.5" height="16"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.60140520134228193" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="100" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="13" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="none" minimumFontSize="8" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jpy-Ce-zrf" userLabel="LineNumberLabel" customClass="DepartureLineLabel" customModule="timeforcoffee_Widget" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="10" width="32" height="32"/>
+                                                            <rect key="frame" x="0.0" y="10" width="31.5" height="31.5"/>
                                                             <color key="backgroundColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" secondItem="jpy-Ce-zrf" secondAttribute="height" multiplier="1:1" id="xy0-Zs-xoM"/>
@@ -97,13 +95,13 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="200" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Zürich" lineBreakMode="tailTruncation" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0fo-iq-xUL" userLabel="LineNameLabel">
-                                                            <rect key="frame" x="42" y="9" width="281" height="20"/>
+                                                            <rect key="frame" x="41.5" y="9" width="274.5" height="20"/>
                                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="400" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0'" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="none" minimumFontSize="8" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kwG-MO-Vtz" userLabel="MinutesLabel">
-                                                            <rect key="frame" x="326" y="10" width="23" height="23"/>
+                                                            <rect key="frame" x="319" y="10" width="23" height="23"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" secondItem="kwG-MO-Vtz" secondAttribute="height" multiplier="1:1" id="4do-0k-tRQ"/>
                                                             </constraints>
@@ -131,17 +129,17 @@
                                                 <rect key="frame" x="0.0" y="74" width="351" height="52"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="HLE-XB-MAz" id="UWl-Z7-P6R">
-                                                    <rect key="frame" x="0.0" y="0.0" width="351" height="51"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="351" height="51.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="300" contentMode="left" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WOc-us-lJS" userLabel="StationsDestinationLabel">
-                                                            <rect key="frame" x="61" y="28" width="274" height="16"/>
+                                                            <rect key="frame" x="60.5" y="27.5" width="267.5" height="16"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.60397441275167785" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="100" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="13" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="none" minimumFontSize="6" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VXV-Hc-mO4" userLabel="StationsLineNumberLabel" customClass="DepartureLineLabelForToday" customModule="timeforcoffee_Widget" customModuleProvider="target">
-                                                            <rect key="frame" x="41" y="28" width="16" height="16"/>
+                                                            <rect key="frame" x="41" y="28" width="15.5" height="15.5"/>
                                                             <color key="backgroundColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" secondItem="VXV-Hc-mO4" secondAttribute="height" multiplier="1:1" id="zAo-5g-cOg"/>
@@ -151,19 +149,19 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="200" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Zürich" lineBreakMode="tailTruncation" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lZC-zq-jz4" userLabel="StationNameLabel">
-                                                            <rect key="frame" x="42" y="9" width="305" height="18"/>
+                                                            <rect key="frame" x="41.5" y="9" width="298.5" height="18"/>
                                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="400" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0'" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="none" minimumFontSize="8" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bqq-pe-hom" userLabel="StationMinutesLabel">
-                                                            <rect key="frame" x="335" y="28" width="12" height="16"/>
+                                                            <rect key="frame" x="328" y="27.5" width="12" height="16"/>
                                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="voF-Rv-Exk" userLabel="StationIcon">
-                                                            <rect key="frame" x="0.0" y="12" width="32" height="32"/>
+                                                            <rect key="frame" x="7" y="15" width="32" height="32"/>
                                                             <subviews>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bt6-43-Nvz">
                                                                     <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
@@ -231,8 +229,8 @@
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="5Hu-2U-LK8" secondAttribute="trailing" constant="-8" id="Muh-Y2-6pD"/>
-                            <constraint firstItem="FKl-LY-JtV" firstAttribute="top" secondItem="5Hu-2U-LK8" secondAttribute="bottom" id="Nrg-OM-4Fd"/>
-                            <constraint firstItem="5Hu-2U-LK8" firstAttribute="top" secondItem="Ft6-oW-KC0" secondAttribute="bottom" id="VP1-Ii-gBo"/>
+                            <constraint firstItem="FKl-LY-JtV" firstAttribute="top" secondItem="5Hu-2U-LK8" secondAttribute="bottom" id="TyH-JV-7LB"/>
+                            <constraint firstItem="5Hu-2U-LK8" firstAttribute="top" secondItem="Ft6-oW-KC0" secondAttribute="bottom" id="lJ3-Wf-g1i"/>
                             <constraint firstItem="5Hu-2U-LK8" firstAttribute="leading" secondItem="S3S-Oj-5AN" secondAttribute="leadingMargin" id="vg5-MZ-wIh"/>
                         </constraints>
                     </view>
@@ -252,15 +250,10 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vXp-U4-Rya" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="516" y="273"/>
+            <point key="canvasLocation" x="825.60000000000002" y="245.57721139430288"/>
         </scene>
     </scenes>
     <resources>
         <image name="stationicon-pin" width="30" height="30"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
-    </simulatedMetricsContainer>
 </document>

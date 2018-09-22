@@ -40,7 +40,8 @@ class DepartureLineLabel: UILabel, UITableViewDelegate {
     }
     
     override func drawText(in rect: CGRect) {
-        return super.drawText(in: UIEdgeInsetsInsetRect(rect, UIEdgeInsets(top: insets, left: insets, bottom: insets, right: insets)))
+        return super.drawText(in:rect.insetBy(dx: insets, dy: insets))
+     //   return super.drawText(in: UIEdgeInsetsInsetRect(rect, UIEdgeInsets(top: insets, left: insets, bottom: insets, right: insets)))
     }
     
     func setStyle(_ style: String, departure: TFCDeparture) {
@@ -81,7 +82,7 @@ class DepartureLineLabel: UILabel, UITableViewDelegate {
 
         UIView.animate(withDuration: 0.2,
             delay: 0.0,
-            options: UIViewAnimationOptions.curveLinear,
+            options: UIView.AnimationOptions.curveLinear,
             animations: {
                 self.transform = CGAffineTransform(scaleX: 0.1, y: 0.1);
                 self.alpha = 0.0

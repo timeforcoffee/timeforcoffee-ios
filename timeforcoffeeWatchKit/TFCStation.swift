@@ -39,6 +39,8 @@ open class TFCStation: TFCStationBase {
                 INRelevantShortcutStore.default.setRelevantShortcuts([rsc])
             }
             activity.persistentIdentifier = NSUserActivityPersistentIdentifier(self.st_id)
+            self.setIntent()
+
         }
         activity.webpageURL = self.getWebLink()
         let userCalendar = Calendar.current

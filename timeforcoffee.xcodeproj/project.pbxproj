@@ -78,6 +78,16 @@
 		EC60B0181BB680DE00D10238 /* launchicon.png in Resources */ = {isa = PBXBuildFile; fileRef = EC60B00F1BB680B600D10238 /* launchicon.png */; };
 		EC60B01A1BB680FD00D10238 /* trainsymbol.otf in Resources */ = {isa = PBXBuildFile; fileRef = EC60B0191BB680FD00D10238 /* trainsymbol.otf */; };
 		EC60B01B1BB680FD00D10238 /* trainsymbol.otf in Resources */ = {isa = PBXBuildFile; fileRef = EC60B0191BB680FD00D10238 /* trainsymbol.otf */; };
+		EC647C2521557DB600D94C87 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC647C2421557DB600D94C87 /* IntentHandler.swift */; };
+		EC647C2C21557DB600D94C87 /* IntentsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC647C04215578E300D94C87 /* IntentsUI.framework */; };
+		EC647C2F21557DB600D94C87 /* IntentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC647C2E21557DB600D94C87 /* IntentViewController.swift */; };
+		EC647C3221557DB600D94C87 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC647C3021557DB600D94C87 /* MainInterface.storyboard */; };
+		EC647C3621557DB600D94C87 /* NextDeparturesIntentUI.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EC647C2B21557DB600D94C87 /* NextDeparturesIntentUI.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		EC647C3921557DB600D94C87 /* NextDeparturesIntent.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EC647C2221557DB600D94C87 /* NextDeparturesIntent.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		EC647C422155810500D94C87 /* timeforcoffeeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC46C5591BB5C82800F2A963 /* timeforcoffeeKit.framework */; };
+		EC647C432155810A00D94C87 /* timeforcoffeeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC46C5591BB5C82800F2A963 /* timeforcoffeeKit.framework */; };
+		EC647C49215581E700D94C87 /* NextDeparturesIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC647C48215581E700D94C87 /* NextDeparturesIntentHandler.swift */; };
+		EC647C4A215581E700D94C87 /* NextDeparturesIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC647C48215581E700D94C87 /* NextDeparturesIntentHandler.swift */; };
 		EC681C171E5059DB00A8CD9E /* ComplicationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC681C161E5059DB00A8CD9E /* ComplicationData.swift */; };
 		EC68469B1BF9CDBD00BD8531 /* TFCSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC68469A1BF9CDBD00BD8531 /* TFCSettings.swift */; };
 		EC68469C1BF9CDBD00BD8531 /* TFCSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC68469A1BF9CDBD00BD8531 /* TFCSettings.swift */; };
@@ -133,6 +143,16 @@
 		ECC1CD831D971DB20012E64F /* TFCNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC1CD821D971DB20012E64F /* TFCNotification.swift */; };
 		ECDB98E11E327FC3003FA5A1 /* TFCCrashlytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDB98DF1E327F36003FA5A1 /* TFCCrashlytics.swift */; };
 		ECDB98EC1E329DB3003FA5A1 /* TFCCrashlytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDB98EB1E329DB3003FA5A1 /* TFCCrashlytics.swift */; };
+		ECDC4E1C215668650019EDEF /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = ECDC4E24215668650019EDEF /* Intents.intentdefinition */; settings = {ATTRIBUTES = (no_codegen, ); }; };
+		ECDC4E1D215668650019EDEF /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = ECDC4E24215668650019EDEF /* Intents.intentdefinition */; settings = {ATTRIBUTES = (no_codegen, ); }; };
+		ECDC4E1E215668650019EDEF /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = ECDC4E24215668650019EDEF /* Intents.intentdefinition */; };
+		ECDC4E1F215668650019EDEF /* Intents.intentdefinition in Resources */ = {isa = PBXBuildFile; fileRef = ECDC4E24215668650019EDEF /* Intents.intentdefinition */; };
+		ECDC4E20215668650019EDEF /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = ECDC4E24215668650019EDEF /* Intents.intentdefinition */; };
+		ECDC4E21215668650019EDEF /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = ECDC4E24215668650019EDEF /* Intents.intentdefinition */; settings = {ATTRIBUTES = (no_codegen, ); }; };
+		ECDC4E22215668650019EDEF /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = ECDC4E24215668650019EDEF /* Intents.intentdefinition */; settings = {ATTRIBUTES = (no_codegen, ); }; };
+		ECDC4E2721567DF60019EDEF /* DepartureLineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCAFD1BB5CC3500623F1A /* DepartureLineLabel.swift */; };
+		ECDC4E2921577D730019EDEF /* TFCStationsUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDC4E2821577D720019EDEF /* TFCStationsUpdate.swift */; };
+		ECDC4E2A2157830D0019EDEF /* TFCStationsUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDC4E2821577D720019EDEF /* TFCStationsUpdate.swift */; };
 		ECDDEAFC1E28C7470090E78F /* TFCStationCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0B0EAB1E16C214000E52AE /* TFCStationCollection.swift */; };
 		ECE44E4A1F9C8B8000A25FF2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE44E491F9C8B8000A25FF2 /* AppDelegate.swift */; };
 		ECE44E4C1F9C8B8000A25FF2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE44E4B1F9C8B8000A25FF2 /* ViewController.swift */; };
@@ -187,6 +207,34 @@
 			remoteGlobalIDString = EC46C5581BB5C82800F2A963;
 			remoteInfo = timeforcoffeeKit;
 		};
+		EC647C3421557DB600D94C87 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EC46C4D31BB5C69800F2A963 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EC647C2A21557DB600D94C87;
+			remoteInfo = NextDeparturesIntentUI;
+		};
+		EC647C3721557DB600D94C87 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EC46C4D31BB5C69800F2A963 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EC647C2121557DB600D94C87;
+			remoteInfo = NextDeparturesIntent;
+		};
+		EC647C442155817300D94C87 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EC46C4D31BB5C69800F2A963 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EC46C5581BB5C82800F2A963;
+			remoteInfo = timeforcoffeeKit;
+		};
+		EC647C462155817A00D94C87 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EC46C4D31BB5C69800F2A963 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EC46C5581BB5C82800F2A963;
+			remoteInfo = timeforcoffeeKit;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -207,7 +255,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				EC647C3621557DB600D94C87 /* NextDeparturesIntentUI.appex in Embed App Extensions */,
 				EC46C5151BB5C71100F2A963 /* timeforcoffee Widget.appex in Embed App Extensions */,
+				EC647C3921557DB600D94C87 /* NextDeparturesIntent.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -331,6 +381,18 @@
 		EC60B0101BB680B600D10238 /* time-for-coffee-icon_1024.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = "time-for-coffee-icon_1024.psd"; sourceTree = "<group>"; };
 		EC60B0111BB680B600D10238 /* Zuerich2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Zuerich2.jpg; sourceTree = "<group>"; };
 		EC60B0191BB680FD00D10238 /* trainsymbol.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = trainsymbol.otf; sourceTree = "<group>"; };
+		EC647C04215578E300D94C87 /* IntentsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IntentsUI.framework; path = System/Library/Frameworks/IntentsUI.framework; sourceTree = SDKROOT; };
+		EC647C2221557DB600D94C87 /* NextDeparturesIntent.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NextDeparturesIntent.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC647C2421557DB600D94C87 /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
+		EC647C2621557DB600D94C87 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EC647C2B21557DB600D94C87 /* NextDeparturesIntentUI.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NextDeparturesIntentUI.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC647C2E21557DB600D94C87 /* IntentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentViewController.swift; sourceTree = "<group>"; };
+		EC647C3121557DB600D94C87 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		EC647C3321557DB600D94C87 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EC647C48215581E700D94C87 /* NextDeparturesIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextDeparturesIntentHandler.swift; sourceTree = "<group>"; };
+		EC647C4B2155A0EE00D94C87 /* NextDeparturesIntent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NextDeparturesIntent.entitlements; sourceTree = "<group>"; };
+		EC647C4C2155A0F800D94C87 /* NextDeparturesIntentUI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NextDeparturesIntentUI.entitlements; sourceTree = "<group>"; };
+		EC647C4D2155A50D00D94C87 /* DataModels 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DataModels 3.xcdatamodel"; sourceTree = "<group>"; };
 		EC681C161E5059DB00A8CD9E /* ComplicationData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComplicationData.swift; sourceTree = "<group>"; };
 		EC68469A1BF9CDBD00BD8531 /* TFCSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCSettings.swift; sourceTree = "<group>"; };
 		EC810B051BC7963C0007B874 /* DataModels.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModels.xcdatamodel; sourceTree = "<group>"; };
@@ -388,6 +450,9 @@
 		ECD42E511D8B4D72006ED53E /* GATracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GATracker.swift; sourceTree = "<group>"; };
 		ECDB98DF1E327F36003FA5A1 /* TFCCrashlytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCCrashlytics.swift; sourceTree = "<group>"; };
 		ECDB98EB1E329DB3003FA5A1 /* TFCCrashlytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCCrashlytics.swift; sourceTree = "<group>"; };
+		ECDC4E23215668650019EDEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; name = Base; path = Base.lproj/Intents.intentdefinition; sourceTree = "<group>"; };
+		ECDC4E26215668670019EDEF /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Intents.strings; sourceTree = "<group>"; };
+		ECDC4E2821577D720019EDEF /* TFCStationsUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFCStationsUpdate.swift; sourceTree = "<group>"; };
 		ECE44E411F9C8AFF00A25FF2 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ECE44E471F9C8B7F00A25FF2 /* just-for-logs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "just-for-logs.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECE44E491F9C8B8000A25FF2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -461,6 +526,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		EC647C1F21557DB600D94C87 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC647C422155810500D94C87 /* timeforcoffeeKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EC647C2821557DB600D94C87 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC647C432155810A00D94C87 /* timeforcoffeeKit.framework in Frameworks */,
+				EC647C2C21557DB600D94C87 /* IntentsUI.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ECE44E441F9C8B7F00A25FF2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -505,6 +587,8 @@
 				EC46C55A1BB5C82800F2A963 /* timeforcoffeeKit */,
 				EC46C51D1BB5C78A00F2A963 /* Time for Coffee! WatchOS 2 App */,
 				EC46C52C1BB5C78A00F2A963 /* Time for Coffee! WatchOS 2 App Extension */,
+				EC647C2D21557DB600D94C87 /* NextDeparturesIntentUI */,
+				EC647C2321557DB600D94C87 /* NextDeparturesIntent */,
 				EC46C5471BB5C7FD00F2A963 /* timeforcoffeeWatchKit */,
 				ECEDDAD01BC991800088AFB2 /* stations-importer */,
 				ECE44E481F9C8B7F00A25FF2 /* just-for-logs */,
@@ -524,6 +608,8 @@
 				EC46C5591BB5C82800F2A963 /* timeforcoffeeKit.framework */,
 				ECEDDACF1BC991800088AFB2 /* stations-importer */,
 				ECE44E471F9C8B7F00A25FF2 /* just-for-logs.app */,
+				EC647C2221557DB600D94C87 /* NextDeparturesIntent.appex */,
+				EC647C2B21557DB600D94C87 /* NextDeparturesIntentUI.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -577,6 +663,7 @@
 				EC4F0C861BB5D06700CE7C24 /* UIKit.framework */,
 				EC46C50A1BB5C71100F2A963 /* NotificationCenter.framework */,
 				718175B4EFBEAE5C6B57753F /* Pods_timeforcoffee.framework */,
+				EC647C04215578E300D94C87 /* IntentsUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -666,6 +753,7 @@
 				EC9BCB211BB5CCD300623F1A /* TFCLocationManager.swift */,
 				EC9BCB221BB5CCD300623F1A /* TFCLocationManagerBase.swift */,
 				EC9BCB231BB5CCD300623F1A /* TFCStation.swift */,
+				ECDC4E2821577D720019EDEF /* TFCStationsUpdate.swift */,
 				EC9BCB241BB5CCD300623F1A /* TFCStationBase.swift */,
 				EC0B0EAB1E16C214000E52AE /* TFCStationCollection.swift */,
 				EC9BCB251BB5CCD300623F1A /* TFCStations.swift */,
@@ -674,6 +762,8 @@
 				EC46C55B1BB5C82800F2A963 /* timeforcoffeeKit.h */,
 				EC46C55D1BB5C82800F2A963 /* Info.plist */,
 				ECEF28191BCBC98F000F4094 /* TFC.plist */,
+				ECDC4E24215668650019EDEF /* Intents.intentdefinition */,
+				EC647C48215581E700D94C87 /* NextDeparturesIntentHandler.swift */,
 			);
 			path = timeforcoffeeKit;
 			sourceTree = "<group>";
@@ -706,6 +796,27 @@
 				EC60B0111BB680B600D10238 /* Zuerich2.jpg */,
 			);
 			path = _assets;
+			sourceTree = "<group>";
+		};
+		EC647C2321557DB600D94C87 /* NextDeparturesIntent */ = {
+			isa = PBXGroup;
+			children = (
+				EC647C4B2155A0EE00D94C87 /* NextDeparturesIntent.entitlements */,
+				EC647C2421557DB600D94C87 /* IntentHandler.swift */,
+				EC647C2621557DB600D94C87 /* Info.plist */,
+			);
+			path = NextDeparturesIntent;
+			sourceTree = "<group>";
+		};
+		EC647C2D21557DB600D94C87 /* NextDeparturesIntentUI */ = {
+			isa = PBXGroup;
+			children = (
+				EC647C4C2155A0F800D94C87 /* NextDeparturesIntentUI.entitlements */,
+				EC647C2E21557DB600D94C87 /* IntentViewController.swift */,
+				EC647C3021557DB600D94C87 /* MainInterface.storyboard */,
+				EC647C3321557DB600D94C87 /* Info.plist */,
+			);
+			path = NextDeparturesIntentUI;
 			sourceTree = "<group>";
 		};
 		EC9BCB3A1BB5CD4D00623F1A /* PINCache */ = {
@@ -786,6 +897,8 @@
 				EC46C5141BB5C71100F2A963 /* PBXTargetDependency */,
 				EC46C5371BB5C78A00F2A963 /* PBXTargetDependency */,
 				EC46C55F1BB5C82800F2A963 /* PBXTargetDependency */,
+				EC647C3521557DB600D94C87 /* PBXTargetDependency */,
+				EC647C3821557DB600D94C87 /* PBXTargetDependency */,
 			);
 			name = timeforcoffee;
 			productName = timeforcoffee;
@@ -865,6 +978,42 @@
 			productReference = EC46C5591BB5C82800F2A963 /* timeforcoffeeKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		EC647C2121557DB600D94C87 /* NextDeparturesIntent */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EC647C3D21557DB600D94C87 /* Build configuration list for PBXNativeTarget "NextDeparturesIntent" */;
+			buildPhases = (
+				EC647C1E21557DB600D94C87 /* Sources */,
+				EC647C1F21557DB600D94C87 /* Frameworks */,
+				EC647C2021557DB600D94C87 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EC647C452155817300D94C87 /* PBXTargetDependency */,
+			);
+			name = NextDeparturesIntent;
+			productName = NextDeparturesIntent;
+			productReference = EC647C2221557DB600D94C87 /* NextDeparturesIntent.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		EC647C2A21557DB600D94C87 /* NextDeparturesIntentUI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EC647C3A21557DB600D94C87 /* Build configuration list for PBXNativeTarget "NextDeparturesIntentUI" */;
+			buildPhases = (
+				EC647C2721557DB600D94C87 /* Sources */,
+				EC647C2821557DB600D94C87 /* Frameworks */,
+				EC647C2921557DB600D94C87 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EC647C472155817A00D94C87 /* PBXTargetDependency */,
+			);
+			name = NextDeparturesIntentUI;
+			productName = NextDeparturesIntentUI;
+			productReference = EC647C2B21557DB600D94C87 /* NextDeparturesIntentUI.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		ECE44E461F9C8B7F00A25FF2 /* just-for-logs */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = ECE44E541F9C8B8000A25FF2 /* Build configuration list for PBXNativeTarget "just-for-logs" */;
@@ -906,7 +1055,7 @@
 		EC46C4D31BB5C69800F2A963 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0910;
+				LastSwiftUpdateCheck = 1000;
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = opendata.ch;
 				TargetAttributes = {
@@ -922,6 +1071,9 @@
 								enabled = 1;
 							};
 							com.apple.Push = {
+								enabled = 1;
+							};
+							com.apple.Siri = {
 								enabled = 1;
 							};
 							com.apple.iCloud = {
@@ -968,6 +1120,9 @@
 							com.apple.BackgroundModes.watchos.extension = {
 								enabled = 0;
 							};
+							com.apple.Siri = {
+								enabled = 1;
+							};
 							com.apple.iCloud = {
 								enabled = 1;
 							};
@@ -977,6 +1132,24 @@
 						CreatedOnToolsVersion = 7.0;
 						DevelopmentTeam = 5J5N2M43JK;
 						LastSwiftMigration = 0900;
+					};
+					EC647C2121557DB600D94C87 = {
+						CreatedOnToolsVersion = 10.0;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
+					};
+					EC647C2A21557DB600D94C87 = {
+						CreatedOnToolsVersion = 10.0;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					ECE44E461F9C8B7F00A25FF2 = {
 						CreatedOnToolsVersion = 9.1;
@@ -1016,6 +1189,8 @@
 				EC46C5271BB5C78A00F2A963 /* Time for Coffee! WatchOS 2 App Extension */,
 				ECEDDACE1BC991800088AFB2 /* stations-importer */,
 				ECE44E461F9C8B7F00A25FF2 /* just-for-logs */,
+				EC647C2121557DB600D94C87 /* NextDeparturesIntent */,
+				EC647C2A21557DB600D94C87 /* NextDeparturesIntentUI */,
 			);
 		};
 /* End PBXProject section */
@@ -1058,6 +1233,7 @@
 			files = (
 				EC46C5221BB5C78A00F2A963 /* Assets.xcassets in Resources */,
 				EC60B0181BB680DE00D10238 /* launchicon.png in Resources */,
+				ECDC4E1F215668650019EDEF /* Intents.intentdefinition in Resources */,
 				EC46C5201BB5C78A00F2A963 /* Interface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1079,6 +1255,21 @@
 				ECEF28161BCBC951000F4094 /* (null) in Resources */,
 				EC1834DB1BCADA0E008B44F3 /* SingleViewCoreData.sqlite in Resources */,
 				ECEF281A1BCBC98F000F4094 /* TFC.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EC647C2021557DB600D94C87 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EC647C2921557DB600D94C87 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC647C3221557DB600D94C87 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1199,6 +1390,7 @@
 				ECE74C451BDEAB54009CB3CA /* PasslistViewController.swift in Sources */,
 				EC9BCB0E1BB5CC3500623F1A /* PagedStationsViewController.swift in Sources */,
 				ECC1CD831D971DB20012E64F /* TFCNotification.swift in Sources */,
+				ECDC4E1C215668650019EDEF /* Intents.intentdefinition in Sources */,
 				EC9BCB111BB5CC3500623F1A /* StationsSearchViewController.swift in Sources */,
 				EC46C4DF1BB5C69800F2A963 /* AppDelegate.swift in Sources */,
 				EC9BCB0D1BB5CC3500623F1A /* DeparturesViewController.swift in Sources */,
@@ -1214,6 +1406,7 @@
 				EC4AB23A1BB5F3C000DA9759 /* DepartureLineLabel.swift in Sources */,
 				EC46C50E1BB5C71100F2A963 /* TodayViewController.swift in Sources */,
 				ECA955911E32B9E9008ABFC6 /* GATracker.swift in Sources */,
+				ECDC4E1D215668650019EDEF /* Intents.intentdefinition in Sources */,
 				EC4AB2291BB5E74100DA9759 /* NearbyStationsTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1232,6 +1425,7 @@
 				F6F721201BCA9C9C0073E0D2 /* ComplicationController.swift in Sources */,
 				EC4AB26E1BB6787600DA9759 /* StationRow.swift in Sources */,
 				EC050CF41BB84D5B00ECB533 /* TFCStations.swift in Sources */,
+				ECDC4E2A2157830D0019EDEF /* TFCStationsUpdate.swift in Sources */,
 				EC050CFA1BB84DD200ECB533 /* TFCStation.swift in Sources */,
 				ECEBB7FE1BC7241A00AB83B9 /* TFCStationModel.swift in Sources */,
 				EC050CF61BB84D5B00ECB533 /* TFCWatchData.swift in Sources */,
@@ -1246,11 +1440,13 @@
 				EC1B2F521D846CD100399F60 /* TFCWatchDataFetch.swift in Sources */,
 				EC050CF11BB84D5B00ECB533 /* TFCFavorites.swift in Sources */,
 				EC050CF31BB84D5B00ECB533 /* TFCStationBase.swift in Sources */,
+				ECDC4E20215668650019EDEF /* Intents.intentdefinition in Sources */,
 				ECDB98E11E327FC3003FA5A1 /* TFCCrashlytics.swift in Sources */,
 				EC050CEB1BB84D4700ECB533 /* TFCCache.swift in Sources */,
 				EC050CED1BB84D4F00ECB533 /* PINCache.m in Sources */,
 				EC050CEE1BB84D4F00ECB533 /* PINDiskCache.m in Sources */,
 				EC050CE91BB84D4700ECB533 /* extensions.swift in Sources */,
+				EC647C4A215581E700D94C87 /* NextDeparturesIntentHandler.swift in Sources */,
 				EC810B071BC7963C0007B874 /* DataModels.xcdatamodeld in Sources */,
 				EC4AB26D1BB6787600DA9759 /* MapViewController.swift in Sources */,
 				EC604D041D8714A200ED1950 /* FavoriteStationsOverviewController.swift in Sources */,
@@ -1275,12 +1471,14 @@
 				ECEBB7FD1BC7238C00AB83B9 /* TFCStationModel.swift in Sources */,
 				ECEBB7FC1BC7238C00AB83B9 /* TFCStationModel+CoreDataProperties.swift in Sources */,
 				EC9BCB341BB5CCD300623F1A /* TFCStation.swift in Sources */,
+				EC647C49215581E700D94C87 /* NextDeparturesIntentHandler.swift in Sources */,
 				EC9BCB461BB5CD4D00623F1A /* PINDiskCache.m in Sources */,
 				EC9BCB2B1BB5CCD300623F1A /* SwiftyJSON.swift in Sources */,
 				EC9BCB2C1BB5CCD300623F1A /* TFCBaseViewController.swift in Sources */,
 				EC9BCB311BB5CCD300623F1A /* TFCFavorites.swift in Sources */,
 				ECE74C471BDEBF2B009CB3CA /* TFCPass.swift in Sources */,
 				EC9BCB481BB5CD4D00623F1A /* PINMemoryCache.m in Sources */,
+				ECDC4E1E215668650019EDEF /* Intents.intentdefinition in Sources */,
 				EC9BCB291BB5CCD300623F1A /* APIController.swift in Sources */,
 				EC9BCB2E1BB5CCD300623F1A /* TFCDataStore.swift in Sources */,
 				EC9BCB361BB5CCD300623F1A /* TFCStations.swift in Sources */,
@@ -1290,10 +1488,30 @@
 				EC18AA931BE4067000488DC4 /* TFCDeparturePass.swift in Sources */,
 				EC9BCB301BB5CCD300623F1A /* TFCDeparture.swift in Sources */,
 				EC9BCB441BB5CD4D00623F1A /* PINCache.m in Sources */,
+				ECDC4E2921577D730019EDEF /* TFCStationsUpdate.swift in Sources */,
 				EC9BCB331BB5CCD300623F1A /* TFCLocationManagerBase.swift in Sources */,
 				EC9BCB351BB5CCD300623F1A /* TFCStationBase.swift in Sources */,
 				EC9BCB371BB5CCD300623F1A /* TFCURLSession.swift in Sources */,
 				EC9BCB2A1BB5CCD300623F1A /* extensions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EC647C1E21557DB600D94C87 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ECDC4E21215668650019EDEF /* Intents.intentdefinition in Sources */,
+				EC647C2521557DB600D94C87 /* IntentHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EC647C2721557DB600D94C87 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ECDC4E2721567DF60019EDEF /* DepartureLineLabel.swift in Sources */,
+				ECDC4E22215668650019EDEF /* Intents.intentdefinition in Sources */,
+				EC647C2F21557DB600D94C87 /* IntentViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1342,6 +1560,26 @@
 			target = EC46C5581BB5C82800F2A963 /* timeforcoffeeKit */;
 			targetProxy = EC46C55E1BB5C82800F2A963 /* PBXContainerItemProxy */;
 		};
+		EC647C3521557DB600D94C87 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EC647C2A21557DB600D94C87 /* NextDeparturesIntentUI */;
+			targetProxy = EC647C3421557DB600D94C87 /* PBXContainerItemProxy */;
+		};
+		EC647C3821557DB600D94C87 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EC647C2121557DB600D94C87 /* NextDeparturesIntent */;
+			targetProxy = EC647C3721557DB600D94C87 /* PBXContainerItemProxy */;
+		};
+		EC647C452155817300D94C87 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EC46C5581BB5C82800F2A963 /* timeforcoffeeKit */;
+			targetProxy = EC647C442155817300D94C87 /* PBXContainerItemProxy */;
+		};
+		EC647C472155817A00D94C87 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EC46C5581BB5C82800F2A963 /* timeforcoffeeKit */;
+			targetProxy = EC647C462155817A00D94C87 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -1383,12 +1621,29 @@
 			name = Interface.storyboard;
 			sourceTree = "<group>";
 		};
+		EC647C3021557DB600D94C87 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EC647C3121557DB600D94C87 /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
 		EC9BCAF81BB5CB7700623F1A /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				EC9BCAF91BB5CB7700623F1A /* Base */,
 			);
 			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+		ECDC4E24215668650019EDEF /* Intents.intentdefinition */ = {
+			isa = PBXVariantGroup;
+			children = (
+				ECDC4E23215668650019EDEF /* Base */,
+				ECDC4E26215668670019EDEF /* de */,
+			);
+			name = Intents.intentdefinition;
 			sourceTree = "<group>";
 		};
 		ECE44E4F1F9C8B8000A25FF2 /* Main.storyboard */ = {
@@ -1521,6 +1776,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E6FAD2398FD70FEE993997B1 /* Pods-timeforcoffee.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = timeforcoffee/timeforcoffee.entitlements;
 				ENABLE_BITCODE = YES;
@@ -1543,6 +1799,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 90087806BCCE940C1B7B4FCE /* Pods-timeforcoffee.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = timeforcoffee/timeforcoffee.entitlements;
 				ENABLE_BITCODE = YES;
@@ -1748,6 +2005,122 @@
 			};
 			name = Release;
 		};
+		EC647C3B21557DB600D94C87 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = NextDeparturesIntentUI/NextDeparturesIntentUI.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INFOPLIST_FILE = NextDeparturesIntentUI/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.NextDeparturesIntentUI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EC647C3C21557DB600D94C87 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = NextDeparturesIntentUI/NextDeparturesIntentUI.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = NextDeparturesIntentUI/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.NextDeparturesIntentUI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		EC647C3E21557DB600D94C87 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = NextDeparturesIntent/NextDeparturesIntent.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INFOPLIST_FILE = NextDeparturesIntent/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.NextDeparturesIntent;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EC647C3F21557DB600D94C87 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = NextDeparturesIntent/NextDeparturesIntent.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = NextDeparturesIntent/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.NextDeparturesIntent;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		ECE44E551F9C8B8000A25FF2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1894,6 +2267,24 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		EC647C3A21557DB600D94C87 /* Build configuration list for PBXNativeTarget "NextDeparturesIntentUI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EC647C3B21557DB600D94C87 /* Debug */,
+				EC647C3C21557DB600D94C87 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EC647C3D21557DB600D94C87 /* Build configuration list for PBXNativeTarget "NextDeparturesIntent" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EC647C3E21557DB600D94C87 /* Debug */,
+				EC647C3F21557DB600D94C87 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		ECE44E541F9C8B8000A25FF2 /* Build configuration list for PBXNativeTarget "just-for-logs" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1918,10 +2309,11 @@
 		EC810B041BC7963C0007B874 /* DataModels.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				EC647C4D2155A50D00D94C87 /* DataModels 3.xcdatamodel */,
 				EC28EA451BD3E3F0004977B0 /* DataModels 2.xcdatamodel */,
 				EC810B051BC7963C0007B874 /* DataModels.xcdatamodel */,
 			);
-			currentVersion = EC28EA451BD3E3F0004977B0 /* DataModels 2.xcdatamodel */;
+			currentVersion = EC647C4D2155A50D00D94C87 /* DataModels 3.xcdatamodel */;
 			path = DataModels.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

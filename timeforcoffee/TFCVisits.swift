@@ -89,7 +89,7 @@ class TFCVisits: NSObject, TFCLocationManagerDelegate, TFCStationsUpdatedProtoco
         }
     }
 
-    func stationsUpdated(_ error: String?, favoritesOnly: Bool, context: Any?) {
+    func stationsUpdated(_ error: String?, favoritesOnly: Bool, context: Any?, stations:TFCStations) {
         if (favoritesOnly == false) { // wait for all stations, should be fast anyway with the DB lookup nowadays (in Switzerland at least) and doesn't matter in this case how fast it is
             DLog("TFCVisits stationsUpdate")
             if let station = self.stations.getStation(0) {

@@ -1,0 +1,14 @@
+"5ZFgFV" = "There was a failure";
+
+"F6OcIm" = "Zeige Abfahrten von der nächsten Station";
+
+"PHXTvi" = "Get next departures from a station";
+
+"WpiG2i" = "Show departures nearest to ${location}";
+
+"dbpzKW" = "Nächste Abfahrt ist in ${departureTime} Minuten mit Linie ${departureLine} nach ${endStation} von ${departureStation}";
+
+"eclNCj" = "Zeige Abfahrten von ${station}";
+
+"qwQyYn" = "Get next departures";
+

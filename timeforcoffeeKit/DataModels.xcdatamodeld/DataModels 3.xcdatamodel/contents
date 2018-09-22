@@ -11,7 +11,7 @@
         <attribute name="lastUpdated" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" indexed="YES" syncable="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" indexed="YES" syncable="YES"/>
-        <attribute name="name" attributeType="String" defaultValueString="unknown" syncable="YES"/>
+        <attribute name="name" attributeType="String" defaultValueString="unknown" indexed="YES" syncable="YES"/>
     </entity>
     <elements>
         <element name="TFCStationModel" positionX="-63" positionY="-18" width="128" height="210"/>

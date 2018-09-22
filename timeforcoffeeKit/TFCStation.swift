@@ -173,8 +173,8 @@ open class TFCStation: TFCStationBase {
             activity.isEligibleForPublicIndexing = true
             activity.isEligibleForHandoff = true
             if #available(iOSApplicationExtension 12.0, *) {
-                activity.isEligibleForPrediction = true
-                activity.persistentIdentifier = NSUserActivityPersistentIdentifier(self.st_id)
+                //activity.isEligibleForPrediction = true
+                //activity.persistentIdentifier = NSUserActivityPersistentIdentifier(self.st_id)
                 if let center = TFCLocationManager.getCurrentLocation()?.coordinate {
                     let sc = INShortcut(userActivity: activity)
                     let rsc = INRelevantShortcut(shortcut: sc)
@@ -182,6 +182,9 @@ open class TFCStation: TFCStationBase {
                     rsc.relevanceProviders = [INLocationRelevanceProvider(region: region)]
                     INRelevantShortcutStore.default.setRelevantShortcuts([rsc])
                 }
+            
+                self.setIntent()
+                
             }
             activity.webpageURL = self.getWebLink()
             let userCalendar = Calendar.current
@@ -193,6 +196,8 @@ open class TFCStation: TFCStationBase {
             activity.expirationDate = FourWeeksFromNow
             activity.keywords = Set(getKeywords())
             activity.becomeCurrent()
+            
+
         }
     }
 

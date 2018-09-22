@@ -221,13 +221,12 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
         return true
     }
 
-    public func updateStations() -> Bool {
-        return updateStations(false)
-    }
-
-    public func updateStations(_ force: Bool) -> Bool {
+    public func updateStations(_ force: Bool = false) -> Bool {
         // dont refresh location within 5 seconds..
-        if (force || lastRefreshLocation == nil || lastRefreshLocation!.timeIntervalSinceNow < -5) {
+        if (force ||
+            lastRefreshLocation == nil ||
+            lastRefreshLocation!.timeIntervalSinceNow < -5
+            ) {
             lastRefreshLocation = Date()
             isLoading = true
             DispatchQueue.main.async(execute: {
@@ -262,7 +261,7 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
     public func locationStillTrying(_ manager: CLLocationManager, err: Error) {
             callStationsUpdatedDelegate(TFCLocationManager.k.AirplaneMode)
     }
-
+    
     public func searchForStationsInDB(_ coord: CLLocationCoordinate2D, distance: Double = 1500.0, context: Any? = nil) {
 
         var err:String?
@@ -391,7 +390,7 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
 
             }
             if let dele = self.delegate {
-                dele.stationsUpdated(self.networkErrorMsg, favoritesOnly: favoritesOnly, context: context)
+                dele.stationsUpdated(self.networkErrorMsg, favoritesOnly: favoritesOnly, context: context, stations: self)
             }
         }
     }
@@ -431,5 +430,5 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
 }
 
 public protocol TFCStationsUpdatedProtocol: class {
-    func stationsUpdated(_ error: String?, favoritesOnly: Bool, context: Any?)
+    func stationsUpdated(_ error: String?, favoritesOnly: Bool, context: Any?, stations: TFCStations)
 }

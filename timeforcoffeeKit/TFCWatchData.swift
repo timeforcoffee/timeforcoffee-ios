@@ -236,7 +236,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
         }
     }
 
-    public func stationsUpdated(_ error: String?, favoritesOnly: Bool, context: Any?) {
+    public func stationsUpdated(_ error: String?, favoritesOnly: Bool, context: Any?, stations:TFCStations) {
         if let reply:replyContext = context as? replyContext {
             if (error != nil) {
                 if let reply = reply.errorReply {

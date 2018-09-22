@@ -11,6 +11,7 @@ import CoreLocation
 import MapKit
 import UIKit
 import CoreData
+import Intents
 
 open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
@@ -550,6 +551,10 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         return coord?.coordinate.latitude
     }
     
+    open func getId() -> String {
+        return self.st_id
+    }
+    
     open func getName(_ cityAfter: Bool) -> String {
         if (cityAfter && name.matchRegex(TFCDeparture.commaStarRegex)) {
             let stationName = name.replaceRegex(TFCDeparture.starCommaStarRegex, template: "")
@@ -1069,6 +1074,26 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     open func setStationActivity() {
     }
 
+    @available(watchOSApplicationExtension 5.0, *)
+    @available(iOSApplicationExtension 12.0, *)
+    open func setIntent() {
+        let intent = NextDeparturesIntent()
+        intent.st_id = self.getId()
+        intent.station = self.getName(false)
+        intent.suggestedInvocationPhrase = "Departures from \( self.getName(false))"
+        let interaction = INInteraction(intent: intent, response: nil)
+        interaction.donate { (error) in
+            if error != nil {
+                if let error = error as NSError? {
+                    DLog("Interaction donation failed: \(error)")
+                }
+            } else {
+                DLog("Successfully donated interaction")
+                
+            }
+        }
+        
+    }
     open func setStationSearchIndex() {
     }
 
