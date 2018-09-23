@@ -168,6 +168,8 @@
 		ECDC4E22215668650019EDEF /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = ECDC4E24215668650019EDEF /* Intents.intentdefinition */; settings = {ATTRIBUTES = (no_codegen, ); }; };
 		ECDC4E2721567DF60019EDEF /* DepartureLineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCAFD1BB5CC3500623F1A /* DepartureLineLabel.swift */; };
 		ECDC4E2921577D730019EDEF /* TFCStationsUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDC4E2821577D720019EDEF /* TFCStationsUpdate.swift */; };
+		ECE0C9002157F5BC00088897 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE0C8FF2157F5BC00088897 /* IntentHandler.swift */; };
+		ECE0C9042157F5BC00088897 /* NextDeparturesIntentWatch.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = ECE0C8FD2157F5BC00088897 /* NextDeparturesIntentWatch.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		ECE44E4A1F9C8B8000A25FF2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE44E491F9C8B8000A25FF2 /* AppDelegate.swift */; };
 		ECE44E4C1F9C8B8000A25FF2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE44E4B1F9C8B8000A25FF2 /* ViewController.swift */; };
 		ECE44E4E1F9C8B8000A25FF2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ECE44E4D1F9C8B8000A25FF2 /* Assets.xcassets */; };
@@ -252,6 +254,20 @@
 			remoteGlobalIDString = EC46C5581BB5C82800F2A963;
 			remoteInfo = timeforcoffeeKit;
 		};
+		ECE0C9022157F5BC00088897 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EC46C4D31BB5C69800F2A963 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = ECE0C8FC2157F5BC00088897;
+			remoteInfo = NextDeparturesIntentWatch;
+		};
+		ECE0C9092157F6D700088897 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EC46C4D31BB5C69800F2A963 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EC2D16BA2157CE4C00973F11;
+			remoteInfo = timeforcoffeeKitWatch;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -318,6 +334,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				ECE0C9042157F5BC00088897 /* NextDeparturesIntentWatch.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -490,6 +507,10 @@
 		ECDC4E23215668650019EDEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; name = Base; path = Base.lproj/Intents.intentdefinition; sourceTree = "<group>"; };
 		ECDC4E26215668670019EDEF /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Intents.strings; sourceTree = "<group>"; };
 		ECDC4E2821577D720019EDEF /* TFCStationsUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFCStationsUpdate.swift; sourceTree = "<group>"; };
+		ECE0C8FD2157F5BC00088897 /* NextDeparturesIntentWatch.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NextDeparturesIntentWatch.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		ECE0C8FF2157F5BC00088897 /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
+		ECE0C9012157F5BC00088897 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ECE0C9082157F65100088897 /* NextDeparturesIntentWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NextDeparturesIntentWatch.entitlements; sourceTree = "<group>"; };
 		ECE44E411F9C8AFF00A25FF2 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ECE44E471F9C8B7F00A25FF2 /* just-for-logs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "just-for-logs.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECE44E491F9C8B8000A25FF2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -588,6 +609,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		ECE0C8FA2157F5BC00088897 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ECE44E441F9C8B7F00A25FF2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -667,12 +695,12 @@
 				EC46C55A1BB5C82800F2A963 /* timeforcoffeeKit */,
 				EC46C51D1BB5C78A00F2A963 /* Time for Coffee! WatchOS 2 App */,
 				EC46C52C1BB5C78A00F2A963 /* Time for Coffee! WatchOS 2 App Extension */,
+				EC2D16BC2157CE4C00973F11 /* timeforcoffeeKitWatch */,
 				EC647C2D21557DB600D94C87 /* NextDeparturesIntentUI */,
 				EC647C2321557DB600D94C87 /* NextDeparturesIntent */,
-				EC46C5471BB5C7FD00F2A963 /* timeforcoffeeWatchKit */,
+				ECE0C8FE2157F5BC00088897 /* NextDeparturesIntentWatch */,
 				ECEDDAD01BC991800088AFB2 /* stations-importer */,
 				ECE44E481F9C8B7F00A25FF2 /* just-for-logs */,
-				EC2D16BC2157CE4C00973F11 /* timeforcoffeeKitWatch */,
 				EC46C5091BB5C71100F2A963 /* Frameworks */,
 				EC46C4DC1BB5C69800F2A963 /* Products */,
 				DAB2CA30A507610FEC3834D1 /* Pods */,
@@ -692,6 +720,7 @@
 				EC647C2221557DB600D94C87 /* NextDeparturesIntent.appex */,
 				EC647C2B21557DB600D94C87 /* NextDeparturesIntentUI.appex */,
 				EC2D16BB2157CE4C00973F11 /* timeforcoffeeKitWatch.framework */,
+				ECE0C8FD2157F5BC00088897 /* NextDeparturesIntentWatch.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -791,13 +820,6 @@
 				EC46C5351BB5C78A00F2A963 /* Info.plist */,
 			);
 			path = "Time for Coffee! WatchOS 2 App Extension";
-			sourceTree = "<group>";
-		};
-		EC46C5471BB5C7FD00F2A963 /* timeforcoffeeWatchKit */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = timeforcoffeeWatchKit;
 			sourceTree = "<group>";
 		};
 		EC46C55A1BB5C82800F2A963 /* timeforcoffeeKit */ = {
@@ -903,6 +925,16 @@
 				EC9BCB411BB5CD4D00623F1A /* PINMemoryCache.m */,
 			);
 			path = PINCache;
+			sourceTree = "<group>";
+		};
+		ECE0C8FE2157F5BC00088897 /* NextDeparturesIntentWatch */ = {
+			isa = PBXGroup;
+			children = (
+				ECE0C9082157F65100088897 /* NextDeparturesIntentWatch.entitlements */,
+				ECE0C8FF2157F5BC00088897 /* IntentHandler.swift */,
+				ECE0C9012157F5BC00088897 /* Info.plist */,
+			);
+			path = NextDeparturesIntentWatch;
 			sourceTree = "<group>";
 		};
 		ECE44E481F9C8B7F00A25FF2 /* just-for-logs */ = {
@@ -1059,6 +1091,7 @@
 			);
 			dependencies = (
 				EC2D16C12157CE4C00973F11 /* PBXTargetDependency */,
+				ECE0C9032157F5BC00088897 /* PBXTargetDependency */,
 			);
 			name = "Time for Coffee! WatchOS 2 App Extension";
 			productName = "Time for Coffee! WatchOS 2 App Extension";
@@ -1118,6 +1151,24 @@
 			productName = NextDeparturesIntentUI;
 			productReference = EC647C2B21557DB600D94C87 /* NextDeparturesIntentUI.appex */;
 			productType = "com.apple.product-type.app-extension";
+		};
+		ECE0C8FC2157F5BC00088897 /* NextDeparturesIntentWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ECE0C9052157F5BC00088897 /* Build configuration list for PBXNativeTarget "NextDeparturesIntentWatch" */;
+			buildPhases = (
+				ECE0C8F92157F5BC00088897 /* Sources */,
+				ECE0C8FA2157F5BC00088897 /* Frameworks */,
+				ECE0C8FB2157F5BC00088897 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				ECE0C90A2157F6D700088897 /* PBXTargetDependency */,
+			);
+			name = NextDeparturesIntentWatch;
+			productName = NextDeparturesIntentWatch;
+			productReference = ECE0C8FD2157F5BC00088897 /* NextDeparturesIntentWatch.appex */;
+			productType = "com.apple.product-type.app-extension.intents-service";
 		};
 		ECE44E461F9C8B7F00A25FF2 /* just-for-logs */ = {
 			isa = PBXNativeTarget;
@@ -1260,6 +1311,15 @@
 							};
 						};
 					};
+					ECE0C8FC2157F5BC00088897 = {
+						CreatedOnToolsVersion = 10.0;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
+					};
 					ECE44E461F9C8B7F00A25FF2 = {
 						CreatedOnToolsVersion = 9.1;
 						ProvisioningStyle = Automatic;
@@ -1301,6 +1361,7 @@
 				ECE44E461F9C8B7F00A25FF2 /* just-for-logs */,
 				EC647C2121557DB600D94C87 /* NextDeparturesIntent */,
 				EC647C2A21557DB600D94C87 /* NextDeparturesIntentUI */,
+				ECE0C8FC2157F5BC00088897 /* NextDeparturesIntentWatch */,
 			);
 		};
 /* End PBXProject section */
@@ -1391,6 +1452,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		EC855BA61BC999CC001ABD35 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ECE0C8FB2157F5BC00088897 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1640,6 +1708,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		ECE0C8F92157F5BC00088897 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ECE0C9002157F5BC00088897 /* IntentHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ECE44E431F9C8B7F00A25FF2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1709,6 +1785,16 @@
 			isa = PBXTargetDependency;
 			target = EC46C5581BB5C82800F2A963 /* timeforcoffeeKit */;
 			targetProxy = EC647C462155817A00D94C87 /* PBXContainerItemProxy */;
+		};
+		ECE0C9032157F5BC00088897 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = ECE0C8FC2157F5BC00088897 /* NextDeparturesIntentWatch */;
+			targetProxy = ECE0C9022157F5BC00088897 /* PBXContainerItemProxy */;
+		};
+		ECE0C90A2157F6D700088897 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EC2D16BA2157CE4C00973F11 /* timeforcoffeeKitWatch */;
+			targetProxy = ECE0C9092157F6D700088897 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2321,6 +2407,66 @@
 			};
 			name = Release;
 		};
+		ECE0C9062157F5BC00088897 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = NextDeparturesIntentWatch/NextDeparturesIntentWatch.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INFOPLIST_FILE = NextDeparturesIntentWatch/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks @executable_path/../../../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.watchkitapp.watchkitextension.NextDeparturesIntentWatch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 5.0;
+			};
+			name = Debug;
+		};
+		ECE0C9072157F5BC00088897 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = NextDeparturesIntentWatch/NextDeparturesIntentWatch.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = NextDeparturesIntentWatch/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks @executable_path/../../../../Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.watchkitapp.watchkitextension.NextDeparturesIntentWatch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 5.0;
+			};
+			name = Release;
+		};
 		ECE44E551F9C8B8000A25FF2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2486,6 +2632,15 @@
 			buildConfigurations = (
 				EC647C3E21557DB600D94C87 /* Debug */,
 				EC647C3F21557DB600D94C87 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ECE0C9052157F5BC00088897 /* Build configuration list for PBXNativeTarget "NextDeparturesIntentWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ECE0C9062157F5BC00088897 /* Debug */,
+				ECE0C9072157F5BC00088897 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

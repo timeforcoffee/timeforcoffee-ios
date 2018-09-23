@@ -47,6 +47,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             return Bundle.main.bundleIdentifier! + ".\(self.rawValue)"
         }
     }
+    
+    deinit {
+        self.stationsUpdate = nil
+    }
     func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
         DLog("WARNING: applicationDidReceiveMemoryWarning", toFile: true)
         TFCFavorites.sharedInstance.clearStationCache()

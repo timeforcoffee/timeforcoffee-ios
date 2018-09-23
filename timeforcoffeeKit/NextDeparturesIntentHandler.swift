@@ -15,6 +15,16 @@ public class NextDeparturesIntentHandler: NSObject, NextDeparturesIntentHandling
 
     /* make sure TFCStationsUpdate is kept alive */
     var stationUpdate:TFCStationsUpdate? = nil
+    
+    public override init() {
+        super.init()
+    }
+    
+    deinit {
+        DLog("Deinit")
+        self.stationUpdate = nil
+    }
+    
     public func confirm(intent: NextDeparturesIntent, completion: @escaping (NextDeparturesIntentResponse) -> Void) {
         completion(NextDeparturesIntentResponse(code: .ready, userActivity: nil))
         
@@ -84,15 +94,5 @@ public class NextDeparturesIntentHandler: NSObject, NextDeparturesIntentHandling
     public func departuresStillCached(_ context: Any?, forStation: TFCStation?) {
         self.departuresUpdated(nil,context: context, forStation: forStation)
     }
-    
-    public override init() {
-        super.init()
-    }
-    
-    deinit {
-        DLog("Deinit")
-        self.stationUpdate = nil
-    }
-
 }
 

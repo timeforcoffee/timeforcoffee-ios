@@ -17,11 +17,16 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         WKExtension.shared().delegate = self
     }
 
+    deinit {
+        self.stationsUpdate = nil
+    }
+    
     lazy private var watchdata: TFCWatchData = {
         return TFCWatchData()
     }()
 
     var tickStart:Date? = nil
+    var stationsUpdate:TFCStationsUpdate? = nil
     func applicationDidFinishLaunching() {
         DLog("__", toFile: true)
         self.askForFavoriteData()
@@ -99,6 +104,39 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             return lastUpdate.timeIntervalSinceNow
         }
         return nil
+    }
+    
+    func handle(_ userActivity: NSUserActivity) {
+        DLog("handleUserActivity \(String(describing: userActivity ))", toFile: true)
+        if #available(watchOSApplicationExtension 5.0, *) {
+            if (userActivity.interaction?.intent is NextDeparturesIntent) {
+                if let intent = userActivity.interaction?.intent as? NextDeparturesIntent {
+                    if let st_id = intent.st_id {
+                        if let station = TFCStation.initWithCache("", id: st_id, coord: nil) {
+                            DLog("st name: \(station.getName(false))")
+                            let uI = ["st_id": station.getId()]
+                            NotificationCenter.default.post(name: Notification.Name(rawValue: "TFCWatchkitSelectStation"), object: nil, userInfo: uI)
+                        }
+                    } else {
+                        func stationsUpdateCompletion(stations:TFCStations?, error: String?, context: Any?) {
+                            if let stations = stations {
+                                if let station = stations.getStation(0) {
+                                    DispatchQueue.main.async {
+                                        DLog("nearest name: \(station.getName(false))")
+                                        let uI = ["st_id": station.getId()]
+                                        NotificationCenter.default.post(name: Notification.Name(rawValue: "TFCWatchkitSelectStation"), object: nil, userInfo: uI)
+                                    }
+                                }
+                            }
+                        }
+                        DLog("search nearest")
+                        self.stationsUpdate = TFCStationsUpdate(completion: stationsUpdateCompletion)
+                        self.stationsUpdate?.update(maxStations: 1)
+                    }
+                }
+            }
+        }
+
     }
 
     func handleUserActivity(_ userInfo: [AnyHashable: Any]?) {
