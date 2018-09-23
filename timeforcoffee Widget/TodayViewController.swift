@@ -78,14 +78,14 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
             DispatchQueue.main.async(execute: {
                 if (self.showStations == true) {
                     self.setLastUsedView()
-                    self.actionLabel.setTitle(NSLocalizedString("Back", comment: ""), for: UIControlState())
+                    self.actionLabel.setTitle(NSLocalizedString("Back", comment: ""), for: UIControl.State())
                     self.setTitleText(NSLocalizedString("Nearby Stations", comment: ""))
 
                 } else {
                     if (self.currentStation != nil) {
                         self.setLastUsedView()
                     }
-                    self.actionLabel.setTitle(NSLocalizedString("Stations", comment: ""), for: UIControlState())
+                    self.actionLabel.setTitle(NSLocalizedString("Stations", comment: ""), for: UIControl.State())
 
                     if let stationName = self.currentStation?.getNameWithStarAndFilters() {
                         self.setTitleText(stationName)
@@ -93,9 +93,9 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                     }
                 }
                 if #available(iOSApplicationExtension 10.0, *) {
-                    self.actionLabel.setTitleColor(UIColor.black, for: UIControlState())
+                    self.actionLabel.setTitleColor(UIColor.black, for: UIControl.State())
                 } else {
-                    self.actionLabel.setTitleColor(UIColor.white, for: UIControlState())
+                    self.actionLabel.setTitleColor(UIColor.white, for: UIControl.State())
                 }
             })
         }
@@ -186,9 +186,9 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         }
 
         if #available(iOSApplicationExtension 10.0, *) {
-            self.actionLabel.setTitleColor(UIColor.darkGray, for: UIControlState.highlighted)
+            self.actionLabel.setTitleColor(UIColor.darkGray, for: UIControl.State.highlighted)
         } else {
-            self.actionLabel.setTitleColor(UIColor.lightGray, for: UIControlState.highlighted)
+            self.actionLabel.setTitleColor(UIColor.lightGray, for: UIControl.State.highlighted)
         }
 
     }
@@ -263,9 +263,9 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         ContainerViewWidthConstraint?.constant = self.containerView.frame.width
         self.view.setNeedsLayout()
         if #available(iOSApplicationExtension 10.0, *) {
-            actionLabel.setTitleColor(UIColor.black, for: UIControlState())
+            actionLabel.setTitleColor(UIColor.black, for: UIControl.State())
         } else {
-            actionLabel.setTitleColor(UIColor.white, for: UIControlState())
+            actionLabel.setTitleColor(UIColor.white, for: UIControl.State())
         }
         setPreferredContentSize()
     }
@@ -274,9 +274,9 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         DLog("viewWillDisappear", toFile: true)
         super.viewWillDisappear(animated)
         if #available(iOSApplicationExtension 10.0, *) {
-            self.actionLabel.setTitleColor(UIColor.darkGray, for: UIControlState.highlighted)
+            self.actionLabel.setTitleColor(UIColor.darkGray, for: UIControl.State.highlighted)
         } else {
-            self.actionLabel.setTitleColor(UIColor.lightGray, for: UIControlState.highlighted)
+            self.actionLabel.setTitleColor(UIColor.lightGray, for: UIControl.State.highlighted)
         }
         TFCDataStore.sharedInstance.saveContext()
     }
@@ -608,7 +608,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                     }
                 }
                 var unabridged = false
-                if (UIDeviceOrientationIsLandscape(UIDevice.current.orientation)) {
+                if (UIDevice.current.orientation.isLandscape) {
                     unabridged = true
                 }
                 destinationLabel.text = departure.getDestination(station, unabridged: unabridged)

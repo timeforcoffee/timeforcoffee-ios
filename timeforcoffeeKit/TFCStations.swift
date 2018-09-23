@@ -316,7 +316,7 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
 
     fileprivate func getStationIdsForCoord(_ coord: CLLocationCoordinate2D, distance: Double) -> [String]
     {
-        let region = MKCoordinateRegionMakeWithDistance(coord, distance, distance);
+        let region = MKCoordinateRegion(center: coord, latitudinalMeters: distance, longitudinalMeters: distance);
 
         let latMin = region.center.latitude - 0.5 * region.span.latitudeDelta;
         let latMax = region.center.latitude + 0.5 * region.span.latitudeDelta;

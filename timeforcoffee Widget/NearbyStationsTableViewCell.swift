@@ -28,7 +28,7 @@ final class NearbyStationsTableViewCell: UITableViewCell {
         StationIconView.layer.cornerRadius = 16
         StationIconView.clipsToBounds = true
 
-        StationFavoriteButton.addTarget(self, action: #selector(NearbyStationsTableViewCell.favoriteButtonTouched(_:)), for: UIControlEvents.touchUpInside)
+        StationFavoriteButton.addTarget(self, action: #selector(NearbyStationsTableViewCell.favoriteButtonTouched(_:)), for: UIControl.Event.touchUpInside)
     }
 
     func getStation() -> TFCStation? {
@@ -39,7 +39,7 @@ final class NearbyStationsTableViewCell: UITableViewCell {
     }
 
     func drawCell(_ drawDepartures:Bool = true) {
-        self.selectionStyle = UITableViewCellSelectionStyle.none
+        self.selectionStyle = UITableViewCell.SelectionStyle.none
         if (station == nil && stationId != nil) {
             let _ = getStation()
         }
@@ -80,7 +80,7 @@ final class NearbyStationsTableViewCell: UITableViewCell {
     }
 
     func drawIcon(_ station: TFCStation?) {
-        StationFavoriteButton.setImage(station?.getIcon(), for: UIControlState.normal)
+        StationFavoriteButton.setImage(station?.getIcon(), for: UIControl.State.normal)
 
         StationIconView.transform = CGAffineTransform(scaleX: 1, y: 1);
         StationIconView.alpha = 1.0

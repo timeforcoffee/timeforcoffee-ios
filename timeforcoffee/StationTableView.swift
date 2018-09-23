@@ -28,7 +28,7 @@ final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataS
         self.dataSource = self
 
         self.refreshControl2 = UIRefreshControl()
-        self.refreshControl2?.addTarget(self, action: #selector(StationTableView.refresh(_:)), for: UIControlEvents.valueChanged)
+        self.refreshControl2?.addTarget(self, action: #selector(StationTableView.refresh(_:)), for: UIControl.Event.valueChanged)
         self.refreshControl2?.backgroundColor = UIColor(red: 242.0/255.0, green: 243.0/255.0, blue: 245.0/255.0, alpha: 1.0)
         self.refreshControl2?.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.addSubview(refreshControl2!)

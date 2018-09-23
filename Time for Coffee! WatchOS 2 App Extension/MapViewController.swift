@@ -28,7 +28,7 @@ class MapViewController: WKInterfaceController {
         if let station = self.station {
             self.setTitle(station.getName(true))
             if let coordinate = station.coord?.coordinate {
-                let region = MKCoordinateRegionMakeWithDistance(coordinate, 1000, 1000);
+                let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 1000, longitudinalMeters: 1000);
                 map.setRegion(region)
                 map.addAnnotation(coordinate, with: WKInterfaceMapPinColor.red)
                 if let currentCoord = TFCLocationManager.getCurrentLocation()?.coordinate {

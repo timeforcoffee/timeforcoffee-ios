@@ -43,7 +43,7 @@ final class StationsSearchViewController: StationsViewController, UISearchBarDel
         self.searchController?.dismiss(animated: false, completion: { () -> Void in
 
         })
-        self.searchController?.removeFromParentViewController()
+        self.searchController?.removeFromParent()
     }
 
     override func viewWillAppear(_ animated: Bool) {

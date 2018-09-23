@@ -37,7 +37,7 @@ open class TFCStation: TFCStationBase {
         let destinationPlacemark:MKPlacemark = MKPlacemark(coordinate: coord.coordinate, addressDictionary: nil)
         let source:MKMapItem = MKMapItem(placemark: sourcePlacemark)
         let destination:MKMapItem = MKMapItem(placemark: destinationPlacemark)
-        let directionRequest:MKDirectionsRequest = MKDirectionsRequest()
+        let directionRequest:MKDirections.Request = MKDirections.Request()
 
         directionRequest.source = source
         directionRequest.destination = destination
@@ -48,7 +48,7 @@ open class TFCStation: TFCStationBase {
 
 
         directions.calculate(completionHandler: {
-            (response: MKDirectionsResponse?, error: Error?) in
+            (response: MKDirections.Response?, error: Error?) in
             if error != nil{
                 DLog("Error")
             }
@@ -134,7 +134,7 @@ open class TFCStation: TFCStationBase {
 
         UIView.animate(withDuration: 0.2,
             delay: 0.0,
-            options: UIViewAnimationOptions.curveLinear,
+            options: UIView.AnimationOptions.curveLinear,
             animations: {
                 icon.transform = CGAffineTransform(scaleX: 0.1, y: 0.1);
                 icon.alpha = 0.0

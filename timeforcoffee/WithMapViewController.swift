@@ -46,7 +46,7 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
     @IBOutlet weak var mapView: MKMapView!
 
     override func viewWillAppear(_ animated: Bool) {
-        if (UIAccessibilityIsVoiceOverRunning()) {
+        if (UIAccessibility.isVoiceOverRunning) {
             self.mapView.isHidden = true
         }
         if (self.mapOnBottom) {
@@ -118,7 +118,7 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
         if (topBarCalculatedHeight < startHeight) {
             topBarCalculatedHeight = startHeight
         }
-        if (sender.state == UIGestureRecognizerState.began) {
+        if (sender.state == UIGestureRecognizer.State.began) {
             if (self.mapOnBottom == true ) {
                 self.mapSwipeUpStart = UIScreen.main.bounds.size.height - location.y
                 self.mapView.isUserInteractionEnabled = false
@@ -131,7 +131,7 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
             }
             return
         }
-        if (sender.state == UIGestureRecognizerState.ended) {
+        if (sender.state == UIGestureRecognizer.State.ended) {
             let velocity = sender.velocity(in: self.appsTableView)
             let yVelocity = Double(velocity.y)
 
@@ -236,7 +236,7 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
                 if let destinationPlacemark2 = self.destinationPlacemark {
                     self.mapView.removeAnnotation(destinationPlacemark2)
                     if let mapDirectionOverlay2 = self.mapDirectionOverlay {
-                        self.mapView.remove(mapDirectionOverlay2)
+                        self.mapView.removeOverlay(mapDirectionOverlay2)
                     }
                     self.mapView.showsUserLocation = false
                     self.destinationPlacemark = nil
@@ -271,7 +271,7 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
         if(self.mapView.alpha <= 0.6) {
             UIView.animate(withDuration: 0.8,
                 delay: 0.0,
-                options: UIViewAnimationOptions.curveLinear,
+                options: UIView.AnimationOptions.curveLinear,
                 animations: {
                     self.mapView?.alpha = 0.5
                     return
@@ -317,7 +317,7 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
         annotationView?.canShowCallout = true
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
         let buttonImage = UIImage(named: "Walking")
-        button.setImage(buttonImage, for: UIControlState())
+        button.setImage(buttonImage, for: UIControl.State())
         annotationView?.leftCalloutAccessoryView = button
         annotationView!.image = getMapIcon(stationannotation?.pass)
         annotationView!.isOpaque = false
@@ -353,7 +353,7 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
 
             let sourceMapItem = MKMapItem(placemark: sourcePlacemark)
             let destinationMapItem = MKMapItem(placemark: destinationPlacemark!)
-            let directionRequest:MKDirectionsRequest = MKDirectionsRequest()
+            let directionRequest:MKDirections.Request = MKDirections.Request()
 
             directionRequest.source = sourceMapItem
             directionRequest.destination = destinationMapItem
@@ -363,7 +363,7 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
             let directions:MKDirections = MKDirections(request: directionRequest)
 
             directions.calculate(completionHandler: {
-                (response: MKDirectionsResponse?, error: Error?) in
+                (response: MKDirections.Response?, error: Error?) in
                 if error != nil{
                     DLog("Error")
                 }
@@ -371,7 +371,7 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
                     //                for r in response.routes { DLog("route = \(r)") }
                     let route: MKRoute = response!.routes[0] as MKRoute;
                     self.mapDirectionOverlay = route.polyline
-                    self.mapView.add(self.mapDirectionOverlay!)
+                    self.mapView.addOverlay(self.mapDirectionOverlay!)
                 }
                 else{
                     DLog("No response")
@@ -443,7 +443,7 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
         let img = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         let filePathURL = URL(fileURLWithPath: filePath)
-        try! UIImagePNGRepresentation(img!)?.write(to: filePathURL, options: .atomic)
+        try! img!.pngData()?.write(to: filePathURL, options: .atomic)
         return img!;
     }
 

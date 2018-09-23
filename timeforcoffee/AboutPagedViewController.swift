@@ -30,7 +30,7 @@ final class AboutPagedViewController: UIViewController, SwipeViewDataSource, Swi
             
 
             let aboutview = self.storyboard?.instantiateViewController(withIdentifier: "AboutViewController").view as UIView?
-            aboutview?.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
+            aboutview?.autoresizingMask = [UIView.AutoresizingMask.flexibleHeight, UIView.AutoresizingMask.flexibleWidth]
            // aboutview?.frame = self.swipeView.bounds
             let webview = aboutview?.viewWithTag(10) as! UIWebView
             webview.scrollView.isScrollEnabled = false;
@@ -46,10 +46,10 @@ final class AboutPagedViewController: UIViewController, SwipeViewDataSource, Swi
             webview.loadHTMLString(htmlString!, baseURL: nil)
 
             let chatbutton = aboutview?.viewWithTag(20) as! UIButton
-            chatbutton.addTarget(self, action: #selector(AboutPagedViewController.startChat), for: UIControlEvents.touchUpInside
+            chatbutton.addTarget(self, action: #selector(AboutPagedViewController.startChat), for: UIControl.Event.touchUpInside
             )
             let reviewbutton = aboutview?.viewWithTag(30) as! UIButton
-            reviewbutton.addTarget(self, action: #selector(AboutPagedViewController.reviewApp), for: UIControlEvents.touchUpInside
+            reviewbutton.addTarget(self, action: #selector(AboutPagedViewController.reviewApp), for: UIControl.Event.touchUpInside
             )
 
             if let coffeeimg = aboutview?.viewWithTag(40) as? UIImageView {
@@ -66,10 +66,10 @@ final class AboutPagedViewController: UIViewController, SwipeViewDataSource, Swi
 
 
         let view = UIView()
-        view.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
+        view.autoresizingMask = [UIView.AutoresizingMask.flexibleHeight, UIView.AutoresizingMask.flexibleWidth]
 
         label = UILabel(frame: view.bounds)
-        label.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
+        label.autoresizingMask = [UIView.AutoresizingMask.flexibleHeight, UIView.AutoresizingMask.flexibleWidth]
         label.backgroundColor = UIColor.clear
         label.textAlignment = NSTextAlignment.center;
         label.tag = 1;
@@ -115,8 +115,8 @@ final class AboutPagedViewController: UIViewController, SwipeViewDataSource, Swi
         self.view.layoutIfNeeded()
     }
 
-    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
-        if (navigationType == UIWebViewNavigationType.linkClicked) {
+    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebView.NavigationType) -> Bool {
+        if (navigationType == UIWebView.NavigationType.linkClicked) {
             UIApplication.shared.openURL(request.url!)
             return false
         }

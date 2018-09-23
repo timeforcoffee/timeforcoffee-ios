@@ -54,14 +54,14 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         TFCDataStore.sharedInstance.saveContext()
     }
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         // Override point for customization after application launch.
         var shouldPerformAdditionalDelegateHandling = true
 
         // If a shortcut was launched, display its information and take the appropriate action
         if #available(iOS 9.0, *) {
-            if let shortcutItem = launchOptions?[UIApplicationLaunchOptionsKey.shortcutItem] as? UIApplicationShortcutItem {
+            if let shortcutItem = launchOptions?[UIApplication.LaunchOptionsKey.shortcutItem] as? UIApplicationShortcutItem {
     
                 launchedShortcutItem = shortcutItem
     
@@ -108,7 +108,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             gtracker?.setCustomDimension(9, value: UIDevice.current.systemVersion)
 
             TFCCrashlytics.sharedInstance.initCrashlytics()
-            if let lO = launchOptions?[UIApplicationLaunchOptionsKey.location] {
+            if let lO = launchOptions?[UIApplication.LaunchOptionsKey.location] {
                 DLog("app launched with UIApplicationLaunchOptionsLocationKey: \(lO)", toFile: true)
             }
 
@@ -343,7 +343,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         return true
     }
-    func application(_: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+    
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
         if #available(iOS 9, *) {
 
             if userActivity.activityType == "ch.opendata.timeforcoffee.station" {

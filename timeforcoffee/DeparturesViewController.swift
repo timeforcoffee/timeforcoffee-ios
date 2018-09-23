@@ -78,7 +78,7 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
 
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         self.refreshControl = UIRefreshControl()
-        self.refreshControl.addTarget(self, action: #selector(DeparturesViewController.refresh(_:)), for: UIControlEvents.valueChanged)
+        self.refreshControl.addTarget(self, action: #selector(DeparturesViewController.refresh(_:)), for: UIControl.Event.valueChanged)
         self.refreshControl.backgroundColor = UIColor(red: 242.0/255.0, green: 243.0/255.0, blue: 245.0/255.0, alpha: 1.0)
         self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.appsTableView?.addSubview(refreshControl)
@@ -95,13 +95,13 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
 
         self.appsTableView?.contentInset = UIEdgeInsets(top: 130, left: 0, bottom: 0, right: 0)
 
-        favButton.addTarget(self, action: #selector(DeparturesViewController.favoriteClicked(_:)), for: UIControlEvents.touchUpInside)
-        stationIconButton.addTarget(self, action: #selector(DeparturesViewController.favoriteClicked(_:)), for: UIControlEvents.touchUpInside)
+        favButton.addTarget(self, action: #selector(DeparturesViewController.favoriteClicked(_:)), for: UIControl.Event.touchUpInside)
+        stationIconButton.addTarget(self, action: #selector(DeparturesViewController.favoriteClicked(_:)), for: UIControl.Event.touchUpInside)
 
         favButton.accessibilityLabel = NSLocalizedString("Favourite Station?", comment: "Favourite Station?")
 
         if (station?.isFavorite() == true) {
-            favButton.setTitle("★", for: UIControlState())
+            favButton.setTitle("★", for: UIControl.State())
             favButton.accessibilityHint = NSLocalizedString("Double-Tap for favouriting this station", comment: "Double-Tap for favouriting this station")
             favButton.accessibilityValue = NSLocalizedString("Yes", comment: "Yes")
         } else {
@@ -110,7 +110,7 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
         }
         self.stationIconView.layer.cornerRadius = self.stationIconView.frame.width / 2
         //        self.stationIconImage.image = station?.getIcon()
-        self.stationIconButton.setImage(station?.getIcon(), for: UIControlState.normal)
+        self.stationIconButton.setImage(station?.getIcon(), for: UIControl.State.normal)
 
         self.gradientView.image = UIImage(named: "gradient.png")
 
@@ -118,7 +118,7 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
         self.mapView?.isUserInteractionEnabled = false;
         self.mapView?.isRotateEnabled = false
         if let coordinate = station?.coord?.coordinate {
-            let region = MKCoordinateRegionMakeWithDistance(coordinate ,450,450);
+            let region = MKCoordinateRegion(center: coordinate ,latitudinalMeters: 450, longitudinalMeters: 450);
             //with some regions, this fails, so check if it does and only then show a map
             let newRegion = self.mapView.regionThatFits(region)
             if (!(newRegion.span.latitudeDelta.isNaN)) {
@@ -160,7 +160,7 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
                 } else {
                     icon = nil
                 }
-                let shortcut = UIMutableApplicationShortcutItem(type: "ch.opendata.timeforcoffee.station", localizedTitle: station2.name, localizedSubtitle: nil, icon: icon, userInfo: ["st_id": station2.st_id, "name": station2.name])
+                let shortcut = UIMutableApplicationShortcutItem(type: "ch.opendata.timeforcoffee.station", localizedTitle: station2.name, localizedSubtitle: nil, icon: icon, userInfo: ["st_id": station2.st_id as NSSecureCoding, "name": station2.name as NSSecureCoding])
                 var shortCuts = [shortcut]
                 let existingShortcutItems = UIApplication.shared.shortcutItems ?? []
                 if let firstExistingShortcutItem = existingShortcutItems.first {
@@ -228,9 +228,9 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
         }
         self.station!.toggleIcon(stationIconButton, icon: stationIconView, completion: completion)
         if (self.station!.isFavorite()) {
-            favButton.setTitle("★", for: UIControlState())
+            favButton.setTitle("★", for: UIControl.State())
         } else {
-            favButton.setTitle("☆", for: UIControlState())
+            favButton.setTitle("☆", for: UIControl.State())
         }
         self.appsTableView?.reloadData()
         if let currentUser = SKTUser.current() {
@@ -359,7 +359,7 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
                         }
 
                         var unabridged = false
-                        if (UIDeviceOrientationIsLandscape(UIDevice.current.orientation)) {
+                        if (UIDevice.current.orientation.isLandscape) {
                             unabridged = true
                         }
                         if (segmentedView.selectedSegmentIndex == 1) {

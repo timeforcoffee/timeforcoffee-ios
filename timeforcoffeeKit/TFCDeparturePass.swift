@@ -49,16 +49,13 @@ open class TFCDeparturePass: NSObject {
     open func getDepartureTime(_ scheduled: Date?, realtime: Date?, additionalInfo: Bool = true) -> (NSMutableAttributedString?, String?) {
         var realtimeStr: String = ""
         var scheduledStr: String = ""
-        let attributesNoStrike = [
-            NSAttributedStringKey.strikethroughStyle: NSUnderlineStyle.styleNone.rawValue,
-            NSAttributedStringKey.baselineOffset: 0
-        ] as [NSAttributedStringKey: Any]
+        let attributesNoStrike = [:] as [NSAttributedString.Key : Any]
         let attributesStrike = [
-            NSAttributedStringKey.strikethroughStyle: NSUnderlineStyle.styleSingle.rawValue,
-            NSAttributedStringKey.strikethroughColor: UIColor.gray,
-            NSAttributedStringKey.baselineOffset: 0,
-            NSAttributedStringKey.foregroundColor: UIColor.gray
-        ] as [NSAttributedStringKey : Any]
+            NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue,
+            NSAttributedString.Key.strikethroughColor: UIColor.gray,
+            NSAttributedString.Key.baselineOffset: 0,
+            NSAttributedString.Key.foregroundColor: UIColor.gray
+        ] as [NSAttributedString.Key : Any]
 
         let additionalInfo2:Bool = (additionalInfo && TFCSettings.sharedInstance.showRealTimeDebugInfo())
 

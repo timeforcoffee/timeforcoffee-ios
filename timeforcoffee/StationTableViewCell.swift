@@ -23,7 +23,7 @@ final class StationTableViewCell: UITableViewCell {
         StationIconView.layer.cornerRadius = StationIconView.layer.bounds.width / 2
         StationIconView.clipsToBounds = true
         
-        StationFavoriteButton.addTarget(self, action: #selector(StationTableViewCell.favoriteButtonTouched(_:)), for: UIControlEvents.touchUpInside)
+        StationFavoriteButton.addTarget(self, action: #selector(StationTableViewCell.favoriteButtonTouched(_:)), for: UIControl.Event.touchUpInside)
     }
 
     deinit {
@@ -50,7 +50,7 @@ final class StationTableViewCell: UITableViewCell {
     }
 
     func drawCell() {
-        self.selectionStyle = UITableViewCellSelectionStyle.none;
+        self.selectionStyle = UITableViewCell.SelectionStyle.none;
         drawIcon()
         StationNameLabel?.text = station.getName(false)
         StationNameLabel.accessibilityLabel = station.getName(true)
@@ -68,7 +68,7 @@ final class StationTableViewCell: UITableViewCell {
     }
 
     func drawIcon() {
-        StationFavoriteButton.setImage(station.getIcon(), for: UIControlState.normal)
+        StationFavoriteButton.setImage(station.getIcon(), for: UIControl.State.normal)
         StationIconView.transform = CGAffineTransform(scaleX: 1, y: 1);
         StationIconView.alpha = 1.0
         StationFavoriteButton.isAccessibilityElement = false

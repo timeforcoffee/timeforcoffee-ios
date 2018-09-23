@@ -68,7 +68,7 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
 
         self.appsTableView?.contentInset = UIEdgeInsets(top: 130, left: 0, bottom: 0, right: 0)
 
-        favButton.addTarget(self, action: #selector(PasslistViewController.favoriteClicked(_:)), for: UIControlEvents.touchUpInside)
+        favButton.addTarget(self, action: #selector(PasslistViewController.favoriteClicked(_:)), for: UIControl.Event.touchUpInside)
  //       stationIconButton.addTarget(self, action: "favoriteClicked:", forControlEvents: UIControlEvents.TouchUpInside)
 
 
@@ -77,7 +77,7 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
             favButton.accessibilityLabel = NSLocalizedString("Favourite Connection?", comment: "Favourite Connection?")
 
             if (departure.isFavorite() == true) {
-                favButton.setTitle("★", for: UIControlState())
+                favButton.setTitle("★", for: UIControl.State())
                 favButton.accessibilityHint = NSLocalizedString("Double-Tap for unfavouriting this connection", comment: "Double-Tap for unfavouriting this connection")
                 favButton.accessibilityValue = NSLocalizedString("Yes", comment: "Yes")
             } else {
@@ -97,7 +97,7 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
         self.mapView?.isRotateEnabled = false
 
         if let coordinate = departure?.getStation()?.coord?.coordinate {
-            let region = MKCoordinateRegionMakeWithDistance(coordinate ,450,450);
+            let region = MKCoordinateRegion(center: coordinate ,latitudinalMeters: 450,longitudinalMeters: 450);
             //with some regions, this fails, so check if it does and only then show a map
             let newRegion = self.mapView.regionThatFits(region)
             if (!(newRegion.span.latitudeDelta.isNaN)) {
@@ -174,10 +174,10 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
 
         if (self.departure?.isFavorite() == true) {
             self.departure?.unsetFavorite()
-            favButton.setTitle("☆", for: UIControlState())
+            favButton.setTitle("☆", for: UIControl.State())
         } else {
             self.departure?.setFavorite()
-            favButton.setTitle("★", for: UIControlState())
+            favButton.setTitle("★", for: UIControl.State())
         }
         self.stationIconButton.toggleIcon(nil)
         self.appsTableView?.reloadData()
@@ -231,7 +231,7 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
                 locationSpan.longitudeDelta = (annotationUpper.longitude - annotationLower.longitude) * 1.2;
                 locationCenter.latitude = (annotationUpper.latitude + annotationLower.latitude) / 2;
                 locationCenter.longitude = (annotationUpper.longitude + annotationLower.longitude) / 2;
-                let region = MKCoordinateRegionMake(locationCenter, locationSpan)
+                let region = MKCoordinateRegion(center: locationCenter, span: locationSpan)
                 mapView.setRegion(mapView.regionThatFits(region), animated: true)
             } else {
                 if let annotations = self.annotations {

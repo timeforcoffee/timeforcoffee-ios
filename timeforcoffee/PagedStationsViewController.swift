@@ -49,15 +49,15 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         self.delegate = self
         moveToNearbyStations()
 
-        let aboutButton = UIBarButtonItem(title: "☕︎", style: UIBarButtonItemStyle.plain, target: self, action: #selector(PagedStationsViewController.aboutClicked(_:)))
+        let aboutButton = UIBarButtonItem(title: "☕︎", style: UIBarButtonItem.Style.plain, target: self, action: #selector(PagedStationsViewController.aboutClicked(_:)))
         aboutButton.image = UIImage(named: "icon-coffee")
         aboutButton.tintColor = UIColor(netHexString: "555555")
         aboutButton.accessibilityLabel = NSLocalizedString("About", comment: "")
         aboutButton.accessibilityHint = NSLocalizedString("Help and chat with us", comment: "")
 
         let font = UIFont.systemFont(ofSize: 30)
-        let buttonAttr = [NSAttributedStringKey.font: font]
-        aboutButton.setTitleTextAttributes(buttonAttr, for: UIControlState())
+        let buttonAttr = [NSAttributedString.Key.font: font]
+        aboutButton.setTitleTextAttributes(buttonAttr, for: UIControl.State())
         self.navigationItem.leftBarButtonItem = aboutButton
         self.edgesForExtendedLayout = UIRectEdge();
 
@@ -229,7 +229,7 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
 
     func moveTo(_ view: StationsViewController) {
 
-        self.setViewControllers( [view], direction: UIPageViewControllerNavigationDirection.forward, animated: false, completion: {(finished:Bool) -> Void in
+        self.setViewControllers( [view], direction: UIPageViewController.NavigationDirection.forward, animated: false, completion: {(finished:Bool) -> Void in
 
             }
         )
@@ -245,7 +245,7 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
     }
 
     fileprivate func setSearchButton() {
-        let searchButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: self, action: #selector(PagedStationsViewController.searchClicked(_:)))
+        let searchButton = UIBarButtonItem(title: "", style: UIBarButtonItem.Style.plain, target: self, action: #selector(PagedStationsViewController.searchClicked(_:)))
 
         searchButton.image = UIImage(named: "icon-search")
         searchButton.tintColor = UIColor(netHexString: "555555")
