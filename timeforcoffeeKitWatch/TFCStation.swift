@@ -30,16 +30,19 @@ open class TFCStation: TFCStationBase {
         activity.isEligibleForPublicIndexing = true
         activity.isEligibleForHandoff = true
         if #available(watchOSApplicationExtension 5.0, *) {
-            activity.isEligibleForPrediction = true
-            if let center = TFCLocationManager.getCurrentLocation()?.coordinate {
-                let sc = INShortcut(userActivity: activity)
+            let intent = self.setIntent()
+            if let sc = INShortcut(intent: intent) {
                 let rsc = INRelevantShortcut(shortcut: sc)
-                let region = CLCircularRegion(center: center,radius: CLLocationDistance(300), identifier: "currentLoc")
-                rsc.relevanceProviders = [INLocationRelevanceProvider(region: region)]
+                if let center = TFCLocationManager.getCurrentLocation()?.coordinate {
+                    DLog("setIntent with Location")
+                    let region = CLCircularRegion(center: center,radius: CLLocationDistance(1000), identifier: "currentLoc")
+                    rsc.relevanceProviders = [INLocationRelevanceProvider(region: region)]
+                } else {
+                    DLog("setIntent with Date")
+                    rsc.relevanceProviders = [INDateRelevanceProvider(start: Date().addingTimeInterval(-3600), end: Date().addingTimeInterval(7200))]
+                }
                 INRelevantShortcutStore.default.setRelevantShortcuts([rsc])
             }
-            activity.persistentIdentifier = NSUserActivityPersistentIdentifier(self.st_id)
-            self.setIntent()
 
         }
         activity.webpageURL = self.getWebLink()

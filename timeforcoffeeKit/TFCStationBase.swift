@@ -1076,7 +1076,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
     @available(watchOSApplicationExtension 5.0, *)
     @available(iOSApplicationExtension 12.0, *)
-    open func setIntent() {
+    open func setIntent() -> NextDeparturesIntent {
         let intent = NextDeparturesIntent()
         intent.st_id = self.getId()
         intent.station = self.getName(false)
@@ -1092,6 +1092,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                 
             }
         }
+        return intent
         
     }
     open func setStationSearchIndex() {
