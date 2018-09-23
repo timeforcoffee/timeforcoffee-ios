@@ -16,7 +16,6 @@
 		EC18AA931BE4067000488DC4 /* TFCDeparturePass.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC18AA921BE4067000488DC4 /* TFCDeparturePass.swift */; };
 		EC2D16C22157CE4C00973F11 /* timeforcoffeeKitWatch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC2D16BB2157CE4C00973F11 /* timeforcoffeeKitWatch.framework */; };
 		EC2D16C32157CE4C00973F11 /* timeforcoffeeKitWatch.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EC2D16BB2157CE4C00973F11 /* timeforcoffeeKitWatch.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		EC2D16CA2157CF5400973F11 /* PINDiskCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC9BCB3F1BB5CD4D00623F1A /* PINDiskCache.m */; };
 		EC2D16CC2157CF8400973F11 /* TFCStationModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FA1BC7238C00AB83B9 /* TFCStationModel+CoreDataProperties.swift */; };
 		EC2D16CD2157CF8800973F11 /* TFCStationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FB1BC7238C00AB83B9 /* TFCStationModel.swift */; };
 		EC2D16CE2157CF9B00973F11 /* DataModels.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EC810B041BC7963C0007B874 /* DataModels.xcdatamodeld */; };
@@ -54,11 +53,8 @@
 		EC2D170F2157D4B500973F11 /* PINCache.h in Headers */ = {isa = PBXBuildFile; fileRef = EC2D17072157D4B500973F11 /* PINCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EC2D17102157D4B500973F11 /* PINMemoryCache.h in Headers */ = {isa = PBXBuildFile; fileRef = EC2D17082157D4B500973F11 /* PINMemoryCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EC2D17112157D4B500973F11 /* PINMemoryCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EC2D17092157D4B500973F11 /* PINMemoryCache.m */; };
-		EC2D17122157D4EF00973F11 /* timeforcoffeeWatchKit.h in Headers */ = {isa = PBXBuildFile; fileRef = EC46C5481BB5C7FD00F2A963 /* timeforcoffeeWatchKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EC2D17132157D5AD00973F11 /* CLKTextProvider+NNNCompoundTextProviding.m in Sources */ = {isa = PBXBuildFile; fileRef = ECADE6C021544F9C008B8793 /* CLKTextProvider+NNNCompoundTextProviding.m */; };
 		EC2D17142157D5F400973F11 /* CLKTextProvider+NNNCompoundTextProviding.h in Headers */ = {isa = PBXBuildFile; fileRef = ECADE6BF21544F78008B8793 /* CLKTextProvider+NNNCompoundTextProviding.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		EC2D17152157D5FC00973F11 /* CLKTextProvider+NNNCompoundTextProviding.m in Sources */ = {isa = PBXBuildFile; fileRef = ECADE6C021544F9C008B8793 /* CLKTextProvider+NNNCompoundTextProviding.m */; };
-		EC2D17182157D7B700973F11 /* CLKTextProvider+NNNCompoundTextProviding.m in Sources */ = {isa = PBXBuildFile; fileRef = EC2D17172157D7B700973F11 /* CLKTextProvider+NNNCompoundTextProviding.m */; };
 		EC2D17192157D93900973F11 /* timeforcoffeeKitWatch.h in Headers */ = {isa = PBXBuildFile; fileRef = EC2D16C72157CF3300973F11 /* timeforcoffeeKitWatch.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EC2D171A2157D98A00973F11 /* StationsRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4AB26B1BB6787600DA9759 /* StationsRow.swift */; };
 		EC2D171C2157DA3900973F11 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC46C52F1BB5C78A00F2A963 /* ExtensionDelegate.swift */; };
@@ -362,8 +358,6 @@
 		EC2D17072157D4B500973F11 /* PINCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PINCache.h; path = timeforcoffeeKit/PINCache/PINCache.h; sourceTree = SOURCE_ROOT; };
 		EC2D17082157D4B500973F11 /* PINMemoryCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PINMemoryCache.h; path = timeforcoffeeKit/PINCache/PINMemoryCache.h; sourceTree = SOURCE_ROOT; };
 		EC2D17092157D4B500973F11 /* PINMemoryCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PINMemoryCache.m; path = timeforcoffeeKit/PINCache/PINMemoryCache.m; sourceTree = SOURCE_ROOT; };
-		EC2D17162157D7B700973F11 /* CLKTextProvider+NNNCompoundTextProviding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CLKTextProvider+NNNCompoundTextProviding.h"; path = "timeforcoffeeKitWatch/CLKTextProvider+NNNCompoundTextProviding.h"; sourceTree = SOURCE_ROOT; };
-		EC2D17172157D7B700973F11 /* CLKTextProvider+NNNCompoundTextProviding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CLKTextProvider+NNNCompoundTextProviding.m"; path = "timeforcoffeeKitWatch/CLKTextProvider+NNNCompoundTextProviding.m"; sourceTree = SOURCE_ROOT; };
 		EC46C4DB1BB5C69800F2A963 /* timeforcoffee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = timeforcoffee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC46C4DE1BB5C69800F2A963 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EC46C4E51BB5C69800F2A963 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -381,8 +375,6 @@
 		EC46C52F1BB5C78A00F2A963 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
 		EC46C5331BB5C78A00F2A963 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EC46C5351BB5C78A00F2A963 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EC46C5481BB5C7FD00F2A963 /* timeforcoffeeWatchKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = timeforcoffeeWatchKit.h; sourceTree = "<group>"; };
-		EC46C54A1BB5C7FD00F2A963 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC46C5591BB5C82800F2A963 /* timeforcoffeeKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = timeforcoffeeKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC46C55B1BB5C82800F2A963 /* timeforcoffeeKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = timeforcoffeeKit.h; sourceTree = "<group>"; };
 		EC46C55D1BB5C82800F2A963 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -633,6 +625,13 @@
 		EC2D16BC2157CE4C00973F11 /* timeforcoffeeKitWatch */ = {
 			isa = PBXGroup;
 			children = (
+				EC9BCB271BB5CCD300623F1A /* TFCWatchData.swift */,
+				EC1B2F4E1D82AC9E00399F60 /* TFCWatchDataFetch.swift */,
+				EC4AB24B1BB6712200DA9759 /* TFCDataStore.swift */,
+				ECDB98DF1E327F36003FA5A1 /* TFCCrashlytics.swift */,
+				EC4AB24C1BB6712200DA9759 /* TFCLocationManager.swift */,
+				EC4AB24D1BB6712200DA9759 /* TFCStation.swift */,
+				EC681C161E5059DB00A8CD9E /* ComplicationData.swift */,
 				ECADE6BF21544F78008B8793 /* CLKTextProvider+NNNCompoundTextProviding.h */,
 				ECADE6C021544F9C008B8793 /* CLKTextProvider+NNNCompoundTextProviding.m */,
 				EC2D16F12157D39A00973F11 /* PINCache */,
@@ -785,8 +784,6 @@
 				EC4AB2691BB6787600DA9759 /* StationRow.swift */,
 				F6F7211F1BCA9C9C0073E0D2 /* ComplicationController.swift */,
 				EC4AB26B1BB6787600DA9759 /* StationsRow.swift */,
-				EC2D17162157D7B700973F11 /* CLKTextProvider+NNNCompoundTextProviding.h */,
-				EC2D17172157D7B700973F11 /* CLKTextProvider+NNNCompoundTextProviding.m */,
 				EC4AB26C1BB6787600DA9759 /* StationViewController.swift */,
 				EC4AB26A1BB6787600DA9759 /* StationsOverviewViewController.swift */,
 				EC604D031D8714A200ED1950 /* FavoriteStationsOverviewController.swift */,
@@ -799,15 +796,6 @@
 		EC46C5471BB5C7FD00F2A963 /* timeforcoffeeWatchKit */ = {
 			isa = PBXGroup;
 			children = (
-				EC681C161E5059DB00A8CD9E /* ComplicationData.swift */,
-				EC46C5481BB5C7FD00F2A963 /* timeforcoffeeWatchKit.h */,
-				EC9BCB271BB5CCD300623F1A /* TFCWatchData.swift */,
-				EC1B2F4E1D82AC9E00399F60 /* TFCWatchDataFetch.swift */,
-				EC4AB24B1BB6712200DA9759 /* TFCDataStore.swift */,
-				ECDB98DF1E327F36003FA5A1 /* TFCCrashlytics.swift */,
-				EC4AB24C1BB6712200DA9759 /* TFCLocationManager.swift */,
-				EC4AB24D1BB6712200DA9759 /* TFCStation.swift */,
-				EC46C54A1BB5C7FD00F2A963 /* Info.plist */,
 			);
 			path = timeforcoffeeWatchKit;
 			sourceTree = "<group>";
@@ -951,7 +939,6 @@
 				EC2D170E2157D4B500973F11 /* Nullability.h in Headers */,
 				EC2D170D2157D4B500973F11 /* PINDiskCache.h in Headers */,
 				EC2D17192157D93900973F11 /* timeforcoffeeKitWatch.h in Headers */,
-				EC2D17122157D4EF00973F11 /* timeforcoffeeWatchKit.h in Headers */,
 				EC2D17142157D5F400973F11 /* CLKTextProvider+NNNCompoundTextProviding.h in Headers */,
 				EC2D170B2157D4B500973F11 /* PINCacheObjectSubscripting.h in Headers */,
 				EC2D17102157D4B500973F11 /* PINMemoryCache.h in Headers */,
@@ -1536,7 +1523,6 @@
 				EC2D16E72157D01900973F11 /* TFCLocationManager.swift in Sources */,
 				EC2D16D42157CFB600973F11 /* TFCCache.swift in Sources */,
 				EC2D16CC2157CF8400973F11 /* TFCStationModel+CoreDataProperties.swift in Sources */,
-				EC2D16CA2157CF5400973F11 /* PINDiskCache.m in Sources */,
 				EC2D16D22157CFA900973F11 /* Logging.swift in Sources */,
 				EC2D16D82157CFCA00973F11 /* TFCSettings.swift in Sources */,
 				EC2D16D72157CFC600973F11 /* TFCPass.swift in Sources */,
@@ -1587,11 +1573,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC2D17152157D5FC00973F11 /* CLKTextProvider+NNNCompoundTextProviding.m in Sources */,
 				EC4AB26F1BB6787600DA9759 /* StationsOverviewViewController.swift in Sources */,
 				EC2D171A2157D98A00973F11 /* StationsRow.swift in Sources */,
 				F6F721201BCA9C9C0073E0D2 /* ComplicationController.swift in Sources */,
-				EC2D17182157D7B700973F11 /* CLKTextProvider+NNNCompoundTextProviding.m in Sources */,
 				EC4AB26E1BB6787600DA9759 /* StationRow.swift in Sources */,
 				ECDC4E20215668650019EDEF /* Intents.intentdefinition in Sources */,
 				EC4AB26D1BB6787600DA9759 /* MapViewController.swift in Sources */,
