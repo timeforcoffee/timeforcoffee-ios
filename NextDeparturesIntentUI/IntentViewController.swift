@@ -15,6 +15,7 @@ import timeforcoffeeKit
 // You can test this example integration by saying things to Siri like:
 // "Send a message using <myApp>"
 
+@available(iOSApplicationExtension 12.0, *)
 class IntentViewController: UIViewController, INUIHostedViewControlling, UITableViewDelegate, UITableViewDataSource, TFCDeparturesUpdatedProtocol {
     
     @IBOutlet weak var titleLabel: UILabel!

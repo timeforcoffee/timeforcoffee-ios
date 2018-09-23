@@ -8,6 +8,7 @@
 
 import Intents
 import timeforcoffeeKit
+@available(iOSApplicationExtension 12.0, *)
 class IntentHandler: INExtension {
     
     override func handler(for intent: INIntent) -> Any {

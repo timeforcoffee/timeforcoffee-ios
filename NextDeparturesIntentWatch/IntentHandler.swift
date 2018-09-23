@@ -8,6 +8,7 @@
 
 import Intents
 import timeforcoffeeKitWatch
+@available(watchOSApplicationExtension 5.0, *)
 class IntentHandler: INExtension {
     
     override func handler(for intent: INIntent) -> Any {
