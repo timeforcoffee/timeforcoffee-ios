@@ -8,7 +8,7 @@
 
 import WatchKit
 import Foundation
-
+import timeforcoffeeKitWatch
 class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol {
     @IBOutlet weak var stationsTable: WKInterfaceTable?
     var station: TFCStation?

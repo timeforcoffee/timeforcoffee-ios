@@ -13,7 +13,7 @@ private struct Constants {
 }
 
 
-class ComplicationData: NSObject, NSCoding {
+public final class ComplicationData: NSObject, NSCoding {
 
     private var _station:TFCStation? = nil
     private var stationId:String
@@ -57,11 +57,11 @@ class ComplicationData: NSObject, NSCoding {
         self.timelineEntries = instance.timelineEntries
     }
 
-    override func copy() -> Any {
+    override public func copy() -> Any {
         return ComplicationData(instance: self)
     }
 
-    func encode(with aCoder: NSCoder) {
+    public func encode(with aCoder: NSCoder) {
         aCoder.encode(self.stationId, forKey: "stationId")
         aCoder.encode(self.timelineCacheData.count, forKey: "timelineCacheData.count")
         aCoder.encode(self.timelineCacheData.firstDepartureDate, forKey: "timelineCacheData.count.firstDepartureDate")
@@ -71,7 +71,7 @@ class ComplicationData: NSObject, NSCoding {
         aCoder.encode(self.isDisplayedOnWatch, forKey: "isDisplayedOnWatch")
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         self.stationId = aDecoder.decodeObject(forKey: "stationId") as! String
         if let timelineCacheDataCount = aDecoder.decodeObject(forKey: "timelineCacheData.count") as? Int {
             self.timelineCacheData.count = timelineCacheDataCount

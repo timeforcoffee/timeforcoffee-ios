@@ -242,7 +242,7 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
 
 
     @available(iOSApplicationExtension 9.0, *)
-    open func sendData(_ message: [String: Any], trySendMessage: Bool = false, fallbackToTransferUserInfo:Bool = true) -> Bool {
+    public func sendData(_ message: [String: Any], trySendMessage: Bool = false, fallbackToTransferUserInfo:Bool = true) -> Bool {
         // if we have too many outstandingUserInfoTransfers, something is wrong, try to send as sendMessage as alternative
         var sessionActive = true
         if #available(iOSApplicationExtension 9.3, *) {

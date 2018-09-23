@@ -32,7 +32,7 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
     }()
 
 
-    func getLastViewedStation() -> TFCStation? {
+    open func getLastViewedStation() -> TFCStation? {
         let defaults = TFCDataStore.sharedInstance.getUserDefaults()
         if let date = defaults?.object(forKey: "lastViewedStationDate") as? Date {
             // if not older than 50 minutes

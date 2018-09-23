@@ -21,5 +21,7 @@ FOUNDATION_EXPORT const unsigned char timeforcoffeeKitVersionString[];
 
 #ifndef timeforcoffee_timeforcoffeeKit_Bridging_Header_h
 #define timeforcoffee_timeforcoffeeKit_Bridging_Header_h
-#import "../timeforcoffeeKit/PINCache/PINCache.h"
+#import "PINCache.h"
+#import "CLKTextProvider+NNNCompoundTextProviding.h"
+
 #endif

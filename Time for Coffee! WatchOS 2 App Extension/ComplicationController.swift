@@ -9,6 +9,7 @@
 // create the timeline entries (departures) to populate the complication
 
 import ClockKit
+import timeforcoffeeKitWatch
 
 //MARK: - Constants
 

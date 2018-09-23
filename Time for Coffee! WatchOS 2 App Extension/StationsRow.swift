@@ -8,7 +8,7 @@
 
 import Foundation
 import WatchKit
-
+import timeforcoffeeKitWatch
 class StationsRow: NSObject {
 
     weak var station: TFCStation?

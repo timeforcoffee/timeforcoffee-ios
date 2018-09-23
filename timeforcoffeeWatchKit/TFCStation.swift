@@ -10,7 +10,7 @@ import Foundation
 import Intents
 
 open class TFCStation: TFCStationBase {
-    lazy var activity : NSUserActivity = {
+    lazy open var activity : NSUserActivity = {
         [unowned self] in
         NSUserActivity(activityType: "ch.opendata.timeforcoffee.station")
         }()

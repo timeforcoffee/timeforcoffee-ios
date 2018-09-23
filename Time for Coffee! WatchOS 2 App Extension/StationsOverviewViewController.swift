@@ -8,6 +8,7 @@
 
 import WatchKit
 import Foundation
+import timeforcoffeeKitWatch
 
 class StationsOverviewViewController: WKInterfaceController {
 

@@ -11,14 +11,14 @@ import WatchConnectivity
 
 // from http://stackoverflow.com/questions/28489227/swift-ios-dates-and-times-in-different-format
 extension Date {
-    func formattedWith(_ format:String) -> String {
+    public func formattedWith(_ format:String) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = format
         formatter.timeZone = TimeZone.current
         formatter.locale = Locale(identifier: "de_CH")
         return formatter.string(from: self)
     }
-    func formattedWithDateFormatter(_ formatter:DateFormatter) -> String {
+    public func formattedWithDateFormatter(_ formatter:DateFormatter) -> String {
         return formatter.string(from: self)
     }
 }

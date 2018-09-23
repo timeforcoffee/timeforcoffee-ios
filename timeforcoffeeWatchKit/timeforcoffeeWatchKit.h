@@ -17,4 +17,9 @@ FOUNDATION_EXPORT const unsigned char timeforcoffeeWatchKitVersionString[];
 // In this header, you should import all the public headers of your framework using statements like #import <timeforcoffeeWatchKit/PublicHeader.h>
 
 
+
+
+#ifndef timeforcoffee_timeforcoffeeKitWatch_Bridging_Header_h
+#define timeforcoffee_timeforcoffeeKitWatch_Bridging_Header_h
 #import "PINCache.h"
+#endif
