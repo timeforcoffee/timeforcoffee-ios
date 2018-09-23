@@ -87,7 +87,9 @@ final class APIController {
     private func fetchUrl(_ urlPath: String, fetchId: Int, context: Any?, cacheKey: String?, counter: Int) {
         let delegate = self.delegate
         DispatchQueue.global(qos: .default).async {
+            DLog("cachekey: \(cacheKey)")
             if let result = self.getFromCache(cacheKey) {
+                DLog("Result was cached")
                 delegate?.didReceiveAPIResults(result, error: nil, context: context)
             } else {
                 if let url: URL = URL(string: urlPath) {
@@ -180,7 +182,8 @@ final class APIController {
     }
 
     private func getFromCache(_ cacheKey: String?) -> JSON? {
-        if let cacheKey = cacheKey, let data = self.cache.object(forKey: cacheKey) as? Data  {               return JSON(data: data)
+        if let cacheKey = cacheKey, let data = self.cache.object(forKey: cacheKey) as? Data  {
+            return JSON(data: data)
         }
         return nil
     }

@@ -27,7 +27,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     var startedWithShortcut: String?
     var launchedShortcutItem: AnyObject?
     fileprivate var visits: TFCVisits?
-
+    var stationsUpdate:TFCStationsUpdate? = nil
     enum ShortcutIdentifier: String {
         case favorites
         case search
@@ -366,8 +366,29 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                     }
                 }
             }
-
-
+            if #available(iOS 12.0, *) {
+                if (userActivity.interaction?.intent is NextDeparturesIntent) {
+                    if let intent = userActivity.interaction?.intent as? NextDeparturesIntent {
+                        if let st_id = intent.st_id {
+                            if let station = TFCStation.initWithCache("", id: st_id, coord: nil) {
+                                popUpStation(station)
+                            }
+                        } else {
+                            func stationsUpdateCompletion(stations:TFCStations?, error: String?, context: Any?) {
+                                if let stations = stations {
+                                    if let station = stations.getStation(0) {
+                                        DispatchQueue.main.async {
+                                         self.popUpStation(station)
+                                        }
+                                    }
+                                }
+                            }
+                            self.stationsUpdate = TFCStationsUpdate(completion: stationsUpdateCompletion)
+                            self.stationsUpdate?.update(maxStations: 1)
+                        }
+                    }
+                }
+            }
         }
         return true
 
@@ -379,10 +400,16 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         let rootView = self.window?.rootViewController as! UINavigationController
         let detailViewController = rootView.storyboard?.instantiateViewController(withIdentifier: "DeparturesViewController") as! DeparturesViewController
 
-        rootView.dismiss(animated: false, completion: nil)
-        rootView.popToRootViewController(animated: false)
+        viewRoot()
         detailViewController.setStation(station: station)
         rootView.pushViewController(detailViewController, animated: false)
+
+    }
+    
+    fileprivate func viewRoot() {
+        let rootView = self.window?.rootViewController as! UINavigationController
+        rootView.dismiss(animated: false, completion: nil)
+        rootView.popToRootViewController(animated: false)
     }
 
 

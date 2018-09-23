@@ -47,20 +47,18 @@ class IntentViewController: UIViewController, INUIHostedViewControlling, UITable
         }
         let intent = interaction.intent as! NextDeparturesIntent
         self.appsTableView.dataSource = self
-
+        let desiredSize = CGSize(width: self.desiredSize.width, height: 350)
+        
         if let st_id = intent.st_id {
             if let station = TFCStation.initWithCacheId(st_id) {
                 self.currentStation = station
                 self.titleLabel.text = station.getName(false)
                 station.updateDepartures(self)
             }
+            completion(true, parameters, desiredSize)
+
         } else {
-            var completionRun = false
             func stationsUpdateCompletion(stations:TFCStations?, error: String?, context: Any?) {
-                if (completionRun) {
-                    return
-                }
-                completionRun = true
                 if let stations = stations {
                     if let station = stations.getStation(0) {
                         self.currentStation = station
@@ -68,13 +66,12 @@ class IntentViewController: UIViewController, INUIHostedViewControlling, UITable
                         station.updateDepartures(self)
                     }
                 }
+                completion(true, parameters, desiredSize)
+
             }
             self.stationUpdate = TFCStationsUpdate(completion: stationsUpdateCompletion)
             self.stationUpdate?.update(maxStations: 1)
         }
-        
-        DLog("\(parameters)")
-        completion(true, parameters, self.desiredSize)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -168,6 +165,7 @@ class IntentViewController: UIViewController, INUIHostedViewControlling, UITable
         DispatchQueue.main.async {
                 if (forStation?.st_id == self.currentStation?.st_id) {
                     self.appsTableView?.reloadData()
+                    self.titleLabel.text = forStation?.getName(false)
                 }
         }
     }

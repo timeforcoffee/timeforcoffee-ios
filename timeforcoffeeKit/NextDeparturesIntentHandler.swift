@@ -27,12 +27,7 @@ public class NextDeparturesIntentHandler: NSObject, NextDeparturesIntentHandling
                 return
             }
         } else {
-            var completionRun = false
             func stationsUpdateCompletion(stations:TFCStations?, error: String?, context: Any?) {
-                if (completionRun) {
-                    return
-                }
-                completionRun = true
                 if let stations = stations {
                     if let station = stations.getStation(0) {
                         station.updateDepartures(self, context: ["completion": completion])
