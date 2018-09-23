@@ -269,13 +269,6 @@
 			remoteGlobalIDString = EC46C5581BB5C82800F2A963;
 			remoteInfo = timeforcoffeeKit;
 		};
-		ECDC4E342157AFE40019EDEF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EC46C4D31BB5C69800F2A963 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = ECDC4E2E2157AFE40019EDEF;
-			remoteInfo = NextDeparturesWatchIntent;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -509,6 +502,7 @@
 		ECDC4E312157AFE40019EDEF /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
 		ECDC4E332157AFE40019EDEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ECDC4E5A2157B2FE0019EDEF /* watch-intent-bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "watch-intent-bridging-Header.h"; sourceTree = "<group>"; };
+		ECDC4E5C2157BCAB0019EDEF /* NextDeparturesWatchIntent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NextDeparturesWatchIntent.entitlements; sourceTree = "<group>"; };
 		ECE44E411F9C8AFF00A25FF2 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ECE44E471F9C8B7F00A25FF2 /* just-for-logs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "just-for-logs.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECE44E491F9C8B8000A25FF2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -902,6 +896,7 @@
 		ECDC4E302157AFE40019EDEF /* NextDeparturesWatchIntent */ = {
 			isa = PBXGroup;
 			children = (
+				ECDC4E5C2157BCAB0019EDEF /* NextDeparturesWatchIntent.entitlements */,
 				ECDC4E312157AFE40019EDEF /* IntentHandler.swift */,
 				ECDC4E332157AFE40019EDEF /* Info.plist */,
 				ECDC4E5A2157B2FE0019EDEF /* watch-intent-bridging-Header.h */,
@@ -1030,7 +1025,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				ECDC4E352157AFE40019EDEF /* PBXTargetDependency */,
 			);
 			name = "Time for Coffee! WatchOS 2 App Extension";
 			productName = "Time for Coffee! WatchOS 2 App Extension";
@@ -1248,6 +1242,14 @@
 					ECDC4E2E2157AFE40019EDEF = {
 						CreatedOnToolsVersion = 10.0;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
+								enabled = 0;
+							};
+						};
 					};
 					ECE44E461F9C8B7F00A25FF2 = {
 						CreatedOnToolsVersion = 9.1;
@@ -1725,11 +1727,6 @@
 			isa = PBXTargetDependency;
 			target = EC46C5581BB5C82800F2A963 /* timeforcoffeeKit */;
 			targetProxy = EC647C462155817A00D94C87 /* PBXContainerItemProxy */;
-		};
-		ECDC4E352157AFE40019EDEF /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = ECDC4E2E2157AFE40019EDEF /* NextDeparturesWatchIntent */;
-			targetProxy = ECDC4E342157AFE40019EDEF /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2270,6 +2267,7 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = NextDeparturesWatchIntent/NextDeparturesWatchIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -2301,6 +2299,7 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = NextDeparturesWatchIntent/NextDeparturesWatchIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
