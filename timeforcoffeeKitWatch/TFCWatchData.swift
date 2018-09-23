@@ -24,7 +24,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
     fileprivate var replyNearby: replyClosure?
     fileprivate lazy var stations: TFCStations? =  {return TFCStations(delegate: self)}()
     fileprivate lazy var locManager: TFCLocationManager? = self.lazyInitLocationManager()
-    static  var crunchQueue:DispatchQueue = {
+    public static  var crunchQueue:DispatchQueue = {
         return DispatchQueue(label: "ch.opendata.timeforcoffee.crunch", qos: .userInitiated , attributes: DispatchQueue.Attributes.concurrent)
     }()
 
@@ -131,7 +131,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
             }
         }
     }
-    static var crunchQueueTasks = 0
+    public static var crunchQueueTasks = 0
 
     public func startCrunchQueue(_ closure: @escaping (() -> Void)) {
         let queue:DispatchQueue

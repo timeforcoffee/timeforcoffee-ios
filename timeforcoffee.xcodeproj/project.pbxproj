@@ -57,7 +57,6 @@
 		EC2D17142157D5F400973F11 /* CLKTextProvider+NNNCompoundTextProviding.h in Headers */ = {isa = PBXBuildFile; fileRef = ECADE6BF21544F78008B8793 /* CLKTextProvider+NNNCompoundTextProviding.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EC2D17192157D93900973F11 /* timeforcoffeeKitWatch.h in Headers */ = {isa = PBXBuildFile; fileRef = EC2D16C72157CF3300973F11 /* timeforcoffeeKitWatch.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EC2D171A2157D98A00973F11 /* StationsRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4AB26B1BB6787600DA9759 /* StationsRow.swift */; };
-		EC2D171C2157DA3900973F11 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC46C52F1BB5C78A00F2A963 /* ExtensionDelegate.swift */; };
 		EC46C4DF1BB5C69800F2A963 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC46C4DE1BB5C69800F2A963 /* AppDelegate.swift */; };
 		EC46C4E61BB5C69800F2A963 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC46C4E41BB5C69800F2A963 /* Main.storyboard */; };
 		EC46C50B1BB5C71100F2A963 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC46C50A1BB5C71100F2A963 /* NotificationCenter.framework */; };
@@ -157,6 +156,7 @@
 		ECA9558E1E32B4B1008ABFC6 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECA9558C1E32B4B1008ABFC6 /* Fabric.framework */; };
 		ECA955911E32B9E9008ABFC6 /* GATracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD42E511D8B4D72006ED53E /* GATracker.swift */; };
 		ECA955921E32B9EA008ABFC6 /* GATracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD42E511D8B4D72006ED53E /* GATracker.swift */; };
+		ECB5E61A2157ECB20078B001 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC46C52F1BB5C78A00F2A963 /* ExtensionDelegate.swift */; };
 		ECC1CD831D971DB20012E64F /* TFCNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC1CD821D971DB20012E64F /* TFCNotification.swift */; };
 		ECDB98EC1E329DB3003FA5A1 /* TFCCrashlytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDB98EB1E329DB3003FA5A1 /* TFCCrashlytics.swift */; };
 		ECDC4E1C215668650019EDEF /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = ECDC4E24215668650019EDEF /* Intents.intentdefinition */; settings = {ATTRIBUTES = (no_codegen, ); }; };
@@ -1510,7 +1510,6 @@
 				EC2D16E22157CFFD00973F11 /* NextDeparturesIntentHandler.swift in Sources */,
 				EC2D16E62157D01600973F11 /* TFCCrashlytics.swift in Sources */,
 				EC2D16E92157D0D900973F11 /* ComplicationData.swift in Sources */,
-				EC2D171C2157DA3900973F11 /* ExtensionDelegate.swift in Sources */,
 				EC2D16DA2157CFD400973F11 /* TFCFavorites.swift in Sources */,
 				EC2D170C2157D4B500973F11 /* PINDiskCache.m in Sources */,
 				EC2D16D62157CFC000973F11 /* TFCDeparture.swift in Sources */,
@@ -1575,6 +1574,7 @@
 			files = (
 				EC4AB26F1BB6787600DA9759 /* StationsOverviewViewController.swift in Sources */,
 				EC2D171A2157D98A00973F11 /* StationsRow.swift in Sources */,
+				ECB5E61A2157ECB20078B001 /* ExtensionDelegate.swift in Sources */,
 				F6F721201BCA9C9C0073E0D2 /* ComplicationController.swift in Sources */,
 				EC4AB26E1BB6787600DA9759 /* StationRow.swift in Sources */,
 				ECDC4E20215668650019EDEF /* Intents.intentdefinition in Sources */,

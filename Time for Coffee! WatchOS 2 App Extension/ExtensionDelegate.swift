@@ -9,7 +9,7 @@
 import WatchKit
 import Foundation
 import WatchConnectivity
-
+import timeforcoffeeKitWatch
 class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
     override init() {
@@ -86,13 +86,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 self.askForFavoriteData(true)
                 SendLogs2Phone()
                 let maxSize = UInt(2 * 1024 * 1024)
-                let diskCache = TFCCache.objects.stations.diskCache
-                if (diskCache.byteCount > maxSize) {
-                    DLog("trim cache from \(diskCache.byteCount)")
-                    diskCache.trimToSize(byDate: UInt(2 * 1024 * 1024), block: { (c) in
-                        DLog("cache trimmed to \(c.byteCount)")
-                    })
-                }
+                TFCCache.clearDiskCacheIfBigger(maxSize: maxSize)
             } else {
                 DLog("applicationWillResignActive expired", toFile: true)
             }

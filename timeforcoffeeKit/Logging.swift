@@ -224,7 +224,7 @@ func currentQueueName() -> String? {
     return String(cString: name, encoding: .utf8)
 }
 
-func SendLogs2Phone() {
+public func SendLogs2Phone() {
     #if DEBUG
         DLog("SendLogs2Phone", toFile: true)
         if #available(iOS 9.0, *) {
