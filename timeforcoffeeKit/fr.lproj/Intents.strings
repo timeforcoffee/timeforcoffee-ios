@@ -1,6 +1,8 @@
 "5ZFgFV" = "There was a failure";
 
-"6rFnt3" = "No departures found";
+"6rFnt3" = "Keine Station gefunden";
+
+"WCAhPt" = "Keine Abfahrten gefunden für ${departureStation}";
 
 "F6OcIm" = "Show departures from station nearest to current location";
 

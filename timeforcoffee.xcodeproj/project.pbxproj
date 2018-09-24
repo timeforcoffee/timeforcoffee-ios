@@ -363,8 +363,8 @@
 		EC1834D81BCADA0E008B44F3 /* SingleViewCoreData.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = SingleViewCoreData.sqlite; sourceTree = "<group>"; };
 		EC18AA921BE4067000488DC4 /* TFCDeparturePass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCDeparturePass.swift; sourceTree = "<group>"; };
 		EC1B2F4E1D82AC9E00399F60 /* TFCWatchDataFetch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFCWatchDataFetch.swift; sourceTree = "<group>"; };
-		EC28145D2159276300475031 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Intents.strings; sourceTree = "<group>"; };
 		EC28145F215927A900475031 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Intents.strings; sourceTree = "<group>"; };
+		EC28146221592ACA00475031 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Intents.strings; sourceTree = "<group>"; };
 		EC28EA451BD3E3F0004977B0 /* DataModels 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DataModels 2.xcdatamodel"; sourceTree = "<group>"; };
 		EC2D16BB2157CE4C00973F11 /* timeforcoffeeKitWatch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = timeforcoffeeKitWatch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC2D16BE2157CE4C00973F11 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1858,8 +1858,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				ECDC4E23215668650019EDEF /* Base */,
-				EC28145D2159276300475031 /* de */,
 				EC28145F215927A900475031 /* fr */,
+				EC28146221592ACA00475031 /* de */,
 			);
 			name = Intents.intentdefinition;
 			sourceTree = "<group>";

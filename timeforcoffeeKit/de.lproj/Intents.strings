@@ -1,6 +1,8 @@
 "5ZFgFV" = "Es ist ein Fehler aufgetreten";
 
-"6rFnt3" = "Keine Abfahrten gefunden";
+"6rFnt3" = "Keine Station gefunden";
+
+"WCAhPt" = "Keine Abfahrten gefunden für ${departureStation}";
 
 "F6OcIm" = "Zeige Abfahrten von der nächsten Station";
 

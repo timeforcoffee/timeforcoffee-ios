@@ -113,11 +113,21 @@
 					</dict>
 					<dict>
 						<key>INIntentResponseCodeFormatString</key>
-						<string>No departures found</string>
+						<string>No station found</string>
 						<key>INIntentResponseCodeFormatStringID</key>
 						<string>6rFnt3</string>
 						<key>INIntentResponseCodeName</key>
-						<string>noDepartures</string>
+						<string>noStationFound</string>
+						<key>INIntentResponseCodeSuccess</key>
+						<false/>
+					</dict>
+					<dict>
+						<key>INIntentResponseCodeFormatString</key>
+						<string>No departures found for ${departureStation}</string>
+						<key>INIntentResponseCodeFormatStringID</key>
+						<string>WCAhPt</string>
+						<key>INIntentResponseCodeName</key>
+						<string>noDeparturesFound</string>
 						<key>INIntentResponseCodeSuccess</key>
 						<false/>
 					</dict>

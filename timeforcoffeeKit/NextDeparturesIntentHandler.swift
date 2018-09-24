@@ -44,7 +44,7 @@ public class NextDeparturesIntentHandler: NSObject, NextDeparturesIntentHandling
                         station.updateDepartures(self, context: ["completion": completion])
                         return
                     }
-                    completion(NextDeparturesIntentResponse(code: .failure, userActivity: nil))
+                    completion(NextDeparturesIntentResponse(code: .noStationFound, userActivity: nil))
                 }
             }
             self.stationUpdate = TFCStationsUpdate(completion: stationsUpdateCompletion)
@@ -78,7 +78,7 @@ public class NextDeparturesIntentHandler: NSObject, NextDeparturesIntentHandling
                     completion(response)
                     return
                 } else {
-                    completion(NextDeparturesIntentResponse(code: .failure, userActivity: nil))
+                    completion(NextDeparturesIntentResponse.noDeparturesFound(departureStation: station.getName(false)))
                     return
                 }
             }
