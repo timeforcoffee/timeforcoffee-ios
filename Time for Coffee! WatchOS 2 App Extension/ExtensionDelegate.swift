@@ -179,11 +179,11 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 //just wait 15 seconds and assume it's finished FIXME. Could be improved, but it's hard to keep track and sometimes there's just nothing to do.
                 delay(10.0, closure: {
                     TFCWatchData.crunchQueue.async(flags: .barrier, execute: {
-                    DLog("finished WKWatchConnectivityRefreshBackgroundTask Backgroundtask part 1", toFile: true)
-                    DLog("was: \(wcBackgroundTask) part 2", toFile: true)
-                    DispatchQueue.main.async(execute: {
-                          wcBackgroundTask.setTaskCompleted()
-                    })
+                        DLog("finished WKWatchConnectivityRefreshBackgroundTask Backgroundtask part 1", toFile: true)
+                        DLog("was: \(wcBackgroundTask) part 2", toFile: true)
+                        DispatchQueue.main.async(execute: {
+                            wcBackgroundTask.setTaskCompleted()
+                        })
                     }) 
                 })
                 TFCDataStore.sharedInstance.registerWatchConnectivity()
@@ -213,7 +213,9 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             } else {
                 DLog("received something else...", toFile: true)
                 // make sure to complete all tasks, even ones you don't handle
-                task.setTaskCompleted()
+                DispatchQueue.main.async(execute: {
+                    task.setTaskCompleted()
+                })
             }
         }
     }

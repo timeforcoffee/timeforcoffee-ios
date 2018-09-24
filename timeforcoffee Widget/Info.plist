@@ -17,11 +17,11 @@
 	<key>CFBundlePackageType</key>
 	<string>XPC!</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.21</string>
+	<string>1.22</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>210</string>
+	<string>211</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
