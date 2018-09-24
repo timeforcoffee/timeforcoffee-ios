@@ -20,7 +20,7 @@
 			<key>INIntentDefaultImageName</key>
 			<string>iTunesArtwork</string>
 			<key>INIntentDescription</key>
-			<string>Get next departures from a station</string>
+			<string>Show  departures from a station</string>
 			<key>INIntentDescriptionID</key>
 			<string>PHXTvi</string>
 			<key>INIntentLastParameterTag</key>
@@ -179,7 +179,7 @@
 			<key>INIntentRestrictions</key>
 			<integer>0</integer>
 			<key>INIntentTitle</key>
-			<string>Get next departures</string>
+			<string>Show departures</string>
 			<key>INIntentTitleID</key>
 			<string>qwQyYn</string>
 			<key>INIntentType</key>
