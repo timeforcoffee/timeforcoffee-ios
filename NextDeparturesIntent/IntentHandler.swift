@@ -17,6 +17,7 @@ class IntentHandler: INExtension {
         guard intent is NextDeparturesIntent else {
             fatalError("Unhandled intent type: \(intent)")
         }
+        
         return NextDeparturesIntentHandler()
     }
     

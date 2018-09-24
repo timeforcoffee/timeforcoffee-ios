@@ -31,6 +31,7 @@ public class NextDeparturesIntentHandler: NSObject, NextDeparturesIntentHandling
     }
     
     public func handle(intent: NextDeparturesIntent, completion: @escaping (NextDeparturesIntentResponse) -> Void) {
+        
         if let st_id = intent.st_id {
             if let station = TFCStation.initWithCache(id: st_id) {
                 station.updateDepartures(self, context: ["completion": completion])
@@ -55,7 +56,7 @@ public class NextDeparturesIntentHandler: NSObject, NextDeparturesIntentHandling
     }
 
     
-    fileprivate func getResponseForNextDeparture(_ forStation: TFCStation?, _ completion: ((NextDeparturesIntentResponse) -> Void)) {
+    fileprivate func getResponseForNextDeparture(_ forStation: TFCStation?, _ completion: @escaping ((NextDeparturesIntentResponse) -> Void)) {
         if let station = forStation {
             let _ = station.removeObsoleteDepartures()
             if let departures = station.getFilteredDepartures(nil, fallbackToAll: true)
@@ -67,15 +68,54 @@ public class NextDeparturesIntentHandler: NSObject, NextDeparturesIntentHandling
                     } else {
                         minutes = "unknown"
                     }
-                    
                     let response = NextDeparturesIntentResponse.success(
                         departureTime: minutes,
                         departureLine: departure.getLine(),
                         endStation: departure.getDestination(station),
                         departureStation: "\(station.getName(true))"
                     )
-                    
+
+                    #if !os(watchOS)
+                    if let currentLoc = TFCLocationManager.getCurrentLocation(),
+                        let distance = station.getDistanceInMeter(currentLoc),
+                        distance < 5000 {
+                        if ("" != station.getDistanceForDisplay(currentLoc, completion: { (text: String?) in
+                            if let text = text {
+                                if (text.match("([0-9]+) min")) {
+                                    let minutes = text.replace(".* ([0-9]+) .*min.*", template: "$1")
+                                    var code = NextDeparturesIntentResponseCode.successWithWalkingTime
+                                    if let departureTimeString = response.departureTime,
+                                        
+                                        let minutesInt = Int(minutes),
+                                        let departureTime = Int(departureTimeString)
+                                    {
+                                        if (minutesInt > departureTime) {
+                                            code = NextDeparturesIntentResponseCode.successWithWalkingTimeHurry
+                                        }
+                                    }
+                                    let responseWith = NextDeparturesIntentResponse(code: code, userActivity: nil)
+                                    DLog("Distance: \(String(describing: minutes))")
+                                    
+                                    responseWith.departureTime = response.departureTime ?? ""
+                                    responseWith.departureLine = response.departureLine ?? ""
+                                    responseWith.endStation = response.endStation ?? ""
+                                    responseWith.departureStation = response.departureStation ?? ""
+                                    responseWith.walkingTime = minutes
+                                    
+                                    completion(responseWith)
+                                    return
+                                }
+                                
+                                
+                            }
+                            completion(response)
+                        })) {
+                            return
+                        }
+                    }
+                    #endif
                     completion(response)
+
                     return
                 } else {
                     completion(NextDeparturesIntentResponse.noDeparturesFound(departureStation: station.getName(false)))

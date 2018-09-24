@@ -131,9 +131,29 @@
 						<key>INIntentResponseCodeSuccess</key>
 						<false/>
 					</dict>
+					<dict>
+						<key>INIntentResponseCodeFormatString</key>
+						<string>Next departure is in ${departureTime} minutes with line ${departureLine} to ${endStation} from ${departureStation}. Will take about ${walkingTime} minutes to get there.</string>
+						<key>INIntentResponseCodeFormatStringID</key>
+						<string>xUIlaY</string>
+						<key>INIntentResponseCodeName</key>
+						<string>successWithWalkingTime</string>
+						<key>INIntentResponseCodeSuccess</key>
+						<true/>
+					</dict>
+					<dict>
+						<key>INIntentResponseCodeFormatString</key>
+						<string>Next departure is in ${departureTime} minutes with line ${departureLine} to ${endStation} from ${departureStation}. Will take about ${walkingTime} minutes to get there. Better hurry.</string>
+						<key>INIntentResponseCodeFormatStringID</key>
+						<string>G83WD2</string>
+						<key>INIntentResponseCodeName</key>
+						<string>successWithWalkingTimeHurry</string>
+						<key>INIntentResponseCodeSuccess</key>
+						<true/>
+					</dict>
 				</array>
 				<key>INIntentResponseLastParameterTag</key>
-				<integer>5</integer>
+				<integer>6</integer>
 				<key>INIntentResponseParameters</key>
 				<array>
 					<dict>
@@ -181,6 +201,18 @@
 						<false/>
 						<key>INIntentResponseParameterTag</key>
 						<integer>4</integer>
+						<key>INIntentResponseParameterType</key>
+						<string>String</string>
+					</dict>
+					<dict>
+						<key>INIntentResponseParameterDisplayPriority</key>
+						<integer>5</integer>
+						<key>INIntentResponseParameterName</key>
+						<string>walkingTime</string>
+						<key>INIntentResponseParameterSupportsMultipleValues</key>
+						<false/>
+						<key>INIntentResponseParameterTag</key>
+						<integer>6</integer>
 						<key>INIntentResponseParameterType</key>
 						<string>String</string>
 					</dict>

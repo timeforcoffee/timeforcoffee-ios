@@ -14,3 +14,6 @@
 
 "qwQyYn" = "Zeige Abfahrten";
 
+"xUIlaY" = "Nächste Abfahrt ist in ${departureTime} Minuten mit Linie ${departureLine} nach ${endStation} von ${departureStation}. Braucht etwa ${walkingTime} Minuten, um dorthin zu kommen.";
+
+"G83WD2" = "Nächste Abfahrt ist in ${departureTime} Minuten mit Linie ${departureLine} nach ${endStation} von ${departureStation}. Braucht etwa ${walkingTime} Minuten, um dorthin zu kommen. Beeil dich!";

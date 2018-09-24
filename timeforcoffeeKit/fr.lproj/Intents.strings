@@ -14,3 +14,6 @@
 
 "qwQyYn" = "Show departures";
 
+"xUIlaY" = "Next departure is in ${departureTime} minutes with line ${departureLine} to ${endStation} from ${departureStation}. It will take you about ${walkingTime} minutes to get there";
+
+"G83WD2" = "Next departure is in ${departureTime} minutes with line ${departureLine} to ${endStation} from ${departureStation}. It will take you about ${walkingTime} minutes to get there. Better hurry!";
