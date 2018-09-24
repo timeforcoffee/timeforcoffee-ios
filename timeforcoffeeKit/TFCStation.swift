@@ -153,57 +153,27 @@ open class TFCStation: TFCStationBase {
         })
         
     }
+ 
+  
+    internal override func setStationSearchIndex() {
+        if #available(iOS 12, *) {
+            // dont index with ios 12, intents will take care of it
+        } else if #available(iOS 9, *) {
+            if (Bundle.main.bundleIdentifier == "ch.opendata.timeforcoffee") {
+                let item = CSSearchableItem(uniqueIdentifier: self.st_id, domainIdentifier: "stations", attributeSet: getAttributeSet())
+                CSSearchableIndex.default().indexSearchableItems([item], completionHandler: { (error) -> Void in
 
-    override open func setStationActivity() {
-        if #available(iOS 9, *) {
-            let uI = self.getAsDict()
-
-            if (uI["st_id"] == nil) {
-                DLog("station dict seems EMPTY")
-                return 
+                })
             }
-            
-            self.setStationSearchIndex()
-
-            activity.contentAttributeSet = getAttributeSet()
-            activity.title = "Show departures from \(self.getName(false))"
-            activity.userInfo = uI
-            activity.requiredUserInfoKeys = ["st_id", "name", "longitude", "latitude"]
-            activity.isEligibleForSearch = true
-            activity.isEligibleForPublicIndexing = true
-            activity.isEligibleForHandoff = true
-            if #available(iOSApplicationExtension 12.0, *) {
-                //activity.isEligibleForPrediction = true
-                //activity.persistentIdentifier = NSUserActivityPersistentIdentifier(self.st_id)
-                let intent = self.setIntent()
-                if let sc = INShortcut(intent: intent) {
-                    let rsc = INRelevantShortcut(shortcut: sc)
-                    if let center = TFCLocationManager.getCurrentLocation()?.coordinate {
-                        DLog("setIntent with Location")
-                        let region = CLCircularRegion(center: center,radius: CLLocationDistance(1000), identifier: "currentLoc")
-                        rsc.relevanceProviders = [INLocationRelevanceProvider(region: region)]
-                    } else {
-                        DLog("setIntent with Date")
-                        rsc.relevanceProviders = [INDateRelevanceProvider(start: Date().addingTimeInterval(-3600), end: Date().addingTimeInterval(7200))]
-                    }
-                    INRelevantShortcutStore.default.setRelevantShortcuts([rsc])
-                }
-            }
-            activity.webpageURL = self.getWebLink()
-            let userCalendar = Calendar.current
-            let FourWeeksFromNow = (userCalendar as NSCalendar).date(
-                byAdding: [.day],
-                value: 28,
-                to: Date(),
-                options: [])!
-            activity.expirationDate = FourWeeksFromNow
-            activity.keywords = Set(getKeywords())
-            activity.becomeCurrent()
-            
-
         }
     }
-
+    
+    @available(iOSApplicationExtension 9.0, *)
+    open override func setAttributeSet(activ:NSUserActivity) {
+  
+        activ.contentAttributeSet = getAttributeSet()
+    }
+    
     @available(iOSApplicationExtension 9.0, *)
     fileprivate func getAttributeSet() -> CSSearchableItemAttributeSet {
         let attributeSet = CSSearchableItemAttributeSet(itemContentType: kUTTypeText as String)
@@ -214,25 +184,5 @@ open class TFCStation: TFCStationBase {
         attributeSet.relatedUniqueIdentifier = self.st_id
         attributeSet.keywords = getKeywords()
         return attributeSet
-    }
-
-    fileprivate func getKeywords() -> [String] {
-        let abridged = self.getNameAbridged()
-        var keywords = ["Fahrplan", "Timetable", "ZVV", "SBB"]
-        if abridged != self.name {
-            keywords.append(abridged)
-        }
-        return keywords
-    }
-
-    override open func setStationSearchIndex() {
-        if #available(iOS 9, *) {
-            if (Bundle.main.bundleIdentifier == "ch.opendata.timeforcoffee") {
-                let item = CSSearchableItem(uniqueIdentifier: self.st_id, domainIdentifier: "stations", attributeSet: getAttributeSet())
-                CSSearchableIndex.default().indexSearchableItems([item], completionHandler: { (error) -> Void in
-
-                })
-            }
-        }
     }
 }

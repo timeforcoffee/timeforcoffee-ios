@@ -384,7 +384,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                 if (tryStation.name != "unknown") {
                     //if coords are set and the id is not empty, set it to the cache
                     if (tryStation.coord != nil && tryStation.st_id != "") {
-                        tryStation.setStationSearchIndex()
+                      //  tryStation.setStationActivity(setActivity: false)
                         tryStation.needsCacheSave = true
                         addToStationCache(tryStation)
                         TFCStationBase.saveToPincache(tryStation)
@@ -437,7 +437,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             //only cache it when name is != "" otherwise it comes
             // from something with only the id
             if (name != "" && newStation2.st_id != "" && newStation2.coord != nil) {
-                newStation2.setStationSearchIndex()
+                //newStation2.setStationActivity(setActivity: false)
                 newStation2.needsCacheSave = true
                 TFCStationBase.saveToPincache(newStation2)
             }
@@ -1070,10 +1070,74 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     open func getIcon() -> UIImage {
         return UIImage(named: getIconIdentifier())!
     }
-
-    open func setStationActivity() {
+    
+    open func getKeywords() -> [String] {
+        let abridged = self.getNameAbridged()
+        var keywords = ["Fahrplan", "Timetable", "ZVV", "SBB", "Time for Coffee", "Coffee"]
+        if abridged != self.name {
+            keywords.append(abridged)
+        }
+        return keywords
     }
 
+    open func setStationActivity(setActivity:Bool = true) {
+        if #available(iOS 9, *) {
+            let uI = self.getAsDict()
+            
+            if (uI["st_id"] == nil) {
+                DLog("station dict seems EMPTY")
+                return
+            }
+            
+            self.setStationSearchIndex()
+            
+            if #available(iOSApplicationExtension 12.0, watchOSApplicationExtension 5.0, *)
+            {
+                //activity.isEligibleForPrediction = true
+                //activity.persistentIdentifier = NSUserActivityPersistentIdentifier(self.st_id)
+                let intent = self.setIntent()
+                if let sc = INShortcut(intent: intent) {
+                    let rsc = INRelevantShortcut(shortcut: sc)
+                    if let center = TFCLocationManager.getCurrentLocation()?.coordinate {
+                        DLog("setIntent with Location")
+                        let region = CLCircularRegion(center: center,radius: CLLocationDistance(1000), identifier: "currentLoc")
+                        rsc.relevanceProviders = [INLocationRelevanceProvider(region: region)]
+                    } else {
+                        DLog("setIntent with Date")
+                        rsc.relevanceProviders = [INDateRelevanceProvider(start: Date().addingTimeInterval(-3600), end: Date().addingTimeInterval(7200))]
+                    }
+                    INRelevantShortcutStore.default.setRelevantShortcuts([rsc])
+                }
+            }
+            if (setActivity) {
+                setAttributeSet(activ: activity)
+                activity.title = "Show departures from \(self.getName(false))"
+                activity.userInfo = uI
+                activity.requiredUserInfoKeys = ["st_id", "name", "longitude", "latitude"]
+                activity.isEligibleForSearch = true
+                activity.isEligibleForPublicIndexing = true
+                activity.isEligibleForHandoff = true
+                if #available(iOSApplicationExtension 12.0, watchOSApplicationExtension 5.0, *) {
+                    activity.isEligibleForPrediction = true
+                }
+                activity.webpageURL = self.getWebLink()
+                let userCalendar = Calendar.current
+                let FourWeeksFromNow = (userCalendar as NSCalendar).date(
+                    byAdding: [.day],
+                    value: 28,
+                    to: Date(),
+                    options: [])!
+                activity.expirationDate = FourWeeksFromNow
+                activity.keywords = Set(getKeywords())
+                activity.becomeCurrent()
+            }
+        }
+    }
+    
+    @available(iOSApplicationExtension 9.0, *)
+    open func setAttributeSet(activ:NSUserActivity) {
+    }
+    
     @available(watchOSApplicationExtension 5.0, *)
     @available(iOSApplicationExtension 12.0, *)
     open func setIntent() -> NextDeparturesIntent {
@@ -1088,14 +1152,14 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                     DLog("Interaction donation failed: \(error)")
                 }
             } else {
-                DLog("Successfully donated interaction")
+                DLog("Successfully donated interaction", toFile: true)
                 
             }
         }
         return intent
         
     }
-    open func setStationSearchIndex() {
+    internal func setStationSearchIndex() {
     }
 
     open func getWebLink() -> URL? {

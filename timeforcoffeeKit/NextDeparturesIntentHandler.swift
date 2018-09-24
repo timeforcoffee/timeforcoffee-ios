@@ -40,6 +40,7 @@ public class NextDeparturesIntentHandler: NSObject, NextDeparturesIntentHandling
             func stationsUpdateCompletion(stations:TFCStations?, error: String?, context: Any?) {
                 if let stations = stations {
                     if let station = stations.getStation(0) {
+                        
                         station.updateDepartures(self, context: ["completion": completion])
                         return
                     }
@@ -56,25 +57,30 @@ public class NextDeparturesIntentHandler: NSObject, NextDeparturesIntentHandling
     
     fileprivate func getResponseForNextDeparture(_ forStation: TFCStation?, _ completion: ((NextDeparturesIntentResponse) -> Void)) {
         if let station = forStation {
-            if let departures = station.getFilteredDepartures(nil, fallbackToAll: true),
-                let departure = departures.first
+            let _ = station.removeObsoleteDepartures()
+            if let departures = station.getFilteredDepartures(nil, fallbackToAll: true)
             {
-                let minutes:String
-                if let minutesInt = departure.getMinutesAsInt() {
-                    minutes = "\(minutesInt)"
+                if let departure = departures.first {
+                    let minutes:String
+                    if let minutesInt = departure.getMinutesAsInt() {
+                        minutes = "\(minutesInt)"
+                    } else {
+                        minutes = "unknown"
+                    }
+                    
+                    let response = NextDeparturesIntentResponse.success(
+                        departureTime: minutes,
+                        departureLine: departure.getLine(),
+                        endStation: departure.getDestination(station),
+                        departureStation: "\(station.getName(true))"
+                    )
+                    
+                    completion(response)
+                    return
                 } else {
-                    minutes = "unknown"
+                    completion(NextDeparturesIntentResponse(code: .failure, userActivity: nil))
+                    return
                 }
-                
-                let response = NextDeparturesIntentResponse.success(
-                    departureTime: minutes,
-                    departureLine: departure.getLine(),
-                    endStation: departure.getDestination(station),
-                    departureStation: "\(station.getName(false))"
-                )
-                
-                completion(response)
-                return
             }
         }
         completion(NextDeparturesIntentResponse(code: .failure, userActivity: nil))

@@ -124,7 +124,7 @@ final public class TFCFavorites: NSObject {
         var stationIds:[String] = []
         for (station) in stations {
             stationIds.append(station.st_id)
-            station.setStationSearchIndex()
+            station.setStationActivity(setActivity: false)
         }
         objects.dataStore?.setObject(stationIds.sorted() , forKey: "favorites3")
         objects.dataStore?.setObject(3, forKey: "favoritesVersion")

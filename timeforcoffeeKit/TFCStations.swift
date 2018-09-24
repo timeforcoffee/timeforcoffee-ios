@@ -85,6 +85,10 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
                 // First filter out all double entries (multiple entries for same stationy
                 for result in results {
                     let id = String(result["id"].stringValue)
+                    //don't add stations with no id
+                    if (id == "") {
+                        continue;
+                    }
                     if let name = result["name"].string {
                         // the DB has all the uppercased short Strings as well, we don't want to display them
                         // just don't add them

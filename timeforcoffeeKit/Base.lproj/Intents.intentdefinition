@@ -111,6 +111,16 @@
 						<key>INIntentResponseCodeSuccess</key>
 						<true/>
 					</dict>
+					<dict>
+						<key>INIntentResponseCodeFormatString</key>
+						<string>No departures found</string>
+						<key>INIntentResponseCodeFormatStringID</key>
+						<string>6rFnt3</string>
+						<key>INIntentResponseCodeName</key>
+						<string>noDepartures</string>
+						<key>INIntentResponseCodeSuccess</key>
+						<false/>
+					</dict>
 				</array>
 				<key>INIntentResponseLastParameterTag</key>
 				<integer>5</integer>

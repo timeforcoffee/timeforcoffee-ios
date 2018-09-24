@@ -74,8 +74,12 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             infoGroup.setHidden(true)
             if let station = stations?.getStation(0) {
                 var station2:TFCStation? = station
-                if let uA = self.userActivity, let name = uA["name"], let st_id = uA["st_id"]{
-                    station2 = TFCStation.initWithCacheId(st_id, name: name)
+                if let uA = self.userActivity, let st_id = uA["st_id"]{
+                    if let name = uA["name"], name != "unknown" {
+                        station2 = TFCStation.initWithCacheId(st_id, name: name)
+                    } else {
+                        station2 = TFCStation.initWithCacheId(st_id)
+                    }
                     self.userActivity = nil
                 }
                 if (self.station?.st_id != station2?.st_id) {
@@ -247,7 +251,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
                 }
             }
         }
-
+        self.setStationValues()
         self.becomeCurrentPage()
         if let station = self.station {
             DLog("call fetchDepartureDataForStation")

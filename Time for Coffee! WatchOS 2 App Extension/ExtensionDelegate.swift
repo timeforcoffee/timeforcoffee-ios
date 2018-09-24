@@ -112,9 +112,16 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             if (userActivity.interaction?.intent is NextDeparturesIntent) {
                 if let intent = userActivity.interaction?.intent as? NextDeparturesIntent {
                     if let st_id = intent.st_id {
-                        if let station = TFCStation.initWithCache("", id: st_id, coord: nil) {
+                        let name:String
+                        if let stationName = intent.station, stationName != "unknown" {
+                            name = stationName
+                        } else {
+                            name = ""
+                        }
+                        
+                        if let station = TFCStation.initWithCache(name, id: st_id, coord: nil) {
                             DLog("st name: \(station.getName(false))")
-                            let uI = ["st_id": station.getId()]
+                            let uI = ["st_id": station.getId(), "name": station.getName(false)]
                             NotificationCenter.default.post(name: Notification.Name(rawValue: "TFCWatchkitSelectStation"), object: nil, userInfo: uI)
                         }
                     } else {
@@ -123,7 +130,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                                 if let station = stations.getStation(0) {
                                     DispatchQueue.main.async {
                                         DLog("nearest name: \(station.getName(false))")
-                                        let uI = ["st_id": station.getId()]
+                                        let uI = ["st_id": station.getId(), "name": station.getName(false)]
                                         NotificationCenter.default.post(name: Notification.Name(rawValue: "TFCWatchkitSelectStation"), object: nil, userInfo: uI)
                                     }
                                 }

@@ -27,6 +27,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     var startedWithShortcut: String?
     var launchedShortcutItem: AnyObject?
     fileprivate var visits: TFCVisits?
+    fileprivate let localUserDefaults: UserDefaults? = UserDefaults(suiteName: "ch.opendata.timeforcoffee.local")
+
     var stationsUpdate:TFCStationsUpdate? = nil
     enum ShortcutIdentifier: String {
         case favorites
@@ -96,6 +98,13 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         #endif
 
         DispatchQueue.global(qos:  DispatchQoS.QoSClass.utility).async {
+            if let cleared = self.localUserDefaults?.bool(forKey: "iOS12SearchableCleared"),
+                cleared == false {
+                CSSearchableIndex.default().deleteAllSearchableItems()
+                self.localUserDefaults?.set(true, forKey: "iOS12SearchableCleared")
+            }
+            
+
             TFCDataStore.sharedInstance.registerWatchConnectivity()
             TFCDataStore.sharedInstance.registerForNotifications()
             TFCDataStore.sharedInstance.synchronize()
@@ -375,7 +384,13 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 if (userActivity.interaction?.intent is NextDeparturesIntent) {
                     if let intent = userActivity.interaction?.intent as? NextDeparturesIntent {
                         if let st_id = intent.st_id {
-                            if let station = TFCStation.initWithCache("", id: st_id, coord: nil) {
+                            let name:String
+                            if let stationName = intent.station {
+                                name = stationName
+                            } else {
+                                name = ""
+                            }
+                            if let station = TFCStation.initWithCache(name, id: st_id, coord: nil) {
                                 popUpStation(station)
                             }
                         } else {
