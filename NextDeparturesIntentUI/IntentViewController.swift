@@ -78,7 +78,7 @@ class IntentViewController: UIViewController, INUIHostedViewControlling, UITable
     fileprivate func setStationTitleWithDistance(_ station: TFCStation) {
         let stationName = station.getNameWithStarAndFilters()
         var stationTitle = stationName
-        if let distance = self.currentStation?.getDistanceForDisplay(TFCLocationManager.getCurrentLocation(), completion: { (text: String?) in
+        if let distance = self.currentStation?.getDistanceForDisplay(TFCLocationManager.getCurrentLocation(ttl: 90), completion: { (text: String?) in
             if let distance = text, distance != "" {
                 DispatchQueue.main.async {
                     self.titleLabel.text = "\(stationName), \(distance)"

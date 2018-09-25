@@ -89,7 +89,26 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
         } else {
             classvar.currentLocationTimestamp = Date()
         }
-
+        if let currentLocationTimestamp = classvar.currentLocationTimestamp,
+            let userDefaults = TFCDataStore.sharedInstance.getUserDefaults(),
+            let location = location
+        {
+            var update = false
+            if let lastLocationDate = userDefaults.object(forKey: "lastLocationDate") as? Date {
+                // if lastUpdate in store is more than 60 seconds away, store it
+                if (lastLocationDate.addingTimeInterval(60) < currentLocationTimestamp) {
+                    update = true
+                }
+            } else {
+                update = true
+            }
+            if (update == true) {
+                userDefaults.set(location.coordinate.latitude, forKey: "lastLocationLatitude")
+                userDefaults.set(location.coordinate.longitude, forKey: "lastLocationLongitude")
+                userDefaults.set(classvar.currentLocationTimestamp, forKey: "lastLocationDate")
+                DLog("save Location")
+            }
+        }
     }
 
     fileprivate func lazyInitLocationManager() -> CLLocationManager {
@@ -207,9 +226,47 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
         })
     }
 
+    open class func getCurrentLocation(ttl:Int) -> CLLocation? {
+        if let currentLocation = getCurrentLocation() {
+            return currentLocation
+        }
+        if let currentLocation = TFCLocationManager.getLastLocation(ttl) {
+            return currentLocation
+        }
+        if let userDefaults = TFCDataStore.sharedInstance.getUserDefaults()
+        {
+            if let lastLocationDate = userDefaults.object(forKey: "lastLocationDate") as? Date {
+                // if lastUpdate in store is more less than ttl seconds away, get it
+                if (lastLocationDate.addingTimeInterval(Double(ttl)) > Date()) {
+                    let latitude = userDefaults.double(forKey: "lastLocationLatitude")
+                    let longitude = userDefaults.double(forKey: "lastLocationLongitude")
+                    DLog("get Location from userDefaults")
+                    classvar.currentLocation = CLLocation(latitude: latitude, longitude: longitude)
+                    classvar.currentLocationTimestamp = lastLocationDate
+                }
+            }
+        }
+        return nil
+    }
+    
     open class func getCurrentLocation() -> CLLocation? {
         return classvar.currentLocation
     }
+    
+    open class func getLastLocation(_ notOlderThanSeconds: Int) -> CLLocation? {
+        if (classvar._lastUpdateCurrentLocation == nil ||
+            classvar._lastUpdateCurrentLocation!.timeIntervalSinceNow < TimeInterval(-notOlderThanSeconds)) {
+            return nil
+        }
+        DLog("still cached since \(String(describing: classvar._lastUpdateCurrentLocation)) , \(String(describing: classvar.currentLocation))")
+        
+        return classvar.currentLocation
+    }
+    
+    open func getLastLocation(_ notOlderThanSeconds: Int) -> CLLocation? {
+        return type(of: self).getLastLocation(notOlderThanSeconds)
+    }
+
     
     func requestLocation() {
 
@@ -232,16 +289,6 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
         } else {
             return "unknown"
         }
-    }
-
-    open func getLastLocation(_ notOlderThanSeconds: Int) -> CLLocation? {
-        if (classvar._lastUpdateCurrentLocation == nil ||
-            classvar._lastUpdateCurrentLocation!.timeIntervalSinceNow < TimeInterval(-notOlderThanSeconds)) {
-            return nil
-        }
-        DLog("still cached since \(String(describing: classvar._lastUpdateCurrentLocation)) , \(String(describing: currentLocation))")
-
-        return currentLocation
     }
 }
 
