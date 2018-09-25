@@ -33,7 +33,7 @@ class IntentViewController: UIViewController, INUIHostedViewControlling, UITable
         // Do any additional setup after loading the view.
         titleLabel.isUserInteractionEnabled = true;
         if let station = self.currentStation {
-            self.titleLabel.text = station.getName(false)
+            self.setStationTitleWithDistance(station)
         }
     }
   
@@ -53,7 +53,7 @@ class IntentViewController: UIViewController, INUIHostedViewControlling, UITable
         if let st_id = intent.st_id {
             if let station = TFCStation.initWithCacheId(st_id) {
                 self.currentStation = station
-                self.titleLabel.text = station.getName(false)
+                 self.setStationTitleWithDistance(station)
                 station.updateDepartures(self)
             }
             completion(true, parameters, desiredSize)
@@ -63,7 +63,7 @@ class IntentViewController: UIViewController, INUIHostedViewControlling, UITable
                 if let stations = stations {
                     if let station = stations.getStation(0) {
                         self.currentStation = station
-                        self.titleLabel.text = station.getName(false)
+                        self.setStationTitleWithDistance(station)
                         station.updateDepartures(self)
                     }
                 }
@@ -73,6 +73,23 @@ class IntentViewController: UIViewController, INUIHostedViewControlling, UITable
             self.stationUpdate = TFCStationsUpdate(completion: stationsUpdateCompletion)
             self.stationUpdate?.update(maxStations: 1)
         }
+    }
+    
+    fileprivate func setStationTitleWithDistance(_ station: TFCStation) {
+        let stationName = station.getNameWithStarAndFilters()
+        var stationTitle = stationName
+        if let distance = self.currentStation?.getDistanceForDisplay(TFCLocationManager.getCurrentLocation(), completion: { (text: String?) in
+            if let distance = text, distance != "" {
+                DispatchQueue.main.async {
+                    self.titleLabel.text = "\(stationName), \(distance)"
+                }
+            }
+        }),  distance != "" {
+            stationTitle = "\(stationTitle), \(distance)"
+        }
+        DispatchQueue.main.async {
+            self.titleLabel.text = stationTitle
+        }   
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -166,7 +183,9 @@ class IntentViewController: UIViewController, INUIHostedViewControlling, UITable
         DispatchQueue.main.async {
                 if (forStation?.st_id == self.currentStation?.st_id) {
                     self.appsTableView?.reloadData()
-                    self.titleLabel.text = forStation?.getName(false)
+                    if let station = forStation {
+                        self.setStationTitleWithDistance(station)
+                    }
                 }
         }
     }

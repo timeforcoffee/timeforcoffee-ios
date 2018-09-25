@@ -51,7 +51,11 @@ final class AboutPagedViewController: UIViewController, SwipeViewDataSource, Swi
             let reviewbutton = aboutview?.viewWithTag(30) as! UIButton
             reviewbutton.addTarget(self, action: #selector(AboutPagedViewController.reviewApp), for: UIControl.Event.touchUpInside
             )
+            let settingsbutton = aboutview?.viewWithTag(50) as! UIButton
+            settingsbutton.addTarget(self, action: #selector(AboutPagedViewController.openSettings), for: UIControl.Event.touchUpInside
+            )
 
+            
             if let coffeeimg = aboutview?.viewWithTag(40) as? UIImageView {
                 coffeeimg.isUserInteractionEnabled = true;
 
