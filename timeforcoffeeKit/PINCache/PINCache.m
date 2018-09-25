@@ -331,8 +331,9 @@ static NSString * const PINCacheSharedName = @"PINCacheShared";
         // update the access time on disk
         [_diskCache fileURLForKey:key block:NULL];
     } else {
-        NSLog(@"init read from disk for key %@", key);
-
+        #if DEBUG
+            //NSLog(@"init read from disk for key %@", key);
+        #endif
         object = [_diskCache objectForKey:key];
         [_memoryCache setObject:object forKey:key];
     }
