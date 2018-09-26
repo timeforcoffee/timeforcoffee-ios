@@ -21,6 +21,8 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
     fileprivate var networkErrorMsg: String?
 
     public var noCrunchQueue = false
+    static public var runningTasks:[Int:Bool] = [:]
+
     fileprivate var replyNearby: replyClosure?
     fileprivate lazy var stations: TFCStations? =  {return TFCStations(delegate: self)}()
     fileprivate lazy var locManager: TFCLocationManager? = self.lazyInitLocationManager()
@@ -99,6 +101,28 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
             return
         }
         delay(1.0, closure: {self.waitForNewLocation(within: seconds, counter: (counter + 1), queue: queue, callback: callback)}, queue: queue)
+    }
+    
+    class public func setTaskCompletedAndClear(_ task:WKRefreshBackgroundTask, callback:(() -> Void)? = nil) {
+        if let _ = TFCWatchData.runningTasks[task.hash] {
+            TFCWatchData.runningTasks[task.hash] = nil
+            DLog("runningTasks: Set Task completed for \(task.hash)")
+            if let callback = callback {
+                DispatchQueue.main.async(execute: {
+                    callback()
+                })
+                return
+            }
+            DispatchQueue.main.async(execute: {
+                if #available(watchOSApplicationExtension 4.0, *) {
+                    task.setTaskCompletedWithSnapshot(false)
+                } else {
+                    task.setTaskCompleted()
+                }
+            })
+            return
+        }
+        DLog("runningTasks: Already called \(task.hash) \(task) before. Not call taskCompleted.")
     }
 
     public func updateComplicationData() {

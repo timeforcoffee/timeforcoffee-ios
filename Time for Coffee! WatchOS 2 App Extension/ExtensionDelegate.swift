@@ -165,8 +165,11 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     }
 
     func handle(_ backgroundTasks: Set<WKRefreshBackgroundTask>) {
+        
         for task : WKRefreshBackgroundTask in backgroundTasks {
             DLog("received \(task) Backgroundtask" , toFile: true)
+            TFCWatchData.runningTasks[task.hash] = true
+            DLog("Add task \(task.hash) to runningTasks")
             if let arTask = task as? WKApplicationRefreshBackgroundTask {
                 DLog("received WKApplicationRefreshBackgroundTask")
                 TFCWatchDataFetch.sharedInstance.fetchDepartureData(task: arTask)
@@ -181,10 +184,8 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                     TFCWatchData.crunchQueue.async(flags: .barrier, execute: {
                         DLog("finished WKWatchConnectivityRefreshBackgroundTask Backgroundtask part 1", toFile: true)
                         DLog("was: \(wcBackgroundTask) part 2", toFile: true)
-                        DispatchQueue.main.async(execute: {
-                            wcBackgroundTask.setTaskCompleted()
-                        })
-                    }) 
+                        TFCWatchData.setTaskCompletedAndClear(wcBackgroundTask)
+                    })
                 })
                 TFCDataStore.sharedInstance.registerWatchConnectivity()
             } else if let snapshotTask = task as? WKSnapshotRefreshBackgroundTask {
@@ -204,8 +205,6 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                             DLog("received WKSnapshotRefreshBackgroundTask.returnToDefaultState")
 
                         }
-                    } else {
-                        // Fallback on earlier versions
                     }
                 #endif
                // if (snapshotTask.reasonForSnapshot == .complicationUpdate)
@@ -214,11 +213,12 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 DLog("received something else...", toFile: true)
                 // make sure to complete all tasks, even ones you don't handle
                 DispatchQueue.main.async(execute: {
-                    task.setTaskCompleted()
+                    TFCWatchData.setTaskCompletedAndClear(task)
                 })
             }
         }
     }
+    
 
     fileprivate func delaySnapshotComplete(_ snapshotTask: WKSnapshotRefreshBackgroundTask, startTime:Date, count:Int = 0) {
         //just wait 2 seconds and assume it's finished
@@ -261,15 +261,18 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                                 DLog("finished WKSnapshotRefreshBackgroundTask.returnToDefaultState")
 
                             }
-                        } else {
-                            // Fallback on earlier versions
                         }
                         DispatchQueue.global(qos: .background).async {
-                            delay(3.0, closure: { snapshotTask.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: nextDate, userInfo: nil)})
+                            delay(3.0, closure: {
+                                TFCWatchData.setTaskCompletedAndClear(snapshotTask, callback: { () in
+                                    snapshotTask.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: nextDate, userInfo: nil)})
+                                })
                             SendLogs2Phone()
                         }
                     #else
+                    TFCWatchData.setTaskCompletedAndClear(snapshotTask, callback: { () in
                         snapshotTask.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: nextDate, userInfo: nil)
+                    })
                     #endif
                 })
 

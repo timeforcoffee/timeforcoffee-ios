@@ -50,10 +50,8 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
             //DLog("finished WKApplicationRefreshBackgroundTask \(task) before barrier", toFile: true)
             TFCWatchData.crunchQueue.async(flags: .barrier, execute: {
                 DLog("finished WKRefreshBackgroundTask \(task)", toFile: true)
-                DispatchQueue.main.async(execute: {
-                    task.setTaskCompleted()
-                })
-            }) 
+                TFCWatchData.setTaskCompletedAndClear(task)
+            })
         }
         fetchDepartureData(handleReply)
     }
@@ -264,9 +262,7 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
             if let task = self.sessionRefreshTasks[sessID] as? WKURLSessionRefreshBackgroundTask {
                 DLog("finished WKURLSessionRefreshBackgroundTask part 1 \(sessID)", toFile: true)
                 //DLog("was: \(task) part 2 \(sessID)", toFile: true)
-                DispatchQueue.main.async(execute: {
-                    task.setTaskCompleted()
-                })
+                TFCWatchData.setTaskCompletedAndClear(task)
                 self.sessionRefreshTasks.removeValue(forKey: sessID)
             }
         })

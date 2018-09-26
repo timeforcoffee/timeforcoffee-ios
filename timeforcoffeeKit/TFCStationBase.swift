@@ -1095,31 +1095,40 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             {
                 //activity.isEligibleForPrediction = true
                 //activity.persistentIdentifier = NSUserActivityPersistentIdentifier(self.st_id)
-                let intent = self.setIntent()
-                if let sc = INShortcut(intent: intent) {
-                    let rsc = INRelevantShortcut(shortcut: sc)
-                    if let center = TFCLocationManager.getCurrentLocation()?.coordinate {
-                        DLog("setIntent with Location")
-                        let region = CLCircularRegion(center: center,radius: CLLocationDistance(1000), identifier: "currentLoc")
-                        rsc.relevanceProviders = [INLocationRelevanceProvider(region: region)]
-                    } else {
-                        DLog("setIntent with Date")
-                        rsc.relevanceProviders = [INDateRelevanceProvider(start: Date().addingTimeInterval(-3600), end: Date().addingTimeInterval(7200))]
-                    }
-                    INRelevantShortcutStore.default.setRelevantShortcuts([rsc])
+                let rscsFavorites:[INRelevantShortcut?] = TFCFavorites.sharedInstance.stations.map { (fav) -> INRelevantShortcut? in
+                    return fav.getRelevantShortcut(setLocation: true)
                 }
+                var rscsFiltered:[INRelevantShortcut?] = rscsFavorites.filter { (rsc) -> Bool in
+                    if rsc != nil {
+                        return true
+                    }
+                    return false
+                }
+                if let thisRsc = self.getRelevantShortcut() {
+                    rscsFiltered.append(thisRsc)
+                    if let intent = thisRsc.shortcut.intent as? NextDeparturesIntent {
+                        self.setIntent(intent)
+                    }
+                }
+            
+                if let rscs = rscsFiltered as? [INRelevantShortcut] {
+                    DLog("store relevant shortcuts \(rscs.debugDescription)")
+                    INRelevantShortcutStore.default.setRelevantShortcuts(rscs)
+                }
+                
             }
             if (setActivity) {
                 setAttributeSet(activ: activity)
-                activity.title = "Show departures from \(self.getName(false))"
+                activity.title = "Show departures from \(self.getName(false)) (lala)"
                 activity.userInfo = uI
                 activity.requiredUserInfoKeys = ["st_id", "name", "longitude", "latitude"]
                 activity.isEligibleForSearch = true
                 activity.isEligibleForPublicIndexing = true
                 activity.isEligibleForHandoff = true
                 if #available(iOSApplicationExtension 12.0, watchOSApplicationExtension 5.0, *) {
-                    activity.isEligibleForPrediction = true
+                    activity.isEligibleForPrediction = false
                 }
+                
                 activity.webpageURL = self.getWebLink()
                 let userCalendar = Calendar.current
                 let FourWeeksFromNow = (userCalendar as NSCalendar).date(
@@ -1134,18 +1143,38 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         }
     }
     
+    @available(iOSApplicationExtension 12.0, *)
+    @available(watchOSApplicationExtension 5.0, *)
+    fileprivate func getRelevantShortcut(setLocation:Bool = false) -> INRelevantShortcut? {
+        let intent = self.getIntent()
+        if let sc = INShortcut(intent: intent) {
+            let rsc = INRelevantShortcut(shortcut: sc)
+            rsc.shortcutRole = .information
+            if (setLocation) {
+                if let center = self.coord?.coordinate {
+                    DLog("shortcut with Location")
+                    let region = CLCircularRegion(center: center,radius: CLLocationDistance(5000), identifier: "favLoc\(self.st_id)")
+                    rsc.relevanceProviders = [INLocationRelevanceProvider(region: region)]
+                }
+            }
+            /* if let center = TFCLocationManager.getCurrentLocation()?.coordinate {
+             } else {
+             DLog("setIntent with Date")
+             rsc.relevanceProviders = [INDateRelevanceProvider(start: Date().addingTimeInterval(-3600), end: Date().addingTimeInterval(7200))]
+             }*/
+            return rsc
+        }
+        return nil
+    }
+    
     @available(iOSApplicationExtension 9.0, *)
     open func setAttributeSet(activ:NSUserActivity) {
     }
     
     @available(watchOSApplicationExtension 5.0, *)
     @available(iOSApplicationExtension 12.0, *)
-    open func setIntent() -> NextDeparturesIntent {
-        let intent = NextDeparturesIntent()
-        intent.st_id = self.getId()
-        intent.station = self.getName(false)
-        intent.suggestedInvocationPhrase = "Departures from \( self.getName(false))"
-        let interaction = INInteraction(intent: intent, response: nil)
+    open func setIntent(_ intent:NextDeparturesIntent) {
+         let interaction = INInteraction(intent: intent, response: nil)
         interaction.donate { (error) in
             if error != nil {
                 if let error = error as NSError? {
@@ -1156,9 +1185,18 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                 
             }
         }
-        return intent
-        
     }
+    
+    @available(iOSApplicationExtension 12.0, *)
+    @available(watchOSApplicationExtension 5.0, *)
+    internal func getIntent() -> NextDeparturesIntent {
+        let intent = NextDeparturesIntent()
+        intent.st_id = self.getId()
+        intent.station = self.getName(false)
+        intent.suggestedInvocationPhrase = "Departures from \( self.getName(false))"
+        return intent
+    }
+    
     internal func setStationSearchIndex() {
     }
 
