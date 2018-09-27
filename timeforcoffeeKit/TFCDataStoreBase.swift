@@ -66,7 +66,17 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
     }
 
     func objectForKey(_ forKey: String) -> AnyObject? {
-        return userDefaults?.object(forKey: forKey) as AnyObject
+        let here = userDefaults?.object(forKey: forKey) as AnyObject
+        
+        if (!(here is NSNull)) {
+            return here
+        }
+        // check in keyvaluestore, if it's not in userdefaults...
+        let there = keyvaluestore?.object(forKey: forKey) as AnyObject
+        if (!(there is NSNull)) {
+            userDefaults?.set(there , forKey: forKey)
+        }
+        return there
     }
 
     func removeObjectForKey(_ forKey: String, withWCTransfer: Bool = true) {

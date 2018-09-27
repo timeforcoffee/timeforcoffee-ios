@@ -1155,7 +1155,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                         let rsc = INRelevantShortcut(shortcut: nearestShortcut)
                         rsc.shortcutRole = .information
                         rsc.watchTemplate = INDefaultCardTemplate(title: NSLocalizedString("Departures from closest station", comment: ""))
-                        rscsFiltered.append()
+                        rscsFiltered.append(rsc)
                     }
                     
                     if let rscs = rscsFiltered as? [INRelevantShortcut] {
@@ -1185,7 +1185,6 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             rsc.shortcutRole = .information
             if (setLocation) {
                 if let center = self.coord?.coordinate {
-                    DLog("shortcut with Location")
                     let region = CLCircularRegion(center: center, radius: CLLocationDistance(1000), identifier: "favLoc\(self.st_id)")
                     rsc.relevanceProviders = [INLocationRelevanceProvider(region: region)]
                 }
