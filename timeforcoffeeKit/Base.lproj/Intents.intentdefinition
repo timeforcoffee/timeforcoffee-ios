@@ -38,7 +38,7 @@
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
 					<key>INIntentParameterCombinationTitle</key>
-					<string>Closest station departures</string>
+					<string>Departures from closest station</string>
 					<key>INIntentParameterCombinationTitleID</key>
 					<string>F6OcIm</string>
 				</dict>
@@ -53,7 +53,7 @@
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
 					<key>INIntentParameterCombinationTitle</key>
-					<string>${station} departures </string>
+					<string>Departures from ${station}</string>
 					<key>INIntentParameterCombinationTitleID</key>
 					<string>eclNCj</string>
 				</dict>

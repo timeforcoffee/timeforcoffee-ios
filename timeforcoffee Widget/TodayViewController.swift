@@ -352,7 +352,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
                 self.setLoadingStage(2)
                 if (self.currentTitle == "") {
-                    self.setTitleText(NSLocalizedString("Looking for nearest station ...", comment: ""))
+                    self.setTitleText(NSLocalizedString("Looking for closest station ...", comment: ""))
                 }
             })
         }

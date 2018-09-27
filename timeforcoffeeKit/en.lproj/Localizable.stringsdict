@@ -2,14 +2,20 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>${station} departures </key>
+	<key>Departures from closest station</key>
 	<dict>
 		<key>NSStringVariableWidthRuleType</key>
 		<dict>
 			<key>2</key>
-			<string>${station} Abfahrten</string>
-			<key>20</key>
-			<string>Abfahrten von ${station} </string>
+			<string>Closest station departures</string>
+		</dict>
+	</dict>
+	<key>Departures from </key>
+	<dict>
+		<key>NSStringVariableWidthRuleType</key>
+		<dict>
+			<key>2</key>
+			<string>Departures from </string>
 		</dict>
 	</dict>
 </dict>

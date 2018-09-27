@@ -2,7 +2,7 @@
 
 "6rFnt3" = "Keine Station gefunden";
 
-"Closest station departures" = "Abfahrten an nächster Station";
+"Departures from closest station" = "Abfahrten an nächster Station";
 
 "In ${departureTime} minutes with line ${departureLine} to ${endStation} from ${departureStation}" =
     "In ${departureTime} Minuten mit Linie ${departureLine} nach ${endStation} von ${departureStation}.";
@@ -13,9 +13,11 @@
 "In ${departureTime} minutes with line ${departureLine} to ${endStation} from ${departureStation}. Will take about ${walkingTime} minutes to get there. Better hurry." =
     "In ${departureTime} Minuten mit Linie ${departureLine} nach ${endStation} von ${departureStation}. Braucht etwa ${walkingTime} Minuten, um dorthin zu kommen. Beeil dich!";
 
+"Departures from ${station}" = "Abfahrten von ${station}";
+
 "PHXTvi" = "Abfahrten einer Station";
 
-"WCAhPt" = "No departures found for ${departureStation}";
+"WCAhPt" = "Keine Abfahrten gefunden für ${departureStation}";
 
 "qwQyYn" = "Show departures";
 

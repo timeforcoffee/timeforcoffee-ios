@@ -1096,14 +1096,19 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         
         if (setActivity) {
             self.setAttributeSet(activ: activity)
-            self.activity.title = "Show departures from \(self.getName(false))"
+            var aTitle = NSLocalizedString("Departures from ", comment: "") + self.getName(false)
+            if #available(iOSApplicationExtension 12.0, watchOSApplicationExtension 5.0, *) {
+                aTitle += " (" +  NSLocalizedString("opens App", comment: "") + ")"
+            }
+            self.activity.title = aTitle
+         
             self.activity.userInfo = uI
             self.activity.requiredUserInfoKeys = ["st_id", "name", "longitude", "latitude"]
             self.activity.isEligibleForHandoff = true
             self.activity.isEligibleForPublicIndexing = true
             
             if #available(iOSApplicationExtension 12.0, watchOSApplicationExtension 5.0, *) {
-                self.activity.isEligibleForPrediction = true
+                self.activity.isEligibleForPrediction = false
                 self.activity.isEligibleForSearch = false
                 self.activity.persistentIdentifier = NSUserActivityPersistentIdentifier(self.st_id)
             } else {
@@ -1147,11 +1152,15 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                     // add the nearest station intent
                     let nearestIntent = NextDeparturesIntent()
                     if let nearestShortcut = INShortcut(intent: nearestIntent) {
-                        rscsFiltered.append(INRelevantShortcut(shortcut: nearestShortcut))
+                        let rsc = INRelevantShortcut(shortcut: nearestShortcut)
+                        rsc.shortcutRole = .information
+                        rsc.watchTemplate = INDefaultCardTemplate(title: NSLocalizedString("Departures from closest station", comment: ""))
+                        rscsFiltered.append()
                     }
                     
                     if let rscs = rscsFiltered as? [INRelevantShortcut] {
-                        DLog("store relevant shortcuts \(rscs.debugDescription)")
+                        DLog("store relevant \(rscsFiltered.count) shortcuts")
+                        
                         INRelevantShortcutStore.default.setRelevantShortcuts(rscs) { (error) in
                             if let error = error as NSError? {
                                 DLog("Storing relevant shortcuts  failed: \(error)")
@@ -1172,6 +1181,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         let intent = self.getIntent()
         if let sc = INShortcut(intent: intent) {
             let rsc = INRelevantShortcut(shortcut: sc)
+            rsc.watchTemplate = INDefaultCardTemplate(title: self.getName(false))
             rsc.shortcutRole = .information
             if (setLocation) {
                 if let center = self.coord?.coordinate {
@@ -1216,7 +1226,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         let intent = NextDeparturesIntent()
         intent.st_id = self.getId()
         intent.station = self.getName(true)
-        intent.suggestedInvocationPhrase = "Departures from \( self.getName(false))"
+        intent.suggestedInvocationPhrase = NSLocalizedString("Departures from ", comment: "") + self.getName(false)
         return intent
     }
     

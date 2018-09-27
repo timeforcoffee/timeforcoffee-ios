@@ -8,7 +8,7 @@
 
 import Foundation
 import CoreLocation
-
+import Intents
 final public class TFCFavorites: NSObject {
 
     public static let sharedInstance = TFCFavorites()
@@ -17,7 +17,9 @@ final public class TFCFavorites: NSObject {
     var lastGeofenceUpdate:CLLocation? = nil
 
     public lazy var stations: TFCStationCollection = { [unowned self] in
-        return self.getCurrentFavoritesFromDefaults()
+        let favs = self.getCurrentFavoritesFromDefaults()
+        self.setFavoriteIntents()
+        return favs
         }()
     
     fileprivate struct objects {
@@ -48,6 +50,20 @@ final public class TFCFavorites: NSObject {
         return favoritesSearchRadius!
     }
 
+    fileprivate func setFavoriteIntents() {
+        if #available(iOSApplicationExtension 12.0, watchOSApplicationExtension 5.0, *) {
+            DispatchQueue.global(qos:  DispatchQoS.QoSClass.utility).async {
+                // donate favourites as intents
+                for station in self.stations {
+                    station.setIntent(station.getIntent())
+                }
+                let nearestIntent = NextDeparturesIntent()
+                let interaction = INInteraction(intent: nearestIntent, response: nil)
+                interaction.donate()
+            }
+        }
+    }
+    
     fileprivate func getCurrentFavoritesFromDefaults(_ newCollection:Bool = true) -> TFCStationCollection {
        // return [:]
         DLog("getCurrentFavoritesFromDefaults", toFile: true);
@@ -129,6 +145,7 @@ final public class TFCFavorites: NSObject {
         objects.dataStore?.setObject(stationIds.sorted() , forKey: "favorites3")
         objects.dataStore?.setObject(3, forKey: "favoritesVersion")
         objects.dataStore?.synchronize()
+        self.setFavoriteIntents()
     }
 
     public func getByDistance() -> [TFCStation]? {
