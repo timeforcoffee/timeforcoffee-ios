@@ -1134,9 +1134,15 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                 
                 if #available(iOSApplicationExtension 12.0, watchOSApplicationExtension 5.0, *)
                 {
-                    let rscsFavorites:[INRelevantShortcut?] = TFCFavorites.sharedInstance.stations.map { (fav) -> INRelevantShortcut? in
-                        return fav.getRelevantShortcut(setLocation: true)
+                    let rscsFavorites:[INRelevantShortcut?]
+                    if let favStations = TFCFavorites.sharedInstance.stations.copy() as? TFCStationCollection {
+                        rscsFavorites = favStations.map { (fav) -> INRelevantShortcut? in
+                            return fav.getRelevantShortcut(setLocation: true)
+                        }
+                    } else {
+                        rscsFavorites = []
                     }
+                    
                     var rscsFiltered:[INRelevantShortcut?] = rscsFavorites.filter { (rsc) -> Bool in
                         if rsc != nil {
                             return true

@@ -1,7 +1,7 @@
 import Foundation
 
 
-open class TFCStationCollection: NSObject, Sequence, Collection {
+open class TFCStationCollection: NSObject, Sequence, Collection, NSCopying {
 
     
 
@@ -22,6 +22,11 @@ open class TFCStationCollection: NSObject, Sequence, Collection {
         super.init()
     }
 
+    public func copy(with zone: NSZone? = nil) -> Any {
+        let newObject = TFCStationCollection(strings: self.stationIds, stationsCache: self.stationCache)
+        return newObject
+    }
+    
     init(values: [TFCStation]) {
         super.init()
         self.replace(values)
