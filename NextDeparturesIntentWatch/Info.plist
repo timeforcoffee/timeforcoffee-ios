@@ -20,17 +20,13 @@
 	<string>1.22</string>
 	<key>CFBundleVersion</key>
 	<string>213</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>If you have complications installed on your Apple Watch, we subscribe for location events when you&apos;re in one of your favourite places, so that we can update your complication with the right info. Also enable in Settings &quot;Privacy -&gt; Location Services -&gt; System Services -&gt; Frequent Locations&quot;</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string> We need the location to show you nearby stations. We’re only accessing this, when the app or the Today extension is in use and for as short as possible.</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>If you have complications installed on your Apple Watch, we subscribe for location events when you&apos;re in one of your favourite places, so that we can update your complication with the right info. Also enable in Settings &quot;Privacy -&gt; Location Services -&gt; System Services -&gt; Frequent Locations&quot;</string>
 	<key>NSExtension</key>
 	<dict>
 		<key>NSExtensionAttributes</key>
 		<dict>
 			<key>IntentsRestrictedWhileLocked</key>
+			<array/>
+			<key>IntentsRestrictedWhileProtectedDataUnavailable</key>
 			<array/>
 			<key>IntentsSupported</key>
 			<array>
@@ -42,5 +38,11 @@
 		<key>NSExtensionPrincipalClass</key>
 		<string>$(PRODUCT_MODULE_NAME).IntentHandler</string>
 	</dict>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>If you have complications installed on your Apple Watch, we subscribe for location events when you're in one of your favourite places, so that we can update your complication with the right info. Also enable in Settings "Privacy -&gt; Location Services -&gt; System Services -&gt; Frequent Locations"</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>If you have complications installed on your Apple Watch, we subscribe for location events when you're in one of your favourite places, so that we can update your complication with the right info. Also enable in Settings "Privacy -&gt; Location Services -&gt; System Services -&gt; Frequent Locations"</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string> We need the location to show you nearby stations. We’re only accessing this, when the app or the Today extension is in use and for as short as possible.</string>
 </dict>
 </plist>

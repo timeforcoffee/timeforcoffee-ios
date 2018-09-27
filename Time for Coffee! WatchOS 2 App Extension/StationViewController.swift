@@ -92,8 +92,10 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         }
         func errorReply(_ text: String) {
             DLog("errorReply")
+            if (text != "aborted") {
             infoGroup.setHidden(false)
             infoLabel.setText(text)
+            }
         }
 
         watchdata.getStations(handleReply, errorReply: errorReply, stopWithFavorites: true)

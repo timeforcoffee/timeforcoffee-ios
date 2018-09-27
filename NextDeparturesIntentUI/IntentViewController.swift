@@ -53,8 +53,11 @@ class IntentViewController: UIViewController, INUIHostedViewControlling, UITable
         if let st_id = intent.st_id {
             if let station = TFCStation.initWithCacheId(st_id) {
                 self.currentStation = station
-                 self.setStationTitleWithDistance(station)
+                self.setStationTitleWithDistance(station)
                 station.updateDepartures(self)
+            } else {
+                completion(false, Set(), .zero)
+                return
             }
             completion(true, parameters, desiredSize)
 

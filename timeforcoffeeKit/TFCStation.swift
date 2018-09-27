@@ -183,6 +183,10 @@ open class TFCStation: TFCStationBase {
         attributeSet.longitude = self.getLongitude() as NSNumber?
         attributeSet.relatedUniqueIdentifier = self.st_id
         attributeSet.keywords = getKeywords()
+        //attributeSet.thumbnailData = nil
+        if let image = UIImage(named: "time-for-coffee-icon-512.png" ) {
+            attributeSet.thumbnailData = image.pngData()
+        }
         return attributeSet
     }
 }

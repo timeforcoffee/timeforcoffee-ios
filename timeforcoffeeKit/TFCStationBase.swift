@@ -357,6 +357,10 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     open class func initWithCache(_ name: String = "", id: String, coord: CLLocation? = nil) -> TFCStation? {
         let trimmed_id: String
 
+        if (!id.match("^[0-9]+$")) {
+            DLog ("id \(id) is not a valid station id!")
+            return nil
+        }
         if (id.hasPrefix("0")) {
             trimmed_id = id.replace("^0*", template: "")
         } else {
@@ -1082,64 +1086,83 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
     open func setStationActivity(setActivity:Bool = true) {
         if #available(iOS 9, *) {
-            let uI = self.getAsDict()
+
+        let uI = self.getAsDict()
+        
+        if (uI["st_id"] == nil) {
+            DLog("station dict seems EMPTY")
+            return
+        }
+        
+        if (setActivity) {
+            self.setAttributeSet(activ: activity)
+            self.activity.title = "Show departures from \(self.getName(false))"
+            self.activity.userInfo = uI
+            self.activity.requiredUserInfoKeys = ["st_id", "name", "longitude", "latitude"]
+            self.activity.isEligibleForHandoff = true
+            self.activity.isEligibleForPublicIndexing = true
             
-            if (uI["st_id"] == nil) {
-                DLog("station dict seems EMPTY")
-                return
+            if #available(iOSApplicationExtension 12.0, watchOSApplicationExtension 5.0, *) {
+                self.activity.isEligibleForPrediction = true
+                self.activity.isEligibleForSearch = false
+                self.activity.persistentIdentifier = NSUserActivityPersistentIdentifier(self.st_id)
+            } else {
+                self.activity.isEligibleForSearch = true
             }
             
-            self.setStationSearchIndex()
-            
-            if #available(iOSApplicationExtension 12.0, watchOSApplicationExtension 5.0, *)
-            {
-                //activity.isEligibleForPrediction = true
-                //activity.persistentIdentifier = NSUserActivityPersistentIdentifier(self.st_id)
-                let rscsFavorites:[INRelevantShortcut?] = TFCFavorites.sharedInstance.stations.map { (fav) -> INRelevantShortcut? in
-                    return fav.getRelevantShortcut(setLocation: true)
-                }
-                var rscsFiltered:[INRelevantShortcut?] = rscsFavorites.filter { (rsc) -> Bool in
-                    if rsc != nil {
-                        return true
+            self.activity.webpageURL = self.getWebLink()
+            let userCalendar = Calendar.current
+            let FourWeeksFromNow = (userCalendar as NSCalendar).date(
+                byAdding: [.day],
+                value: 28,
+                to: Date(),
+                options: [])!
+            self.activity.expirationDate = FourWeeksFromNow
+            self.activity.keywords = Set(getKeywords())
+            self.activity.becomeCurrent()
+        }
+        
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.utility).async {
+            if #available(iOS 9, *) {
+                
+                self.setStationSearchIndex()
+                
+                if #available(iOSApplicationExtension 12.0, watchOSApplicationExtension 5.0, *)
+                {
+                    let rscsFavorites:[INRelevantShortcut?] = TFCFavorites.sharedInstance.stations.map { (fav) -> INRelevantShortcut? in
+                        return fav.getRelevantShortcut(setLocation: true)
                     }
-                    return false
-                }
-                if let thisRsc = self.getRelevantShortcut() {
-                    rscsFiltered.append(thisRsc)
-                    if let intent = thisRsc.shortcut.intent as? NextDeparturesIntent {
-                        self.setIntent(intent)
+                    var rscsFiltered:[INRelevantShortcut?] = rscsFavorites.filter { (rsc) -> Bool in
+                        if rsc != nil {
+                            return true
+                        }
+                        return false
                     }
-                }
-            
-                if let rscs = rscsFiltered as? [INRelevantShortcut] {
-                    DLog("store relevant shortcuts \(rscs.debugDescription)")
-                    INRelevantShortcutStore.default.setRelevantShortcuts(rscs)
+                    if let thisRsc = self.getRelevantShortcut() {
+                        rscsFiltered.append(thisRsc)
+                        if let intent = thisRsc.shortcut.intent as? NextDeparturesIntent {
+                            self.setIntent(intent)
+                        }
+                    }
+                    // add the nearest station intent
+                    let nearestIntent = NextDeparturesIntent()
+                    if let nearestShortcut = INShortcut(intent: nearestIntent) {
+                        rscsFiltered.append(INRelevantShortcut(shortcut: nearestShortcut))
+                    }
+                    
+                    if let rscs = rscsFiltered as? [INRelevantShortcut] {
+                        DLog("store relevant shortcuts \(rscs.debugDescription)")
+                        INRelevantShortcutStore.default.setRelevantShortcuts(rscs) { (error) in
+                            if let error = error as NSError? {
+                                DLog("Storing relevant shortcuts  failed: \(error)")
+                            } else {
+                                DLog("Successfully stored relevant shortcuts", toFile: true)
+                            }
+                        }
+                    }
                 }
                 
-            }
-            if (setActivity) {
-                setAttributeSet(activ: activity)
-                activity.title = "Show departures from \(self.getName(false)) (lala)"
-                activity.userInfo = uI
-                activity.requiredUserInfoKeys = ["st_id", "name", "longitude", "latitude"]
-                activity.isEligibleForSearch = true
-                activity.isEligibleForPublicIndexing = true
-                activity.isEligibleForHandoff = true
-                if #available(iOSApplicationExtension 12.0, watchOSApplicationExtension 5.0, *) {
-                    activity.isEligibleForPrediction = false
-                }
-                
-                activity.webpageURL = self.getWebLink()
-                let userCalendar = Calendar.current
-                let FourWeeksFromNow = (userCalendar as NSCalendar).date(
-                    byAdding: [.day],
-                    value: 28,
-                    to: Date(),
-                    options: [])!
-                activity.expirationDate = FourWeeksFromNow
-                activity.keywords = Set(getKeywords())
-                activity.becomeCurrent()
-            }
+            }}
         }
     }
     
@@ -1153,7 +1176,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             if (setLocation) {
                 if let center = self.coord?.coordinate {
                     DLog("shortcut with Location")
-                    let region = CLCircularRegion(center: center,radius: CLLocationDistance(5000), identifier: "favLoc\(self.st_id)")
+                    let region = CLCircularRegion(center: center, radius: CLLocationDistance(1000), identifier: "favLoc\(self.st_id)")
                     rsc.relevanceProviders = [INLocationRelevanceProvider(region: region)]
                 }
             }
@@ -1174,7 +1197,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     @available(watchOSApplicationExtension 5.0, *)
     @available(iOSApplicationExtension 12.0, *)
     open func setIntent(_ intent:NextDeparturesIntent) {
-         let interaction = INInteraction(intent: intent, response: nil)
+        let interaction = INInteraction(intent: intent, response: nil)
         interaction.donate { (error) in
             if error != nil {
                 if let error = error as NSError? {
@@ -1192,7 +1215,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     internal func getIntent() -> NextDeparturesIntent {
         let intent = NextDeparturesIntent()
         intent.st_id = self.getId()
-        intent.station = self.getName(false)
+        intent.station = self.getName(true)
         intent.suggestedInvocationPhrase = "Departures from \( self.getName(false))"
         return intent
     }

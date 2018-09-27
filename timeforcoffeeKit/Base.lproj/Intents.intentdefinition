@@ -7,7 +7,7 @@
 	<key>INIntentDefinitionModelVersion</key>
 	<string>1.0</string>
 	<key>INIntentDefinitionSystemVersion</key>
-	<string>17G2307</string>
+	<string>18A391</string>
 	<key>INIntentDefinitionToolsBuildVersion</key>
 	<string>10A255</string>
 	<key>INIntentDefinitionToolsVersion</key>
@@ -17,10 +17,8 @@
 		<dict>
 			<key>INIntentCategory</key>
 			<string>information</string>
-			<key>INIntentDefaultImageName</key>
-			<string>iTunesArtwork</string>
 			<key>INIntentDescription</key>
-			<string>Show  departures from a station</string>
+			<string>Show departures from a station</string>
 			<key>INIntentDescriptionID</key>
 			<string>PHXTvi</string>
 			<key>INIntentLastParameterTag</key>
@@ -40,7 +38,7 @@
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
 					<key>INIntentParameterCombinationTitle</key>
-					<string>Show departures from station nearest to current location</string>
+					<string>Closest station departures</string>
 					<key>INIntentParameterCombinationTitleID</key>
 					<string>F6OcIm</string>
 				</dict>
@@ -55,7 +53,7 @@
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
 					<key>INIntentParameterCombinationTitle</key>
-					<string>Show departures from ${station}</string>
+					<string>${station} departures </string>
 					<key>INIntentParameterCombinationTitleID</key>
 					<string>eclNCj</string>
 				</dict>
@@ -103,7 +101,7 @@
 					</dict>
 					<dict>
 						<key>INIntentResponseCodeFormatString</key>
-						<string>Next departure is in ${departureTime} minutes with line ${departureLine} to ${endStation} from ${departureStation}</string>
+						<string>In ${departureTime} minutes with line ${departureLine} to ${endStation} from ${departureStation}</string>
 						<key>INIntentResponseCodeFormatStringID</key>
 						<string>dbpzKW</string>
 						<key>INIntentResponseCodeName</key>
@@ -133,7 +131,7 @@
 					</dict>
 					<dict>
 						<key>INIntentResponseCodeFormatString</key>
-						<string>Next departure is in ${departureTime} minutes with line ${departureLine} to ${endStation} from ${departureStation}. Will take about ${walkingTime} minutes to get there.</string>
+						<string>In ${departureTime} minutes with line ${departureLine} to ${endStation} from ${departureStation}. Will take about ${walkingTime} minutes to get there.</string>
 						<key>INIntentResponseCodeFormatStringID</key>
 						<string>xUIlaY</string>
 						<key>INIntentResponseCodeName</key>
@@ -143,7 +141,7 @@
 					</dict>
 					<dict>
 						<key>INIntentResponseCodeFormatString</key>
-						<string>Next departure is in ${departureTime} minutes with line ${departureLine} to ${endStation} from ${departureStation}. Will take about ${walkingTime} minutes to get there. Better hurry.</string>
+						<string>In ${departureTime} minutes with line ${departureLine} to ${endStation} from ${departureStation}. Will take about ${walkingTime} minutes to get there. Better hurry.</string>
 						<key>INIntentResponseCodeFormatStringID</key>
 						<string>G83WD2</string>
 						<key>INIntentResponseCodeName</key>

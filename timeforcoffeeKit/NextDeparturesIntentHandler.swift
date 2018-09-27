@@ -27,21 +27,37 @@ public class NextDeparturesIntentHandler: NSObject, NextDeparturesIntentHandling
     
     public func confirm(intent: NextDeparturesIntent, completion: @escaping (NextDeparturesIntentResponse) -> Void) {
         completion(NextDeparturesIntentResponse(code: .ready, userActivity: nil))
-        
+    }
+    
+    fileprivate func updateDepartures(_ station: TFCStation,  _ completion: @escaping (NextDeparturesIntentResponse) -> Void) {
+        #if os(watchOS)
+        let _ = station.removeObsoleteDepartures(true)
+        //check if we have at least 2 minute fresh data. Good enough for this usecas
+        if let lDU = station.lastDepartureUpdate,
+            lDU.addingTimeInterval(300) > Date()
+        {
+            if let departures = station.getFilteredDepartures(nil, fallbackToAll: true) {
+                // if we already do have departures, we don't need to update them on watchOS
+                if (departures.count > 0) {
+                    departuresUpdated(nil, context: ["completion": completion], forStation: station)
+                    return
+                }
+            }
+        }
+        #endif
+        station.updateDepartures(self, context: ["completion": completion])
     }
     
     public func handle(intent: NextDeparturesIntent, completion: @escaping (NextDeparturesIntentResponse) -> Void) {
         
         if let st_id = intent.st_id {
             if let station = TFCStation.initWithCache(id: st_id) {
-                station.updateDepartures(self, context: ["completion": completion])
-                return
+                return updateDepartures(station, completion)
             }
         } else {
             func stationsUpdateCompletion(stations:TFCStations?, error: String?, context: Any?) {
                 if let stations = stations {
                     if let station = stations.getStation(0) {
-                        
                         station.updateDepartures(self, context: ["completion": completion])
                         return
                     }
@@ -58,7 +74,7 @@ public class NextDeparturesIntentHandler: NSObject, NextDeparturesIntentHandling
     
     fileprivate func getResponseForNextDeparture(_ forStation: TFCStation?, _ completion: @escaping ((NextDeparturesIntentResponse) -> Void)) {
         if let station = forStation {
-            let _ = station.removeObsoleteDepartures()
+            let _ = station.removeObsoleteDepartures(true)
             if let departures = station.getFilteredDepartures(nil, fallbackToAll: true)
             {
                 if let departure = departures.first {
