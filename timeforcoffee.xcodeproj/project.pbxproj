@@ -399,6 +399,8 @@
 		EC32FB12215CC68D006BFEA8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Intents.strings; sourceTree = "<group>"; };
 		EC32FB32215CE594006BFEA8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		EC32FB34215CEF0E006BFEA8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = de; path = de.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		EC32FB38215D2055006BFEA8 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Intents.strings; sourceTree = "<group>"; };
+		EC32FB39215D2063006BFEA8 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = fr; path = fr.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		EC46C4DB1BB5C69800F2A963 /* timeforcoffee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = timeforcoffee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC46C4DE1BB5C69800F2A963 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EC46C4E51BB5C69800F2A963 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -1857,6 +1859,7 @@
 			children = (
 				EC32FB0F215CC68A006BFEA8 /* Base */,
 				EC32FB12215CC68D006BFEA8 /* de */,
+				EC32FB38215D2055006BFEA8 /* fr */,
 			);
 			name = Intents.intentdefinition;
 			sourceTree = "<group>";
@@ -1866,6 +1869,7 @@
 			children = (
 				EC32FB32215CE594006BFEA8 /* en */,
 				EC32FB34215CEF0E006BFEA8 /* de */,
+				EC32FB39215D2063006BFEA8 /* fr */,
 			);
 			name = Localizable.stringsdict;
 			sourceTree = "<group>";

@@ -1,19 +1,20 @@
 "5ZFgFV" = "There was a failure";
 
-"6rFnt3" = "Keine Station gefunden";
-
-"WCAhPt" = "Keine Abfahrten gefunden für ${departureStation}";
+"6rFnt3" = "No station found";
 
 "F6OcIm" = "Departures from closest station";
 
-"PHXTvi" = "Departures from a station";
+"G83WD2" = "In ${departureTime} minutes with line ${departureLine} to ${endStation} from ${departureStation}. Will take about ${walkingTime} minutes to get there. Better hurry.";
+
+"PHXTvi" = "Show departures from a station";
+
+"WCAhPt" = "No departures found for ${departureStation}";
 
 "dbpzKW" = "In ${departureTime} minutes with line ${departureLine} to ${endStation} from ${departureStation}";
 
 "eclNCj" = "Departures from ${station}";
 
-"qwQyYn" = "Departures";
+"qwQyYn" = "Show departures";
 
-"xUIlaY" = "In ${departureTime} minutes with line ${departureLine} to ${endStation} from ${departureStation}. It will take you about ${walkingTime} minutes to get there";
+"xUIlaY" = "In ${departureTime} minutes with line ${departureLine} to ${endStation} from ${departureStation}. Will take about ${walkingTime} minutes to get there.";
 
-"G83WD2" = "In ${departureTime} minutes with line ${departureLine} to ${endStation} from ${departureStation}. It will take you about ${walkingTime} minutes to get there. Better hurry!";
