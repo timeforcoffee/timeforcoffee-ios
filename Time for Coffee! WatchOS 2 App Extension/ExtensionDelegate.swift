@@ -167,16 +167,14 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     func handle(_ backgroundTasks: Set<WKRefreshBackgroundTask>) {
         
         for task : WKRefreshBackgroundTask in backgroundTasks {
-            DLog("received \(task) Backgroundtask" , toFile: true)
-            TFCWatchData.runningTasks[task.hash] = true
-            DLog("Add task \(task.hash) to runningTasks")
-            if let arTask = task as? WKApplicationRefreshBackgroundTask {
+            let wrapper = TFCTaskWrapper(task)
+            DLog("received \(wrapper.getHash()) Backgroundtask" , toFile: true)
+            if let _ = task as? WKApplicationRefreshBackgroundTask {
                 DLog("received WKApplicationRefreshBackgroundTask")
-                TFCWatchDataFetch.sharedInstance.fetchDepartureData(task: arTask)
+                TFCWatchDataFetch.sharedInstance.fetchDepartureData(wrapper: wrapper)
             } else if let urlTask = task as? WKURLSessionRefreshBackgroundTask {
                 DLog("received WKURLSessionRefreshBackgroundTask for \(urlTask.sessionIdentifier)")
-
-                TFCWatchDataFetch.sharedInstance.rejoinURLSession(urlTask)
+                TFCWatchDataFetch.sharedInstance.rejoinURLSession(wrapper)
             } else if let wcBackgroundTask = task as? WKWatchConnectivityRefreshBackgroundTask {
                 DLog("received WKWatchConnectivityRefreshBackgroundTask")
                 //just wait 15 seconds and assume it's finished FIXME. Could be improved, but it's hard to keep track and sometimes there's just nothing to do.
@@ -184,7 +182,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                     TFCWatchData.crunchQueue.async(flags: .barrier, execute: {
                         DLog("finished WKWatchConnectivityRefreshBackgroundTask Backgroundtask part 1", toFile: true)
                         DLog("was: \(wcBackgroundTask) part 2", toFile: true)
-                        TFCWatchData.setTaskCompletedAndClear(wcBackgroundTask)
+                        wrapper.setTaskCompletedAndClear()
                     })
                 })
                 TFCDataStore.sharedInstance.registerWatchConnectivity()
@@ -203,35 +201,34 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                             DLog("received WKSnapshotRefreshBackgroundTask.prelaunch")
                         } else if (snapshotTask.reasonForSnapshot == .returnToDefaultState) {
                             DLog("received WKSnapshotRefreshBackgroundTask.returnToDefaultState")
-
                         }
                     }
                 #endif
                // if (snapshotTask.reasonForSnapshot == .complicationUpdate)
-                delaySnapshotComplete(snapshotTask,startTime: Date())
+                delaySnapshotComplete(wrapper,startTime: Date())
             } else {
                 DLog("received something else...", toFile: true)
                 // make sure to complete all tasks, even ones you don't handle
                 DispatchQueue.main.async(execute: {
-                    TFCWatchData.setTaskCompletedAndClear(task)
+                    wrapper.setTaskCompletedAndClear()
                 })
             }
         }
     }
     
 
-    fileprivate func delaySnapshotComplete(_ snapshotTask: WKSnapshotRefreshBackgroundTask, startTime:Date, count:Int = 0) {
+    fileprivate func delaySnapshotComplete(_ wrapper: TFCTaskWrapper, startTime:Date, count:Int = 0) {
         //just wait 2 seconds and assume it's finished
         // we use a queue here to let other tasks finish, before this one shoots
         let delayTime:Double = 2.0
         delay(delayTime, closure: {
-            DLog("finished \(snapshotTask) Backgroundtask before barrier. ")
+            DLog("finished \(wrapper.getHash()) Backgroundtask before barrier. ")
             TFCWatchData.crunchQueue.async(flags: .barrier, execute: {
                 if (TFCWatchData.crunchQueueTasks > 0) {
                     DLog("there's a new task in the crunchQueue, finish that first: \(TFCWatchData.crunchQueueTasks).")
                     let newCount = count + 1;
                     if (newCount < 10) {
-                        self.delaySnapshotComplete(snapshotTask, startTime: startTime, count: newCount)
+                        self.delaySnapshotComplete(wrapper, startTime: startTime, count: newCount)
                         return
                     }
                 }
@@ -245,33 +242,42 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                     self.watchdata.scheduleNextUpdate(noBackOffIncr: true)
                 }
                 DispatchQueue.main.async(execute: {
-                    DLog("finished \(snapshotTask) Backgroundtask, next \(nextDate)", toFile: true)
+                    DLog("finished \(wrapper.getHash()) Backgroundtask, next \(nextDate)", toFile: true)
 
                     #if DEBUG
                         if #available(watchOSApplicationExtension 4.0, *) {
-                            if (snapshotTask.reasonForSnapshot == .appBackgrounded) {
-                                DLog("finished WKSnapshotRefreshBackgroundTask.appBackgrounded")
-                            } else if (snapshotTask.reasonForSnapshot == .appScheduled) {
-                                DLog("finished WKSnapshotRefreshBackgroundTask.appScheduled")
-                            } else if (snapshotTask.reasonForSnapshot == .complicationUpdate) {
-                                DLog("finished WKSnapshotRefreshBackgroundTask.complicationUpdate")
-                            } else if (snapshotTask.reasonForSnapshot == .prelaunch) {
-                                DLog("finished WKSnapshotRefreshBackgroundTask.prelaunch")
-                            } else if (snapshotTask.reasonForSnapshot == .returnToDefaultState) {
-                                DLog("finished WKSnapshotRefreshBackgroundTask.returnToDefaultState")
-
+                            if let snapshotTask = wrapper.getTask() as? WKSnapshotRefreshBackgroundTask {
+                                if (snapshotTask.reasonForSnapshot == .appBackgrounded) {
+                                    DLog("finished WKSnapshotRefreshBackgroundTask.appBackgrounded")
+                                } else if (snapshotTask.reasonForSnapshot == .appScheduled) {
+                                    DLog("finished WKSnapshotRefreshBackgroundTask.appScheduled")
+                                } else if (snapshotTask.reasonForSnapshot == .complicationUpdate) {
+                                    DLog("finished WKSnapshotRefreshBackgroundTask.complicationUpdate")
+                                } else if (snapshotTask.reasonForSnapshot == .prelaunch) {
+                                    DLog("finished WKSnapshotRefreshBackgroundTask.prelaunch")
+                                } else if (snapshotTask.reasonForSnapshot == .returnToDefaultState) {
+                                    DLog("finished WKSnapshotRefreshBackgroundTask.returnToDefaultState")
+                                }
                             }
                         }
                         DispatchQueue.global(qos: .background).async {
                             delay(3.0, closure: {
-                                TFCWatchData.setTaskCompletedAndClear(snapshotTask, callback: { () in
-                                    snapshotTask.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: nextDate, userInfo: nil)})
+                                wrapper.setTaskCompletedAndClear(callback: { () -> Bool in
+                                    if let task = wrapper.getTask() as? WKSnapshotRefreshBackgroundTask {
+                                        task.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: nextDate, userInfo: nil)
+                                        return true
+                                    }
+                                    return false
                                 })
-                            SendLogs2Phone()
-                        }
+                                SendLogs2Phone()
+                            })
+                    }
                     #else
-                    TFCWatchData.setTaskCompletedAndClear(snapshotTask, callback: { () in
-                        snapshotTask.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: nextDate, userInfo: nil)
+                    wrapper.setTaskCompletedAndClear(callback: { () in
+                        wrapper.setAsCompleted()
+                        if let task = wrapper.getTask() as? WKSnapshotRefreshBackgroundTask {
+                            task.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: nextDate, userInfo: nil)
+                        }
                     })
                     #endif
                 })

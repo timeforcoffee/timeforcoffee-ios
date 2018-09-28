@@ -77,54 +77,6 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
         }
     }
 
-    /*
-     * sometimes we want to wait a few seconds to see, if there's a new current location before we
-     * start the complication update
-     * This especially happens, when we call from the iPhone for a new update and send
-     * data as userInfo, which usually happens a little bit later
-     */
-
-    public func waitForNewLocation(within seconds:Int, callback: @escaping () -> Void) {
-
-        let queue = DispatchQueue.global(qos: .default)
-        queue.async {
-            self.waitForNewLocation(within: seconds, counter: 0, queue: queue, callback: callback)
-        }
-    }
-
-
-    fileprivate func waitForNewLocation(within seconds:Int, counter:Int = 0, queue:DispatchQueue? = nil, callback: @escaping () -> Void) {
-        DLog("\(counter)")
-
-        if (counter > seconds || self.locManager?.getLastLocation(seconds) != nil) {
-            callback()
-            return
-        }
-        delay(1.0, closure: {self.waitForNewLocation(within: seconds, counter: (counter + 1), queue: queue, callback: callback)}, queue: queue)
-    }
-    
-    class public func setTaskCompletedAndClear(_ task:WKRefreshBackgroundTask, callback:(() -> Void)? = nil) {
-        if let _ = TFCWatchData.runningTasks[task.hash] {
-            TFCWatchData.runningTasks[task.hash] = nil
-            DLog("runningTasks: Set Task completed for \(task.hash)")
-            if let callback = callback {
-                DispatchQueue.main.async(execute: {
-                    callback()
-                })
-                return
-            }
-            DispatchQueue.main.async(execute: {
-                if #available(watchOSApplicationExtension 4.0, *) {
-                    task.setTaskCompletedWithSnapshot(false)
-                } else {
-                    task.setTaskCompleted()
-                }
-            })
-            return
-        }
-        DLog("runningTasks: Already called \(task.hash) \(task) before. Not call taskCompleted.")
-    }
-
     public func updateComplicationData() {
         // reload the timeline for all complications
         let server = CLKComplicationServer.sharedInstance()
@@ -247,11 +199,11 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
                 }
             }
         }
-        // check if we now a last location, and take that if it's not older than 30 seconds
+        // check if we now a last location, and take that if it's not older than 120 seconds
         //  to avoid multiple location lookups
         DLog("_")
         self.startCrunchQueue {
-            if let cachedLoc = self.locManager?.getLastLocation(30)?.coordinate {
+            if let cachedLoc = TFCLocationManager.getCurrentLocation(ttl: 120)?.coordinate {
                 DLog("still cached location \(cachedLoc)", toFile: true)
                 handleReply(["lat" : cachedLoc.latitude, "long": cachedLoc.longitude], false)
             } else {

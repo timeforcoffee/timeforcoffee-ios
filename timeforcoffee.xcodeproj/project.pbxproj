@@ -206,6 +206,7 @@
 		ECEF28161BCBC951000F4094 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		ECEF281A1BCBC98F000F4094 /* TFC.plist in Resources */ = {isa = PBXBuildFile; fileRef = ECEF28191BCBC98F000F4094 /* TFC.plist */; };
 		ECEF281B1BCBC999000F4094 /* TFC.plist in Resources */ = {isa = PBXBuildFile; fileRef = ECEF28191BCBC98F000F4094 /* TFC.plist */; };
+		ECFEEAA4215D7E7D005FA396 /* TFCTaskWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFEEAA3215D7E7D005FA396 /* TFCTaskWrapper.swift */; };
 		F6F721201BCA9C9C0073E0D2 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F7211F1BCA9C9C0073E0D2 /* ComplicationController.swift */; };
 /* End PBXBuildFile section */
 
@@ -552,6 +553,7 @@
 		ECEDDACF1BC991800088AFB2 /* stations-importer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "stations-importer"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECEDDAD11BC991800088AFB2 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		ECEF28191BCBC98F000F4094 /* TFC.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TFC.plist; sourceTree = "<group>"; };
+		ECFEEAA3215D7E7D005FA396 /* TFCTaskWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFCTaskWrapper.swift; sourceTree = "<group>"; };
 		F6F7211F1BCA9C9C0073E0D2 /* ComplicationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -683,6 +685,7 @@
 				ECDB98DF1E327F36003FA5A1 /* TFCCrashlytics.swift */,
 				EC4AB24C1BB6712200DA9759 /* TFCLocationManager.swift */,
 				EC4AB24D1BB6712200DA9759 /* TFCStation.swift */,
+				ECFEEAA3215D7E7D005FA396 /* TFCTaskWrapper.swift */,
 				EC681C161E5059DB00A8CD9E /* ComplicationData.swift */,
 				ECADE6BF21544F78008B8793 /* CLKTextProvider+NNNCompoundTextProviding.h */,
 				ECADE6C021544F9C008B8793 /* CLKTextProvider+NNNCompoundTextProviding.m */,
@@ -1633,6 +1636,7 @@
 				EC2D16E82157D01D00973F11 /* TFCStation.swift in Sources */,
 				EC2D16E72157D01900973F11 /* TFCLocationManager.swift in Sources */,
 				EC2D16D42157CFB600973F11 /* TFCCache.swift in Sources */,
+				ECFEEAA4215D7E7D005FA396 /* TFCTaskWrapper.swift in Sources */,
 				EC2D16CC2157CF8400973F11 /* TFCStationModel+CoreDataProperties.swift in Sources */,
 				EC2D16D22157CFA900973F11 /* Logging.swift in Sources */,
 				EC2D16D82157CFCA00973F11 /* TFCSettings.swift in Sources */,

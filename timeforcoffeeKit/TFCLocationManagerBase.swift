@@ -253,7 +253,7 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
         return classvar.currentLocation
     }
     
-    open class func getLastLocation(_ notOlderThanSeconds: Int) -> CLLocation? {
+    fileprivate class func getLastLocation(_ notOlderThanSeconds: Int) -> CLLocation? {
         if (classvar._lastUpdateCurrentLocation == nil ||
             classvar._lastUpdateCurrentLocation!.timeIntervalSinceNow < TimeInterval(-notOlderThanSeconds)) {
             return nil
@@ -262,11 +262,6 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
         
         return classvar.currentLocation
     }
-    
-    open func getLastLocation(_ notOlderThanSeconds: Int) -> CLLocation? {
-        return type(of: self).getLastLocation(notOlderThanSeconds)
-    }
-
     
     func requestLocation() {
 
