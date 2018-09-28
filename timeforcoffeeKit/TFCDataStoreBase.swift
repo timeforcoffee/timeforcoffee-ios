@@ -437,7 +437,7 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
 
     @available(iOSApplicationExtension 9.0, *)
     open func sessionReachabilityDidChange(_ session: WCSession) {
-        DLog("sessionReachabilityDidChange to \(session.isReachable) ", toFile: true)
+        DLog("sessionReachabilityDidChange to \(session.isReachable) "  )
     }
 
     @available(iOSApplicationExtension 9.0, *)
