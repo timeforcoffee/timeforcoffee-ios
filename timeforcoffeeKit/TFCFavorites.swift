@@ -221,10 +221,10 @@ final public class TFCFavorites: NSObject {
                                 } else {
                                     if (nearbyFavorites[circularRegion.identifier]?.calculatedDistance != nil &&
                                         nearbyFavorites[circularRegion.identifier]!.calculatedDistance! < (radius + 200)) {
-                                        DLog("geofence for \(circularRegion.identifier) radius: \(circularRegion.radius.roundToPlaces(1)) is within radius, update it later")
+                                        //DLog("geofence for \(circularRegion.identifier) radius: \(circularRegion.radius.roundToPlaces(1)) is within radius, update it later")
                                         locationManager.stopMonitoring(for: circularRegion)
                                     } else if circularRegion.radius < radius {
-                                        DLog("geofence for \(circularRegion.identifier) radius: \(circularRegion.radius.roundToPlaces(1)) has smaller radius, update it later")
+                                       // DLog("geofence for \(circularRegion.identifier) radius: \(circularRegion.radius.roundToPlaces(1)) has smaller radius, update it later")
                                         locationManager.stopMonitoring(for: circularRegion)
                                     } else {
                                         nearbyFavorites.removeValue(forKey: circularRegion.identifier)
@@ -265,7 +265,7 @@ final public class TFCFavorites: NSObject {
                                     }
                                 }
                                 let region = CLCircularRegion(center: coord.coordinate, radius: stationRadius, identifier: station.st_id)
-                                DLog("add Geofence for \(station.name) with distance: \(String(describing: distance)) and radius \(stationRadius)")
+                                //DLog("add Geofence for \(station.name) with distance: \(String(describing: distance)) and radius \(stationRadius)")
 
                                 region.notifyOnExit = false
                                 region.notifyOnEntry = true
@@ -302,7 +302,7 @@ final public class TFCFavorites: NSObject {
                                 region.notifyOnExit = true
                                 region.notifyOnEntry = false
                                 locationManager.startMonitoring(for: region)
-                                DLog("add Geofence exit update for radius \(exitradius) and coord \(currLoc)", toFile: true)
+                                DLog("add Geofence exit update for radius \(exitradius) and coord \(currLoc)")
                             }
                         }
                     }

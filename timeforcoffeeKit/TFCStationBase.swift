@@ -1218,10 +1218,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                 if let error = error as NSError? {
                     DLog("Interaction donation failed: \(error)")
                 }
-            } else {
-                DLog("Successfully donated interaction", toFile: true)
-                
-            }
+            } 
         }
     }
     
