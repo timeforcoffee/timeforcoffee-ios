@@ -204,7 +204,6 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
         DLog("_")
         self.startCrunchQueue {
             if let cachedLoc = TFCLocationManager.getCurrentLocation(ttl: 120)?.coordinate {
-                DLog("still cached location \(cachedLoc)", toFile: true)
                 handleReply(["lat" : cachedLoc.latitude, "long": cachedLoc.longitude], false)
             } else {
                 self.getLocation(handleReply)

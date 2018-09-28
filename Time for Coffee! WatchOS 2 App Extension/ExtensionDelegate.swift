@@ -173,7 +173,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 DLog("received WKApplicationRefreshBackgroundTask")
                 TFCWatchDataFetch.sharedInstance.fetchDepartureData(wrapper: wrapper)
             } else if let urlTask = task as? WKURLSessionRefreshBackgroundTask {
-                DLog("received WKURLSessionRefreshBackgroundTask for \(urlTask.sessionIdentifier)")
+                DLog("received WKURLSessionRefreshBackgroundTask for \(urlTask.sessionIdentifier) with task hash \(wrapper.getHash())")
                 TFCWatchDataFetch.sharedInstance.rejoinURLSession(wrapper)
             } else if let wcBackgroundTask = task as? WKWatchConnectivityRefreshBackgroundTask {
                 DLog("received WKWatchConnectivityRefreshBackgroundTask")
@@ -207,7 +207,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                // if (snapshotTask.reasonForSnapshot == .complicationUpdate)
                 delaySnapshotComplete(wrapper,startTime: Date())
             } else {
-                DLog("received something else...", toFile: true)
+                DLog("received something else...\(wrapper)", toFile: true)
                 // make sure to complete all tasks, even ones you don't handle
                 DispatchQueue.main.async(execute: {
                     wrapper.setTaskCompletedAndClear()

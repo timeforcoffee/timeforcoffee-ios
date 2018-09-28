@@ -134,12 +134,13 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
 
     open func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         DispatchQueue.main.async(execute: {
-                DLog("LocationManager Error \(error) with code \(error)")
-            #if !(targetEnvironment(simulator))
+                #if !(targetEnvironment(simulator))
                     if ((error as NSError).code == CLError.Code.locationUnknown.rawValue) {
-                        DLog("LocationManager LocationUnknown")
+                        // DLog("LocationManager LocationUnknown")
                         self.delegate?.locationStillTrying(manager, err: error)
                         return
+                    } else {
+                        DLog("LocationManager Error \(error) with code \(error)")
                     }
                 #endif
                 self.locationManager.stopUpdatingLocation()
@@ -227,9 +228,6 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
     }
 
     open class func getCurrentLocation(ttl:Int) -> CLLocation? {
-        if let currentLocation = getCurrentLocation() {
-            return currentLocation
-        }
         if let currentLocation = TFCLocationManager.getLastLocation(ttl) {
             return currentLocation
         }
@@ -241,8 +239,12 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
                     let latitude = userDefaults.double(forKey: "lastLocationLatitude")
                     let longitude = userDefaults.double(forKey: "lastLocationLongitude")
                     DLog("get Location from userDefaults")
-                    classvar.currentLocation = CLLocation(latitude: latitude, longitude: longitude)
+                    let lastLocation = CLLocation(latitude: latitude, longitude: longitude)
+                    classvar.currentLocation = lastLocation
                     classvar.currentLocationTimestamp = lastLocationDate
+                    classvar._lastUpdateCurrentLocation = lastLocationDate
+                    DLog("still cached location in userdefaults \(lastLocation)", toFile: true)
+                    return classvar.currentLocation
                 }
             }
         }
@@ -258,7 +260,7 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
             classvar._lastUpdateCurrentLocation!.timeIntervalSinceNow < TimeInterval(-notOlderThanSeconds)) {
             return nil
         }
-        DLog("still cached since \(String(describing: classvar._lastUpdateCurrentLocation)) , \(String(describing: classvar.currentLocation))")
+        DLog("still cached in class since \(String(describing: classvar._lastUpdateCurrentLocation)) , \(String(describing: classvar.currentLocation))")
         
         return classvar.currentLocation
     }

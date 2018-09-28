@@ -151,6 +151,7 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
 
         let backgroundConfigObject = URLSessionConfiguration.background(withIdentifier: (UUID().uuidString))
         backgroundConfigObject.requestCachePolicy = .useProtocolCachePolicy
+        backgroundConfigObject.timeoutIntervalForResource = 60
         if let uid = TFCDataStore.sharedInstance.getTFCID() {
             backgroundConfigObject.httpAdditionalHeaders = ["TFCID": uid]
 
@@ -262,11 +263,11 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
     fileprivate func completeTask(_ sessID: String) {
         TFCWatchData.crunchQueue.async(flags: .barrier, execute: {
             if let wrapper = self.sessionRefreshTasks[sessID] {
-                DLog("finished WKURLSessionRefreshBackgroundTask part 1 \(sessID)", toFile: true)
+                DLog("WKURLSessionRefreshBackgroundTask: finished  part 1 \(sessID)", toFile: true)
                 wrapper.setTaskCompletedAndClear()
                 self.sessionRefreshTasks.removeValue(forKey: sessID)
             } else {
-                DLog("could not find wrapper for \(sessID) to complete task")
+                DLog("WKURLSessionRefreshBackgroundTask: could not find wrapper for \(sessID) to complete task")
             }
         })
     }
