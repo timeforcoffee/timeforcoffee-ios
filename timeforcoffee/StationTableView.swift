@@ -46,7 +46,9 @@ final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataS
     func refreshLocation(_ force: Bool) {
         if ((showFavorites) == true) {
             self.stations.loadFavorites()
+
             self.reloadData()
+
             self.refreshControl2?.endRefreshing()
         } else {
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
@@ -54,6 +56,12 @@ final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataS
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 self.refreshControl2?.endRefreshing()
             }
+        }
+    }
+    
+    func resortFavorites() {
+        if showFavorites == true {
+            self.stations.sortStations(TFCLocationManager.getCurrentLocation())
         }
     }
 

@@ -44,6 +44,9 @@ final class StationTableViewCell: UITableViewCell {
         }
 
         self.station.toggleIcon(self.StationFavoriteButton!, icon: StationIconView, completion: completion)
+        if let superview = self.superview as? StationTableView {
+            superview.resortFavorites()
+        }
         if let currentUser = SKTUser.current() {
             currentUser.addProperties(["usedFavorites": true])
         }

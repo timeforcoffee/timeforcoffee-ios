@@ -200,11 +200,7 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
         loadFavorites(locManager?.currentLocation)
     }
 
-    public func loadFavorites(_ location: CLLocation?) {
-        self._stations.empty()
-        TFCFavorites.sharedInstance.repopulateFavorites()
-        self._stations = favorite.s.stations
-
+    public func sortStations(_ location: CLLocation?) {
         if (location != nil) {
             self._stations.sortInPlace({
                 if ($0.calculatedDistance == nil || $1.calculatedDistance == nil) {
@@ -213,6 +209,13 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
                 return $0.calculatedDistance! < $1.calculatedDistance!
             })
         }
+    }
+    
+    public func loadFavorites(_ location: CLLocation?) {
+        self._stations.empty()
+        TFCFavorites.sharedInstance.repopulateFavorites()
+        self._stations = favorite.s.stations
+        sortStations(location)
         #if os(iOS)
             DLog("just before updateGeofences", toFile:true)
             TFCFavorites.sharedInstance.updateGeofences(force: false)
