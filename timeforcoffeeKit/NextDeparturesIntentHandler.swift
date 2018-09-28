@@ -34,7 +34,7 @@ public class NextDeparturesIntentHandler: NSObject, NextDeparturesIntentHandling
         let _ = station.removeObsoleteDepartures(true)
         //check if we have at least 2 minute fresh data. Good enough for this usecas
         if let lDU = station.lastDepartureUpdate,
-            lDU.addingTimeInterval(300) > Date()
+            lDU.addingTimeInterval(120) > Date()
         {
             if let departures = station.getFilteredDepartures(nil, fallbackToAll: true) {
                 // if we already do have departures, we don't need to update them on watchOS
