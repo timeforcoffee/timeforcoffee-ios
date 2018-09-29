@@ -96,7 +96,7 @@ public class NextDeparturesIntentHandler: NSObject, NextDeparturesIntentHandling
                     )
 
                     #if !os(watchOS)
-                    if let currentLoc = TFCLocationManager.getCurrentLocation(ttl: 90),
+                    if let currentLoc = TFCLocationManager.getCurrentLocation(ttl: 120),
                         let distance = station.getDistanceInMeter(currentLoc),
                         distance < 5000 {
                         if ("" != station.getDistanceForDisplay(currentLoc, completion: { (text: String?) in

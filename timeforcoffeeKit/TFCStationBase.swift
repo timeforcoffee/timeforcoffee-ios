@@ -1080,12 +1080,14 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     }
     
     open func setStationActivity(force:Bool = false) {
-        if let lastActivityUpdate = self.lastActivityUpdate, force == false {
+        #if os(watchOS)
+        if let lastActivityUpdate = self.lastActivityUpdate {
             //don't update stationActivity within 30 seconds
             if (lastActivityUpdate.timeIntervalSinceNow > -30) {
                 return
             }
         }
+        #endif
         self.lastActivityUpdate = Date()
         let uI = self.getAsDict()
         if (uI["st_id"] == nil) {
@@ -1224,13 +1226,13 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                     }
                 }
                 if let rscs = rscsFiltered as? [INRelevantShortcut] {
-                    DLog("store relevant \(rscsFiltered.count) shortcuts")
+                    DLog("store relevant \(rscsFiltered.count) shortcuts for \(self.name)", toFile: true )
                     
                     INRelevantShortcutStore.default.setRelevantShortcuts(rscs) { (error) in
                         if let error = error as NSError? {
                             DLog("Storing relevant shortcuts  failed: \(error)")
                         } else {
-                            DLog("Successfully stored relevant shortcuts", toFile: true)
+                            DLog("Successfully stored relevant shortcuts for \(self.name)", toFile: true)
                         }
                     }
                 }
