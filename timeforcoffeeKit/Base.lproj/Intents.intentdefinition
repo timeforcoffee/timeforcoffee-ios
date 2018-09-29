@@ -51,7 +51,7 @@
 					<key>INIntentParameterCombinationSubtitleID</key>
 					<string>cCNAJI</string>
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
-					<false/>
+					<true/>
 					<key>INIntentParameterCombinationTitle</key>
 					<string>${departure}</string>
 					<key>INIntentParameterCombinationTitleID</key>
