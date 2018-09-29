@@ -1207,7 +1207,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                             let region = CLCircularRegion(center: center, radius: CLLocationDistance(1000), identifier: "favLoc\(self.st_id)")
                             relevanceProviders.append(INLocationRelevanceProvider(region: region))
                             let startDate:Date
-                            if let beforeDepartureTime = beforeDepartureTime {
+                            /*if let beforeDepartureTime = beforeDepartureTime {
                                 if dept.timeIntervalSince(beforeDepartureTime) < 300 {
                                     startDate = dept.addingTimeInterval(-300)
                                 } else {
@@ -1216,7 +1216,9 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                             } else {
                                 // if first, start one minute before now
                                 startDate = Date().addingTimeInterval(-60)
-                            }
+                            }*/
+                            startDate = dept.addingTimeInterval(-60)
+
                             relevanceProviders.append(INDateRelevanceProvider(start: startDate, end: dept.addingTimeInterval(+60)))
                             beforeDepartureTime = dept
                             rsc.relevanceProviders = relevanceProviders
