@@ -1117,6 +1117,9 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         self.activity.expirationDate = FourWeeksFromNow
         self.activity.keywords = Set(getKeywords())
         self.activity.becomeCurrent()
+        /*if #available(watchOSApplicationExtension 3.2, iOSApplicationExtension 10.0, *) {
+                INInteraction.delete(with: "TFCTimeIntent", completion: nil)
+        }*/
         
         DispatchQueue.global(qos: DispatchQoS.QoSClass.utility).async {
             self.setStationSearchIndex()
@@ -1174,7 +1177,13 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                         intent.station = self.getName(false)
                         intent.st_id = self.getId()
                         let time = departure.getRealDepartureDateAsShortDate()
-                        intent.time = time
+                        intent.departureTime = time
+                        intent.departureLine = departure.getLine()
+                        intent.departureStation = departure.getDestination(self)
+                        // if we donate those, they all show up at the shortcuts...
+                        /*let interaction = INInteraction(intent: intent, response: nil)
+                        interaction.groupIdentifier = "TFCTimeIntent"
+                        interaction.donate()*/
                         if let sc = INShortcut(intent: intent),
                             let shortDate =  departure.getRealDepartureDateAsShortDate(),
                             let center = self.coord?.coordinate,
@@ -1182,7 +1191,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                             let rsc = INRelevantShortcut(shortcut: sc)
                             rsc.shortcutRole = .information
                             rsc.watchTemplate = INDefaultCardTemplate(title: self.getName(true))
-                            rsc.watchTemplate?.subtitle = shortDate + " " + departure.getDestination(self)
+                            rsc.watchTemplate?.subtitle = shortDate + " " + departure.getLine() + " " + departure.getDestination(self)
                             var relevanceProviders:[INRelevanceProvider] = []
                             let region = CLCircularRegion(center: center, radius: CLLocationDistance(1000), identifier: "favLoc\(self.st_id)")
                             relevanceProviders.append(INLocationRelevanceProvider(region: region))

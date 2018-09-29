@@ -18,7 +18,14 @@ final public class TFCFavorites: NSObject {
 
     public lazy var stations: TFCStationCollection = { [unowned self] in
         let favs = self.getCurrentFavoritesFromDefaults()
-        self.setFavoriteIntents()
+        let lastUpdate = getLastFavoritesIntentUpdate()
+        // only update favorites intents every 24 hours
+        if lastUpdate == nil ||
+            lastUpdate!.timeIntervalSinceNow < -3600 * 24
+        {
+            self.setFavoriteIntents()
+            setLastFavoritesIntentUpdate()
+        }
         return favs
         }()
     
@@ -33,6 +40,13 @@ final public class TFCFavorites: NSObject {
 
     public func repopulateFavorites() {
         self.stations = getCurrentFavoritesFromDefaults(false)
+    }
+    
+    fileprivate func getLastFavoritesIntentUpdate() -> Date? {
+        return TFCDataStore.sharedInstance.getLocalUserDefaults()?.object(forKey: "lastFavoritesIntentUpdate") as? Date
+    }
+    fileprivate func setLastFavoritesIntentUpdate() {
+        TFCDataStore.sharedInstance.getLocalUserDefaults()?.set(Date(), forKey: "lastFavoritesIntentUpdate")
     }
 
     public func clearStationCache() {

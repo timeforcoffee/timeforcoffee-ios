@@ -180,6 +180,9 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
         return userDefaults
     }
 
+    open func getLocalUserDefaults() -> UserDefaults? {
+        return localUserDefaults
+    }
     open func requestAllDataFromPhone() {
         DLog("__giveMeTheData__ sent", toFile: true)
         let _ = sendData(["__giveMeTheData__": Date() as AnyObject], trySendMessage: true)
