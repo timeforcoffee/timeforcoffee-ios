@@ -270,11 +270,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     public required init?(coder aDecoder: NSCoder) {
         self.lastSettingsRead = Date()
         do {
-            if #available(iOSApplicationExtension 9.0, *) {
-                self.st_id = try aDecoder.decodeTopLevelObject(forKey: "st_id") as! String
-            } else {
-                self.st_id = aDecoder.decodeObject(forKey: "st_id") as! String
-            }
+            self.st_id = try aDecoder.decodeTopLevelObject(forKey: "st_id") as! String
             super.init()
             self.instanceCounter("coder")
 
@@ -287,17 +283,10 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         }
 
         do {
-            if #available(iOSApplicationExtension 9.0, *) {
-                self.walkingDistanceString = try aDecoder.decodeTopLevelObject(forKey: "walkingDistanceString") as! String?
-                self.walkingDistanceLastCoord = try aDecoder.decodeTopLevelObject(forKey: "walkingDistanceLastCoord") as! CLLocation?
-                self._calculatedDistance = try aDecoder.decodeTopLevelObject(forKey: "_calculatedDistance") as! Double?
-                self._calculatedDistanceLastCoord = try aDecoder.decodeTopLevelObject(forKey: "_calculatedDistanceLastCoord") as! CLLocation?
-            } else {
-                self.walkingDistanceString = aDecoder.decodeObject(forKey: "walkingDistanceString") as! String?
-                self.walkingDistanceLastCoord = aDecoder.decodeObject(forKey: "walkingDistanceLastCoord") as! CLLocation?
-                self._calculatedDistance = aDecoder.decodeObject(forKey: "_calculatedDistance") as! Double?
-                self._calculatedDistanceLastCoord = aDecoder.decodeObject(forKey: "_calculatedDistanceLastCoord") as! CLLocation?
-            }
+            self.walkingDistanceString = try aDecoder.decodeTopLevelObject(forKey: "walkingDistanceString") as! String?
+            self.walkingDistanceLastCoord = try aDecoder.decodeTopLevelObject(forKey: "walkingDistanceLastCoord") as! CLLocation?
+            self._calculatedDistance = try aDecoder.decodeTopLevelObject(forKey: "_calculatedDistance") as! Double?
+            self._calculatedDistanceLastCoord = try aDecoder.decodeTopLevelObject(forKey: "_calculatedDistanceLastCoord") as! CLLocation?
         } catch let (err) {
             DLog("Decoder error: \(err)", toFile: true)
         }
@@ -1251,7 +1240,6 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         return nil
     }
     
-    @available(iOSApplicationExtension 9.0, *)
     open func setAttributeSet(activ:NSUserActivity) {
     }
     

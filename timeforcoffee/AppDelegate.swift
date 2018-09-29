@@ -66,14 +66,12 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         var shouldPerformAdditionalDelegateHandling = true
 
         // If a shortcut was launched, display its information and take the appropriate action
-        if #available(iOS 9.0, *) {
-            if let shortcutItem = launchOptions?[UIApplication.LaunchOptionsKey.shortcutItem] as? UIApplicationShortcutItem {
-    
-                launchedShortcutItem = shortcutItem
-    
-                // This will block "performActionForShortcutItem:completionHandler" from being called.
-                shouldPerformAdditionalDelegateHandling = false
-            }
+        if let shortcutItem = launchOptions?[UIApplication.LaunchOptionsKey.shortcutItem] as? UIApplicationShortcutItem {
+            
+            launchedShortcutItem = shortcutItem
+            
+            // This will block "performActionForShortcutItem:completionHandler" from being called.
+            shouldPerformAdditionalDelegateHandling = false
         }
 
         if (TFCDataStore.sharedInstance.complicationEnabled()) {
@@ -171,32 +169,30 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                     }
 
                 }
-                if #available(iOS 9.0, *) {
-                    delay(5.0, closure: {
-                        if let wcsession = TFCDataStore.sharedInstance.session {
-                            if (wcsession.isPaired) {
-                                currentUser.addProperties(["hasWatch": true])
-                                gtracker?.setCustomDimension(8, value: "yes")
-                                if (wcsession.isWatchAppInstalled) {
-                                    currentUser.addProperties(["hasWatchAppInstalled": true])
-                                    gtracker?.setCustomDimension(2, value: "yes")
-
-                                } else {
-                                    currentUser.addProperties(["hasWatchAppInstalled": false])
-                                    gtracker?.setCustomDimension(2, value: "no")
-                                }
-                                if (wcsession.isComplicationEnabled == true) {
-                                    currentUser.addProperties(["hasComplicationsEnabled": true])
-                                    gtracker?.setCustomDimension(1, value: "yes")
-
-                                } else {
-                                    currentUser.addProperties(["hasComplicationsEnabled": false])
-                                    gtracker?.setCustomDimension(1, value: "no")
-                                }
+                delay(5.0, closure: {
+                    if let wcsession = TFCDataStore.sharedInstance.session {
+                        if (wcsession.isPaired) {
+                            currentUser.addProperties(["hasWatch": true])
+                            gtracker?.setCustomDimension(8, value: "yes")
+                            if (wcsession.isWatchAppInstalled) {
+                                currentUser.addProperties(["hasWatchAppInstalled": true])
+                                gtracker?.setCustomDimension(2, value: "yes")
+                                
+                            } else {
+                                currentUser.addProperties(["hasWatchAppInstalled": false])
+                                gtracker?.setCustomDimension(2, value: "no")
+                            }
+                            if (wcsession.isComplicationEnabled == true) {
+                                currentUser.addProperties(["hasComplicationsEnabled": true])
+                                gtracker?.setCustomDimension(1, value: "yes")
+                                
+                            } else {
+                                currentUser.addProperties(["hasComplicationsEnabled": false])
+                                gtracker?.setCustomDimension(1, value: "no")
                             }
                         }
-                    })
-                }
+                    }
+                })
             }
             /*            Smooch.setDefaultRecommendations(recommendations)
              if (lastusedTodayScreen == nil) {
@@ -237,11 +233,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     @objc func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        if #available(iOS 9.0, *) {
-            guard let shortcut = launchedShortcutItem else { return }
-            let _ = handleShortCutItem(shortcut as! UIApplicationShortcutItem)
-            launchedShortcutItem = nil
-        }
+        guard let shortcut = launchedShortcutItem else { return }
+        let _ = handleShortCutItem(shortcut as! UIApplicationShortcutItem)
+        launchedShortcutItem = nil
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -261,14 +255,12 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         TFCDataStore.sharedInstance.saveContext()
     }
 
-    @available(iOS 9.0, *)
     func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
 
         let handledShortCutItem = handleShortCutItem(shortcutItem)
         completionHandler(handledShortCutItem)
     }
 
-    @available(iOS 9.0, *)
     func handleShortCutItem(_ shortcutItem: UIApplicationShortcutItem) -> Bool {
         // Verify that the provided `shortcutItem`'s `type` is one handled by the application.
         var handled = false
@@ -358,54 +350,52 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
-        if #available(iOS 9, *) {
-
-            if userActivity.activityType == "ch.opendata.timeforcoffee.station" {
-                if let ua: [String: String] = userActivity.userInfo as? [String: String] {
-                    if (ua["st_id"] != nil) {
-                        if let station = TFCStation.initWithCache(ua) {
-                            popUpStation(station)
-                        }
-                    }
-                }
-
-            }
-            if userActivity.activityType == CSSearchableItemActionType {
-                // This activity represents an item indexed using Core Spotlight, so restore the context related to the unique identifier.
-                // Note that the unique identifier of the Core Spotlight item is set in the activity’s userInfo property for the key CSSearchableItemActivityIdentifier.
-                if let uniqueIdentifier = userActivity.userInfo?[CSSearchableItemActivityIdentifier] as? String {
-                // Next, find and open the item specified by uniqueIdentifer.
-                    if let station = TFCStation.initWithCache("", id: uniqueIdentifier, coord: nil) {
+        
+        if userActivity.activityType == "ch.opendata.timeforcoffee.station" {
+            if let ua: [String: String] = userActivity.userInfo as? [String: String] {
+                if (ua["st_id"] != nil) {
+                    if let station = TFCStation.initWithCache(ua) {
                         popUpStation(station)
                     }
                 }
             }
-            if #available(iOS 12.0, *) {
-                if (userActivity.interaction?.intent is NextDeparturesIntent) {
-                    if let intent = userActivity.interaction?.intent as? NextDeparturesIntent {
-                        if let st_id = intent.st_id {
-                            let name:String
-                            if let stationName = intent.station {
-                                name = stationName
-                            } else {
-                                name = ""
-                            }
-                            if let station = TFCStation.initWithCache(name, id: st_id, coord: nil) {
-                                popUpStation(station)
-                            }
+            
+        }
+        if userActivity.activityType == CSSearchableItemActionType {
+            // This activity represents an item indexed using Core Spotlight, so restore the context related to the unique identifier.
+            // Note that the unique identifier of the Core Spotlight item is set in the activity’s userInfo property for the key CSSearchableItemActivityIdentifier.
+            if let uniqueIdentifier = userActivity.userInfo?[CSSearchableItemActivityIdentifier] as? String {
+                // Next, find and open the item specified by uniqueIdentifer.
+                if let station = TFCStation.initWithCache("", id: uniqueIdentifier, coord: nil) {
+                    popUpStation(station)
+                }
+            }
+        }
+        if #available(iOS 12.0, *) {
+            if (userActivity.interaction?.intent is NextDeparturesIntent) {
+                if let intent = userActivity.interaction?.intent as? NextDeparturesIntent {
+                    if let st_id = intent.st_id {
+                        let name:String
+                        if let stationName = intent.station {
+                            name = stationName
                         } else {
-                            func stationsUpdateCompletion(stations:TFCStations?, error: String?, context: Any?) {
-                                if let stations = stations {
-                                    if let station = stations.getStation(0) {
-                                        DispatchQueue.main.async {
-                                         self.popUpStation(station)
-                                        }
+                            name = ""
+                        }
+                        if let station = TFCStation.initWithCache(name, id: st_id, coord: nil) {
+                            popUpStation(station)
+                        }
+                    } else {
+                        func stationsUpdateCompletion(stations:TFCStations?, error: String?, context: Any?) {
+                            if let stations = stations {
+                                if let station = stations.getStation(0) {
+                                    DispatchQueue.main.async {
+                                        self.popUpStation(station)
                                     }
                                 }
                             }
-                            self.stationsUpdate = TFCStationsUpdate(completion: stationsUpdateCompletion)
-                            self.stationsUpdate?.update(maxStations: 1)
                         }
+                        self.stationsUpdate = TFCStationsUpdate(completion: stationsUpdateCompletion)
+                        self.stationsUpdate?.update(maxStations: 1)
                     }
                 }
             }

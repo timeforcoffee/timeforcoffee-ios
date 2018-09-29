@@ -158,7 +158,7 @@ open class TFCStation: TFCStationBase {
     internal override func setStationSearchIndex() {
         if #available(iOS 12, *) {
             // dont index with ios 12, intents will take care of it
-        } else if #available(iOS 9, *) {
+        } else {
             if (Bundle.main.bundleIdentifier == "ch.opendata.timeforcoffee") {
                 let item = CSSearchableItem(uniqueIdentifier: self.st_id, domainIdentifier: "stations", attributeSet: getAttributeSet())
                 CSSearchableIndex.default().indexSearchableItems([item], completionHandler: { (error) -> Void in
@@ -168,13 +168,10 @@ open class TFCStation: TFCStationBase {
         }
     }
     
-    @available(iOSApplicationExtension 9.0, *)
     open override func setAttributeSet(activ:NSUserActivity) {
-  
         activ.contentAttributeSet = getAttributeSet()
     }
     
-    @available(iOSApplicationExtension 9.0, *)
     fileprivate func getAttributeSet() -> CSSearchableItemAttributeSet {
         let attributeSet = CSSearchableItemAttributeSet(itemContentType: kUTTypeText as String)
         attributeSet.title = self.getName(false)

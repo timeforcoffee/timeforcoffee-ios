@@ -16,13 +16,6 @@ public final class TFCLocationManager: TFCLocationManagerBase {
 
     override func requestLocation() {
         self.locationManager.startUpdatingLocation()
-
-/*  
-        if #available(iOS 9, *) {
-            self.locationManager.requestLocation()
-        } else {
-            self.locationManager.startUpdatingLocation()
-        }*/
     }
 
     public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -65,13 +58,11 @@ public final class TFCLocationManager: TFCLocationManagerBase {
     }
 
     override func getLocationRequest(_ lm: CLLocationManager) {
-        if #available(iOS 9, *) {
-            if (WCSession.isSupported()) {
-                let wcsession = WCSession.default
-                if (wcsession.isComplicationEnabled == true) {
-                    lm.requestAlwaysAuthorization()
-                    return
-                }
+        if (WCSession.isSupported()) {
+            let wcsession = WCSession.default
+            if (wcsession.isComplicationEnabled == true) {
+                lm.requestAlwaysAuthorization()
+                return
             }
         }
         super.getLocationRequest(lm)

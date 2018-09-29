@@ -27,7 +27,6 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
     private var lastPong:Date? = nil
     open var localNotificationCallback:((String?) -> Void)? = nil
 
-    @available(iOSApplicationExtension 9.0, *)
     open lazy var session: WCSession? = {
         if (WCSession.isSupported()) {
             return WCSession.default
@@ -39,11 +38,9 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
     func setObject(_ anObject: Any?, forKey: String, withWCTransfer: Bool = true) {
         userDefaults?.set(anObject , forKey: forKey)
         keyvaluestore?.set(anObject, forKey: forKey)
-        if #available(iOS 9, *) {
-            if (withWCTransfer != false) {
-                let applicationDict = [forKey: anObject!]
-                let _ = sendData(applicationDict)
-            }
+        if (withWCTransfer != false) {
+            let applicationDict = [forKey: anObject!]
+            let _ = sendData(applicationDict)
         }
         // make sure complications are updated as soon as possible with the new values
         #if os(watchOS)
@@ -82,11 +79,9 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
     func removeObjectForKey(_ forKey: String, withWCTransfer: Bool = true) {
         userDefaults?.removeObject(forKey: forKey)
         keyvaluestore?.removeObject(forKey: forKey)
-        if #available(iOS 9, *) {
-            if (withWCTransfer != false) {
-                let applicationDict = ["___remove___": forKey]
-                let _ = sendData(applicationDict as [String : Any])
-            }
+        if (withWCTransfer != false) {
+            let applicationDict = ["___remove___": forKey]
+            let _ = sendData(applicationDict as [String : Any])
         }
         #if os(watchOS)
             // make sure complications are updated as soon as possible with the new values
@@ -103,20 +98,19 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
     }
 
     open func registerWatchConnectivity() {
-        if #available(iOS 9, *) {
-            if (WCSession.isSupported()) {
-                var activate = true
-                if #available(iOSApplicationExtension 9.3, *) {
-                    if (session?.activationState == .activated) {
-                        activate = false
-                    }
-                }
-                session?.delegate = self
-                if activate {
-                    session?.activate()
+        if (WCSession.isSupported()) {
+            var activate = true
+            if #available(iOSApplicationExtension 9.3, *) {
+                if (session?.activationState == .activated) {
+                    activate = false
                 }
             }
+            session?.delegate = self
+            if activate {
+                session?.activate()
+            }
         }
+        
     }
 
     open func registerForNotifications() {
@@ -156,12 +150,10 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
                                                 inMemoryObj.repopulateFavoriteLines()
                                             }
                                         }
-                                        if #available(iOS 9, *) {
-                                            if let value = self.keyvaluestore?.object(forKey: key) {
-                                                let _ = self.sendData([key: value])
-                                            } else {
-                                                let _ = self.sendData(["___remove___": key])
-                                            }
+                                        if let value = self.keyvaluestore?.object(forKey: key) {
+                                            let _ = self.sendData([key: value])
+                                        } else {
+                                            let _ = self.sendData(["___remove___": key])
                                         }
                                     }
                                 }
@@ -188,7 +180,6 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
         return userDefaults
     }
 
-    @available(iOSApplicationExtension 9.0, *)
     open func requestAllDataFromPhone() {
         DLog("__giveMeTheData__ sent", toFile: true)
         let _ = sendData(["__giveMeTheData__": Date() as AnyObject], trySendMessage: true)
@@ -223,12 +214,10 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
         parseReceiveInfo(message)
     }
 
-    @available(iOSApplicationExtension 9.0, *)
     open func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any]) {
         parseReceiveInfo(userInfo)
     }
 
-    @available(iOSApplicationExtension 9.0, *)
     open func session(_ session: WCSession, didReceive file: WCSessionFile) {
         if let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: "iCloud.ch.opendata.timeforcoffee")?.appendingPathComponent("Documents") {
             let fileManager = FileManager.default
@@ -250,8 +239,6 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
 
     }
 
-
-    @available(iOSApplicationExtension 9.0, *)
     public func sendData(_ message: [String: Any], trySendMessage: Bool = false, fallbackToTransferUserInfo:Bool = true) -> Bool {
         // if we have too many outstandingUserInfoTransfers, something is wrong, try to send as sendMessage as alternative
         var sessionActive = true
@@ -323,7 +310,6 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
         }
     }
 
-    @available(iOSApplicationExtension 9.0, *)
     func parseReceiveInfo(_ message: [String: Any],  replyHandler: (([String : Any]) -> Void)? = nil) {
         for (myKey,myValue) in message {
             if (myKey != "__logThis__") {
@@ -430,17 +416,14 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
     }
 
     @available(iOSApplicationExtension 9.3, *)
-    @available(watchOSApplicationExtension 2.2, *)
     open func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         DLog("activationDidCompleteWithState. state \(activationState) error \(String(describing: error))")
     }
 
-    @available(iOSApplicationExtension 9.0, *)
     open func sessionReachabilityDidChange(_ session: WCSession) {
         DLog("sessionReachabilityDidChange to \(session.isReachable) "  )
     }
 
-    @available(iOSApplicationExtension 9.0, *)
     fileprivate func sendAllData() {
         if let allData = userDefaults?.dictionaryRepresentation() {
             // only send allData if the last request was longer than 1 minute ago
@@ -605,73 +588,70 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
 
     open func sendComplicationUpdate(_ station: TFCStation?, coord: CLLocationCoordinate2D? = nil) {
         #if os(iOS)
-            if #available(iOS 9, *) {
-                if (WCSession.isSupported()) {
-                    if (self.session?.isComplicationEnabled == true) {
-                        if let firstStation = station, let ud = TFCDataStore.sharedInstance.getUserDefaults() {
-                            if (ud.string(forKey: "lastFirstStationId") != firstStation.st_id) {
-                                DLog("update Departures for \(firstStation.name)")
-                                firstStation.updateDepartures(self, context: ["coordinates": coord])
-                            }
-                        }
+        if (WCSession.isSupported()) {
+            if (self.session?.isComplicationEnabled == true) {
+                if let firstStation = station, let ud = TFCDataStore.sharedInstance.getUserDefaults() {
+                    if (ud.string(forKey: "lastFirstStationId") != firstStation.st_id) {
+                        DLog("update Departures for \(firstStation.name)")
+                        firstStation.updateDepartures(self, context: ["coordinates": coord])
                     }
                 }
             }
+        }
         #endif
     }
 
     fileprivate func sendComplicationUpdate2(_ station: TFCStation?, coord: CLLocationCoordinate2D? = nil, complicationUpdate: Bool = true) {
         #if os(iOS)
-            if #available(iOS 9, *) {
-                if let firstStation = station, let ud = TFCDataStore.sharedInstance.getUserDefaults() {
-                    if (complicationUpdate && ud.string(forKey: "lastFirstStationId") == firstStation.st_id) {
-                        return
-                    }
-                    var useComplicationTransfer = true
-                    var remaining:Int? = nil
-                    if #available(iOSApplicationExtension 10.0, *) {
-                        remaining = self.session?.remainingComplicationUserInfoTransfers
-                        if (remaining == nil || !(remaining! > 0)) {
-                            useComplicationTransfer = false
-                        }
-                        DLog("remainingComplicationUserInfoTransfers: \(String(describing: remaining))", toFile: true)
-                    }
-                    var data:[String:Any] = [:]
-
-                    if let coord = coord {
-                        data["coordinates"] = [ "longitude": coord.longitude, "latitude": coord.latitude, "time": Date()]
-                    } else if let coord = firstStation.coord?.coordinate {
-                        data["coordinates"] = [ "longitude": coord.longitude, "latitude": coord.latitude]
-                    }
-                    #if DEBUG
-                        if (complicationUpdate) {
-                            if let name = station?.name {
-                                self.localNotificationCallback?("Complication sent for \(name). Remaining: \(String(describing: remaining))")
-                            }
-                        }
-                    #endif
-                    if (complicationUpdate) {
-                        data["complicationUpdate"] = true
-                        ud.setValue(firstStation.st_id, forKey: "lastFirstStationId")
-                    } else {
-                        data["complicationUpdate"] = false
-                    }
-                    DLog("send __updateComplicationData__ with \(String(describing: data["coordinates"])) for \(String(describing: station?.name)) id: \(String(describing: station?.st_id)) complicationUpdate: \(complicationUpdate)", toFile: true)
-
-                    data["station"] =  NSKeyedArchiver.archivedData(withRootObject: firstStation.getAsDict())
-                    if let filteredDepartures = firstStation.getFilteredDepartures(nil, fallbackToAll: true) {
-                        data["departures"] =  NSKeyedArchiver.archivedData(withRootObject: Array(filteredDepartures.prefix(10)))
-                    }
-
-                    let dict:[String:[String:Any]] = ["__updateComplicationData__": data]
-
-                    if (useComplicationTransfer && complicationUpdate) {
-                        self.session?.transferCurrentComplicationUserInfo(dict)
-                    } else {
-                        let _ = self.sendMessage(dict)
-                    }
+        if let firstStation = station, let ud = TFCDataStore.sharedInstance.getUserDefaults() {
+            if (complicationUpdate && ud.string(forKey: "lastFirstStationId") == firstStation.st_id) {
+                return
+            }
+            var useComplicationTransfer = true
+            var remaining:Int? = nil
+            if #available(iOSApplicationExtension 10.0, *) {
+                remaining = self.session?.remainingComplicationUserInfoTransfers
+                if (remaining == nil || !(remaining! > 0)) {
+                    useComplicationTransfer = false
+                }
+                DLog("remainingComplicationUserInfoTransfers: \(String(describing: remaining))", toFile: true)
+            }
+            var data:[String:Any] = [:]
+            
+            if let coord = coord {
+                data["coordinates"] = [ "longitude": coord.longitude, "latitude": coord.latitude, "time": Date()]
+            } else if let coord = firstStation.coord?.coordinate {
+                data["coordinates"] = [ "longitude": coord.longitude, "latitude": coord.latitude]
+            }
+            #if DEBUG
+            if (complicationUpdate) {
+                if let name = station?.name {
+                    self.localNotificationCallback?("Complication sent for \(name). Remaining: \(String(describing: remaining))")
                 }
             }
+            #endif
+            if (complicationUpdate) {
+                data["complicationUpdate"] = true
+                ud.setValue(firstStation.st_id, forKey: "lastFirstStationId")
+            } else {
+                data["complicationUpdate"] = false
+            }
+            DLog("send __updateComplicationData__ with \(String(describing: data["coordinates"])) for \(String(describing: station?.name)) id: \(String(describing: station?.st_id)) complicationUpdate: \(complicationUpdate)", toFile: true)
+            
+            data["station"] =  NSKeyedArchiver.archivedData(withRootObject: firstStation.getAsDict())
+            if let filteredDepartures = firstStation.getFilteredDepartures(nil, fallbackToAll: true) {
+                data["departures"] =  NSKeyedArchiver.archivedData(withRootObject: Array(filteredDepartures.prefix(10)))
+            }
+            
+            let dict:[String:[String:Any]] = ["__updateComplicationData__": data]
+            
+            if (useComplicationTransfer && complicationUpdate) {
+                self.session?.transferCurrentComplicationUserInfo(dict)
+            } else {
+                let _ = self.sendMessage(dict)
+            }
+        }
+        
         #endif
     }
 
@@ -697,21 +677,19 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
 
     open func complicationEnabled() -> Bool {
         #if os(iOS)
-            if #available(iOS 9, *) {
-                if (WCSession.isSupported()) {
-                    if (self.session?.isComplicationEnabled == true) {
-                        userDefaults?.set(Date(), forKey: "lastComplicationEnabled")
-                        return true
-                    }
-                    if let lastComplicationEnabled = userDefaults?.object(forKey: "lastComplicationEnabled") as? Date {
-                        // if we had complications enabled in the last 24 hours, assume it's enabled
-                        // so to not loose the fences, when we switch faces temporarly
-                        if lastComplicationEnabled.addingTimeInterval(24 * 3600) > Date() {
-                            return true
-                        }
-                    }
+        if (WCSession.isSupported()) {
+            if (self.session?.isComplicationEnabled == true) {
+                userDefaults?.set(Date(), forKey: "lastComplicationEnabled")
+                return true
+            }
+            if let lastComplicationEnabled = userDefaults?.object(forKey: "lastComplicationEnabled") as? Date {
+                // if we had complications enabled in the last 24 hours, assume it's enabled
+                // so to not loose the fences, when we switch faces temporarly
+                if lastComplicationEnabled.addingTimeInterval(24 * 3600) > Date() {
+                    return true
                 }
             }
+        }
         #endif
         return false
     }

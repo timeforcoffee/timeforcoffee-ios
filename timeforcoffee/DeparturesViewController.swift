@@ -152,33 +152,31 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
                let _ = self.getIconViewAsImage(self.stationIconView, station: station2)
             }
             station2.setStationActivity(force:true)
-            if #available(iOS 9.0, *) {
-                // in 9.1 make it UIApplicationShortcutIcon(type: .MarkLocation)
-                let icon:UIApplicationShortcutIcon?
-                if #available(iOS 9.1, *) {
-                    icon = UIApplicationShortcutIcon(type: .markLocation)
-                } else {
-                    icon = nil
-                }
-                let shortcut = UIMutableApplicationShortcutItem(type: "ch.opendata.timeforcoffee.station", localizedTitle: station2.name, localizedSubtitle: nil, icon: icon, userInfo: ["st_id": station2.st_id as NSSecureCoding, "name": station2.name as NSSecureCoding])
-                var shortCuts = [shortcut]
-                let existingShortcutItems = UIApplication.shared.shortcutItems ?? []
-                if let firstExistingShortcutItem = existingShortcutItems.first {
-                    if let ua: [String: String] = firstExistingShortcutItem.userInfo as? [String: String] {
-                        if ua["st_id"] != station2.st_id {
-                            let oldShortcutItem = firstExistingShortcutItem.mutableCopy() as! UIMutableApplicationShortcutItem
+            // in 9.1 make it UIApplicationShortcutIcon(type: .MarkLocation)
+            let icon:UIApplicationShortcutIcon?
+            if #available(iOS 9.1, *) {
+                icon = UIApplicationShortcutIcon(type: .markLocation)
+            } else {
+                icon = nil
+            }
+            let shortcut = UIMutableApplicationShortcutItem(type: "ch.opendata.timeforcoffee.station", localizedTitle: station2.name, localizedSubtitle: nil, icon: icon, userInfo: ["st_id": station2.st_id as NSSecureCoding, "name": station2.name as NSSecureCoding])
+            var shortCuts = [shortcut]
+            let existingShortcutItems = UIApplication.shared.shortcutItems ?? []
+            if let firstExistingShortcutItem = existingShortcutItems.first {
+                if let ua: [String: String] = firstExistingShortcutItem.userInfo as? [String: String] {
+                    if ua["st_id"] != station2.st_id {
+                        let oldShortcutItem = firstExistingShortcutItem.mutableCopy() as! UIMutableApplicationShortcutItem
+                        shortCuts.append(oldShortcutItem)
+                    } else {
+                        if let lastExistingShortcutItem = existingShortcutItems.last {
+                            let oldShortcutItem = lastExistingShortcutItem.mutableCopy() as! UIMutableApplicationShortcutItem
                             shortCuts.append(oldShortcutItem)
-                        } else {
-                            if let lastExistingShortcutItem = existingShortcutItems.last {
-                                let oldShortcutItem = lastExistingShortcutItem.mutableCopy() as! UIMutableApplicationShortcutItem
-                                shortCuts.append(oldShortcutItem)
-                            }
                         }
                     }
                 }
-
-                UIApplication.shared.shortcutItems = shortCuts
             }
+            
+            UIApplication.shared.shortcutItems = shortCuts
         }
         
     }

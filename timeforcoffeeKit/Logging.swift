@@ -226,62 +226,61 @@ func currentQueueName() -> String? {
 
 public func SendLogs2Phone() {
     #if DEBUG
-        DLog("SendLogs2Phone", toFile: true)
-        if #available(iOS 9.0, *) {
-
-            let filemanager = FileManager.default
-
-            if let path = filemanager.urls(for: .documentDirectory, in: .userDomainMask).first {
-
-                let oldUrl = path.appendingPathComponent("old", isDirectory: true)
-                if (!filemanager.fileExists(atPath: oldUrl.path, isDirectory: nil)) {
-                    try! filemanager.createDirectory(at: oldUrl, withIntermediateDirectories: true, attributes: nil)
-                }
-
-                if let directoryContents = try? filemanager.contentsOfDirectory( at: path, includingPropertiesForKeys: nil, options: []) {
-                    let logFiles = directoryContents.filter{ $0.pathExtension == "txt"}
-                    for file in logFiles {
-                        let nowFile = getWatchLogFileName()
-                        let name = file.lastPathComponent
-                        if (name != nowFile) {
-                            //move to old dir, if not current anymore
-                            let moveTo = oldUrl.appendingPathComponent(name)
-                            do {
-                                if filemanager.fileExists(atPath: moveTo.path) {
-                                    try filemanager.removeItem(at: moveTo)
-                                }
-                                try filemanager.moveItem(at: file, to: moveTo)
-                                WCSession.default.transferFile(moveTo, metadata: nil)
-                            } catch let error as NSError {
-                                DLog("\(#function) Error: \(error)", toFile: true)
-                            }
-                        } else {
-                            WCSession.default.transferFile(file, metadata: nil)
+    DLog("SendLogs2Phone", toFile: true)
+    
+    let filemanager = FileManager.default
+    
+    if let path = filemanager.urls(for: .documentDirectory, in: .userDomainMask).first {
+        
+        let oldUrl = path.appendingPathComponent("old", isDirectory: true)
+        if (!filemanager.fileExists(atPath: oldUrl.path, isDirectory: nil)) {
+            try! filemanager.createDirectory(at: oldUrl, withIntermediateDirectories: true, attributes: nil)
+        }
+        
+        if let directoryContents = try? filemanager.contentsOfDirectory( at: path, includingPropertiesForKeys: nil, options: []) {
+            let logFiles = directoryContents.filter{ $0.pathExtension == "txt"}
+            for file in logFiles {
+                let nowFile = getWatchLogFileName()
+                let name = file.lastPathComponent
+                if (name != nowFile) {
+                    //move to old dir, if not current anymore
+                    let moveTo = oldUrl.appendingPathComponent(name)
+                    do {
+                        if filemanager.fileExists(atPath: moveTo.path) {
+                            try filemanager.removeItem(at: moveTo)
                         }
-
+                        try filemanager.moveItem(at: file, to: moveTo)
+                        WCSession.default.transferFile(moveTo, metadata: nil)
+                    } catch let error as NSError {
+                        DLog("\(#function) Error: \(error)", toFile: true)
                     }
+                } else {
+                    WCSession.default.transferFile(file, metadata: nil)
                 }
-                //delete files older than a day
-                if let directoryContents = try? filemanager.contentsOfDirectory( at: oldUrl, includingPropertiesForKeys: nil, options: []) {
-                    let logFiles = directoryContents.filter{ $0.pathExtension == "txt"}
-                    for file in logFiles {
-                        do {
-                            if let modified = try file.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate {
-
-                                if modified.addingTimeInterval(24 * 3600) < Date() {
-                                    DLog("\(file.lastPathComponent) is older than a day, delete it", toFile: true)
-                                    try filemanager.removeItem(at: file)
-                                }
-                            }
-
-                        } catch let error as NSError {
-                            DLog("\(#function) Error: \(error)", toFile: true)
+                
+            }
+        }
+        //delete files older than a day
+        if let directoryContents = try? filemanager.contentsOfDirectory( at: oldUrl, includingPropertiesForKeys: nil, options: []) {
+            let logFiles = directoryContents.filter{ $0.pathExtension == "txt"}
+            for file in logFiles {
+                do {
+                    if let modified = try file.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate {
+                        
+                        if modified.addingTimeInterval(24 * 3600) < Date() {
+                            DLog("\(file.lastPathComponent) is older than a day, delete it", toFile: true)
+                            try filemanager.removeItem(at: file)
                         }
                     }
+                    
+                } catch let error as NSError {
+                    DLog("\(#function) Error: \(error)", toFile: true)
                 }
             }
+        }
+    }
+    
 
-            }
 
     #endif
 }
@@ -289,17 +288,15 @@ public func SendLogs2Phone() {
 
 //we can't read the file from the Watch, so send it to the iPhone to be read from there
 private func DLog2WatchConnectivity(_ text:String) {
-    if #available(iOS 9.0, *) {
-        let message = ["__logThis__": text]
-        let session = WCSession.default
-        if (session.isReachable == true) {
-            session.sendMessage(message, replyHandler: nil, errorHandler: {(error: Error) in
-                DLog("send Log Message failed due to error \(error): Send via transferUserInfo")
-                session.transferUserInfo(message)
-            })
-        } else {
+    let message = ["__logThis__": text]
+    let session = WCSession.default
+    if (session.isReachable == true) {
+        session.sendMessage(message, replyHandler: nil, errorHandler: {(error: Error) in
+            DLog("send Log Message failed due to error \(error): Send via transferUserInfo")
             session.transferUserInfo(message)
-        }
+        })
+    } else {
+        session.transferUserInfo(message)
     }
 }
 private func getWatchLogFileName() -> String {
