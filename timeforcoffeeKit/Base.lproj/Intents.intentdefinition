@@ -42,10 +42,10 @@
 					<key>INIntentParameterCombinationTitleID</key>
 					<string>F6OcIm</string>
 				</dict>
-				<key>departure,station</key>
+				<key>departure,stationObj</key>
 				<dict>
 					<key>INIntentParameterCombinationIsPrimary</key>
-					<false/>
+					<true/>
 					<key>INIntentParameterCombinationSubtitle</key>
 					<string></string>
 					<key>INIntentParameterCombinationSubtitleID</key>
@@ -57,10 +57,10 @@
 					<key>INIntentParameterCombinationTitleID</key>
 					<string>L6oXcA</string>
 				</dict>
-				<key>station</key>
+				<key>stationObj</key>
 				<dict>
 					<key>INIntentParameterCombinationIsPrimary</key>
-					<true/>
+					<false/>
 					<key>INIntentParameterCombinationSubtitle</key>
 					<string></string>
 					<key>INIntentParameterCombinationSubtitleID</key>
@@ -68,7 +68,7 @@
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
 					<key>INIntentParameterCombinationTitle</key>
-					<string>Departures from ${station}</string>
+					<string>Departures from ${stationObj}</string>
 					<key>INIntentParameterCombinationTitleID</key>
 					<string>eclNCj</string>
 				</dict>
@@ -79,7 +79,7 @@
 					<key>INIntentParameterDisplayPriority</key>
 					<integer>1</integer>
 					<key>INIntentParameterName</key>
-					<string>station</string>
+					<string>stationObj</string>
 					<key>INIntentParameterSupportsMultipleValues</key>
 					<false/>
 					<key>INIntentParameterTag</key>

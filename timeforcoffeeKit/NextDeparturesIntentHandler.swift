@@ -26,6 +26,10 @@ public class NextDeparturesIntentHandler: NSObject, NextDeparturesIntentHandling
     }
     
     public func confirm(intent: NextDeparturesIntent, completion: @escaping (NextDeparturesIntentResponse) -> Void) {
+        if (intent.stationObj == nil && intent.closest == nil) {
+            completion(NextDeparturesIntentResponse(code: .continueInApp, userActivity: nil))
+            return
+        } 
         completion(NextDeparturesIntentResponse(code: .ready, userActivity: nil))
     }
     
@@ -50,7 +54,7 @@ public class NextDeparturesIntentHandler: NSObject, NextDeparturesIntentHandling
     
     public func handle(intent: NextDeparturesIntent, completion: @escaping (NextDeparturesIntentResponse) -> Void) {
         
-        if let st_id = intent.station?.identifier {
+        if let st_id = intent.stationObj?.identifier {
             if let station = TFCStation.initWithCache(id: st_id) {
                 return updateDepartures(station, completion)
             }

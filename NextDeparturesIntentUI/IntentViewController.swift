@@ -50,7 +50,7 @@ class IntentViewController: UIViewController, INUIHostedViewControlling, UITable
         self.appsTableView.dataSource = self
         let desiredSize = CGSize(width: self.desiredSize.width, height: 350)
         
-        if let st_id = intent.station?.identifier {
+        if let st_id = intent.stationObj?.identifier {
             if let station = TFCStation.initWithCacheId(st_id) {
                 self.currentStation = station
                 self.setStationTitleWithDistance(station)

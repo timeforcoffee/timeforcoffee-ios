@@ -1180,7 +1180,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                             break
                         }
                         let intent = NextDeparturesIntent()
-                        intent.station = self.getINObject()
+                        intent.stationObj = self.getINObject()
                         let time = departure.getRealDepartureDateAsShortDate()
                         intent.departure = INObject(
                             identifier: "dept",
@@ -1278,7 +1278,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     @available(watchOSApplicationExtension 5.0, *)
     internal func getIntent() -> NextDeparturesIntent {
         let intent = NextDeparturesIntent()
-        intent.station = self.getINObject()
+        intent.stationObj = self.getINObject()
         intent.suggestedInvocationPhrase = NSLocalizedString("Departures from ", comment: "") + self.getName(false)
         return intent
     }
