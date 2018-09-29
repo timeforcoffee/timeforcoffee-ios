@@ -1127,7 +1127,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                 INInteraction.delete(with: "TFCTimeIntent", completion: nil)
         }*/
         
-        DispatchQueue.global(qos: DispatchQoS.QoSClass.utility).async {
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated).async {
             self.setStationSearchIndex()
             
             if #available(iOSApplicationExtension 12.0, watchOSApplicationExtension 5.0, *)
