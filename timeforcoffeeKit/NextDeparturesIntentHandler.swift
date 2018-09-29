@@ -50,7 +50,7 @@ public class NextDeparturesIntentHandler: NSObject, NextDeparturesIntentHandling
     
     public func handle(intent: NextDeparturesIntent, completion: @escaping (NextDeparturesIntentResponse) -> Void) {
         
-        if let st_id = intent.st_id {
+        if let st_id = intent.station?.identifier {
             if let station = TFCStation.initWithCache(id: st_id) {
                 return updateDepartures(station, completion)
             }

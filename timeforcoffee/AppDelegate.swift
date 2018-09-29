@@ -13,7 +13,7 @@ import CoreSpotlight
 import MobileCoreServices
 import CoreData
 import WatchConnectivity
-
+import Intents
 
 
 @UIApplicationMain
@@ -59,11 +59,33 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         GATracker.sharedInstance?.deinitTracker()
         TFCDataStore.sharedInstance.saveContext()
     }
+    
+    override init() {
+        super.init()
+        var version = self.localUserDefaults?.integer(forKey: "applicationVersion")
+        if version == nil { version = 0}
+        if let version = version {
+            if version < 3 {
+                CSSearchableIndex.default().deleteAllSearchableItems()
+                
+                if #available(iOS 10.0, *) {
+                    INInteraction.deleteAll(completion: { (error: Error?) in
+                        TFCDataStore.sharedInstance.getLocalUserDefaults()?.set(nil, forKey: "lastFavoritesIntentUpdate")
+                        TFCFavorites.sharedInstance.setFavoriteIntents()
+                    }
+                    )
+                }
+                self.localUserDefaults?.set(3, forKey: "applicationVersion")
+            }
+        }
+    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         // Override point for customization after application launch.
         var shouldPerformAdditionalDelegateHandling = true
+        
+       
 
         // If a shortcut was launched, display its information and take the appropriate action
         if let shortcutItem = launchOptions?[UIApplication.LaunchOptionsKey.shortcutItem] as? UIApplicationShortcutItem {
@@ -96,13 +118,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         #endif
 
         DispatchQueue.global(qos:  DispatchQoS.QoSClass.utility).async {
-            if let cleared = self.localUserDefaults?.bool(forKey: "iOS12SearchableCleared"),
-                cleared == false {
-                CSSearchableIndex.default().deleteAllSearchableItems()
-                self.localUserDefaults?.set(true, forKey: "iOS12SearchableCleared")
-            }
+    
             
-
+            
+            
             TFCDataStore.sharedInstance.registerWatchConnectivity()
             TFCDataStore.sharedInstance.registerForNotifications()
             TFCDataStore.sharedInstance.synchronize()
@@ -374,9 +393,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         if #available(iOS 12.0, *) {
             if (userActivity.interaction?.intent is NextDeparturesIntent) {
                 if let intent = userActivity.interaction?.intent as? NextDeparturesIntent {
-                    if let st_id = intent.st_id {
+                    if let st_id = intent.station?.identifier {
                         let name:String
-                        if let stationName = intent.station {
+                        if let stationName = intent.station?.displayString {
                             name = stationName
                         } else {
                             name = ""

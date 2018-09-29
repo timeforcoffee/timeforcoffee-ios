@@ -24,7 +24,6 @@ final public class TFCFavorites: NSObject {
             lastUpdate!.timeIntervalSinceNow < -3600 * 24
         {
             self.setFavoriteIntents()
-            setLastFavoritesIntentUpdate()
         }
         return favs
         }()
@@ -64,7 +63,7 @@ final public class TFCFavorites: NSObject {
         return favoritesSearchRadius!
     }
 
-    fileprivate func setFavoriteIntents() {
+    public func setFavoriteIntents() {
         if #available(iOSApplicationExtension 12.0, watchOSApplicationExtension 5.0, *) {
             DispatchQueue.global(qos:  DispatchQoS.QoSClass.utility).async {
                 // donate favourites as intents
@@ -75,6 +74,7 @@ final public class TFCFavorites: NSObject {
                 nearestIntent.closest = "true"
                 let interaction = INInteraction(intent: nearestIntent, response: nil)
                 interaction.donate()
+                self.setLastFavoritesIntentUpdate()
             }
         }
     }

@@ -22,7 +22,7 @@
 			<key>INIntentDescriptionID</key>
 			<string>PHXTvi</string>
 			<key>INIntentLastParameterTag</key>
-			<integer>17</integer>
+			<integer>20</integer>
 			<key>INIntentName</key>
 			<string>NextDepartures</string>
 			<key>INIntentParameterCombinations</key>
@@ -42,7 +42,7 @@
 					<key>INIntentParameterCombinationTitleID</key>
 					<string>F6OcIm</string>
 				</dict>
-				<key>st_id,departureTime,station,departureLine,departureStation</key>
+				<key>departure,station</key>
 				<dict>
 					<key>INIntentParameterCombinationIsPrimary</key>
 					<false/>
@@ -53,11 +53,11 @@
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<false/>
 					<key>INIntentParameterCombinationTitle</key>
-					<string>At ${departureTime} with ${departureLine} from ${station}  to ${departureStation}</string>
+					<string>${departure}</string>
 					<key>INIntentParameterCombinationTitleID</key>
 					<string>L6oXcA</string>
 				</dict>
-				<key>st_id,station</key>
+				<key>station</key>
 				<dict>
 					<key>INIntentParameterCombinationIsPrimary</key>
 					<true/>
@@ -83,37 +83,13 @@
 					<key>INIntentParameterSupportsMultipleValues</key>
 					<false/>
 					<key>INIntentParameterTag</key>
-					<integer>1</integer>
+					<integer>20</integer>
 					<key>INIntentParameterType</key>
-					<string>String</string>
+					<string>Object</string>
 				</dict>
 				<dict>
 					<key>INIntentParameterDisplayPriority</key>
 					<integer>2</integer>
-					<key>INIntentParameterName</key>
-					<string>st_id</string>
-					<key>INIntentParameterSupportsMultipleValues</key>
-					<false/>
-					<key>INIntentParameterTag</key>
-					<integer>10</integer>
-					<key>INIntentParameterType</key>
-					<string>String</string>
-				</dict>
-				<dict>
-					<key>INIntentParameterDisplayPriority</key>
-					<integer>3</integer>
-					<key>INIntentParameterName</key>
-					<string>departureTime</string>
-					<key>INIntentParameterSupportsMultipleValues</key>
-					<false/>
-					<key>INIntentParameterTag</key>
-					<integer>13</integer>
-					<key>INIntentParameterType</key>
-					<string>String</string>
-				</dict>
-				<dict>
-					<key>INIntentParameterDisplayPriority</key>
-					<integer>4</integer>
 					<key>INIntentParameterName</key>
 					<string>closest</string>
 					<key>INIntentParameterSupportsMultipleValues</key>
@@ -125,27 +101,15 @@
 				</dict>
 				<dict>
 					<key>INIntentParameterDisplayPriority</key>
-					<integer>5</integer>
+					<integer>3</integer>
 					<key>INIntentParameterName</key>
-					<string>departureLine</string>
+					<string>departure</string>
 					<key>INIntentParameterSupportsMultipleValues</key>
 					<false/>
 					<key>INIntentParameterTag</key>
-					<integer>16</integer>
+					<integer>19</integer>
 					<key>INIntentParameterType</key>
-					<string>String</string>
-				</dict>
-				<dict>
-					<key>INIntentParameterDisplayPriority</key>
-					<integer>6</integer>
-					<key>INIntentParameterName</key>
-					<string>departureStation</string>
-					<key>INIntentParameterSupportsMultipleValues</key>
-					<false/>
-					<key>INIntentParameterTag</key>
-					<integer>17</integer>
-					<key>INIntentParameterType</key>
-					<string>String</string>
+					<string>Object</string>
 				</dict>
 			</array>
 			<key>INIntentResponse</key>

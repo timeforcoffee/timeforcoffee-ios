@@ -111,9 +111,9 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         if #available(watchOSApplicationExtension 5.0, *) {
             if (userActivity.interaction?.intent is NextDeparturesIntent) {
                 if let intent = userActivity.interaction?.intent as? NextDeparturesIntent {
-                    if let st_id = intent.st_id {
+                    if let st_id = intent.station?.identifier {
                         let name:String
-                        if let stationName = intent.station, stationName != "unknown" {
+                        if let stationName = intent.station?.displayString, stationName != "unknown" {
                             name = stationName
                         } else {
                             name = ""

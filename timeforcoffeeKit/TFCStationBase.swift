@@ -1073,6 +1073,12 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         return keywords
     }
 
+    @available(watchOSApplicationExtension 5.0, *)
+    @available(iOSApplicationExtension 12.0, *)
+    fileprivate func getINObject() -> INObject {
+        return INObject(identifier: self.getId(), display: self.getName(false))
+    }
+    
     open func setStationActivity(force:Bool = false) {
         if let lastActivityUpdate = self.lastActivityUpdate, force == false {
             //don't update stationActivity within 30 seconds
@@ -1174,12 +1180,15 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                             break
                         }
                         let intent = NextDeparturesIntent()
-                        intent.station = self.getName(false)
-                        intent.st_id = self.getId()
+                        intent.station = self.getINObject()
                         let time = departure.getRealDepartureDateAsShortDate()
-                        intent.departureTime = time
-                        intent.departureLine = departure.getLine()
-                        intent.departureStation = departure.getDestination(self)
+                        intent.departure = INObject(
+                            identifier: "dept",
+                            display: String(
+                                format: NSLocalizedString("At %@ with %@ from %@ to %@", comment: ""),
+                                time ?? "unknown", departure.getLine(), self.getName(true), departure.getDestination(self))
+                        )
+                 
                         // if we donate those, they all show up at the shortcuts...
                         /*let interaction = INInteraction(intent: intent, response: nil)
                         interaction.groupIdentifier = "TFCTimeIntent"
@@ -1269,8 +1278,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     @available(watchOSApplicationExtension 5.0, *)
     internal func getIntent() -> NextDeparturesIntent {
         let intent = NextDeparturesIntent()
-        intent.st_id = self.getId()
-        intent.station = self.getName(true)
+        intent.station = self.getINObject()
         intent.suggestedInvocationPhrase = NSLocalizedString("Departures from ", comment: "") + self.getName(false)
         return intent
     }
