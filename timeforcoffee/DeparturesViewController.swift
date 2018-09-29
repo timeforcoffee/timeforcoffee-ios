@@ -151,7 +151,7 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
             if (!self.checkIfIconIsCachedAsImage(station2)) {
                let _ = self.getIconViewAsImage(self.stationIconView, station: station2)
             }
-            station2.setStationActivity()
+            station2.setStationActivity(force:true)
             if #available(iOS 9.0, *) {
                 // in 9.1 make it UIApplicationShortcutIcon(type: .MarkLocation)
                 let icon:UIApplicationShortcutIcon?
@@ -217,7 +217,7 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
     }
     
     @objc func applicationDidBecomeActive(_ notification: Notification) {
-        self.station?.setStationActivity()
+        self.station?.setStationActivity(force: true)
         NotificationCenter.default.removeObserver(self)
           NotificationCenter.default.addObserver(self, selector: #selector(DeparturesViewController.applicationDidBecomeInactive(_:)), name: NSNotification.Name(rawValue: "UIApplicationDidEnterBackgroundNotification"), object: nil)
         displayDepartures()

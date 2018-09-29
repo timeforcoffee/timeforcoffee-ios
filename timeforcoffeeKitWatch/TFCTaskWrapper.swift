@@ -33,7 +33,7 @@ open class TFCTaskWrapper {
         self.completed = true
     }
     
-    func setTaskCompleted() {
+    fileprivate func setTaskCompleted() {
         self.completed = true
         if #available(watchOSApplicationExtension 4.0, *) {
             task.setTaskCompletedWithSnapshot(false)
@@ -42,21 +42,21 @@ open class TFCTaskWrapper {
         }
     }
     open func setTaskCompletedAndClear(callback:(() -> Bool)? = nil) {
-        if self.isCompleted() == false {
-            DLog("runningTasks: Set Task completed for \(self.getHash())")
-            if let callback = callback {
-                DispatchQueue.main.async(execute: {
+        DispatchQueue.main.async(execute: {
+            if self.isCompleted() == false {
+                DLog("runningTasks: Set Task completed for \(self.getHash()) \(self.getTask())")
+                if let callback = callback {
                     if callback() {
                         self.setAsCompleted()
+                    } else {
+                        self.setTaskCompleted()
                     }
-                })
+                    return
+                }
+                self.setTaskCompleted()
                 return
             }
-            DispatchQueue.main.async(execute: {
-                self.task.setTaskCompleted()
-            })
-            return
-        }
-        DLog("runningTasks: Already called \(self.getHash()) before. Not call taskCompleted.")
+            DLog("runningTasks: Already called \(self.getHash()) before. Not call taskCompleted.")
+        })
     }
 }

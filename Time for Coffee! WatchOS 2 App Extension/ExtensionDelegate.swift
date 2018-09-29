@@ -168,13 +168,15 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         
         for task : WKRefreshBackgroundTask in backgroundTasks {
             let wrapper = TFCTaskWrapper(task)
-            DLog("received \(wrapper.getHash()) Backgroundtask" , toFile: true)
+            DLog("received \(wrapper.getHash()) Backgroundtask \(task)" , toFile: true)
             if let _ = task as? WKApplicationRefreshBackgroundTask {
                 DLog("received WKApplicationRefreshBackgroundTask")
                 TFCWatchDataFetch.sharedInstance.fetchDepartureData(wrapper: wrapper)
+                continue
             } else if let urlTask = task as? WKURLSessionRefreshBackgroundTask {
                 DLog("received WKURLSessionRefreshBackgroundTask for \(urlTask.sessionIdentifier) with task hash \(wrapper.getHash())")
                 TFCWatchDataFetch.sharedInstance.rejoinURLSession(wrapper)
+                continue
             } else if let wcBackgroundTask = task as? WKWatchConnectivityRefreshBackgroundTask {
                 DLog("received WKWatchConnectivityRefreshBackgroundTask")
                 //just wait 15 seconds and assume it's finished FIXME. Could be improved, but it's hard to keep track and sometimes there's just nothing to do.
@@ -186,6 +188,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                     })
                 })
                 TFCDataStore.sharedInstance.registerWatchConnectivity()
+                continue
             } else if let snapshotTask = task as? WKSnapshotRefreshBackgroundTask {
 
                 DLog("received WKSnapshotRefreshBackgroundTask")
@@ -205,18 +208,41 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                     }
                 #endif
                // if (snapshotTask.reasonForSnapshot == .complicationUpdate)
-                delaySnapshotComplete(wrapper,startTime: Date())
+                delaySnapshotComplete(wrapper, startTime: Date())
+                continue
             } else {
-                DLog("received something else...\(wrapper)", toFile: true)
-                // make sure to complete all tasks, even ones you don't handle
-                DispatchQueue.main.async(execute: {
-                    wrapper.setTaskCompletedAndClear()
-                })
+                if #available(watchOSApplicationExtension 5.0, *) {
+                    DLog("received WKRelevantShortcutRefreshBackgroundTask")
+
+                    if let _ = task as? WKRelevantShortcutRefreshBackgroundTask {
+                        if let station = TFCWatchDataFetch.sharedInstance.getLastViewedStation(ttl: 120 * 60) {
+                            DLog("Found station \(station.getName(false)) for WKRelevantShortcutRefreshBackgroundTask. Updating activity")
+                            station.setStationActivity()
+                        }
+                        delaySnapshotComplete(wrapper, startTime: Date())
+                        continue
+                    }
+                }
             }
+            DLog("received something else...\(wrapper.getHash()) \(wrapper.getTask())", toFile: true)
+            // make sure to complete all tasks, even ones you don't handle
+            DispatchQueue.main.async(execute: {
+                wrapper.setTaskCompletedAndClear()
+            })
         }
     }
     
 
+    fileprivate func completeWrapperTaskWithData(wrapper: TFCTaskWrapper, nextDate: Date) {
+        wrapper.setTaskCompletedAndClear(callback: { () -> Bool in
+            if let task = wrapper.getTask() as? WKSnapshotRefreshBackgroundTask {
+                task.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: nextDate, userInfo: nil)
+                return true
+            }
+            return false
+        })
+    }
+    
     fileprivate func delaySnapshotComplete(_ wrapper: TFCTaskWrapper, startTime:Date, count:Int = 0) {
         //just wait 2 seconds and assume it's finished
         // we use a queue here to let other tasks finish, before this one shoots
@@ -260,25 +286,15 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                                 }
                             }
                         }
+                        SendLogs2Phone()
+
                         DispatchQueue.global(qos: .background).async {
-                            delay(3.0, closure: {
-                                wrapper.setTaskCompletedAndClear(callback: { () -> Bool in
-                                    if let task = wrapper.getTask() as? WKSnapshotRefreshBackgroundTask {
-                                        task.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: nextDate, userInfo: nil)
-                                        return true
-                                    }
-                                    return false
-                                })
-                                SendLogs2Phone()
+                            delay(2.0, closure: {
+                                self.completeWrapperTaskWithData(wrapper: wrapper, nextDate: nextDate)
                             })
                     }
                     #else
-                    wrapper.setTaskCompletedAndClear(callback: { () in
-                        wrapper.setAsCompleted()
-                        if let task = wrapper.getTask() as? WKSnapshotRefreshBackgroundTask {
-                            task.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: nextDate, userInfo: nil)
-                        }
-                    })
+                    self.completeWrapperTaskWithData(wrapper: wrapper, nextDate: nextDate)
                     #endif
                 })
 

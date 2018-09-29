@@ -89,7 +89,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
                     if let stationName = self.currentStation?.getNameWithStarAndFilters() {
                         self.setTitleText(stationName)
-                        self.currentStation?.setStationActivity()
+                        self.currentStation?.setStationActivity(force: true)
                     }
                 }
                 if #available(iOSApplicationExtension 10.0, *) {
@@ -697,7 +697,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                 if (self.currentStation != nil) {
                     if let title = self.currentStation?.getNameWithStarAndFilters() {
                         self.setTitleText(title)
-                        self.currentStation?.setStationActivity()
+                        self.currentStation?.setStationActivity(force: true)
                     }
                     self.displayDepartures()
                 }

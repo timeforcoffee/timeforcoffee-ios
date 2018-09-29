@@ -58,6 +58,7 @@ final public class TFCFavorites: NSObject {
                     station.setIntent(station.getIntent())
                 }
                 let nearestIntent = NextDeparturesIntent()
+                nearestIntent.closest = "true"
                 let interaction = INInteraction(intent: nearestIntent, response: nil)
                 interaction.donate()
             }
@@ -123,6 +124,7 @@ final public class TFCFavorites: NSObject {
             if (stations.indexOf(station.st_id) == nil) {
                 stations.append(station)
                 self.saveFavorites()
+                station.setStationActivity(force: true)
             }
         }
     }
@@ -140,7 +142,7 @@ final public class TFCFavorites: NSObject {
         var stationIds:[String] = []
         for (station) in stations {
             stationIds.append(station.st_id)
-            station.setStationActivity(setActivity: false)
+            station.setStationSearchIndex()
         }
         objects.dataStore?.setObject(stationIds.sorted() , forKey: "favorites3")
         objects.dataStore?.setObject(3, forKey: "favoritesVersion")

@@ -56,7 +56,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
     static var stationsCache:[String:WeakBox<TFCStation>] = [:]
     fileprivate var _name: String?
-
+    fileprivate var lastActivityUpdate:Date? = nil
     open var coord: CLLocation? {
         get {
             if (self._coord != nil) {
@@ -820,8 +820,8 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         return filteredDepartures
     }
 
-    open func getScheduledFilteredDepartures() -> [TFCDeparture]? {
-        let depts = self.getFilteredDepartures()
+    open func getScheduledFilteredDepartures(_ count:Int? = nil, fallbackToAll:Bool = false) -> [TFCDeparture]? {
+        let depts = self.getFilteredDepartures(count, fallbackToAll: fallbackToAll)
         if let depts = depts {
             let sorted = depts.sorted(by: { (s1, s2) -> Bool in
                 if let t1 = s1.getScheduledTimeAsNSDate(),
@@ -1084,102 +1084,153 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         return keywords
     }
 
-    open func setStationActivity(setActivity:Bool = true) {
-        if #available(iOS 9, *) {
-
+    open func setStationActivity(force:Bool = false) {
+        if let lastActivityUpdate = self.lastActivityUpdate, force == false {
+            //don't update stationActivity within 30 seconds
+            if (lastActivityUpdate.timeIntervalSinceNow > -30) {
+                return
+            }
+        }
+        self.lastActivityUpdate = Date()
         let uI = self.getAsDict()
-        
         if (uI["st_id"] == nil) {
             DLog("station dict seems EMPTY")
             return
         }
         
-        if (setActivity) {
-            self.setAttributeSet(activ: activity)
-            var aTitle = NSLocalizedString("Departures from ", comment: "") + self.getName(false)
-            if #available(iOSApplicationExtension 12.0, watchOSApplicationExtension 5.0, *) {
-                aTitle += " (" +  NSLocalizedString("opens App", comment: "") + ")"
-            }
-            self.activity.title = aTitle
-         
-            self.activity.userInfo = uI
-            self.activity.requiredUserInfoKeys = ["st_id", "name", "longitude", "latitude"]
-            self.activity.isEligibleForHandoff = true
-            self.activity.isEligibleForPublicIndexing = true
-            
-            if #available(iOSApplicationExtension 12.0, watchOSApplicationExtension 5.0, *) {
-                self.activity.isEligibleForPrediction = false
-                self.activity.isEligibleForSearch = false
-                self.activity.persistentIdentifier = NSUserActivityPersistentIdentifier(self.st_id)
-            } else {
-                self.activity.isEligibleForSearch = true
-            }
-            
-            self.activity.webpageURL = self.getWebLink()
-            let userCalendar = Calendar.current
-            let FourWeeksFromNow = (userCalendar as NSCalendar).date(
-                byAdding: [.day],
-                value: 28,
-                to: Date(),
-                options: [])!
-            self.activity.expirationDate = FourWeeksFromNow
-            self.activity.keywords = Set(getKeywords())
-            self.activity.becomeCurrent()
+        self.setAttributeSet(activ: activity)
+        var aTitle = NSLocalizedString("Departures from ", comment: "") + self.getName(false)
+        if #available(iOSApplicationExtension 12.0, watchOSApplicationExtension 5.0, *) {
+            aTitle += " (" +  NSLocalizedString("opens App", comment: "") + ")"
+        }
+        self.activity.title = aTitle
+        
+        self.activity.userInfo = uI
+        self.activity.requiredUserInfoKeys = ["st_id", "name", "longitude", "latitude"]
+        self.activity.isEligibleForHandoff = true
+        self.activity.isEligibleForPublicIndexing = true
+        
+        if #available(iOSApplicationExtension 12.0, watchOSApplicationExtension 5.0, *) {
+            self.activity.isEligibleForPrediction = false
+            self.activity.isEligibleForSearch = false
+            self.activity.persistentIdentifier = NSUserActivityPersistentIdentifier(self.st_id)
+        } else {
+            self.activity.isEligibleForSearch = true
         }
         
+        self.activity.webpageURL = self.getWebLink()
+        let userCalendar = Calendar.current
+        let FourWeeksFromNow = (userCalendar as NSCalendar).date(
+            byAdding: [.day],
+            value: 28,
+            to: Date(),
+            options: [])!
+        self.activity.expirationDate = FourWeeksFromNow
+        self.activity.keywords = Set(getKeywords())
+        self.activity.becomeCurrent()
+        
         DispatchQueue.global(qos: DispatchQoS.QoSClass.utility).async {
-            if #available(iOS 9, *) {
+            self.setStationSearchIndex()
+            
+            if #available(iOSApplicationExtension 12.0, watchOSApplicationExtension 5.0, *)
+            {
                 
-                self.setStationSearchIndex()
-                
-                if #available(iOSApplicationExtension 12.0, watchOSApplicationExtension 5.0, *)
-                {
-                    let rscsFavorites:[INRelevantShortcut?]
-                    if let favStations = TFCFavorites.sharedInstance.stations.copy() as? TFCStationCollection {
-                        rscsFavorites = favStations.map { (fav) -> INRelevantShortcut? in
-                            return fav.getRelevantShortcut(setLocation: true)
-                        }
-                    } else {
-                        rscsFavorites = []
+                let rscsFavorites:[INRelevantShortcut?]
+                var firstDistance:Int = 99999
+                if let favStations = TFCFavorites.sharedInstance.getByDistance() {
+                    if let distance = favStations.first?.calculatedDistance {
+                        firstDistance = Int(distance)
                     }
-                    
-                    var rscsFiltered:[INRelevantShortcut?] = rscsFavorites.filter { (rsc) -> Bool in
-                        if rsc != nil {
-                            return true
-                        }
-                        return false
+                    rscsFavorites = favStations.map { (fav) -> INRelevantShortcut? in
+                        return fav.getRelevantShortcut(setLocation: true)
                     }
-                    if let thisRsc = self.getRelevantShortcut() {
-                        rscsFiltered.append(thisRsc)
-                        if let intent = thisRsc.shortcut.intent as? NextDeparturesIntent {
-                            self.setIntent(intent)
-                        }
+                } else {
+                    rscsFavorites = []
+                }
+                var rscsFiltered:[INRelevantShortcut?] = rscsFavorites.filter { (rsc) -> Bool in
+                    if rsc != nil {
+                        return true
                     }
-                    // add the nearest station intent
+                    return false
+                }
+                if let thisRsc = self.getRelevantShortcut() {
+                    rscsFiltered.append(thisRsc)
+                    if let intent = thisRsc.shortcut.intent as? NextDeparturesIntent {
+                        self.setIntent(intent)
+                    }
+                }
+                // add the nearest station intent, if we're outside of a favorite
+                let radius = TFCFavorites.sharedInstance.getSearchRadius()
+                if firstDistance > radius {
+                    DLog("first fav is \(firstDistance)m away, more than the radios \(radius)")
                     let nearestIntent = NextDeparturesIntent()
+                    nearestIntent.closest = "true"
                     if let nearestShortcut = INShortcut(intent: nearestIntent) {
                         let rsc = INRelevantShortcut(shortcut: nearestShortcut)
                         rsc.shortcutRole = .information
                         rsc.watchTemplate = INDefaultCardTemplate(title: NSLocalizedString("Departures from closest station", comment: ""))
                         rscsFiltered.append(rsc)
                     }
-                    
-                    if let rscs = rscsFiltered as? [INRelevantShortcut] {
-                        DLog("store relevant \(rscsFiltered.count) shortcuts")
-                        
-                        INRelevantShortcutStore.default.setRelevantShortcuts(rscs) { (error) in
-                            if let error = error as NSError? {
-                                DLog("Storing relevant shortcuts  failed: \(error)")
+                }
+                var count = 0
+                //get departures for current station to be set as intent
+               
+                if let departures = self.getScheduledFilteredDepartures(10, fallbackToAll: true) {
+                    var beforeDepartureTime:Date? = nil
+                    for departure in departures {
+                        if (count > 10) {
+                            break
+                        }
+                        let intent = NextDeparturesIntent()
+                        intent.station = self.getName(false)
+                        intent.st_id = self.getId()
+                        let time = departure.getRealDepartureDateAsShortDate()
+                        intent.time = time
+                        if let sc = INShortcut(intent: intent),
+                            let shortDate =  departure.getRealDepartureDateAsShortDate(),
+                            let center = self.coord?.coordinate,
+                            let dept = departure.getRealDepartureDate()  {
+                            let rsc = INRelevantShortcut(shortcut: sc)
+                            rsc.shortcutRole = .information
+                            rsc.watchTemplate = INDefaultCardTemplate(title: self.getName(true))
+                            rsc.watchTemplate?.subtitle = shortDate + " " + departure.getDestination(self)
+                            var relevanceProviders:[INRelevanceProvider] = []
+                            let region = CLCircularRegion(center: center, radius: CLLocationDistance(1000), identifier: "favLoc\(self.st_id)")
+                            relevanceProviders.append(INLocationRelevanceProvider(region: region))
+                            let startDate:Date
+                            if let beforeDepartureTime = beforeDepartureTime {
+                                if dept.timeIntervalSince(beforeDepartureTime) < 300 {
+                                    startDate = dept.addingTimeInterval(-300)
+                                } else {
+                                    startDate = beforeDepartureTime.addingTimeInterval(-60)
+                                }
                             } else {
-                                DLog("Successfully stored relevant shortcuts", toFile: true)
+                                // if first, start one minute before now
+                                startDate = Date().addingTimeInterval(-60)
                             }
+                            relevanceProviders.append(INDateRelevanceProvider(start: startDate, end: dept.addingTimeInterval(+60)))
+                            beforeDepartureTime = dept
+                            rsc.relevanceProviders = relevanceProviders
+                            rscsFiltered.append(rsc)
+                            count += 1
                         }
                     }
                 }
-                
-            }}
+                if let rscs = rscsFiltered as? [INRelevantShortcut] {
+                    DLog("store relevant \(rscsFiltered.count) shortcuts")
+                    
+                    INRelevantShortcutStore.default.setRelevantShortcuts(rscs) { (error) in
+                        if let error = error as NSError? {
+                            DLog("Storing relevant shortcuts  failed: \(error)")
+                        } else {
+                            DLog("Successfully stored relevant shortcuts", toFile: true)
+                        }
+                    }
+                }
+            }
         }
     }
+    
     
     @available(iOSApplicationExtension 12.0, *)
     @available(watchOSApplicationExtension 5.0, *)
@@ -1195,11 +1246,6 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                     rsc.relevanceProviders = [INLocationRelevanceProvider(region: region)]
                 }
             }
-            /* if let center = TFCLocationManager.getCurrentLocation()?.coordinate {
-             } else {
-             DLog("setIntent with Date")
-             rsc.relevanceProviders = [INDateRelevanceProvider(start: Date().addingTimeInterval(-3600), end: Date().addingTimeInterval(7200))]
-             }*/
             return rsc
         }
         return nil
@@ -1308,6 +1354,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         }
         return "https://transport.opendata.ch/v1/stationboard?id=\(self.st_id)&limit=40"
     }
+
 }
 
 public protocol TFCDeparturesUpdatedProtocol {

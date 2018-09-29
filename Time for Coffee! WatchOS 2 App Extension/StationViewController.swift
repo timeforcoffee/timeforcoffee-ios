@@ -208,7 +208,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
                 DispatchQueue.main.async(execute: {
                 
                     if #available(watchOSApplicationExtension 5.0, *) {
-                        station2.setStationActivity()
+                        station2.setStationActivity(force: true)
                         self.update(station2.activity)
                     } else {
                         self.updateUserActivity("ch.opendata.timeforcoffee.station", userInfo: station2.getAsDict(), webpageURL: station2.getWebLink())
@@ -272,6 +272,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
                // DLog("played haptic in Stations ")
             }
         }
+        forStation?.setStationActivity(force: true)
 
     }
 

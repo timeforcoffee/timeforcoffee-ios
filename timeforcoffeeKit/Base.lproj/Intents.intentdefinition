@@ -22,12 +22,12 @@
 			<key>INIntentDescriptionID</key>
 			<string>PHXTvi</string>
 			<key>INIntentLastParameterTag</key>
-			<integer>10</integer>
+			<integer>14</integer>
 			<key>INIntentName</key>
 			<string>NextDepartures</string>
 			<key>INIntentParameterCombinations</key>
 			<dict>
-				<key></key>
+				<key>closest</key>
 				<dict>
 					<key>INIntentParameterCombinationIsPrimary</key>
 					<false/>
@@ -57,6 +57,21 @@
 					<key>INIntentParameterCombinationTitleID</key>
 					<string>eclNCj</string>
 				</dict>
+				<key>st_id,station,time</key>
+				<dict>
+					<key>INIntentParameterCombinationIsPrimary</key>
+					<false/>
+					<key>INIntentParameterCombinationSubtitle</key>
+					<string></string>
+					<key>INIntentParameterCombinationSubtitleID</key>
+					<string>cCNAJI</string>
+					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
+					<false/>
+					<key>INIntentParameterCombinationTitle</key>
+					<string>Departure from ${station} at ${time}</string>
+					<key>INIntentParameterCombinationTitleID</key>
+					<string>L6oXcA</string>
+				</dict>
 			</dict>
 			<key>INIntentParameters</key>
 			<array>
@@ -81,6 +96,30 @@
 					<false/>
 					<key>INIntentParameterTag</key>
 					<integer>10</integer>
+					<key>INIntentParameterType</key>
+					<string>String</string>
+				</dict>
+				<dict>
+					<key>INIntentParameterDisplayPriority</key>
+					<integer>3</integer>
+					<key>INIntentParameterName</key>
+					<string>time</string>
+					<key>INIntentParameterSupportsMultipleValues</key>
+					<false/>
+					<key>INIntentParameterTag</key>
+					<integer>13</integer>
+					<key>INIntentParameterType</key>
+					<string>String</string>
+				</dict>
+				<dict>
+					<key>INIntentParameterDisplayPriority</key>
+					<integer>4</integer>
+					<key>INIntentParameterName</key>
+					<string>closest</string>
+					<key>INIntentParameterSupportsMultipleValues</key>
+					<false/>
+					<key>INIntentParameterTag</key>
+					<integer>14</integer>
 					<key>INIntentParameterType</key>
 					<string>String</string>
 				</dict>
