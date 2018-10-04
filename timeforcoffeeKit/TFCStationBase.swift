@@ -57,6 +57,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     static var stationsCache:[String:WeakBox<TFCStation>] = [:]
     fileprivate var _name: String?
     fileprivate var lastActivityUpdate:Date? = nil
+    fileprivate var lastRelevantShortHash:String = ""
     open var coord: CLLocation? {
         get {
             if (self._coord != nil) {
@@ -1075,11 +1076,77 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
     @available(watchOSApplicationExtension 5.0, *)
     @available(iOSApplicationExtension 12.0, *)
-    fileprivate func getINObject() -> INObject {
+    fileprivate func getStationINObject(dept: TFCDeparture? = nil) -> INObject {
         return INObject(identifier: self.getId(), display: self.getName(false))
     }
     
-    open func setStationActivity(force:Bool = false) {
+    @available(watchOSApplicationExtension 5.0, *)
+    @available(iOSApplicationExtension 12.0, *)
+    open func updateRelevantShortCuts() {
+        #if os(watchOS)
+        // for some strange reason, when we update relevant shortcuts on watchOS, it dissapears on the siri watch face,
+        // so let the phone do it
+        // see the TFCStation class in the timeforcoffeeKitWatch framewor
+        #endif
+        var rscs:[INRelevantShortcut] = []
+        
+        /* FIXME: Not sure yet, if we should any favorites to relevant shortcuts,
+         we try now for none..
+         var firstDistance:Int = 99999
+         
+         if let favStations = TFCFavorites.sharedInstance.getByDistance() {
+         if let distance = favStations.first?.calculatedDistance {
+         firstDistance = Int(distance)
+         }
+         rscsFavorites = favStations.map { (fav) -> INRelevantShortcut? in
+         return fav.getRelevantShortcut(setLocation: true)
+         }
+         } else {
+         rscsFavorites = []
+         }
+         */
+        /*  var rscsFiltered:[INRelevantShortcut] = rscsFavorites.filter { (rsc) -> Bool in
+         if rsc != nil {
+         return true
+         }
+         return false
+         }
+         
+         // add the nearest station intent, if we're outside of a favorite
+         let radius = TFCFavorites.sharedInstance.getSearchRadius()
+         if firstDistance > radius {
+         DLog("first fav is \(firstDistance)m away, more than the radius \(radius)")
+         let nearestIntent = NextDeparturesIntent()
+         nearestIntent.closest = "true"
+         if let nearestShortcut = INShortcut(intent: nearestIntent) {
+         let rsc = INRelevantShortcut(shortcut: nearestShortcut)
+         rsc.shortcutRole = .information
+         rsc.watchTemplate = INDefaultCardTemplate(title: NSLocalizedString("Departures from closest station", comment: ""))
+         rscs.append(rsc)
+         }
+         }*/
+        
+        rscs += self.getRelevantShortcuts()
+        let hash = rscs.reduce("") { (result:String, sc:INRelevantShortcut) -> String in
+            if let intent = sc.shortcut.intent as? NextDeparturesIntent,
+                let display = intent.departure?.displayString {
+                return result + display + ", "
+            }
+            return result
+        }
+        if (self.lastRelevantShortHash != hash) {
+            self.lastRelevantShortHash = hash
+            INRelevantShortcutStore.default.setRelevantShortcuts(rscs) { (error) in
+                if let error = error as NSError? {
+                    DLog("Storing relevant shortcuts  failed: \(error)")
+                } else {
+                    DLog("Successfully stored \(rscs.count)  relevant shortcuts for \(self.name) with hash '\(hash)'", toFile: true)
+                }
+            }
+        }
+    }
+    
+    open func setStationActivity() {
         #if os(watchOS)
         if let lastActivityUpdate = self.lastActivityUpdate {
             //don't update stationActivity within 30 seconds
@@ -1129,137 +1196,81 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                 INInteraction.delete(with: "TFCTimeIntent", completion: nil)
         }*/
         
-        DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated).async {
+        //DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated).async {
             self.setStationSearchIndex()
             
             if #available(iOSApplicationExtension 12.0, watchOSApplicationExtension 5.0, *)
             {
+                self.donateIntent(self.getIntent())
                 
-                let rscsFavorites:[INRelevantShortcut?]
-                var firstDistance:Int = 99999
-                if let favStations = TFCFavorites.sharedInstance.getByDistance() {
-                    if let distance = favStations.first?.calculatedDistance {
-                        firstDistance = Int(distance)
-                    }
-                    rscsFavorites = favStations.map { (fav) -> INRelevantShortcut? in
-                        return fav.getRelevantShortcut(setLocation: true)
-                    }
-                } else {
-                    rscsFavorites = []
-                }
-                var rscsFiltered:[INRelevantShortcut?] = rscsFavorites.filter { (rsc) -> Bool in
-                    if rsc != nil {
-                        return true
-                    }
-                    return false
-                }
-                if let thisRsc = self.getRelevantShortcut() {
-                    rscsFiltered.append(thisRsc)
-                    if let intent = thisRsc.shortcut.intent as? NextDeparturesIntent {
-                        self.setIntent(intent)
-                    }
-                }
-                // add the nearest station intent, if we're outside of a favorite
-                let radius = TFCFavorites.sharedInstance.getSearchRadius()
-                if firstDistance > radius {
-                    DLog("first fav is \(firstDistance)m away, more than the radios \(radius)")
-                    let nearestIntent = NextDeparturesIntent()
-                    nearestIntent.closest = "true"
-                    if let nearestShortcut = INShortcut(intent: nearestIntent) {
-                        let rsc = INRelevantShortcut(shortcut: nearestShortcut)
-                        rsc.shortcutRole = .information
-                        rsc.watchTemplate = INDefaultCardTemplate(title: NSLocalizedString("Departures from closest station", comment: ""))
-                        rscsFiltered.append(rsc)
-                    }
-                }
-                var count = 0
-                //get departures for current station to be set as intent
-               
-                if let departures = self.getScheduledFilteredDepartures(10, fallbackToAll: true) {
-                    var beforeDepartureTime:Date? = nil
-                    for departure in departures {
-                        if (count > 10) {
-                            break
-                        }
-                        let intent = NextDeparturesIntent()
-                        intent.stationObj = self.getINObject()
-                        let time = departure.getRealDepartureDateAsShortDate()
-                        intent.departure = INObject(
-                            identifier: "dept",
-                            display: String(
-                                format: NSLocalizedString("At %@ with %@ from %@ to %@", comment: ""),
-                                time ?? "unknown", departure.getLine(), self.getName(true), departure.getDestination(self))
-                        )
-                 
-                        // if we donate those, they all show up at the shortcuts...
-                        /*let interaction = INInteraction(intent: intent, response: nil)
-                        interaction.groupIdentifier = "TFCTimeIntent"
-                        interaction.donate()*/
-                        if let sc = INShortcut(intent: intent),
-                            let shortDate =  departure.getRealDepartureDateAsShortDate(),
-                            let center = self.coord?.coordinate,
-                            let dept = departure.getRealDepartureDate()  {
-                            let rsc = INRelevantShortcut(shortcut: sc)
-                            rsc.shortcutRole = .information
-                            rsc.watchTemplate = INDefaultCardTemplate(title: self.getName(true))
-                            rsc.watchTemplate?.subtitle = shortDate + " " + departure.getLine() + " " + departure.getDestination(self)
-                            var relevanceProviders:[INRelevanceProvider] = []
-                            let region = CLCircularRegion(center: center, radius: CLLocationDistance(1000), identifier: "favLoc\(self.st_id)")
-                            relevanceProviders.append(INLocationRelevanceProvider(region: region))
-                            let startDate:Date
-                            /*if let beforeDepartureTime = beforeDepartureTime {
-                                if dept.timeIntervalSince(beforeDepartureTime) < 300 {
-                                    startDate = dept.addingTimeInterval(-300)
-                                } else {
-                                    startDate = beforeDepartureTime.addingTimeInterval(-60)
-                                }
-                            } else {
-                                // if first, start one minute before now
-                                startDate = Date().addingTimeInterval(-60)
-                            }*/
-                            startDate = dept.addingTimeInterval(-60)
-
-                            relevanceProviders.append(INDateRelevanceProvider(start: startDate, end: dept.addingTimeInterval(+60)))
-                            beforeDepartureTime = dept
-                            rsc.relevanceProviders = relevanceProviders
-                            rscsFiltered.append(rsc)
-                            count += 1
-                        }
-                    }
-                }
-                if let rscs = rscsFiltered as? [INRelevantShortcut] {
-                    DLog("store relevant \(rscsFiltered.count) shortcuts for \(self.name)", toFile: true )
-                    
-                    INRelevantShortcutStore.default.setRelevantShortcuts(rscs) { (error) in
-                        if let error = error as NSError? {
-                            DLog("Storing relevant shortcuts  failed: \(error)")
-                        } else {
-                            DLog("Successfully stored relevant shortcuts for \(self.name)", toFile: true)
-                        }
-                    }
-                }
+                self.updateRelevantShortCuts()
             }
-        }
+        //}
     }
     
     
     @available(iOSApplicationExtension 12.0, *)
     @available(watchOSApplicationExtension 5.0, *)
-    fileprivate func getRelevantShortcut(setLocation:Bool = false) -> INRelevantShortcut? {
+    fileprivate func getRelevantShortcut() -> INRelevantShortcut? {
         let intent = self.getIntent()
         if let sc = INShortcut(intent: intent) {
+            
             let rsc = INRelevantShortcut(shortcut: sc)
             rsc.watchTemplate = INDefaultCardTemplate(title: self.getName(false))
             rsc.shortcutRole = .information
-            if (setLocation) {
-                if let center = self.coord?.coordinate {
-                    let region = CLCircularRegion(center: center, radius: CLLocationDistance(1000), identifier: "favLoc\(self.st_id)")
-                    rsc.relevanceProviders = [INLocationRelevanceProvider(region: region)]
-                }
+            if let center = self.coord?.coordinate {
+                let region = CLCircularRegion(center: center, radius: CLLocationDistance(1000), identifier: "favLoc\(self.st_id)")
+                rsc.relevanceProviders = [INLocationRelevanceProvider(region: region)]
             }
             return rsc
         }
         return nil
+    }
+    
+    /** returns all relevant shortcuts with departues */
+    
+    @available(iOSApplicationExtension 12.0, *)
+    @available(watchOSApplicationExtension 5.0, *)
+    fileprivate func getRelevantShortcuts() -> [INRelevantShortcut] {
+        var rscs:[INRelevantShortcut] = []
+        if let thisRsc = self.getRelevantShortcut() {
+            rscs.append(thisRsc)
+            //get departures for current station to be set as intent
+            var count = 0
+            
+            if let departures = self.getScheduledFilteredDepartures(10, fallbackToAll: true) {
+                for departure in departures {
+                    if (count > 10) {
+                        break
+                    }
+                    //let intent = self.getIntent(departure: departure)
+                    //let sc = INShortcut(intent: intent)
+                    let sc = thisRsc.shortcut
+                    if
+                        let shortDate =  departure.getRealDepartureDateAsShortDate(),
+                        let center = self.coord?.coordinate,
+                        let dept = departure.getRealDepartureDate()  {
+                        /*let interaction = INInteraction(intent: intent, response: nil)
+                        interaction.groupIdentifier = "TFCDepartureIntent"
+                        interaction.donate(completion: nil)
+*/
+                        let rsc = INRelevantShortcut(shortcut: sc)
+                        rsc.shortcutRole = .information
+                        rsc.watchTemplate = INDefaultCardTemplate(title: self.getName(true))
+                        rsc.watchTemplate?.subtitle = shortDate + " " + departure.getLine() + " " + departure.getDestination(self)
+                        var relevanceProviders:[INRelevanceProvider] = []
+                        let region = CLCircularRegion(center: center, radius: CLLocationDistance(1000), identifier: "favLoc\(self.st_id)")
+                        relevanceProviders.append(INLocationRelevanceProvider(region: region))
+                        let startDate = dept.addingTimeInterval(-60)
+                        relevanceProviders.append(INDateRelevanceProvider(start: startDate, end: dept.addingTimeInterval(+60)))
+                        rsc.relevanceProviders = relevanceProviders
+                        rscs.append(rsc)
+                        count += 1
+                    }
+                }
+            }
+        }
+        return rscs
     }
     
     open func setAttributeSet(activ:NSUserActivity) {
@@ -1267,22 +1278,44 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     
     @available(watchOSApplicationExtension 5.0, *)
     @available(iOSApplicationExtension 12.0, *)
-    open func setIntent(_ intent:NextDeparturesIntent) {
+    open func donateIntent(_ intent:NextDeparturesIntent) {
         let interaction = INInteraction(intent: intent, response: nil)
         interaction.donate { (error) in
             if error != nil {
                 if let error = error as NSError? {
-                    DLog("Interaction donation failed: \(error)")
+                    DLog("Interaction donation for shortcut \(self.name) failed: \(error)")
+                    return
                 }
-            } 
+            }
+            DLog("Donated shortcut for \(self.name)")
         }
     }
     
     @available(iOSApplicationExtension 12.0, *)
     @available(watchOSApplicationExtension 5.0, *)
-    internal func getIntent() -> NextDeparturesIntent {
+    internal func getIntent(departure:TFCDeparture? = nil, count:Int? = nil) -> NextDeparturesIntent {
         let intent = NextDeparturesIntent()
-        intent.stationObj = self.getINObject()
+        intent.stationObj = self.getStationINObject()
+        if let departure = departure {
+            let time = departure.getRealDepartureDateAsShortDate()
+            var identifier = "dept"
+            if let count = count {
+                identifier += "-\(count)"
+            }
+            intent.departure = INObject(
+                identifier: identifier,
+                display: String(
+                    format: NSLocalizedString("At %@ with %@ from %@ to %@", comment: ""),
+                    time ?? "unknown", departure.getLine(), self.getName(true), departure.getDestination(self))
+            )
+        } else {intent.departure = INObject(
+            identifier: "dept",
+            display: String(
+                format: NSLocalizedString("Departures from %@", comment: ""),
+                self.getName(false)
+            )
+            )
+        }
         intent.suggestedInvocationPhrase = NSLocalizedString("Departures from ", comment: "") + self.getName(false)
         return intent
     }

@@ -208,7 +208,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
                 DispatchQueue.main.async(execute: {
                 
                     if #available(watchOSApplicationExtension 5.0, *) {
-                        station2.setStationActivity(force: true)
+                        station2.setStationActivity()
                         self.update(station2.activity)
                     } else {
                         self.updateUserActivity("ch.opendata.timeforcoffee.station", userInfo: station2.getAsDict(), webpageURL: station2.getWebLink())
@@ -263,7 +263,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     }
 
     func departuresUpdated(_ error: Error?, context: Any?, forStation: TFCStation?) {
-        DLog("departuresUpdated for \(String(describing: forStation?.name))", toFile: true)
+        DLog("departuresUpdated for \(String(describing: forStation?.name)) with \(String(describing: forStation?.getDepartures()?.count))", toFile: true)
         let displayed = self.displayDepartures(forStation)
         let context2:[String:String]? = context as? [String:String]
         if (displayed && context2?["cached"] != "true") {
@@ -272,8 +272,6 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
                // DLog("played haptic in Stations ")
             }
         }
-        forStation?.setStationActivity(force: true)
-
     }
 
     fileprivate func displayDepartures(_ station: TFCStation?) -> Bool {

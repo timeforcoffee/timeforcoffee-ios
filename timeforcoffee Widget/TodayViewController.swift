@@ -89,7 +89,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
                     if let stationName = self.currentStation?.getNameWithStarAndFilters() {
                         self.setTitleText(stationName)
-                        self.currentStation?.setStationActivity(force: true)
+                        self.currentStation?.setStationActivity()
                     }
                 }
                 if #available(iOSApplicationExtension 10.0, *) {
@@ -678,6 +678,9 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                     self.networkErrorMsg = nil
                 }
                 self.appsTableView?.reloadData()
+                if #available(iOSApplicationExtension 12.0, *) {
+                    self.currentStation?.updateRelevantShortCuts()
+                }
             }
         }
         }
@@ -697,7 +700,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                 if (self.currentStation != nil) {
                     if let title = self.currentStation?.getNameWithStarAndFilters() {
                         self.setTitleText(title)
-                        self.currentStation?.setStationActivity(force: true)
+                        self.currentStation?.setStationActivity()
                     }
                     self.displayDepartures()
                 }

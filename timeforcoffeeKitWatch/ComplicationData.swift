@@ -256,6 +256,9 @@ public final class ComplicationData: NSObject, NSCoding {
             timelineCacheData.lastDepartureDate = departures.last?.getScheduledTimeAsNSDate()
             self.setIsDisplayedOnWatch()
             TFCDataStore.sharedInstance.watchdata.scheduleNextUpdate(noBackOffIncr: true)
+            if #available(watchOSApplicationExtension 5.0, *) {
+                station.updateRelevantShortCuts()
+            } 
         }
     }
 

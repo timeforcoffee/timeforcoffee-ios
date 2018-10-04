@@ -70,14 +70,14 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 if #available(iOS 10.0, *) {
                     INInteraction.deleteAll(completion: { (error: Error?) in
-                        TFCDataStore.sharedInstance.getLocalUserDefaults()?.set(nil, forKey: "lastFavoritesIntentUpdate")
-                        TFCFavorites.sharedInstance.setFavoriteIntents()
+                        TFCFavorites.sharedInstance.donateDefaultIntents()
                     }
                     )
                 }
                 self.localUserDefaults?.set(3, forKey: "applicationVersion")
             }
         }
+        TFCFavorites.sharedInstance.donateDefaultIntents()
     }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -224,7 +224,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func receivedNewVisit(_ text: String) {
-        #if DEBUG
+        #if DEBUG_NOTIFICATION
             let noti = TFCNotification()
             noti.send(text)
         #endif

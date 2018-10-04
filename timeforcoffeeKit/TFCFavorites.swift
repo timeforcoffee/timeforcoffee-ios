@@ -18,13 +18,7 @@ final public class TFCFavorites: NSObject {
 
     public lazy var stations: TFCStationCollection = { [unowned self] in
         let favs = self.getCurrentFavoritesFromDefaults()
-        let lastUpdate = getLastFavoritesIntentUpdate()
-        // only update favorites intents every 24 hours
-        if lastUpdate == nil ||
-            lastUpdate!.timeIntervalSinceNow < -3600 * 24
-        {
-            self.setFavoriteIntents()
-        }
+      
         return favs
         }()
     
@@ -41,11 +35,11 @@ final public class TFCFavorites: NSObject {
         self.stations = getCurrentFavoritesFromDefaults(false)
     }
     
-    fileprivate func getLastFavoritesIntentUpdate() -> Date? {
-        return TFCDataStore.sharedInstance.getLocalUserDefaults()?.object(forKey: "lastFavoritesIntentUpdate") as? Date
+    fileprivate func getLastDefaultIntentUpdate() -> Date? {
+        return TFCDataStore.sharedInstance.getLocalUserDefaults()?.object(forKey: "lastDefaultIntentUpdate") as? Date
     }
-    fileprivate func setLastFavoritesIntentUpdate() {
-        TFCDataStore.sharedInstance.getLocalUserDefaults()?.set(Date(), forKey: "lastFavoritesIntentUpdate")
+    fileprivate func setLastDefaultIntentUpdate() {
+        TFCDataStore.sharedInstance.getLocalUserDefaults()?.set(Date(), forKey: "lastDefaultIntentUpdate")
     }
 
     public func clearStationCache() {
@@ -63,20 +57,30 @@ final public class TFCFavorites: NSObject {
         return favoritesSearchRadius!
     }
 
-    public func setFavoriteIntents() {
+    public func donateDefaultIntents(force:Bool = false) {
         if #available(iOSApplicationExtension 12.0, watchOSApplicationExtension 5.0, *) {
             DispatchQueue.global(qos:  DispatchQoS.QoSClass.utility).async {
-                // donate favourites as intents
-                for station in self.stations {
-                    station.setIntent(station.getIntent())
+                let lastUpdate = self.getLastDefaultIntentUpdate()
+                // only update favorites intents every 7 days
+                if force == true || lastUpdate == nil ||
+                    lastUpdate!.timeIntervalSinceNow < -3600 * 24 * 7
+                {
+                    let closestIntent = self.getClosestIntent()
+                    let interaction = INInteraction(intent: closestIntent, response: nil)
+                    interaction.donate()
+                    
+                    self.setLastDefaultIntentUpdate()
                 }
-                let nearestIntent = NextDeparturesIntent()
-                nearestIntent.closest = "true"
-                let interaction = INInteraction(intent: nearestIntent, response: nil)
-                interaction.donate()
-                self.setLastFavoritesIntentUpdate()
             }
         }
+    }
+    
+    @available(watchOSApplicationExtension 5.0, *)
+    @available(iOSApplicationExtension 12.0, *)
+    public func getClosestIntent() -> NextDeparturesIntent {
+        let closestIntent = NextDeparturesIntent()
+        closestIntent.closest = "true"
+        return closestIntent
     }
     
     fileprivate func getCurrentFavoritesFromDefaults(_ newCollection:Bool = true) -> TFCStationCollection {
@@ -138,7 +142,7 @@ final public class TFCFavorites: NSObject {
             if (stations.indexOf(station.st_id) == nil) {
                 stations.append(station)
                 self.saveFavorites()
-                station.setStationActivity(force: true)
+                station.setStationActivity()
             }
         }
     }
@@ -161,7 +165,6 @@ final public class TFCFavorites: NSObject {
         objects.dataStore?.setObject(stationIds.sorted() , forKey: "favorites3")
         objects.dataStore?.setObject(3, forKey: "favoritesVersion")
         objects.dataStore?.synchronize()
-        self.setFavoriteIntents()
     }
 
     public func getByDistance() -> [TFCStation]? {

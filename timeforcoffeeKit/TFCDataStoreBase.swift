@@ -345,7 +345,7 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
                                     NotificationCenter.default.post(name: Notification.Name(rawValue: "TFCWatchkitUpdateCurrentStation"), object: nil, userInfo: nil)
                                 }
                                 if (complicationUpdate) {
-                                    #if DEBUG
+                                    #if DEBUG_NOTIFICATION
                                         let _ = self.sendData(["__complicationUpdateReceived__": "Received Complication update on watch for \(sentStation.name)"])
                                     #endif
                                     if let depts = sentStation.getFilteredDepartures(nil, fallbackToAll: true), depts.count > 0 {
@@ -373,6 +373,13 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
             } else if (myKey == "__giveMeTheData__") {
                 DLog("Got __giveMeTheData__");
                 sendAllData()
+            } else if (myKey == "__updateRelevantShortcuts__") {
+                DLog("Got __updateRelevantShortcuts__");
+                if let st_id = myValue as? String,
+                    let station = TFCStation.initWithCache(id: st_id) {
+                    DLog("__updateRelevantShortcuts__ for station \(st_id) \(station.name)")
+                    station.updateDepartures(self, context: ["updateRelevantShortcut": true])
+                }
             } else if (myKey == "__sendLogs__") {
                 DLog("Got __sendLogs__");
                 SendLogs2Phone()
@@ -575,6 +582,19 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
     }
 
     open func departuresUpdated(_ error: Error?, context: Any?, forStation: TFCStation?) {
+        
+        if let dict = context as? [String:Any?],
+            let sc = dict["updateRelevantShortcut"] as? Bool,
+            sc == true {
+            // only do this on iOS, but should anyway only happen on iOS and not on the watch
+            // the watch sends this request
+            #if os(iOS)
+            if #available(iOSApplicationExtension 12.0, *) {
+                forStation?.updateRelevantShortCuts()
+            }
+            #endif
+            return
+        }
         var coord:CLLocationCoordinate2D? = nil
         var complicationUpdate = true
         DLog("departuresUpdated for \(String(describing: forStation?.name))")
@@ -592,13 +612,13 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
     open func sendComplicationUpdate(_ station: TFCStation?, coord: CLLocationCoordinate2D? = nil) {
         #if os(iOS)
         if (WCSession.isSupported()) {
-            if (self.session?.isComplicationEnabled == true) {
-                if let firstStation = station, let ud = TFCDataStore.sharedInstance.getUserDefaults() {
+            if let firstStation = station, let ud = TFCDataStore.sharedInstance.getUserDefaults() {
+                //if (self.session?.isComplicationEnabled == true) {
                     if (ud.string(forKey: "lastFirstStationId") != firstStation.st_id) {
                         DLog("update Departures for \(firstStation.name)")
                         firstStation.updateDepartures(self, context: ["coordinates": coord])
                     }
-                }
+                //}
             }
         }
         #endif
@@ -610,6 +630,8 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
             if (complicationUpdate && ud.string(forKey: "lastFirstStationId") == firstStation.st_id) {
                 return
             }
+            firstStation.setStationActivity()
+
             var useComplicationTransfer = true
             var remaining:Int? = nil
             if #available(iOSApplicationExtension 10.0, *) {
@@ -645,7 +667,6 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
             if let filteredDepartures = firstStation.getFilteredDepartures(nil, fallbackToAll: true) {
                 data["departures"] =  NSKeyedArchiver.archivedData(withRootObject: Array(filteredDepartures.prefix(10)))
             }
-            
             let dict:[String:[String:Any]] = ["__updateComplicationData__": data]
             
             if (useComplicationTransfer && complicationUpdate) {

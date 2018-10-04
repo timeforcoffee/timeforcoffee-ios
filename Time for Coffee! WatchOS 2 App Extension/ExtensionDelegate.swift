@@ -217,7 +217,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                     if let _ = task as? WKRelevantShortcutRefreshBackgroundTask {
                         if let station = TFCWatchDataFetch.sharedInstance.getLastViewedStation(ttl: 120 * 60) {
                             DLog("Found station \(station.getName(false)) for WKRelevantShortcutRefreshBackgroundTask. Updating activity")
-                            station.setStationActivity()
+                            station.updateRelevantShortCuts()
                         }
                         delaySnapshotComplete(wrapper, startTime: Date())
                         continue
