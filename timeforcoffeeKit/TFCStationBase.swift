@@ -1128,8 +1128,12 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         
         rscs += self.getRelevantShortcuts()
         let hash = rscs.reduce("") { (result:String, sc:INRelevantShortcut) -> String in
-            if let intent = sc.shortcut.intent as? NextDeparturesIntent,
-                let display = intent.departure?.displayString {
+            
+            if let watchtemplate = sc.watchTemplate {
+                var display = watchtemplate.title
+                if let subtitle = watchtemplate.subtitle {
+                    display = display + " " + subtitle
+                }
                 return result + display + ", "
             }
             return result
