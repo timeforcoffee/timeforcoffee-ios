@@ -8,6 +8,7 @@
 
 import Foundation
 import WatchKit
+import WatchConnectivity
 
 @available(iOSApplicationExtension 12.0, *)
 @available(watchOSApplicationExtension 5.0, *)
@@ -26,10 +27,16 @@ public class NextDeparturesIntentHandler: NSObject, NextDeparturesIntentHandling
     }
     
     public func confirm(intent: NextDeparturesIntent, completion: @escaping (NextDeparturesIntentResponse) -> Void) {
-        if (intent.stationObj == nil && intent.closest == nil) {
+        if ((intent.stationObj == nil && intent.closest == nil)) {
             completion(NextDeparturesIntentResponse(code: .continueInApp, userActivity: nil))
             return
-        } 
+        }
+        
+        if (intent.departure?.displayString.suffix(1) == ".") {
+            completion(NextDeparturesIntentResponse(code: .continueInApp, userActivity: nil))
+            return
+        }
+        
         completion(NextDeparturesIntentResponse(code: .ready, userActivity: nil))
     }
     

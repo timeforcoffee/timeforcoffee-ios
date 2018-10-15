@@ -153,8 +153,73 @@ open class TFCStation: TFCStationBase {
         })
         
     }
+
+    @available(iOSApplicationExtension 12.0, *)
+    open override func getRelevantShortcut() -> INRelevantShortcut? {
+        let hasApp = TFCDataStore.sharedInstance.isWatchAppInstalled()
+        DLog("isWatchAppInstalled \(hasApp)")
+        let intent = self.getIntent(addHasAppHint: hasApp)
+        let sc:INShortcut? = INShortcut(intent: intent)
+        if let sc = sc {
+            
+            let rsc = INRelevantShortcut(shortcut: sc)
+            rsc.watchTemplate = INDefaultCardTemplate(title: self.getName(false))
+            rsc.shortcutRole = .information
+            if let center = self.coord?.coordinate {
+                let region = CLCircularRegion(center: center, radius: CLLocationDistance(1000), identifier: "favLoc\(self.st_id)")
+                rsc.relevanceProviders = [INLocationRelevanceProvider(region: region)]
+            }
+            return rsc
+            
+        }
+        return nil
+    }
+    
  
-  
+    @available(iOSApplicationExtension 12.0, *)
+    open override func getRelevantShortcuts() -> [INRelevantShortcut] {
+        var rscs:[INRelevantShortcut] = []
+       
+        if let thisRsc = self.getRelevantShortcut() {
+            rscs.append(thisRsc)
+            //get departures for current station to be set as intent
+            var count = 0
+            
+            if let departures = self.getScheduledFilteredDepartures(10, fallbackToAll: true) {
+                for departure in departures {
+                    if (count > 10) {
+                        break
+                    }
+                    //let intent = self.getIntent(departure: departure)
+                    //let sc = INShortcut(intent: intent)
+                    let sc = thisRsc.shortcut
+                    if
+                        let shortDate =  departure.getRealDepartureDateAsShortDate(),
+                        let center = self.coord?.coordinate,
+                        let dept = departure.getRealDepartureDate()  {
+                        /*let interaction = INInteraction(intent: intent, response: nil)
+                         interaction.groupIdentifier = "TFCDepartureIntent"
+                         interaction.donate(completion: nil)
+                         */
+                        let rsc = INRelevantShortcut(shortcut: sc)
+                        rsc.shortcutRole = .information
+                        rsc.watchTemplate = INDefaultCardTemplate(title: self.getName(true))
+                        rsc.watchTemplate?.subtitle = shortDate + " " + departure.getLine() + " " + departure.getDestination(self)
+                        var relevanceProviders:[INRelevanceProvider] = []
+                        let region = CLCircularRegion(center: center, radius: CLLocationDistance(1000), identifier: "favLoc\(self.st_id)")
+                        relevanceProviders.append(INLocationRelevanceProvider(region: region))
+                        let startDate = dept.addingTimeInterval(-60)
+                        relevanceProviders.append(INDateRelevanceProvider(start: startDate, end: dept.addingTimeInterval(+60)))
+                        rsc.relevanceProviders = relevanceProviders
+                        rscs.append(rsc)
+                        count += 1
+                    }
+                }
+            }
+        }
+        return rscs
+    }
+    
     internal override func setStationSearchIndex() {
         if #available(iOS 12, *) {
             // dont index with ios 12, intents will take care of it

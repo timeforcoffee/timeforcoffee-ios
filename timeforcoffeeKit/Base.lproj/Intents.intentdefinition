@@ -22,7 +22,7 @@
 			<key>INIntentDescriptionID</key>
 			<string>PHXTvi</string>
 			<key>INIntentLastParameterTag</key>
-			<integer>20</integer>
+			<integer>22</integer>
 			<key>INIntentName</key>
 			<string>NextDepartures</string>
 			<key>INIntentParameterCombinations</key>
@@ -42,21 +42,6 @@
 					<key>INIntentParameterCombinationTitleID</key>
 					<string>F6OcIm</string>
 				</dict>
-				<key>departure,stationObj</key>
-				<dict>
-					<key>INIntentParameterCombinationIsPrimary</key>
-					<true/>
-					<key>INIntentParameterCombinationSubtitle</key>
-					<string></string>
-					<key>INIntentParameterCombinationSubtitleID</key>
-					<string>cCNAJI</string>
-					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
-					<true/>
-					<key>INIntentParameterCombinationTitle</key>
-					<string>${departure}</string>
-					<key>INIntentParameterCombinationTitleID</key>
-					<string>L6oXcA</string>
-				</dict>
 				<key>stationObj</key>
 				<dict>
 					<key>INIntentParameterCombinationIsPrimary</key>
@@ -71,6 +56,21 @@
 					<string>Departures from ${stationObj}</string>
 					<key>INIntentParameterCombinationTitleID</key>
 					<string>eclNCj</string>
+				</dict>
+				<key>stationObj,departure</key>
+				<dict>
+					<key>INIntentParameterCombinationIsPrimary</key>
+					<false/>
+					<key>INIntentParameterCombinationSubtitle</key>
+					<string></string>
+					<key>INIntentParameterCombinationSubtitleID</key>
+					<string>YjTVME</string>
+					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
+					<true/>
+					<key>INIntentParameterCombinationTitle</key>
+					<string>${departure}</string>
+					<key>INIntentParameterCombinationTitleID</key>
+					<string>3ULfkx</string>
 				</dict>
 			</dict>
 			<key>INIntentParameters</key>
@@ -110,6 +110,18 @@
 					<integer>19</integer>
 					<key>INIntentParameterType</key>
 					<string>Object</string>
+				</dict>
+				<dict>
+					<key>INIntentParameterDisplayPriority</key>
+					<integer>4</integer>
+					<key>INIntentParameterName</key>
+					<string>showJustApp</string>
+					<key>INIntentParameterSupportsMultipleValues</key>
+					<false/>
+					<key>INIntentParameterTag</key>
+					<integer>22</integer>
+					<key>INIntentParameterType</key>
+					<string>Integer</string>
 				</dict>
 			</array>
 			<key>INIntentResponse</key>
@@ -246,7 +258,7 @@
 			<key>INIntentRestrictions</key>
 			<integer>0</integer>
 			<key>INIntentTitle</key>
-			<string>Show departures</string>
+			<string>Show departures </string>
 			<key>INIntentTitleID</key>
 			<string>qwQyYn</string>
 			<key>INIntentType</key>

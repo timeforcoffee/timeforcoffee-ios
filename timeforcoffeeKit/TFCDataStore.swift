@@ -30,5 +30,22 @@ open class TFCDataStore: TFCDataStoreBase {
         }
         return uid
     }
+    
+    @available(iOSApplicationExtension 9.3, *)
+    open func isWatchAppInstalled() -> Bool {
+        if let wcsession = self.session,
+            wcsession.isPaired,
+            wcsession.activationState == .activated
+            {
+                self.getUserDefaults()?.set(wcsession.isWatchAppInstalled, forKey: "isWatchAppInstalled")
+
+        }
+        DLog("isWatchAppInstalled: \(String(describing: self.getUserDefaults()?.bool(forKey: "isWatchAppInstalled")))")
+        
+        if let installed = self.getUserDefaults()?.bool(forKey: "isWatchAppInstalled") {
+            return installed
+        }
+        return false
+    }
 }
 

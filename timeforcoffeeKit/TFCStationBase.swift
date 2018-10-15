@@ -1215,19 +1215,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     
     @available(iOSApplicationExtension 12.0, *)
     @available(watchOSApplicationExtension 5.0, *)
-    fileprivate func getRelevantShortcut() -> INRelevantShortcut? {
-        let intent = self.getIntent()
-        if let sc = INShortcut(intent: intent) {
-            
-            let rsc = INRelevantShortcut(shortcut: sc)
-            rsc.watchTemplate = INDefaultCardTemplate(title: self.getName(false))
-            rsc.shortcutRole = .information
-            if let center = self.coord?.coordinate {
-                let region = CLCircularRegion(center: center, radius: CLLocationDistance(1000), identifier: "favLoc\(self.st_id)")
-                rsc.relevanceProviders = [INLocationRelevanceProvider(region: region)]
-            }
-            return rsc
-        }
+    open func getRelevantShortcut() -> INRelevantShortcut? {
         return nil
     }
     
@@ -1235,46 +1223,8 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     
     @available(iOSApplicationExtension 12.0, *)
     @available(watchOSApplicationExtension 5.0, *)
-    fileprivate func getRelevantShortcuts() -> [INRelevantShortcut] {
-        var rscs:[INRelevantShortcut] = []
-        if let thisRsc = self.getRelevantShortcut() {
-            rscs.append(thisRsc)
-            //get departures for current station to be set as intent
-            var count = 0
-            
-            if let departures = self.getScheduledFilteredDepartures(10, fallbackToAll: true) {
-                for departure in departures {
-                    if (count > 10) {
-                        break
-                    }
-                    //let intent = self.getIntent(departure: departure)
-                    //let sc = INShortcut(intent: intent)
-                    let sc = thisRsc.shortcut
-                    if
-                        let shortDate =  departure.getRealDepartureDateAsShortDate(),
-                        let center = self.coord?.coordinate,
-                        let dept = departure.getRealDepartureDate()  {
-                        /*let interaction = INInteraction(intent: intent, response: nil)
-                        interaction.groupIdentifier = "TFCDepartureIntent"
-                        interaction.donate(completion: nil)
-*/
-                        let rsc = INRelevantShortcut(shortcut: sc)
-                        rsc.shortcutRole = .information
-                        rsc.watchTemplate = INDefaultCardTemplate(title: self.getName(true))
-                        rsc.watchTemplate?.subtitle = shortDate + " " + departure.getLine() + " " + departure.getDestination(self)
-                        var relevanceProviders:[INRelevanceProvider] = []
-                        let region = CLCircularRegion(center: center, radius: CLLocationDistance(1000), identifier: "favLoc\(self.st_id)")
-                        relevanceProviders.append(INLocationRelevanceProvider(region: region))
-                        let startDate = dept.addingTimeInterval(-60)
-                        relevanceProviders.append(INDateRelevanceProvider(start: startDate, end: dept.addingTimeInterval(+60)))
-                        rsc.relevanceProviders = relevanceProviders
-                        rscs.append(rsc)
-                        count += 1
-                    }
-                }
-            }
-        }
-        return rscs
+    open func getRelevantShortcuts() -> [INRelevantShortcut] {
+        return []
     }
     
     open func setAttributeSet(activ:NSUserActivity) {
@@ -1297,29 +1247,21 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     
     @available(iOSApplicationExtension 12.0, *)
     @available(watchOSApplicationExtension 5.0, *)
-    internal func getIntent(departure:TFCDeparture? = nil, count:Int? = nil) -> NextDeparturesIntent {
+    internal func getIntent(addHasAppHint:Bool = false) -> NextDeparturesIntent {
         let intent = NextDeparturesIntent()
         intent.stationObj = self.getStationINObject()
-        if let departure = departure {
-            let time = departure.getRealDepartureDateAsShortDate()
-            var identifier = "dept"
-            if let count = count {
-                identifier += "-\(count)"
-            }
-            intent.departure = INObject(
-                identifier: identifier,
-                display: String(
-                    format: NSLocalizedString("At %@ with %@ from %@ to %@", comment: ""),
-                    time ?? "unknown", departure.getLine(), self.getName(true), departure.getDestination(self))
-            )
-        } else {intent.departure = INObject(
+        var departuresString:String = "Departures from %@"
+        if (addHasAppHint) {
+            departuresString = "\(departuresString)."
+        }
+        
+        intent.departure = INObject(
             identifier: "dept",
             display: String(
-                format: NSLocalizedString("Departures from %@", comment: ""),
+                format: NSLocalizedString(departuresString, comment: ""),
                 self.getName(false)
             )
-            )
-        }
+        )
         intent.suggestedInvocationPhrase = NSLocalizedString("Departures from ", comment: "") + self.getName(false)
         return intent
     }
