@@ -246,7 +246,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     fileprivate func delaySnapshotComplete(_ wrapper: TFCTaskWrapper, startTime:Date, count:Int = 0) {
         //just wait 2 seconds and assume it's finished
         // we use a queue here to let other tasks finish, before this one shoots
-        let delayTime:Double = 2.0
+        let delayTime:Double = 0.5
         delay(delayTime, closure: {
             DLog("finished \(wrapper.getHash()) Backgroundtask before barrier. ")
             TFCWatchData.crunchQueue.async(flags: .barrier, execute: {
@@ -289,7 +289,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                         SendLogs2Phone()
 
                         DispatchQueue.global(qos: .background).async {
-                            delay(2.0, closure: {
+                            delay(0.5, closure: {
                                 self.completeWrapperTaskWithData(wrapper: wrapper, nextDate: nextDate)
                             })
                     }

@@ -152,9 +152,8 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     }
 
     fileprivate func setStationValues() {
-        let isInBackground:Bool
 
-        isInBackground = (WKExtension.shared().applicationState == .background)
+        let isInBackground = (WKExtension.shared().applicationState == .background) ||  (WKExtension.shared().applicationState == .inactive)
         DLog("setStationValues. isInBackground: \(isInBackground)", toFile: true)
 
         if (station == nil) {
@@ -169,6 +168,11 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
                 getStation()
                 return
             }
+        }
+        // let's see, maybe we really don't have to update this, when in background anymore
+        // since the whole snapshot thing is kinda gone, no dock anymore
+        if (isInBackground) {
+            return
         }
 
         var drawAsNewStation = false
