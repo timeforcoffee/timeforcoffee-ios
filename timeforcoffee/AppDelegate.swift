@@ -193,7 +193,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                         if (wcsession.isPaired) {
                             currentUser.addProperties(["hasWatch": true])
                             gtracker?.setCustomDimension(8, value: "yes")
-                            if (wcsession.isWatchAppInstalled) {
+                            if (TFCDataStore.sharedInstance.isWatchAppInstalled()) {
                                 currentUser.addProperties(["hasWatchAppInstalled": true])
                                 gtracker?.setCustomDimension(2, value: "yes")
                                 

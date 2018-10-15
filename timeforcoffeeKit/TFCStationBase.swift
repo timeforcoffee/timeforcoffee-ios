@@ -1083,49 +1083,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     @available(watchOSApplicationExtension 5.0, *)
     @available(iOSApplicationExtension 12.0, *)
     open func updateRelevantShortCuts() {
-        #if os(watchOS)
-        // for some strange reason, when we update relevant shortcuts on watchOS, it dissapears on the siri watch face,
-        // so let the phone do it
-        // see the TFCStation class in the timeforcoffeeKitWatch framewor
-        #endif
         var rscs:[INRelevantShortcut] = []
-        
-        /* FIXME: Not sure yet, if we should any favorites to relevant shortcuts,
-         we try now for none..
-         var firstDistance:Int = 99999
-         
-         if let favStations = TFCFavorites.sharedInstance.getByDistance() {
-         if let distance = favStations.first?.calculatedDistance {
-         firstDistance = Int(distance)
-         }
-         rscsFavorites = favStations.map { (fav) -> INRelevantShortcut? in
-         return fav.getRelevantShortcut(setLocation: true)
-         }
-         } else {
-         rscsFavorites = []
-         }
-         */
-        /*  var rscsFiltered:[INRelevantShortcut] = rscsFavorites.filter { (rsc) -> Bool in
-         if rsc != nil {
-         return true
-         }
-         return false
-         }
-         
-         // add the nearest station intent, if we're outside of a favorite
-         let radius = TFCFavorites.sharedInstance.getSearchRadius()
-         if firstDistance > radius {
-         DLog("first fav is \(firstDistance)m away, more than the radius \(radius)")
-         let nearestIntent = NextDeparturesIntent()
-         nearestIntent.closest = "true"
-         if let nearestShortcut = INShortcut(intent: nearestIntent) {
-         let rsc = INRelevantShortcut(shortcut: nearestShortcut)
-         rsc.shortcutRole = .information
-         rsc.watchTemplate = INDefaultCardTemplate(title: NSLocalizedString("Departures from closest station", comment: ""))
-         rscs.append(rsc)
-         }
-         }*/
-        
         rscs += self.getRelevantShortcuts()
         let hash = rscs.reduce("") { (result:String, sc:INRelevantShortcut) -> String in
             
