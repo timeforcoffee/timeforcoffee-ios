@@ -63,7 +63,7 @@ final public class TFCFavorites: NSObject {
                 let lastUpdate = self.getLastDefaultIntentUpdate()
                 // only update favorites intents every 7 days
                 if force == true || lastUpdate == nil ||
-                    lastUpdate!.timeIntervalSinceNow < -3600 * 24 * 7
+                    lastUpdate!.timeIntervalSinceNow < -3600 * 24 * 3
                 {
                     let closestIntent = self.getClosestIntent()
                     let interaction = INInteraction(intent: closestIntent, response: nil)
