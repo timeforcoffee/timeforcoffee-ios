@@ -1080,29 +1080,29 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         return INObject(identifier: self.getId(), display: self.getName(false))
     }
     
-    @available(watchOSApplicationExtension 5.0, *)
-    @available(iOSApplicationExtension 12.0, *)
     open func updateRelevantShortCuts() {
-        var rscs:[INRelevantShortcut] = []
-        rscs += self.getRelevantShortcuts()
-        let hash = rscs.reduce("") { (result:String, sc:INRelevantShortcut) -> String in
-            
-            if let watchtemplate = sc.watchTemplate {
-                var display = watchtemplate.title
-                if let subtitle = watchtemplate.subtitle {
-                    display = display + " " + subtitle
+        if #available(iOSApplicationExtension 12.0, watchOSApplicationExtension 5.0, *) {
+            var rscs:[INRelevantShortcut] = []
+            rscs += self.getRelevantShortcuts()
+            let hash = rscs.reduce("") { (result:String, sc:INRelevantShortcut) -> String in
+                
+                if let watchtemplate = sc.watchTemplate {
+                    var display = watchtemplate.title
+                    if let subtitle = watchtemplate.subtitle {
+                        display = display + " " + subtitle
+                    }
+                    return result + display + ", "
                 }
-                return result + display + ", "
+                return result
             }
-            return result
-        }
-        if (self.lastRelevantShortHash != hash) {
-            self.lastRelevantShortHash = hash
-            INRelevantShortcutStore.default.setRelevantShortcuts(rscs) { (error) in
-                if let error = error as NSError? {
-                    DLog("Storing relevant shortcuts  failed: \(error)")
-                } else {
-                    DLog("Successfully stored \(rscs.count)  relevant shortcuts for \(self.name) with hash '\(hash)'", toFile: true)
+            if (self.lastRelevantShortHash != hash) {
+                self.lastRelevantShortHash = hash
+                INRelevantShortcutStore.default.setRelevantShortcuts(rscs) { (error) in
+                    if let error = error as NSError? {
+                        DLog("Storing relevant shortcuts  failed: \(error)")
+                    } else {
+                        DLog("Successfully stored \(rscs.count)  relevant shortcuts for \(self.name) with hash '\(hash)'", toFile: true)
+                    }
                 }
             }
         }
