@@ -553,18 +553,24 @@
                                             <action selector="sliderChangedValue:" destination="v4W-Hv-fUQ" eventType="valueChanged" id="n3h-ig-3xc"/>
                                         </connections>
                                     </slider>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Number of Departures / Stations in Today View:" translatesAutoresizingMaskIntoConstraints="NO" id="ddG-sf-Sti">
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Number of Departures / Stations in Today View:" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ddG-sf-Sti">
                                         <rect key="frame" x="-5" y="0.0" width="271" height="50"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <accessibilityTraits key="traits" notEnabled="YES"/>
+                                        </accessibility>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="xwG-a1-K6k"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="          6" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="hVt-ir-et7" userLabel="numberCellsTodayValue">
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="          6" textAlignment="right" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hVt-ir-et7" userLabel="numberCellsTodayValue">
                                         <rect key="frame" x="265" y="0.0" width="23" height="50"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <accessibilityTraits key="traits" notEnabled="YES"/>
+                                        </accessibility>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="CzI-p9-X90"/>
                                             <constraint firstAttribute="width" constant="23" id="Ioo-PN-Feo"/>
@@ -574,6 +580,9 @@
                                     </textView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" notEnabled="YES"/>
+                                </accessibility>
                                 <constraints>
                                     <constraint firstItem="hVt-ir-et7" firstAttribute="top" secondItem="ddG-sf-Sti" secondAttribute="top" id="4qp-L5-nsd"/>
                                     <constraint firstAttribute="trailing" secondItem="zdk-Mh-XYw" secondAttribute="trailing" id="B8J-zI-HOv"/>
@@ -621,17 +630,23 @@
                                             <action selector="favoritesRadiusSliderChangedValue:" destination="v4W-Hv-fUQ" eventType="valueChanged" id="MCg-SM-joW"/>
                                         </connections>
                                     </slider>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Search radius for Favourites:" translatesAutoresizingMaskIntoConstraints="NO" id="1WW-X2-xCT">
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Search radius for Favourites:" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1WW-X2-xCT">
                                         <rect key="frame" x="-5" y="0.0" width="278" height="50"/>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <accessibilityTraits key="traits" notEnabled="YES"/>
+                                        </accessibility>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="I5f-qz-3FL"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="          6" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="3o2-0v-jqC" userLabel="favoritesRadiusValue">
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="          6" textAlignment="right" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3o2-0v-jqC" userLabel="favoritesRadiusValue">
                                         <rect key="frame" x="221" y="0.0" width="67" height="50"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <accessibilityTraits key="traits" notEnabled="YES"/>
+                                        </accessibility>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="Xe0-qg-Mpf"/>
                                             <constraint firstAttribute="width" constant="67" id="jnj-gz-4XR"/>
@@ -641,6 +656,9 @@
                                     </textView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" notEnabled="YES"/>
+                                </accessibility>
                                 <constraints>
                                     <constraint firstItem="1WW-X2-xCT" firstAttribute="leading" secondItem="LKV-Yr-NUS" secondAttribute="leading" constant="-5" id="9C8-AR-dSS"/>
                                     <constraint firstAttribute="trailing" secondItem="xUB-p2-Mqm" secondAttribute="trailing" id="A30-Iq-j7w"/>
@@ -655,24 +673,24 @@
                             </view>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Settings" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0tK-ea-YGt">
                                 <rect key="frame" x="11" y="69" width="103" height="30"/>
-                                <accessibility key="accessibilityConfiguration">
-                                    <accessibilityTraits key="traits" notEnabled="YES"/>
-                                </accessibility>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AB1-ta-9BW" userLabel="Real Time Info view">
                                 <rect key="frame" x="16" y="376" width="288" height="99"/>
                                 <subviews>
-                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="t4O-IN-GSM">
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="t4O-IN-GSM">
                                         <rect key="frame" x="238" y="-8" width="51" height="31"/>
                                         <connections>
                                             <action selector="realTimeInfoSwitchChanged:" destination="v4W-Hv-fUQ" eventType="valueChanged" id="hie-oG-foZ"/>
                                         </connections>
                                     </switch>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rL3-sl-2ji">
-                                        <rect key="frame" x="-5" y="-19" width="278" height="50"/>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rL3-sl-2ji">
+                                        <rect key="frame" x="-5" y="-19" width="235" height="50"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <accessibilityTraits key="traits" notEnabled="YES"/>
+                                        </accessibility>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="L6k-UB-dDV"/>
                                         </constraints>
@@ -683,17 +701,23 @@ in departures times</string>
                                     </textView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" notEnabled="YES"/>
+                                </accessibility>
                                 <constraints>
-                                    <constraint firstItem="t4O-IN-GSM" firstAttribute="top" secondItem="AB1-ta-9BW" secondAttribute="top" id="0Go-aY-dUh"/>
+                                    <constraint firstItem="t4O-IN-GSM" firstAttribute="top" secondItem="AB1-ta-9BW" secondAttribute="top" constant="-8" id="0Go-aY-dUh"/>
                                     <constraint firstAttribute="height" constant="99" id="1FU-SV-xSp"/>
                                     <constraint firstItem="rL3-sl-2ji" firstAttribute="leading" secondItem="AB1-ta-9BW" secondAttribute="leading" constant="-5" id="4wO-8R-5wK"/>
                                     <constraint firstItem="rL3-sl-2ji" firstAttribute="top" secondItem="AB1-ta-9BW" secondAttribute="top" constant="-19" id="Nfy-GN-nNk"/>
                                     <constraint firstAttribute="trailing" secondItem="t4O-IN-GSM" secondAttribute="trailing" constant="1" id="Yj5-U3-a10"/>
-                                    <constraint firstAttribute="trailing" secondItem="rL3-sl-2ji" secondAttribute="trailing" constant="15" id="pDP-fF-jHS"/>
+                                    <constraint firstAttribute="trailing" secondItem="rL3-sl-2ji" secondAttribute="trailing" constant="58" id="pDP-fF-jHS"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.99517929549999995" green="0.76438117029999997" blue="0.0368270427" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <accessibility key="accessibilityConfiguration">
+                            <accessibilityTraits key="traits" notEnabled="YES"/>
+                        </accessibility>
                         <constraints>
                             <constraint firstItem="0tK-ea-YGt" firstAttribute="leading" secondItem="Bpp-cB-QQS" secondAttribute="leadingMargin" constant="-5" id="47c-NR-EyA"/>
                             <constraint firstAttribute="trailingMargin" secondItem="LKV-Yr-NUS" secondAttribute="trailing" id="71f-XJ-oe1"/>
@@ -739,7 +763,7 @@ in departures times</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QaU-sn-qCJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1335" y="-1479"/>
+            <point key="canvasLocation" x="1335" y="-1479.9295774647887"/>
         </scene>
         <!--Station View Controller-->
         <scene sceneID="tne-QT-ifu">
