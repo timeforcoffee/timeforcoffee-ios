@@ -694,7 +694,7 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="L6k-UB-dDV"/>
                                         </constraints>
-                                        <string key="text">Show Real Time indicator
+                                        <string key="text">Show "No Real Time" indicator
 in departures times</string>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
