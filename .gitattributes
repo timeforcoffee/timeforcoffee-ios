@@ -2,3 +2,5 @@ Pods/Smooch/Smooch.framework/Smooch filter=lfs diff=lfs merge=lfs -text
 libGoogleAnalyticsServices.a filter=lfs diff=lfs merge=lfs -text
 Crashlytics.framework filter=lfs diff=lfs merge=lfs -text
 Fabric.framework filter=lfs diff=lfs merge=lfs -text
+Crashlytics.framework/Crashlytics filter=lfs diff=lfs merge=lfs -text
+Fabric.framework/Fabric filter=lfs diff=lfs merge=lfs -text
