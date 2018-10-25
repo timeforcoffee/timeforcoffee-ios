@@ -10,8 +10,8 @@ import UIKit
 import timeforcoffeeKit
 import MapKit
 import MGSwipeTableCell
-
-final class DeparturesViewController: WithMapViewController, UITableViewDataSource, TFCDeparturesUpdatedProtocol {
+import IntentsUI
+final class DeparturesViewController: WithMapViewController, UITableViewDataSource, TFCDeparturesUpdatedProtocol, INUIAddVoiceShortcutViewControllerDelegate {
 
     var refreshControl:UIRefreshControl!
     var networkErrorMsg: String?
@@ -23,7 +23,8 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var BackButton: UIButton!
     @IBOutlet weak var favButton: UIButton!
-
+    @IBOutlet weak var optionsButton: UIButton!
+    
     @IBOutlet weak var segmentedControl: UISegmentedControl!
 
     @IBOutlet weak var stationIconButton: UIButton!
@@ -96,6 +97,8 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
         self.appsTableView?.contentInset = UIEdgeInsets(top: 130, left: 0, bottom: 0, right: 0)
 
         favButton.addTarget(self, action: #selector(DeparturesViewController.favoriteClicked(_:)), for: UIControl.Event.touchUpInside)
+     
+        optionsButton.addTarget(self, action: #selector(DeparturesViewController.optionsClicked(_:)), for: UIControl.Event.touchUpInside)
         stationIconButton.addTarget(self, action: #selector(DeparturesViewController.favoriteClicked(_:)), for: UIControl.Event.touchUpInside)
 
         favButton.accessibilityLabel = NSLocalizedString("Favourite Station?", comment: "Favourite Station?")
@@ -113,7 +116,7 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
         self.stationIconButton.setImage(station?.getIcon(), for: UIControl.State.normal)
 
         self.gradientView.image = UIImage(named: "gradient.png")
-
+        
         topViewProperties(0.0)
         self.mapView?.isUserInteractionEnabled = false;
         self.mapView?.isRotateEnabled = false
@@ -236,6 +239,74 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
         }
     }
 
+    
+    @objc func optionsClicked(_ sender: UIBarButtonItem?) {
+        let alert = UIAlertController(title: nil, message:nil, preferredStyle: .actionSheet)
+        let fav:String
+        if (self.station?.isFavorite() == true) {
+            fav = "Unfavorite station"
+        } else {
+            fav = "Favorite station"
+        }
+        alert.addAction(UIAlertAction(title: NSLocalizedString(fav, comment: "Favorite a station"), style: .default, handler: { _ in
+            self.favoriteClicked(sender)
+        }))
+        if #available(iOS 12.0, *) {
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Add to Siri", comment: "Add station to Siri shortcuts"), style: .default, handler: { _ in
+                self.addToSiri(sender)
+            }))
+        }
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel action"), style: .cancel, handler: { _ in
+           
+        }))
+        if let presenter = alert.popoverPresentationController {
+            presenter.sourceView = self.optionsButton
+            presenter.sourceRect = self.optionsButton.bounds
+        }
+        self.present(alert, animated: true, completion: nil)
+    }
+    func addSiriButton(to view: UIView) {
+        if #available(iOS 12.0, *) {
+            
+            let button = INUIAddVoiceShortcutButton(style: .blackOutline)
+            button.translatesAutoresizingMaskIntoConstraints = false
+            
+            view.addSubview(button)
+            view.centerXAnchor.constraint(equalTo: button.centerXAnchor).isActive = true
+            view.centerYAnchor.constraint(equalTo: button.centerYAnchor).isActive = true
+            
+            button.addTarget(self, action: #selector(addToSiri(_:)), for: .touchUpInside)
+        }
+    }
+    
+    // Present the Add Shortcut view controller after the
+    // user taps the "Add to Siri" button.
+    @objc
+    func addToSiri(_ sender: Any) {
+        if #available(iOS 12.0, *) {
+            
+            if let intent =  self.station?.getIntent(),
+                let shortcut = INShortcut(intent:intent) {
+                let viewController = INUIAddVoiceShortcutViewController(shortcut: shortcut)
+                viewController.modalPresentationStyle = .formSheet
+               viewController.delegate = self // Object conforming to `INUIAddVoiceShortcutViewControllerDelegate`.
+                present(viewController, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    @available(iOS 12.0, *)
+    func addVoiceShortcutViewControllerDidCancel(_ controller: INUIAddVoiceShortcutViewController) {
+        controller.dismiss(animated: true) {
+                    //just dismiss
+        }
+    }
+    
+    @available(iOS 12.0, *)
+    func addVoiceShortcutViewController(_ controller: INUIAddVoiceShortcutViewController, didFinishWith voiceShortcut: INVoiceShortcut?, error: Error?) {
+        //we don't care ;)
+    }
+    
 
     @objc func refresh(_ sender:AnyObject)
     {

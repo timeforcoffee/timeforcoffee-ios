@@ -261,6 +261,14 @@
                                             <constraint firstAttribute="centerX" secondItem="EyP-xR-Nab" secondAttribute="centerX" id="fN8-Ub-Jwc"/>
                                         </constraints>
                                     </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tMy-cX-q28">
+                                        <rect key="frame" x="282" y="72" width="30" height="36"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <state key="normal" title="≡">
+                                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <gestureRecognizers/>
@@ -286,7 +294,9 @@
                                     <constraint firstAttribute="bottom" secondItem="rkJ-yM-Lpj" secondAttribute="bottom" id="hbL-Qh-F8V"/>
                                     <constraint firstAttribute="trailing" secondItem="nm9-vv-oCK" secondAttribute="trailing" constant="8" id="p0q-Sg-mW8"/>
                                     <constraint firstAttribute="bottom" secondItem="elb-MS-l3n" secondAttribute="bottom" id="t5h-fV-IQ3"/>
+                                    <constraint firstAttribute="trailing" secondItem="tMy-cX-q28" secondAttribute="trailing" constant="8" id="xE9-zN-dKa"/>
                                     <constraint firstItem="XMt-hg-wAD" firstAttribute="height" secondItem="zie-iz-ziP" secondAttribute="height" id="z6R-qT-iWV"/>
+                                    <constraint firstItem="tMy-cX-q28" firstAttribute="centerY" secondItem="o3U-mY-SIS" secondAttribute="centerY" constant="26" id="ztx-wK-MVB"/>
                                 </constraints>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="O0h-p3-vYX" appends="YES" id="9LB-Dx-i2e"/>
@@ -328,6 +338,7 @@
                         <outlet property="nameLabel" destination="37z-MA-FFU" id="xUR-d8-Yac"/>
                         <outlet property="navBarBackgroundView" destination="tiy-IY-zxF" id="NiI-nL-qLh"/>
                         <outlet property="navBarView" destination="elb-MS-l3n" id="WyB-WQ-1n4"/>
+                        <outlet property="optionsButton" destination="tMy-cX-q28" id="qlf-yN-PP5"/>
                         <outlet property="releaseToViewLabel" destination="cgy-fE-O9r" id="0Vu-ds-qyA"/>
                         <outlet property="segmentedControl" destination="VXL-uK-o9G" id="Z9n-sa-saQ"/>
                         <outlet property="segmentedView" destination="VXL-uK-o9G" id="3JX-tr-4Ej"/>

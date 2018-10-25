@@ -1205,7 +1205,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     
     @available(iOSApplicationExtension 12.0, *)
     @available(watchOSApplicationExtension 5.0, *)
-    internal func getIntent(addHasAppHint:Bool = false) -> NextDeparturesIntent {
+    open func getIntent(addHasAppHint:Bool = false) -> NextDeparturesIntent {
         let intent = NextDeparturesIntent()
         intent.stationObj = self.getStationINObject()
         var departuresString:String = "Departures from %@"
