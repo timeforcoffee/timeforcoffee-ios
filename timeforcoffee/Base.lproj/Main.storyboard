@@ -596,14 +596,14 @@
                                     <constraint firstAttribute="trailing" secondItem="hVt-ir-et7" secondAttribute="trailing" id="wKS-Pv-j2P"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="67I-cf-lcA">
-                                <rect key="frame" x="10" y="25" width="46" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="67I-cf-lcA">
+                                <rect key="frame" x="10" y="25" width="89" height="30"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" button="YES" notEnabled="YES"/>
                                 </accessibility>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="46" id="ESC-YM-AaG"/>
-                                    <constraint firstAttribute="width" constant="46" id="f1Z-Fb-xO4"/>
+                                    <constraint firstAttribute="width" constant="89" id="f1Z-Fb-xO4"/>
                                 </constraints>
                                 <state key="normal" title="Close">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
