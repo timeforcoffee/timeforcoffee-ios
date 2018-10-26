@@ -346,6 +346,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         } else if (url.host == "favorites") {
             openFavorites()
+        } else if (url.host == "closest") {
+            openClosestStation()
         } else if (url.host == "station" && url.query != nil) {
          
             var queryStrings = [String: String]()
@@ -409,17 +411,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                             popUpStation(station)
                         }
                     } else {
-                        func stationsUpdateCompletion(stations:TFCStations?, error: String?, context: Any?) {
-                            if let stations = stations {
-                                if let station = stations.getStation(0) {
-                                    DispatchQueue.main.async {
-                                        self.popUpStation(station)
-                                    }
-                                }
-                            }
-                        }
-                        self.stationsUpdate = TFCStationsUpdate(completion: stationsUpdateCompletion)
-                        self.stationsUpdate?.update(maxStations: 1)
+                       openClosestStation()
                     }
                 }
             }
@@ -428,6 +420,19 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     }
 
+    fileprivate func openClosestStation() {
+        func stationsUpdateCompletion(stations:TFCStations?, error: String?, context: Any?) {
+            if let stations = stations {
+                if let station = stations.getStation(0) {
+                    DispatchQueue.main.async {
+                        self.popUpStation(station)
+                    }
+                }
+            }
+        }
+        self.stationsUpdate = TFCStationsUpdate(completion: stationsUpdateCompletion)
+        self.stationsUpdate?.update(maxStations: 1)
+    }
 
 
     fileprivate func popUpStation(_ station: TFCStation) {
