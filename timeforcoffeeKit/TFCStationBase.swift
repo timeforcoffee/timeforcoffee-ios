@@ -117,27 +117,32 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     fileprivate var departuresSorted: [TFCDeparture]?
     fileprivate var filteredDepartures: [TFCDeparture]?
 
-    open var calculatedDistance: Double? {
-        get {
-            guard let currentLoc = TFCLocationManager.getCurrentLocation() else { return nil }
-            // recalculate distance when we're more than 50m away
-            if (_calculatedDistanceLastCoord == nil || _calculatedDistanceLastCoord!.distance(from: currentLoc) > 50.0) {
-                _calculatedDistanceLastCoord = currentLoc
-                if let coord = self.coord {
-                    _calculatedDistance = currentLoc.distance(from: coord)
-                    // don't store it on watchOS, it's slower than calculating it on startup
-                    #if os(watchOS)
-                    #else
-                        DispatchQueue.global(qos: .utility).async {
-                            let cache: PINCache = TFCCache.objects.stations
-                            cache.setObject(self, forKey: self.st_id)
-                        }
-                    #endif
-                }
-
-            }
-            return _calculatedDistance
+    open func calculatedDistance(_ loc: CLLocation? = nil) -> Double? {
+        let currentLocNil:CLLocation?
+        if (loc === nil) {
+            currentLocNil = TFCLocationManager.getCurrentLocation()
+        } else {
+            currentLocNil = loc
         }
+        guard let currentLoc = currentLocNil else { return nil}
+        // recalculate distance when we're more than 50m away
+        if (_calculatedDistanceLastCoord == nil || _calculatedDistanceLastCoord!.distance(from: currentLoc) > 50.0) {
+            _calculatedDistanceLastCoord = currentLoc
+            if let coord = self.coord {
+                _calculatedDistance = currentLoc.distance(from: coord)
+                // don't store it on watchOS, it's slower than calculating it on startup
+                #if os(watchOS)
+                #else
+                DispatchQueue.global(qos: .utility).async {
+                    let cache: PINCache = TFCCache.objects.stations
+                    cache.setObject(self, forKey: self.st_id)
+                }
+                #endif
+            }
+            
+        }
+        return _calculatedDistance
+        
     }
 
     fileprivate var _calculatedDistance: Double? = nil

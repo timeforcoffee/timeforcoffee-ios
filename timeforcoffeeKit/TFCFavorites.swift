@@ -175,10 +175,10 @@ final public class TFCFavorites: NSObject {
         if (self.stations.count > 0) {
             var stations = self.stations.getStations()
             stations.sort(by: {
-                if ($0.calculatedDistance == nil || $1.calculatedDistance == nil) {
+                if ($0.calculatedDistance() == nil || $1.calculatedDistance() == nil) {
                     return false
                 }
-                return $0.calculatedDistance! < $1.calculatedDistance!
+                return $0.calculatedDistance()! < $1.calculatedDistance()!
             })
             return stations
         }
@@ -224,7 +224,7 @@ final public class TFCFavorites: NSObject {
                         nearestStationId = stations.first?.st_id
                         for station in stations.prefix(maxStations) {
                             nearbyFavorites[station.st_id] = station
-                            if let distance = station.calculatedDistance {
+                            if let distance = station.calculatedDistance() {
                                 maxDistance = max(maxDistance, distance)
                             }
                         }
@@ -241,8 +241,8 @@ final public class TFCFavorites: NSObject {
                             DLog("Delete geofence \(circularRegion.identifier) with radius \(circularRegion.radius.roundToPlaces(1))")
                             locationManager.stopMonitoring(for: circularRegion)
                         } else {
-                            if (nearbyFavorites[circularRegion.identifier]?.calculatedDistance != nil &&
-                                nearbyFavorites[circularRegion.identifier]!.calculatedDistance! < (radius + 200)) {
+                            if (nearbyFavorites[circularRegion.identifier]?.calculatedDistance() != nil &&
+                                nearbyFavorites[circularRegion.identifier]!.calculatedDistance()! < (radius + 200)) {
                                 //DLog("geofence for \(circularRegion.identifier) radius: \(circularRegion.radius.roundToPlaces(1)) is within radius, update it later")
                                 locationManager.stopMonitoring(for: circularRegion)
                             } else if circularRegion.radius < radius {

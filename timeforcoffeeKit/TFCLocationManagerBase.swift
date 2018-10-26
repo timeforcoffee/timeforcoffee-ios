@@ -59,7 +59,7 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
         self.locationManager.delegate = nil
     }
 
-    class func setCurrentLocation(_ location: CLLocation?, time:Date? = nil) {
+    public class func setCurrentLocation(_ location: CLLocation?, time:Date? = nil) {
         var newTimestamp = time
         if (location?.timestamp != nil) {
             newTimestamp = location?.timestamp

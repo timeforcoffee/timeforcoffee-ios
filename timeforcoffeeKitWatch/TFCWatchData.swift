@@ -184,7 +184,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
                     replyC.reply = reply
                     replyC.errorReply = errorReply
                     DLog("searchForStationsInDB before", toFile: true)
-                    self.stations?.searchForStationsInDB(loc.coordinate, context: replyC)
+                    self.stations?.searchForStationsInDB(loc, context: replyC)
                 } else {
                     if let err = replyInfo["error"] as? NSError {
                         if (err.code == CLError.Code.locationUnknown.rawValue) {

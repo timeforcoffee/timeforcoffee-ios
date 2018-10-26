@@ -344,24 +344,25 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                     pagedView.moveToNearbyStations()
                 }
             }
+        } else if (url.host == "x-callback-url") {
+            func callUrl(_ url: URL?) {
+                DispatchQueue.main.async {
+                    if let url = url {
+                        UIApplication.shared.openURL(url)
+                        DLog("Called x-callback-url")
+                    }
+                }
+            }
+            let cb = TFCXCallback()
+            cb.handleCall(url: url, callback: callUrl)
+            
         } else if (url.host == "favorites") {
             openFavorites()
         } else if (url.host == "closest") {
             openClosestStation()
         } else if (url.host == "station" && url.query != nil) {
          
-            var queryStrings = [String: String]()
-            if let query = url.query {
-                for qs in query.components(separatedBy: "&") {
-                    // Get the parameter name
-                    let key = qs.components(separatedBy: "=")[0]
-                    // Get the parameter name
-                    var value = qs.components(separatedBy: "=")[1]
-                    value = value.replacingOccurrences(of: "+", with: " ")
-                    value = value.removingPercentEncoding!
-                    queryStrings[key] = value
-                }
-            }
+            let queryStrings = TFCXCallback.getQueryParameters(url)
             if let name = queryStrings["name"] as String? {
                 var Clocation: CLLocation? = nil
                 if (queryStrings["lat"] != nil) {
@@ -374,6 +375,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         return true
     }
+
     
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
         

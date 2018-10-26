@@ -171,7 +171,7 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
         favorite.s.repopulateFavorites()
         var favs:[TFCStation] = []
         for (station) in favorite.s.stations {
-            if let c = station.calculatedDistance, c < favDistance {
+            if let c = station.calculatedDistance(location), c < favDistance {
                 hasNearbyFavs = true
                 if (inStationsArrayAsFavorite[station.st_id] != true) {
                     favs.append(station)
@@ -184,10 +184,10 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
 
         if (hasNearbyFavs) {
             favs.sort(by: {
-                if ($0.calculatedDistance == nil || $1.calculatedDistance == nil) {
+                if ($0.calculatedDistance() == nil || $1.calculatedDistance() == nil) {
                     return false
                 }
-                return $0.calculatedDistance! < $1.calculatedDistance!
+                return $0.calculatedDistance(location)! < $1.calculatedDistance(location)!
             })
             self.nearbyFavorites.replace(favs)
             return true
@@ -203,10 +203,10 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
     public func sortStations(_ location: CLLocation?) {
         if (location != nil) {
             self._stations.sortInPlace({
-                if ($0.calculatedDistance == nil || $1.calculatedDistance == nil) {
+                if ($0.calculatedDistance() == nil || $1.calculatedDistance() == nil) {
                     return false
                 }
-                return $0.calculatedDistance! < $1.calculatedDistance!
+                return $0.calculatedDistance()! < $1.calculatedDistance()!
             })
         }
     }
@@ -246,13 +246,17 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
     }
 
     public func locationFixed(_ loc: CLLocation?) {
+        initStationsByLocation(loc, currentRealLocation: true)
+    }
+    
+    public func initStationsByLocation(_ loc: CLLocation?, currentRealLocation: Bool = true) {
         if let loc = loc {
             if (self.initWithNearbyFavorites(loc)) {
-                self.callStationsUpdatedDelegate(nil, favoritesOnly: true)
+                self.callStationsUpdatedDelegate(nil, favoritesOnly: true, currentRealLocation: currentRealLocation)
             }
             let coord = loc.coordinate
             if (TFCLocationManager.getISOCountry() == "CH") {
-                self.searchForStationsInDB(coord)
+                self.searchForStationsInDB(loc, currentRealLocation: currentRealLocation)
             } else {
                 self.api.searchFor(coord)
             }
@@ -269,11 +273,12 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
             callStationsUpdatedDelegate(TFCLocationManager.k.AirplaneMode)
     }
     
-    public func searchForStationsInDB(_ coord: CLLocationCoordinate2D, distance: Double = 1500.0, context: Any? = nil) {
+    public func searchForStationsInDB(_ coord: CLLocation, distance: Double = 1500.0, context: Any? = nil,
+                                      currentRealLocation:Bool = true) {
 
         var err:String?
 
-        let ids = getStationIdsForCoord(coord, distance: distance)
+        let ids = getStationIdsForCoord(coord.coordinate, distance: distance)
 
         if (ids.count < 8 && distance < 50000) {
             return searchForStationsInDB(coord, distance: distance * 2, context: context)
@@ -296,17 +301,17 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
             })
             //remove stations not within distance
             .filter({(station: TFCStation?) in
-                if (station?.calculatedDistance == nil || station!.calculatedDistance! > distance) {
+                if (station?.calculatedDistance(coord) == nil || station!.calculatedDistance(coord)! > distance) {
                     return false
                 }
                 return true
             }).compactMap {$0} // remove all optionals
         //sort by distance
         stations.sort(by: {
-            if ($0.calculatedDistance == nil || $1.calculatedDistance == nil) {
+            if ($0.calculatedDistance(coord) == nil || $1.calculatedDistance(coord) == nil) {
                 return false
             }
-            return $0.calculatedDistance! < $1.calculatedDistance!
+            return $0.calculatedDistance(coord)! < $1.calculatedDistance(coord)!
         })
 
         self._stations.replace(Array(stations.prefix(self.maxStations))) //only add max stations
@@ -318,7 +323,7 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
             }
             err = self.getReasonForNoStationFound()
         }
-        callStationsUpdatedDelegate(err, favoritesOnly: false, context: context)
+        callStationsUpdatedDelegate(err, favoritesOnly: false, context: context, currentRealLocation: currentRealLocation)
     }
 
     fileprivate func getStationIdsForCoord(_ coord: CLLocationCoordinate2D, distance: Double) -> [String]
@@ -369,11 +374,7 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
         callStationsUpdatedDelegate(err, favoritesOnly: false, context: nil)
     }
 
-    fileprivate func callStationsUpdatedDelegate(_ err: String?, favoritesOnly: Bool) {
-        callStationsUpdatedDelegate(err, favoritesOnly: favoritesOnly, context: nil)
-    }
-
-    fileprivate func callStationsUpdatedDelegate(_ err: String?, favoritesOnly: Bool, context: Any?) {
+    fileprivate func callStationsUpdatedDelegate(_ err: String?, favoritesOnly: Bool, context: Any? = nil, currentRealLocation:Bool = true) {
         DispatchQueue.global(qos: .default).async {
             if (err == TFCLocationManager.k.AirplaneMode) {
                 self.loadingMessage = "Airplane Mode?"
@@ -384,7 +385,7 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
                 }
                 self.networkErrorMsg = err
             }
-            if let firstStation = self.getStation(0) {
+            if currentRealLocation, let firstStation = self.getStation(0) {
                 //only send a complication update, if it's a favorite
                 if firstStation.isFavorite() {
                     TFCDataStore.sharedInstance.sendComplicationUpdate(firstStation, coord: TFCLocationManagerBase.getCurrentLocation()?.coordinate)
