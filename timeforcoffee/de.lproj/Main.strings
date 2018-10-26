@@ -5,8 +5,8 @@
 /* Class = "UILabel"; text = "StationLabel"; ObjectID = "16i-Rp-bDP"; */
 "16i-Rp-bDP.text" = "StationLabel";
 
-/* Class = "UITextView"; text = "Search radius for Favourites:"; ObjectID = "1WW-X2-xCT"; */
-"1WW-X2-xCT.text" = "Search radius for Favourites:";
+/* Class = "UITextView"; text = "Search radius for Favorites:"; ObjectID = "1WW-X2-xCT"; */
+"1WW-X2-xCT.text" = "Search radius for Favorites:";
 
 /* Class = "UILabel"; text = "13"; ObjectID = "1jx-HP-fcA"; */
 "1jx-HP-fcA.text" = "13";
@@ -83,11 +83,11 @@
 /* Class = "UITextView"; text = "          6"; ObjectID = "hVt-ir-et7"; */
 "hVt-ir-et7.text" = "          6";
 
-/* Class = "UIButton"; accessibilityHint = "Favourite this station"; ObjectID = "nm9-vv-oCK"; */
-"nm9-vv-oCK.accessibilityHint" = "Favourite this station";
+/* Class = "UIButton"; accessibilityHint = "Favorite this station"; ObjectID = "nm9-vv-oCK"; */
+"nm9-vv-oCK.accessibilityHint" = "Favorite this station";
 
-/* Class = "UIButton"; accessibilityLabel = "Favourite"; ObjectID = "nm9-vv-oCK"; */
-"nm9-vv-oCK.accessibilityLabel" = "Favourite";
+/* Class = "UIButton"; accessibilityLabel = "Favorite"; ObjectID = "nm9-vv-oCK"; */
+"nm9-vv-oCK.accessibilityLabel" = "Favorite";
 
 /* Class = "UIButton"; normalTitle = "☆"; ObjectID = "nm9-vv-oCK"; */
 "nm9-vv-oCK.normalTitle" = "☆";
@@ -101,11 +101,11 @@
 /* Class = "UITextView"; text = "Show Real Time besides in departures times"; ObjectID = "rL3-sl-2ji"; */
 "rL3-sl-2ji.text" = "Show Real Time info in departures times";
 
-/* Class = "UIButton"; accessibilityHint = "Favourite this connection"; ObjectID = "yQn-8J-V9g"; */
-"yQn-8J-V9g.accessibilityHint" = "Favourite this connection";
+/* Class = "UIButton"; accessibilityHint = "Favorite this connection"; ObjectID = "yQn-8J-V9g"; */
+"yQn-8J-V9g.accessibilityHint" = "Favorite this connection";
 
-/* Class = "UIButton"; accessibilityLabel = "Favourite"; ObjectID = "yQn-8J-V9g"; */
-"yQn-8J-V9g.accessibilityLabel" = "Favourite";
+/* Class = "UIButton"; accessibilityLabel = "Favorite"; ObjectID = "yQn-8J-V9g"; */
+"yQn-8J-V9g.accessibilityLabel" = "Favorite";
 
 /* Class = "UIButton"; normalTitle = "☆"; ObjectID = "yQn-8J-V9g"; */
 "yQn-8J-V9g.normalTitle" = "☆";

@@ -60,11 +60,15 @@ final public class TFCFavorites: NSObject {
     public func donateDefaultIntents(force:Bool = false) {
         if #available(iOSApplicationExtension 12.0, watchOSApplicationExtension 5.0, *) {
             DispatchQueue.global(qos:  DispatchQoS.QoSClass.utility).async {
+                DLog("donateDefaultIntents: Should we update update?", toFile: true)
                 let lastUpdate = self.getLastDefaultIntentUpdate()
                 // only update favorites intents every 7 days
+                DLog("donateDefaultIntents: lastUpdate: \(String(describing: lastUpdate))", toFile: true)
+                DLog("donateDefaultIntents: sinceNow: \(String(describing: lastUpdate?.timeIntervalSinceNow ))", toFile: true)
                 if force == true || lastUpdate == nil ||
-                    lastUpdate!.timeIntervalSinceNow < -3600 * 24 * 3
+                    lastUpdate!.timeIntervalSinceNow < -3600 * 24 * 1
                 {
+                    DLog("donateDefaultIntents: doDonate", toFile: true)
                     let closestIntent = self.getClosestIntent()
                     let interaction = INInteraction(intent: closestIntent, response: nil)
                     interaction.donate()

@@ -14,7 +14,7 @@ Loading = "Chargement ...";
 
 "No stations found." = "Pas d'arrêts trouvés";
 
-"No favourites found." = "Pas de favoris trouvés.";
+"No favorites found." = "Pas de favoris trouvés.";
 
 "Remove some filters." = "Enlève certains filtres.";
 
@@ -24,7 +24,7 @@ Loading = "Chargement ...";
 
 "No connection information found." = "Pas d'informations trouvées sur les connexions.";
 
-"Favourites" = "Favoris";
+"Favorites" = "Favoris";
 
 "Nearby Stations" = "Arrêts à proximité";
 
@@ -40,17 +40,17 @@ Loading = "Chargement ...";
 
 "%@ %@ in %d minutes. %@ At %@" = "%@ %@ dans %d minutes. %@ À %@";
 
-"Favourite Station?" = "Station préférée?";
+"Favorite Station?" = "Station préférée?";
 
-"Double-Tap for favouriting this station" = "Double-Tap pour préférée cette station";
+"Double-Tap for favoriting this station" = "Double-Tap pour préférée cette station";
 
-"Double-Tap for unfavouriting this station" = "Double-Tap pour non préférée cette station";
+"Double-Tap for unfavoriting this station" = "Double-Tap pour non préférée cette station";
 
-"Favourite Connection?" = "Connexion préférée?";
+"Favorite Connection?" = "Connexion préférée?";
 
-"Double-Tap for favouriting this connection" = "Double-Tap pour préférée cette connexion";
+"Double-Tap for favoriting this connection" = "Double-Tap pour préférée cette connexion";
 
-"Double-Tap for unfavouriting this connection" =  "Double-Tap pour non préférée cette connexion";
+"Double-Tap for unfavoriting this connection" =  "Double-Tap pour non préférée cette connexion";
 
 "Yes" = "Ou";
 

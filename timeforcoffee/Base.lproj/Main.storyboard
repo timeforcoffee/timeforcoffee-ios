@@ -641,7 +641,7 @@
                                             <action selector="favoritesRadiusSliderChangedValue:" destination="v4W-Hv-fUQ" eventType="valueChanged" id="MCg-SM-joW"/>
                                         </connections>
                                     </slider>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Search radius for Favourites:" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1WW-X2-xCT">
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Search radius for Favorites:" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1WW-X2-xCT">
                                         <rect key="frame" x="-5" y="0.0" width="278" height="50"/>
                                         <accessibility key="accessibilityConfiguration">
                                             <accessibilityTraits key="traits" notEnabled="YES"/>

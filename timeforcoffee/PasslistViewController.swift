@@ -74,15 +74,15 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
 
         if let departure = departure {
 
-            favButton.accessibilityLabel = NSLocalizedString("Favourite Connection?", comment: "Favourite Connection?")
+            favButton.accessibilityLabel = NSLocalizedString("Favorite Connection?", comment: "Favorite Connection?")
 
             if (departure.isFavorite() == true) {
                 favButton.setTitle("★", for: UIControl.State())
-                favButton.accessibilityHint = NSLocalizedString("Double-Tap for unfavouriting this connection", comment: "Double-Tap for unfavouriting this connection")
+                favButton.accessibilityHint = NSLocalizedString("Double-Tap for unfavoriting this connection", comment: "Double-Tap for unfavoriting this connection")
                 favButton.accessibilityValue = NSLocalizedString("Yes", comment: "Yes")
             } else {
                 favButton.accessibilityValue = NSLocalizedString("No", comment: "No")
-                favButton.accessibilityHint = NSLocalizedString("Double-Tap for favouriting this connection", comment: "Double-Tap for favouriting this connection")
+                favButton.accessibilityHint = NSLocalizedString("Double-Tap for favoriting this connection", comment: "Double-Tap for favoriting this connection")
             }
             self.stationIconButton.setStyle("normal", departure: departure)
         }

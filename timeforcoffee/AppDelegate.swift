@@ -280,6 +280,17 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         completionHandler(handledShortCutItem)
     }
 
+    fileprivate func openFavorites() {
+        // Handle shortcut 1 (static).
+        if let rootView = self.window?.rootViewController as! UINavigationController? {
+            rootView.dismiss(animated: false, completion: nil)
+            rootView.popToRootViewController(animated: true)
+            if let pagedView:PagedStationsViewController = rootView.viewControllers.first as! PagedStationsViewController? {
+                pagedView.moveToFavorites()
+            }
+        }
+    }
+    
     func handleShortCutItem(_ shortcutItem: UIApplicationShortcutItem) -> Bool {
         // Verify that the provided `shortcutItem`'s `type` is one handled by the application.
         var handled = false
@@ -289,14 +300,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         startedWithShortcut = shortCutType
         switch (shortCutType) {
         case ShortcutIdentifier.favorites.type:
-            // Handle shortcut 1 (static).
-            if let rootView = self.window?.rootViewController as! UINavigationController? {
-                rootView.dismiss(animated: false, completion: nil)
-                rootView.popToRootViewController(animated: true)
-                if let pagedView:PagedStationsViewController = rootView.viewControllers.first as! PagedStationsViewController? {
-                    pagedView.moveToFavorites()
-                }
-            }
+            openFavorites()
             handled = true
             break
         case ShortcutIdentifier.search.type:
@@ -340,7 +344,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                     pagedView.moveToNearbyStations()
                 }
             }
-
+        } else if (url.host == "favorites") {
+            openFavorites()
         } else if (url.host == "station" && url.query != nil) {
          
             var queryStrings = [String: String]()

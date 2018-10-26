@@ -101,15 +101,15 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
         optionsButton.addTarget(self, action: #selector(DeparturesViewController.optionsClicked(_:)), for: UIControl.Event.touchUpInside)
         stationIconButton.addTarget(self, action: #selector(DeparturesViewController.favoriteClicked(_:)), for: UIControl.Event.touchUpInside)
 
-        favButton.accessibilityLabel = NSLocalizedString("Favourite Station?", comment: "Favourite Station?")
+        favButton.accessibilityLabel = NSLocalizedString("Favorite Station?", comment: "Favorite Station?")
 
         if (station?.isFavorite() == true) {
             favButton.setTitle("★", for: UIControl.State())
-            favButton.accessibilityHint = NSLocalizedString("Double-Tap for favouriting this station", comment: "Double-Tap for favouriting this station")
+            favButton.accessibilityHint = NSLocalizedString("Double-Tap for favoriting this station", comment: "Double-Tap for favoriting this station")
             favButton.accessibilityValue = NSLocalizedString("Yes", comment: "Yes")
         } else {
             favButton.accessibilityValue = NSLocalizedString("No", comment: "No")
-            favButton.accessibilityHint = NSLocalizedString("Double-Tap for favouriting this station", comment: "Double-Tap for favouriting this station")
+            favButton.accessibilityHint = NSLocalizedString("Double-Tap for favoriting this station", comment: "Double-Tap for favoriting this station")
         }
         self.stationIconView.layer.cornerRadius = self.stationIconView.frame.width / 2
         //        self.stationIconImage.image = station?.getIcon()
@@ -318,7 +318,7 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
         if (self.station != nil) {
             updateInAMinute()
             self.station?.updateDepartures(self)
-            let favLocalized = NSLocalizedString("Favourites", comment: "")
+            let favLocalized = NSLocalizedString("Favorites", comment: "")
             if (station?.hasFavoriteDepartures() != true && station?.hasFilters() != true) {
                 segmentedView.setTitle(favLocalized + "?", forSegmentAt: 1)
             } else {
@@ -408,7 +408,7 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
                     if (segmentedView.selectedSegmentIndex == 0 ||  station?.hasFavoriteDepartures() == true) {
                         destinationLabel.text = NSLocalizedString("No departures found.", comment: "")
                     } else {
-                        destinationLabel.text = NSLocalizedString("No favourites found.", comment: "")
+                        destinationLabel.text = NSLocalizedString("No favorites found.", comment: "")
 
                     }
                     if (self.networkErrorMsg != nil) {

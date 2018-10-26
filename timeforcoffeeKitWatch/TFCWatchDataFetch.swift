@@ -151,7 +151,8 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
 
         let backgroundConfigObject = URLSessionConfiguration.background(withIdentifier: (UUID().uuidString))
         backgroundConfigObject.requestCachePolicy = .useProtocolCachePolicy
-        backgroundConfigObject.timeoutIntervalForResource = 60
+        backgroundConfigObject.timeoutIntervalForResource = 15
+        backgroundConfigObject.timeoutIntervalForRequest = 10
         if let uid = TFCDataStore.sharedInstance.getTFCID() {
             backgroundConfigObject.httpAdditionalHeaders = ["TFCID": uid]
 

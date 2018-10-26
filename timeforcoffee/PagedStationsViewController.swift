@@ -138,7 +138,7 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         pageLabel1.tag = 1
 
         let pageLabel2 = UILabel(frame: CGRect(x: scrollViewWidth! / 2, y: 0, width: scrollViewWidth! / 2, height: 20))
-        pageLabel2.text = NSLocalizedString("Favourites", comment: "")
+        pageLabel2.text = NSLocalizedString("Favorites", comment: "")
         pageLabel2.font = labelFont
         pageLabel2.textAlignment = NSTextAlignment.center
         pageLabel2.tag = 2
