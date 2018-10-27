@@ -72,7 +72,10 @@ final public class TFCFavorites: NSObject {
                     let closestIntent = self.getClosestIntent()
                     let interaction = INInteraction(intent: closestIntent, response: nil)
                     interaction.donate()
-                    
+                    let clipboardIntent = ClipboardIntent()
+                    let clipboardInteraction = INInteraction(intent: clipboardIntent, response: nil)
+                    clipboardInteraction.donate()
+
                     self.setLastDefaultIntentUpdate()
                 }
             }

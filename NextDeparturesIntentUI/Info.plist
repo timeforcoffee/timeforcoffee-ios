@@ -26,6 +26,7 @@
 		<dict>
 			<key>IntentsSupported</key>
 			<array>
+				<string>ClipboardIntent</string>
 				<string>INSendMessageIntent</string>
 				<string>NextDeparturesIntent</string>
 			</array>

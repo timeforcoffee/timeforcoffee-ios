@@ -74,7 +74,11 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                     }
                     )
                 }
-                self.localUserDefaults?.set(3, forKey: "applicationVersion")
+            }
+            
+            if version < 4 {
+                TFCFavorites.sharedInstance.donateDefaultIntents(force: true)
+                self.localUserDefaults?.set(4, forKey: "applicationVersion")
             }
         }
         TFCFavorites.sharedInstance.donateDefaultIntents()
@@ -354,7 +358,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
             let cb = TFCXCallback()
-            cb.handleCall(url: url, callback: callUrl)
+            cb.handleCall(input: url.absoluteString, callback: callUrl)
             
         } else if (url.host == "favorites") {
             openFavorites()
@@ -402,7 +406,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         if #available(iOS 12.0, *) {
             if (userActivity.interaction?.intent is NextDeparturesIntent) {
                 if let intent = userActivity.interaction?.intent as? NextDeparturesIntent {
-                    if let st_id = intent.stationObj?.identifier {
+                  if let st_id = intent.stationObj?.identifier {
                         let name:String
                         if let stationName = intent.stationObj?.displayString {
                             name = stationName

@@ -30,6 +30,7 @@
 			<array/>
 			<key>IntentsSupported</key>
 			<array>
+				<string>ClipboardIntent</string>
 				<string>NextDeparturesIntent</string>
 			</array>
 		</dict>

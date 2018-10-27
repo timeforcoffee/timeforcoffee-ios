@@ -24,6 +24,7 @@
 	<string>232</string>
 	<key>NSUserActivityTypes</key>
 	<array>
+		<string>ClipboardIntent</string>
 		<string>NextDeparturesIntent</string>
 	</array>
 	<key>UISupportedInterfaceOrientations</key>

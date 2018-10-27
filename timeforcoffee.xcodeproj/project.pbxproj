@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2B88DF2815AD5468F35E0D41 /* Pods_timeforcoffee.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 718175B4EFBEAE5C6B57753F /* Pods_timeforcoffee.framework */; };
 		EC053F182183A77E0001F803 /* TFCXCallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC053F172183A77E0001F803 /* TFCXCallback.swift */; };
+		EC053F2F2183B8380001F803 /* ClipboardIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC053F2E2183B8380001F803 /* ClipboardIntentHandler.swift */; };
 		EC0AD15F1BB694CC004217FD /* SmoochLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC0AD15E1BB694CC004217FD /* SmoochLocalizable.strings */; };
 		EC0AD1621BB69539004217FD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC0AD1641BB69539004217FD /* Localizable.strings */; };
 		EC0B0EAC1E16C214000E52AE /* TFCStationCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0B0EAB1E16C214000E52AE /* TFCStationCollection.swift */; };
@@ -205,7 +206,7 @@
 		ECEDDAD61BC992240088AFB2 /* TFCStationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FB1BC7238C00AB83B9 /* TFCStationModel.swift */; };
 		ECEDDAD71BC992270088AFB2 /* TFCStationModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FA1BC7238C00AB83B9 /* TFCStationModel+CoreDataProperties.swift */; };
 		ECEDDAD81BC9922A0088AFB2 /* DataModels.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EC810B041BC7963C0007B874 /* DataModels.xcdatamodeld */; };
-		ECEF28161BCBC951000F4094 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		ECEF28161BCBC951000F4094 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		ECEF281A1BCBC98F000F4094 /* TFC.plist in Resources */ = {isa = PBXBuildFile; fileRef = ECEF28191BCBC98F000F4094 /* TFC.plist */; };
 		ECEF281B1BCBC999000F4094 /* TFC.plist in Resources */ = {isa = PBXBuildFile; fileRef = ECEF28191BCBC98F000F4094 /* TFC.plist */; };
 		ECFEEAA4215D7E7D005FA396 /* TFCTaskWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFEEAA3215D7E7D005FA396 /* TFCTaskWrapper.swift */; };
@@ -378,6 +379,7 @@
 		E6FAD2398FD70FEE993997B1 /* Pods-timeforcoffee.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-timeforcoffee.debug.xcconfig"; path = "Pods/Target Support Files/Pods-timeforcoffee/Pods-timeforcoffee.debug.xcconfig"; sourceTree = "<group>"; };
 		EC050CF71BB84D8100ECB533 /* watch-extension-bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "watch-extension-bridging-Header.h"; sourceTree = "<group>"; };
 		EC053F172183A77E0001F803 /* TFCXCallback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFCXCallback.swift; sourceTree = "<group>"; };
+		EC053F2E2183B8380001F803 /* ClipboardIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardIntentHandler.swift; sourceTree = "<group>"; };
 		EC0AD15E1BB694CC004217FD /* SmoochLocalizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = SmoochLocalizable.strings; sourceTree = "<group>"; };
 		EC0AD1631BB69539004217FD /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EC0AD1661BB69593004217FD /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MainInterface.strings; sourceTree = "<group>"; };
@@ -890,6 +892,7 @@
 				EC46C55D1BB5C82800F2A963 /* Info.plist */,
 				ECEF28191BCBC98F000F4094 /* TFC.plist */,
 				EC647C48215581E700D94C87 /* NextDeparturesIntentHandler.swift */,
+				EC053F2E2183B8380001F803 /* ClipboardIntentHandler.swift */,
 				EC32FB10215CC68A006BFEA8 /* Intents.intentdefinition */,
 				EC32FB33215CE594006BFEA8 /* Localizable.stringsdict */,
 			);
@@ -1476,7 +1479,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ECEF28161BCBC951000F4094 /* BuildFile in Resources */,
+				ECEF28161BCBC951000F4094 /* (null) in Resources */,
 				EC1834DB1BCADA0E008B44F3 /* SingleViewCoreData.sqlite in Resources */,
 				EC32FAA8215BBA3F006BFEA8 /* time-for-coffee-icon-512.png in Resources */,
 				ECEF281A1BCBC98F000F4094 /* TFC.plist in Resources */,
@@ -1734,6 +1737,7 @@
 				EC9BCB2D1BB5CCD300623F1A /* TFCCache.swift in Sources */,
 				EC68469B1BF9CDBD00BD8531 /* TFCSettings.swift in Sources */,
 				EC0B0EAC1E16C214000E52AE /* TFCStationCollection.swift in Sources */,
+				EC053F2F2183B8380001F803 /* ClipboardIntentHandler.swift in Sources */,
 				EC18AA931BE4067000488DC4 /* TFCDeparturePass.swift in Sources */,
 				EC9BCB301BB5CCD300623F1A /* TFCDeparture.swift in Sources */,
 				EC9BCB441BB5CD4D00623F1A /* PINCache.m in Sources */,

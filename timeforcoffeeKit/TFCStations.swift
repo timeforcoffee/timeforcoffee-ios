@@ -184,7 +184,7 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
 
         if (hasNearbyFavs) {
             favs.sort(by: {
-                if ($0.calculatedDistance() == nil || $1.calculatedDistance() == nil) {
+                if ($0.calculatedDistance(location) == nil || $1.calculatedDistance(location) == nil) {
                     return false
                 }
                 return $0.calculatedDistance(location)! < $1.calculatedDistance(location)!
