@@ -65,19 +65,19 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         var version = self.localUserDefaults?.integer(forKey: "applicationVersion")
         if version == nil { version = 0}
         if let version = version {
-            if version < 3 {
-                CSSearchableIndex.default().deleteAllSearchableItems()
-                
-                if #available(iOS 10.0, *) {
-                    INInteraction.deleteAll(completion: { (error: Error?) in
-                        TFCFavorites.sharedInstance.donateDefaultIntents()
-                    }
-                    )
-                }
-            }
-            
             if version < 4 {
-                TFCFavorites.sharedInstance.donateDefaultIntents(force: true)
+                if version < 3 {
+                    CSSearchableIndex.default().deleteAllSearchableItems()
+                    
+                    if #available(iOS 10.0, *) {
+                        INInteraction.deleteAll(completion: { (error: Error?) in
+                            TFCFavorites.sharedInstance.donateDefaultIntents()
+                        }
+                        )
+                    }
+                } else {
+                    TFCFavorites.sharedInstance.donateDefaultIntents(force: true)
+                }
                 self.localUserDefaults?.set(4, forKey: "applicationVersion")
             }
         }
@@ -349,17 +349,44 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
         } else if (url.host == "x-callback-url") {
-            func callUrl(_ url: URL?) {
-                DispatchQueue.main.async {
-                    if let url = url {
-                        UIApplication.shared.openURL(url)
-                        DLog("Called x-callback-url")
+            let cb = TFCXCallback()
+            var queryStrings:[String:String] = [:]
+            queryStrings = TFCXCallback.getQueryParameters(url)
+            if queryStrings["method"] == nil {
+                queryStrings["method"] = url.path
+            }
+            let xErrorUrl =  queryStrings["x-error"]
+            if let xCallbackUrl = queryStrings["x-success"] {
+                func callUrl(_ error: String?, _ queryParams: [String:String?]) {
+                    if let error = error {
+                        if let callBackUrl = URL(string: "\(xErrorUrl ?? "")?errorMessage=\(error)") {
+                            DLog("Call x-callback-url with error: \(callBackUrl)?errorMessage=\(error)")
+                            DispatchQueue.main.async {
+                                UIApplication.shared.openURL(callBackUrl)
+                                DLog("Called x-callback-url with error")
+                            }
+                        }
+                        return
+                    }
+                    
+                    var components = URLComponents()
+                    
+                    components.queryItems = queryParams.map {
+                        URLQueryItem(name: $0, value: $1)
+                    }
+                    
+                    if let callBackUrl = URL(string: "\(xCallbackUrl)\(components.url?.absoluteString ?? "")") {
+                        DLog("Call x-callback-url: \(callBackUrl)")
+                        DispatchQueue.main.async {
+                            UIApplication.shared.openURL(callBackUrl)
+                            DLog("Called x-callback-url")
+                        }
                     }
                 }
+                cb.handleCall(queryStrings: queryStrings, callback: callUrl)
             }
-            let cb = TFCXCallback()
-            cb.handleCall(input: url.absoluteString, callback: callUrl)
-            
+        
+
         } else if (url.host == "favorites") {
             openFavorites()
         } else if (url.host == "closest") {
