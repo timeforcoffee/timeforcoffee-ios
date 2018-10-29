@@ -9,6 +9,11 @@
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="HelveticaNeue.ttc">
+            <string>HelveticaNeue-Bold</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--Departures View Controller-->
         <scene sceneID="ftz-1N-Mom">
@@ -371,12 +376,16 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dXz-pn-tWN">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" red="0.99517929553985596" green="0.76438117027282715" blue="0.036827042698860168" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q9O-yd-D0k">
+                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bbe-wC-3kI">
-                                        <rect key="frame" x="10" y="40" width="300" height="220"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bbe-wC-3kI" userLabel="Logo View">
+                                        <rect key="frame" x="10" y="0.0" width="300" height="220"/>
                                         <subviews>
-                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time for Coffee" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="WUH-1o-DDL">
-                                                <rect key="frame" x="15.5" y="170" width="266" height="43"/>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time for Coffee!" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="WUH-1o-DDL">
+                                                <rect key="frame" x="10.5" y="170" width="276" height="43"/>
                                                 <color key="backgroundColor" red="0.99607843139999996" green="0.76470588240000004" blue="0.039215686270000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="36"/>
                                                 <color key="textColor" red="0.24587434530258179" green="0.23034441471099854" blue="0.16962151229381561" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -398,16 +407,19 @@
                                             <constraint firstItem="WUH-1o-DDL" firstAttribute="top" secondItem="Bbe-wC-3kI" secondAttribute="top" constant="170" id="sjh-OM-5iP"/>
                                         </constraints>
                                     </view>
-                                    <webView opaque="NO" tag="10" contentMode="scaleToFill" allowsInlineMediaPlayback="NO" mediaPlaybackRequiresUserAction="NO" mediaPlaybackAllowsAirPlay="NO" keyboardDisplayRequiresUserAction="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x72-HP-cxq">
-                                        <rect key="frame" x="10" y="393" width="300" height="175"/>
-                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <button opaque="NO" tag="60" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9UV-y7-nhe">
+                                        <rect key="frame" x="35" y="227" width="250" height="34"/>
+                                        <color key="backgroundColor" red="0.46666666670000001" green="0.29803921570000003" blue="0.1529411765" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="175" id="NZv-cY-dpO"/>
+                                            <constraint firstAttribute="width" constant="250" id="byN-4k-miI"/>
                                         </constraints>
-                                        <dataDetectorType key="dataDetectorTypes"/>
-                                    </webView>
+                                        <state key="normal" title="FAQ">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="titleShadowColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                    </button>
                                     <button opaque="NO" tag="20" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dYu-XS-w9t">
-                                        <rect key="frame" x="35" y="268" width="250" height="34"/>
+                                        <rect key="frame" x="35" y="273" width="250" height="34"/>
                                         <color key="backgroundColor" red="0.46666666666666667" green="0.29803921568627451" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="250" id="9z4-b0-ND2"/>
@@ -417,19 +429,8 @@
                                             <color key="titleShadowColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                     </button>
-                                    <button opaque="NO" tag="30" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Syr-iv-OHr">
-                                        <rect key="frame" x="35" y="316" width="250" height="34"/>
-                                        <color key="backgroundColor" red="0.46666666670000001" green="0.29803921570000003" blue="0.1529411765" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="250" id="v5s-9M-XQr"/>
-                                        </constraints>
-                                        <state key="normal" title="Review our App">
-                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <color key="titleShadowColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </state>
-                                    </button>
                                     <button opaque="NO" tag="50" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CQX-Xg-hZ5">
-                                        <rect key="frame" x="35" y="364" width="250" height="34"/>
+                                        <rect key="frame" x="35" y="319" width="250" height="34"/>
                                         <color key="backgroundColor" red="0.46666666670000001" green="0.29803921570000003" blue="0.1529411765" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="250" id="85Q-r5-TjM"/>
@@ -439,27 +440,53 @@
                                             <color key="titleShadowColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                     </button>
+                                    <button opaque="NO" tag="30" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Syr-iv-OHr">
+                                        <rect key="frame" x="35" y="365" width="250" height="34"/>
+                                        <color key="backgroundColor" red="0.46666666670000001" green="0.29803921570000003" blue="0.1529411765" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="250" id="v5s-9M-XQr"/>
+                                        </constraints>
+                                        <state key="normal" title="Review our App">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="titleShadowColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                    </button>
+                                    <webView opaque="NO" tag="10" contentMode="scaleToFill" allowsInlineMediaPlayback="NO" mediaPlaybackRequiresUserAction="NO" mediaPlaybackAllowsAirPlay="NO" keyboardDisplayRequiresUserAction="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x72-HP-cxq">
+                                        <rect key="frame" x="10" y="419" width="300" height="200"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="200" id="dWJ-l1-yqA"/>
+                                        </constraints>
+                                        <dataDetectorType key="dataDetectorTypes"/>
+                                    </webView>
                                 </subviews>
-                                <color key="backgroundColor" red="0.99517929553985596" green="0.76438117027282715" blue="0.036827042698860168" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="centerX" secondItem="dYu-XS-w9t" secondAttribute="centerX" id="2Av-Es-aeM"/>
-                                    <constraint firstItem="x72-HP-cxq" firstAttribute="leading" secondItem="Bbe-wC-3kI" secondAttribute="leading" id="BN7-I9-XTe"/>
-                                    <constraint firstItem="dYu-XS-w9t" firstAttribute="top" secondItem="Bbe-wC-3kI" secondAttribute="bottom" constant="8" id="Rrq-OZ-7aj"/>
-                                    <constraint firstItem="Syr-iv-OHr" firstAttribute="top" secondItem="dYu-XS-w9t" secondAttribute="bottom" constant="14" id="UEY-pj-5K2"/>
-                                    <constraint firstItem="Bbe-wC-3kI" firstAttribute="top" secondItem="dXz-pn-tWN" secondAttribute="top" constant="40" id="WZk-GH-bj0"/>
-                                    <constraint firstItem="CQX-Xg-hZ5" firstAttribute="top" secondItem="Syr-iv-OHr" secondAttribute="bottom" constant="14" id="dVq-eP-xNL"/>
-                                    <constraint firstAttribute="centerX" secondItem="x72-HP-cxq" secondAttribute="centerX" id="eEX-1w-noj"/>
-                                    <constraint firstItem="Syr-iv-OHr" firstAttribute="leading" secondItem="dYu-XS-w9t" secondAttribute="leading" id="nEl-le-TJ4"/>
-                                    <constraint firstAttribute="centerX" secondItem="Bbe-wC-3kI" secondAttribute="centerX" id="nYb-sH-UnO"/>
-                                    <constraint firstItem="CQX-Xg-hZ5" firstAttribute="leading" secondItem="Syr-iv-OHr" secondAttribute="leading" id="x4b-XO-0ai"/>
+                                    <constraint firstItem="Bbe-wC-3kI" firstAttribute="top" secondItem="q9O-yd-D0k" secondAttribute="top" id="1id-B7-9hp"/>
+                                    <constraint firstItem="dYu-XS-w9t" firstAttribute="top" secondItem="9UV-y7-nhe" secondAttribute="bottom" constant="12" id="Ekt-iw-B3g"/>
+                                    <constraint firstItem="x72-HP-cxq" firstAttribute="width" secondItem="Bbe-wC-3kI" secondAttribute="width" id="FXa-3w-Nwi"/>
+                                    <constraint firstItem="9UV-y7-nhe" firstAttribute="centerX" secondItem="Bbe-wC-3kI" secondAttribute="centerX" id="IzW-LD-PEn"/>
+                                    <constraint firstItem="Syr-iv-OHr" firstAttribute="leading" secondItem="CQX-Xg-hZ5" secondAttribute="leading" id="KGc-CT-kUH"/>
+                                    <constraint firstItem="x72-HP-cxq" firstAttribute="top" secondItem="Syr-iv-OHr" secondAttribute="bottom" constant="20" id="PNi-Bn-rt2"/>
+                                    <constraint firstItem="dYu-XS-w9t" firstAttribute="centerX" secondItem="Bbe-wC-3kI" secondAttribute="centerX" id="ba4-8M-Fuu"/>
+                                    <constraint firstItem="9UV-y7-nhe" firstAttribute="top" secondItem="Bbe-wC-3kI" secondAttribute="bottom" constant="7" id="daC-T7-dSp"/>
+                                    <constraint firstItem="x72-HP-cxq" firstAttribute="leading" secondItem="Bbe-wC-3kI" secondAttribute="leading" id="fwX-oW-AqH"/>
+                                    <constraint firstItem="CQX-Xg-hZ5" firstAttribute="top" secondItem="dYu-XS-w9t" secondAttribute="bottom" constant="12" id="g75-uO-5oa"/>
+                                    <constraint firstAttribute="bottom" secondItem="x72-HP-cxq" secondAttribute="bottom" constant="33" id="jUy-nr-QTN"/>
+                                    <constraint firstAttribute="trailing" secondItem="Bbe-wC-3kI" secondAttribute="trailing" constant="37" id="jb5-Sj-4zp"/>
+                                    <constraint firstItem="Syr-iv-OHr" firstAttribute="top" secondItem="CQX-Xg-hZ5" secondAttribute="bottom" constant="12" id="syH-S9-47J"/>
+                                    <constraint firstItem="CQX-Xg-hZ5" firstAttribute="centerX" secondItem="Bbe-wC-3kI" secondAttribute="centerX" id="t2o-Cu-nwJ"/>
+                                    <constraint firstItem="Bbe-wC-3kI" firstAttribute="centerX" secondItem="q9O-yd-D0k" secondAttribute="centerX" id="t44-i1-RnT"/>
                                 </constraints>
-                            </view>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" red="0.99517929553985596" green="0.76438117027282715" blue="0.036827042698860168" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="dXz-pn-tWN" firstAttribute="height" secondItem="YGJ-Wo-cLS" secondAttribute="height" id="1Ex-FI-ZNe"/>
                             <constraint firstItem="dXz-pn-tWN" firstAttribute="width" secondItem="YGJ-Wo-cLS" secondAttribute="width" id="6bk-kJ-VdS"/>
-                            <constraint firstItem="x72-HP-cxq" firstAttribute="bottom" secondItem="ZXD-bx-d5w" secondAttribute="bottom" id="QF1-en-05M"/>
+                            <constraint firstItem="q9O-yd-D0k" firstAttribute="width" secondItem="ZXD-bx-d5w" secondAttribute="width" id="9cz-mP-sou"/>
+                            <constraint firstItem="q9O-yd-D0k" firstAttribute="top" secondItem="ZXD-bx-d5w" secondAttribute="top" id="H9u-1U-waI"/>
+                            <constraint firstItem="q9O-yd-D0k" firstAttribute="leading" secondItem="ZXD-bx-d5w" secondAttribute="leading" id="O9a-2W-Xag"/>
+                            <constraint firstItem="q9O-yd-D0k" firstAttribute="bottom" secondItem="ZXD-bx-d5w" secondAttribute="bottom" id="OWw-cO-Hut"/>
                             <constraint firstAttribute="centerY" secondItem="dXz-pn-tWN" secondAttribute="centerY" id="Vcj-oY-GkV"/>
                             <constraint firstAttribute="top" secondItem="dXz-pn-tWN" secondAttribute="top" id="fdA-Cb-e2d"/>
                             <constraint firstAttribute="centerX" secondItem="dXz-pn-tWN" secondAttribute="centerX" id="j2k-DI-HVm"/>
@@ -469,7 +496,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c9a-mX-pPc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="692" y="-1649"/>
+            <point key="canvasLocation" x="692" y="-1649.2610837438424"/>
         </scene>
         <!--About Paged View Controller-->
         <scene sceneID="KF4-oB-ftp">
@@ -774,7 +801,7 @@ in departures times</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QaU-sn-qCJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1335" y="-1479.9295774647887"/>
+            <point key="canvasLocation" x="1843" y="-1529"/>
         </scene>
         <!--Station View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -785,7 +812,7 @@ in departures times</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleAspectFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="1sI-wO-cFy" customClass="StationTableView" customModule="timeforcoffee" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                                <rect key="frame" x="0.0" y="7" width="320" height="561"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="separatorColor" red="0.83514857292175293" green="0.83512353897094727" blue="0.83513772487640381" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
@@ -844,7 +871,7 @@ in departures times</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleAspectFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="oHe-UY-ssv" customClass="StationTableView" customModule="timeforcoffee" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                                <rect key="frame" x="0.0" y="7" width="320" height="561"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <outlet property="dataSource" destination="az0-vD-KZC" id="xSI-rx-1qt"/>

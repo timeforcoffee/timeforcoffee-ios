@@ -55,6 +55,10 @@ final class AboutPagedViewController: UIViewController, SwipeViewDataSource, Swi
             settingsbutton.addTarget(self, action: #selector(AboutPagedViewController.openSettings), for: UIControl.Event.touchUpInside
             )
 
+            let faqbutton = aboutview?.viewWithTag(60) as! UIButton
+            faqbutton.addTarget(self, action: #selector(AboutPagedViewController.openFaq), for: UIControl.Event.touchUpInside
+            )
+            
             
             if let coffeeimg = aboutview?.viewWithTag(40) as? UIImageView {
                 coffeeimg.isUserInteractionEnabled = true;
@@ -103,6 +107,17 @@ final class AboutPagedViewController: UIViewController, SwipeViewDataSource, Swi
         self.present(vc, animated: true, completion: nil)
     }
 
+    @objc func openFaq() {
+        if let url = URL(string: NSLocalizedString("http://liip.to/tfc_faq", comment: "link to faq")) {
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(url)
+            } else {
+                UIApplication.shared.openURL(url)
+            }
+        }
+    }
+    
+    
     func swipeViewItemSize(_ swipeView: SwipeView!) -> CGSize {
         return self.swipeView.bounds.size
     }
