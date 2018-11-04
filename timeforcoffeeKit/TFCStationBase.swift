@@ -762,6 +762,7 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
             DLog("Added \(count) depts to \(self.name)", toFile: true)
             if (count > 0) {
                 self.departuresSaveToPincache()
+                self.lastDepartureUpdate = Date()
             }
         }
     }
@@ -935,7 +936,6 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
                 self.name = TFCDeparture.getStationNameFromJson(results!)!;
             }
 
-            self.lastDepartureUpdate = Date()
             self.departureUpdateDownloading = nil
             contextInfo?.completionDelegate?.departuresUpdated(error, context: contextInfo?.context, forStation: self as? TFCStation)
 

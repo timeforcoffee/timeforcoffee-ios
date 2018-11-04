@@ -18,6 +18,7 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             TFCWatchDataFetch.sharedInstance.setLastViewedStation(station)
         }
     }
+    var lastError:String? = nil
     var pageNumber: Int?
     var initTable = false
     var userActivity: [String:String]?
@@ -134,7 +135,9 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         }
         super.didAppear()
         if let title = station?.getName(true) {
-            self.setTitle(title)
+            DispatchQueue.main.async {
+                self.setTitle(title)
+            }
             self.lastShownStationId = station?.st_id
         }
     }
@@ -184,11 +187,18 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
             DLog("Load new station", toFile: true)
             drawAsNewStation = true
             infoGroup.setHidden(false)
-            infoLabel.setText("Loading ...")
+            if let lastError = self.lastError, !isNewStation {
+                infoLabel.setText("Loading ... (Retrying. Last Error was: \(lastError))")
+            } else {
+                infoLabel.setText("Loading ...")
+                self.lastError = nil
+            }
             stationsTable?.setHidden(true)
         }
         if let title = station?.getName(true) {
-            self.setTitle(title)
+            DispatchQueue.main.async {
+                self.setTitle(title)
+            }
             self.lastShownStationId = station?.st_id
         }
         self.initTable = false
@@ -233,12 +243,19 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
                 if let st_id = self.station?.st_id {
                     self.station = TFCStation.initWithCacheId(st_id)
                 }
+                let userInfo = notification.userInfo as? [String:Any]
+                var error:Error? = nil
+                if let errorInfo = userInfo?["error"] as? Error {
+                   error = errorInfo
+                }
              //   DLog("count after for \(String(describing: self.station?.name)): \(String(describing: self.station?.getDepartures()?.count))", toFile: true)
-                self.departuresUpdated(nil, context: nil, forStation: self.station)
+                self.departuresUpdated(error, context: nil, forStation: self.station)
             }
         }
     }
 
+   
+    
     @objc func selectStation(_ notification: Notification) {
         DLog("selectStation", toFile: true)
         if (notification.userInfo == nil) {
@@ -268,6 +285,15 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
 
     func departuresUpdated(_ error: Error?, context: Any?, forStation: TFCStation?) {
         DLog("departuresUpdated for \(String(describing: forStation?.name)) with \(String(describing: forStation?.getDepartures()?.count))", toFile: true)
+        if let error = error {
+            if (!((self.station?.getDepartures()?.count ?? 0) > 0)) {
+                self.infoGroup.setHidden(false)
+                self.lastError = error.localizedDescription
+                self.infoLabel.setText(error.localizedDescription)
+                return
+            }
+        }
+        
         let displayed = self.displayDepartures(forStation)
         let context2:[String:String]? = context as? [String:String]
         if (displayed && context2?["cached"] != "true") {

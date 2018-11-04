@@ -251,6 +251,7 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
             return false
         }
         if (sessionActive) {
+            DLog("Send message \(message) to other part")
             let transferCount = self.session?.outstandingUserInfoTransfers.count
             if (self.session?.isReachable == true && (trySendMessage || (transferCount != nil && transferCount! > 10))) {
                 DLog("phone is reachable, send as Message. outstanding UserInfoTransfers \(String(describing: transferCount))")
@@ -277,7 +278,7 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
 
     open func updateStationFromPhone(station: TFCStation, reply: ((Bool) -> Void)? = nil) -> Bool {
         var phoneIsReachable = false
-        if #available(iOSApplicationExtension 9.3, *) {
+        /*if #available(iOSApplicationExtension 9.3, *) {
             self.registerWatchConnectivity()
             if (self.session?.activationState == .activated && self.session?.isReachable == true) {
                 DLog("Phone seems to be reachable")
@@ -290,15 +291,15 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
                     }
                 })
             }
-        }
-        DLog("phoneIsReachable \(phoneIsReachable)")
+        }*/
+        //DLog("phoneIsReachable \(phoneIsReachable)")
         if (phoneIsReachable == false) {
-            DLog("Phone is not reachable, use URLSession")
+            //DLog("Phone is not reachable, use URLSession")
             return false
         }
         if (self.sendMessage(["__getStationData__": station.st_id])) {
             // check if we got a pong within 2 seconds. if not, fall back to URL
-            delay(3.0, closure: {
+            delay(2.0, closure: {
                 if (self.lastPong == nil || self.lastPong!.timeIntervalSinceNow < -5) {
                     DLog("lastPong was too long ago \(String(describing: self.lastPong))")
                     reply?(false)
@@ -337,7 +338,7 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
                                 let sentDepartures = NSKeyedUnarchiver.unarchiveObject(with: departures) as? [TFCDeparture]
                                 DLog("station sent with __updateComplicationData__: \(sentStation.name) id: \(sentStation.st_id) with \(String(describing: sentDepartures?.count)) departures and complicationUpdate: \(complicationUpdate)")
                                 sentStation.addDepartures(sentDepartures)
-                                sentStation.lastDepartureUpdate = Date()
+                                
                             }
                             #if os(watchOS)
 

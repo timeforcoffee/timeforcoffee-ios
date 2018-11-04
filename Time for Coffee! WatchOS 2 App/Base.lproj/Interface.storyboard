@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14313.18" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="3ez-Oj-rei">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14460.31" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="3ez-Oj-rei">
     <device id="watch38" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="watchOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14238.10"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14460.16"/>
     </dependencies>
     <scenes>
         <!--Time for Coffee!-->
@@ -16,7 +16,7 @@
                     <items>
                         <group width="1" alignment="left" id="wGr-Fi-lKk" userLabel="info Group">
                             <items>
-                                <label width="136" alignment="left" text="Loading... This may take a while on the first start up." numberOfLines="4" id="IVN-0O-4Oc" userLabel="info Label"/>
+                                <label width="1" alignment="left" text="Loading... This may take a while on the first start up. If it doesn't go away, swipe  right or reopen app." numberOfLines="8" id="IVN-0O-4Oc" userLabel="info Label"/>
                             </items>
                             <edgeInsets key="margins" left="3" right="3" top="0.0" bottom="0.0"/>
                         </group>
@@ -74,7 +74,7 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="462" y="104"/>
+            <point key="canvasLocation" x="462" y="109"/>
         </scene>
         <!--StationsOverview-->
         <scene sceneID="ihE-BX-ciu">
@@ -83,7 +83,7 @@
                     <items>
                         <group width="1" alignment="left" id="3HK-HX-8qN" userLabel="info Group">
                             <items>
-                                <label alignment="left" text="Loading ..." numberOfLines="3" id="H2T-Pm-ZC9" userLabel="info Label"/>
+                                <label width="1" alignment="left" text="Loading ..." numberOfLines="4" id="H2T-Pm-ZC9" userLabel="info Label"/>
                             </items>
                             <edgeInsets key="margins" left="3" right="3" top="0.0" bottom="0.0"/>
                         </group>

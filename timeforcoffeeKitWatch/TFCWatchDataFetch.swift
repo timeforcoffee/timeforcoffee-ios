@@ -118,8 +118,8 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
 
     open func fetchDepartureDataForStation(_ station:TFCStation, forceFromURL:Bool = false) {
         if let downloadingSince = self.downloading[station.st_id]  {
-            //if downloading since less than 30 secs. don't again.
-            if downloadingSince.addingTimeInterval(30) > Date() {
+            //if downloading since less than 10 secs. don't again.
+            if downloadingSince.addingTimeInterval(10) > Date() {
                 DLog("Station \(station.st_id) is already downloading since \(downloadingSince)", toFile: true)
                 return
             }
@@ -148,8 +148,15 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
         let sampleDownloadURL = URL(string: station.getDeparturesURL())!
 
         DLog("Download \(sampleDownloadURL) for \(station.name)", toFile: true)
-
-        let backgroundConfigObject = URLSessionConfiguration.background(withIdentifier: (UUID().uuidString))
+        let backgroundConfigObject:URLSessionConfiguration
+           
+        if (WKExtension.shared().applicationState == .active) {
+            DLog("use default session")
+            backgroundConfigObject = URLSessionConfiguration.default
+        } else {
+            DLog("use background session")
+            backgroundConfigObject = URLSessionConfiguration.background(withIdentifier: (UUID().uuidString))
+        }
         backgroundConfigObject.requestCachePolicy = .useProtocolCachePolicy
         backgroundConfigObject.timeoutIntervalForResource = 15
         backgroundConfigObject.timeoutIntervalForRequest = 10
@@ -157,10 +164,13 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
             backgroundConfigObject.httpAdditionalHeaders = ["TFCID": uid]
 
         }
-
-        let backgroundSession = Foundation.URLSession(configuration: backgroundConfigObject, delegate: self, delegateQueue: nil)
+        let backgroundSession = Foundation.URLSession(configuration: backgroundConfigObject, delegate: WKExtension.shared().delegate as? URLSessionDelegate, delegateQueue: nil)
+        //let backgroundSession = Foundation.URLSession(configuration: backgroundConfigObject, delegate: self, delegateQueue: nil)
         backgroundConfigObject.sessionSendsLaunchEvents = true
-
+        backgroundConfigObject.allowsCellularAccess = true
+        if #available(watchOSApplicationExtension 4.0, *) {
+            backgroundConfigObject.waitsForConnectivity = true
+        } 
         let downloadTask = backgroundSession.downloadTask(with: sampleDownloadURL)
         downloadTask.taskDescription = station.st_id
         if WKExtension.shared().applicationState == .active {
@@ -323,11 +333,18 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
             TFCDataStore.sharedInstance.watchdata.scheduleNextUpdate()
             if let st_id = task.taskDescription {
                 self.downloading.removeValue(forKey: st_id)
+                if let station = TFCStation.initWithCacheId(st_id) {
+                    DLog("__")
+                    if (st_id == self.getLastViewedStation()?.st_id ) {
+                        DLog("notification TFCWatchkitUpdateCurrentStation")
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: "TFCWatchkitUpdateCurrentStation"), object: nil, userInfo: ["error": error ?? "An error occurred"])
+                    }
+                }
             }
             if let sessID = session.configuration.identifier {
                 self.completeTask(sessID)
             }
-
+    
             session.finishTasksAndInvalidate()
             //DLog("crunchQueue end   didCompleteWithError \(String(describing: task.taskDescription))")
 

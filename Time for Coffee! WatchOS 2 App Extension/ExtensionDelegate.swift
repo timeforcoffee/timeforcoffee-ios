@@ -10,8 +10,8 @@ import WatchKit
 import Foundation
 import WatchConnectivity
 import timeforcoffeeKitWatch
-class ExtensionDelegate: NSObject, WKExtensionDelegate {
-
+class ExtensionDelegate: NSObject, WKExtensionDelegate, URLSessionDownloadDelegate {
+    
     override init() {
         super.init()
         WKExtension.shared().delegate = self
@@ -302,5 +302,25 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         })
     }
 
+    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
+        DLog("___")
+        TFCWatchDataFetch.sharedInstance.urlSession(session, downloadTask: downloadTask, didFinishDownloadingTo: location)
+    }
+    
+    func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
+        DLog("___")
+        TFCWatchDataFetch.sharedInstance.urlSession(session, didBecomeInvalidWithError: error)
+    }
+    
+    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+        DLog("___")
+        TFCWatchDataFetch.sharedInstance.urlSession(session, task: task, didCompleteWithError: error)
+    }
+    
+    func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
+        DLog("___")
+        TFCWatchDataFetch.sharedInstance.urlSessionDidFinishEvents(forBackgroundURLSession: session)
+    }       
 }
+
 
