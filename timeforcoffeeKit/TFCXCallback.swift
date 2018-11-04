@@ -31,11 +31,13 @@ public final class TFCXCallback:NSObject, TFCDeparturesUpdatedProtocol{
                         } else {
                             params = getStationParams(station, queryStrings: queryStrings)
                         }
-                    
-                        self.callXCallBack(queryParams: params, callback: callback)
+                        callback(nil, params)
+                        return
                         
                     }
                 }
+                callback("Something went wrong with getting the station", [:])
+                return
             }
             if let loc = getCurrentAskedLoc(queryStrings)
             {
@@ -84,9 +86,15 @@ public final class TFCXCallback:NSObject, TFCDeparturesUpdatedProtocol{
                         params["line"] = firstDept.getLine()
                         params["destination"] = firstDept.getDestination()
                         params["type"] = firstDept.getType()
+                        params["isRealTime"] = firstDept.isRealTime() ? "true" : "false"
+                        params["isAccessible"] = firstDept.accessible ? "true" : "false"
+                        params["platform"] = firstDept.platform ?? ""
                     }
-                    self.callXCallBack(queryParams: params, callback: callback)
+                    callback(nil, params)
+                    return
                 }
+                callback("Something went wrong with getting departures", [:])
+                return
             }
             
             if let id = queryStrings["id"] {
@@ -99,8 +107,9 @@ public final class TFCXCallback:NSObject, TFCDeparturesUpdatedProtocol{
                     stations.initStationsByLocation(loc, currentRealLocation: false)
                     if let station = stations.getStation(0) {
                         station.updateDepartures(self, context: ["callback" : departuresUpdatedCallback], onlyFirstDownload: true)
-                        
                     }
+                    callback("Something went wrong with getting the station", [:])
+                    return
                 } else {
                     func stationsUpdateCompletion(stations:TFCStations?, error: String? = nil, context: Any? = nil) {
                         if let stations = stations {
@@ -160,9 +169,6 @@ public final class TFCXCallback:NSObject, TFCDeparturesUpdatedProtocol{
     }
     
     
-    fileprivate func callXCallBack(queryParams: [String: String?], callback:((String?, [String:String?]) -> Void), error: String? = nil) {
-            callback(error, queryParams)
-    }
     
     public class func fillParametersFromDict(_ dict: String?, _ queryStrings: inout [String : String]) {
         var result = JSON()
