@@ -127,14 +127,16 @@ class StationsOverviewViewController: WKInterfaceController {
         DLog("adjustTableSize to: \(newCount)")
         if let oldCount = stationsTable?.numberOfRows {
             let delta = newCount - oldCount
+             DLog("oldCount: \(oldCount)")
             if delta > 0 {
                 let rowChangeRange = Range(uncheckedBounds: (lower: oldCount, upper: newCount))
                 let rowChangeIndexSet = IndexSet(integersIn:rowChangeRange)
                 stationsTable?.insertRows(
                     at: rowChangeIndexSet,
                     withRowType: "stations"
-                ) }
-            else if delta < 0 {
+                )
+                
+            } else if delta < 0 {
                 let rowChangeRange = Range(uncheckedBounds: (lower: newCount, upper: oldCount))
                 let rowChangeIndexSet = IndexSet(integersIn:rowChangeRange)
 

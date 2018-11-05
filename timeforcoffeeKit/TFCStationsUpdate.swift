@@ -18,7 +18,7 @@ public final class TFCStationsUpdate: TFCStationsUpdatedProtocol {
     let context:Any?
     var completionRun = false
     public init(completion:@escaping ((TFCStations?, _ error:String?, _ context:Any?) -> Void),
-         context: Any? = nil) {
+                context: Any? = nil) {
         self.completion = completion
         self.context = context
     }
@@ -26,24 +26,22 @@ public final class TFCStationsUpdate: TFCStationsUpdatedProtocol {
     public func update(force:Bool = false, maxStations:Int = 100) {
         self.stations = TFCStations(delegate: self, maxStations: maxStations)
         if let stations = self.stations {
-             self.completionRun = false
+            self.completionRun = false
             if (!stations.updateStations(force)) {
-                if(!self.completionRun) {
-                    self.completion(stations, nil, self.context)
-                    self.completionRun = true
-                }
+                self.callCompletion(stations, nil)
             }
             return
         }
-        if(!self.completionRun) {
-            self.completion(nil, "Not updated", self.context)
-            self.completionRun = true
-        }
+        self.callCompletion(nil, "Not updated")
     }
     
     public func stationsUpdated(_ error: String?, favoritesOnly: Bool, context: Any?, stations:TFCStations) {
+        callCompletion(stations, error)
+    }
+    
+    fileprivate func callCompletion(_ stations: TFCStations?, _ error: String?) {
         if(!self.completionRun) {
-            self.completion(stations, error, self.context)
+            self.completion(stations?.copy() as? TFCStations, error, self.context)
             self.completionRun = true
         }
     }

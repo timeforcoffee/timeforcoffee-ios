@@ -23,7 +23,7 @@
                         <table alignment="left" id="J4B-MA-cdK">
                             <items>
                                 <tableRow identifier="station" selectable="NO" id="Y4q-hS-mJZ" customClass="StationRow" customModule="Time_for_Coffee__WatchOS_2_App_Extension">
-                                    <group key="rootItem" width="1" height="28.5" alignment="left" hidden="YES" id="UGC-nv-9zx">
+                                    <group key="rootItem" width="1" height="0.0" alignment="left" hidden="YES" id="UGC-nv-9zx">
                                         <items>
                                             <group width="26" height="26" alignment="left" verticalAlignment="center" radius="4" id="cBO-9q-LrM">
                                                 <items>

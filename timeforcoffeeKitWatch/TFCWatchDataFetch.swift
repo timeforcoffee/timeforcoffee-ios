@@ -149,7 +149,8 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
 
         DLog("Download \(sampleDownloadURL) for \(station.name)", toFile: true)
         let backgroundConfigObject:URLSessionConfiguration
-           
+        //backgroundConfigObject = URLSessionConfiguration.default
+
         if (WKExtension.shared().applicationState == .active) {
             DLog("use default session")
             backgroundConfigObject = URLSessionConfiguration.default

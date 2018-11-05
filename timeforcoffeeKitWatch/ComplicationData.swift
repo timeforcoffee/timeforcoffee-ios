@@ -181,6 +181,7 @@ public final class ComplicationData: NSObject, NSCoding {
     }
 
     public func getStartDate() -> Date {
+        DLog("__")
         self.buildTimelineEntries()
         if let first = timelineEntries.first {
             return first.entryDate
@@ -189,6 +190,7 @@ public final class ComplicationData: NSObject, NSCoding {
     }
 
     public func getEndDate() -> Date {
+        DLog("__")
         self.buildTimelineEntries()
         if let last = timelineEntries.last {
             return last.entryDate

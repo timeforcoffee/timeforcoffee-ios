@@ -12,7 +12,8 @@ import WatchConnectivity
 import CoreData
 import MapKit
 
-public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerProtocol {
+public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControllerProtocol, NSCopying {
+
 
     fileprivate weak var delegate: TFCStationsUpdatedProtocol?
 
@@ -47,12 +48,25 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
         favorite.s.repopulateFavorites()
     }
 
-    public init(delegate: TFCStationsUpdatedProtocol, maxStations: Int = 100) {
+    public init(delegate: TFCStationsUpdatedProtocol?, maxStations: Int = 100) {
         self.delegate = delegate
         self.maxStations = maxStations
         favorite.s.repopulateFavorites()
     }
-
+    
+    /** FIXME: Test if this actually works, not used yet.. */
+    public func copy(with zone: NSZone? = nil) -> Any {
+        let copyStations = TFCStations(delegate: self.delegate, maxStations: self.maxStations)
+        if let _stations = self._stations.copy() as? TFCStationCollection {
+            copyStations._stations = _stations
+        }
+        copyStations.nearbyFavorites = self.nearbyFavorites
+        copyStations.inStationsArrayAsFavorite = self.inStationsArrayAsFavorite
+        copyStations.lastRefreshLocation = self.lastRefreshLocation
+        copyStations.lastFirstStationId = self.lastFirstStationId
+        return copyStations
+    }
+    
     public func count() -> Int? {
         return nearbyFavorites.count + _stations.count
     }
