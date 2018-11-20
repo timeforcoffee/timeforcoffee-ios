@@ -23,6 +23,8 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
     }
 
     open func setLastViewedStation(_ station: TFCStation?) {
+        
+        DLog("setLastViewedStation \(String(describing: station?.name))")
         TFCDataStore.sharedInstance.getUserDefaults()?.set(station?.st_id, forKey: "lastViewedStationId")
         TFCDataStore.sharedInstance.getUserDefaults()?.set(Date(), forKey: "lastViewedStationDate")
     }
@@ -53,10 +55,10 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
                 wrapper.setTaskCompletedAndClear()
             })
         }
-        fetchDepartureData(handleReply)
+        fetchDepartureData(handleReply, inclLastViewedStation: false )
     }
 
-    open func fetchDepartureData(_ taskCallback:(() -> Void)? = nil) {
+    open func fetchDepartureData(_ taskCallback:(() -> Void)? = nil, inclLastViewedStation:Bool = true) {
         DispatchQueue.global(qos: .userInitiated).async {
             let lastViewedStation = self.getLastViewedStation();
 
@@ -97,17 +99,19 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
             func errorReply(_ error: String) {
                 DLog("backoff: error \(error)", toFile: true)
                 // try again in 5 minutes
-                WKExtension.shared().scheduleBackgroundRefresh(withPreferredDate: self.watchdata.getBackOffTime(), userInfo: nil) { (error) in
-                    if error == nil {
-                        //successful
+                if (error != "aborted") {
+                    WKExtension.shared().scheduleBackgroundRefresh(withPreferredDate: self.watchdata.getBackOffTime(), userInfo: nil) { (error) in
+                        if error == nil {
+                            //successful
+                        }
                     }
                 }
                 taskCallback?()
             }
-            if lastViewedStation != nil {
-                DLog("call fetchDepartureDataForStation")
-
-                self.fetchDepartureDataForStation(lastViewedStation!)
+            if inclLastViewedStation, let lastViewedStation = lastViewedStation {
+                DLog("call fetchDepartureDataForStation for \(lastViewedStation.name)")
+                
+                self.fetchDepartureDataForStation(lastViewedStation)
             }
             self.watchdata.startCrunchQueue {
                 DLog("call getStations", toFile: true)

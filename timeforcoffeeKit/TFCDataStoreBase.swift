@@ -20,7 +20,7 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
 
     let lockQueue = DispatchQueue(label: "group.ch.opendata.timeforcoffee.notificationLock", attributes: [])
 
-    fileprivate let userDefaults: UserDefaults? = UserDefaults(suiteName: "group.ch.opendata.timeforcoffee")
+    let userDefaults: UserDefaults? = UserDefaults(suiteName: "group.ch.opendata.timeforcoffee")
     fileprivate let localUserDefaults: UserDefaults? = UserDefaults(suiteName: "ch.opendata.timeforcoffee.local")
     var keyvaluestore: AnyObject? { return nil}
     fileprivate var notificationObserver: AnyObject?
@@ -701,21 +701,6 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
     }
 
     open func complicationEnabled() -> Bool {
-        #if os(iOS)
-        if (WCSession.isSupported()) {
-            if (self.session?.isComplicationEnabled == true) {
-                userDefaults?.set(Date(), forKey: "lastComplicationEnabled")
-                return true
-            }
-            if let lastComplicationEnabled = userDefaults?.object(forKey: "lastComplicationEnabled") as? Date {
-                // if we had complications enabled in the last 24 hours, assume it's enabled
-                // so to not loose the fences, when we switch faces temporarly
-                if lastComplicationEnabled.addingTimeInterval(24 * 3600) > Date() {
-                    return true
-                }
-            }
-        }
-        #endif
         return false
     }
 

@@ -15,7 +15,9 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
     var activated:Bool = false
     var lastShownStationId: String? {
         didSet {
-            TFCWatchDataFetch.sharedInstance.setLastViewedStation(station)
+            if !self.watchdata.isInBackground() {
+                TFCWatchDataFetch.sharedInstance.setLastViewedStation(station)
+            }
         }
     }
     var lastError:String? = nil
@@ -117,7 +119,11 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         }
         setStationValues()
         self.activated = true
-        if (state != .background) {
+        let isInBackground = self.watchdata.isInBackground()
+        DLog("isInBackground: \(isInBackground)", toFile: true)
+
+        if (!isInBackground) {
+            DLog("fetchDepartureData")
             TFCWatchDataFetch.sharedInstance.fetchDepartureData()
         }
 
@@ -156,9 +162,8 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
 
     fileprivate func setStationValues() {
 
-        let isInBackground = (WKExtension.shared().applicationState == .background) ||  (WKExtension.shared().applicationState == .inactive)
+        let isInBackground = self.watchdata.isInBackground()
         DLog("setStationValues. isInBackground: \(isInBackground)", toFile: true)
-
         if (station == nil) {
             // infoGroup.setHidden(false)
             if let laststation = TFCWatchDataFetch.sharedInstance.getLastViewedStation() {

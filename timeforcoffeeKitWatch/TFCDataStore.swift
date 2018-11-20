@@ -34,4 +34,14 @@ open class TFCDataStore: TFCDataStoreBase {
         DLog("updateComplicationData", toFile: true)
         watchdata.updateComplicationData()
     }
+    
+    override open func complicationEnabled() -> Bool {
+        let server = CLKComplicationServer.sharedInstance()
+        if let activeComplications = server.activeComplications {
+            if (activeComplications.count > 0) {
+                return true
+            }
+        }
+        return false
+    }
 }

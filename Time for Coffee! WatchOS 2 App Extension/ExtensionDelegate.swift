@@ -171,6 +171,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate, URLSessionDownloadDelega
             DLog("received \(wrapper.getHash()) Backgroundtask \(task)" , toFile: true)
             if let _ = task as? WKApplicationRefreshBackgroundTask {
                 DLog("received WKApplicationRefreshBackgroundTask")
+                DLog("fetchDepartureData")
                 TFCWatchDataFetch.sharedInstance.fetchDepartureData(wrapper: wrapper)
                 continue
             } else if let urlTask = task as? WKURLSessionRefreshBackgroundTask {
@@ -236,7 +237,16 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate, URLSessionDownloadDelega
     fileprivate func completeWrapperTaskWithData(wrapper: TFCTaskWrapper, nextDate: Date) {
         wrapper.setTaskCompletedAndClear(callback: { () -> Bool in
             if let task = wrapper.getTask() as? WKSnapshotRefreshBackgroundTask {
-                task.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: nextDate, userInfo: nil)
+                
+                let expirationDate:Date
+                if (TFCDataStore.sharedInstance.complicationEnabled()) {
+                    expirationDate = nextDate
+                } else {
+                    expirationDate = Date.distantFuture
+                }
+                WKExtension.shared()
+                
+                task.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: expirationDate, userInfo: nil)
                 return true
             }
             return false

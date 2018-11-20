@@ -12,7 +12,7 @@ import WatchKit
 import ClockKit
 
 private struct Constants {
-    static let FrequencyOfTimelineUpdate = TimeInterval(45*60) // 45 minutes
+    static let FrequencyOfTimelineUpdate = TimeInterval(60*60) // 45 minutes
     static let TimelineUpdateMinutesBeforeEnd = TimeInterval(-20*60) // 20 minutes
 }
 
@@ -258,7 +258,11 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
             }
         }
         if let nextUpdate = cmpldata?.getLastEntryDate() {
-            DLog("backoff: cmpldata?.getLastEntryDate() is \(nextUpdate.formattedWithDateFormatter(DLogDateFormatter))")
+            if (!TFCDataStore.sharedInstance.complicationEnabled()) {
+                DLog("backoff: complication not enabled, set to distantFuture")
+                return Date.distantFuture
+            }
+            DLog("backoff: cmpldata?.getLastEntryDate() for \(cmpldata?.getStation().name ?? "(null)l") is \(nextUpdate.formattedWithDateFormatter(DLogDateFormatter))")
             // take the next update as 20 minutes before the last entry
             let lastEntryDate = nextUpdate.addingTimeInterval(Constants.TimelineUpdateMinutesBeforeEnd)
             //if lastEntryDate is before now, update again in 5 minutes
@@ -270,7 +274,8 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
                 DLog("backoff: maxNextUpdateDate < lastEntryDate \(maxNextUpdateDate.formattedWithDateFormatter(DLogDateFormatter)) < \(lastEntryDate.formattedWithDateFormatter(DLogDateFormatter))")
                 nextUpdateDate = maxNextUpdateDate
                 clearBackOffTime()
-            } else {
+            }
+            else {
                 DLog("backoff: lastEntryDate \(lastEntryDate.formattedWithDateFormatter(DLogDateFormatter))")
                 nextUpdateDate = lastEntryDate
                 clearBackOffTime()
@@ -280,13 +285,14 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
             nextUpdateDate =  getBackOffTime(noBackOffIncr: noBackOffIncr) // request an update in 5 minutes, if no lastDepartureTime was set.
         }
         if (nextUpdateDate == nil || nextUpdateDate! < Date()) {
-            DLog("WARNING: backoff \(String(describing: nextUpdateDate?.formattedWithDateFormatter(DLogDateFormatter))) < \(Date())")
+            DLog("WARNING: backoff: \(String(describing: nextUpdateDate?.formattedWithDateFormatter(DLogDateFormatter))) < \(Date())")
             nextUpdateDate = getBackOffTime(noBackOffIncr: true)
         }
         if let minTime = minTime {
             let minDate = Date().addingTimeInterval(Double(minTime))
             nextUpdateDate = max(minDate, nextUpdateDate!)
         }
+        DLog("backoff: final nextUpdateDate \(String(describing: nextUpdateDate))")
         return nextUpdateDate!
     }
 
@@ -295,7 +301,8 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
         if let c = CLKComplicationServer.sharedInstance().activeComplications?.count, c > 0 {
             nextUpdate = self.getNextUpdateTime(noBackOffIncr: noBackOffIncr)
         } else {
-            nextUpdate = Date().addingTimeInterval(30 * 60)
+            // Don't schedule a next update, when no active complicatiom
+            return
         }
         let ud = TFCDataStore.sharedInstance.getUserDefaults()
 
@@ -306,8 +313,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
     }
     
     public func needsTimelineDataUpdate(_ station: TFCStation, checkLastDeparture:Bool = true) -> Bool {
-        let server = CLKComplicationServer.sharedInstance()
-        if let activeComplications = server.activeComplications, activeComplications.count == 0 {
+        if !TFCDataStore.sharedInstance.complicationEnabled() {
             DLog("No active complications, return false")
             return false
         }
@@ -370,6 +376,10 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
 
         }
         return true
+    }
+    
+    public func isInBackground() -> Bool {
+        return (WKExtension.shared().applicationState == .background) ||  (WKExtension.shared().applicationState == .inactive)
     }
 }
 
