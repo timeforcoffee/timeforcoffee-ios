@@ -93,9 +93,10 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
             let userDefaults = TFCDataStore.sharedInstance.getUserDefaults(),
             let location = location
         {
-            var update = false
+/*            var update = false
             if let lastLocationDate = userDefaults.object(forKey: "lastLocationDate") as? Date {
                 // if lastUpdate in store is more than 60 seconds away, store it
+                
                 if (lastLocationDate.addingTimeInterval(60) < currentLocationTimestamp) {
                     update = true
                 }
@@ -103,11 +104,12 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
                 update = true
             }
             if (update == true) {
+                */
                 userDefaults.set(location.coordinate.latitude, forKey: "lastLocationLatitude")
                 userDefaults.set(location.coordinate.longitude, forKey: "lastLocationLongitude")
                 userDefaults.set(classvar.currentLocationTimestamp, forKey: "lastLocationDate")
-                DLog("save Location")
-            }
+                DLog("save Location ")
+            //}
         }
     }
 
