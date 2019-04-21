@@ -54,7 +54,7 @@ open class TFCStationCollection: NSObject, Sequence, Collection, NSCopying {
     }
 
     open func getStationIfExists(_ id: String) -> TFCStation? {
-        if (stationIds.index(of: id) != nil) {
+        if (stationIds.firstIndex(of: id) != nil) {
             return getStation(id)
         }
         return nil
@@ -103,7 +103,7 @@ open class TFCStationCollection: NSObject, Sequence, Collection, NSCopying {
     }
 
     open func indexOf(_ element: String) -> TFCStationCollection.Index? {
-        return stationIds.index(of: element)
+        return stationIds.firstIndex(of: element)
     }
 
     public func index(after i: Int) -> Int {
@@ -113,7 +113,7 @@ open class TFCStationCollection: NSObject, Sequence, Collection, NSCopying {
 
 
     open func removeValue(_ element:String) {
-        if let index = stationIds.index(of: element) {
+        if let index = stationIds.firstIndex(of: element) {
             stationIds.remove(at: index)
             stationCache.removeValue(forKey: element)
         }
