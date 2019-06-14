@@ -14,7 +14,8 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate, URLSessionDownloadDelega
     
     override init() {
         super.init()
-        WKExtension.shared().delegate = self
+        //FIXME: Make sure this is not needed anymore or what the alternative is
+        //WKExtension.shared().delegate = self
     }
 
     deinit {

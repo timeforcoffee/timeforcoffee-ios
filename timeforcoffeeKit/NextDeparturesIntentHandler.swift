@@ -7,7 +7,9 @@
 //
 
 import Foundation
+#if os(watchOS)
 import WatchKit
+#endif
 import WatchConnectivity
 
 @available(iOSApplicationExtension 12.0, *)
