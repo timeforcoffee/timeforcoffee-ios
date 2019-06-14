@@ -93,9 +93,9 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
                     }
                 }
                 if #available(iOSApplicationExtension 10.0, *) {
-                    self.actionLabel.setTitleColor(UIColor.black, for: UIControl.State())
+                    self.actionLabel.setTitleColor( UIColor(named: "TFCTextColor"), for: UIControl.State())
                 } else {
-                    self.actionLabel.setTitleColor(UIColor.white, for: UIControl.State())
+                    self.actionLabel.setTitleColor( UIColor(named: "TFCBackgroundColor"), for: UIControl.State())
                 }
             })
         }
@@ -263,9 +263,9 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         ContainerViewWidthConstraint?.constant = self.containerView.frame.width
         self.view.setNeedsLayout()
         if #available(iOSApplicationExtension 10.0, *) {
-            actionLabel.setTitleColor(UIColor.black, for: UIControl.State())
+            actionLabel.setTitleColor( UIColor(named: "TFCTextColor"), for: UIControl.State())
         } else {
-            actionLabel.setTitleColor(UIColor.white, for: UIControl.State())
+            actionLabel.setTitleColor( UIColor(named: "TFCBackgrundColor"), for: UIControl.State())
         }
         setPreferredContentSize()
     }

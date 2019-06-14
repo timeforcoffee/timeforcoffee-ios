@@ -152,7 +152,7 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         titlePageControl.tag = 50
         titlePageControl.numberOfPages = 2
         titlePageControl.currentPage = 0
-        titlePageControl.currentPageIndicatorTintColor = UIColor.black
+        titlePageControl.currentPageIndicatorTintColor =  UIColor(named: "TFCTextColor")
         titlePageControl.pageIndicatorTintColor = UIColor.gray
         titlePageControl.transform = titlePageControl.transform.scaledBy(x: 0.75, y: 0.75)
         titlePageControl.isUserInteractionEnabled = false

@@ -48,7 +48,9 @@ class GATracker {
 
     func sendScreenName(_ name:String) {
         DispatchQueue.global(qos: .utility).async {
-            self.gtracker?.defaultTracker.set(kGAIScreenName, value: name)
+            /*
+             # FIXME: Threw segfault in iOS 13.. check how to fix
+             self.gtracker?.defaultTracker.set(kGAIScreenName, value: name)
             var s = GAIDictionaryBuilder.createScreenView()
             for (key, value) in self.toBeSentCustomDimensions {
                 s = s?.set(value, forKey: key)
@@ -56,7 +58,7 @@ class GATracker {
             self.toBeSentCustomDimensions.removeAll()
             if let builder = s?.build() {
                 self.gtracker?.defaultTracker.send(builder as [NSObject : AnyObject])
-            }
+            }*/
         }
 
     }

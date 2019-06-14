@@ -282,7 +282,7 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
                 } else {
                     minutesLabel.text = ""
                 }
-                minutesLabel.textColor = UIColor.black
+                minutesLabel.textColor =  UIColor(named: "TFCTextColor")
 
                 let (departureTimeAttr, departureTimeString) = pass.getDepartureTime()
                 let (arrivalTimeAttr, arrivalTimeString) = pass.getDepartureTime(pass.arrivalScheduled, realtime: pass.arrivalRealtime)

@@ -440,8 +440,8 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
                         }
 
                         minutesLabel.text = departure.getMinutes()
-                        destinationLabel.textColor = UIColor.black
-                        minutesLabel.textColor = UIColor.black
+                        destinationLabel.textColor = UIColor(named: "TFCTextColor")
+                        minutesLabel.textColor =  UIColor(named: "TFCTextColor")
 
                         let (departureTimeAttr, departureTimeString) = departure.getDepartureTime()
                         if (departureTimeAttr != nil) {
