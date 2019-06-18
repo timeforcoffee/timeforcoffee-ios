@@ -11,25 +11,44 @@ import Foundation
 import WatchKit
 #endif
 import WatchConnectivity
+import Intents
 
 @available(iOSApplicationExtension 12.0, *)
 @available(watchOSApplicationExtension 5.0, *)
-public class NextDeparturesIntentHandler: NSObject, NextDeparturesIntentHandling, TFCDeparturesUpdatedProtocol {
-
-    /* make sure TFCStationsUpdate is kept alive */
-    var stationUpdate:TFCStationsUpdate? = nil
+public class NextDeparturesIntentHandler: NSObject, NextDeparturesIntentHandling {
     
+    @available(iOSApplicationExtension 13.0, *)
+    @available(watchOSApplicationExtension 6.0, *)
+    public func resolveTime(for intent: NextDeparturesIntent, with completion: @escaping (INDateComponentsResolutionResult) -> Void) {
+        if let time =  intent.time {
+            completion(INDateComponentsResolutionResult.success(with: time))
+            return
+        }
+        completion(INDateComponentsResolutionResult.confirmationRequired(with: nil))
+
+    }
+    
+    @available(iOSApplicationExtension 13.0, *)
+    @available(watchOSApplicationExtension 6.0, *)
+    public func resolveLocation(for intent: NextDeparturesIntent, with completion: @escaping (INPlacemarkResolutionResult) -> Void) {
+
+        if let location =  intent.location {
+            completion(INPlacemarkResolutionResult.success(with: location ))
+            return
+        }
+        completion(INPlacemarkResolutionResult.confirmationRequired(with: nil))
+    }
+
     public override init() {
         super.init()
     }
     
     deinit {
         DLog("Deinit")
-        self.stationUpdate = nil
     }
     
     public func confirm(intent: NextDeparturesIntent, completion: @escaping (NextDeparturesIntentResponse) -> Void) {
-        if ((intent.stationObj == nil && intent.closest == nil )) {
+        if ((intent.stationObj == nil && intent.closest == nil && intent.location == nil)) {
             completion(NextDeparturesIntentResponse(code: .continueInApp, userActivity: nil))
             return
         }
@@ -42,132 +61,90 @@ public class NextDeparturesIntentHandler: NSObject, NextDeparturesIntentHandling
         completion(NextDeparturesIntentResponse(code: .ready, userActivity: nil))
     }
     
-    fileprivate func updateDepartures(_ station: TFCStation,  _ completion: @escaping (NextDeparturesIntentResponse) -> Void) {
-        #if os(watchOS)
-        let _ = station.removeObsoleteDepartures(true)
-        //check if we have at least 2 minute fresh data. Good enough for this usecas
-        if let lDU = station.lastDepartureUpdate,
-            lDU.addingTimeInterval(120) > Date()
-        {
-            if let departures = station.getFilteredDepartures(nil, fallbackToAll: true) {
-                // if we already do have departures, we don't need to update them on watchOS
-                if (departures.count > 0) {
-                    departuresUpdated(nil, context: ["completion": completion], forStation: station)
-                    return
-                }
-            }
-        }
-        #endif
-        station.updateDepartures(self, context: ["completion": completion])
-    }
-    
     public func handle(intent: NextDeparturesIntent, completion: @escaping (NextDeparturesIntentResponse) -> Void) {
         
-       if let st_id = intent.stationObj?.identifier {
-            if let station = TFCStation.initWithCache(id: st_id) {
-                return updateDepartures(station, completion)
+        func XCallback (error: String?, cbObject: TFCXCallbackObject) -> Void {
+            //replace ? in the beginning
+            //FIXME .noStationFound and such
+            if let error = error {
+                completion(NextDeparturesIntentResponse(code: .failure, userActivity: nil))
+                DLog(error)
+                return
             }
-        } else {
-            func stationsUpdateCompletion(stations:TFCStations?, error: String?, context: Any?) {
-                if let stations = stations {
-                    if let station = stations.getStation(0) {
-                        station.updateDepartures(self, context: ["completion": completion])
-                        return
-                    }
-                    completion(NextDeparturesIntentResponse(code: .noStationFound, userActivity: nil))
-                }
+            
+            let response = NextDeparturesIntentResponse.success(
+                departureTime: cbObject.getDepartureTimeMinutesOrUnknown(),
+                departureLine: cbObject.getDepartureLineOrUnkown(),
+                endStation: cbObject.getEndStationOrUnknown(),
+                departureStation: cbObject.getDepartureStationOrUnknown(true)
+            )
+            
+            response.responseInfo = cbObject.getJson()
+            DLog(response.responseInfo)
+            if (cbObject.departure === nil) {
+                completion(NextDeparturesIntentResponse.noDeparturesFound(departureStation: cbObject.getDepartureStationOrUnknown()))
+
             }
-            self.stationUpdate = TFCStationsUpdate(completion: stationsUpdateCompletion)
-            self.stationUpdate?.update(maxStations: 1)
-            return
-        }
-        completion(NextDeparturesIntentResponse(code: .failure, userActivity: nil))
-    }
-
-    
-    fileprivate func getResponseForNextDeparture(_ forStation: TFCStation?, _ completion: @escaping ((NextDeparturesIntentResponse) -> Void)) {
-        if let station = forStation {
-            let _ = station.removeObsoleteDepartures(true)
-            if let departures = station.getFilteredDepartures(nil, fallbackToAll: true)
-            {
-                if let departure = departures.first {
-                    let minutes:String
-                    if let minutesInt = departure.getMinutesAsInt() {
-                        minutes = "\(minutesInt)"
-                    } else {
-                        minutes = "unknown"
-                    }
-                    let response = NextDeparturesIntentResponse.success(
-                        departureTime: minutes,
-                        departureLine: departure.getLine(),
-                        endStation: departure.getDestination(station),
-                        departureStation: "\(station.getName(true))"
-                    )
-
-                    #if !os(watchOS)
-                    if let currentLoc = TFCLocationManager.getCurrentLocation(ttl: 120),
-                        let distance = station.getDistanceInMeter(currentLoc),
-                        distance < 5000 {
-                        if ("" != station.getDistanceForDisplay(currentLoc, completion: { (text: String?) in
-                            if let text = text {
-                                if (text.match("([0-9]+) min")) {
-                                    let minutes = text.replace(".* ([0-9]+) .*min.*", template: "$1")
-                                    var code = NextDeparturesIntentResponseCode.successWithWalkingTime
-                                    if let departureTimeString = response.departureTime,
-                                        
-                                        let minutesInt = Int(minutes),
-                                        let departureTime = Int(departureTimeString)
-                                    {
-                                        if (minutesInt > departureTime) {
-                                            code = NextDeparturesIntentResponseCode.successWithWalkingTimeHurry
-                                        }
-                                    }
-                                    let responseWith = NextDeparturesIntentResponse(code: code, userActivity: nil)
-                                    DLog("Distance: \(String(describing: minutes))")
-                                    
-                                    responseWith.departureTime = response.departureTime ?? ""
-                                    responseWith.departureLine = response.departureLine ?? ""
-                                    responseWith.endStation = response.endStation ?? ""
-                                    responseWith.departureStation = response.departureStation ?? ""
-                                    responseWith.walkingTime = minutes
-                                    
-                                    completion(responseWith)
-                                    return
+            #if !os(watchOS)
+            if let currentLoc = TFCLocationManager.getCurrentLocation(ttl: 120),
+                let station = cbObject.station,
+                let distance = station.getDistanceInMeter(currentLoc),
+                distance < 5000 {
+                if ("" != station.getDistanceForDisplay(currentLoc, completion: { (text: String?) in
+                    if let text = text {
+                        if (text.match("([0-9]+) min")) {
+                            let minutes = text.replace(".* ([0-9]+) .*min.*", template: "$1")
+                            var code = NextDeparturesIntentResponseCode.successWithWalkingTime
+                            if let departureTimeString = response.departureTime,
+                                
+                                let minutesInt = Int(minutes),
+                                let departureTime = Int(departureTimeString)
+                            {
+                                if (minutesInt > departureTime) {
+                                    code = NextDeparturesIntentResponseCode.successWithWalkingTimeHurry
                                 }
-                                
-                                
                             }
-                            completion(response)
-                        })) {
+                            let responseWith = NextDeparturesIntentResponse(code: code, userActivity: nil)
+                            DLog("Distance: \(String(describing: minutes))")
+                            
+                            responseWith.departureTime = response.departureTime ?? ""
+                            responseWith.departureLine = response.departureLine ?? ""
+                            responseWith.endStation = response.endStation ?? ""
+                            responseWith.departureStation = response.departureStation ?? ""
+                            responseWith.walkingTime = minutes
+                            responseWith.responseInfo = response.responseInfo
+                            completion(responseWith)
                             return
                         }
+                
+                        
                     }
-                    #endif
                     completion(response)
-
-                    return
-                } else {
-                    completion(NextDeparturesIntentResponse.noDeparturesFound(departureStation: station.getName(false)))
+                })) {
                     return
                 }
             }
+            #endif
+            completion(response)
         }
-        completion(NextDeparturesIntentResponse(code: .failure, userActivity: nil))
-    }
-    
-    public func departuresUpdated(_ error: Error?, context: Any?, forStation: TFCStation?) {
-        if let dict = context as? [String:Any?] {
-            let completion:((NextDeparturesIntentResponse) -> Void) = dict["completion"] as! ((NextDeparturesIntentResponse) -> Void)
-            if (error != nil) {
-                DLog("\(String(describing: error))")
-                completion(NextDeparturesIntentResponse(code: .failure, userActivity: nil))
-            }
-            getResponseForNextDeparture(forStation, completion)
+        
+        var queryStrings:[String:String] = [:]
+        let cbx = TFCXCallback()
+        if let st_id = intent.stationObj?.identifier {
+            
+            queryStrings["id"] = st_id
+        } else if let loc = intent.location?.location {
+            queryStrings = ["lat": "\(loc.coordinate.latitude)", "lon": "\(loc.coordinate.longitude)"]
         }
-    }
-
-    public func departuresStillCached(_ context: Any?, forStation: TFCStation?) {
-        self.departuresUpdated(nil,context: context, forStation: forStation)
+        
+        if #available(iOSApplicationExtension 13.0, watchOSApplicationExtension 6.0,*) {
+            if let time = intent.time?.date {
+                    queryStrings["time"] = TFCDeparturePass.LongDateFormatterTransport.string(from: time)
+                }
+        }
+        cbx.handleCall(queryStrings: queryStrings, callback: XCallback)
+        
+        return
     }
 }
 

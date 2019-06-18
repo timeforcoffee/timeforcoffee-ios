@@ -161,7 +161,6 @@ open class TFCStation: TFCStationBase {
         let intent = self.getIntent(addHasAppHint: hasApp)
         let sc:INShortcut? = INShortcut(intent: intent)
         if let sc = sc {
-            
             let rsc = INRelevantShortcut(shortcut: sc)
             rsc.watchTemplate = INDefaultCardTemplate(title: self.getName(false))
             rsc.shortcutRole = .information

@@ -273,14 +273,16 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
         return Regex(pattern: ", *.*")
     }()
 
-    public func getDestination(_ station: TFCStationBase) -> String {
+    public func getDestination(_ station: TFCStationBase?) -> String {
         let fullName = self.to
-        if (fullName.matchRegex(TFCDeparture.commaStarRegex) && station.name.matchRegex(TFCDeparture.commaStarRegex)) {
-            let destinationStationName = fullName.replaceRegex(TFCDeparture.starCommaStarRegex, template: "")
-            let destinationCityName = fullName.replaceRegex(TFCDeparture.commaSpaceStarRegex, template: "")
-            let stationCityName = station.name.replaceRegex(TFCDeparture.commaSpaceStarRegex, template: "")
-            if (stationCityName == destinationCityName) {
-                return destinationStationName
+        if let station = station {
+            if (fullName.matchRegex(TFCDeparture.commaStarRegex) && station.name.matchRegex(TFCDeparture.commaStarRegex)) {
+                let destinationStationName = fullName.replaceRegex(TFCDeparture.starCommaStarRegex, template: "")
+                let destinationCityName = fullName.replaceRegex(TFCDeparture.commaSpaceStarRegex, template: "")
+                let stationCityName = station.name.replaceRegex(TFCDeparture.commaSpaceStarRegex, template: "")
+                if (stationCityName == destinationCityName) {
+                    return destinationStationName
+                }
             }
         }
         return fullName
@@ -357,7 +359,7 @@ public final class TFCDeparture: TFCDeparturePass, NSCoding, APIControllerProtoc
         }
         return getDestination()
     }
-
+    
     public func isFavorite(_ station: TFCStation? = nil) -> Bool {
         if let station = station {
             return station.showAsFavoriteDeparture(self)

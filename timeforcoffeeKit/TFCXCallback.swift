@@ -16,27 +16,26 @@ public final class TFCXCallback:NSObject, TFCDeparturesUpdatedProtocol{
     var stationsUpdate:TFCStationsUpdate? = nil
     
     
-    public func handleCall(queryStrings: [String:String], callback: @escaping ((String?, [String:String?]) -> Void)) {
+    public func handleCall(queryStrings: [String:String], callback: @escaping ((String?, TFCXCallbackObject) -> Void)) {
+        let cbObject = TFCXCallbackObject()
         if (queryStrings["method"] == "station") {
             func stationsUpdateCompletion(stations:TFCStations?, error: String? = nil, context: Any? = nil) {
                 if let stations = stations {
                     if let station = stations.getStation(0) {
-                        var params:[String:String?] = [:]
-                        
+                        cbObject.station = station
                         if (queryStrings["latlonOnly"] == "true") {
-                            params = [
-                                "latlon": "\(station.getLatitude()?.description ?? "0"),\(station.getLongitude()?.description ?? "0")"
-                            ]
+                         
+                            cbObject.latlonOnly = true
                             
                         } else {
-                            params = getStationParams(station, queryStrings: queryStrings)
+                            cbObject.yourLatLon = self.getYourLatLon(station, queryStrings: queryStrings)
                         }
-                        callback(nil, params)
+                        callback(nil, cbObject)
                         return
                         
                     }
                 }
-                callback("Something went wrong with getting the station", [:])
+                callback("Something went wrong with getting the station", cbObject)
                 return
             }
             if let loc = getCurrentAskedLoc(queryStrings)
@@ -78,28 +77,22 @@ public final class TFCXCallback:NSObject, TFCDeparturesUpdatedProtocol{
                             }
                         }
                     }
-                    var params = getStationParams(forStation, queryStrings: queryStrings)
+                    cbObject.station = forStation
+                    cbObject.yourLatLon = self.getYourLatLon(forStation, queryStrings: queryStrings)
                     if let firstDept = firstDept {
-                        let time = firstDept.getRealDepartureDateAsShortDate()
-                        params["time"] = time
-                        params["timeScheduled"] = firstDept.getScheduledTime()
-                        params["line"] = firstDept.getLine()
-                        params["destination"] = firstDept.getDestination()
-                        params["type"] = firstDept.getType()
-                        params["isRealTime"] = firstDept.isRealTime() ? "true" : "false"
-                        params["isAccessible"] = firstDept.accessible ? "true" : "false"
-                        params["platform"] = firstDept.platform ?? ""
+                        cbObject.departure = firstDept
                     }
-                    callback(nil, params)
+                    callback(nil, cbObject)
                     return
                 }
-                callback("Something went wrong with getting departures", [:])
+                callback("Something went wrong with getting departures", cbObject)
                 return
             }
             
             if let id = queryStrings["id"] {
                 if let station = TFCStation.initWithCacheId(id) {
                     station.updateDepartures(self, context: ["callback" : departuresUpdatedCallback], onlyFirstDownload: true)
+                    return
                 }
             } else {
                 if let loc = getCurrentAskedLoc(queryStrings) {
@@ -107,8 +100,9 @@ public final class TFCXCallback:NSObject, TFCDeparturesUpdatedProtocol{
                     stations.initStationsByLocation(loc, currentRealLocation: false)
                     if let station = stations.getStation(0) {
                         station.updateDepartures(self, context: ["callback" : departuresUpdatedCallback], onlyFirstDownload: true)
+                        return
                     }
-                    callback("Something went wrong with getting the station", [:])
+                    callback("Something went wrong with getting the station", cbObject)
                     return
                 } else {
                     func stationsUpdateCompletion(stations:TFCStations?, error: String? = nil, context: Any? = nil) {
@@ -137,23 +131,13 @@ public final class TFCXCallback:NSObject, TFCDeparturesUpdatedProtocol{
         return nil
     }
     
-    func getStationParams(_ station: TFCStation, queryStrings:[String:String]?) -> [String : Optional<String>] {
-        var params = [
-            "id": station.getId(),
-            "name": station.getName(false),
-            "nameCityAfter": station.getName(true),
-            "latlon": "\(station.getLatitude()?.description ?? "0"),\(station.getLongitude()?.description ?? "0")"
-        ]
-        
-        //DLog("x-callback-url path: \(url.path)")
+    func getYourLatLon(_ station: TFCStation, queryStrings:[String:String]?) -> CLLocation? {
         var loc = TFCLocationManager.getCurrentLocation(ttl: 5)
         if let askedLoc = getCurrentAskedLoc(queryStrings ?? [:]) {
             loc = askedLoc
         }
-        if let loc = loc {
-            params["yourLatlon"] = "\(loc.coordinate.latitude), \(loc.coordinate.longitude)"
-        }
-        return params
+        return loc
+        
     }
     
  

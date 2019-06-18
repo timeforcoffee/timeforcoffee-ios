@@ -25,10 +25,8 @@ public class ClipboardIntentHandler: NSObject, ClipboardIntentHandling {
         completion(ClipboardIntentResponse(code: .ready, userActivity: nil))
     }
     
-  
-    
     fileprivate func callMethod(_ cb: TFCXCallback, _ queryStrings: [String : String], _ completion: @escaping (ClipboardIntentResponse) -> Void) {
-        cb.handleCall(queryStrings:queryStrings) { (error: String?, params: [String:String?]) in
+        cb.handleCall(queryStrings:queryStrings) { (error: String?, cbOjbect: TFCXCallbackObject) in
             //replace ? in the beginning
             if let error = error {
                 UIPasteboard.general.string = error
@@ -36,14 +34,7 @@ public class ClipboardIntentHandler: NSObject, ClipboardIntentHandling {
                 return
             }
             //UIPasteboard.general.string = url?.absoluteString.replace("^\\?", template: "").removingPercentEncoding
-            let encoder = JSONEncoder()
-            do {
-                encoder.outputFormatting = .prettyPrinted
-                let data = try encoder.encode(params)
-                UIPasteboard.general.string = String(data:data, encoding: .utf8)
-            } catch _ {
-                UIPasteboard.general.string = "{}"
-            }
+            UIPasteboard.general.string = cbOjbect.getJson()
             //UIPasteboard.general.setValue(params, forPasteboardType: "ch.opendata.timeforcoffee.dictionary")
             completion(ClipboardIntentResponse(code: .success, userActivity: nil))
             
@@ -51,7 +42,6 @@ public class ClipboardIntentHandler: NSObject, ClipboardIntentHandling {
     }
     
     public func handle(intent: ClipboardIntent, completion: @escaping (ClipboardIntentResponse) -> Void) {
-        
         #if !os(watchOS)
         let cb = TFCXCallback()
         let pasteBoardString = UIPasteboard.general.string

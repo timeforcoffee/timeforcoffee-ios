@@ -60,6 +60,18 @@ class IntentViewController: UIViewController, INUIHostedViewControlling, UITable
                 return
             }
             completion(true, parameters, desiredSize)
+        } else  if let loc = intent.location?.location {
+            let stations = TFCStations()
+            stations.initStationsByLocation(loc, currentRealLocation: false)
+            if let station = stations.getStation(0) {
+                self.currentStation = station
+                self.setStationTitleWithDistance(station)
+                station.updateDepartures(self)
+            } else {
+                completion(false, Set(), .zero)
+                return
+            }
+            completion(true, parameters, desiredSize)
 
         } else {
             func stationsUpdateCompletion(stations:TFCStations?, error: String?, context: Any?) {

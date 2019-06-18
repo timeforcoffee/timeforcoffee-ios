@@ -27,6 +27,7 @@
 			<key>IntentsSupported</key>
 			<array>
 				<string>ClipboardIntent</string>
+				<string>GetStationIntent</string>
 				<string>INSendMessageIntent</string>
 				<string>NextDeparturesIntent</string>
 			</array>

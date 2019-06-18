@@ -1247,6 +1247,15 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         return nil
     }
 
+    open func getCoordinatesAsString() -> String {
+    
+        if let coords = self.coord?.coordinate {
+                return "\(coords.latitude),\(coords.longitude)"
+        }
+        return ""
+    }
+    
+    
     fileprivate func updateGeolocationInfo() {
         TFCDataStore.sharedInstance.managedObjectContext.perform {
             let iso = self.realmObject?.countryISO

@@ -20,6 +20,10 @@ class IntentHandler: INExtension {
         if intent is ClipboardIntent  {
             return ClipboardIntentHandler()
         }
+        if intent is GetStationIntent  {
+            return GetStationIntentHandler()
+        }
+        
         fatalError("Unhandled intent type: \(intent)")
 
     }

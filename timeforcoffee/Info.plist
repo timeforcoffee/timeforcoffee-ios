@@ -64,6 +64,7 @@ If you have complications installed on your Apple Watch, we subscribe for locati
 	<key>NSUserActivityTypes</key>
 	<array>
 		<string>ClipboardIntent</string>
+		<string>GetStationIntent</string>
 		<string>NextDeparturesIntent</string>
 		<string>ch.opendata.timeforcoffee.station</string>
 	</array>

@@ -357,7 +357,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             let xErrorUrl =  queryStrings["x-error"]
             if let xCallbackUrl = queryStrings["x-success"] {
-                func callUrl(_ error: String?, _ queryParams: [String:String?]) {
+                func callUrl(_ error: String?, _ cbObject: TFCXCallbackObject) {
                     if let error = error {
                         if let callBackUrl = URL(string: "\(xErrorUrl ?? "")?errorMessage=\(error)") {
                             DLog("Call x-callback-url with error: \(callBackUrl)?errorMessage=\(error)")
@@ -371,7 +371,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                     
                     var components = URLComponents()
                     
-                    components.queryItems = queryParams.map {
+                    
+                    components.queryItems = cbObject.getParams().map {
                         URLQueryItem(name: $0, value: $1)
                     }
                     

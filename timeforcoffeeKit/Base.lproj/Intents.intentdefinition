@@ -5,24 +5,46 @@
 	<key>INEnums</key>
 	<array/>
 	<key>INIntentDefinitionModelVersion</key>
-	<string>1.0</string>
+	<string>1.1</string>
+	<key>INIntentDefinitionNamespace</key>
+	<string>GIEkMa</string>
 	<key>INIntentDefinitionSystemVersion</key>
-	<string>18A391</string>
+	<string>18F203</string>
 	<key>INIntentDefinitionToolsBuildVersion</key>
-	<string>10A255</string>
+	<string>11M337n</string>
 	<key>INIntentDefinitionToolsVersion</key>
-	<string>10.0</string>
+	<string>11.0</string>
 	<key>INIntents</key>
 	<array>
 		<dict>
 			<key>INIntentCategory</key>
 			<string>information</string>
+			<key>INIntentConfigurable</key>
+			<true/>
+			<key>INIntentDefaultImageName</key>
+			<string>icon-coffee</string>
 			<key>INIntentDescription</key>
 			<string>Show departures from a station</string>
 			<key>INIntentDescriptionID</key>
 			<string>PHXTvi</string>
+			<key>INIntentInput</key>
+			<string>location</string>
+			<key>INIntentKeyParameter</key>
+			<string>location</string>
 			<key>INIntentLastParameterTag</key>
-			<integer>23</integer>
+			<integer>30</integer>
+			<key>INIntentManagedParameterCombinations</key>
+			<dict>
+				<key>location,time</key>
+				<dict>
+					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
+					<true/>
+					<key>INIntentParameterCombinationTitle</key>
+					<string>Show Departures w/ Location (and Time)</string>
+					<key>INIntentParameterCombinationTitleID</key>
+					<string>mCYGRo</string>
+				</dict>
+			</dict>
 			<key>INIntentName</key>
 			<string>NextDepartures</string>
 			<key>INIntentParameterCombinations</key>
@@ -31,10 +53,6 @@
 				<dict>
 					<key>INIntentParameterCombinationIsPrimary</key>
 					<true/>
-					<key>INIntentParameterCombinationSubtitle</key>
-					<string></string>
-					<key>INIntentParameterCombinationSubtitleID</key>
-					<string>I4jDkI</string>
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
 					<key>INIntentParameterCombinationTitle</key>
@@ -44,12 +62,6 @@
 				</dict>
 				<key>closest</key>
 				<dict>
-					<key>INIntentParameterCombinationIsPrimary</key>
-					<false/>
-					<key>INIntentParameterCombinationSubtitle</key>
-					<string></string>
-					<key>INIntentParameterCombinationSubtitleID</key>
-					<string>Xsvroa</string>
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
 					<key>INIntentParameterCombinationTitle</key>
@@ -59,12 +71,6 @@
 				</dict>
 				<key>stationObj</key>
 				<dict>
-					<key>INIntentParameterCombinationIsPrimary</key>
-					<false/>
-					<key>INIntentParameterCombinationSubtitle</key>
-					<string></string>
-					<key>INIntentParameterCombinationSubtitleID</key>
-					<string>AtoDwF</string>
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
 					<key>INIntentParameterCombinationTitle</key>
@@ -74,12 +80,6 @@
 				</dict>
 				<key>stationObj,departure</key>
 				<dict>
-					<key>INIntentParameterCombinationIsPrimary</key>
-					<false/>
-					<key>INIntentParameterCombinationSubtitle</key>
-					<string></string>
-					<key>INIntentParameterCombinationSubtitleID</key>
-					<string>YjTVME</string>
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
 					<key>INIntentParameterCombinationTitle</key>
@@ -95,8 +95,8 @@
 					<integer>1</integer>
 					<key>INIntentParameterName</key>
 					<string>stationObj</string>
-					<key>INIntentParameterSupportsMultipleValues</key>
-					<false/>
+					<key>INIntentParameterSupportsDynamicEnumeration</key>
+					<true/>
 					<key>INIntentParameterTag</key>
 					<integer>20</integer>
 					<key>INIntentParameterType</key>
@@ -105,10 +105,13 @@
 				<dict>
 					<key>INIntentParameterDisplayPriority</key>
 					<integer>2</integer>
+					<key>INIntentParameterMetadata</key>
+					<dict>
+						<key>INIntentParameterMetadataCapitalization</key>
+						<string>None</string>
+					</dict>
 					<key>INIntentParameterName</key>
 					<string>closest</string>
-					<key>INIntentParameterSupportsMultipleValues</key>
-					<false/>
 					<key>INIntentParameterTag</key>
 					<integer>14</integer>
 					<key>INIntentParameterType</key>
@@ -119,12 +122,116 @@
 					<integer>3</integer>
 					<key>INIntentParameterName</key>
 					<string>departure</string>
-					<key>INIntentParameterSupportsMultipleValues</key>
-					<false/>
+					<key>INIntentParameterSupportsDynamicEnumeration</key>
+					<true/>
 					<key>INIntentParameterTag</key>
 					<integer>19</integer>
 					<key>INIntentParameterType</key>
 					<string>Object</string>
+				</dict>
+				<dict>
+					<key>INIntentParameterDisplayName</key>
+					<string>Location</string>
+					<key>INIntentParameterDisplayNameID</key>
+					<string>rvmJYf</string>
+					<key>INIntentParameterDisplayPriority</key>
+					<integer>4</integer>
+					<key>INIntentParameterMetadata</key>
+					<dict>
+						<key>INIntentParameterMetadataType</key>
+						<string>Name</string>
+					</dict>
+					<key>INIntentParameterName</key>
+					<string>location</string>
+					<key>INIntentParameterPromptDialogs</key>
+					<array>
+						<dict>
+							<key>INIntentParameterPromptDialogCustom</key>
+							<true/>
+							<key>INIntentParameterPromptDialogFormatString</key>
+							<string>Where?</string>
+							<key>INIntentParameterPromptDialogFormatStringID</key>
+							<string>tPKyug</string>
+							<key>INIntentParameterPromptDialogType</key>
+							<string>Primary</string>
+						</dict>
+					</array>
+					<key>INIntentParameterSupportsResolution</key>
+					<true/>
+					<key>INIntentParameterTag</key>
+					<integer>25</integer>
+					<key>INIntentParameterType</key>
+					<string>Placemark</string>
+				</dict>
+				<dict>
+					<key>INIntentParameterCustomDisambiguation</key>
+					<true/>
+					<key>INIntentParameterDisplayName</key>
+					<string>Time</string>
+					<key>INIntentParameterDisplayNameID</key>
+					<string>tIPXMg</string>
+					<key>INIntentParameterDisplayPriority</key>
+					<integer>5</integer>
+					<key>INIntentParameterMetadata</key>
+					<dict>
+						<key>INIntentParameterMetadataDateStyle</key>
+						<string>Full</string>
+						<key>INIntentParameterMetadataFormat</key>
+						<string>Style</string>
+						<key>INIntentParameterMetadataTimeStyle</key>
+						<string>Full</string>
+						<key>INIntentParameterMetadataType</key>
+						<string>DateTime</string>
+					</dict>
+					<key>INIntentParameterName</key>
+					<string>time</string>
+					<key>INIntentParameterPromptDialogs</key>
+					<array>
+						<dict>
+							<key>INIntentParameterPromptDialogCustom</key>
+							<true/>
+							<key>INIntentParameterPromptDialogFormatString</key>
+							<string>When?</string>
+							<key>INIntentParameterPromptDialogFormatStringID</key>
+							<string>plgb5K</string>
+							<key>INIntentParameterPromptDialogType</key>
+							<string>Primary</string>
+						</dict>
+						<dict>
+							<key>INIntentParameterPromptDialogCustom</key>
+							<true/>
+							<key>INIntentParameterPromptDialogFormatString</key>
+							<string>There are ${count} options matching ‘${time}’.</string>
+							<key>INIntentParameterPromptDialogFormatStringID</key>
+							<string>uM4gjp</string>
+							<key>INIntentParameterPromptDialogType</key>
+							<string>DisambiguationIntroduction</string>
+						</dict>
+						<dict>
+							<key>INIntentParameterPromptDialogFormatString</key>
+							<string>Which one?</string>
+							<key>INIntentParameterPromptDialogFormatStringID</key>
+							<string>dJWGbT</string>
+							<key>INIntentParameterPromptDialogType</key>
+							<string>DisambiguationSelection</string>
+						</dict>
+						<dict>
+							<key>INIntentParameterPromptDialogCustom</key>
+							<true/>
+							<key>INIntentParameterPromptDialogFormatString</key>
+							<string>Just to confirm, you wanted ‘${time}’?</string>
+							<key>INIntentParameterPromptDialogFormatStringID</key>
+							<string>eUEVI8</string>
+							<key>INIntentParameterPromptDialogType</key>
+							<string>Confirmation</string>
+						</dict>
+					</array>
+					<key>INIntentParameterSupportsResolution</key>
+					<true/>
+					<key>INIntentParameterTag</key>
+					<integer>27</integer>
+					<key>INIntentParameterType</key>
+					<string>DateComponents</string>
 				</dict>
 			</array>
 			<key>INIntentResponse</key>
@@ -133,17 +240,7 @@
 				<array>
 					<dict>
 						<key>INIntentResponseCodeFormatString</key>
-						<string>There was a failure</string>
-						<key>INIntentResponseCodeFormatStringID</key>
-						<string>5ZFgFV</string>
-						<key>INIntentResponseCodeName</key>
-						<string>failure</string>
-						<key>INIntentResponseCodeSuccess</key>
-						<false/>
-					</dict>
-					<dict>
-						<key>INIntentResponseCodeFormatString</key>
-						<string>In ${departureTime} minutes with line ${departureLine} to ${endStation} from ${departureStation}</string>
+						<string>In ${departureTime} minutes with line ${departureLine} to ${endStation} from ${departureStation} </string>
 						<key>INIntentResponseCodeFormatStringID</key>
 						<string>dbpzKW</string>
 						<key>INIntentResponseCodeName</key>
@@ -153,13 +250,19 @@
 					</dict>
 					<dict>
 						<key>INIntentResponseCodeFormatString</key>
+						<string>There was a failure</string>
+						<key>INIntentResponseCodeFormatStringID</key>
+						<string>5ZFgFV</string>
+						<key>INIntentResponseCodeName</key>
+						<string>failure</string>
+					</dict>
+					<dict>
+						<key>INIntentResponseCodeFormatString</key>
 						<string>No station found</string>
 						<key>INIntentResponseCodeFormatStringID</key>
 						<string>6rFnt3</string>
 						<key>INIntentResponseCodeName</key>
 						<string>noStationFound</string>
-						<key>INIntentResponseCodeSuccess</key>
-						<false/>
 					</dict>
 					<dict>
 						<key>INIntentResponseCodeFormatString</key>
@@ -168,8 +271,6 @@
 						<string>WCAhPt</string>
 						<key>INIntentResponseCodeName</key>
 						<string>noDeparturesFound</string>
-						<key>INIntentResponseCodeSuccess</key>
-						<false/>
 					</dict>
 					<dict>
 						<key>INIntentResponseCodeFormatString</key>
@@ -193,28 +294,34 @@
 					</dict>
 				</array>
 				<key>INIntentResponseLastParameterTag</key>
-				<integer>6</integer>
+				<integer>12</integer>
+				<key>INIntentResponseOutput</key>
+				<string>responseInfo</string>
 				<key>INIntentResponseParameters</key>
 				<array>
 					<dict>
+						<key>INIntentResponseParameterDisplayName</key>
+						<string>Departure Station</string>
+						<key>INIntentResponseParameterDisplayNameID</key>
+						<string>iK7eog</string>
 						<key>INIntentResponseParameterDisplayPriority</key>
 						<integer>1</integer>
 						<key>INIntentResponseParameterName</key>
 						<string>departureStation</string>
-						<key>INIntentResponseParameterSupportsMultipleValues</key>
-						<false/>
 						<key>INIntentResponseParameterTag</key>
 						<integer>1</integer>
 						<key>INIntentResponseParameterType</key>
 						<string>String</string>
 					</dict>
 					<dict>
+						<key>INIntentResponseParameterDisplayName</key>
+						<string>Departure Time</string>
+						<key>INIntentResponseParameterDisplayNameID</key>
+						<string>2zLAgt</string>
 						<key>INIntentResponseParameterDisplayPriority</key>
 						<integer>2</integer>
 						<key>INIntentResponseParameterName</key>
 						<string>departureTime</string>
-						<key>INIntentResponseParameterSupportsMultipleValues</key>
-						<false/>
 						<key>INIntentResponseParameterTag</key>
 						<integer>2</integer>
 						<key>INIntentResponseParameterType</key>
@@ -225,8 +332,6 @@
 						<integer>3</integer>
 						<key>INIntentResponseParameterName</key>
 						<string>departureLine</string>
-						<key>INIntentResponseParameterSupportsMultipleValues</key>
-						<false/>
 						<key>INIntentResponseParameterTag</key>
 						<integer>3</integer>
 						<key>INIntentResponseParameterType</key>
@@ -237,8 +342,6 @@
 						<integer>4</integer>
 						<key>INIntentResponseParameterName</key>
 						<string>endStation</string>
-						<key>INIntentResponseParameterSupportsMultipleValues</key>
-						<false/>
 						<key>INIntentResponseParameterTag</key>
 						<integer>4</integer>
 						<key>INIntentResponseParameterType</key>
@@ -249,25 +352,51 @@
 						<integer>5</integer>
 						<key>INIntentResponseParameterName</key>
 						<string>walkingTime</string>
-						<key>INIntentResponseParameterSupportsMultipleValues</key>
-						<false/>
 						<key>INIntentResponseParameterTag</key>
 						<integer>6</integer>
 						<key>INIntentResponseParameterType</key>
 						<string>String</string>
 					</dict>
+					<dict>
+						<key>INIntentResponseParameterDisplayName</key>
+						<string>Summary</string>
+						<key>INIntentResponseParameterDisplayNameID</key>
+						<string>bAEnta</string>
+						<key>INIntentResponseParameterDisplayPriority</key>
+						<integer>6</integer>
+						<key>INIntentResponseParameterName</key>
+						<string>summary</string>
+						<key>INIntentResponseParameterObjectType</key>
+						<string>TFCSummary</string>
+						<key>INIntentResponseParameterObjectTypeNamespace</key>
+						<string>GIEkMa</string>
+						<key>INIntentResponseParameterTag</key>
+						<integer>9</integer>
+						<key>INIntentResponseParameterType</key>
+						<string>Object</string>
+					</dict>
+					<dict>
+						<key>INIntentResponseParameterDisplayName</key>
+						<string>Next Departure</string>
+						<key>INIntentResponseParameterDisplayNameID</key>
+						<string>V94Qgg</string>
+						<key>INIntentResponseParameterDisplayPriority</key>
+						<integer>7</integer>
+						<key>INIntentResponseParameterName</key>
+						<string>responseInfo</string>
+						<key>INIntentResponseParameterTag</key>
+						<integer>12</integer>
+						<key>INIntentResponseParameterType</key>
+						<string>String</string>
+					</dict>
 				</array>
 			</dict>
-			<key>INIntentRestrictions</key>
-			<integer>0</integer>
 			<key>INIntentTitle</key>
-			<string>Show departures </string>
+			<string>Get departures </string>
 			<key>INIntentTitleID</key>
 			<string>qwQyYn</string>
 			<key>INIntentType</key>
 			<string>Custom</string>
-			<key>INIntentUserConfirmationRequired</key>
-			<false/>
 			<key>INIntentVerb</key>
 			<string>View</string>
 		</dict>
@@ -288,62 +417,293 @@
 				<dict>
 					<key>INIntentParameterCombinationIsPrimary</key>
 					<true/>
-					<key>INIntentParameterCombinationSubtitle</key>
-					<string></string>
-					<key>INIntentParameterCombinationSubtitleID</key>
-					<string>19N1oW</string>
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
-					<key>INIntentParameterCombinationTitle</key>
-					<string></string>
-					<key>INIntentParameterCombinationTitleID</key>
-					<string>d2YZF6</string>
 				</dict>
 			</dict>
-			<key>INIntentParameters</key>
-			<array/>
 			<key>INIntentResponse</key>
 			<dict>
 				<key>INIntentResponseCodes</key>
 				<array>
 					<dict>
-						<key>INIntentResponseCodeFormatString</key>
-						<string></string>
-						<key>INIntentResponseCodeFormatStringID</key>
-						<string>59GZeZ</string>
-						<key>INIntentResponseCodeName</key>
-						<string>failure</string>
-						<key>INIntentResponseCodeSuccess</key>
-						<false/>
-					</dict>
-					<dict>
-						<key>INIntentResponseCodeFormatString</key>
-						<string></string>
-						<key>INIntentResponseCodeFormatStringID</key>
-						<string>pS0nkt</string>
 						<key>INIntentResponseCodeName</key>
 						<string>success</string>
 						<key>INIntentResponseCodeSuccess</key>
 						<true/>
 					</dict>
+					<dict>
+						<key>INIntentResponseCodeName</key>
+						<string>failure</string>
+					</dict>
 				</array>
-				<key>INIntentResponseLastParameterTag</key>
-				<integer>0</integer>
-				<key>INIntentResponseParameters</key>
-				<array/>
 			</dict>
-			<key>INIntentRestrictions</key>
-			<integer>0</integer>
 			<key>INIntentTitle</key>
 			<string>Copy from and then to clipboard</string>
 			<key>INIntentTitleID</key>
 			<string>xrwGli</string>
 			<key>INIntentType</key>
 			<string>Custom</string>
-			<key>INIntentUserConfirmationRequired</key>
-			<false/>
 			<key>INIntentVerb</key>
 			<string>Do</string>
+		</dict>
+		<dict>
+			<key>INIntentCategory</key>
+			<string>information</string>
+			<key>INIntentConfigurable</key>
+			<true/>
+			<key>INIntentDefaultImageName</key>
+			<string>icon-coffee</string>
+			<key>INIntentDescription</key>
+			<string>Get a station nearby or somewhere else</string>
+			<key>INIntentDescriptionID</key>
+			<string>718qYg</string>
+			<key>INIntentIneligibleForSuggestions</key>
+			<true/>
+			<key>INIntentLastParameterTag</key>
+			<integer>2</integer>
+			<key>INIntentManagedParameterCombinations</key>
+			<dict>
+				<key>location</key>
+				<dict>
+					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
+					<true/>
+					<key>INIntentParameterCombinationTitle</key>
+					<string>Get Station</string>
+					<key>INIntentParameterCombinationTitleID</key>
+					<string>iCNnpM</string>
+					<key>INIntentParameterCombinationUpdatesLinked</key>
+					<true/>
+				</dict>
+			</dict>
+			<key>INIntentName</key>
+			<string>GetStation</string>
+			<key>INIntentParameters</key>
+			<array>
+				<dict>
+					<key>INIntentParameterDisplayName</key>
+					<string>Location</string>
+					<key>INIntentParameterDisplayNameID</key>
+					<string>rQK9EY</string>
+					<key>INIntentParameterDisplayPriority</key>
+					<integer>1</integer>
+					<key>INIntentParameterMetadata</key>
+					<dict>
+						<key>INIntentParameterMetadataType</key>
+						<string>Name</string>
+					</dict>
+					<key>INIntentParameterName</key>
+					<string>location</string>
+					<key>INIntentParameterPromptDialogs</key>
+					<array>
+						<dict>
+							<key>INIntentParameterPromptDialogCustom</key>
+							<true/>
+							<key>INIntentParameterPromptDialogFormatString</key>
+							<string>Where?</string>
+							<key>INIntentParameterPromptDialogFormatStringID</key>
+							<string>awpTyH</string>
+							<key>INIntentParameterPromptDialogType</key>
+							<string>Primary</string>
+						</dict>
+					</array>
+					<key>INIntentParameterSupportsResolution</key>
+					<true/>
+					<key>INIntentParameterTag</key>
+					<integer>2</integer>
+					<key>INIntentParameterType</key>
+					<string>Placemark</string>
+				</dict>
+			</array>
+			<key>INIntentResponse</key>
+			<dict>
+				<key>INIntentResponseCodes</key>
+				<array>
+					<dict>
+						<key>INIntentResponseCodeFormatString</key>
+						<string>Station found is ${departureStation}</string>
+						<key>INIntentResponseCodeFormatStringID</key>
+						<string>yTyNlz</string>
+						<key>INIntentResponseCodeName</key>
+						<string>success</string>
+						<key>INIntentResponseCodeSuccess</key>
+						<true/>
+					</dict>
+					<dict>
+						<key>INIntentResponseCodeFormatString</key>
+						<string>No station found</string>
+						<key>INIntentResponseCodeFormatStringID</key>
+						<string>uFGJjv</string>
+						<key>INIntentResponseCodeName</key>
+						<string>failure</string>
+					</dict>
+				</array>
+				<key>INIntentResponseLastParameterTag</key>
+				<integer>2</integer>
+				<key>INIntentResponseOutput</key>
+				<string>responseInfo</string>
+				<key>INIntentResponseParameters</key>
+				<array>
+					<dict>
+						<key>INIntentResponseParameterDisplayName</key>
+						<string>Station Info</string>
+						<key>INIntentResponseParameterDisplayNameID</key>
+						<string>yamx9p</string>
+						<key>INIntentResponseParameterDisplayPriority</key>
+						<integer>1</integer>
+						<key>INIntentResponseParameterName</key>
+						<string>responseInfo</string>
+						<key>INIntentResponseParameterTag</key>
+						<integer>1</integer>
+						<key>INIntentResponseParameterType</key>
+						<string>String</string>
+					</dict>
+					<dict>
+						<key>INIntentResponseParameterDisplayPriority</key>
+						<integer>2</integer>
+						<key>INIntentResponseParameterName</key>
+						<string>departureStation</string>
+						<key>INIntentResponseParameterTag</key>
+						<integer>2</integer>
+						<key>INIntentResponseParameterType</key>
+						<string>String</string>
+					</dict>
+				</array>
+			</dict>
+			<key>INIntentTitle</key>
+			<string>Get Station</string>
+			<key>INIntentTitleID</key>
+			<string>GAB39M</string>
+			<key>INIntentType</key>
+			<string>Custom</string>
+			<key>INIntentVerb</key>
+			<string>View</string>
+		</dict>
+	</array>
+	<key>INTypes</key>
+	<array>
+		<dict>
+			<key>INTypeDisplayName</key>
+			<string>Summary</string>
+			<key>INTypeDisplayNameID</key>
+			<string>TzWx4C</string>
+			<key>INTypeLastPropertyTag</key>
+			<integer>110</integer>
+			<key>INTypeName</key>
+			<string>TFCSummary</string>
+			<key>INTypeProperties</key>
+			<array>
+				<dict>
+					<key>INTypePropertyDefault</key>
+					<true/>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>1</integer>
+					<key>INTypePropertyName</key>
+					<string>identifier</string>
+					<key>INTypePropertyTag</key>
+					<integer>1</integer>
+					<key>INTypePropertyType</key>
+					<string>String</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDefault</key>
+					<true/>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>2</integer>
+					<key>INTypePropertyName</key>
+					<string>displayString</string>
+					<key>INTypePropertyTag</key>
+					<integer>2</integer>
+					<key>INTypePropertyType</key>
+					<string>String</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDefault</key>
+					<true/>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>3</integer>
+					<key>INTypePropertyName</key>
+					<string>pronunciationHint</string>
+					<key>INTypePropertyTag</key>
+					<integer>3</integer>
+					<key>INTypePropertyType</key>
+					<string>String</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDefault</key>
+					<true/>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>4</integer>
+					<key>INTypePropertyName</key>
+					<string>alternativeSpeakableMatches</string>
+					<key>INTypePropertySupportsMultipleValues</key>
+					<true/>
+					<key>INTypePropertyTag</key>
+					<integer>4</integer>
+					<key>INTypePropertyType</key>
+					<string>SpeakableString</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>5</integer>
+					<key>INTypePropertyMetadata</key>
+					<dict>
+						<key>INTypePropertyMetadataDateStyle</key>
+						<string>Full</string>
+						<key>INTypePropertyMetadataFormat</key>
+						<string>Style</string>
+						<key>INTypePropertyMetadataTimeStyle</key>
+						<string>Full</string>
+						<key>INTypePropertyMetadataType</key>
+						<string>Time</string>
+					</dict>
+					<key>INTypePropertyName</key>
+					<string>departureTime</string>
+					<key>INTypePropertyTag</key>
+					<integer>104</integer>
+					<key>INTypePropertyType</key>
+					<string>DateComponents</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>6</integer>
+					<key>INTypePropertyName</key>
+					<string>departureStation</string>
+					<key>INTypePropertyTag</key>
+					<integer>101</integer>
+					<key>INTypePropertyType</key>
+					<string>String</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>7</integer>
+					<key>INTypePropertyName</key>
+					<string>departureMinutes</string>
+					<key>INTypePropertyTag</key>
+					<integer>106</integer>
+					<key>INTypePropertyType</key>
+					<string>Integer</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>8</integer>
+					<key>INTypePropertyName</key>
+					<string>endStation</string>
+					<key>INTypePropertyTag</key>
+					<integer>108</integer>
+					<key>INTypePropertyType</key>
+					<string>String</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>9</integer>
+					<key>INTypePropertyName</key>
+					<string>walkingMinutes</string>
+					<key>INTypePropertyTag</key>
+					<integer>110</integer>
+					<key>INTypePropertyType</key>
+					<string>Integer</string>
+				</dict>
+			</array>
 		</dict>
 	</array>
 </dict>
