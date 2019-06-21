@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14810.11" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="6Gx-yE-V2l">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14810.12" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="6Gx-yE-V2l">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14766.13"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14766.15"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -35,25 +35,27 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view tag="99100" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hgh-aB-L8s" userLabel="departureLineView" customClass="DepartureLineLabel" customModule="timeforcoffee" customModuleProvider="target">
-                                                    <rect key="frame" x="7" y="16" width="28" height="28"/>
+                                                <view tag="99100" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Hgh-aB-L8s" userLabel="departureLineView" customClass="DepartureLineLabel" customModule="timeforcoffee" customModuleProvider="target">
+                                                    <rect key="frame" x="7" y="13" width="34" height="34"/>
                                                     <color key="backgroundColor" red="1" green="0.20228040759999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
+                                                        <constraint firstAttribute="width" constant="34" id="JwD-oR-wGm"/>
+                                                        <constraint firstAttribute="height" constant="34" id="gcE-jz-Ie8"/>
                                                         <constraint firstAttribute="width" secondItem="Hgh-aB-L8s" secondAttribute="height" multiplier="1:1" id="oQQ-kq-Icv"/>
                                                     </constraints>
                                                 </view>
-                                                <label userInteractionEnabled="NO" tag="99300" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zof-A8-cQg">
-                                                    <rect key="frame" x="45" y="30" width="225" height="14"/>
+                                                <label userInteractionEnabled="NO" tag="99300" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SubLabel" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zof-A8-cQg">
+                                                    <rect key="frame" x="51" y="33" width="219" height="14"/>
                                                     <color key="backgroundColor" name="TFCBackgroundColor"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="14" id="LlG-KP-kiK"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
-                                                    <color key="textColor" red="0.45901817083358765" green="0.45900446176528931" blue="0.45901218056678772" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="textColor" name="TFCGrayColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label userInteractionEnabled="NO" tag="99200" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sln-mq-zsw">
-                                                    <rect key="frame" x="45" y="16" width="220" height="19"/>
+                                                    <rect key="frame" x="51" y="13" width="214" height="19"/>
                                                     <color key="backgroundColor" name="TFCBackgroundColor"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="19" id="glW-Fx-ykd"/>
@@ -73,15 +75,16 @@
                                             <color key="backgroundColor" name="TFCBackgroundColor"/>
                                             <constraints>
                                                 <constraint firstItem="Sln-mq-zsw" firstAttribute="top" secondItem="Hgh-aB-L8s" secondAttribute="top" id="1tA-mZ-pa6"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="Sln-mq-zsw" secondAttribute="trailing" constant="40" id="Hc1-Sj-bqJ"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="Hgh-aB-L8s" secondAttribute="bottom" constant="5" id="OIe-Xo-LWd"/>
-                                                <constraint firstItem="Hgh-aB-L8s" firstAttribute="top" secondItem="WfY-wA-WRl" secondAttribute="topMargin" constant="5" id="PAL-vC-WZR"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="Sln-mq-zsw" secondAttribute="trailing" priority="750" constant="40" id="Hc1-Sj-bqJ"/>
+                                                <constraint firstItem="1jx-HP-fcA" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="zof-A8-cQg" secondAttribute="trailing" constant="7" id="NUA-cN-rAi"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="Hgh-aB-L8s" secondAttribute="bottom" constant="2" id="OIe-Xo-LWd"/>
+                                                <constraint firstItem="Hgh-aB-L8s" firstAttribute="top" secondItem="WfY-wA-WRl" secondAttribute="topMargin" constant="2" id="PAL-vC-WZR"/>
                                                 <constraint firstItem="Hgh-aB-L8s" firstAttribute="leading" secondItem="WfY-wA-WRl" secondAttribute="leading" constant="7" id="REn-l9-QQP"/>
                                                 <constraint firstItem="Sln-mq-zsw" firstAttribute="leading" secondItem="Hgh-aB-L8s" secondAttribute="trailing" constant="10" id="Z5m-Fj-P8w"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="1jx-HP-fcA" secondAttribute="bottom" id="ZG8-50-40x"/>
-                                                <constraint firstItem="zof-A8-cQg" firstAttribute="trailing" secondItem="WfY-wA-WRl" secondAttribute="trailing" constant="-50" id="fw4-7Z-Cyp"/>
+                                                <constraint firstItem="zof-A8-cQg" firstAttribute="trailing" secondItem="WfY-wA-WRl" secondAttribute="trailing" priority="750" constant="-50" id="fw4-7Z-Cyp"/>
                                                 <constraint firstItem="Hgh-aB-L8s" firstAttribute="bottom" secondItem="zof-A8-cQg" secondAttribute="bottom" id="nvl-jC-cHl"/>
-                                                <constraint firstItem="zof-A8-cQg" firstAttribute="leading" secondItem="Hgh-aB-L8s" secondAttribute="trailing" constant="10" id="x5D-7X-U7O"/>
+                                                <constraint firstItem="zof-A8-cQg" firstAttribute="leading" secondItem="Hgh-aB-L8s" secondAttribute="trailing" priority="750" constant="10" id="x5D-7X-U7O"/>
                                                 <constraint firstItem="1jx-HP-fcA" firstAttribute="trailing" secondItem="WfY-wA-WRl" secondAttribute="trailingMargin" constant="-5" id="xBP-pA-SgK"/>
                                                 <constraint firstItem="1jx-HP-fcA" firstAttribute="top" secondItem="WfY-wA-WRl" secondAttribute="topMargin" id="zJz-gN-d2d"/>
                                             </constraints>
@@ -126,6 +129,7 @@
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="36" id="G2C-kr-nrd"/>
                                                         </constraints>
+                                                        <color key="tintColor" name="TFCGrayerColor"/>
                                                         <state key="normal" image="chevron-up">
                                                             <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -139,12 +143,13 @@
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="36" id="r0C-fv-BbX"/>
                                                         </constraints>
+                                                        <color key="tintColor" name="TFCGrayerColor"/>
                                                         <state key="normal" image="icon-map">
                                                             <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </state>
                                                     </button>
                                                 </subviews>
-                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="backgroundColor" name="TFCBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstItem="3J6-WH-M4V" firstAttribute="leading" secondItem="tiy-IY-zxF" secondAttribute="leading" constant="3" id="5lv-DH-JCa"/>
                                                     <constraint firstItem="6Gf-nk-f44" firstAttribute="top" secondItem="tiy-IY-zxF" secondAttribute="top" id="BdB-aA-1wJ"/>
@@ -168,20 +173,20 @@
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Zürich, Schaffhauserplatz" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="37z-MA-FFU">
                                                 <rect key="frame" x="0.0" y="30" width="320" height="22"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="textColor" name="TFCTextColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="534 m / 5 min" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G4Z-yb-SMS" userLabel="534 m / 5 min">
                                                 <rect key="frame" x="0.0" y="55" width="320" height="17"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="textColor" name="TFCTextColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="VXL-uK-o9G">
                                                 <rect key="frame" x="35" y="52" width="250" height="25"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="24" id="YmI-3l-p1H"/>
-                                                    <constraint firstAttribute="width" constant="250" id="tLH-PI-FXZ"/>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="250" id="tLH-PI-FXZ"/>
                                                 </constraints>
                                                 <segments>
                                                     <segment title="All"/>
@@ -217,11 +222,13 @@
                                         <rect key="frame" x="0.0" y="4" width="320" height="79"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" name="TFCTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o3U-mY-SIS" userLabel="Back Label">
                                         <rect key="frame" x="0.0" y="0.0" width="88" height="88"/>
                                         <accessibility key="accessibilityConfiguration" label="Back"/>
+                                        <color key="tintColor" name="TFCGrayerColor"/>
                                         <state key="normal" image="chevron-left">
                                             <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -240,8 +247,9 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nm9-vv-oCK">
                                         <rect key="frame" x="282" y="25" width="30" height="36"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <color key="tintColor" name="TFCGrayerColor"/>
                                         <state key="normal" title="☆">
-                                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="titleColor" name="TFCTextColor"/>
                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                     </button>
@@ -272,7 +280,7 @@
                                         <rect key="frame" x="282" y="52" width="30" height="36"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title="≡">
-                                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="titleColor" name="TFCTextColor"/>
                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                     </button>
@@ -841,10 +849,12 @@ in departures times</string>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="INQ-e5-Pmu">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" name="TFCGrayerColor"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="LVL-kg-0lH">
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" name="TFCGrayerColor"/>
                     </toolbar>
                     <connections>
                         <segue destination="KiB-sC-VsM" kind="relationship" relationship="rootViewController" id="vSx-rC-9n1"/>
@@ -864,7 +874,8 @@ in departures times</string>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleAspectFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="oHe-UY-ssv" customClass="StationTableView" customModule="timeforcoffee" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" name="TFCBackgroundColor"/>
+                                <color key="tintColor" name="TFCGrayerColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="az0-vD-KZC" id="xSI-rx-1qt"/>
                                     <outlet property="delegate" destination="az0-vD-KZC" id="2N9-TP-Tgr"/>
@@ -902,7 +913,7 @@ in departures times</string>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="VKp-fl-5YQ">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" name="TFCBackgroundColor"/>
                                 <color key="separatorColor" red="0.83514857292175293" green="0.83512353897094727" blue="0.83513772487640381" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="DeparturesListCell" rowHeight="60" id="TP8-6T-OEF" customClass="MGSwipeTableCell">
@@ -913,8 +924,8 @@ in departures times</string>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label userInteractionEnabled="NO" tag="99300" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aa9-U5-OSi" userLabel="TimeLabel">
-                                                    <rect key="frame" x="22" y="30" width="248" height="14"/>
-                                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <rect key="frame" x="22" y="35" width="248" height="14"/>
+                                                    <color key="backgroundColor" name="TFCBackgroundColor"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="14" id="cqh-Vi-8OQ"/>
                                                     </constraints>
@@ -924,25 +935,25 @@ in departures times</string>
                                                 </label>
                                                 <label userInteractionEnabled="NO" tag="99200" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="baO-aT-Mfz" userLabel="StationLabel">
                                                     <rect key="frame" x="22" y="16" width="243" height="19"/>
-                                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="backgroundColor" name="TFCBackgroundColor"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="19" id="zJQ-nD-zdl"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="16"/>
-                                                    <color key="textColor" red="0.15056313574314117" green="0.15055863559246063" blue="0.15056121349334717" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="textColor" name="TFCTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label userInteractionEnabled="NO" tag="99400" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="13" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3U4-XZ-Tqn" userLabel="MinutesLabel">
                                                     <rect key="frame" x="277" y="11" width="23" height="38"/>
-                                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="backgroundColor" name="TFCBackgroundColor"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
-                                                    <color key="textColor" red="0.15056313574314117" green="0.15055863559246063" blue="0.15056121349334717" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="textColor" name="TFCTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="3U4-XZ-Tqn" firstAttribute="trailing" secondItem="j8v-Gl-6my" secondAttribute="trailingMargin" constant="-5" id="7QN-c4-718"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="Aa9-U5-OSi" secondAttribute="bottom" constant="5" id="Lxf-Nz-OGH"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="Aa9-U5-OSi" secondAttribute="bottom" id="Lxf-Nz-OGH"/>
                                                 <constraint firstItem="3U4-XZ-Tqn" firstAttribute="top" secondItem="j8v-Gl-6my" secondAttribute="topMargin" id="Ofm-XT-Eeu"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="baO-aT-Mfz" secondAttribute="trailing" constant="40" id="TBd-Q6-go2"/>
                                                 <constraint firstItem="baO-aT-Mfz" firstAttribute="leading" secondItem="Aa9-U5-OSi" secondAttribute="leading" id="Wor-mi-RMi"/>
@@ -952,6 +963,7 @@ in departures times</string>
                                                 <constraint firstItem="Aa9-U5-OSi" firstAttribute="trailing" secondItem="j8v-Gl-6my" secondAttribute="trailing" constant="-50" id="oeL-3d-LoL"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" name="TFCBackgroundColor"/>
                                         <inset key="separatorInset" minX="12" minY="0.0" maxX="0.0" maxY="0.0"/>
                                     </tableViewCell>
                                 </prototypes>
@@ -1005,7 +1017,7 @@ in departures times</string>
                                                         </state>
                                                     </button>
                                                 </subviews>
-                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="backgroundColor" name="TFCBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstItem="Ixm-Ht-1hC" firstAttribute="top" secondItem="Ddh-Nw-5U2" secondAttribute="top" id="3Y0-3y-8PI"/>
                                                     <constraint firstAttribute="height" secondItem="Ixm-Ht-1hC" secondAttribute="height" id="8e5-Lj-Qr5"/>
@@ -1029,13 +1041,13 @@ in departures times</string>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Zürich, Schaffhauserplatz" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4hK-vg-xwR">
                                                 <rect key="frame" x="0.0" y="30" width="320" height="22"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="textColor" name="TFCTextColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="534 m / 5 min" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bfK-DB-7hf" userLabel="534 m / 5 min">
                                                 <rect key="frame" x="0.0" y="55" width="320" height="17"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="textColor" name="TFCTextColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
@@ -1208,12 +1220,18 @@ in departures times</string>
         <namedColor name="TFCBackgroundColor">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <namedColor name="TFCGrayColor">
+            <color white="0.37999999523162842" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </namedColor>
+        <namedColor name="TFCGrayerColor">
+            <color red="0.21568627450980393" green="0.21568627450980393" blue="0.21568627450980393" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="TFCTextColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="oN2-Vu-P19"/>
+        <segue reference="EbB-bB-eGx"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

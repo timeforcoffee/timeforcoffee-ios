@@ -23,7 +23,8 @@ final class StationsSearchViewController: StationsViewController, UISearchBarDel
         self.searchController?.hidesNavigationBarDuringPresentation = false;
         self.searchController?.dimsBackgroundDuringPresentation = false;
         let searchBar = self.searchController?.searchBar
-        self.navigationController?.navigationBar.tintColor = UIColor.darkGray
+        
+        self.navigationController?.navigationBar.tintColor = UIColor(named: "TFCGrayerColor")
         self.navigationItem.rightBarButtonItem = nil;
         self.navigationItem.titleView = searchBar
 

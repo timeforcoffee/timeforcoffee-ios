@@ -51,7 +51,8 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
 
         let aboutButton = UIBarButtonItem(title: "☕︎", style: UIBarButtonItem.Style.plain, target: self, action: #selector(PagedStationsViewController.aboutClicked(_:)))
         aboutButton.image = UIImage(named: "icon-coffee")
-        aboutButton.tintColor = UIColor(netHexString: "555555")
+        aboutButton.tintColor = UIColor(named: "TFCGrayerColor")
+
         aboutButton.accessibilityLabel = NSLocalizedString("About", comment: "")
         aboutButton.accessibilityHint = NSLocalizedString("Help and chat with us", comment: "")
 
@@ -153,7 +154,7 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         titlePageControl.numberOfPages = 2
         titlePageControl.currentPage = 0
         titlePageControl.currentPageIndicatorTintColor =  UIColor(named: "TFCTextColor")
-        titlePageControl.pageIndicatorTintColor = UIColor.gray
+        titlePageControl.pageIndicatorTintColor =  UIColor(named: "TFCGrayerColor")
         titlePageControl.transform = titlePageControl.transform.scaledBy(x: 0.75, y: 0.75)
         titlePageControl.isUserInteractionEnabled = false
         titlePageControl.isAccessibilityElement = false
@@ -248,7 +249,7 @@ final class PagedStationsViewController: UIPageViewController, UIPageViewControl
         let searchButton = UIBarButtonItem(title: "", style: UIBarButtonItem.Style.plain, target: self, action: #selector(PagedStationsViewController.searchClicked(_:)))
 
         searchButton.image = UIImage(named: "icon-search")
-        searchButton.tintColor = UIColor(netHexString: "555555")
+        searchButton.tintColor = UIColor(named: "TFCTextColor")
         searchButton.accessibilityLabel = NSLocalizedString("Search", comment: "")
         searchButton.accessibilityHint = NSLocalizedString("for Stations", comment: "")
         self.navigationItem.rightBarButtonItem = searchButton

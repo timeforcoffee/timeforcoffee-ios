@@ -27,6 +27,10 @@ class StationsViewController: TFCBaseViewController {
         appsTableView?.stationsViewController = self
         appsTableView?.register(UINib(nibName: "StationTableViewCell", bundle: nil), forCellReuseIdentifier: "StationTableViewCell")
         appsTableView?.rowHeight = 60
+        appsTableView?.backgroundView = nil
+        appsTableView?.backgroundColor = UIColor(named: "TFCBackgroundColor")
+        appsTableView?.refreshControl2?.backgroundColor = UIColor(named: "TFCBackgroundColor")
+        
     }
 
     override func didReceiveMemoryWarning() {

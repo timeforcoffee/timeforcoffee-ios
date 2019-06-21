@@ -115,8 +115,15 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
         //        self.stationIconImage.image = station?.getIcon()
         self.stationIconButton.setImage(station?.getIcon(), for: UIControl.State.normal)
 
-        self.gradientView.image = UIImage(named: "gradient.png")
-        
+        if #available(iOS 13.0, *) {
+            if (UITraitCollection.current.userInterfaceStyle == .dark) {
+                self.gradientView.image = UIImage(named: "gradient.png")?.darkened()
+            } else {
+                self.gradientView.image = UIImage(named: "gradient.png")
+            }
+        } else {
+            self.gradientView.image = UIImage(named: "gradient.png")
+        }
         topViewProperties(0.0)
         self.mapView?.isUserInteractionEnabled = false;
         self.mapView?.isRotateEnabled = false
@@ -191,6 +198,16 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
             [unowned self] in
             self.updateInAMinuteTimer?.invalidate()
             return
+        }
+    }
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        if #available(iOS 13.0, *) {
+            if let hasUserInterfaceStyleChanged = previousTraitCollection?.hasDifferentColorAppearance(comparedTo: traitCollection), hasUserInterfaceStyleChanged == true {
+                
+                if (traitCollection.userInterfaceStyle == .dark) {
+                    self.gradientView.image = UIImage(named: "gradient.png")?.darkened()
+                }
+            }
         }
     }
 

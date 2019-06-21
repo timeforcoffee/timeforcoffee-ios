@@ -90,8 +90,15 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
         self.stationIconView.layer.cornerRadius = self.stationIconView.frame.width / 2
         //        self.stationIconImage.image = station?.getIcon()
 
-        self.gradientView.image = UIImage(named: "gradient.png")
-
+        if #available(iOS 13.0, *) {
+            if (UITraitCollection.current.userInterfaceStyle == .dark) {
+                self.gradientView.image = UIImage(named: "gradient.png")?.darkened()
+            } else {
+                self.gradientView.image = UIImage(named: "gradient.png")
+            }
+        } else {
+            self.gradientView.image = UIImage(named: "gradient.png")
+        }
         topViewProperties(0.0)
         self.mapView?.isUserInteractionEnabled = false;
         self.mapView?.isRotateEnabled = false
