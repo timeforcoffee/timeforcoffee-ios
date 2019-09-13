@@ -575,7 +575,13 @@ public final class ComplicationData: NSObject, NSCoding {
     
     fileprivate func getDateProviderAbbreviated(_ date: Date) -> CLKRelativeDateTextProvider {
         let units: NSCalendar.Unit = [.minute, .hour]
-        let style: CLKRelativeDateStyle = .naturalAbbreviated
+        let style: CLKRelativeDateStyle
+
+        if #available(watchOSApplicationExtension 5.0, *) {
+            style = .naturalAbbreviated
+        }else {
+            style = .natural
+        }
         return CLKRelativeDateTextProvider(date: date, style: style, units: units)
     }
     
