@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14810.12" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="6Gx-yE-V2l">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="6Gx-yE-V2l">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14766.15"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -125,7 +125,7 @@
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </imageView>
                                                     <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3J6-WH-M4V" userLabel="Up Button">
-                                                        <rect key="frame" x="3" y="-13" width="36" height="72"/>
+                                                        <rect key="frame" x="3" y="23" width="36" height="36"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="36" id="G2C-kr-nrd"/>
                                                         </constraints>
@@ -139,7 +139,7 @@
                                                         </connections>
                                                     </button>
                                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2ey-js-9pA" userLabel="Map Button">
-                                                        <rect key="frame" x="278" y="-11" width="36" height="72"/>
+                                                        <rect key="frame" x="278" y="25" width="36" height="36"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="36" id="r0C-fv-BbX"/>
                                                         </constraints>
@@ -219,14 +219,14 @@
                                         </constraints>
                                     </view>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Release to view" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cgy-fE-O9r">
-                                        <rect key="frame" x="0.0" y="4" width="320" height="79"/>
+                                        <rect key="frame" x="0.0" y="4" width="320" height="35"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" name="TFCTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o3U-mY-SIS" userLabel="Back Label">
-                                        <rect key="frame" x="0.0" y="0.0" width="88" height="88"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="44" height="44"/>
                                         <accessibility key="accessibilityConfiguration" label="Back"/>
                                         <color key="tintColor" name="TFCGrayerColor"/>
                                         <state key="normal" image="chevron-left">
@@ -245,7 +245,7 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nm9-vv-oCK">
-                                        <rect key="frame" x="282" y="25" width="30" height="36"/>
+                                        <rect key="frame" x="282" y="3" width="30" height="36"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <color key="tintColor" name="TFCGrayerColor"/>
                                         <state key="normal" title="☆">
@@ -277,7 +277,7 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tMy-cX-q28">
-                                        <rect key="frame" x="282" y="52" width="30" height="36"/>
+                                        <rect key="frame" x="282" y="30" width="30" height="36"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title="≡">
                                             <color key="titleColor" name="TFCTextColor"/>
@@ -711,6 +711,9 @@
                             </view>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Settings" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0tK-ea-YGt">
                                 <rect key="frame" x="11" y="49" width="99" height="30"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" notEnabled="YES"/>
+                                </accessibility>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
@@ -995,7 +998,7 @@ in departures times</string>
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </imageView>
                                                     <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L2j-6Y-dDB" userLabel="Up Button">
-                                                        <rect key="frame" x="3" y="-13" width="36" height="72"/>
+                                                        <rect key="frame" x="3" y="23" width="36" height="36"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="36" id="1TP-ey-KWZ"/>
                                                         </constraints>
@@ -1008,7 +1011,7 @@ in departures times</string>
                                                         </connections>
                                                     </button>
                                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lHp-JY-7gO" userLabel="Map Button">
-                                                        <rect key="frame" x="278" y="-11" width="36" height="72"/>
+                                                        <rect key="frame" x="278" y="25" width="36" height="36"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="36" id="qQZ-Zy-nGt"/>
                                                         </constraints>
@@ -1070,13 +1073,13 @@ in departures times</string>
                                         </constraints>
                                     </view>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Release to view" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5pC-0t-4Bu">
-                                        <rect key="frame" x="0.0" y="23" width="320" height="79"/>
+                                        <rect key="frame" x="0.0" y="23" width="320" height="65"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Fs-Ud-UXk" userLabel="Back Label">
-                                        <rect key="frame" x="0.0" y="0.0" width="88" height="88"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="44" height="74"/>
                                         <accessibility key="accessibilityConfiguration" label="Back"/>
                                         <state key="normal" image="chevron-left">
                                             <color key="titleColor" name="TFCTextColor"/>
@@ -1094,7 +1097,7 @@ in departures times</string>
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yQn-8J-V9g">
-                                        <rect key="frame" x="282" y="20" width="30" height="50"/>
+                                        <rect key="frame" x="282" y="20" width="30" height="36"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title="☆">
                                             <color key="titleColor" name="TFCTextColor"/>
