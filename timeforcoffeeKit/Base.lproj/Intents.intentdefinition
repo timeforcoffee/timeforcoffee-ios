@@ -9,9 +9,9 @@
 	<key>INIntentDefinitionNamespace</key>
 	<string>GIEkMa</string>
 	<key>INIntentDefinitionSystemVersion</key>
-	<string>18F203</string>
+	<string>18G95</string>
 	<key>INIntentDefinitionToolsBuildVersion</key>
-	<string>11M337n</string>
+	<string>11A419c</string>
 	<key>INIntentDefinitionToolsVersion</key>
 	<string>11.0</string>
 	<key>INIntents</key>
@@ -22,7 +22,7 @@
 			<key>INIntentConfigurable</key>
 			<true/>
 			<key>INIntentDefaultImageName</key>
-			<string>icon-coffee</string>
+			<string>launchicon</string>
 			<key>INIntentDescription</key>
 			<string>Show departures from a station</string>
 			<key>INIntentDescriptionID</key>
@@ -403,6 +403,8 @@
 		<dict>
 			<key>INIntentCategory</key>
 			<string>generic</string>
+			<key>INIntentDefaultImageName</key>
+			<string>launchicon</string>
 			<key>INIntentDescription</key>
 			<string>Takes a special dict from the clipboard and puts the result into the clipboard. Useful for the shortcut App </string>
 			<key>INIntentDescriptionID</key>
@@ -419,6 +421,10 @@
 					<true/>
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
+					<key>INIntentParameterCombinationTitle</key>
+					<string>Copy data from/to clipboard</string>
+					<key>INIntentParameterCombinationTitleID</key>
+					<string>bjNSpa</string>
 				</dict>
 			</dict>
 			<key>INIntentResponse</key>
@@ -452,7 +458,7 @@
 			<key>INIntentConfigurable</key>
 			<true/>
 			<key>INIntentDefaultImageName</key>
-			<string>icon-coffee</string>
+			<string>launchicon</string>
 			<key>INIntentDescription</key>
 			<string>Get a station nearby or somewhere else</string>
 			<key>INIntentDescriptionID</key>

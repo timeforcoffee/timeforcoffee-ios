@@ -117,7 +117,7 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
 
         if #available(iOS 13.0, *) {
             if (UITraitCollection.current.userInterfaceStyle == .dark) {
-                self.gradientView.image = UIImage(named: "gradient.png")?.darkened()
+                self.gradientView.image = UIImage(named: "gradient.png")?.darkened()?.rotate(radians: .pi)
             } else {
                 self.gradientView.image = UIImage(named: "gradient.png")
             }
