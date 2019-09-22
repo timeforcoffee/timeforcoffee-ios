@@ -211,7 +211,7 @@
 		ECEDDAD61BC992240088AFB2 /* TFCStationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FB1BC7238C00AB83B9 /* TFCStationModel.swift */; };
 		ECEDDAD71BC992270088AFB2 /* TFCStationModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBB7FA1BC7238C00AB83B9 /* TFCStationModel+CoreDataProperties.swift */; };
 		ECEDDAD81BC9922A0088AFB2 /* DataModels.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EC810B041BC7963C0007B874 /* DataModels.xcdatamodeld */; };
-		ECEF28161BCBC951000F4094 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		ECEF28161BCBC951000F4094 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
 		ECEF281A1BCBC98F000F4094 /* TFC.plist in Resources */ = {isa = PBXBuildFile; fileRef = ECEF28191BCBC98F000F4094 /* TFC.plist */; };
 		ECEF281B1BCBC999000F4094 /* TFC.plist in Resources */ = {isa = PBXBuildFile; fileRef = ECEF28191BCBC98F000F4094 /* TFC.plist */; };
 		ECFEEAA4215D7E7D005FA396 /* TFCTaskWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFEEAA3215D7E7D005FA396 /* TFCTaskWrapper.swift */; };
@@ -1492,7 +1492,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ECEF28161BCBC951000F4094 /* (null) in Resources */,
+				ECEF28161BCBC951000F4094 /* BuildFile in Resources */,
 				EC1834DB1BCADA0E008B44F3 /* SingleViewCoreData.sqlite in Resources */,
 				EC32FAA8215BBA3F006BFEA8 /* time-for-coffee-icon-512.png in Resources */,
 				ECEF281A1BCBC98F000F4094 /* TFC.plist in Resources */,
@@ -1553,7 +1553,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-timeforcoffee/Pods-timeforcoffee-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-timeforcoffee/Pods-timeforcoffee-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/MGSwipeTableCell/MGSwipeTableCell.framework",
 				"${PODS_ROOT}/Smooch/Smooch.framework",
 				"${BUILT_PRODUCTS_DIR}/SwipeView/SwipeView.framework",
@@ -1566,7 +1566,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-timeforcoffee/Pods-timeforcoffee-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-timeforcoffee/Pods-timeforcoffee-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C68156A2BE04A397D54C0E41 /* [CP] Check Pods Manifest.lock */ = {

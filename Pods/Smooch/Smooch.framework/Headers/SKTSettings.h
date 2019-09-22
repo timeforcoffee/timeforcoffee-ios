@@ -4,6 +4,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SKTAuthenticationDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -80,6 +81,15 @@ extern NSString * const SKTMenuItemLocation;
 @property(nonatomic, strong) UIColor* conversationAccentColor;
 
 /**
+ *  @abstract The text color for user messages.
+ *
+ *  @discussion Used as the text color of user message bubbles.
+ *
+ *  The default value is #FFFFFF.
+ */
+@property(nonatomic, strong) UIColor* userMessageTextColor;
+
+/**
  *  @abstract The status bar style to use on the conversation screen.
  *
  *  @discussion You should use this property if your app uses UIAppearance to style UINavigationBar, and your styling requires a specific status bar color.
@@ -96,6 +106,15 @@ extern NSString * const SKTMenuItemLocation;
  *  All options are displayed by default. Setting this value to nil or an empty array will hide the menu button
  */
 @property(nonatomic, strong, nullable) NSArray<NSString *>* allowedMenuItems;
+
+/**
+ *  @abstract Allow sending messages from the conversation view when offline
+ *
+ *  @discussion Setting this to `YES` allows the user to send messages even when the device is offline. It also prevents an network error banner from showing when offline.
+ *
+ *  Note that messages that are sent while offline will fail to send and the message will display an option for the user to retry
+ */
+@property BOOL allowOfflineUsage;
 
 /**
  *  @abstract Maximum number of seconds to display in-app notifications before dismissing.
@@ -154,6 +173,17 @@ extern NSString * const SKTMenuItemLocation;
  *  @see Smooch
  */
 @property BOOL requestPushPermissionOnFirstMessage;
+
+/**
+ *  @abstract Delegate that will be notified of authentication related events
+ *
+ *  @discussion This delegate is useful if your app uses expiring tokens for your users. This way you can renew an invalid jwt when needed without having to call +login:jwt:completionHandler. May be nil
+ *
+ *  This value may only be set once, and must be set at init time.
+ *
+ *  @see SKTAuthenticationDelegate
+ */
+@property(nullable) id<SKTAuthenticationDelegate> authenticationDelegate;
 
 @end
 NS_ASSUME_NONNULL_END
