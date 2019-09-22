@@ -1,24 +1,73 @@
+"2zLAgt" = "Departure Time";
+
+"3ULfkx" = "${departure}";
+
 "5ZFgFV" = "Es ist ein Fehler aufgetreten";
 
 "6rFnt3" = "Keine Station gefunden";
 
-"Departures from closest station" = "Abfahrten an nächster Station";
+"718qYg" = "Get a station nearby or somewhere else";
 
-"In ${departureTime} minutes with line ${departureLine} to ${endStation} from ${departureStation}" =
-    "In ${departureTime} Minuten mit Linie ${departureLine} nach ${endStation} von ${departureStation}.";
+"F6OcIm" = "Abfahrten an nächster Station";
 
-"In ${departureTime} minutes with line ${departureLine} to ${endStation} from ${departureStation}. Will take about ${walkingTime} minutes to get there." =
-    "In ${departureTime} Minuten mit Linie ${departureLine} nach ${endStation} von ${departureStation}. Braucht etwa ${walkingTime} Minuten, um dorthin zu kommen.";
+"G83WD2" = "In ${departureTime} Minuten mit Linie ${departureLine} nach ${endStation} von ${departureStation}. Braucht etwa ${walkingTime} Minuten, um dorthin zu kommen. Beeil dich!";
 
-"In ${departureTime} minutes with line ${departureLine} to ${endStation} from ${departureStation}. Will take about ${walkingTime} minutes to get there. Better hurry." =
-    "In ${departureTime} Minuten mit Linie ${departureLine} nach ${endStation} von ${departureStation}. Braucht etwa ${walkingTime} Minuten, um dorthin zu kommen. Beeil dich!";
+"dbpzKW" = "In ${departureTime} Minuten mit Linie ${departureLine} nach ${endStation} von ${departureStation}.";
 
-"Departures from ${station}" = "Abfahrten von ${station}";
+
+"GAB39M" = "Get Station";
+
+"MIiTa8" = "Copy data from/to clipboard";
 
 "PHXTvi" = "Abfahrten einer Station";
 
+"TzWx4C" = "Zusammenfassung";
+
+"V94Qgg" = "Nächste Abfahrt";
+
 "WCAhPt" = "Keine Abfahrten gefunden für ${departureStation}";
 
-"qwQyYn" = "Show departures";
+"awpTyH" = "Wo?";
 
+"bAEnta" = "Zusammenfassung";
+
+"bjNSpa" = "Copy data from/to clipboard";
+
+"dJWGbT" = "Welche?";
+
+"eUEVI8" = "Just to confirm, you wanted ‘${time}’?";
+
+"eclNCj" = "Abfahrten von ${station}";
+
+"iCNnpM" = "Get Station";
+
+"iK7eog" = "Departure Station";
+
+"jAJOnR" = "Takes a special dict from the clipboard and puts the result into the clipboard. Useful for the shortcut App ";
+
+"mCYGRo" = "Show Departures w/ Location (and Time)";
+
+"plgb5K" = "Wann?";
+
+"qwQyYn" = "Zeige Abfahrten";
+
+"rQK9EY" = "Location";
+
+"rvmJYf" = "Location";
+
+"tIPXMg" = "Zeit";
+
+"tPKyug" = "Wo?";
+
+"uFGJjv" = "Keine Station gefunden";
+
+"uM4gjp" = "There are ${count} options matching ‘${time}’.";
+
+"xUIlaY" = "In ${departureTime} Minuten mit Linie ${departureLine} nach ${endStation} von ${departureStation}. Braucht etwa ${walkingTime} Minuten, um dorthin zu kommen.";
+
+"xrwGli" = "Copy from and then to clipboard";
+
+"yTyNlz" = "Station found is ${departureStation}";
+
+"yamx9p" = "Station Info";
 

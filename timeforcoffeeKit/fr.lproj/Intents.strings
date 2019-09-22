@@ -1,20 +1,72 @@
+"2zLAgt" = "Departure Time";
+
+"3ULfkx" = "${departure}";
+
 "5ZFgFV" = "There was a failure";
 
 "6rFnt3" = "No station found";
+
+"718qYg" = "Get a station nearby or somewhere else";
 
 "F6OcIm" = "Departures from closest station";
 
 "G83WD2" = "In ${departureTime} minutes with line ${departureLine} to ${endStation} from ${departureStation}. Will take about ${walkingTime} minutes to get there. Better hurry.";
 
+"GAB39M" = "Get Station";
+
+"MIiTa8" = "Copy data from/to clipboard";
+
 "PHXTvi" = "Show departures from a station";
+
+"TzWx4C" = "Summary";
+
+"V94Qgg" = "Next Departure";
 
 "WCAhPt" = "No departures found for ${departureStation}";
 
-"dbpzKW" = "In ${departureTime} minutes with line ${departureLine} to ${endStation} from ${departureStation}";
+"awpTyH" = "Where?";
 
-"eclNCj" = "Departures from ${station}";
+"bAEnta" = "Summary";
 
-"qwQyYn" = "Show departures";
+"bjNSpa" = "Copy data from/to clipboard";
+
+"dJWGbT" = "Which one?";
+
+"dbpzKW" = "In ${departureTime} minutes with line ${departureLine} to ${endStation} from ${departureStation} ";
+
+"eUEVI8" = "Just to confirm, you wanted ‘${time}’?";
+
+"eclNCj" = "Departures from ${stationObj}";
+
+"iCNnpM" = "Get Station";
+
+"iK7eog" = "Departure Station";
+
+"jAJOnR" = "Takes a special dict from the clipboard and puts the result into the clipboard. Useful for the shortcut App ";
+
+"mCYGRo" = "Show Departures w/ Location (and Time)";
+
+"plgb5K" = "When?";
+
+"qwQyYn" = "Get departures ";
+
+"rQK9EY" = "Location";
+
+"rvmJYf" = "Location";
+
+"tIPXMg" = "Time";
+
+"tPKyug" = "Where?";
+
+"uFGJjv" = "No station found";
+
+"uM4gjp" = "There are ${count} options matching ‘${time}’.";
 
 "xUIlaY" = "In ${departureTime} minutes with line ${departureLine} to ${endStation} from ${departureStation}. Will take about ${walkingTime} minutes to get there.";
+
+"xrwGli" = "Copy from and then to clipboard";
+
+"yTyNlz" = "Station found is ${departureStation}";
+
+"yamx9p" = "Station Info";
 
