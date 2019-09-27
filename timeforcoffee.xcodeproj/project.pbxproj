@@ -143,6 +143,8 @@
 		EC84FEC11BD9652400A0F9E3 /* TFCVisits.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC84FEC01BD9652400A0F9E3 /* TFCVisits.swift */; };
 		EC855BA31BC99649001ABD35 /* StreamReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC855BA21BC99649001ABD35 /* StreamReader.swift */; };
 		EC855BB21BC9A2BF001ABD35 /* data.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC855BB11BC9A2BF001ABD35 /* data.swift */; };
+		EC97B542233DFF950065A3C2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC4F0C881BB5D54B00CE7C24 /* Images.xcassets */; };
+		EC97B543233DFFFB0065A3C2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC4F0C881BB5D54B00CE7C24 /* Images.xcassets */; };
 		EC984561217B4090000675A3 /* ClockKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC984560217B4090000675A3 /* ClockKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		EC9BCAFA1BB5CB7700623F1A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC9BCAF81BB5CB7700623F1A /* LaunchScreen.xib */; };
 		EC9BCB0A1BB5CC3500623F1A /* About.html in Resources */ = {isa = PBXBuildFile; fileRef = EC9BCAFB1BB5CC3500623F1A /* About.html */; };
@@ -1469,6 +1471,7 @@
 			files = (
 				EC32FB09215CC68A006BFEA8 /* Intents.intentdefinition in Resources */,
 				EC46C5221BB5C78A00F2A963 /* Assets.xcassets in Resources */,
+				EC97B543233DFFFB0065A3C2 /* Images.xcassets in Resources */,
 				EC60B0181BB680DE00D10238 /* launchicon.png in Resources */,
 				EC32FAAB215BBA5C006BFEA8 /* time-for-coffee-icon-512.png in Resources */,
 				EC46C5201BB5C78A00F2A963 /* Interface.storyboard in Resources */,
@@ -1495,6 +1498,7 @@
 				ECEF28161BCBC951000F4094 /* (null) in Resources */,
 				EC1834DB1BCADA0E008B44F3 /* SingleViewCoreData.sqlite in Resources */,
 				EC32FAA8215BBA3F006BFEA8 /* time-for-coffee-icon-512.png in Resources */,
+				EC97B542233DFF950065A3C2 /* Images.xcassets in Resources */,
 				ECEF281A1BCBC98F000F4094 /* TFC.plist in Resources */,
 				EC32FB2B215CE594006BFEA8 /* Localizable.stringsdict in Resources */,
 			);
@@ -1975,10 +1979,10 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 238;
+				CURRENT_PROJECT_VERSION = 239;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 238;
+				DYLIB_CURRENT_VERSION = 239;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -2015,10 +2019,10 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 238;
+				CURRENT_PROJECT_VERSION = 239;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 238;
+				DYLIB_CURRENT_VERSION = 239;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -2322,11 +2326,11 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				CURRENT_PROJECT_VERSION = 238;
+				CURRENT_PROJECT_VERSION = 239;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = DN76797UYF;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 238;
+				DYLIB_CURRENT_VERSION = 239;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2360,11 +2364,11 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				CURRENT_PROJECT_VERSION = 238;
+				CURRENT_PROJECT_VERSION = 239;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = DN76797UYF;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 238;
+				DYLIB_CURRENT_VERSION = 239;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (

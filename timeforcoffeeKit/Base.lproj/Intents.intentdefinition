@@ -11,7 +11,7 @@
 	<key>INIntentDefinitionSystemVersion</key>
 	<string>18G95</string>
 	<key>INIntentDefinitionToolsBuildVersion</key>
-	<string>11A419c</string>
+	<string>11A420a</string>
 	<key>INIntentDefinitionToolsVersion</key>
 	<string>11.0</string>
 	<key>INIntents</key>
@@ -22,7 +22,7 @@
 			<key>INIntentConfigurable</key>
 			<true/>
 			<key>INIntentDefaultImageName</key>
-			<string>launchicon</string>
+			<string>AppIconForIntents</string>
 			<key>INIntentDescription</key>
 			<string>Show departures from a station</string>
 			<key>INIntentDescriptionID</key>
@@ -404,7 +404,7 @@
 			<key>INIntentCategory</key>
 			<string>generic</string>
 			<key>INIntentDefaultImageName</key>
-			<string>launchicon</string>
+			<string>AppIconForIntents</string>
 			<key>INIntentDescription</key>
 			<string>Takes a special dict from the clipboard and puts the result into the clipboard. Useful for the shortcut App </string>
 			<key>INIntentDescriptionID</key>
@@ -458,7 +458,7 @@
 			<key>INIntentConfigurable</key>
 			<true/>
 			<key>INIntentDefaultImageName</key>
-			<string>launchicon</string>
+			<string>AppIconForIntents</string>
 			<key>INIntentDescription</key>
 			<string>Get a station nearby or somewhere else</string>
 			<key>INIntentDescriptionID</key>
