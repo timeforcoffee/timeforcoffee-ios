@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>241</string>
+	<string>243</string>
 	<key>NSUserActivityTypes</key>
 	<array>
 		<string>ClipboardIntent</string>
