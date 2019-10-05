@@ -11,9 +11,9 @@
 	<key>INIntentDefinitionSystemVersion</key>
 	<string>18G95</string>
 	<key>INIntentDefinitionToolsBuildVersion</key>
-	<string>11A420a</string>
+	<string>11B41</string>
 	<key>INIntentDefinitionToolsVersion</key>
-	<string>11.0</string>
+	<string>11.2</string>
 	<key>INIntents</key>
 	<array>
 		<dict>
@@ -56,7 +56,7 @@
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
 					<key>INIntentParameterCombinationTitle</key>
-					<string>Copy data from/to clipboard</string>
+					<string>Departures from closest station</string>
 					<key>INIntentParameterCombinationTitleID</key>
 					<string>MIiTa8</string>
 				</dict>
@@ -409,24 +409,12 @@
 			<string>Takes a special dict from the clipboard and puts the result into the clipboard. Useful for the shortcut App </string>
 			<key>INIntentDescriptionID</key>
 			<string>jAJOnR</string>
+			<key>INIntentIneligibleForSuggestions</key>
+			<true/>
 			<key>INIntentLastParameterTag</key>
 			<integer>1</integer>
 			<key>INIntentName</key>
 			<string>Clipboard</string>
-			<key>INIntentParameterCombinations</key>
-			<dict>
-				<key></key>
-				<dict>
-					<key>INIntentParameterCombinationIsPrimary</key>
-					<true/>
-					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
-					<true/>
-					<key>INIntentParameterCombinationTitle</key>
-					<string>Copy data from/to clipboard</string>
-					<key>INIntentParameterCombinationTitleID</key>
-					<string>bjNSpa</string>
-				</dict>
-			</dict>
 			<key>INIntentResponse</key>
 			<dict>
 				<key>INIntentResponseCodes</key>
