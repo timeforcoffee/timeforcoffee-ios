@@ -201,7 +201,6 @@ public func DLog(_ object: @autoclosure () -> Any, toFile: Bool = false, sync:Bo
                 let fileEscaped = file.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlPathAllowed)
                 let fileURL = URL(string: fileEscaped!)?.lastPathComponent ?? "Unknown file"
                 let msg = "\(stringRepresentation) (\(fileURL) \(function)[\(line)])"
-                DLog2CLS("%@", text: [msg])
             }
             if (sync) {
                 logQueue.sync {
