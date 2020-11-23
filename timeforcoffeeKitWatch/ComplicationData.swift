@@ -338,6 +338,10 @@ public final class ComplicationData: NSObject, NSCoding {
             } else {
                 return CLKComplicationTemplate()
             }
+        case .graphicExtraLarge:
+            return CLKComplicationTemplate()
+        @unknown default:
+            return CLKComplicationTemplate()
         }
     }
 
@@ -663,6 +667,8 @@ public final class ComplicationData: NSObject, NSCoding {
             } else {
                 return  CLKComplicationTemplate()
             }
+        @unknown default:
+            return  CLKComplicationTemplate()
         }
     }
 }

@@ -69,7 +69,12 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
             return here
         }
         // check in keyvaluestore, if it's not in userdefaults...
-        let there = keyvaluestore?.object(forKey: forKey) as AnyObject
+        
+        #if os(iOS)
+        let there = (self.keyvaluestore as? NSUbiquitousKeyValueStore)?.object(forKey: forKey) as AnyObject
+        #else
+        let there:AnyObject? = nil
+        #endif
         if (!(there is NSNull)) {
             userDefaults?.set(there , forKey: forKey)
         }
@@ -137,7 +142,12 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
                                     if (key == "favoriteStations") {
                                         self.keyvaluestore?.removeObject(forKey: "favoriteStations")
                                     } else {
-                                        if let value = self.keyvaluestore?.object(forKey: key) {
+                                        #if os(iOS)
+                                        let value = (self.keyvaluestore as? NSUbiquitousKeyValueStore)?.object(forKey: key)
+                                        #else
+                                        let value:AnyObject? = nil
+                                        #endif
+                                        if  (value != nil) {
                                             self.userDefaults?.set(value, forKey: key)
                                         } else {
                                             self.userDefaults?.removeObject(forKey: key)
@@ -150,8 +160,13 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
                                                 inMemoryObj.repopulateFavoriteLines()
                                             }
                                         }
-                                        if let value = self.keyvaluestore?.object(forKey: key) {
-                                            let _ = self.sendData([key: value])
+                                        #if os(iOS)
+                                        let value2 = (self.keyvaluestore as? NSUbiquitousKeyValueStore)?.object(forKey: key)
+                                        #else
+                                        let value2:AnyObject? = nil
+                                        #endif
+                                        if (value2 != nil) {
+                                            let _ = self.sendData([key: value2])
                                         } else {
                                             let _ = self.sendData(["___remove___": key])
                                         }
@@ -277,7 +292,7 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
     }
 
     open func updateStationFromPhone(station: TFCStation, reply: ((Bool) -> Void)? = nil) -> Bool {
-        var phoneIsReachable = false
+        let phoneIsReachable = false
         /*if #available(iOSApplicationExtension 9.3, *) {
             self.registerWatchConnectivity()
             if (self.session?.activationState == .activated && self.session?.isReachable == true) {
