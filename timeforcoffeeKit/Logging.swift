@@ -161,9 +161,7 @@ public func DLog(_ object: @autoclosure () -> Any, toFile: Bool = false, sync:Bo
             #if os(watchOS)
                 let alwaysLogToFile = true
             #else
-                if (toFile == true) {
-                    DLog2CLS("%@", text: [msg])
-                }
+                
                 let alwaysLogToFile = false
             #endif
             if (toFile || alwaysLogToFile) {

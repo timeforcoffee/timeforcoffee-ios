@@ -15,6 +15,7 @@
 			dependencies = (
 			);
 			name = Smooch;
+			productName = Smooch;
 		};
 /* End PBXAggregateTarget section */
 
@@ -64,7 +65,7 @@
 		11832742F2B3943A8A2512960F05D30F /* SwipeView.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwipeView.xcconfig; sourceTree = "<group>"; };
 		1608B2A2AF3F9E867CE8AB0FB717D0E2 /* Pods-timeforcoffee.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-timeforcoffee.modulemap"; sourceTree = "<group>"; };
 		19EDAC191F6CD0852B5F134A19A5CEC7 /* SKTDisplaySettings.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SKTDisplaySettings.h; path = Smooch.framework/Headers/SKTDisplaySettings.h; sourceTree = "<group>"; };
-		25F18D1B6B5143BEF52BDC9EFD5CBE0A /* MGSwipeTableCell.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = MGSwipeTableCell.framework; path = MGSwipeTableCell.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		25F18D1B6B5143BEF52BDC9EFD5CBE0A /* MGSwipeTableCell.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MGSwipeTableCell.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		261C1A25FD5114CF8368BC1EF240E757 /* SwipeView-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "SwipeView-Info.plist"; sourceTree = "<group>"; };
 		27DA2C815F7FA2AAFB789D061473513A /* SKTConversation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SKTConversation.h; path = Smooch.framework/Headers/SKTConversation.h; sourceTree = "<group>"; };
 		3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
@@ -78,7 +79,7 @@
 		472DCFC3E7F8C346CDBD370FD6CBE60F /* MGSwipeTableCell-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "MGSwipeTableCell-dummy.m"; sourceTree = "<group>"; };
 		48EC67904D94EE7C1CAA29DE9D7A8626 /* SKTMessageAction.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SKTMessageAction.h; path = Smooch.framework/Headers/SKTMessageAction.h; sourceTree = "<group>"; };
 		4A78F0F5EBF5E251A09979C26A76D320 /* Pods-timeforcoffee-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-timeforcoffee-frameworks.sh"; sourceTree = "<group>"; };
-		536D50D44CF14587C22F5225A52020F3 /* Pods_timeforcoffee.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_timeforcoffee.framework; path = "Pods-timeforcoffee.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		536D50D44CF14587C22F5225A52020F3 /* Pods_timeforcoffee.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_timeforcoffee.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		562FE768046D342D8C8B830C5E1DFC81 /* Pods-timeforcoffee.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-timeforcoffee.debug.xcconfig"; sourceTree = "<group>"; };
 		5D0FE322F9CE4C62666D429BB9E98F12 /* SKTMessageItem.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SKTMessageItem.h; path = Smooch.framework/Headers/SKTMessageItem.h; sourceTree = "<group>"; };
 		64D4C9F7B310223B99F9AD247582F8DD /* SwipeView-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SwipeView-dummy.m"; sourceTree = "<group>"; };
@@ -91,7 +92,7 @@
 		91259007EA4353E4469B2D1BBF2C4AD3 /* SKTUser.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SKTUser.h; path = Smooch.framework/Headers/SKTUser.h; sourceTree = "<group>"; };
 		9AF4F5591C9406CD27BFECB546B56D73 /* MGSwipeTableCell-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MGSwipeTableCell-prefix.pch"; sourceTree = "<group>"; };
 		9B0D5D7234A09A7B5DECC14FDC915914 /* Pods-timeforcoffee-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-timeforcoffee-acknowledgements.plist"; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9E3A6E0308735FB1B348A861C4271629 /* MGSwipeButton.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MGSwipeButton.m; path = MGSwipeTableCell/MGSwipeButton.m; sourceTree = "<group>"; };
 		A0AB830EEFECB6C95766881D9FA971C2 /* SKTConversationActivity.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SKTConversationActivity.h; path = Smooch.framework/Headers/SKTConversationActivity.h; sourceTree = "<group>"; };
 		AA89480E8B42DCC0DBAC0268606C4176 /* SKTMessage.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SKTMessage.h; path = Smooch.framework/Headers/SKTMessage.h; sourceTree = "<group>"; };
@@ -103,7 +104,7 @@
 		BD55D35A559173BB3A4FC6737F7FC1FD /* Pods-timeforcoffee.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-timeforcoffee.release.xcconfig"; sourceTree = "<group>"; };
 		D1F310688EF24454344EC86E55044BA1 /* MGSwipeTableCell.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MGSwipeTableCell.h; path = MGSwipeTableCell/MGSwipeTableCell.h; sourceTree = "<group>"; };
 		E28121F163E8E53814205FD95C3C92B3 /* Smooch.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Smooch.framework; sourceTree = "<group>"; };
-		F4EAE8374C97CF49E271A3BBEAFCF0FD /* SwipeView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SwipeView.framework; path = SwipeView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4EAE8374C97CF49E271A3BBEAFCF0FD /* SwipeView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwipeView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F51F7F47AC16F891255D9E906C958220 /* Smooch.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Smooch.h; path = Smooch.framework/Headers/Smooch.h; sourceTree = "<group>"; };
 		FD8317A8AACF8B04864352BC35E8B0E6 /* Pods-timeforcoffee-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-timeforcoffee-acknowledgements.markdown"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -157,7 +158,6 @@
 				3B666EA251F9A2971A826AC6E9A1E3FA /* SwipeView.m */,
 				64205E8584706FBB7994C1E4857952D7 /* Support Files */,
 			);
-			name = SwipeView;
 			path = SwipeView;
 			sourceTree = "<group>";
 		};
@@ -244,7 +244,6 @@
 				4DFEE9CEDEE23A924686212D887CE26F /* Frameworks */,
 				69240E9CA2B5758C13BF7C08303E8AB9 /* Support Files */,
 			);
-			name = Smooch;
 			path = Smooch;
 			sourceTree = "<group>";
 		};
@@ -294,7 +293,6 @@
 				81D2946A204DA8C61047ABE44784CA53 /* MGSwipeTableCell.m */,
 				09C394635C261F441FD028CDE440E156 /* Support Files */,
 			);
-			name = MGSwipeTableCell;
 			path = MGSwipeTableCell;
 			sourceTree = "<group>";
 		};
@@ -673,6 +671,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -690,8 +689,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 5.0;
 				SYMROOT = "${SRCROOT}/../build";
 			};
@@ -733,6 +731,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;

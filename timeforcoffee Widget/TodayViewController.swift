@@ -158,7 +158,6 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         let _ = self.lastViewedStation?.removeObsoleteDepartures()
         self.currentStation = self.lastViewedStation
         DispatchQueue.global(qos: .utility).async {
-            TFCCrashlytics.sharedInstance.initCrashlytics()
             self.datastore.registerForNotifications()
             self.datastore.synchronize()
             let _ = GATracker.sharedInstance

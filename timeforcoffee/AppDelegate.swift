@@ -141,7 +141,6 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             gtracker?.setCustomDimension(7, value: "yes")
             gtracker?.setCustomDimension(9, value: UIDevice.current.systemVersion)
 
-            TFCCrashlytics.sharedInstance.initCrashlytics()
             if let lO = launchOptions?[UIApplication.LaunchOptionsKey.location] {
                 DLog("app launched with UIApplicationLaunchOptionsLocationKey: \(lO)", toFile: true)
             }
