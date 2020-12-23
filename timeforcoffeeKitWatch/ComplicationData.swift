@@ -589,7 +589,7 @@ public final class ComplicationData: NSObject, NSCoding {
         return CLKRelativeDateTextProvider(date: date, style: style, units: units)
     }
     
-    public static func getTemplateForComplication(_ family: CLKComplicationFamily) -> CLKComplicationTemplate {
+    public static func getTemplateForComplication(_ family: CLKComplicationFamily) -> CLKComplicationTemplate? {
         switch family {
             
         case CLKComplicationFamily.modularLarge:
@@ -644,7 +644,7 @@ public final class ComplicationData: NSObject, NSCoding {
                 tmpl.circularTemplate = getTemplateForComplication(.graphicCircular) as! CLKComplicationTemplateGraphicCircular
                 return tmpl
             } else {
-                return  CLKComplicationTemplate()
+                return nil
             }
         case .graphicCircular:
             if #available(watchOSApplicationExtension 5.0, *) {
@@ -655,7 +655,7 @@ public final class ComplicationData: NSObject, NSCoding {
                 tmpl.gaugeProvider = CLKSimpleGaugeProvider(style: CLKGaugeProviderStyle.ring, gaugeColor: UIColor.black, fillFraction: CLKSimpleGaugeProviderFillFractionEmpty)
                 return tmpl
             } else {
-                return  CLKComplicationTemplate()
+                return nil
             }
         case .graphicRectangular:
             if #available(watchOSApplicationExtension 5.0, *) {
@@ -665,10 +665,13 @@ public final class ComplicationData: NSObject, NSCoding {
                 tmpl.body2TextProvider = CLKSimpleTextProvider(text: "-- -- ------")
                 return tmpl
             } else {
-                return  CLKComplicationTemplate()
+                return nil
             }
+        case .graphicExtraLarge:
+            return nil
         @unknown default:
-            return  CLKComplicationTemplate()
+            return nil
+            
         }
     }
 }
