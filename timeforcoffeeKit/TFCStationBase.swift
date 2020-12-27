@@ -1304,15 +1304,9 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         let country = self.getCountryISO()
         if let startTime = startTime {
             let formattedDate = startTime.formattedWith("yyyy-MM-dd'T'HH:mm")
-            if (country == "CH") {
-                return "https://tfc.chregu.tv/api/zvv/stationboard/\(self.st_id)/\(formattedDate)"
-            }
-            return "https://transport.opendata.ch/v1/stationboard?id=\(self.st_id)&limit=40&datetime=\(formattedDate)"
+            return "https://tfc.chregu.tv/api/ch/stationboard/\(self.st_id)/\(formattedDate)"
         }
-        if (country == "CH") {
-            return "https://tfc.chregu.tv/api/ch/stationboard/\(self.st_id)"
-        }
-        return "https://transport.opendata.ch/v1/stationboard?id=\(self.st_id)&limit=40"
+        return "https://tfc.chregu.tv/api/ch/stationboard/\(self.st_id)"
     }
 
 }
