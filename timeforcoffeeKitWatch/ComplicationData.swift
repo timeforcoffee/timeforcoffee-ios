@@ -574,7 +574,7 @@ public final class ComplicationData: NSObject, NSCoding {
     fileprivate func getDateProvider(_ date: Date) -> CLKRelativeDateTextProvider {
         let units: NSCalendar.Unit = [.minute, .hour]
         let style: CLKRelativeDateStyle = .natural
-        return CLKRelativeDateTextProvider(date: date, style: style, units: units)
+        return CLKRelativeDateTextProvider(date: date.addingTimeInterval(59), style: style, units: units)
     }
     
     fileprivate func getDateProviderAbbreviated(_ date: Date) -> CLKRelativeDateTextProvider {
@@ -586,7 +586,7 @@ public final class ComplicationData: NSObject, NSCoding {
         }else {
             style = .natural
         }
-        return CLKRelativeDateTextProvider(date: date, style: style, units: units)
+        return CLKRelativeDateTextProvider(date: date.addingTimeInterval(59), style: style, units: units)
     }
     
     public static func getTemplateForComplication(_ family: CLKComplicationFamily) -> CLKComplicationTemplate? {

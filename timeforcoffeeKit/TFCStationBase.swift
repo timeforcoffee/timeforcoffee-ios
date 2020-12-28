@@ -1301,7 +1301,6 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
     }
 
     open func getDeparturesURL(_ startTime:Date? = nil) -> String {
-        let country = self.getCountryISO()
         if let startTime = startTime {
             let formattedDate = startTime.formattedWith("yyyy-MM-dd'T'HH:mm")
             return "https://tfc.chregu.tv/api/ch/stationboard/\(self.st_id)/\(formattedDate)"
