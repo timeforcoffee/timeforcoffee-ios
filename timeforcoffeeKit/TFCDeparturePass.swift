@@ -83,7 +83,8 @@ open class TFCDeparturePass: NSObject {
         // use a lot of memory for the today widget and it's only needed, when
         // there's a delay
 
-        if (self.realtime != nil && self.realtime != self.scheduled) {
+        
+        if (realtime != nil && realtime != scheduled) {
             //the nostrike is needed due to an apple bug...
             // https://stackoverflow.com/questions/25956183/nsmutableattributedstrings-attribute-nsstrikethroughstyleattributename-doesnt
 
