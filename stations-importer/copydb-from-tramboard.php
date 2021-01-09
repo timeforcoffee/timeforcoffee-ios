@@ -2,7 +2,7 @@
 
 $handle = new SQLite3("../../timeforcoffee-api/stations.sqlite");
 $handle2 = new SQLite3("../timeforcoffeeKit/SingleViewCoreData.sqlite");
-$results = $handle->query("select Z_PK, Z_ENT, Z_OPT, ZLASTUPDATED, ZLATITUDE, ZLONGITUDE, ZCOUNTRYISO, ZID, ZNAME from ZTFCSTATIONMODEL ");
+$results = $handle->query("select Z_PK, Z_ENT, Z_OPT, ZLASTUPDATED, ZLATITUDE, ZLONGITUDE, ZCOUNTRYISO, ZID, ZNAME from ZTFCSTATIONMODEL  where ZINGTFSSTOPS IS NOT NULL");
 $handle2->exec("drop TABLE zvv_to_sbb");
 $handle2->exec("drop index ZAPIID");
 $handle2->exec("drop index ZAPIKEY");

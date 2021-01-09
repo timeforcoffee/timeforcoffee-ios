@@ -2,7 +2,13 @@
 $handle = new SQLite3("../../timeforcoffee-api/stations.sqlite");
 
 $stations = getDataFromCSV();
+$stops = getStopsFromCSV();
+// dienststellen_actualdate.csv is from the DiDok -> https://opentransportdata.swiss/de/dataset/didok
+// stops.txt is from the GTFS data, eg https://opentransportdata.swiss/de/dataset/timetable-2021-gtfs2020
 
+// dienststellen may have some stations, which are not actually served anymore, but has info like County and GO
+
+// if you import new data (when new timetable comes out) you better set ZUPDATE2020 and ZINGTFSSTOPS to NULL
 
 foreach ($stations as $r) {
     //var_dump($r);
@@ -80,6 +86,40 @@ foreach ($stations as $r) {
 
 }
 
+foreach ($stops as $r) {
+    if (!isset($r["stop_id"])) {
+        continue;
+    }
+    $id = rtrim($r["stop_id"],"P");
+    $results = $handle->query("select * from ZTFCSTATIONMODEL where ZID = '$id'");
+
+    print($id . " - " . $r['stop_name'] );
+
+    $foo = $results->fetchArray();
+    if ($foo == FALSE) {
+        print " - DOES NOT EXIST\n";
+        continue;
+    }
+
+    $row = [
+        'ZID' => $id,
+        'ZINGTFSSTOPS' => 1,
+
+    ];
+    $updates = array_map(function ($k, $v) {
+        return "$k = '" . SQLite3::escapeString($v) . "'";
+    }, array_keys($row),$row);
+
+    $sql = "UPDATE ZTFCSTATIONMODEL SET " . join(",", $updates) . " WHERE ZID = '" . $id. "'";
+    $handle->exec($sql);
+
+    print  " - Update";
+    print " - Done";
+    print "\n";
+
+
+}
+
 function getDataFromCSV() {
     $csv = array_map(function ($line) {
         return str_getcsv($line, ';', '"');
@@ -90,13 +130,20 @@ function getDataFromCSV() {
         $a = array_combine($csv[0], $a);
     });
     array_shift($csv);
+    return $csv;
+}
 
-    /*$csv = array_filter($csv, function($a)  {
-        if ( $a['VPP'] != '*') {
-            return true;
-        }
-        return false;
-    });*/
+function getStopsFromCSV() {
+    $csv = array_map(function ($line) {
+        return str_getcsv(preg_replace("/[^[:print:]\w]/", "", $line), ',', '"');
+    }, file('stops.txt'));
+
+
+    array_walk($csv, function (&$a) use ($csv) {
+        $a = array_combine($csv[0], $a);
+    });
+    array_shift($csv);
+
 
     return $csv;
 
