@@ -12,8 +12,8 @@ public final class TFCCache {
     struct objects {
         static var apicalls: PINCache = {
             let p = TFCCache.getCacheInstance("apicalls")
-            // cache for max 7 days
-            p.diskCache.ageLimit = TimeInterval(60 * 60 * 24 * 7) // 7 days
+            // cache for max 2 days
+            p.diskCache.ageLimit = TimeInterval(60 * 60 * 24 * 2) // 2 days
             p.diskCache.byteLimit = UInt(5 * 1024 * 1024) // 5 MB
             return p
             }()
