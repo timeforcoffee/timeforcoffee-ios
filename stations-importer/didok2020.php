@@ -90,7 +90,9 @@ foreach ($stops as $r) {
     if (!isset($r["stop_id"])) {
         continue;
     }
-    $id = rtrim($r["stop_id"],"P");
+    $id = explode(":",rtrim($r["stop_id"],"P"))[0];
+    print $id ."\n";
+
     $results = $handle->query("select * from ZTFCSTATIONMODEL where ZID = '$id'");
 
     print($id . " - " . $r['stop_name'] );
