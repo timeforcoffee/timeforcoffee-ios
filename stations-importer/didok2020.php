@@ -4,7 +4,7 @@ $handle = new SQLite3("../../timeforcoffee-api/stations.sqlite");
 $stations = getDataFromCSV();
 $stops = getStopsFromCSV();
 // dienststellen_actualdate.csv is from the DiDok -> https://opentransportdata.swiss/de/dataset/didok
-// stops.txt is from the GTFS data, eg https://opentransportdata.swiss/de/dataset/timetable-2021-gtfs2020
+// stops.txt is from the GTFS data, eg https://opentransportdata.swiss/de/dataset/timetable-2020-gtfs2020
 
 // dienststellen may have some stations, which are not actually served anymore, but has info like County and GO
 
@@ -26,7 +26,7 @@ foreach ($stations as $r) {
     $foo = $results->fetchArray();
     if ($foo == FALSE) {
         print " - DOES NOT EXIST";
-        $update2020 = 1;
+        $UPDATE2020 = 1;
     }
     else {
         if ($foo['UPDATE2020'] === 1) {
@@ -37,11 +37,11 @@ foreach ($stations as $r) {
             print " - already updated \n";
             continue;
         }
-        $update2020 = 2;
+        $UPDATE2020 = 2;
     }
     $row = [
         'ZID' => $id,
-        'UPDATE2020' => $update2020,
+        'UPDATE2020' => $UPDATE2020,
         'ZNAME' => $r['BEZEICHNUNG_OFFIZIELL'],
         'ZLATITUDE' => $r['N_WGS84'],
         'ZLONGITUDE' => $r['E_WGS84'],
@@ -53,14 +53,14 @@ foreach ($stations as $r) {
 
     ];
 
-    if ($update2020 === 1) {
+    if ($UPDATE2020 === 1) {
         $row['Z_OPT'] = 8; // ????
     }
 
     $values = array_map(function ($value) {
         return "'" . SQLite3::escapeString($value) . "'";
     }, $row);
-    if ($update2020 === 1) {
+    if ($UPDATE2020 === 1) {
         $row['Z_OPT'] = 8; // ????
         $sql = "INSERT INTO ZTFCSTATIONMODEL (" .
             implode(", ", array_keys($row)) .
@@ -126,7 +126,6 @@ function getDataFromCSV() {
     $csv = array_map(function ($line) {
         return str_getcsv($line, ';', '"');
     }, file('dienststellen_actualdate.csv'));
-
 
     array_walk($csv, function (&$a) use ($csv) {
         $a = array_combine($csv[0], $a);
