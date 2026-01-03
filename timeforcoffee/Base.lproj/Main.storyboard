@@ -579,60 +579,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yuj-55-iz4" userLabel="Number of Departures">
-                                <rect key="frame" x="16" y="130" width="288" height="99"/>
-                                <subviews>
-                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="6" translatesAutoresizingMaskIntoConstraints="NO" id="zdk-Mh-XYw" userLabel="numberCellsTodaySlider">
-                                        <rect key="frame" x="-2" y="49" width="292" height="31"/>
-                                        <connections>
-                                            <action selector="sliderChanged:" destination="v4W-Hv-fUQ" eventType="touchUpInside" id="mmn-nz-ogD"/>
-                                            <action selector="sliderChanged:" destination="v4W-Hv-fUQ" eventType="touchUpOutside" id="s3W-nH-eWb"/>
-                                            <action selector="sliderChangedValue:" destination="v4W-Hv-fUQ" eventType="valueChanged" id="n3h-ig-3xc"/>
-                                        </connections>
-                                    </slider>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Number of Departures / Stations in Today View:" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ddG-sf-Sti">
-                                        <rect key="frame" x="-5" y="0.0" width="271" height="50"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <accessibility key="accessibilityConfiguration">
-                                            <accessibilityTraits key="traits" notEnabled="YES"/>
-                                        </accessibility>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="xwG-a1-K6k"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                    </textView>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="          6" textAlignment="right" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hVt-ir-et7" userLabel="numberCellsTodayValue">
-                                        <rect key="frame" x="265" y="0.0" width="23" height="50"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <accessibility key="accessibilityConfiguration">
-                                            <accessibilityTraits key="traits" notEnabled="YES"/>
-                                        </accessibility>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="CzI-p9-X90"/>
-                                            <constraint firstAttribute="width" constant="23" id="Ioo-PN-Feo"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                    </textView>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <accessibility key="accessibilityConfiguration">
-                                    <accessibilityTraits key="traits" notEnabled="YES"/>
-                                </accessibility>
-                                <constraints>
-                                    <constraint firstItem="hVt-ir-et7" firstAttribute="top" secondItem="ddG-sf-Sti" secondAttribute="top" id="4qp-L5-nsd"/>
-                                    <constraint firstAttribute="trailing" secondItem="zdk-Mh-XYw" secondAttribute="trailing" id="B8J-zI-HOv"/>
-                                    <constraint firstItem="ddG-sf-Sti" firstAttribute="leading" secondItem="Yuj-55-iz4" secondAttribute="leading" constant="-5" id="B8r-oI-uFz"/>
-                                    <constraint firstAttribute="height" constant="99" id="Pes-Hf-a8O"/>
-                                    <constraint firstItem="zdk-Mh-XYw" firstAttribute="leading" secondItem="Yuj-55-iz4" secondAttribute="leading" id="W0V-pm-F55"/>
-                                    <constraint firstItem="hVt-ir-et7" firstAttribute="top" secondItem="ddG-sf-Sti" secondAttribute="bottom" constant="-50" id="Xyo-fq-u2x"/>
-                                    <constraint firstItem="ddG-sf-Sti" firstAttribute="top" secondItem="Yuj-55-iz4" secondAttribute="top" id="a6j-KF-qvV"/>
-                                    <constraint firstItem="hVt-ir-et7" firstAttribute="leading" secondItem="ddG-sf-Sti" secondAttribute="trailing" constant="-1" id="qX2-pl-XtX"/>
-                                    <constraint firstItem="zdk-Mh-XYw" firstAttribute="top" secondItem="ddG-sf-Sti" secondAttribute="bottom" constant="-1" id="tY6-JM-bNd"/>
-                                    <constraint firstAttribute="trailing" secondItem="hVt-ir-et7" secondAttribute="trailing" id="wKS-Pv-j2P"/>
-                                </constraints>
-                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="67I-cf-lcA">
                                 <rect key="frame" x="10" y="5" width="89" height="30"/>
                                 <accessibility key="accessibilityConfiguration">
@@ -762,33 +708,26 @@ in departures times</string>
                         <constraints>
                             <constraint firstItem="0tK-ea-YGt" firstAttribute="leading" secondItem="Bpp-cB-QQS" secondAttribute="leadingMargin" constant="-5" id="47c-NR-EyA"/>
                             <constraint firstAttribute="trailingMargin" secondItem="LKV-Yr-NUS" secondAttribute="trailing" id="71f-XJ-oe1"/>
-                            <constraint firstItem="Yuj-55-iz4" firstAttribute="top" secondItem="YVK-Ph-gqv" secondAttribute="top" constant="130" id="7vj-ft-A5H"/>
-                            <constraint firstItem="Yuj-55-iz4" firstAttribute="trailing" secondItem="Bpp-cB-QQS" secondAttribute="trailingMargin" id="9XG-hi-nTE"/>
                             <constraint firstItem="AB1-ta-9BW" firstAttribute="trailing" secondItem="LKV-Yr-NUS" secondAttribute="trailing" id="Ehp-hE-3P7"/>
                             <constraint firstItem="AB1-ta-9BW" firstAttribute="leading" secondItem="LKV-Yr-NUS" secondAttribute="leading" id="GIE-gf-kAa"/>
                             <constraint firstItem="LKV-Yr-NUS" firstAttribute="leading" secondItem="Bpp-cB-QQS" secondAttribute="leadingMargin" id="HIz-gb-Apj"/>
-                            <constraint firstItem="LKV-Yr-NUS" firstAttribute="top" secondItem="Yuj-55-iz4" secondAttribute="bottom" constant="1" id="J7E-2G-LC9"/>
+                            <constraint firstItem="LKV-Yr-NUS" firstAttribute="top" secondItem="0tK-ea-YGt" secondAttribute="bottom" constant="30" id="J7E-2G-LC9"/>
                             <constraint firstItem="0tK-ea-YGt" firstAttribute="top" secondItem="67I-cf-lcA" secondAttribute="bottom" constant="9" id="JWY-dE-Fet"/>
                             <constraint firstItem="0tK-ea-YGt" firstAttribute="top" secondItem="YVK-Ph-gqv" secondAttribute="top" constant="49" id="gBq-yA-QpM"/>
                             <constraint firstItem="AB1-ta-9BW" firstAttribute="top" secondItem="LKV-Yr-NUS" secondAttribute="bottom" constant="27" id="gTv-W3-c6U"/>
-                            <constraint firstItem="Yuj-55-iz4" firstAttribute="top" secondItem="0tK-ea-YGt" secondAttribute="bottom" constant="51" id="kOD-Kz-WIs"/>
-                            <constraint firstItem="YVK-Ph-gqv" firstAttribute="bottom" secondItem="Yuj-55-iz4" secondAttribute="bottom" constant="351" id="kbs-iq-Hyj"/>
                             <constraint firstItem="67I-cf-lcA" firstAttribute="top" secondItem="YVK-Ph-gqv" secondAttribute="top" constant="5" id="mat-vl-ZOk"/>
                             <constraint firstItem="67I-cf-lcA" firstAttribute="leading" secondItem="Bpp-cB-QQS" secondAttribute="leadingMargin" constant="-6" id="p3Q-mi-yj7"/>
                             <constraint firstAttribute="bottom" secondItem="LKV-Yr-NUS" secondAttribute="bottom" constant="359" id="rN2-jf-TLi"/>
                             <constraint firstItem="67I-cf-lcA" firstAttribute="leading" secondItem="YVK-Ph-gqv" secondAttribute="leading" constant="10" id="szs-Wq-egl"/>
                             <constraint firstItem="67I-cf-lcA" firstAttribute="top" secondItem="YVK-Ph-gqv" secondAttribute="top" constant="10" id="tnR-4S-Xac"/>
                             <constraint firstItem="YVK-Ph-gqv" firstAttribute="bottom" secondItem="LKV-Yr-NUS" secondAttribute="bottom" constant="251" id="uVe-aj-oKr"/>
-                            <constraint firstItem="Yuj-55-iz4" firstAttribute="leading" secondItem="Bpp-cB-QQS" secondAttribute="leadingMargin" id="wv6-Hw-0jF"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
-                                <exclude reference="kbs-iq-Hyj"/>
                                 <exclude reference="uVe-aj-oKr"/>
                                 <exclude reference="p3Q-mi-yj7"/>
                                 <exclude reference="tnR-4S-Xac"/>
                                 <exclude reference="JWY-dE-Fet"/>
-                                <exclude reference="kOD-Kz-WIs"/>
                                 <exclude reference="rN2-jf-TLi"/>
                             </mask>
                         </variation>
@@ -796,8 +735,6 @@ in departures times</string>
                     <connections>
                         <outlet property="favoritesRadiusSlider" destination="xUB-p2-Mqm" id="q5m-Kv-LKN"/>
                         <outlet property="favoritesRadiusValue" destination="3o2-0v-jqC" id="hoJ-Hi-RUc"/>
-                        <outlet property="numberCellsTodaySlider" destination="zdk-Mh-XYw" id="Jbi-nr-Xlj"/>
-                        <outlet property="numberCellsTodayValue" destination="hVt-ir-et7" id="Ype-q8-zYf"/>
                         <outlet property="realTimeInfoSwitch" destination="t4O-IN-GSM" id="IYq-qX-9E8"/>
                     </connections>
                 </viewController>

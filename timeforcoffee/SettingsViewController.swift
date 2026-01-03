@@ -12,11 +12,6 @@ import timeforcoffeeKit
 
 class SettingsViewController: UIViewController {
 
-
-    @IBOutlet weak var numberCellsTodayValue: UITextView!
-    
-    @IBOutlet weak var numberCellsTodaySlider: UISlider!
-
     @IBOutlet weak var favoritesRadiusSlider: UISlider!
     @IBOutlet weak var favoritesRadiusValue: UITextView!
 
@@ -27,31 +22,11 @@ class SettingsViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     override func viewWillAppear(_ animated: Bool) {
-        var numberOfCells = TFCDataStore.sharedInstance.getUserDefaults()?.integer(forKey: "numberOfCellsToday")
-        if (numberOfCells == nil || numberOfCells == 0) {
-            numberOfCells = 6
-        }
-        numberCellsTodaySlider.value = Float(numberOfCells!)
-        numberCellsTodayValue.text = String(numberOfCells!)
-
         let favoritesSearchRadius = TFCFavorites.sharedInstance.getSearchRadius()
         setRadiusTextValue(favoritesSearchRadius)
         setRadiusSliderValue(favoritesSearchRadius)
 
         realTimeInfoSwitch.isOn = TFCSettings.sharedInstance.showRealTimeDebugInfo()
-    }
-
-    @IBAction func sliderChanged(_ sender: AnyObject) {
-
-        let sliderValue = lroundf(numberCellsTodaySlider.value)
-        numberCellsTodayValue.text = String(sliderValue)
-        numberCellsTodaySlider.setValue(Float(sliderValue), animated: true)
-        TFCDataStore.sharedInstance.getUserDefaults()?.set(sliderValue, forKey: "numberOfCellsToday")
-    }
-
-    @IBAction func sliderChangedValue(_ sender: AnyObject) {
-        let sliderValue = lroundf(numberCellsTodaySlider.value)
-        numberCellsTodayValue.text = String(sliderValue)
     }
 
     fileprivate func setRadiusSliderValue(_ radius:Int) {
