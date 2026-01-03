@@ -10,7 +10,7 @@ import SwiftUI
 import WidgetKit
 
 let smallFont = 15.0
-let largerFont = 16.0
+let largerFont = 18.0
 
 /// Centralized configuration for widget layout and styling
 struct WidgetConfig {
@@ -62,7 +62,7 @@ struct WidgetConfig {
             title: smallFont,
             content: smallFont,
             minutes: smallFont,
-            secondary: 10,
+            secondary: smallFont - 2,
             icon: smallFont - 1
         ),
         spacing: Spacing(
@@ -80,7 +80,7 @@ struct WidgetConfig {
             title: smallFont,
             content: smallFont,
             minutes: smallFont,
-            secondary: 10,
+            secondary: smallFont - 2,
             icon: smallFont - 1
         ),
         spacing: Spacing(
@@ -95,11 +95,11 @@ struct WidgetConfig {
     /// Medium widget - Single station departures
     static let mediumDepartures = WidgetConfig(
         fontSize: FontSize(
-            title: largerFont,
-            content: largerFont,
-            minutes: largerFont,
-            secondary: 10,
-            icon: largerFont - 1
+            title: largerFont - 2,
+            content: largerFont - 2,
+            minutes: largerFont - 2,
+            secondary: largerFont - 4,
+            icon: largerFont - 3
         ),
         spacing: Spacing(
             rowSpacing: 4,
@@ -116,7 +116,7 @@ struct WidgetConfig {
             title: largerFont,
             content: largerFont,
             minutes: largerFont,
-            secondary: 9,
+            secondary: largerFont - 3,
             icon: largerFont - 1
         ),
         spacing: Spacing(
@@ -134,14 +134,14 @@ struct WidgetConfig {
             title: largerFont,
             content: largerFont,
             minutes: largerFont,
-            secondary: 11,
+            secondary: largerFont - 3,
             icon: largerFont - 1
         ),
         spacing: Spacing(
-            rowSpacing: 4,
-            elementSpacing: 8,
-            padding: 14,
-            rowVerticalPadding: 4
+            rowSpacing: 3,
+            elementSpacing: 4,
+            padding: 12,
+            rowVerticalPadding: 3
         ),
         limits: ContentLimits(maxItems: 8)
     )

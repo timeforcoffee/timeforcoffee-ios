@@ -50,8 +50,8 @@ struct DepartureTimelineProvider: AppIntentTimelineProvider {
         var entries: [DepartureEntry] = []
         let now = Date()
 
-        // Nearby stations mode refreshes more frequently (5 min) since we only have one departure per station
-        let timelineMinutes = currentEntry.viewMode == .nearbyStations ? 5 : 15
+        // Both modes refresh every 15 minutes
+        let timelineMinutes = 15
 
         for minuteOffset in stride(from: 0, to: timelineMinutes, by: 1) {
             let entryDate = Calendar.current.date(byAdding: .minute, value: minuteOffset, to: now)!
@@ -89,7 +89,7 @@ struct DepartureTimelineProvider: AppIntentTimelineProvider {
             }
         }
 
-        // Nearby stations refresh every 5 minutes, single station every 15 minutes
+        // Request refresh after timeline ends
         let refreshDate = Calendar.current.date(byAdding: .minute, value: timelineMinutes, to: now)!
         return Timeline(entries: entries, policy: .after(refreshDate))
     }
