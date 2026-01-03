@@ -20,31 +20,29 @@ final class StationsSearchViewController: StationsViewController, UISearchBarDel
         let sc: UISearchController = UISearchController(searchResultsController: nil)
 
         self.searchController = sc
-        self.searchController?.hidesNavigationBarDuringPresentation = false;
-        self.searchController?.dimsBackgroundDuringPresentation = false;
+        self.searchController?.hidesNavigationBarDuringPresentation = false
+        self.searchController?.obscuresBackgroundDuringPresentation = false
         let searchBar = self.searchController?.searchBar
-        
+
         self.navigationController?.navigationBar.tintColor = UIColor(named: "TFCGrayerColor")
-        self.navigationItem.rightBarButtonItem = nil;
-        self.navigationItem.titleView = searchBar
+        self.navigationItem.rightBarButtonItem = nil
+
+        // Use modern search controller placement (iOS 11+)
+        self.navigationItem.searchController = sc
+        self.navigationItem.hidesSearchBarWhenScrolling = false
 
         searchBar?.delegate = self
         let appsTableView = self.appsTableView2
         appsTableView?.searchBar = searchBar
         sc.searchResultsUpdater = appsTableView
-        definesPresentationContext = false
-        self.view.alpha = 0.0
+        definesPresentationContext = true
         appsTableView?.removePullToRefresh()
-        self.searchController?.searchBar.alpha = 0.0
 
 
     }
 
     deinit {
-        self.searchController?.dismiss(animated: false, completion: { () -> Void in
-
-        })
-        self.searchController?.removeFromParent()
+        self.searchController?.isActive = false
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -55,22 +53,11 @@ final class StationsSearchViewController: StationsViewController, UISearchBarDel
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated, noReload: true)
-        if (!(self.searchController?.isViewLoaded == true && self.searchController?.view.window != nil)) {
-            self.present(self.searchController!, animated: true, completion: {
-                self.searchController?.searchBar.becomeFirstResponder()
-                return
-            })
+        // Activate search bar and show keyboard
+        DispatchQueue.main.async {
+            self.searchController?.isActive = true
+            self.searchController?.searchBar.becomeFirstResponder()
         }
-
-        let duration: TimeInterval = 0.5
-        UIView.animate(withDuration: duration,
-            animations: {
-                self.view.alpha = 1.0
-                self.searchController?.searchBar.alpha = 1.0
-                return
-            }, completion: { (finished:Bool) in
-                return
-        })
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
