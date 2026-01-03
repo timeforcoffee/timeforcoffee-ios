@@ -10,9 +10,10 @@ import Foundation
 import CoreLocation
 
 final class APIController {
-    
+
     private weak var delegate: APIControllerProtocol?
     private var currentFetch:[Int: URLSessionDataTask] = [:]
+    private let fetchQueue = DispatchQueue(label: "ch.opendata.timeforcoffee.fetchQueue")
 
     private lazy var cache:PINCache = {
         return TFCCache.objects.apicalls
@@ -95,9 +96,11 @@ final class APIController {
                     DLog("Start fetching data \(String(describing: absUrl))", toFile: true)
 
 
-                    if (fetchId == 1 && self.currentFetch[fetchId] != nil) {
-                        DLog("cancel current fetch")
-                        self.currentFetch[fetchId]?.cancel()
+                    self.fetchQueue.sync {
+                        if (fetchId == 1 && self.currentFetch[fetchId] != nil) {
+                            DLog("cancel current fetch")
+                            self.currentFetch[fetchId]?.cancel()
+                        }
                     }
 
                     let session2 = TFCURLSession.sharedInstance.session
@@ -120,7 +123,9 @@ final class APIController {
                             }
                         }
                         if (fetchId == 1) {
-                            self.currentFetch[fetchId] = nil
+                            self.fetchQueue.sync {
+                                self.currentFetch[fetchId] = nil
+                            }
                         }
 
                         let jsonResult:JSON
@@ -138,7 +143,9 @@ final class APIController {
                     dataFetch?.resume()
                     DLog("dataTask resumed")
                     if (dataFetch != nil) {
-                        self.currentFetch[fetchId] = dataFetch
+                        self.fetchQueue.sync {
+                            self.currentFetch[fetchId] = dataFetch
+                        }
                     }
                 } else {
                     DLog("\(urlPath) could not be parsed")

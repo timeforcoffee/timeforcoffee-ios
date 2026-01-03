@@ -8,7 +8,5 @@
 
 #ifndef timeforcoffee_Widget_Bridging_Header_h
 #define timeforcoffee_Widget_Bridging_Header_h
-#import "GAI.h"
-#import "GAIDictionaryBuilder.h"
-#import "GAIFields.h"
+
 #endif /* timeforcoffee_Widget_Bridging_Header_h */

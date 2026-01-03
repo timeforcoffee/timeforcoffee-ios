@@ -8,8 +8,5 @@
 
 #ifndef timeforcoffee_timeforcoffee_Bridging_Header_h
 #define timeforcoffee_timeforcoffee_Bridging_Header_h
-#import "GAI.h"
-#import "GAIDictionaryBuilder.h"
-#import "GAIFields.h"
-#import <Smooch/Smooch.h>
+
 #endif

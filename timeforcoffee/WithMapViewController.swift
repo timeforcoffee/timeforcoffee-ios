@@ -203,7 +203,6 @@ class WithMapViewController: UIViewController, UITableViewDelegate, UIScrollView
                 }
             }
         )
-        GATracker.sharedInstance?.sendScreenName("departuresMap")
     }
 
     func mapViewReachedBottom() {

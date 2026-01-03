@@ -68,8 +68,8 @@
 /* Class = "UILabel"; text = "Relâcher pour afficher"; ObjectID = "cgy-fE-O9r"; */
 "cgy-fE-O9r.text" = "Relâcher pour afficher";
 
-/* Class = "UIButton"; normalTitle = "Help / Chat avec nous!"; ObjectID = "dYu-XS-w9t"; */
-"dYu-XS-w9t.normalTitle" = "Help / Chat avec nous!";
+/* Class = "UIButton"; normalTitle = "Nous envoyer un e-mail"; ObjectID = "dYu-XS-w9t"; */
+"dYu-XS-w9t.normalTitle" = "Nous envoyer un e-mail";
 
 /* Class = "UITextView"; text = "Nombre de départs / Arrêts dans l'onglet Aujourd'hui"; ObjectID = "ddG-sf-Sti"; */
 "ddG-sf-Sti.text" = "Nombre de départs / Arrêts dans l'onglet Aujourd'hui";

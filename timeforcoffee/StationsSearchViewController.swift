@@ -71,7 +71,6 @@ final class StationsSearchViewController: StationsViewController, UISearchBarDel
             }, completion: { (finished:Bool) in
                 return
         })
-        GATracker.sharedInstance?.sendScreenName("search")
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {

@@ -56,7 +56,6 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
         DLog("WARNING: applicationDidReceiveMemoryWarning", toFile: true)
         TFCFavorites.sharedInstance.clearStationCache()
-        GATracker.sharedInstance?.deinitTracker()
         TFCDataStore.sharedInstance.saveContext()
     }
     
@@ -137,91 +136,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 
-            let gtracker = GATracker.sharedInstance
-            gtracker?.setCustomDimension(7, value: "yes")
-            gtracker?.setCustomDimension(9, value: UIDevice.current.systemVersion)
-
             if let lO = launchOptions?[UIApplication.LaunchOptionsKey.location] {
                 DLog("app launched with UIApplicationLaunchOptionsLocationKey: \(lO)", toFile: true)
             }
 
-            #if !(targetEnvironment(simulator))
-                let settings = SKTSettings(appId: "55169650985288160008b0ca")
-                //            settings.knowledgeBaseURL = "https://timeforcoffee.zendesk.com"
-
-                DispatchQueue.main.async {
-                    Smooch.initWith(settings)
-                }
-            #endif
-            let userdefaults = TFCDataStore.sharedInstance.getUserDefaults()
-            let lastusedTodayScreen: Date? = userdefaults?.object(forKey: "lastUsedViewUpdate") as! Date?
-            /* var recommendations: [String] = []
-             recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202701502-How-to-use-the-favourite-station-feature-")
-             recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202701512-Can-I-exclude-some-destinations-from-a-station-")
-             recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202775921-Is-there-a-map-view-somewhere-")
-             recommendations.append("https://timeforcoffee.zendesk.com/hc/en-us/articles/202772511-Who-is-behind-Time-for-Coffee-")
-             */
-            if let currentUser = SKTUser.current() {
-                if (userdefaults?.object(forKey: "favorites3") != nil) {
-                    currentUser.addProperties(["usedFavorites": true])
-                    gtracker?.setCustomDimension(4, value: "yes")
-                } else {
-                    currentUser.addProperties(["usedFavorites": false])
-                    gtracker?.setCustomDimension(4, value: "no")
-                }
-                if (lastusedTodayScreen != nil) {
-                    currentUser.addProperties(["lastUsedTodayScreen": lastusedTodayScreen!])
-                    currentUser.addProperties(["usedTodayScreen": true])
-                    gtracker?.setCustomDimension(3, value: "yes")
-                } else {
-                    currentUser.addProperties(["usedTodayScreen": false])
-                    gtracker?.setCustomDimension(3, value: "no")
-                }
-
-                if let uid = TFCDataStore.sharedInstance.getTFCID() {
-                    currentUser.addProperties(["TFCID": uid])
-                }
-                if (currentUser.signedUpAt == nil) {
-                    currentUser.signedUpAt = Date()
-                    currentUser.addProperties(["signedUpDate" : Date()])
-                    if let lang =  Locale.preferredLanguages.first {
-                        let langSplit = lang.components(separatedBy: "-")
-                        currentUser.addProperties(["language": langSplit[0]])
-                        gtracker?.setCustomDimension(5, value: langSplit[0])
-                    }
-
-                }
-                delay(5.0, closure: {
-                    if let wcsession = TFCDataStore.sharedInstance.session {
-                        if (wcsession.isPaired) {
-                            currentUser.addProperties(["hasWatch": true])
-                            gtracker?.setCustomDimension(8, value: "yes")
-                            if (TFCDataStore.sharedInstance.isWatchAppInstalled()) {
-                                currentUser.addProperties(["hasWatchAppInstalled": true])
-                                gtracker?.setCustomDimension(2, value: "yes")
-                                
-                            } else {
-                                currentUser.addProperties(["hasWatchAppInstalled": false])
-                                gtracker?.setCustomDimension(2, value: "no")
-                            }
-                            if (wcsession.isComplicationEnabled == true) {
-                                currentUser.addProperties(["hasComplicationsEnabled": true])
-                                gtracker?.setCustomDimension(1, value: "yes")
-                                
-                            } else {
-                                currentUser.addProperties(["hasComplicationsEnabled": false])
-                                gtracker?.setCustomDimension(1, value: "no")
-                            }
-                        }
-                    }
-                })
-            }
-            /*            Smooch.setDefaultRecommendations(recommendations)
-             if (lastusedTodayScreen == nil) {
-             Smooch.setTopRecommendation("https://timeforcoffee.zendesk.com/hc/en-us/articles/202698032-How-to-add-Time-for-Coffee-to-the-Today-Screen-")
-
-             }
-             */
         }
         return shouldPerformAdditionalDelegateHandling
     }

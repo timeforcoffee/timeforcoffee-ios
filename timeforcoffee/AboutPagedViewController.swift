@@ -92,7 +92,18 @@ final class AboutPagedViewController: UIViewController, SwipeViewDataSource, Swi
     }
 
     @objc func startChat() {
-        Smooch.show()
+        let alert = UIAlertController(
+            title: NSLocalizedString("Contact Us", comment: ""),
+            message: NSLocalizedString("You can contact us via email at me@chregu.tv", comment: ""),
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Send Email", comment: ""), style: .default) { _ in
+            if let url = URL(string: "mailto:me@chregu.tv?subject=Time%20for%20Coffee%20Feedback") {
+                UIApplication.shared.open(url)
+            }
+        })
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel))
+        self.present(alert, animated: true)
     }
 
     @objc func reviewApp() {

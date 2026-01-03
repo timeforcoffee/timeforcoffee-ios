@@ -47,9 +47,6 @@ final class StationTableViewCell: UITableViewCell {
         if let superview = self.superview as? StationTableView {
             superview.resortFavorites()
         }
-        if let currentUser = SKTUser.current() {
-            currentUser.addProperties(["usedFavorites": true])
-        }
     }
 
     func drawCell() {

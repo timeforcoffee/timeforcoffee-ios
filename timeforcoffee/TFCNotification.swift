@@ -7,17 +7,17 @@
 //
 
 import Foundation
+import UserNotifications
 
 class TFCNotification {
     func send(_ text:String?) {
         #if DEBUG
             if let text = text {
-                DispatchQueue.main.async {
-                    let noti = UILocalNotification()
-                    noti.alertBody = text
-                    noti.soundName = UILocalNotificationDefaultSoundName
-                    UIApplication.shared.presentLocalNotificationNow(noti)
-                }
+                let content = UNMutableNotificationContent()
+                content.body = text
+                content.sound = .default
+                let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)
+                UNUserNotificationCenter.current().add(request)
             }
         #endif
     }

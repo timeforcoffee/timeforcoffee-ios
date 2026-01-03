@@ -160,7 +160,6 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         DispatchQueue.global(qos: .utility).async {
             self.datastore.registerForNotifications()
             self.datastore.synchronize()
-            let _ = GATracker.sharedInstance
         }
     }
 
@@ -282,12 +281,6 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
 
     override func viewDidDisappear(_ animated: Bool) {
         DLog("viewDidDisappear, memsize: \(String(describing: TFCCache.getMemorySize()))", toFile: true)
-
-        DispatchQueue.global(qos: .utility).async {
-            GATracker.sharedInstance?.setCustomDimension(6, value: "yes")
-            GATracker.sharedInstance?.setCustomDimension(9, value: UIDevice.current.systemVersion)
-        }
-
       //  TFCURLSession.sharedInstance.cancelURLSession()
     }
     func widgetPerformUpdate(completionHandler: @escaping ((NCUpdateResult) -> Void)) {
@@ -644,7 +637,6 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
         //TFCCache.clearMemoryCache()
         self.stations?.removeDeparturesFromMemory()
         TFCFavorites.sharedInstance.clearStationCache()
-        GATracker.sharedInstance?.deinitTracker()
         TFCDataStore.sharedInstance.saveContext()
         super.didReceiveMemoryWarning()
     }
@@ -717,7 +709,7 @@ final class TodayViewController: TFCBaseViewController, NCWidgetProviding, UITab
     }
 
     fileprivate func sendScreenNameToGA(_ screenname: String) {
-        GATracker.sharedInstance?.sendScreenName(screenname)
+        // Analytics removed
     }
 
     fileprivate func populateStationsFromLastUsed() {

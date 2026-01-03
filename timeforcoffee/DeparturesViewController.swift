@@ -11,6 +11,7 @@ import timeforcoffeeKit
 import MapKit
 import MGSwipeTableCell
 import IntentsUI
+
 final class DeparturesViewController: WithMapViewController, UITableViewDataSource, TFCDeparturesUpdatedProtocol, INUIAddVoiceShortcutViewControllerDelegate {
 
     var refreshControl:UIRefreshControl!
@@ -149,10 +150,6 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
     override func viewDidAppear(_ animated: Bool) {
         DLog("viewDidAppear")
         super.viewDidAppear(animated)
-        DispatchQueue.global(qos: .utility).async {
-            let gtracker = GATracker.sharedInstance
-            gtracker?.sendScreenName("departures")
-        }
         displayDepartures()
 
         viewAppeared = true
@@ -251,9 +248,6 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
             favButton.setTitle("☆", for: UIControl.State())
         }
         self.appsTableView?.reloadData()
-        if let currentUser = SKTUser.current() {
-            currentUser.addProperties(["usedFavorites": true])
-        }
     }
 
     
@@ -513,7 +507,6 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
                 if let departures: [TFCDeparture] = self.getDeparturesDependentOnView(station2),
                     let cell = cell {
                     let departure: TFCDeparture = departures[cell.tag]
-                    SKTUser.current()?.addProperties(["usedFilters": true])
                     let index = 0
                     if (station2.isFavoriteDeparture(departure)) {
                         station2.unsetFavoriteDeparture(departure)
@@ -563,7 +556,6 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
         let departures: [TFCDeparture] = getDeparturesDependentOnView(station2)!
 
         let departure: TFCDeparture = departures[cell.tag]
-        SKTUser.current()?.addProperties(["usedFilters": true])
         var index = 0
         if (cell.rightButtons.count == 2) {
             index = 1

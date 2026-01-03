@@ -68,11 +68,11 @@ public final class TFCLocationManager: TFCLocationManagerBase {
         super.getLocationRequest(lm)
     }
 
-    func locationManager(_ manager: CLLocationManager!, monitoringDidFailForRegion region: CLRegion!, withError error: NSError!) {
-        DLog("monitoringDidFailForRegion for fence \(region.identifier), error: \(String(describing: error))", toFile: true)
+    func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
+        DLog("monitoringDidFailForRegion for fence \(region?.identifier ?? "unknown"), error: \(String(describing: error))", toFile: true)
     }
 
-    func locationManager(_ manager: CLLocationManager!, didEnterRegion region: CLRegion!) {
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
         DLog("fence entered \(String(describing: region))", toFile: true)
         if let region = region as? CLCircularRegion {
             if (self.delegate != nil) {

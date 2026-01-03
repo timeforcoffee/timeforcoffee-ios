@@ -47,11 +47,6 @@ class StationsViewController: TFCBaseViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if (self.showFavorites) {
-            GATracker.sharedInstance?.sendScreenName("favorites")
-        } else {
-            GATracker.sharedInstance?.sendScreenName("stations")
-        }
         appsTableView?.refreshLocation()
     }
 

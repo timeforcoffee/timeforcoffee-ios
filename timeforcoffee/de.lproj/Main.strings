@@ -68,8 +68,8 @@
 /* Class = "UILabel"; text = "Release to view"; ObjectID = "cgy-fE-O9r"; */
 "cgy-fE-O9r.text" = "Release to view";
 
-/* Class = "UIButton"; normalTitle = "Help / Chat mit uns!"; ObjectID = "dYu-XS-w9t"; */
-"dYu-XS-w9t.normalTitle" = "Help / Chat mit uns!";
+/* Class = "UIButton"; normalTitle = "E-Mail schreiben"; ObjectID = "dYu-XS-w9t"; */
+"dYu-XS-w9t.normalTitle" = "E-Mail schreiben";
 
 /* Class = "UITextView"; text = "Number of Departures / Stations in Today View:"; ObjectID = "ddG-sf-Sti"; */
 "ddG-sf-Sti.text" = "Number of Departures / Stations in Today View:";

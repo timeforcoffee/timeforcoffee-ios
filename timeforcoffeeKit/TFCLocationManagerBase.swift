@@ -291,7 +291,7 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
     }
 }
 
-@objc public protocol TFCLocationManagerDelegate: class {
+@objc public protocol TFCLocationManagerDelegate: AnyObject {
     func locationFixed(_ coord: CLLocation?)
     func locationDenied(_ manager: CLLocationManager, err: Error)
     func locationStillTrying(_ manager: CLLocationManager, err: Error)
