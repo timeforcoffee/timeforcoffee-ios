@@ -46,11 +46,14 @@ struct DepartureTimelineProvider: AppIntentTimelineProvider {
     func timeline(for configuration: DepartureWidgetConfigurationIntent, in context: Context) async -> Timeline<DepartureEntry> {
         let currentEntry = await fetchEntry(for: configuration)
 
-        // Create timeline entries for the next 15 minutes
+        // Create timeline entries
         var entries: [DepartureEntry] = []
-
         let now = Date()
-        for minuteOffset in stride(from: 0, to: 15, by: 1) {
+
+        // Nearby stations mode refreshes more frequently (5 min) since we only have one departure per station
+        let timelineMinutes = currentEntry.viewMode == .nearbyStations ? 5 : 15
+
+        for minuteOffset in stride(from: 0, to: timelineMinutes, by: 1) {
             let entryDate = Calendar.current.date(byAdding: .minute, value: minuteOffset, to: now)!
 
             if currentEntry.viewMode == .singleStation {
@@ -71,28 +74,14 @@ struct DepartureTimelineProvider: AppIntentTimelineProvider {
                 )
                 entries.append(entry)
             } else {
-                // Nearby stations mode - update departure times
-                let updatedStations = currentEntry.nearbyStations.map { station in
-                    if let dep = station.firstDeparture,
-                       dep.departureTime <= entryDate.addingTimeInterval(-60) {
-                        // Departure has passed, show no departure
-                        return NearbyStation(
-                            id: station.id,
-                            name: station.name,
-                            isFavorite: station.isFavorite,
-                            firstDeparture: nil
-                        )
-                    }
-                    return station
-                }
-
+                // Nearby stations mode - keep departures, view handles showing 0'
                 let entry = DepartureEntry(
                     date: entryDate,
                     viewMode: .nearbyStations,
                     stationName: currentEntry.stationName,
                     stationId: currentEntry.stationId,
                     departures: [],
-                    nearbyStations: updatedStations,
+                    nearbyStations: currentEntry.nearbyStations,
                     isPlaceholder: currentEntry.isPlaceholder,
                     errorMessage: currentEntry.errorMessage
                 )
@@ -100,8 +89,8 @@ struct DepartureTimelineProvider: AppIntentTimelineProvider {
             }
         }
 
-        // Reload timeline after 15 minutes
-        let refreshDate = Calendar.current.date(byAdding: .minute, value: 15, to: now)!
+        // Nearby stations refresh every 5 minutes, single station every 15 minutes
+        let refreshDate = Calendar.current.date(byAdding: .minute, value: timelineMinutes, to: now)!
         return Timeline(entries: entries, policy: .after(refreshDate))
     }
 

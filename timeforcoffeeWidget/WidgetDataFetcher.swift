@@ -557,23 +557,23 @@ struct WidgetDataFetcher {
         var nearbyStations: [NearbyStation] = []
 
         for info in stationInfos.prefix(limit) {
-            let firstDeparture = await fetchFirstDeparture(stationId: info.id)
+            let departures = await fetchStationDepartures(stationId: info.id)
             nearbyStations.append(NearbyStation(
                 id: info.id,
                 name: info.name,
                 isFavorite: info.isFavorite,
-                firstDeparture: firstDeparture
+                departures: departures
             ))
         }
 
         return nearbyStations
     }
 
-    /// Fetch just the first departure for a station (applies filters if available)
-    private static func fetchFirstDeparture(stationId: String) async -> WidgetDeparture? {
+    /// Fetch departures for a station (applies filters if available)
+    private static func fetchStationDepartures(stationId: String) async -> [WidgetDeparture] {
         guard let station = TFCStation.initWithCacheId(stationId),
               let url = URL(string: station.getDeparturesURL()) else {
-            return nil
+            return []
         }
 
         do {
@@ -581,7 +581,7 @@ struct WidgetDataFetcher {
 
             guard let httpResponse = response as? HTTPURLResponse,
                   httpResponse.statusCode == 200 else {
-                return nil
+                return []
             }
 
             var departures = parseDepartures(from: data, stationId: stationId)
@@ -594,9 +594,9 @@ struct WidgetDataFetcher {
                 departures = filterDepartures(departures, for: station)
             }
 
-            return departures.first
+            return Array(departures)
         } catch {
-            return nil
+            return []
         }
     }
 

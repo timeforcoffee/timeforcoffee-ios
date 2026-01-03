@@ -161,12 +161,33 @@ struct DepartureEntry: TimelineEntry {
     }
 }
 
-/// A nearby station with its first departure
+/// A nearby station with its departures
 struct NearbyStation: Identifiable {
     let id: String
     let name: String
     let isFavorite: Bool
-    let firstDeparture: WidgetDeparture?
+    let departures: [WidgetDeparture]
+
+    /// First departure that hasn't passed yet
+    var firstDeparture: WidgetDeparture? {
+        departures.first { $0.departureTime > Date().addingTimeInterval(-60) }
+    }
+
+    /// Legacy initializer for compatibility
+    init(id: String, name: String, isFavorite: Bool, firstDeparture: WidgetDeparture?) {
+        self.id = id
+        self.name = name
+        self.isFavorite = isFavorite
+        self.departures = firstDeparture.map { [$0] } ?? []
+    }
+
+    /// New initializer with multiple departures
+    init(id: String, name: String, isFavorite: Bool, departures: [WidgetDeparture]) {
+        self.id = id
+        self.name = name
+        self.isFavorite = isFavorite
+        self.departures = departures
+    }
 }
 
 /// A single departure for display in the widget
