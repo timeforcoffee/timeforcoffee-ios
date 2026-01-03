@@ -13,60 +13,27 @@ struct LineBadgeView: View {
     let line: String
     let colorFg: String
     let colorBg: String
-    var size: BadgeSize = .medium
-
-    enum BadgeSize {
-        case small
-        case medium
-        case large
-
-        var fontSize: CGFloat {
-            switch self {
-            case .small: return 9
-            case .medium: return 11
-            case .large: return 14
-            }
-        }
-
-        var padding: CGFloat {
-            switch self {
-            case .small: return 2
-            case .medium: return 4
-            case .large: return 6
-            }
-        }
-
-        var cornerRadius: CGFloat {
-            switch self {
-            case .small: return 2
-            case .medium: return 3
-            case .large: return 4
-            }
-        }
-
-        var minWidth: CGFloat {
-            switch self {
-            case .small: return 22
-            case .medium: return 28
-            case .large: return 36
-            }
-        }
-    }
+    var fontSize: CGFloat = 11
 
     /// Lines that should use special styling (trains)
     private let trainSymbolLines = ["ICN", "EN", "TGV", "RX", "EC", "IC", "SC", "CNL", "ICE", "IR"]
 
+    // Derive other sizes from fontSize
+    private var padding: CGFloat { max(2, fontSize * 0.35) }
+    private var cornerRadius: CGFloat { max(2, fontSize * 0.25) }
+    private var minWidth: CGFloat { fontSize * 2.5 }
+
     var body: some View {
         Text(line)
-            .font(.system(size: size.fontSize, weight: .bold, design: .default))
+            .font(.system(size: fontSize, weight: .bold, design: .default))
             .foregroundColor(foregroundColor)
-            .padding(.horizontal, size.padding)
-            .padding(.vertical, size.padding / 2)
-            .frame(minWidth: size.minWidth)
+            .padding(.horizontal, padding)
+            .padding(.vertical, padding / 2)
+            .frame(minWidth: minWidth)
             .background(backgroundColor)
-            .cornerRadius(size.cornerRadius)
+            .cornerRadius(cornerRadius)
             .overlay(
-                RoundedRectangle(cornerRadius: size.cornerRadius)
+                RoundedRectangle(cornerRadius: cornerRadius)
                     .stroke(needsBorder ? Color.gray.opacity(0.3) : Color.clear, lineWidth: 0.5)
             )
     }
@@ -131,19 +98,19 @@ extension Color {
 #Preview {
     VStack(spacing: 10) {
         HStack(spacing: 8) {
-            LineBadgeView(line: "S3", colorFg: "#000000", colorBg: "#FFCC00", size: .large)
-            LineBadgeView(line: "IC5", colorFg: "#FFFFFF", colorBg: "#FF0000", size: .large)
-            LineBadgeView(line: "IR36", colorFg: "#000000", colorBg: "#FFFFFF", size: .large)
+            LineBadgeView(line: "S3", colorFg: "#000000", colorBg: "#FFCC00", fontSize: 14)
+            LineBadgeView(line: "IC5", colorFg: "#FFFFFF", colorBg: "#FF0000", fontSize: 14)
+            LineBadgeView(line: "IR36", colorFg: "#000000", colorBg: "#FFFFFF", fontSize: 14)
         }
         HStack(spacing: 8) {
-            LineBadgeView(line: "S3", colorFg: "#000000", colorBg: "#FFCC00", size: .medium)
-            LineBadgeView(line: "IC5", colorFg: "#FFFFFF", colorBg: "#FF0000", size: .medium)
-            LineBadgeView(line: "RE", colorFg: "#000000", colorBg: "#FFFFFF", size: .medium)
+            LineBadgeView(line: "S3", colorFg: "#000000", colorBg: "#FFCC00", fontSize: 11)
+            LineBadgeView(line: "IC5", colorFg: "#FFFFFF", colorBg: "#FF0000", fontSize: 11)
+            LineBadgeView(line: "RE", colorFg: "#000000", colorBg: "#FFFFFF", fontSize: 11)
         }
         HStack(spacing: 8) {
-            LineBadgeView(line: "S3", colorFg: "#000000", colorBg: "#FFCC00", size: .small)
-            LineBadgeView(line: "31", colorFg: "#FFFFFF", colorBg: "#0066CC", size: .small)
-            LineBadgeView(line: "8", colorFg: "#FFFFFF", colorBg: "#009933", size: .small)
+            LineBadgeView(line: "S3", colorFg: "#000000", colorBg: "#FFCC00", fontSize: 9)
+            LineBadgeView(line: "31", colorFg: "#FFFFFF", colorBg: "#0066CC", fontSize: 9)
+            LineBadgeView(line: "8", colorFg: "#FFFFFF", colorBg: "#009933", fontSize: 9)
         }
     }
     .padding()

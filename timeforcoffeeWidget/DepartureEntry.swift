@@ -201,10 +201,10 @@ struct WidgetDeparture: Identifiable, Codable {
     let colorBg: String
     let platform: String?
 
-    /// Minutes until departure (rounded, min 0)
+    /// Minutes until departure (ceiling, min 0)
     var minutesUntilDeparture: Int {
         let interval = departureTime.timeIntervalSinceNow
-        return max(0, Int(round(interval / 60)))
+        return max(0, Int(ceil(interval / 60)))
     }
 
     /// Formatted minutes string (e.g., "3'" or ">59'")

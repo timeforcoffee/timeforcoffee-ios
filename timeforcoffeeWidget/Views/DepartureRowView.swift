@@ -22,7 +22,7 @@ struct DepartureRowView: View {
                 line: departure.line,
                 colorFg: departure.colorFg,
                 colorBg: departure.colorBg,
-                size: config.fontSize.content < 15 ? .small : .medium
+                fontSize: config.fontSize.content - 3
             )
 
             // Destination
@@ -82,7 +82,7 @@ struct CompactDepartureRowView: View {
                 line: departure.line,
                 colorFg: departure.colorFg,
                 colorBg: departure.colorBg,
-                size: .small
+                fontSize: config.fontSize.content - 3
             )
 
             Text(departure.formattedDestination)

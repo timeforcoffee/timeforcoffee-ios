@@ -67,9 +67,9 @@ struct WidgetConfig {
         ),
         spacing: Spacing(
             rowSpacing: 4,
-            elementSpacing: 4,
+            elementSpacing: 3,
             padding: 10,
-            rowVerticalPadding: 3
+            rowVerticalPadding: 4
         ),
         limits: ContentLimits(maxItems: 4)
     )
@@ -85,7 +85,7 @@ struct WidgetConfig {
         ),
         spacing: Spacing(
             rowSpacing: 4,
-            elementSpacing: 4,
+            elementSpacing: 3,
             padding: 10,
             rowVerticalPadding: 3
         ),
@@ -99,10 +99,10 @@ struct WidgetConfig {
             content: largerFont - 2,
             minutes: largerFont - 2,
             secondary: largerFont - 4,
-            icon: largerFont - 3
+            icon: largerFont - 1
         ),
         spacing: Spacing(
-            rowSpacing: 4,
+            rowSpacing: 2,
             elementSpacing: 8,
             padding: 12,
             rowVerticalPadding: 4
@@ -141,7 +141,7 @@ struct WidgetConfig {
             rowSpacing: 3,
             elementSpacing: 4,
             padding: 12,
-            rowVerticalPadding: 3
+            rowVerticalPadding: 4
         ),
         limits: ContentLimits(maxItems: 8)
     )
@@ -152,14 +152,14 @@ struct WidgetConfig {
             title: largerFont,
             content: largerFont,
             minutes: largerFont,
-            secondary: 10,
+            secondary: largerFont - 3,
             icon: largerFont - 1
         ),
         spacing: Spacing(
             rowSpacing: 2,
-            elementSpacing: 8,
+            elementSpacing: 4,
             padding: 12,
-            rowVerticalPadding: 3
+            rowVerticalPadding: 4
         ),
         limits: ContentLimits(maxItems: 9)
     )

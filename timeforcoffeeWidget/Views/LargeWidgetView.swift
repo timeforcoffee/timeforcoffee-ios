@@ -67,10 +67,6 @@ struct LargeWidgetView: View {
             // Departures
             ForEach(entry.departures.prefix(config.limits.maxItems)) { departure in
                 DepartureRowView(departure: departure, config: config, showPlatform: true)
-                if departure.id != entry.departures.prefix(config.limits.maxItems).last?.id {
-                    Divider()
-                        .opacity(0.5)
-                }
             }
 
             Spacer(minLength: 0)

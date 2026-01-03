@@ -34,7 +34,7 @@ struct NearbyStationRowView: View {
                         line: departure.line,
                         colorFg: departure.colorFg,
                         colorBg: departure.colorBg,
-                        size: .small
+                        fontSize: config.fontSize.content - 3
                     )
 
                     Text(departure.minutesDisplay)
@@ -81,7 +81,7 @@ struct SmallNearbyStationsView: View {
     private var contentView: some View {
         VStack(alignment: .leading, spacing: config.spacing.rowSpacing) {
             // Title
-            Text(NSLocalizedString("Nearby", comment: ""))
+            Text(NSLocalizedString("Nearby Stations", comment: ""))
                 .font(.system(size: config.fontSize.title, weight: .semibold))
                 .foregroundColor(.secondary)
 
@@ -148,7 +148,7 @@ struct MediumNearbyStationsView: View {
                     .font(.system(size: config.fontSize.icon))
                     .foregroundColor(.accentColor)
 
-                Text(NSLocalizedString("Nearby", comment: ""))
+                Text(NSLocalizedString("Nearby Stations", comment: ""))
                     .font(.system(size: config.fontSize.title, weight: .semibold))
                     .foregroundColor(.primary)
 
@@ -251,6 +251,8 @@ struct LargeNearbyStationsView: View {
                     .foregroundColor(.secondary)
             }
 
+            Divider()
+
             // Column headers
             HStack {
                 Text(NSLocalizedString("Station", comment: ""))
@@ -259,18 +261,20 @@ struct LargeNearbyStationsView: View {
 
                 Spacer()
 
-                Text(NSLocalizedString("Next", comment: ""))
+                Text(NSLocalizedString("Line", comment: ""))
                     .font(.system(size: 10, weight: .medium))
                     .foregroundColor(.secondary)
-            }
-            .padding(.top, 2)
+                    .frame(width: 40)
 
-            Divider()
+                Text(NSLocalizedString("Dep.", comment: ""))
+                    .font(.system(size: 10, weight: .medium))
+                    .foregroundColor(.secondary)
+                    .frame(width: 35, alignment: .trailing)
+            }
 
             // Stations
             ForEach(entry.nearbyStations.prefix(config.limits.maxItems)) { station in
                 NearbyStationRowView(station: station, config: config)
-                Divider()
             }
 
             Spacer(minLength: 0)

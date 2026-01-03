@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Minimum iOS version updated to 17.0
 - Minimum watchOS version updated to 9.0
+- About page now uses modern WKWebView instead of deprecated UIWebView
 
 ### Fixed
 
