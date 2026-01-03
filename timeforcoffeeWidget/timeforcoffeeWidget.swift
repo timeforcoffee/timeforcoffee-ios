@@ -24,7 +24,10 @@ struct TimeforcoffeeWidget: Widget {
         }
         .configurationDisplayName("Departures")
         .description("Shows upcoming departures from stations.")
-        .supportedFamilies([.systemSmall, .systemMedium, .systemLarge])
+        .supportedFamilies([
+            .systemSmall, .systemMedium, .systemLarge,
+            .accessoryCircular, .accessoryRectangular, .accessoryInline
+        ])
         .contentMarginsDisabled()
     }
 }
@@ -35,11 +38,23 @@ struct TimeforcoffeeWidgetEntryView: View {
     let entry: DepartureEntry
 
     var body: some View {
-        switch entry.viewMode {
-        case .singleStation:
-            singleStationView
-        case .nearbyStations:
-            nearbyStationsView
+        switch family {
+        // Lock screen widgets
+        case .accessoryInline:
+            AccessoryInlineView(entry: entry)
+        case .accessoryRectangular:
+            AccessoryRectangularView(entry: entry)
+        case .accessoryCircular:
+            AccessoryCircularView(entry: entry)
+
+        // Home screen widgets
+        default:
+            switch entry.viewMode {
+            case .singleStation:
+                singleStationView
+            case .nearbyStations:
+                nearbyStationsView
+            }
         }
     }
 
@@ -134,4 +149,30 @@ extension DepartureEntry {
     TimeforcoffeeWidget()
 } timeline: {
     DepartureEntry.nearbyPlaceholder
+}
+
+// MARK: - Lock Screen Widget Previews
+
+#Preview("Lock Screen - Inline", as: .accessoryInline) {
+    TimeforcoffeeWidget()
+} timeline: {
+    DepartureEntry.placeholder
+}
+
+#Preview("Lock Screen - Rectangular", as: .accessoryRectangular) {
+    TimeforcoffeeWidget()
+} timeline: {
+    DepartureEntry.placeholder
+}
+
+#Preview("Lock Screen - Rectangular Nearby", as: .accessoryRectangular) {
+    TimeforcoffeeWidget()
+} timeline: {
+    DepartureEntry.nearbyPlaceholder
+}
+
+#Preview("Lock Screen - Circular", as: .accessoryCircular) {
+    TimeforcoffeeWidget()
+} timeline: {
+    DepartureEntry.placeholder
 }

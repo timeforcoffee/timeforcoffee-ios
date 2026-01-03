@@ -48,13 +48,18 @@ struct DepartureTimelineProvider: AppIntentTimelineProvider {
 
         // Create timeline entries
         var entries: [DepartureEntry] = []
+
+        // Round to start of current minute for consistent minute-boundary updates
         let now = Date()
+        let calendar = Calendar.current
+        let nowComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: now)
+        let minuteStart = calendar.date(from: nowComponents) ?? now
 
         // Both modes refresh every 15 minutes
         let timelineMinutes = 15
 
         for minuteOffset in stride(from: 0, to: timelineMinutes, by: 1) {
-            let entryDate = Calendar.current.date(byAdding: .minute, value: minuteOffset, to: now)!
+            let entryDate = calendar.date(byAdding: .minute, value: minuteOffset, to: minuteStart)!
 
             if currentEntry.viewMode == .singleStation {
                 // Filter departures that have already left
@@ -90,7 +95,7 @@ struct DepartureTimelineProvider: AppIntentTimelineProvider {
         }
 
         // Request refresh after timeline ends
-        let refreshDate = Calendar.current.date(byAdding: .minute, value: timelineMinutes, to: now)!
+        let refreshDate = calendar.date(byAdding: .minute, value: timelineMinutes, to: minuteStart)!
         return Timeline(entries: entries, policy: .after(refreshDate))
     }
 

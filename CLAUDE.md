@@ -23,9 +23,14 @@ LANG=en_US.UTF-8 pod install
 # Build and run via Xcode
 open timeforcoffee.xcworkspace
 
-# Build from command line
-xcodebuild -workspace timeforcoffee.xcworkspace -scheme timeforcoffee -destination 'platform=iOS Simulator,name=iPhone 15 Pro'
+# Build from command line (use simulator ID for reliability)
+xcodebuild -workspace timeforcoffee.xcworkspace -scheme timeforcoffee -destination 'platform=iOS Simulator,id=4D520846-3E4C-4865-83AC-9211F02B5071'
+
+# Alternative: build for any iOS simulator (useful when specific device unavailable)
+xcodebuild -workspace timeforcoffee.xcworkspace -scheme timeforcoffee -destination 'generic/platform=iOS Simulator'
 ```
+
+**Note:** Use simulator IDs rather than names for more reliable builds. The ID `4D520846-3E4C-4865-83AC-9211F02B5071` corresponds to iPhone 15 Pro (iOS 17.5). Run `xcrun simctl list devices` to see available simulators and their IDs.
 
 Always use `timeforcoffee.xcworkspace` (not `.xcodeproj`) to ensure CocoaPods dependencies are included.
 
@@ -75,7 +80,12 @@ The project has multiple targets sharing code through frameworks:
 
 ### WidgetKit Widget (timeforcoffeeWidget)
 
-The home screen widget uses WidgetKit with AppIntentConfiguration:
+The widget uses WidgetKit with AppIntentConfiguration and supports both home screen and lock screen widgets:
+
+**Supported Widget Families:**
+
+- Home screen: `systemSmall`, `systemMedium`, `systemLarge`
+- Lock screen: `accessoryCircular`, `accessoryRectangular`, `accessoryInline`
 
 **Display Modes:**
 
@@ -92,6 +102,7 @@ The home screen widget uses WidgetKit with AppIntentConfiguration:
 - `WidgetDataFetcher.swift` - API calls and data fetching for widget
 - `WidgetLocationManager.swift` - Location services for widget
 - `Views/` - SwiftUI views for small, medium, and large widget sizes
+- `Views/LockScreenViews.swift` - Lock screen widget views (circular, rectangular, inline)
 
 **Data Sharing:**
 

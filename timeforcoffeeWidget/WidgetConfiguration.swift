@@ -180,6 +180,9 @@ struct WidgetConfig {
             return .largeDepartures
         case (.systemLarge, .nearbyStations):
             return .largeNearby
+        // Lock screen widgets use system styling, return small config as fallback
+        case (.accessoryCircular, _), (.accessoryRectangular, _), (.accessoryInline, _):
+            return .smallDepartures
         default:
             return .mediumDepartures
         }
