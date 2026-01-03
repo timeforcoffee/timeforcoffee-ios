@@ -130,6 +130,17 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
         super.viewDidDisappear(animated)
     }
 
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        if #available(iOS 13.0, *) {
+            if let hasUserInterfaceStyleChanged = previousTraitCollection?.hasDifferentColorAppearance(comparedTo: traitCollection), hasUserInterfaceStyleChanged == true {
+                if (traitCollection.userInterfaceStyle == .dark) {
+                    self.gradientView.image = UIImage(named: "gradient.png")?.darkened()
+                } else {
+                    self.gradientView.image = UIImage(named: "gradient.png")
+                }
+            }
+        }
+    }
 
     override func drawAnnotations() {
 

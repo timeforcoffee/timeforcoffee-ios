@@ -16,7 +16,6 @@ class TFCNavigationController: UINavigationController {
     }
 
     override func viewDidLoad() {
-        self.view.backgroundColor = UIColor.white
-
+        self.view.backgroundColor = UIColor(named: "TFCBackgroundColor")
     }
 }
