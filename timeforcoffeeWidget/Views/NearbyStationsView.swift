@@ -13,6 +13,7 @@ import WidgetKit
 struct NearbyStationRowView: View {
     let station: NearbyStation
     let config: WidgetConfig
+    let entryDate: Date
 
     var body: some View {
         Link(destination: stationURL) {
@@ -28,8 +29,8 @@ struct NearbyStationRowView: View {
 
                 Spacer(minLength: 4)
 
-                // First departure info
-                if let departure = station.firstDeparture {
+                // First departure info - use entryDate for accurate timeline display
+                if let departure = station.firstDeparture(relativeTo: entryDate) {
                     LineBadgeView(
                         line: departure.line,
                         colorFg: departure.colorFg,
@@ -37,9 +38,9 @@ struct NearbyStationRowView: View {
                         fontSize: config.fontSize.content - 3
                     )
 
-                    Text(departure.minutesDisplay)
+                    Text(departure.minutesDisplay(relativeTo: entryDate))
                         .font(.system(size: config.fontSize.minutes, weight: .semibold, design: .rounded))
-                        .foregroundColor(minutesColor(for: departure.minutesUntilDeparture))
+                        .foregroundColor(minutesColor(for: departure.minutesUntilDeparture(relativeTo: entryDate)))
                         .frame(minWidth: 30, alignment: .trailing)
                 } else {
                     Text("--")
@@ -97,7 +98,7 @@ struct SmallNearbyStationsView: View {
 
             // Stations
             ForEach(entry.nearbyStations.prefix(config.limits.maxItems)) { station in
-                NearbyStationRowView(station: station, config: config)
+                NearbyStationRowView(station: station, config: config, entryDate: entry.date)
             }
 
             Spacer(minLength: 0)
@@ -173,7 +174,7 @@ struct MediumNearbyStationsView: View {
 
             // Stations
             ForEach(entry.nearbyStations.prefix(config.limits.maxItems)) { station in
-                NearbyStationRowView(station: station, config: config)
+                NearbyStationRowView(station: station, config: config, entryDate: entry.date)
             }
 
             Spacer(minLength: 0)
@@ -284,7 +285,7 @@ struct LargeNearbyStationsView: View {
 
             // Stations
             ForEach(entry.nearbyStations.prefix(config.limits.maxItems)) { station in
-                NearbyStationRowView(station: station, config: config)
+                NearbyStationRowView(station: station, config: config, entryDate: entry.date)
             }
 
             Spacer(minLength: 0)

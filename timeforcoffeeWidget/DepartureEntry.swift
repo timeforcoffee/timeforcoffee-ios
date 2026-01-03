@@ -168,9 +168,14 @@ struct NearbyStation: Identifiable {
     let isFavorite: Bool
     let departures: [WidgetDeparture]
 
-    /// First departure that hasn't passed yet
+    /// First departure that hasn't passed yet (uses current time)
     var firstDeparture: WidgetDeparture? {
-        departures.first { $0.departureTime > Date().addingTimeInterval(-60) }
+        firstDeparture(relativeTo: Date())
+    }
+
+    /// First departure that hasn't passed relative to a specific date
+    func firstDeparture(relativeTo date: Date) -> WidgetDeparture? {
+        departures.first { $0.departureTime > date.addingTimeInterval(-60) }
     }
 
     /// Legacy initializer for compatibility
@@ -201,15 +206,25 @@ struct WidgetDeparture: Identifiable, Codable {
     let colorBg: String
     let platform: String?
 
-    /// Minutes until departure (ceiling, min 0)
+    /// Minutes until departure (ceiling, min 0) - uses current time, may be stale in cached widgets
     var minutesUntilDeparture: Int {
-        let interval = departureTime.timeIntervalSinceNow
+        minutesUntilDeparture(relativeTo: Date())
+    }
+
+    /// Minutes until departure relative to a specific date (for timeline entries)
+    func minutesUntilDeparture(relativeTo date: Date) -> Int {
+        let interval = departureTime.timeIntervalSince(date)
         return max(0, Int(ceil(interval / 60)))
     }
 
     /// Formatted minutes string (e.g., "3'" or ">59'")
     var minutesDisplay: String {
-        let minutes = minutesUntilDeparture
+        minutesDisplay(relativeTo: Date())
+    }
+
+    /// Formatted minutes string relative to a specific date
+    func minutesDisplay(relativeTo date: Date) -> String {
+        let minutes = minutesUntilDeparture(relativeTo: date)
         if minutes >= 60 {
             return ">59'"
         }
