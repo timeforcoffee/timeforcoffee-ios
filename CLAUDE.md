@@ -8,9 +8,9 @@ Time for Coffee! is a Swiss public transport departure times app for iOS and wat
 
 ## Build Requirements
 
-- **Xcode 26+** (or compatible version)
-- **iOS Deployment Target**: 15.0
-- **watchOS Deployment Target**: 7.0
+- **Xcode 16+** (or compatible version)
+- **iOS Deployment Target**: 17.0
+- **watchOS Deployment Target**: 9.0
 - **Swift**: 5.0
 - **CocoaPods**: 1.16+
 
@@ -39,7 +39,7 @@ The project has multiple targets sharing code through frameworks:
 - **timeforcoffeeKit** - Shared framework for iOS (stations, departures, API, data storage)
 - **timeforcoffeeKitWatch** - Shared framework for watchOS (subset of Kit with watch-specific implementations)
 - **Time for Coffee! WatchOS 2 App Extension** - watchOS app
-- **timeforcoffee Widget** - Today widget extension
+- **timeforcoffeeWidget** - WidgetKit home screen widget extension
 - **NextDeparturesIntent/UI/Watch** - Siri shortcuts and intents
 
 ### Core Data Models
@@ -73,11 +73,39 @@ The project has multiple targets sharing code through frameworks:
 - TFCStation extends TFCStationBase with iOS-specific features (walking distance via MKDirections, CoreSpotlight indexing)
 - timeforcoffeeKitWatch has simplified implementations (TFCLocationManager, TFCDataStore)
 
+### WidgetKit Widget (timeforcoffeeWidget)
+
+The home screen widget uses WidgetKit with AppIntentConfiguration:
+
+**Display Modes:**
+
+- Nearest Favorite - Shows departures from the closest favorite station
+- Nearest Station - Shows departures from the closest station
+- Nearby Stations - Shows a list of nearby stations with next departures
+- Specific Station - Choose a specific favorite station to display
+
+**Key Files:**
+
+- `timeforcoffeeWidget.swift` - Widget entry point and configuration
+- `DepartureTimelineProvider.swift` - AppIntentTimelineProvider for widget updates
+- `DepartureEntry.swift` - TimelineEntry model with departures and nearby stations
+- `WidgetDataFetcher.swift` - API calls and data fetching for widget
+- `WidgetLocationManager.swift` - Location services for widget
+- `Views/` - SwiftUI views for small, medium, and large widget sizes
+
+**Data Sharing:**
+
+- Uses App Group `group.ch.opendata.timeforcoffee` for shared UserDefaults
+- Accesses TFCDataStore for favorites and filter settings
+- Calls `synchronize()` on UserDefaults to ensure cross-process data consistency
+
 ## Key External Dependencies (CocoaPods)
+
 - MGSwipeTableCell - Swipeable table cells for favorite/filter actions
 - SwipeView - Horizontal paging for stations list
 
 ## API Endpoints
+
 - Departures: `https://tfc.chregu.tv/api/ch/stationboard/{st_id}`
 - Station search (CH): `https://tfc.chregu.tv/api/zvv/stations/{query}*`
 - Station search (outside CH): `https://transport.opendata.ch/v1/locations?type=station&query={query}*`

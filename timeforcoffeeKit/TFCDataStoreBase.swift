@@ -10,6 +10,9 @@ import Foundation
 import WatchConnectivity
 import CoreData
 import MapKit
+#if canImport(WidgetKit)
+import WidgetKit
+#endif
 
 open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, TFCDeparturesUpdatedProtocol {
 
@@ -690,8 +693,16 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
             } else {
                 let _ = self.sendMessage(dict)
             }
+
+            // Refresh widgets when geofence triggers update
+            #if canImport(WidgetKit)
+            if complicationUpdate {
+                WidgetCenter.shared.reloadAllTimelines()
+                DLog("Widget timelines reloaded for \(firstStation.name)", toFile: true)
+            }
+            #endif
         }
-        
+
         #endif
     }
 

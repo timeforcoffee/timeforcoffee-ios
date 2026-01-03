@@ -13,45 +13,58 @@ import WidgetKit
 struct NearbyStationRowView: View {
     let station: NearbyStation
     var compact: Bool = false
+    var large: Bool = false
+
+    private var fontSize: CGFloat {
+        if compact { return 13 }
+        if large { return 15 }
+        return 14
+    }
 
     var body: some View {
-        HStack(spacing: compact ? 4 : 8) {
-            // Favorite indicator
-            if station.isFavorite {
-                Image(systemName: "star.fill")
-                    .font(.system(size: compact ? 8 : 10))
-                    .foregroundColor(.yellow)
+        Link(destination: stationURL) {
+            HStack(spacing: compact ? 4 : 8) {
+                // Station name (bold if favorite)
+                Text(station.name)
+                    .font(.system(size: fontSize, weight: station.isFavorite ? .semibold : .regular))
+                    .lineLimit(1)
+                    .truncationMode(.tail)
+                    .foregroundColor(.primary)
+
+                Spacer(minLength: 4)
+
+                // First departure info
+                if let departure = station.firstDeparture {
+                    LineBadgeView(
+                        line: departure.line,
+                        colorFg: departure.colorFg,
+                        colorBg: departure.colorBg,
+                        size: compact ? .small : .small
+                    )
+
+                    Text(departure.minutesDisplay)
+                        .font(.system(size: fontSize, weight: .semibold, design: .rounded))
+                        .foregroundColor(departure.minutesUntilDeparture <= 2 ? .red : .primary)
+                        .frame(minWidth: compact ? 24 : 30, alignment: .trailing)
+                } else {
+                    Text("--")
+                        .font(.system(size: fontSize))
+                        .foregroundColor(.secondary)
+                }
             }
-
-            // Station name
-            Text(station.name)
-                .font(.system(size: compact ? 11 : 13, weight: station.isFavorite ? .semibold : .regular))
-                .lineLimit(1)
-                .truncationMode(.tail)
-                .foregroundColor(.primary)
-
-            Spacer(minLength: 4)
-
-            // First departure info
-            if let departure = station.firstDeparture {
-                LineBadgeView(
-                    line: departure.line,
-                    colorFg: departure.colorFg,
-                    colorBg: departure.colorBg,
-                    size: compact ? .small : .small
-                )
-
-                Text(departure.minutesDisplay)
-                    .font(.system(size: compact ? 12 : 14, weight: .semibold, design: .rounded))
-                    .foregroundColor(departure.minutesUntilDeparture <= 2 ? .red : .primary)
-                    .frame(minWidth: compact ? 24 : 30, alignment: .trailing)
-            } else {
-                Text("--")
-                    .font(.system(size: compact ? 12 : 14))
-                    .foregroundColor(.secondary)
-            }
+            .padding(.vertical, compact ? 3 : 4)
         }
-        .padding(.vertical, compact ? 1 : 2)
+    }
+
+    private var stationURL: URL {
+        var components = URLComponents()
+        components.scheme = "timeforcoffee"
+        components.host = "station"
+        components.queryItems = [
+            URLQueryItem(name: "id", value: station.id),
+            URLQueryItem(name: "name", value: station.name)
+        ]
+        return components.url ?? URL(string: "timeforcoffee://nearby")!
     }
 }
 
@@ -73,21 +86,17 @@ struct SmallNearbyStationsView: View {
         VStack(alignment: .leading, spacing: 4) {
             // Title
             Text(NSLocalizedString("Nearby", comment: ""))
-                .font(.system(size: 11, weight: .semibold))
+                .font(.system(size: 14, weight: .semibold))
                 .foregroundColor(.secondary)
 
-            Spacer(minLength: 2)
-
-            // Stations (up to 2)
-            ForEach(entry.nearbyStations.prefix(2)) { station in
+            // Stations (up to 5)
+            ForEach(entry.nearbyStations.prefix(5)) { station in
                 NearbyStationRowView(station: station, compact: true)
             }
 
-            if entry.nearbyStations.count < 2 {
-                Spacer()
-            }
+            Spacer(minLength: 0)
         }
-        .padding(12)
+        .padding(10)
     }
 
     private var emptyView: some View {
@@ -120,7 +129,7 @@ struct SmallNearbyStationsView: View {
     }
 }
 
-/// Medium widget view for nearby stations (shows 4 stations)
+/// Medium widget view for nearby stations (shows 4 stations like departure view)
 struct MediumNearbyStationsView: View {
     let entry: DepartureEntry
 
@@ -135,35 +144,31 @@ struct MediumNearbyStationsView: View {
     }
 
     private var contentView: some View {
-        VStack(alignment: .leading, spacing: 2) {
+        VStack(alignment: .leading, spacing: 0) {
             // Header
             HStack {
                 Image(systemName: "location.fill")
-                    .font(.system(size: 12))
+                    .font(.system(size: 10))
                     .foregroundColor(.accentColor)
 
-                Text(NSLocalizedString("Nearby Stations", comment: ""))
+                Text(NSLocalizedString("Nearby", comment: ""))
                     .font(.system(size: 14, weight: .semibold))
                     .foregroundColor(.primary)
 
                 Spacer()
 
                 Text(entry.date, style: .time)
-                    .font(.system(size: 10))
+                    .font(.system(size: 9))
                     .foregroundColor(.secondary)
             }
+            .padding(.bottom, 4)
 
-            Divider()
-                .padding(.vertical, 2)
-
-            // Stations (up to 4)
+            // Stations (up to 4, matching departure view)
             ForEach(entry.nearbyStations.prefix(4)) { station in
-                NearbyStationRowView(station: station, compact: true)
+                NearbyStationRowView(station: station, compact: false)
             }
 
-            if entry.nearbyStations.count < 4 {
-                Spacer()
-            }
+            Spacer(minLength: 0)
         }
         .padding(12)
     }
@@ -214,7 +219,7 @@ struct MediumNearbyStationsView: View {
     }
 }
 
-/// Large widget view for nearby stations (shows 6 stations)
+/// Large widget view for nearby stations (shows 9 stations)
 struct LargeNearbyStationsView: View {
     let entry: DepartureEntry
 
@@ -229,50 +234,49 @@ struct LargeNearbyStationsView: View {
     }
 
     private var contentView: some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: 2) {
             // Header
             HStack {
                 Image(systemName: "location.fill")
-                    .font(.system(size: 14))
+                    .font(.system(size: 12))
                     .foregroundColor(.accentColor)
 
                 Text(NSLocalizedString("Nearby Stations", comment: ""))
-                    .font(.system(size: 16, weight: .semibold))
+                    .font(.system(size: 14, weight: .semibold))
                     .foregroundColor(.primary)
 
                 Spacer()
 
                 Text(entry.date, style: .time)
-                    .font(.system(size: 11))
+                    .font(.system(size: 10))
                     .foregroundColor(.secondary)
             }
 
-            Divider()
-                .padding(.vertical, 4)
-
             // Column headers
-            HStack(spacing: 8) {
-                Text("Station")
-                Spacer()
-                Text("Next")
-                    .frame(width: 60, alignment: .trailing)
-            }
-            .font(.system(size: 10, weight: .medium))
-            .foregroundColor(.secondary)
-            .padding(.bottom, 2)
+            HStack {
+                Text(NSLocalizedString("Station", comment: ""))
+                    .font(.system(size: 10, weight: .medium))
+                    .foregroundColor(.secondary)
 
-            // Stations (up to 6)
-            ForEach(entry.nearbyStations.prefix(6)) { station in
-                NearbyStationRowView(station: station)
-                if station.id != entry.nearbyStations.prefix(6).last?.id {
-                    Divider()
-                        .opacity(0.5)
-                }
+                Spacer()
+
+                Text(NSLocalizedString("Next", comment: ""))
+                    .font(.system(size: 10, weight: .medium))
+                    .foregroundColor(.secondary)
+            }
+            .padding(.top, 2)
+
+            Divider()
+
+            // Stations (up to 9)
+            ForEach(entry.nearbyStations.prefix(9)) { station in
+                NearbyStationRowView(station: station, large: true)
+                Divider()
             }
 
             Spacer(minLength: 0)
         }
-        .padding(14)
+        .padding(12)
     }
 
     private var emptyView: some View {

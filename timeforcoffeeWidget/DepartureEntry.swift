@@ -194,4 +194,14 @@ struct WidgetDeparture: Identifiable, Codable {
         }
         return "\(minutes)'"
     }
+
+    /// Formatted destination for display: "Zürich, Limmatplatz" -> "Limmatplatz (Zürich)"
+    var formattedDestination: String {
+        if let commaRange = destination.range(of: ", ") {
+            let city = String(destination[..<commaRange.lowerBound])
+            let station = String(destination[commaRange.upperBound...])
+            return "\(station) (\(city))"
+        }
+        return destination
+    }
 }

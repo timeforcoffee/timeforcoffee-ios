@@ -65,7 +65,7 @@ struct LargeWidgetView: View {
 
             // Departures (up to 8)
             ForEach(entry.departures.prefix(8)) { departure in
-                DepartureRowView(departure: departure, showPlatform: true)
+                DepartureRowView(departure: departure, large: true, showPlatform: true)
                 if departure.id != entry.departures.prefix(8).last?.id {
                     Divider()
                         .opacity(0.5)

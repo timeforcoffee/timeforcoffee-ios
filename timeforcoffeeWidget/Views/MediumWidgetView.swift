@@ -50,7 +50,7 @@ struct MediumWidgetView: View {
 
             // Departures (up to 4)
             ForEach(entry.departures.prefix(4)) { departure in
-                DepartureRowView(departure: departure, compact: true)
+                DepartureRowView(departure: departure, compact: false)
             }
 
             if entry.departures.count < 4 {

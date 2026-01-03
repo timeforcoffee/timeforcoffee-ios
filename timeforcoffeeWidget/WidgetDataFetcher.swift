@@ -15,13 +15,28 @@ struct WidgetDataFetcher {
     private static let nearbyURL = "https://transport.opendata.ch/v1/locations"
     private static let appGroupId = "group.ch.opendata.timeforcoffee"
 
+    /// Formats station name with city in parentheses: "Zürich, Limmatplatz" -> "Limmatplatz (Zürich)"
+    private static func formatStationName(_ name: String) -> String {
+        // Match pattern "City, Station" and convert to "Station (City)"
+        if let commaRange = name.range(of: ", ") {
+            let city = String(name[..<commaRange.lowerBound])
+            let station = String(name[commaRange.upperBound...])
+            return "\(station) (\(city))"
+        }
+        return name
+    }
+
     /// Shared UserDefaults for accessing cached data
     static var sharedDefaults: UserDefaults? {
         UserDefaults(suiteName: appGroupId)
     }
 
     /// Fetches departures for a station using TFCStation from timeforcoffeeKit
-    static func fetchDepartures(stationId: String, stationName: String) async -> DepartureEntry {
+    /// When applyFilters is true, only shows favorite departures when available
+    static func fetchDepartures(stationId: String, stationName: String, applyFilters: Bool = true) async -> DepartureEntry {
+        // Synchronize UserDefaults to ensure we have the latest filter settings from the main app
+        TFCDataStore.sharedInstance.getUserDefaults()?.synchronize()
+
         guard let station = TFCStation.initWithCacheId(stationId, name: stationName) else {
             return DepartureEntry.empty(message: "Invalid station")
         }
@@ -40,10 +55,22 @@ struct WidgetDataFetcher {
                     ?? DepartureEntry.empty(message: "Network error")
             }
 
-            let departures = parseDepartures(from: data, stationId: stationId)
+            var departures = parseDepartures(from: data, stationId: stationId)
+
+            // Reload filters from storage to get fresh data
+            station.reloadFilters()
+
+            // Apply favorite/filter settings if the station has them
+            if applyFilters && station.hasFilters() {
+                departures = filterDepartures(departures, for: station)
+            }
+
+            // Limit to max 10 departures for display
+            departures = Array(departures.prefix(10))
+
             let entry = DepartureEntry(
                 date: Date(),
-                stationName: stationName,
+                stationName: formatStationName(stationName),
                 stationId: stationId,
                 departures: departures
             )
@@ -59,6 +86,40 @@ struct WidgetDataFetcher {
         }
     }
 
+    /// Filter departures based on station's favorite/filter settings
+    private static func filterDepartures(_ departures: [WidgetDeparture], for station: TFCStation) -> [WidgetDeparture] {
+        var filtered = departures.filter { departure in
+            // Try exact match first
+            if let shouldShow = station.shouldShowDeparture(line: departure.line, destination: departure.destination) {
+                return shouldShow
+            }
+            // Try matching without city prefix (e.g., "Zürich, Strassenverkehrsamt" -> "Strassenverkehrsamt")
+            let normalizedDestination = normalizeDestination(departure.destination)
+            if normalizedDestination != departure.destination {
+                if let shouldShow = station.shouldShowDeparture(line: departure.line, destination: normalizedDestination) {
+                    return shouldShow
+                }
+            }
+            // No filters set, show all
+            return true
+        }
+
+        // If filtering resulted in empty list, fall back to showing all
+        if filtered.isEmpty {
+            return departures
+        }
+
+        return filtered
+    }
+
+    /// Normalize destination by removing city prefix: "Zürich, Strassenverkehrsamt" -> "Strassenverkehrsamt"
+    private static func normalizeDestination(_ destination: String) -> String {
+        if let commaRange = destination.range(of: ", ") {
+            return String(destination[commaRange.upperBound...])
+        }
+        return destination
+    }
+
     /// Parses the API response JSON into WidgetDeparture objects
     private static func parseDepartures(from data: Data, stationId: String) -> [WidgetDeparture] {
         guard let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else {
@@ -69,7 +130,7 @@ struct WidgetDataFetcher {
 
         // Handle TFC API format
         if let departuresArray = json["departures"] as? [[String: Any]] {
-            for (index, departure) in departuresArray.prefix(10).enumerated() {
+            for (index, departure) in departuresArray.enumerated() {
                 if let widgetDeparture = parseWidgetDeparture(from: departure, index: index) {
                     departures.append(widgetDeparture)
                 }
@@ -77,7 +138,7 @@ struct WidgetDataFetcher {
         }
         // Handle transport.opendata.ch format (stationboard)
         else if let stationboard = json["stationboard"] as? [[String: Any]] {
-            for (index, departure) in stationboard.prefix(10).enumerated() {
+            for (index, departure) in stationboard.enumerated() {
                 if let widgetDeparture = parseTransportDeparture(from: departure, index: index) {
                     departures.append(widgetDeparture)
                 }
@@ -121,7 +182,7 @@ struct WidgetDataFetcher {
         return WidgetDeparture(
             id: "\(index)-\(name)-\(to)",
             line: name,
-            destination: to,
+            destination: to,  // Keep original for filtering, format in view
             departureTime: finalTime,
             isRealtime: isRealtime,
             colorFg: colorFg,
@@ -177,7 +238,7 @@ struct WidgetDataFetcher {
         return WidgetDeparture(
             id: "\(index)-\(name)-\(to)",
             line: name,
-            destination: to,
+            destination: to,  // Keep original for filtering, format in view
             departureTime: finalTime,
             isRealtime: isRealtime,
             colorFg: "#000000",
@@ -225,6 +286,9 @@ struct WidgetDataFetcher {
     // MARK: - Caching
 
     private static let cacheKey = "widgetDepartureCache"
+    private static let nearbyCacheKey = "widgetNearbyStationsCache"
+    private static let nearbyCacheMaxAge: TimeInterval = 1800  // 30 minutes
+    private static let nearbyCacheMaxDistance: Double = 100   // 100 meters
 
     /// Cache an entry for offline fallback
     private static func cacheEntry(_ entry: DepartureEntry) {
@@ -292,10 +356,111 @@ struct WidgetDataFetcher {
 
         return DepartureEntry(
             date: Date(),
-            stationName: stationName,
+            stationName: formatStationName(stationName),
             stationId: stationId,
             departures: departures
         )
+    }
+
+    // MARK: - Nearby Stations Cache
+
+    /// Cache nearby stations with location
+    private static func cacheNearbyStations(_ stations: [NearbyStation], latitude: Double, longitude: Double) {
+        guard let defaults = sharedDefaults else { return }
+
+        let cacheData: [String: Any] = [
+            "latitude": latitude,
+            "longitude": longitude,
+            "timestamp": Date().timeIntervalSince1970,
+            "stations": stations.map { station in
+                var stationDict: [String: Any] = [
+                    "id": station.id,
+                    "name": station.name,
+                    "isFavorite": station.isFavorite
+                ]
+                if let departure = station.firstDeparture {
+                    stationDict["departure"] = [
+                        "id": departure.id,
+                        "line": departure.line,
+                        "destination": departure.destination,
+                        "departureTime": departure.departureTime.timeIntervalSince1970,
+                        "isRealtime": departure.isRealtime,
+                        "colorFg": departure.colorFg,
+                        "colorBg": departure.colorBg,
+                        "platform": departure.platform ?? ""
+                    ]
+                }
+                return stationDict
+            }
+        ]
+
+        defaults.set(cacheData, forKey: nearbyCacheKey)
+    }
+
+    /// Load cached nearby stations if valid (within 100m and 5 minutes)
+    private static func loadCachedNearbyStations(latitude: Double, longitude: Double) -> [NearbyStation]? {
+        guard let defaults = sharedDefaults,
+              let cacheData = defaults.dictionary(forKey: nearbyCacheKey) else {
+            return nil
+        }
+
+        // Check timestamp (5 minutes max)
+        guard let timestamp = cacheData["timestamp"] as? TimeInterval,
+              Date().timeIntervalSince1970 - timestamp < nearbyCacheMaxAge else {
+            return nil
+        }
+
+        // Check distance (100m max)
+        guard let cachedLat = cacheData["latitude"] as? Double,
+              let cachedLon = cacheData["longitude"] as? Double else {
+            return nil
+        }
+
+        let cachedLocation = CLLocation(latitude: cachedLat, longitude: cachedLon)
+        let currentLocation = CLLocation(latitude: latitude, longitude: longitude)
+        let distance = currentLocation.distance(from: cachedLocation)
+
+        guard distance < nearbyCacheMaxDistance else {
+            return nil
+        }
+
+        // Parse cached stations
+        guard let stationsData = cacheData["stations"] as? [[String: Any]] else {
+            return nil
+        }
+
+        let stations: [NearbyStation] = stationsData.compactMap { dict in
+            guard let id = dict["id"] as? String,
+                  let name = dict["name"] as? String,
+                  let isFavorite = dict["isFavorite"] as? Bool else {
+                return nil
+            }
+
+            var firstDeparture: WidgetDeparture? = nil
+            if let departureDict = dict["departure"] as? [String: Any],
+               let depId = departureDict["id"] as? String,
+               let line = departureDict["line"] as? String,
+               let destination = departureDict["destination"] as? String,
+               let departureTime = departureDict["departureTime"] as? TimeInterval,
+               let isRealtime = departureDict["isRealtime"] as? Bool,
+               let colorFg = departureDict["colorFg"] as? String,
+               let colorBg = departureDict["colorBg"] as? String {
+                firstDeparture = WidgetDeparture(
+                    id: depId,
+                    line: line,
+                    destination: destination,
+                    departureTime: Date(timeIntervalSince1970: departureTime),
+                    isRealtime: isRealtime,
+                    colorFg: colorFg,
+                    colorBg: colorBg,
+                    platform: departureDict["platform"] as? String
+                )
+            }
+
+            return NearbyStation(id: id, name: name, isFavorite: isFavorite, firstDeparture: firstDeparture)
+        }
+
+        return stations.isEmpty ? nil : stations
     }
 
     // MARK: - Station Data Access
@@ -364,7 +529,15 @@ struct WidgetDataFetcher {
     }
 
     /// Find nearby stations with their first departure
-    static func findNearbyStations(latitude: Double, longitude: Double, limit: Int = 6) async -> [NearbyStation] {
+    static func findNearbyStations(latitude: Double, longitude: Double, limit: Int = 10) async -> [NearbyStation] {
+        // Synchronize UserDefaults to ensure we have the latest filter settings from the main app
+        TFCDataStore.sharedInstance.getUserDefaults()?.synchronize()
+
+        // Check cache first (reuse if <100m moved and <5 minutes old)
+        if let cachedStations = loadCachedNearbyStations(latitude: latitude, longitude: longitude) {
+            return Array(cachedStations.prefix(limit))
+        }
+
         let urlString = "\(nearbyURL)?type=station&x=\(latitude)&y=\(longitude)"
         guard let url = URL(string: urlString) else {
             return []
@@ -405,7 +578,7 @@ struct WidgetDataFetcher {
 
                 nearbyStations.append(NearbyStation(
                     id: stationId,
-                    name: stationName,
+                    name: formatStationName(stationName),
                     isFavorite: isFavorite,
                     firstDeparture: firstDeparture
                 ))
@@ -414,13 +587,16 @@ struct WidgetDataFetcher {
             // Sort: favorites first, then by original order
             nearbyStations.sort { $0.isFavorite && !$1.isFavorite }
 
+            // Cache the result
+            cacheNearbyStations(nearbyStations, latitude: latitude, longitude: longitude)
+
             return nearbyStations
         } catch {
             return []
         }
     }
 
-    /// Fetch just the first departure for a station
+    /// Fetch just the first departure for a station (applies filters if available)
     private static func fetchFirstDeparture(stationId: String) async -> WidgetDeparture? {
         guard let station = TFCStation.initWithCacheId(stationId),
               let url = URL(string: station.getDeparturesURL()) else {
@@ -435,7 +611,16 @@ struct WidgetDataFetcher {
                 return nil
             }
 
-            let departures = parseDepartures(from: data, stationId: stationId)
+            var departures = parseDepartures(from: data, stationId: stationId)
+
+            // Reload filters from storage to get fresh data
+            station.reloadFilters()
+
+            // Apply favorite/filter settings if the station has them
+            if station.hasFilters() {
+                departures = filterDepartures(departures, for: station)
+            }
+
             return departures.first
         } catch {
             return nil
@@ -493,6 +678,9 @@ struct WidgetDataFetcher {
 
     /// Fetch departures for the nearest favorite station, or fallback to nearest station
     static func fetchDeparturesForNearestFavorite(latitude: Double, longitude: Double) async -> DepartureEntry {
+        // Synchronize UserDefaults to ensure we have the latest favorites from the main app
+        TFCDataStore.sharedInstance.getUserDefaults()?.synchronize()
+
         // First, try to find a nearby favorite station
         if let favoriteStation = findNearestFavoriteStation(latitude: latitude, longitude: longitude) {
             return await fetchDepartures(stationId: favoriteStation.st_id, stationName: favoriteStation.name)

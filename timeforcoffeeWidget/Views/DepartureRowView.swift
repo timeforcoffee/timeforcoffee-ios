@@ -13,7 +13,19 @@ import WidgetKit
 struct DepartureRowView: View {
     let departure: WidgetDeparture
     var compact: Bool = false
+    var large: Bool = false
     var showPlatform: Bool = false
+
+    private var fontSize: CGFloat {
+        if large { return 15 }
+        return 14
+    }
+
+    private var minutesFontSize: CGFloat {
+        if compact { return 14 }
+        if large { return 17 }
+        return 16
+    }
 
     var body: some View {
         HStack(spacing: compact ? 6 : 8) {
@@ -26,8 +38,8 @@ struct DepartureRowView: View {
             )
 
             // Destination
-            Text(departure.destination)
-                .font(.system(size: compact ? 12 : 14, weight: .regular))
+            Text(departure.formattedDestination)
+                .font(.system(size: fontSize, weight: .regular))
                 .lineLimit(1)
                 .truncationMode(.tail)
                 .foregroundColor(.primary)
@@ -45,7 +57,7 @@ struct DepartureRowView: View {
             // Minutes until departure
             VStack(alignment: .trailing, spacing: 0) {
                 Text(departure.minutesDisplay)
-                    .font(.system(size: compact ? 14 : 16, weight: .semibold, design: .rounded))
+                    .font(.system(size: minutesFontSize, weight: .semibold, design: .rounded))
                     .foregroundColor(minutesColor)
 
                 // Realtime indicator
@@ -57,7 +69,7 @@ struct DepartureRowView: View {
             }
             .frame(minWidth: compact ? 28 : 36, alignment: .trailing)
         }
-        .padding(.vertical, compact ? 2 : 4)
+        .padding(.vertical, 4)
     }
 
     private var minutesColor: Color {
@@ -84,8 +96,8 @@ struct CompactDepartureRowView: View {
                 size: .small
             )
 
-            Text(departure.destination)
-                .font(.system(size: 11))
+            Text(departure.formattedDestination)
+                .font(.system(size: 14))
                 .lineLimit(1)
                 .truncationMode(.tail)
                 .foregroundColor(.primary)
@@ -93,9 +105,10 @@ struct CompactDepartureRowView: View {
             Spacer(minLength: 2)
 
             Text(departure.minutesDisplay)
-                .font(.system(size: 13, weight: .semibold, design: .rounded))
+                .font(.system(size: 14, weight: .semibold, design: .rounded))
                 .foregroundColor(departure.minutesUntilDeparture <= 2 ? .red : .primary)
         }
+        .padding(.vertical, 3)
     }
 }
 

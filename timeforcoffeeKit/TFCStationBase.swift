@@ -642,6 +642,27 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         return false
     }
 
+    /// Check if a departure with the given line and destination should be shown based on filters
+    /// Returns nil if no filters are set (show all), true if should show, false if should hide
+    open func shouldShowDeparture(line: String, destination: String) -> Bool? {
+        if favoriteLines.count > 0 {
+            // If we have favorite lines, only show those
+            if let destinations = favoriteLines[line], destinations[destination] != nil {
+                return true
+            }
+            return false
+        }
+        if filteredLines.count > 0 {
+            // If we have filtered lines, hide those
+            if let destinations = filteredLines[line], destinations[destination] != nil {
+                return false
+            }
+            return true
+        }
+        // No filters set
+        return nil
+    }
+
     fileprivate func setMarkedDeparture(_ departure: TFCDeparture, favorite: Bool) {
         var lines = getMarkedLines(favorite)
         if (lines[departure.getLine()] == nil) {
@@ -736,6 +757,13 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
     open func repopulateFavoriteLines() {
         self.favoriteLines = self.getFavoriteLines()
+    }
+
+    /// Reloads both favorite and filtered lines from storage
+    /// Call this before checking filters to ensure fresh data
+    open func reloadFilters() {
+        self.favoriteLines = self.getFavoriteLines()
+        self.filteredLines = self.getFilteredLines()
     }
 
     fileprivate func getFilteredLines() -> [String: [String: Bool]] {

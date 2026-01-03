@@ -24,26 +24,22 @@ struct SmallWidgetView: View {
     }
 
     private var contentView: some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: 4) {
             // Station name
             Text(entry.stationName)
-                .font(.system(size: 13, weight: .semibold))
+                .font(.system(size: 12, weight: .semibold))
                 .lineLimit(1)
                 .truncationMode(.tail)
                 .foregroundColor(.primary)
 
-            Spacer(minLength: 2)
-
-            // Departures (up to 2)
-            ForEach(entry.departures.prefix(2)) { departure in
+            // Departures (up to 5)
+            ForEach(entry.departures.prefix(5)) { departure in
                 CompactDepartureRowView(departure: departure)
             }
 
-            if entry.departures.count < 2 {
-                Spacer()
-            }
+            Spacer(minLength: 0)
         }
-        .padding(12)
+        .padding(10)
         .widgetURL(entry.widgetURL)
     }
 
