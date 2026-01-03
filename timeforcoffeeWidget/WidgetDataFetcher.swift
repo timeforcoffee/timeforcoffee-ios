@@ -364,47 +364,36 @@ struct WidgetDataFetcher {
 
     // MARK: - Nearby Stations Cache
 
-    /// Cache nearby stations with location
-    private static func cacheNearbyStations(_ stations: [NearbyStation], latitude: Double, longitude: Double) {
+    /// Cache nearby station list (without departures) with location
+    private static func cacheNearbyStationList(_ stationInfos: [(id: String, name: String, isFavorite: Bool)], latitude: Double, longitude: Double) {
         guard let defaults = sharedDefaults else { return }
 
         let cacheData: [String: Any] = [
             "latitude": latitude,
             "longitude": longitude,
             "timestamp": Date().timeIntervalSince1970,
-            "stations": stations.map { station in
-                var stationDict: [String: Any] = [
-                    "id": station.id,
-                    "name": station.name,
-                    "isFavorite": station.isFavorite
-                ]
-                if let departure = station.firstDeparture {
-                    stationDict["departure"] = [
-                        "id": departure.id,
-                        "line": departure.line,
-                        "destination": departure.destination,
-                        "departureTime": departure.departureTime.timeIntervalSince1970,
-                        "isRealtime": departure.isRealtime,
-                        "colorFg": departure.colorFg,
-                        "colorBg": departure.colorBg,
-                        "platform": departure.platform ?? ""
-                    ]
-                }
-                return stationDict
+            "stations": stationInfos.map { info in
+                [
+                    "id": info.id,
+                    "name": info.name,
+                    "isFavorite": info.isFavorite
+                ] as [String: Any]
             }
         ]
 
         defaults.set(cacheData, forKey: nearbyCacheKey)
+        defaults.synchronize()
     }
 
-    /// Load cached nearby stations if valid (within 100m and 5 minutes)
-    private static func loadCachedNearbyStations(latitude: Double, longitude: Double) -> [NearbyStation]? {
+    /// Load cached nearby station list if valid (within 100m and 30 minutes)
+    /// Returns station info only, not departures (those must be fetched fresh)
+    private static func loadCachedNearbyStationList(latitude: Double, longitude: Double) -> [(id: String, name: String, isFavorite: Bool)]? {
         guard let defaults = sharedDefaults,
               let cacheData = defaults.dictionary(forKey: nearbyCacheKey) else {
             return nil
         }
 
-        // Check timestamp (5 minutes max)
+        // Check timestamp (30 minutes max)
         guard let timestamp = cacheData["timestamp"] as? TimeInterval,
               Date().timeIntervalSince1970 - timestamp < nearbyCacheMaxAge else {
             return nil
@@ -424,43 +413,21 @@ struct WidgetDataFetcher {
             return nil
         }
 
-        // Parse cached stations
+        // Parse cached station list
         guard let stationsData = cacheData["stations"] as? [[String: Any]] else {
             return nil
         }
 
-        let stations: [NearbyStation] = stationsData.compactMap { dict in
+        let stationInfos: [(id: String, name: String, isFavorite: Bool)] = stationsData.compactMap { dict in
             guard let id = dict["id"] as? String,
                   let name = dict["name"] as? String,
                   let isFavorite = dict["isFavorite"] as? Bool else {
                 return nil
             }
-
-            var firstDeparture: WidgetDeparture? = nil
-            if let departureDict = dict["departure"] as? [String: Any],
-               let depId = departureDict["id"] as? String,
-               let line = departureDict["line"] as? String,
-               let destination = departureDict["destination"] as? String,
-               let departureTime = departureDict["departureTime"] as? TimeInterval,
-               let isRealtime = departureDict["isRealtime"] as? Bool,
-               let colorFg = departureDict["colorFg"] as? String,
-               let colorBg = departureDict["colorBg"] as? String {
-                firstDeparture = WidgetDeparture(
-                    id: depId,
-                    line: line,
-                    destination: destination,
-                    departureTime: Date(timeIntervalSince1970: departureTime),
-                    isRealtime: isRealtime,
-                    colorFg: colorFg,
-                    colorBg: colorBg,
-                    platform: departureDict["platform"] as? String
-                )
-            }
-
-            return NearbyStation(id: id, name: name, isFavorite: isFavorite, firstDeparture: firstDeparture)
+            return (id: id, name: name, isFavorite: isFavorite)
         }
 
-        return stations.isEmpty ? nil : stations
+        return stationInfos.isEmpty ? nil : stationInfos
     }
 
     // MARK: - Station Data Access
@@ -533,9 +500,11 @@ struct WidgetDataFetcher {
         // Synchronize UserDefaults to ensure we have the latest filter settings from the main app
         TFCDataStore.sharedInstance.getUserDefaults()?.synchronize()
 
-        // Check cache first (reuse if <100m moved and <5 minutes old)
-        if let cachedStations = loadCachedNearbyStations(latitude: latitude, longitude: longitude) {
-            return Array(cachedStations.prefix(limit))
+        // Check cache for station list (reuse if <100m moved and <30 minutes old)
+        // Note: We only cache the station list, not departures (those are fetched fresh)
+        if let cachedStationInfos = loadCachedNearbyStationList(latitude: latitude, longitude: longitude) {
+            // Fetch fresh departures for cached stations
+            return await fetchDeparturesForStations(cachedStationInfos, limit: limit)
         }
 
         let urlString = "\(nearbyURL)?type=station&x=\(latitude)&y=\(longitude)"
@@ -558,42 +527,46 @@ struct WidgetDataFetcher {
 
             let favoriteIds = Set(getFavoriteStationIds())
 
-            // Parse stations (skip entries with null ID like addresses)
-            var nearbyStations: [NearbyStation] = []
+            // Parse station info (skip entries with null ID like addresses)
+            var stationInfos: [(id: String, name: String, isFavorite: Bool)] = []
             for station in stations {
-                // Stop once we have enough stations
-                if nearbyStations.count >= limit {
-                    break
-                }
-
                 guard let stationId = station["id"] as? String,
                       let stationName = station["name"] as? String else {
                     continue
                 }
 
                 let isFavorite = favoriteIds.contains(stationId)
-
-                // Fetch first departure for this station
-                let firstDeparture = await fetchFirstDeparture(stationId: stationId)
-
-                nearbyStations.append(NearbyStation(
-                    id: stationId,
-                    name: formatStationName(stationName),
-                    isFavorite: isFavorite,
-                    firstDeparture: firstDeparture
-                ))
+                stationInfos.append((id: stationId, name: formatStationName(stationName), isFavorite: isFavorite))
             }
 
             // Sort: favorites first, then by original order
-            nearbyStations.sort { $0.isFavorite && !$1.isFavorite }
+            stationInfos.sort { $0.isFavorite && !$1.isFavorite }
 
-            // Cache the result
-            cacheNearbyStations(nearbyStations, latitude: latitude, longitude: longitude)
+            // Cache the station list (without departures)
+            cacheNearbyStationList(stationInfos, latitude: latitude, longitude: longitude)
 
-            return nearbyStations
+            // Fetch fresh departures for stations
+            return await fetchDeparturesForStations(stationInfos, limit: limit)
         } catch {
             return []
         }
+    }
+
+    /// Fetch departures for a list of stations
+    private static func fetchDeparturesForStations(_ stationInfos: [(id: String, name: String, isFavorite: Bool)], limit: Int) async -> [NearbyStation] {
+        var nearbyStations: [NearbyStation] = []
+
+        for info in stationInfos.prefix(limit) {
+            let firstDeparture = await fetchFirstDeparture(stationId: info.id)
+            nearbyStations.append(NearbyStation(
+                id: info.id,
+                name: info.name,
+                isFavorite: info.isFavorite,
+                firstDeparture: firstDeparture
+            ))
+        }
+
+        return nearbyStations
     }
 
     /// Fetch just the first departure for a station (applies filters if available)

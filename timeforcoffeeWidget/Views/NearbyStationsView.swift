@@ -161,7 +161,8 @@ struct MediumNearbyStationsView: View {
                     .font(.system(size: 9))
                     .foregroundColor(.secondary)
             }
-            .padding(.bottom, 4)
+            Divider()
+                .padding(.vertical, 2)
 
             // Stations (up to 4, matching departure view)
             ForEach(entry.nearbyStations.prefix(4)) { station in
