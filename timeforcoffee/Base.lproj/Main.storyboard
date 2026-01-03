@@ -457,14 +457,13 @@
                                             <color key="titleShadowColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                     </button>
-                                    <webView opaque="NO" tag="10" contentMode="scaleToFill" allowsInlineMediaPlayback="NO" mediaPlaybackRequiresUserAction="NO" mediaPlaybackAllowsAirPlay="NO" keyboardDisplayRequiresUserAction="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x72-HP-cxq">
+                                    <view opaque="NO" tag="10" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x72-HP-cxq" userLabel="WebView Container">
                                         <rect key="frame" x="10" y="407" width="300" height="145"/>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="145" id="dWJ-l1-yqA"/>
                                         </constraints>
-                                        <dataDetectorType key="dataDetectorTypes"/>
-                                    </webView>
+                                    </view>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="Bbe-wC-3kI" firstAttribute="top" secondItem="bq7-qP-TDv" secondAttribute="top" id="45x-dn-p9J"/>

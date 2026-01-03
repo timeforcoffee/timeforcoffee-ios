@@ -8,8 +8,9 @@
 
 import Foundation
 import SwipeView
+import WebKit
 
-final class AboutPagedViewController: UIViewController, SwipeViewDataSource, SwipeViewDelegate, UIWebViewDelegate {
+final class AboutPagedViewController: UIViewController, SwipeViewDataSource, SwipeViewDelegate, WKNavigationDelegate {
 
     @IBOutlet weak var swipeView: SwipeView!
 
@@ -32,18 +33,24 @@ final class AboutPagedViewController: UIViewController, SwipeViewDataSource, Swi
             let aboutview = self.storyboard?.instantiateViewController(withIdentifier: "AboutViewController").view as UIView?
             aboutview?.autoresizingMask = [UIView.AutoresizingMask.flexibleHeight, UIView.AutoresizingMask.flexibleWidth]
            // aboutview?.frame = self.swipeView.bounds
-            let webview = aboutview?.viewWithTag(10) as! UIWebView
-            webview.scrollView.isScrollEnabled = false;
-            webview.delegate = self
-            let htmlfile = Bundle.main.path(forResource: "About", ofType: "html")
-            let htmlString: String?
-            do {
-                htmlString = try String(contentsOfFile: htmlfile!, encoding: String.Encoding.utf8)
-            } catch _ {
-                htmlString = nil
-            }
 
-            webview.loadHTMLString(htmlString!, baseURL: nil)
+            // Replace UIWebView container (tag 10) with WKWebView
+            if let containerView = aboutview?.viewWithTag(10) {
+                let webview = WKWebView(frame: containerView.bounds)
+                webview.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+                webview.scrollView.isScrollEnabled = false
+                webview.isOpaque = false
+                webview.backgroundColor = .clear
+                webview.scrollView.backgroundColor = .clear
+                webview.navigationDelegate = self
+
+                containerView.addSubview(webview)
+
+                if let htmlfile = Bundle.main.path(forResource: "About", ofType: "html"),
+                   let htmlString = try? String(contentsOfFile: htmlfile, encoding: .utf8) {
+                    webview.loadHTMLString(htmlString, baseURL: nil)
+                }
+            }
 
             let chatbutton = aboutview?.viewWithTag(20) as! UIButton
             chatbutton.addTarget(self, action: #selector(AboutPagedViewController.startChat), for: UIControl.Event.touchUpInside
@@ -107,8 +114,8 @@ final class AboutPagedViewController: UIViewController, SwipeViewDataSource, Swi
     }
 
     @objc func reviewApp() {
-        if let path = URL(string: "itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=990987379&onlyLatestVersion=true&pageNumber=0&sortOrdering=1&type=Purple+Software") {
-            UIApplication.shared.openURL(path)
+        if let url = URL(string: "itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=990987379&onlyLatestVersion=true&pageNumber=0&sortOrdering=1&type=Purple+Software") {
+            UIApplication.shared.open(url)
         }
     }
 
@@ -141,12 +148,13 @@ final class AboutPagedViewController: UIViewController, SwipeViewDataSource, Swi
         self.view.layoutIfNeeded()
     }
 
-    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebView.NavigationType) -> Bool {
-        if (navigationType == UIWebView.NavigationType.linkClicked) {
-            UIApplication.shared.openURL(request.url!)
-            return false
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        if navigationAction.navigationType == .linkActivated, let url = navigationAction.request.url {
+            UIApplication.shared.open(url)
+            decisionHandler(.cancel)
+            return
         }
-        return true
+        decisionHandler(.allow)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
