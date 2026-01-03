@@ -39,7 +39,7 @@ struct NearbyStationRowView: View {
 
                     Text(departure.minutesDisplay)
                         .font(.system(size: config.fontSize.minutes, weight: .semibold, design: .rounded))
-                        .foregroundColor(departure.minutesUntilDeparture <= 2 ? .red : .primary)
+                        .foregroundColor(minutesColor(for: departure.minutesUntilDeparture))
                         .frame(minWidth: 30, alignment: .trailing)
                 } else {
                     Text("--")
@@ -49,6 +49,16 @@ struct NearbyStationRowView: View {
             }
             .padding(.vertical, config.spacing.rowVerticalPadding)
         }
+    }
+
+    /// Color for minutes display based on urgency (matches DepartureRowView)
+    private func minutesColor(for minutes: Int) -> Color {
+        if minutes <= 2 {
+            return .red
+        } else if minutes <= 5 {
+            return .orange
+        }
+        return .primary
     }
 
     private var stationURL: URL {
