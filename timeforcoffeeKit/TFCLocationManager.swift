@@ -58,6 +58,9 @@ public final class TFCLocationManager: TFCLocationManagerBase {
     }
 
     override func getLocationRequest(_ lm: CLLocationManager) {
+        let status = lm.authorizationStatus
+        guard status == .notDetermined else { return }
+
         if (WCSession.isSupported()) {
             let wcsession = WCSession.default
             if (wcsession.isComplicationEnabled == true) {

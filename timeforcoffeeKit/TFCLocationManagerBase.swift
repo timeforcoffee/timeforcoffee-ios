@@ -119,18 +119,18 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
         let lm = CLLocationManager()
         lm.delegate = self
         lm.desiredAccuracy = kCLLocationAccuracyHundredMeters
-        if (CLLocationManager.locationServicesEnabled()) {
-            self.getLocationRequest(lm)
-        }
+        // Authorization is handled in locationManagerDidChangeAuthorization callback
         return lm
     }
 
     func getLocationRequest(_ lm: CLLocationManager) {
-        //lm.requestWhenInUseAuthorization()
-        if (TFCDataStore.sharedInstance.complicationEnabled()) {
-            lm.requestAlwaysAuthorization()
-        } else {
-            lm.requestWhenInUseAuthorization()
+        let status = lm.authorizationStatus
+        if status == .notDetermined {
+            if (TFCDataStore.sharedInstance.complicationEnabled()) {
+                lm.requestAlwaysAuthorization()
+            } else {
+                lm.requestWhenInUseAuthorization()
+            }
         }
     }
 
@@ -197,28 +197,30 @@ public class TFCLocationManagerBase: NSObject, CLLocationManagerDelegate {
         })
     }
     
-    // authorization status
-    open func locationManager(_ manager: CLLocationManager,
-        didChangeAuthorization status: CLAuthorizationStatus) {
-            var shouldIAllow = false
-            switch status {
-            case CLAuthorizationStatus.restricted:
-                locationStatus = "Restricted Access to location"
-            case CLAuthorizationStatus.denied:
-                locationStatus = "User denied access to location"
-            case CLAuthorizationStatus.notDetermined:
-                locationStatus = "Status not determined"
-            default:
-                locationStatus = "Allowed to location Access"
-                shouldIAllow = true
-            }
-            if (shouldIAllow == true) {
-                DLog("Location is allowed")
-                // Start location services
-                self.requestLocation()
-            } else {
-                DLog("Denied access: \(locationStatus)")
-            }
+    // authorization status callback
+    open func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        let status = manager.authorizationStatus
+        var shouldIAllow = false
+        switch status {
+        case .restricted:
+            locationStatus = "Restricted Access to location"
+        case .denied:
+            locationStatus = "User denied access to location"
+        case .notDetermined:
+            locationStatus = "Status not determined"
+            // Request authorization when not determined
+            self.getLocationRequest(manager)
+        default:
+            locationStatus = "Allowed to location Access"
+            shouldIAllow = true
+        }
+        if shouldIAllow {
+            DLog("Location is allowed")
+            // Start location services
+            self.requestLocation()
+        } else if status != .notDetermined {
+            DLog("Denied access: \(locationStatus)")
+        }
     }
     
     open func refreshLocation() {

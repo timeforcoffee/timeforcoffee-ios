@@ -10,7 +10,7 @@ Time for Coffee! is a Swiss public transport departure times app for iOS and wat
 
 - **Xcode 26+** (or compatible version)
 - **iOS Deployment Target**: 15.0
-- **watchOS Deployment Target**: 6.0
+- **watchOS Deployment Target**: 7.0
 - **Swift**: 5.0
 - **CocoaPods**: 1.16+
 
