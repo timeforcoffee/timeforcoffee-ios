@@ -14,6 +14,7 @@ import MobileCoreServices
 import CoreData
 import WatchConnectivity
 import Intents
+import WidgetKit
 
 
 @UIApplicationMain
@@ -67,13 +68,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             if version < 4 {
                 if version < 3 {
                     CSSearchableIndex.default().deleteAllSearchableItems()
-                    
-                    if #available(iOS 10.0, *) {
-                        INInteraction.deleteAll(completion: { (error: Error?) in
-                            TFCFavorites.sharedInstance.donateDefaultIntents()
-                        }
-                        )
-                    }
+
+                    INInteraction.deleteAll(completion: { (error: Error?) in
+                        TFCFavorites.sharedInstance.donateDefaultIntents()
+                    })
                 } else {
                     TFCFavorites.sharedInstance.donateDefaultIntents(force: true)
                 }
@@ -169,6 +167,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
         TFCDataStore.sharedInstance.synchronize()
+
+        // Reload widget timelines when app comes to foreground
+        WidgetCenter.shared.reloadAllTimelines()
     }
 
     @objc func applicationDidBecomeActive(_ application: UIApplication) {
@@ -348,22 +349,20 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
         }
-        if #available(iOS 12.0, *) {
-            if (userActivity.interaction?.intent is NextDeparturesIntent) {
-                if let intent = userActivity.interaction?.intent as? NextDeparturesIntent {
-                  if let st_id = intent.stationObj?.identifier {
-                        let name:String
-                        if let stationName = intent.stationObj?.displayString {
-                            name = stationName
-                        } else {
-                            name = ""
-                        }
-                        if let station = TFCStation.initWithCache(name, id: st_id, coord: nil) {
-                            popUpStation(station)
-                        }
+        if (userActivity.interaction?.intent is NextDeparturesIntent) {
+            if let intent = userActivity.interaction?.intent as? NextDeparturesIntent {
+              if let st_id = intent.stationObj?.identifier {
+                    let name:String
+                    if let stationName = intent.stationObj?.displayString {
+                        name = stationName
                     } else {
-                       openClosestStation()
+                        name = ""
                     }
+                    if let station = TFCStation.initWithCache(name, id: st_id, coord: nil) {
+                        popUpStation(station)
+                    }
+                } else {
+                   openClosestStation()
                 }
             }
         }

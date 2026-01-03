@@ -9,6 +9,9 @@
 import Foundation
 import CoreLocation
 import Intents
+#if canImport(WidgetKit)
+import WidgetKit
+#endif
 final public class TFCFavorites: NSObject {
 
     public static let sharedInstance = TFCFavorites()
@@ -172,6 +175,11 @@ final public class TFCFavorites: NSObject {
         objects.dataStore?.setObject(stationIds.sorted() , forKey: "favorites3")
         objects.dataStore?.setObject(3, forKey: "favoritesVersion")
         objects.dataStore?.synchronize()
+
+        // Refresh widgets when favorites change
+        #if canImport(WidgetKit)
+        WidgetCenter.shared.reloadAllTimelines()
+        #endif
     }
 
     public func getByDistance() -> [TFCStation]? {

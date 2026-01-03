@@ -220,16 +220,7 @@ open class TFCStation: TFCStationBase {
     }
     
     internal override func setStationSearchIndex() {
-        if #available(iOS 12, *) {
-            // dont index with ios 12, intents will take care of it
-        } else {
-            if (Bundle.main.bundleIdentifier == "ch.opendata.timeforcoffee") {
-                let item = CSSearchableItem(uniqueIdentifier: self.st_id, domainIdentifier: "stations", attributeSet: getAttributeSet())
-                CSSearchableIndex.default().indexSearchableItems([item], completionHandler: { (error) -> Void in
-
-                })
-            }
-        }
+        // iOS 12+ uses intents for search, no need for manual indexing
     }
     
     open override func setAttributeSet(activ:NSUserActivity) {

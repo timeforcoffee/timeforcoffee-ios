@@ -120,11 +120,7 @@ final class AboutPagedViewController: UIViewController, SwipeViewDataSource, Swi
 
     @objc func openFaq() {
         if let url = URL(string: NSLocalizedString("http://liip.to/tfc_faq", comment: "link to faq")) {
-            if #available(iOS 10.0, *) {
-                UIApplication.shared.open(url)
-            } else {
-                UIApplication.shared.openURL(url)
-            }
+            UIApplication.shared.open(url)
         }
     }
     

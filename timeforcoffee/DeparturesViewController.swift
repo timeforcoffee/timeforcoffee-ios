@@ -262,11 +262,9 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
         alert.addAction(UIAlertAction(title: NSLocalizedString(fav, comment: "Favorite a station"), style: .default, handler: { _ in
             self.favoriteClicked(sender)
         }))
-        if #available(iOS 12.0, *) {
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Add to Siri", comment: "Add station to Siri shortcuts"), style: .default, handler: { _ in
-                self.addToSiri(sender)
-            }))
-        }
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Add to Siri", comment: "Add station to Siri shortcuts"), style: .default, handler: { _ in
+            self.addToSiri(sender)
+        }))
         alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel action"), style: .cancel, handler: { _ in
            
         }))
@@ -277,45 +275,37 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
         self.present(alert, animated: true, completion: nil)
     }
     func addSiriButton(to view: UIView) {
-        if #available(iOS 12.0, *) {
-            
-            let button = INUIAddVoiceShortcutButton(style: .blackOutline)
-            button.translatesAutoresizingMaskIntoConstraints = false
-            
-            view.addSubview(button)
-            view.centerXAnchor.constraint(equalTo: button.centerXAnchor).isActive = true
-            view.centerYAnchor.constraint(equalTo: button.centerYAnchor).isActive = true
-            
-            button.addTarget(self, action: #selector(addToSiri(_:)), for: .touchUpInside)
-        }
+        let button = INUIAddVoiceShortcutButton(style: .blackOutline)
+        button.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(button)
+        view.centerXAnchor.constraint(equalTo: button.centerXAnchor).isActive = true
+        view.centerYAnchor.constraint(equalTo: button.centerYAnchor).isActive = true
+
+        button.addTarget(self, action: #selector(addToSiri(_:)), for: .touchUpInside)
     }
     
     // Present the Add Shortcut view controller after the
     // user taps the "Add to Siri" button.
     @objc
     func addToSiri(_ sender: Any) {
-        if #available(iOS 12.0, *) {
-            
-            if let intent =  self.station?.getIntent(),
-                let shortcut = INShortcut(intent:intent) {
-                let viewController = INUIAddVoiceShortcutViewController(shortcut: shortcut)
-                viewController.modalPresentationStyle = .formSheet
-               viewController.delegate = self // Object conforming to `INUIAddVoiceShortcutViewControllerDelegate`.
-                present(viewController, animated: true, completion: nil)
-            }
+        if let intent = self.station?.getIntent(),
+           let shortcut = INShortcut(intent: intent) {
+            let viewController = INUIAddVoiceShortcutViewController(shortcut: shortcut)
+            viewController.modalPresentationStyle = .formSheet
+            viewController.delegate = self
+            present(viewController, animated: true, completion: nil)
         }
     }
-    
-    @available(iOS 12.0, *)
+
     func addVoiceShortcutViewControllerDidCancel(_ controller: INUIAddVoiceShortcutViewController) {
         controller.dismiss(animated: true) {
-                    //just dismiss
+            // just dismiss
         }
     }
-    
-    @available(iOS 12.0, *)
+
     func addVoiceShortcutViewController(_ controller: INUIAddVoiceShortcutViewController, didFinishWith voiceShortcut: INVoiceShortcut?, error: Error?) {
-        //we don't care ;)
+        // we don't care ;)
     }
     
 

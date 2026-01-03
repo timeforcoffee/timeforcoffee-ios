@@ -12,6 +12,9 @@ import MapKit
 import UIKit
 import CoreData
 import Intents
+#if canImport(WidgetKit)
+import WidgetKit
+#endif
 
 open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
 
@@ -710,6 +713,10 @@ open class TFCStationBase: NSObject, NSCoding, APIControllerProtocol {
         self.filteredDepartures = nil
         TFCDataStore.sharedInstance.getUserDefaults()?.set(Date(), forKey: "settingsLastUpdate")
 
+        // Refresh widgets when departure favorites/filters change
+        #if canImport(WidgetKit)
+        WidgetCenter.shared.reloadAllTimelines()
+        #endif
     }
 
     fileprivate func getMarkedLinesShared(_ favorite: Bool) -> [String: [String: Bool]] {
