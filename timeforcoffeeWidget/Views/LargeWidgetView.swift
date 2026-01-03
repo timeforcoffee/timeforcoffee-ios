@@ -9,9 +9,10 @@
 import SwiftUI
 import WidgetKit
 
-/// Large widget view showing station name and 6-8 departures with platform info
+/// Large widget view showing station name and departures with platform info
 struct LargeWidgetView: View {
     let entry: DepartureEntry
+    private let config = WidgetConfig.largeDepartures
 
     var body: some View {
         if let error = entry.errorMessage {
@@ -24,15 +25,15 @@ struct LargeWidgetView: View {
     }
 
     private var contentView: some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: config.spacing.rowSpacing) {
             // Station name header
             HStack {
                 Image(systemName: "tram.fill")
-                    .font(.system(size: 14))
+                    .font(.system(size: config.fontSize.icon))
                     .foregroundColor(.accentColor)
 
                 Text(entry.stationName)
-                    .font(.system(size: 16, weight: .semibold))
+                    .font(.system(size: config.fontSize.title, weight: .semibold))
                     .lineLimit(1)
                     .truncationMode(.tail)
                     .foregroundColor(.primary)
@@ -41,7 +42,7 @@ struct LargeWidgetView: View {
 
                 // Last updated time
                 Text(entry.date, style: .time)
-                    .font(.system(size: 11))
+                    .font(.system(size: config.fontSize.secondary))
                     .foregroundColor(.secondary)
             }
 
@@ -63,10 +64,10 @@ struct LargeWidgetView: View {
             .foregroundColor(.secondary)
             .padding(.bottom, 2)
 
-            // Departures (up to 8)
-            ForEach(entry.departures.prefix(8)) { departure in
-                DepartureRowView(departure: departure, large: true, showPlatform: true)
-                if departure.id != entry.departures.prefix(8).last?.id {
+            // Departures
+            ForEach(entry.departures.prefix(config.limits.maxItems)) { departure in
+                DepartureRowView(departure: departure, config: config, showPlatform: true)
+                if departure.id != entry.departures.prefix(config.limits.maxItems).last?.id {
                     Divider()
                         .opacity(0.5)
                 }
@@ -74,7 +75,7 @@ struct LargeWidgetView: View {
 
             Spacer(minLength: 0)
         }
-        .padding(14)
+        .padding(config.spacing.padding)
         .widgetURL(entry.widgetURL)
     }
 
@@ -86,11 +87,11 @@ struct LargeWidgetView: View {
 
             VStack(spacing: 4) {
                 Text(entry.stationName)
-                    .font(.system(size: 16, weight: .semibold))
+                    .font(.system(size: config.fontSize.title, weight: .semibold))
                     .foregroundColor(.primary)
 
                 Text("No upcoming departures")
-                    .font(.system(size: 14))
+                    .font(.system(size: config.fontSize.content))
                     .foregroundColor(.secondary)
             }
         }
@@ -109,7 +110,7 @@ struct LargeWidgetView: View {
                     .foregroundColor(.primary)
 
                 Text(message)
-                    .font(.system(size: 14))
+                    .font(.system(size: config.fontSize.content))
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
                     .lineLimit(3)

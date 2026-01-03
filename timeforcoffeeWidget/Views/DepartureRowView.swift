@@ -12,34 +12,22 @@ import WidgetKit
 /// A row displaying a single departure
 struct DepartureRowView: View {
     let departure: WidgetDeparture
-    var compact: Bool = false
-    var large: Bool = false
+    let config: WidgetConfig
     var showPlatform: Bool = false
 
-    private var fontSize: CGFloat {
-        if large { return 15 }
-        return 14
-    }
-
-    private var minutesFontSize: CGFloat {
-        if compact { return 14 }
-        if large { return 17 }
-        return 16
-    }
-
     var body: some View {
-        HStack(spacing: compact ? 6 : 8) {
+        HStack(spacing: config.spacing.elementSpacing) {
             // Line badge
             LineBadgeView(
                 line: departure.line,
                 colorFg: departure.colorFg,
                 colorBg: departure.colorBg,
-                size: compact ? .small : .medium
+                size: config.fontSize.content < 15 ? .small : .medium
             )
 
             // Destination
             Text(departure.formattedDestination)
-                .font(.system(size: fontSize, weight: .regular))
+                .font(.system(size: config.fontSize.content, weight: .regular))
                 .lineLimit(1)
                 .truncationMode(.tail)
                 .foregroundColor(.primary)
@@ -49,27 +37,27 @@ struct DepartureRowView: View {
             // Platform (optional)
             if showPlatform, let platform = departure.platform, !platform.isEmpty {
                 Text(platform)
-                    .font(.system(size: compact ? 10 : 12, weight: .light))
+                    .font(.system(size: config.fontSize.secondary, weight: .light))
                     .foregroundColor(.secondary)
-                    .frame(minWidth: compact ? 16 : 20)
+                    .frame(minWidth: 20)
             }
 
             // Minutes until departure
             VStack(alignment: .trailing, spacing: 0) {
                 Text(departure.minutesDisplay)
-                    .font(.system(size: minutesFontSize, weight: .semibold, design: .rounded))
+                    .font(.system(size: config.fontSize.minutes, weight: .semibold, design: .rounded))
                     .foregroundColor(minutesColor)
 
                 // Realtime indicator
                 if !departure.isRealtime {
                     Text("~")
-                        .font(.system(size: compact ? 8 : 10))
+                        .font(.system(size: config.fontSize.secondary - 2))
                         .foregroundColor(.secondary)
                 }
             }
-            .frame(minWidth: compact ? 28 : 36, alignment: .trailing)
+            .frame(minWidth: 36, alignment: .trailing)
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, config.spacing.rowVerticalPadding)
     }
 
     private var minutesColor: Color {
@@ -86,9 +74,10 @@ struct DepartureRowView: View {
 /// A compact departure row for small widgets (just line and minutes)
 struct CompactDepartureRowView: View {
     let departure: WidgetDeparture
+    let config: WidgetConfig
 
     var body: some View {
-        HStack(spacing: 4) {
+        HStack(spacing: config.spacing.elementSpacing) {
             LineBadgeView(
                 line: departure.line,
                 colorFg: departure.colorFg,
@@ -97,7 +86,7 @@ struct CompactDepartureRowView: View {
             )
 
             Text(departure.formattedDestination)
-                .font(.system(size: 14))
+                .font(.system(size: config.fontSize.content))
                 .lineLimit(1)
                 .truncationMode(.tail)
                 .foregroundColor(.primary)
@@ -105,10 +94,10 @@ struct CompactDepartureRowView: View {
             Spacer(minLength: 2)
 
             Text(departure.minutesDisplay)
-                .font(.system(size: 14, weight: .semibold, design: .rounded))
+                .font(.system(size: config.fontSize.minutes, weight: .semibold, design: .rounded))
                 .foregroundColor(departure.minutesUntilDeparture <= 2 ? .red : .primary)
         }
-        .padding(.vertical, 3)
+        .padding(.vertical, config.spacing.rowVerticalPadding)
     }
 }
 
@@ -125,6 +114,7 @@ struct CompactDepartureRowView: View {
                 colorBg: "#FFCC00",
                 platform: "3"
             ),
+            config: .mediumDepartures,
             showPlatform: true
         )
         DepartureRowView(
@@ -138,6 +128,7 @@ struct CompactDepartureRowView: View {
                 colorBg: "#FF0000",
                 platform: "7"
             ),
+            config: .mediumDepartures,
             showPlatform: true
         )
         DepartureRowView(
@@ -150,7 +141,8 @@ struct CompactDepartureRowView: View {
                 colorFg: "#000000",
                 colorBg: "#FFFFFF",
                 platform: nil
-            )
+            ),
+            config: .mediumDepartures
         )
     }
     .padding()
@@ -168,7 +160,8 @@ struct CompactDepartureRowView: View {
                 colorFg: "#000000",
                 colorBg: "#FFCC00",
                 platform: nil
-            )
+            ),
+            config: .smallDepartures
         )
         CompactDepartureRowView(
             departure: WidgetDeparture(
@@ -180,7 +173,8 @@ struct CompactDepartureRowView: View {
                 colorFg: "#FFFFFF",
                 colorBg: "#0066CC",
                 platform: nil
-            )
+            ),
+            config: .smallDepartures
         )
     }
     .padding()

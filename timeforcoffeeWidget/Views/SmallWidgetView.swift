@@ -9,9 +9,10 @@
 import SwiftUI
 import WidgetKit
 
-/// Small widget view showing station name and 2 departures
+/// Small widget view showing station name and departures
 struct SmallWidgetView: View {
     let entry: DepartureEntry
+    private let config = WidgetConfig.smallDepartures
 
     var body: some View {
         if let error = entry.errorMessage {
@@ -24,22 +25,22 @@ struct SmallWidgetView: View {
     }
 
     private var contentView: some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: config.spacing.rowSpacing) {
             // Station name
             Text(entry.stationName)
-                .font(.system(size: 12, weight: .semibold))
+                .font(.system(size: config.fontSize.content, weight: .semibold))
                 .lineLimit(1)
                 .truncationMode(.tail)
                 .foregroundColor(.primary)
 
-            // Departures (up to 5)
-            ForEach(entry.departures.prefix(5)) { departure in
-                CompactDepartureRowView(departure: departure)
+            // Departures
+            ForEach(entry.departures.prefix(config.limits.maxItems)) { departure in
+                CompactDepartureRowView(departure: departure, config: config)
             }
 
             Spacer(minLength: 0)
         }
-        .padding(10)
+        .padding(config.spacing.padding)
         .widgetURL(entry.widgetURL)
     }
 
@@ -50,7 +51,7 @@ struct SmallWidgetView: View {
                 .foregroundColor(.secondary)
 
             Text("No departures")
-                .font(.system(size: 12))
+                .font(.system(size: config.fontSize.secondary))
                 .foregroundColor(.secondary)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -63,7 +64,7 @@ struct SmallWidgetView: View {
                 .foregroundColor(.accentColor)
 
             Text(message)
-                .font(.system(size: 11))
+                .font(.system(size: config.fontSize.secondary))
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
                 .lineLimit(2)

@@ -9,9 +9,10 @@
 import SwiftUI
 import WidgetKit
 
-/// Medium widget view showing station name and 3-4 departures
+/// Medium widget view showing station name and departures
 struct MediumWidgetView: View {
     let entry: DepartureEntry
+    private let config = WidgetConfig.mediumDepartures
 
     var body: some View {
         if let error = entry.errorMessage {
@@ -24,15 +25,15 @@ struct MediumWidgetView: View {
     }
 
     private var contentView: some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: config.spacing.rowSpacing) {
             // Station name header
             HStack {
                 Image(systemName: "tram.fill")
-                    .font(.system(size: 12))
+                    .font(.system(size: config.fontSize.icon))
                     .foregroundColor(.accentColor)
 
                 Text(entry.stationName)
-                    .font(.system(size: 14, weight: .semibold))
+                    .font(.system(size: config.fontSize.title, weight: .semibold))
                     .lineLimit(1)
                     .truncationMode(.tail)
                     .foregroundColor(.primary)
@@ -41,23 +42,23 @@ struct MediumWidgetView: View {
 
                 // Last updated time
                 Text(entry.date, style: .time)
-                    .font(.system(size: 10))
+                    .font(.system(size: config.fontSize.secondary))
                     .foregroundColor(.secondary)
             }
 
             Divider()
                 .padding(.vertical, 2)
 
-            // Departures (up to 4)
-            ForEach(entry.departures.prefix(4)) { departure in
-                DepartureRowView(departure: departure, compact: false)
+            // Departures
+            ForEach(entry.departures.prefix(config.limits.maxItems)) { departure in
+                DepartureRowView(departure: departure, config: config)
             }
 
-            if entry.departures.count < 4 {
+            if entry.departures.count < config.limits.maxItems {
                 Spacer()
             }
         }
-        .padding(12)
+        .padding(config.spacing.padding)
         .widgetURL(entry.widgetURL)
     }
 
@@ -69,11 +70,11 @@ struct MediumWidgetView: View {
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(entry.stationName)
-                    .font(.system(size: 14, weight: .semibold))
+                    .font(.system(size: config.fontSize.title, weight: .semibold))
                     .foregroundColor(.primary)
 
                 Text("No upcoming departures")
-                    .font(.system(size: 12))
+                    .font(.system(size: config.fontSize.secondary))
                     .foregroundColor(.secondary)
             }
 
@@ -91,11 +92,11 @@ struct MediumWidgetView: View {
 
             VStack(alignment: .leading, spacing: 4) {
                 Text("Time for Coffee!")
-                    .font(.system(size: 14, weight: .semibold))
+                    .font(.system(size: config.fontSize.title, weight: .semibold))
                     .foregroundColor(.primary)
 
                 Text(message)
-                    .font(.system(size: 12))
+                    .font(.system(size: config.fontSize.secondary))
                     .foregroundColor(.secondary)
                     .lineLimit(2)
             }
