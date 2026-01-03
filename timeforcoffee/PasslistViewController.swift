@@ -295,7 +295,6 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
 
                 if (pass.scheduled != nil && pass.arrivalScheduled != nil && pass.realtime != pass.arrivalRealtime) {
                     departureLabel.text = nil
-                  //  departureLabel.text = "complicated"
                     let labelAttr = NSMutableAttributedString(string: NSLocalizedString("Arr", comment: "Arrival") + ": ")
                     if let arrivalTimeAttr = arrivalTimeAttr {
                         labelAttr.append(arrivalTimeAttr)

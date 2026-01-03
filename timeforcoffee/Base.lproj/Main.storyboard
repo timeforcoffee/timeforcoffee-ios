@@ -863,11 +863,8 @@ in departures times</string>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label userInteractionEnabled="NO" tag="99300" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aa9-U5-OSi" userLabel="TimeLabel">
-                                                    <rect key="frame" x="23" y="35" width="247" height="14"/>
+                                                    <rect key="frame" x="23" y="37" width="247" height="14"/>
                                                     <color key="backgroundColor" name="TFCBackgroundColor"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="14" id="cqh-Vi-8OQ"/>
-                                                    </constraints>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
                                                     <color key="textColor" red="0.45901817083358765" green="0.45900446176528931" blue="0.45901218056678772" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -892,14 +889,14 @@ in departures times</string>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="3U4-XZ-Tqn" firstAttribute="trailing" secondItem="j8v-Gl-6my" secondAttribute="trailingMargin" constant="-5" id="7QN-c4-718"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="Aa9-U5-OSi" secondAttribute="bottom" id="Lxf-Nz-OGH"/>
                                                 <constraint firstItem="3U4-XZ-Tqn" firstAttribute="top" secondItem="j8v-Gl-6my" secondAttribute="topMargin" id="Ofm-XT-Eeu"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="baO-aT-Mfz" secondAttribute="trailing" constant="40" id="TBd-Q6-go2"/>
                                                 <constraint firstItem="baO-aT-Mfz" firstAttribute="leading" secondItem="Aa9-U5-OSi" secondAttribute="leading" id="Wor-mi-RMi"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="3U4-XZ-Tqn" secondAttribute="bottom" id="YXS-dg-HJt"/>
-                                                <constraint firstItem="baO-aT-Mfz" firstAttribute="top" secondItem="j8v-Gl-6my" secondAttribute="topMargin" constant="5" id="ghO-oN-KYi"/>
+                                                <constraint firstItem="baO-aT-Mfz" firstAttribute="top" secondItem="j8v-Gl-6my" secondAttribute="topMargin" constant="0" id="ghO-oN-KYi"/>
                                                 <constraint firstItem="Aa9-U5-OSi" firstAttribute="leading" secondItem="j8v-Gl-6my" secondAttribute="leadingMargin" constant="7" id="m7K-Oy-zDU"/>
                                                 <constraint firstItem="Aa9-U5-OSi" firstAttribute="trailing" secondItem="j8v-Gl-6my" secondAttribute="trailing" constant="-50" id="oeL-3d-LoL"/>
+                                                <constraint firstItem="Aa9-U5-OSi" firstAttribute="top" secondItem="baO-aT-Mfz" secondAttribute="bottom" constant="2" id="VGp-Sp-1Zx"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" name="TFCBackgroundColor"/>
