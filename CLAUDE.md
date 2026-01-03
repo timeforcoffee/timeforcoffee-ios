@@ -110,3 +110,38 @@ The home screen widget uses WidgetKit with AppIntentConfiguration:
 - Station search (CH): `https://tfc.chregu.tv/api/zvv/stations/{query}*`
 - Station search (outside CH): `https://transport.opendata.ch/v1/locations?type=station&query={query}*`
 - Passlist: `https://tfc.chregu.tv/api/ch/connections/{st_id}/{dest}/{date}`
+
+## Deep Linking
+
+The app uses `timeforcoffee://` URL scheme:
+- `timeforcoffee://station?id={stationId}&name={stationName}` - Open a specific station
+- `timeforcoffee://nearby` - Open nearby stations view
+
+## Debugging
+
+Use the `DLog()` function in `timeforcoffeeKit/Logging.swift` for debug output:
+```swift
+DLog("message")                    // Console output (debug builds only)
+DLog("message", toFile: true)      // Also writes to file for watchOS debugging
+```
+
+## Cache Keys
+
+The app uses PINCache with these key patterns:
+- `dept_{st_id}` - Cached departures for a station
+- `stations/{query}` - Cached station search results
+- `stationsinfo/{id}` - Cached station metadata
+
+## Async Patterns
+
+API calls use a delegate callback pattern:
+```swift
+class MyController: APIControllerProtocol {
+    lazy var api: APIController = APIController(delegate: self)
+
+    func didReceiveResults(_ results: JSONValue, context: Any?,
+                          urlHash: String, status: APIStatus) {
+        // Handle results
+    }
+}
+```
