@@ -17,13 +17,16 @@ struct AccessoryInlineView: View {
     let entry: DepartureEntry
 
     var body: some View {
-        if let errorMessage = entry.errorMessage {
-            Text(errorMessage)
-        } else if let departure = firstDeparture {
-            Text("\(departure.line) \(departure.formattedDestination) \(departure.minutesDisplay(relativeTo: entry.date))")
-        } else {
-            Text("No departures")
+        Group {
+            if let errorMessage = entry.errorMessage {
+                Text(errorMessage)
+            } else if let departure = firstDeparture {
+                Text("\(departure.line) \(departure.formattedDestination) \(departure.minutesDisplay(relativeTo: entry.date))")
+            } else {
+                Text("No departures")
+            }
         }
+        .widgetURL(entry.widgetURL)
     }
 
     private var firstDeparture: WidgetDeparture? {
@@ -43,19 +46,22 @@ struct AccessoryRectangularView: View {
     let entry: DepartureEntry
 
     var body: some View {
-        if let errorMessage = entry.errorMessage {
-            VStack(alignment: .leading) {
-                Text(errorMessage)
-                    .font(.headline)
-            }
-        } else {
-            switch entry.viewMode {
-            case .singleStation:
-                singleStationContent
-            case .nearbyStations:
-                nearbyStationsContent
+        Group {
+            if let errorMessage = entry.errorMessage {
+                VStack(alignment: .leading) {
+                    Text(errorMessage)
+                        .font(.headline)
+                }
+            } else {
+                switch entry.viewMode {
+                case .singleStation:
+                    singleStationContent
+                case .nearbyStations:
+                    nearbyStationsContent
+                }
             }
         }
+        .widgetURL(entry.widgetURL)
     }
 
     @ViewBuilder
@@ -137,36 +143,39 @@ struct AccessoryCircularView: View {
     let entry: DepartureEntry
 
     var body: some View {
-        if let errorMessage = entry.errorMessage {
-            ZStack {
-                AccessoryWidgetBackground()
-                Text("--")
-                    .font(.title2)
-                    .fontWeight(.bold)
-            }
-        } else if let departure = firstDeparture {
-            Gauge(value: gaugeValue(for: departure)) {
-                Text(departure.line)
-                    .font(.caption2)
-                    .fontWeight(.bold)
-            } currentValueLabel: {
-                Text(minutesText(for: departure))
-                    .font(.title2)
-                    .fontWeight(.bold)
-            }
-            .gaugeStyle(.accessoryCircular)
-        } else {
-            ZStack {
-                AccessoryWidgetBackground()
-                VStack(spacing: 0) {
-                    Image(systemName: "tram.fill")
-                        .font(.caption)
+        Group {
+            if let errorMessage = entry.errorMessage {
+                ZStack {
+                    AccessoryWidgetBackground()
                     Text("--")
-                        .font(.title3)
+                        .font(.title2)
                         .fontWeight(.bold)
+                }
+            } else if let departure = firstDeparture {
+                Gauge(value: gaugeValue(for: departure)) {
+                    Text(departure.line)
+                        .font(.caption2)
+                        .fontWeight(.bold)
+                } currentValueLabel: {
+                    Text(minutesText(for: departure))
+                        .font(.title2)
+                        .fontWeight(.bold)
+                }
+                .gaugeStyle(.accessoryCircular)
+            } else {
+                ZStack {
+                    AccessoryWidgetBackground()
+                    VStack(spacing: 0) {
+                        Image(systemName: "tram.fill")
+                            .font(.caption)
+                        Text("--")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                    }
                 }
             }
         }
+        .widgetURL(entry.widgetURL)
     }
 
     private var firstDeparture: WidgetDeparture? {

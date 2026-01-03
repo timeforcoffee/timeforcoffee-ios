@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [1.30]
+## [1.30] - unreleased
 
 ### Added
 
@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Widget supports small, medium, and large sizes
 - Deep linking from widget to open stations in the main app
 - Automatic widget refresh when favorites change
+- Lock screen widgets: circular (departure countdown gauge), rectangular (station + departures), and inline (single departure text)
 
 ### Changed
 
@@ -26,6 +27,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 
 - Search bar not visible when opening station search
+- Dark mode support improved for navigation bar and passlist views
+- Widget departure times now update correctly at minute boundaries
+- Consistent time color coding (red/orange) in nearby stations widget view
+- Passlist cell layout spacing for time labels
 
 ### Removed
 
