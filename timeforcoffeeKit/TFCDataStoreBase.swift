@@ -668,11 +668,12 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
                 data["coordinates"] = [ "longitude": coord.longitude, "latitude": coord.latitude]
             }
             #if DEBUG
+            /*
             if (complicationUpdate) {
                 if let name = station?.name {
                     self.localNotificationCallback?("Complication sent for \(name). Remaining: \(String(describing: remaining))")
                 }
-            }
+            }*/
             #endif
             if (complicationUpdate) {
                 data["complicationUpdate"] = true
