@@ -15,6 +15,7 @@ import CoreData
 import WatchConnectivity
 import Intents
 import WidgetKit
+import UserNotifications
 
 
 @UIApplicationMain
@@ -114,7 +115,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         #if DEBUG
             if (self.visits?.willReceive() == true) {
-                application.registerUserNotificationSettings(UIUserNotificationSettings(types: [.alert, .sound] , categories: nil))
+                UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { _, _ in }
             }
         #endif
 
@@ -285,7 +286,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                         if let callBackUrl = URL(string: "\(xErrorUrl ?? "")?errorMessage=\(error)") {
                             DLog("Call x-callback-url with error: \(callBackUrl)?errorMessage=\(error)")
                             DispatchQueue.main.async {
-                                UIApplication.shared.openURL(callBackUrl)
+                                UIApplication.shared.open(callBackUrl, options: [:], completionHandler: nil)
                                 DLog("Called x-callback-url with error")
                             }
                         }
@@ -302,7 +303,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                     if let callBackUrl = URL(string: "\(xCallbackUrl)\(components.url?.absoluteString ?? "")") {
                         DLog("Call x-callback-url: \(callBackUrl)")
                         DispatchQueue.main.async {
-                            UIApplication.shared.openURL(callBackUrl)
+                            UIApplication.shared.open(callBackUrl, options: [:], completionHandler: nil)
                             DLog("Called x-callback-url")
                         }
                     }

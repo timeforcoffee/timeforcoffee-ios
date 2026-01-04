@@ -117,10 +117,17 @@ final public class TFCFavorites: NSObject {
             var stationIds:[String] = []
             var st: [String: TFCStation]?
             if let unarchivedObject = objects.dataStore?.objectForKey("favorites2") as? Data {
-                NSKeyedUnarchiver.setClass(TFCStation.classForKeyedUnarchiver(), forClassName: "timeforcoffeeKit.TFCStation")
-                NSKeyedUnarchiver.setClass(TFCStation.classForKeyedUnarchiver(), forClassName: "timeforcoffeeWatchKit.TFCStation")
-                NSKeyedUnarchiver.setClass(TFCStation.classForKeyedUnarchiver(), forClassName: "Time_for_Coffee__WatchOS_2_App_Extension.TFCStation")
-                st = NSKeyedUnarchiver.unarchiveObject(with: unarchivedObject) as? [String: TFCStation]
+                do {
+                    let unarchiver = try NSKeyedUnarchiver(forReadingFrom: unarchivedObject)
+                    unarchiver.requiresSecureCoding = false
+                    unarchiver.setClass(TFCStation.classForKeyedUnarchiver(), forClassName: "timeforcoffeeKit.TFCStation")
+                    unarchiver.setClass(TFCStation.classForKeyedUnarchiver(), forClassName: "timeforcoffeeWatchKit.TFCStation")
+                    unarchiver.setClass(TFCStation.classForKeyedUnarchiver(), forClassName: "Time_for_Coffee__WatchOS_2_App_Extension.TFCStation")
+                    st = unarchiver.decodeObject(forKey: NSKeyedArchiveRootObjectKey) as? [String: TFCStation]
+                    unarchiver.finishDecoding()
+                } catch {
+                    DLog("Failed to unarchive favorites2: \(error)")
+                }
             }
             if let st = st {
                 for (st_id, _) in st {

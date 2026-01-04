@@ -347,13 +347,19 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
                         TFCLocationManagerBase.setCurrentLocation(CLLocation(latitude: lat, longitude: lng ), time: coordinates["time"] as? Date)
                         DLog("coord was sent with __updateComplicationData__ \(lat), \(lng)", toFile: true)
                     }
-                    NSKeyedUnarchiver.setClass(TFCStation.classForKeyedUnarchiver(), forClassName: "timeforcoffeeKit.TFCStation")
-                    if let station = value["station"] as? Data, let sentStationDict = NSKeyedUnarchiver.unarchiveObject(with: station) as? [String:String] {
-                        if let sentStation = TFCStation.initWithCache(sentStationDict) {
-                            if let departures = value["departures"] as? Data {
-
-                                NSKeyedUnarchiver.setClass(TFCDeparture.classForKeyedUnarchiver(), forClassName: "timeforcoffeeKit.TFCDeparture")
-                                let sentDepartures = NSKeyedUnarchiver.unarchiveObject(with: departures) as? [TFCDeparture]
+                    if let station = value["station"] as? Data,
+                       let unarchiver = try? NSKeyedUnarchiver(forReadingFrom: station) {
+                        unarchiver.requiresSecureCoding = false
+                        unarchiver.setClass(TFCStation.classForKeyedUnarchiver(), forClassName: "timeforcoffeeKit.TFCStation")
+                        let sentStationDict = unarchiver.decodeObject(forKey: NSKeyedArchiveRootObjectKey) as? [String:String]
+                        unarchiver.finishDecoding()
+                        if let sentStationDict = sentStationDict, let sentStation = TFCStation.initWithCache(sentStationDict) {
+                            if let departures = value["departures"] as? Data,
+                               let deptUnarchiver = try? NSKeyedUnarchiver(forReadingFrom: departures) {
+                                deptUnarchiver.requiresSecureCoding = false
+                                deptUnarchiver.setClass(TFCDeparture.classForKeyedUnarchiver(), forClassName: "timeforcoffeeKit.TFCDeparture")
+                                let sentDepartures = deptUnarchiver.decodeObject(forKey: NSKeyedArchiveRootObjectKey) as? [TFCDeparture]
+                                deptUnarchiver.finishDecoding()
                                 DLog("station sent with __updateComplicationData__: \(sentStation.name) id: \(sentStation.st_id) with \(String(describing: sentDepartures?.count)) departures and complicationUpdate: \(complicationUpdate)")
                                 sentStation.addDepartures(sentDepartures)
                                 
@@ -683,9 +689,12 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
             }
             DLog("send __updateComplicationData__ with \(String(describing: data["coordinates"])) for \(String(describing: station?.name)) id: \(String(describing: station?.st_id)) complicationUpdate: \(complicationUpdate)", toFile: true)
             
-            data["station"] =  NSKeyedArchiver.archivedData(withRootObject: firstStation.getAsDict())
-            if let filteredDepartures = firstStation.getFilteredDepartures(nil, fallbackToAll: true) {
-                data["departures"] =  NSKeyedArchiver.archivedData(withRootObject: Array(filteredDepartures.prefix(10)))
+            if let stationData = try? NSKeyedArchiver.archivedData(withRootObject: firstStation.getAsDict(), requiringSecureCoding: false) {
+                data["station"] = stationData
+            }
+            if let filteredDepartures = firstStation.getFilteredDepartures(nil, fallbackToAll: true),
+               let departuresData = try? NSKeyedArchiver.archivedData(withRootObject: Array(filteredDepartures.prefix(10)), requiringSecureCoding: false) {
+                data["departures"] = departuresData
             }
             let dict:[String:[String:Any]] = ["__updateComplicationData__": data]
             
