@@ -245,8 +245,6 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate, URLSessionDownloadDelega
                 } else {
                     expirationDate = Date.distantFuture
                 }
-                WKExtension.shared()
-                
                 task.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: expirationDate, userInfo: nil)
                 return true
             }

@@ -217,6 +217,11 @@ public func DLog(_ object: @autoclosure () -> Any, toFile: Bool = false, sync:Bo
 }
 
 func currentQueueName() -> String? {
+    // Use OperationQueue's underlying queue label if available
+    if let label = OperationQueue.current?.underlyingQueue?.label {
+        return label
+    }
+    // Fallback to DispatchQueue label using the public C API
     let name = __dispatch_queue_get_label(nil)
     return String(cString: name, encoding: .utf8)
 }

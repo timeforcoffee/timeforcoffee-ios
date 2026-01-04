@@ -307,7 +307,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
         let ud = TFCDataStore.sharedInstance.getUserDefaults()
 
         ud?.set(nextUpdate, forKey: "lastBackgroundRefreshDate")
-        WKExtension.shared().scheduleBackgroundRefresh(withPreferredDate: nextUpdate, userInfo: nil) { (error) in
+        WKApplication.shared().scheduleBackgroundRefresh(withPreferredDate: nextUpdate, userInfo: nil) { (error) in
             DLog("updated next schedule at \(nextUpdate.formattedWithDateFormatter(DLogDateFormatter)) error: \(String(describing: error))", toFile: true)
         }
     }
@@ -379,7 +379,7 @@ public final class TFCWatchData: NSObject, TFCLocationManagerDelegate,  TFCStati
     }
     
     public func isInBackground() -> Bool {
-        return (WKExtension.shared().applicationState == .background) ||  (WKExtension.shared().applicationState == .inactive)
+        return (WKApplication.shared().applicationState == .background) ||  (WKApplication.shared().applicationState == .inactive)
     }
 }
 

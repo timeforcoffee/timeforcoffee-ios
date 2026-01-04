@@ -575,7 +575,7 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
             self.updateInAMinuteTimer?.invalidate()
             let now = Date.timeIntervalSinceReferenceDate
             let timeInterval = 60.0
-            let nextMinute = floor(now / timeInterval) * timeInterval + (timeInterval + Double(arc4random_uniform(10))) //time interval for next minute, plus random 0 - 10 seconds, to avoid server overload
+            let nextMinute = floor(now / timeInterval) * timeInterval + (timeInterval + Double(Int.random(in: 0..<10))) //time interval for next minute, plus random 0 - 10 seconds, to avoid server overload
             let delay = max(25.0, nextMinute - now) //don't set the delay to less than 25 seconds
           //  let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC)))
             DispatchQueue.main.sync(execute: {

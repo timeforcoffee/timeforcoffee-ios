@@ -88,7 +88,7 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
                 } else {
                     DLog("backoff: No station set", toFile: true)
                     // try again in 5 minutes
-                    WKExtension.shared().scheduleBackgroundRefresh(withPreferredDate: self.watchdata.getBackOffTime() , userInfo: nil) { (error) in
+                    WKApplication.shared().scheduleBackgroundRefresh(withPreferredDate: self.watchdata.getBackOffTime() , userInfo: nil) { (error) in
                         if error == nil {
                             //successful
                         }
@@ -100,7 +100,7 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
                 DLog("backoff: error \(error)", toFile: true)
                 // try again in 5 minutes
                 if (error != "aborted") {
-                    WKExtension.shared().scheduleBackgroundRefresh(withPreferredDate: self.watchdata.getBackOffTime(), userInfo: nil) { (error) in
+                    WKApplication.shared().scheduleBackgroundRefresh(withPreferredDate: self.watchdata.getBackOffTime(), userInfo: nil) { (error) in
                         if error == nil {
                             //successful
                         }
@@ -155,7 +155,7 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
         let backgroundConfigObject:URLSessionConfiguration
         //backgroundConfigObject = URLSessionConfiguration.default
 
-        if (WKExtension.shared().applicationState == .active) {
+        if (WKApplication.shared().applicationState == .active) {
             DLog("use default session")
             backgroundConfigObject = URLSessionConfiguration.default
         } else {
@@ -169,7 +169,7 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
             backgroundConfigObject.httpAdditionalHeaders = ["TFCID": uid]
 
         }
-        let backgroundSession = Foundation.URLSession(configuration: backgroundConfigObject, delegate: WKExtension.shared().delegate as? URLSessionDelegate, delegateQueue: nil)
+        let backgroundSession = Foundation.URLSession(configuration: backgroundConfigObject, delegate: WKApplication.shared().delegate as? URLSessionDelegate, delegateQueue: nil)
         //let backgroundSession = Foundation.URLSession(configuration: backgroundConfigObject, delegate: self, delegateQueue: nil)
         backgroundConfigObject.sessionSendsLaunchEvents = true
         backgroundConfigObject.allowsCellularAccess = true
@@ -178,7 +178,7 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
         } 
         let downloadTask = backgroundSession.downloadTask(with: sampleDownloadURL)
         downloadTask.taskDescription = station.st_id
-        if WKExtension.shared().applicationState == .active {
+        if WKApplication.shared().applicationState == .active {
             downloadTask.priority = 1.0
         }
         if let id = backgroundConfigObject.identifier {
@@ -257,7 +257,7 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
                 let  data = JSON(data: fileContent)
                 station.didReceiveAPIResults(data, error: nil, context: nil)
                 let isActive:Bool
-                isActive = (WKExtension.shared().applicationState == .active)
+                isActive = (WKApplication.shared().applicationState == .active)
                 if (st_id == self.getLastViewedStation()?.st_id  && isActive) {
                     DLog("notification TFCWatchkitUpdateCurrentStation")
                     NotificationCenter.default.post(name: Notification.Name(rawValue: "TFCWatchkitUpdateCurrentStation"), object: nil, userInfo: nil)

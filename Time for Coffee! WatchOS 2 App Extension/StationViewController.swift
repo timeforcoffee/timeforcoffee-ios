@@ -108,13 +108,13 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
         DLog("willActivate", toFile: true)
-        let state = WKExtension.shared().applicationState
+        let state = WKApplication.shared().applicationState
         if (state == .inactive) {
-            DLog("WKExtension = Inactive", toFile: true)
+            DLog("WKApplication = Inactive", toFile: true)
         } else if (state == .active) {
-            DLog("WKExtension = Active", toFile: true)
+            DLog("WKApplication = Active", toFile: true)
         } else {
-            DLog("WKExtension = Background", toFile: true)
+            DLog("WKApplication = Background", toFile: true)
 
         }
         setStationValues()
@@ -131,13 +131,13 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
 
     override func didAppear() {
         DLog("didAppear", toFile: true)
-        let state = WKExtension.shared().applicationState
+        let state = WKApplication.shared().applicationState
         if (state == .inactive) {
-            DLog("WKExtension = Inactive", toFile: true)
+            DLog("WKApplication = Inactive", toFile: true)
         } else if (state == .active) {
-            DLog("WKExtension = Active", toFile: true)
+            DLog("WKApplication = Active", toFile: true)
         } else {
-            DLog("WKExtension = Background", toFile: true)
+            DLog("WKApplication = Background", toFile: true)
         }
         super.didAppear()
         if let title = station?.getName(true) {

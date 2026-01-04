@@ -99,7 +99,7 @@ open class TFCDataStoreBase: NSObject, WCSessionDelegate, FileManagerDelegate, T
     }
 
     open func synchronize() {
-        userDefaults?.synchronize()
+        // UserDefaults.synchronize() is no longer needed (no-op since iOS 12)
         #if os(iOS)
             (keyvaluestore as? NSUbiquitousKeyValueStore)?.synchronize()
         #endif
