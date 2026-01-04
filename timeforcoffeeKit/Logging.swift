@@ -131,7 +131,7 @@ public func DLog(_ object: @autoclosure () -> Any, toFile: Bool = false, sync:Bo
                 fatalError("loggingPrint only works for values that conform to CustomDebugStringConvertible or CustomStringConvertible")
             }
             let fileEscaped = file.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlPathAllowed)
-            let fileURL = NSURL(string: fileEscaped!)?.lastPathComponent ?? "Unknown file"
+            let fileURL = URL(string: fileEscaped!)?.lastPathComponent ?? "Unknown file"
             //  <NSThread: 0x17066e7c0>{number = 11, name = (null)}
             var matches:String = ""
             if let queueLabel = queueLabel {
@@ -311,9 +311,11 @@ private func DLog2File(_ text:String) {
     if  let iCloudDocumentsURL = iCloudDocumentsURLPath {
         do {
             let file = getLogFileName()
-            let url = iCloudDocumentsURL.appendingPathComponent(file, isDirectory: false)
+            var url = iCloudDocumentsURL.appendingPathComponent(file, isDirectory: false)
             let dtext = "\(text)"
-            let _ = try? (url as NSURL).setResourceValue(true, forKey: URLResourceKey.isExcludedFromBackupKey)
+            var resourceValues = URLResourceValues()
+            resourceValues.isExcludedFromBackup = true
+            try? url.setResourceValues(resourceValues)
             try dtext.appendLineToURL(url)
 
         } catch {
