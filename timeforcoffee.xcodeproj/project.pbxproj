@@ -1228,7 +1228,6 @@
 					EC46C4DA1BB5C69800F2A963 = {
 						CreatedOnToolsVersion = 7.0;
 						LastSwiftMigration = 1020;
-						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -2078,6 +2077,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = timeforcoffee/timeforcoffee.entitlements;
+				DEVELOPMENT_TEAM = DN76797UYF;
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = timeforcoffee/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -2103,6 +2103,9 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = timeforcoffee/timeforcoffee.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DN76797UYF;
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = timeforcoffee/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -2116,6 +2119,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "timeforcoffee/timeforcoffee-Bridging-Header.h";
 			};
 			name = Release;

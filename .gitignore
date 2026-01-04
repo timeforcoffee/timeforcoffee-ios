@@ -15,4 +15,5 @@ xcuserdata
 profile
 *.moved-aside
 DerivedData
-.idea/
+.idea/.env
+/.env

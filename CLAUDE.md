@@ -156,3 +156,61 @@ class MyController: APIControllerProtocol {
     }
 }
 ```
+
+## TestFlight Deployment
+
+Use `scripts/upload-testflight.sh` to archive, export, and upload to TestFlight from the command line.
+
+### Setup
+
+Copy `.env.example` to `.env` and fill in your credentials:
+
+```bash
+cp .env.example .env
+# Edit .env with your values
+./scripts/upload-testflight.sh
+```
+
+### Option 1: Apple ID + App-Specific Password
+
+Get app-specific password from <https://appleid.apple.com> → Sign-In and Security → App-Specific Passwords
+
+```bash
+APPLE_ID=your@email.com APPLE_APP_PASSWORD=xxxx-xxxx-xxxx-xxxx ./scripts/upload-testflight.sh
+```
+
+### Option 2: App Store Connect API Key (Recommended)
+
+No 2FA prompts, better for CI/CD:
+
+1. Create API key at <https://appstoreconnect.apple.com/access/api>
+2. Download the `.p8` key file
+3. Run:
+
+```bash
+ASC_KEY_ID=XXXXXXXXXX \
+ASC_ISSUER_ID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx \
+ASC_KEY_PATH=~/.keys/AuthKey_XXXXXXXXXX.p8 \
+./scripts/upload-testflight.sh
+```
+
+### Manual Steps
+
+```bash
+# 1. Archive
+xcodebuild archive \
+  -workspace timeforcoffee.xcworkspace \
+  -scheme timeforcoffee \
+  -archivePath build/timeforcoffee.xcarchive \
+  -destination 'generic/platform=iOS'
+
+# 2. Export IPA
+xcodebuild -exportArchive \
+  -archivePath build/timeforcoffee.xcarchive \
+  -exportPath build/export \
+  -exportOptionsPlist ExportOptions.plist
+
+# 3. Upload
+xcrun altool --upload-app -f build/export/timeforcoffee.ipa -t ios \
+  -u "your@email.com" -p "xxxx-xxxx-xxxx-xxxx"
+```

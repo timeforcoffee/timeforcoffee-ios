@@ -33,28 +33,31 @@ class WidgetLocationManager: NSObject, CLLocationManagerDelegate {
 
         guard status == .authorizedWhenInUse || status == .authorizedAlways else {
             logger.warning("No location permission - status: \(String(describing: status.rawValue))")
-            return nil
+            // Try to use stored location as fallback
+            return loadStoredLocation()
         }
 
         // Try to get cached location first (within last 5 minutes)
         if let cachedLocation = locationManager.location,
            cachedLocation.timestamp.timeIntervalSinceNow > -300 {
             logger.debug("Using cached location: \(cachedLocation.coordinate.latitude), \(cachedLocation.coordinate.longitude)")
+            // Store for future fallback
+            storeLocation(cachedLocation)
             return cachedLocation
         }
 
         logger.debug("Requesting fresh location...")
 
         // Request a fresh location
-        return await withCheckedContinuation { continuation in
+        let location = await withCheckedContinuation { continuation in
             hasCompleted = false
             completion = { location in
                 continuation.resume(returning: location)
             }
             locationManager.requestLocation()
 
-            // Timeout after 5 seconds
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [weak self] in
+            // Timeout after 3 seconds (shorter for lock screen widgets)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
                 guard let self = self, !self.hasCompleted else { return }
                 self.hasCompleted = true
                 logger.warning("Location request timed out, using cached: \(String(describing: self.locationManager.location))")
@@ -62,6 +65,47 @@ class WidgetLocationManager: NSObject, CLLocationManagerDelegate {
                 self.completion = nil
             }
         }
+
+        // Store successful location for fallback
+        if let location = location {
+            storeLocation(location)
+            return location
+        }
+
+        // Final fallback: use stored location
+        return loadStoredLocation()
+    }
+
+    // MARK: - Location Storage (for fallback when location unavailable)
+
+    private let locationKey = "widgetLastKnownLocation"
+    private let locationTimestampKey = "widgetLastKnownLocationTimestamp"
+
+    private func storeLocation(_ location: CLLocation) {
+        let defaults = UserDefaults(suiteName: "group.ch.opendata.timeforcoffee")
+        defaults?.set(location.coordinate.latitude, forKey: "\(locationKey)_lat")
+        defaults?.set(location.coordinate.longitude, forKey: "\(locationKey)_lon")
+        defaults?.set(Date().timeIntervalSince1970, forKey: locationTimestampKey)
+    }
+
+    private func loadStoredLocation() -> CLLocation? {
+        let defaults = UserDefaults(suiteName: "group.ch.opendata.timeforcoffee")
+        guard let lat = defaults?.object(forKey: "\(locationKey)_lat") as? Double,
+              let lon = defaults?.object(forKey: "\(locationKey)_lon") as? Double,
+              let timestamp = defaults?.object(forKey: locationTimestampKey) as? Double else {
+            logger.warning("No stored location available")
+            return nil
+        }
+
+        // Accept stored location up to 1 hour old
+        let age = Date().timeIntervalSince1970 - timestamp
+        if age > 3600 {
+            logger.warning("Stored location too old: \(age)s")
+            return nil
+        }
+
+        logger.debug("Using stored fallback location: \(lat), \(lon) (age: \(Int(age))s)")
+        return CLLocation(latitude: lat, longitude: lon)
     }
 
     // MARK: - CLLocationManagerDelegate

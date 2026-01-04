@@ -139,7 +139,7 @@ struct WidgetConfig {
         ),
         spacing: Spacing(
             rowSpacing: 3,
-            elementSpacing: 4,
+            elementSpacing: 8,
             padding: 12,
             rowVerticalPadding: 4
         ),

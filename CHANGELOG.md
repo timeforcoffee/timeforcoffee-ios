@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [1.30] - unreleased
+## [1.31] - unreleased
 
 ### Added
 
@@ -23,9 +23,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Minimum iOS version updated to 17.0
 - Minimum watchOS version updated to 9.0
 - About page now uses modern WKWebView instead of deprecated UIWebView
+- Increased font sizes and improved text styling for better readability
 
 ### Fixed
 
+- App Store validation errors: removed framework embedding from widget extension
 - Search bar not visible when opening station search
 - Dark mode support improved for navigation bar and passlist views
 - Widget departure times now update correctly at minute boundaries
