@@ -55,8 +55,8 @@ struct DepartureTimelineProvider: AppIntentTimelineProvider {
         let nowComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: now)
         let minuteStart = calendar.date(from: nowComponents) ?? now
 
-        // Both modes refresh every 15 minutes
-        let timelineMinutes = 15
+        // Dynamic refresh rate based on next departure
+        let timelineMinutes = calculateRefreshInterval(for: currentEntry, from: now)
 
         for minuteOffset in stride(from: 0, to: timelineMinutes, by: 1) {
             let entryDate = calendar.date(byAdding: .minute, value: minuteOffset, to: minuteStart)!
@@ -152,6 +152,43 @@ struct DepartureTimelineProvider: AppIntentTimelineProvider {
             }
             logger.warning("No location for nearest station mode")
             return DepartureEntry.empty(message: NSLocalizedString("Location unavailable", comment: ""))
+        }
+    }
+
+    /// Calculates the refresh interval based on when the next departure is
+    /// - Returns refresh interval in minutes (15-60)
+    private func calculateRefreshInterval(for entry: DepartureEntry, from now: Date) -> Int {
+        // Find the earliest departure time
+        let nextDepartureTime: Date?
+
+        if entry.viewMode == .singleStation {
+            nextDepartureTime = entry.departures.first?.departureTime
+        } else {
+            // For nearby stations mode, find earliest across all stations
+            nextDepartureTime = entry.nearbyStations
+                .compactMap { $0.departures.first?.departureTime }
+                .min()
+        }
+
+        // If no departures found, use longer interval
+        guard let nextTime = nextDepartureTime else {
+            logger.debug("No departures found, using 60 minute refresh")
+            return 60
+        }
+
+        let minutesUntilNextDeparture = Int(nextTime.timeIntervalSince(now) / 60)
+        logger.debug("Minutes until next departure: \(minutesUntilNextDeparture)")
+
+        // Dynamic refresh strategy:
+        // - Next departure in < 60 min: refresh every 15 min (frequent updates needed)
+        // - Next departure in 1-2 hours: refresh every 30 min
+        // - Next departure in > 2 hours: refresh every 60 min (night mode / low frequency)
+        if minutesUntilNextDeparture < 60 {
+            return 15
+        } else if minutesUntilNextDeparture < 120 {
+            return 30
+        } else {
+            return 60
         }
     }
 }
