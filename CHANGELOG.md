@@ -24,6 +24,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Minimum watchOS version updated to 9.0
 - About page now uses modern WKWebView instead of deprecated UIWebView
 - Increased font sizes and improved text styling for better readability
+- Modernized codebase to remove deprecated iOS/watchOS APIs:
+  - Updated archiving APIs for secure coding compliance
+  - Replaced WKExtension with WKApplication for watchOS 9+
+  - Replaced Info.plist complication families with programmatic API
+  - Removed deprecated network activity indicator (no longer visible in iOS 13+)
 
 ### Fixed
 
