@@ -269,6 +269,10 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
         let destinationLabel = cell.viewWithTag(99200) as! UILabel
         let departureLabel = cell.viewWithTag(99300) as! UILabel
         let minutesLabel = cell.viewWithTag(99400) as! UILabel
+        destinationLabel.font = UIFont.systemFont(ofSize: 19, weight: .regular)
+        departureLabel.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        departureLabel.textColor = UIColor(named: "TFCGrayerColor")
+        minutesLabel.font = UIFont.systemFont(ofSize: 19, weight: .semibold)
 
         if let departure = departure {
             let passlist = departure.getPasslist()

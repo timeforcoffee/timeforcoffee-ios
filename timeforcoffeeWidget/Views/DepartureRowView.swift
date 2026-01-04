@@ -47,6 +47,7 @@ struct DepartureRowView: View {
                 Text(departure.minutesDisplay)
                     .font(.system(size: config.fontSize.minutes, weight: .semibold, design: .rounded))
                     .foregroundColor(minutesColor)
+                    .fixedSize(horizontal: true, vertical: false)
 
                 // Realtime indicator
                 if !departure.isRealtime {
@@ -96,6 +97,7 @@ struct CompactDepartureRowView: View {
             Text(departure.minutesDisplay)
                 .font(.system(size: config.fontSize.minutes, weight: .semibold, design: .rounded))
                 .foregroundColor(departure.minutesUntilDeparture <= 2 ? .red : .primary)
+                .fixedSize(horizontal: true, vertical: false)
         }
         .padding(.vertical, config.spacing.rowVerticalPadding)
     }

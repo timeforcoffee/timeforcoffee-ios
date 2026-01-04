@@ -12,7 +12,7 @@ import timeforcoffeeKit
 class DepartureLineLabel: UILabel, UITableViewDelegate {
     
     let linesWithSymbol = ["ICN", "EN", "ICN", "TGV", "RX", "EC", "IC", "SC", "CNL", "ICE", "IR"]
-    var fontsize:CGFloat       { get { return 18.0}}
+    var fontsize:CGFloat       { get { return 20.0}}
     var cornerradius: CGFloat  { get { return 4.0}}
     var insets: CGFloat        { get { return 5.0}}
     var linelabelClickedCallback:(() -> Void)?

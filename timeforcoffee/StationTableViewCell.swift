@@ -53,7 +53,10 @@ final class StationTableViewCell: UITableViewCell {
         self.selectionStyle = UITableViewCell.SelectionStyle.none;
         drawIcon()
         StationNameLabel?.text = station.getName(false)
+        StationNameLabel?.font = UIFont.systemFont(ofSize: 19, weight: .regular)
         StationNameLabel.accessibilityLabel = station.getName(true)
+        StationDescriptionLabel?.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        StationDescriptionLabel?.textColor = UIColor(named: "TFCGrayerColor")
         if ( TFCLocationManager.getCurrentLocation() == nil) {
             StationDescriptionLabel.text = ""
             return
