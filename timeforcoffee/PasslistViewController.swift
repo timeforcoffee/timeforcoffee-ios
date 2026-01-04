@@ -54,7 +54,6 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
         }
         super.distanceLabelVisibleOnTop = true
         super.distanceLabel.alpha = 0.9
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         if #available(iOS 11.0, *) {
             if let navController = self.navigationController {
                 safeAreaTop = navController.view.safeAreaInsets.top
@@ -212,7 +211,6 @@ final class PasslistViewController: WithMapViewController, UITableViewDataSource
     }
 
     func passlistUpdated(_ error: Error?, context: Any?, forDeparture: TFCDeparture?) {
-        UIApplication.shared.isNetworkActivityIndicatorVisible = false
         if (error != nil) {
             self.networkErrorMsg = NSLocalizedString("Network error. Please try again", comment:"")
         } else {

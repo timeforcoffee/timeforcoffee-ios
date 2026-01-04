@@ -14,14 +14,37 @@ import timeforcoffeeKitWatch
 //MARK: - Constants
 
 class ComplicationController: NSObject, CLKComplicationDataSource, TFCDeparturesUpdatedProtocol {
-    
+
     // MARK: - Timeline Configuration
-    
-    lazy var watchdata: TFCWatchData = { 
+
+    lazy var watchdata: TFCWatchData = {
         let watchdata = TFCWatchData()
         watchdata.noCrunchQueue = true
         return watchdata
         }()
+
+    // MARK: - Complication Descriptors (replaces CLKComplicationSupportedFamilies in Info.plist)
+
+    func getComplicationDescriptors(handler: @escaping ([CLKComplicationDescriptor]) -> Void) {
+        let descriptor = CLKComplicationDescriptor(
+            identifier: "ch.opendata.timeforcoffee.complication",
+            displayName: "Time for Coffee!",
+            supportedFamilies: [
+                .modularSmall,
+                .modularLarge,
+                .utilitarianSmall,
+                .utilitarianSmallFlat,
+                .utilitarianLarge,
+                .circularSmall,
+                .extraLarge,
+                .graphicCorner,
+                .graphicCircular,
+                .graphicRectangular,
+                .graphicBezel
+            ]
+        )
+        handler([descriptor])
+    }
 
     func getSupportedTimeTravelDirections(for complication: CLKComplication, withHandler handler: @escaping (CLKComplicationTimeTravelDirections) -> Void) {
         handler([.forward]) // supports only forward time travel

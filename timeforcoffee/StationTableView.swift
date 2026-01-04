@@ -51,9 +51,7 @@ final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataS
 
             self.refreshControl2?.endRefreshing()
         } else {
-            UIApplication.shared.isNetworkActivityIndicatorVisible = true
             if (!self.stations.updateStations(force)) {
-                UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 self.refreshControl2?.endRefreshing()
             }
         }
@@ -67,7 +65,6 @@ final class StationTableView: UITableView, UITableViewDelegate, UITableViewDataS
 
     func stationsUpdated(_ err: String?, favoritesOnly: Bool, context: Any?, stations:TFCStations) {
         DispatchQueue.main.async(execute: {
-            UIApplication.shared.isNetworkActivityIndicatorVisible = false
             self.refreshControl2?.endRefreshing()
             self.reloadData()
         })

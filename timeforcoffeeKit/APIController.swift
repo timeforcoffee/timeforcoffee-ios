@@ -194,6 +194,6 @@ final class APIController {
     }
 }
 
-public protocol APIControllerProtocol: class {
+public protocol APIControllerProtocol: AnyObject {
     func didReceiveAPIResults(_ results: JSON?, error: Error?, context: Any?)
 }

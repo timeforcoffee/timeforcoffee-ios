@@ -451,6 +451,6 @@ public final class TFCStations: NSObject, TFCLocationManagerDelegate, APIControl
     }
 }
 
-public protocol TFCStationsUpdatedProtocol: class {
+public protocol TFCStationsUpdatedProtocol: AnyObject {
     func stationsUpdated(_ error: String?, favoritesOnly: Bool, context: Any?, stations: TFCStations)
 }

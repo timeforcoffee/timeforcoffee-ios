@@ -78,7 +78,6 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
             })
         }
 
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         self.refreshControl = UIRefreshControl()
         self.refreshControl.addTarget(self, action: #selector(DeparturesViewController.refresh(_:)), for: UIControl.Event.valueChanged)
         self.refreshControl.backgroundColor = UIColor(red: 242.0/255.0, green: 243.0/255.0, blue: 245.0/255.0, alpha: 1.0)
@@ -336,7 +335,6 @@ final class DeparturesViewController: WithMapViewController, UITableViewDataSour
     func departuresUpdated(_ error: Error?, context: Any?, forStation: TFCStation?) {
         DispatchQueue.main.async {
             self.refreshControl.endRefreshing()
-            UIApplication.shared.isNetworkActivityIndicatorVisible = false
             if (forStation?.st_id == self.station?.st_id) {
                 if (error != nil) {
                     self.networkErrorMsg = NSLocalizedString("Network error. Please try again", comment:"")
