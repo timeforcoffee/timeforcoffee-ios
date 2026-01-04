@@ -128,7 +128,6 @@
 		EC90F87E2F091DF400282E88 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC90F87D2F091DF400282E88 /* SwiftUI.framework */; };
 		EC90F88D2F091DF500282E88 /* timeforcoffeeWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EC90F87A2F091DF400282E88 /* timeforcoffeeWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		EC90F8A42F091EE000282E88 /* timeforcoffeeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC46C5591BB5C82800F2A963 /* timeforcoffeeKit.framework */; };
-		EC90F8A52F091EE000282E88 /* timeforcoffeeKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EC46C5591BB5C82800F2A963 /* timeforcoffeeKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EC97B542233DFF950065A3C2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC4F0C881BB5D54B00CE7C24 /* Images.xcassets */; };
 		EC97B543233DFFFB0065A3C2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC4F0C881BB5D54B00CE7C24 /* Images.xcassets */; };
 		EC984561217B4090000675A3 /* ClockKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC984560217B4090000675A3 /* ClockKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -344,17 +343,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				EC2D16C32157CE4C00973F11 /* timeforcoffeeKitWatch.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		EC90F8A82F091EE000282E88 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				EC90F8A52F091EE000282E88 /* timeforcoffeeKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1153,7 +1141,6 @@
 				EC90F8762F091DF400282E88 /* Sources */,
 				EC90F8772F091DF400282E88 /* Frameworks */,
 				EC90F8782F091DF400282E88 /* Resources */,
-				EC90F8A82F091EE000282E88 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2467,7 +2454,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.31;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.timeforcoffeeWidget;
@@ -2513,7 +2500,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.31;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = ch.opendata.timeforcoffee.timeforcoffeeWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
