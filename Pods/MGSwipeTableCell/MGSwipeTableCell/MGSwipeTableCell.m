@@ -622,6 +622,7 @@ static inline CGFloat mgEaseInOutBounce(CGFloat t, CGFloat b, CGFloat c) {
     bool _overlayEnabled;
     UITableViewCellSelectionStyle _previusSelectionStyle;
     NSMutableSet * _previusHiddenViews;
+    UITableViewCellAccessoryType _previusAccessoryType;
     BOOL _triggerStateChanges;
     
     MGSwipeAnimationData * _animationData;
@@ -1028,15 +1029,28 @@ static inline CGFloat mgEaseInOutBounce(CGFloat t, CGFloat b, CGFloat c) {
 #pragma mark Some utility methods
 
 - (UIImage *)imageFromView:(UIView *)view cropSize:(CGSize)cropSize{
-    UIGraphicsBeginImageContextWithOptions(cropSize, NO, 0);
-    [view drawViewHierarchyInRect:view.bounds afterScreenUpdates:YES];
-    UIImage * image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
+    UIGraphicsImageRenderer *renderer = [[UIGraphicsImageRenderer alloc] initWithSize:cropSize];
+    UIImage *image = [renderer imageWithActions:^(UIGraphicsImageRendererContext * _Nonnull rendererContext) {
+        [view.layer renderInContext:[rendererContext CGContext]];
+    }];
     return image;
 }
 
 -(void) setAccesoryViewsHidden: (BOOL) hidden
 {
+    if (@available(iOS 12, *)) {
+        // Hide the accessory to prevent blank box being displayed in iOS13 / iOS12
+        // (blank area would be overlayed in accessory area when using cell in storyboard view)
+        // See: https://github.com/MortimerGoro/MGSwipeTableCell/issues/337
+        if (hidden) {
+            _previusAccessoryType = self.accessoryType;
+            self.accessoryType = UITableViewCellAccessoryNone;
+        } else if (self.accessoryType == UITableViewCellAccessoryNone) {
+            self.accessoryType = _previusAccessoryType;
+            _previusAccessoryType = UITableViewCellAccessoryNone;
+        }
+    }
+    
     if (self.accessoryView) {
         self.accessoryView.hidden = hidden;
     }
