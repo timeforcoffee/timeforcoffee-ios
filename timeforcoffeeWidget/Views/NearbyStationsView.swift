@@ -41,8 +41,9 @@ struct NearbyStationRowView: View {
                     Text(departure.minutesDisplay(relativeTo: entryDate))
                         .font(.system(size: config.fontSize.minutes, weight: .semibold, design: .rounded))
                         .foregroundColor(minutesColor(for: departure.minutesUntilDeparture(relativeTo: entryDate)))
-                        .fixedSize(horizontal: true, vertical: false)
-                        .frame(minWidth: 30, alignment: .trailing)
+                        .minimumScaleFactor(0.7)
+                        .lineLimit(1)
+                        .layoutPriority(1)
                 } else {
                     Text("--")
                         .font(.system(size: config.fontSize.content))

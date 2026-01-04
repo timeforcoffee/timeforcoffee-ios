@@ -32,7 +32,7 @@ struct DepartureRowView: View {
                 .truncationMode(.tail)
                 .foregroundColor(.primary)
 
-            Spacer(minLength: 4)
+            Spacer(minLength: 0)
 
             // Platform (optional)
             if showPlatform, let platform = departure.platform, !platform.isEmpty {
@@ -43,20 +43,12 @@ struct DepartureRowView: View {
             }
 
             // Minutes until departure
-            VStack(alignment: .trailing, spacing: 0) {
-                Text(departure.minutesDisplay)
-                    .font(.system(size: config.fontSize.minutes, weight: .semibold, design: .rounded))
-                    .foregroundColor(minutesColor)
-                    .fixedSize(horizontal: true, vertical: false)
-
-                // Realtime indicator
-                if !departure.isRealtime {
-                    Text("~")
-                        .font(.system(size: config.fontSize.secondary - 2))
-                        .foregroundColor(.secondary)
-                }
-            }
-            .frame(minWidth: 36, alignment: .trailing)
+            Text(departure.minutesDisplay)
+                .font(.system(size: config.fontSize.minutes, weight: .semibold, design: .rounded))
+                .foregroundColor(minutesColor)
+                .minimumScaleFactor(0.7)
+                .lineLimit(1)
+                .layoutPriority(1)
         }
         .padding(.vertical, config.spacing.rowVerticalPadding)
     }
@@ -92,12 +84,14 @@ struct CompactDepartureRowView: View {
                 .truncationMode(.tail)
                 .foregroundColor(.primary)
 
-            Spacer(minLength: 2)
+            Spacer(minLength: 0)
 
             Text(departure.minutesDisplay)
                 .font(.system(size: config.fontSize.minutes, weight: .semibold, design: .rounded))
                 .foregroundColor(departure.minutesUntilDeparture <= 2 ? .red : .primary)
-                .fixedSize(horizontal: true, vertical: false)
+                .minimumScaleFactor(0.7)
+                .lineLimit(1)
+                .layoutPriority(1)
         }
         .padding(.vertical, config.spacing.rowVerticalPadding)
     }
