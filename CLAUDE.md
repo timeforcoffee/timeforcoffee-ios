@@ -39,7 +39,9 @@ The `LANG=en_US.UTF-8` prefix may be needed if CocoaPods reports encoding errors
 ## Architecture
 
 ### Multi-Target Structure
+
 The project has multiple targets sharing code through frameworks:
+
 - **timeforcoffee** - Main iOS app
 - **timeforcoffeeKit** - Shared framework for iOS (stations, departures, API, data storage)
 - **timeforcoffeeKitWatch** - Shared framework for watchOS (subset of Kit with watch-specific implementations)
@@ -48,23 +50,27 @@ The project has multiple targets sharing code through frameworks:
 - **NextDeparturesIntent/UI/Watch** - Siri shortcuts and intents
 
 ### Core Data Models
+
 - **TFCStation** / **TFCStationBase** - Station with coordinates, departures, favorites, filtering
 - **TFCDeparture** - Single departure with line, destination, scheduled/realtime times, colors
 - **TFCPass** - Passlist (intermediate stops) for a departure
 - **TFCStationModel** - CoreData entity for persistent station storage
 
 ### Key Singletons
+
 - `TFCDataStore.sharedInstance` - iCloud key-value storage, WatchConnectivity, CoreData context
 - `TFCFavorites.sharedInstance` - Favorite stations management and geofencing
 - `TFCLocationManager` - Location services wrapper (different implementations for iOS/watchOS)
 - `TFCCache.objects` - PINCache instances for stations and API calls
 
 ### API Layer
+
 - **APIController** - Fetches data from transport.opendata.ch and tfc.chregu.tv APIs
 - Implements `APIControllerProtocol` for async callback pattern
 - Uses PINCache for response caching
 
 ### Data Flow
+
 1. Station search/nearby uses `TFCStationsUpdate` with location
 2. APIController fetches from transport.opendata.ch (search) or tfc.chregu.tv (departures)
 3. Results parsed via SwiftyJSON into TFCStation/TFCDeparture objects
@@ -73,6 +79,7 @@ The project has multiple targets sharing code through frameworks:
 6. WatchConnectivity syncs favorites and complications between iOS/watchOS
 
 ### Platform-Specific Code
+
 - iOS-only code uses `#if os(iOS)` guards
 - watchOS-only code uses `#if os(watchOS)` guards
 - TFCStation extends TFCStationBase with iOS-specific features (walking distance via MKDirections, CoreSpotlight indexing)
@@ -125,12 +132,14 @@ The widget uses WidgetKit with AppIntentConfiguration and supports both home scr
 ## Deep Linking
 
 The app uses `timeforcoffee://` URL scheme:
+
 - `timeforcoffee://station?id={stationId}&name={stationName}` - Open a specific station
 - `timeforcoffee://nearby` - Open nearby stations view
 
 ## Debugging
 
 Use the `DLog()` function in `timeforcoffeeKit/Logging.swift` for debug output:
+
 ```swift
 DLog("message")                    // Console output (debug builds only)
 DLog("message", toFile: true)      // Also writes to file for watchOS debugging
@@ -139,6 +148,7 @@ DLog("message", toFile: true)      // Also writes to file for watchOS debugging
 ## Cache Keys
 
 The app uses PINCache with these key patterns:
+
 - `dept_{st_id}` - Cached departures for a station
 - `stations/{query}` - Cached station search results
 - `stationsinfo/{id}` - Cached station metadata
@@ -146,6 +156,7 @@ The app uses PINCache with these key patterns:
 ## Async Patterns
 
 API calls use a delegate callback pattern:
+
 ```swift
 class MyController: APIControllerProtocol {
     lazy var api: APIController = APIController(delegate: self)
@@ -213,4 +224,14 @@ xcodebuild -exportArchive \
 # 3. Upload
 xcrun altool --upload-app -f build/export/timeforcoffee.ipa -t ios \
   -u "your@email.com" -p "xxxx-xxxx-xxxx-xxxx"
+```
+
+### Troubleshooting: Codesign Hangs
+
+If the export step hangs during codesign (common with watchOS frameworks), kill these processes:
+
+```bash
+sudo killall -9 codesign
+sudo killall -9 trustd
+sudo killall -9 securityd
 ```
