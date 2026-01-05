@@ -15,6 +15,17 @@ struct WidgetDataFetcher {
     private static let nearbyURL = "https://transport.opendata.ch/v1/locations"
     private static let appGroupId = "group.ch.opendata.timeforcoffee"
 
+    /// URL session configured with TFCID header for API requests
+    private static let session: URLSession = {
+        let config = URLSessionConfiguration.default
+        config.timeoutIntervalForRequest = 10.0
+        config.timeoutIntervalForResource = 10.0
+        if let uid = TFCDataStore.sharedInstance.getTFCID() {
+            config.httpAdditionalHeaders = ["TFCID": uid]
+        }
+        return URLSession(configuration: config)
+    }()
+
     /// Formats station name with city in parentheses: "Zürich, Limmatplatz" -> "Limmatplatz (Zürich)"
     private static func formatStationName(_ name: String) -> String {
         // Match pattern "City, Station" and convert to "Station (City)"
@@ -47,7 +58,7 @@ struct WidgetDataFetcher {
         }
 
         do {
-            let (data, response) = try await URLSession.shared.data(from: requestUrl)
+            let (data, response) = try await session.data(from: requestUrl)
 
             guard let httpResponse = response as? HTTPURLResponse,
                   httpResponse.statusCode == 200 else {
@@ -460,7 +471,7 @@ struct WidgetDataFetcher {
         }
 
         do {
-            let (data, response) = try await URLSession.shared.data(from: url)
+            let (data, response) = try await session.data(from: url)
 
             guard let httpResponse = response as? HTTPURLResponse,
                   httpResponse.statusCode == 200 else {
@@ -513,7 +524,7 @@ struct WidgetDataFetcher {
         }
 
         do {
-            let (data, response) = try await URLSession.shared.data(from: url)
+            let (data, response) = try await session.data(from: url)
 
             guard let httpResponse = response as? HTTPURLResponse,
                   httpResponse.statusCode == 200 else {
@@ -577,7 +588,7 @@ struct WidgetDataFetcher {
         }
 
         do {
-            let (data, response) = try await URLSession.shared.data(from: url)
+            let (data, response) = try await session.data(from: url)
 
             guard let httpResponse = response as? HTTPURLResponse,
                   httpResponse.statusCode == 200 else {
