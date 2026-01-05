@@ -13,7 +13,9 @@ import WidgetKit
 struct DepartureRowView: View {
     let departure: WidgetDeparture
     let config: WidgetConfig
+    let entryDate: Date
     var showPlatform: Bool = false
+    var stationName: String? = nil
 
     var body: some View {
         HStack(spacing: config.spacing.elementSpacing) {
@@ -26,7 +28,7 @@ struct DepartureRowView: View {
             )
 
             // Destination
-            Text(departure.formattedDestination)
+            Text(departure.formattedDestination(forStationName: stationName))
                 .font(.system(size: config.fontSize.content, weight: .regular))
                 .lineLimit(1)
                 .truncationMode(.tail)
@@ -43,7 +45,7 @@ struct DepartureRowView: View {
             }
 
             // Minutes until departure
-            Text(departure.minutesDisplay)
+            Text(departure.minutesDisplay(relativeTo: entryDate))
                 .font(.system(size: config.fontSize.minutes, weight: .semibold, design: .rounded))
                 .foregroundColor(minutesColor)
                 .minimumScaleFactor(0.7)
@@ -54,7 +56,7 @@ struct DepartureRowView: View {
     }
 
     private var minutesColor: Color {
-        let minutes = departure.minutesUntilDeparture
+        let minutes = departure.minutesUntilDeparture(relativeTo: entryDate)
         if minutes <= 2 {
             return .red
         } else if minutes <= 5 {
@@ -68,6 +70,8 @@ struct DepartureRowView: View {
 struct CompactDepartureRowView: View {
     let departure: WidgetDeparture
     let config: WidgetConfig
+    let entryDate: Date
+    var stationName: String? = nil
 
     var body: some View {
         HStack(spacing: config.spacing.elementSpacing) {
@@ -78,7 +82,7 @@ struct CompactDepartureRowView: View {
                 fontSize: config.fontSize.content - 3
             )
 
-            Text(departure.formattedDestination)
+            Text(departure.formattedDestination(forStationName: stationName))
                 .font(.system(size: config.fontSize.content))
                 .lineLimit(1)
                 .truncationMode(.tail)
@@ -86,9 +90,9 @@ struct CompactDepartureRowView: View {
 
             Spacer(minLength: 0)
 
-            Text(departure.minutesDisplay)
+            Text(departure.minutesDisplay(relativeTo: entryDate))
                 .font(.system(size: config.fontSize.minutes, weight: .semibold, design: .rounded))
-                .foregroundColor(departure.minutesUntilDeparture <= 2 ? .red : .primary)
+                .foregroundColor(departure.minutesUntilDeparture(relativeTo: entryDate) <= 2 ? .red : .primary)
                 .minimumScaleFactor(0.7)
                 .lineLimit(1)
                 .layoutPriority(1)
@@ -111,6 +115,7 @@ struct CompactDepartureRowView: View {
                 platform: "3"
             ),
             config: .mediumDepartures,
+            entryDate: Date(),
             showPlatform: true
         )
         DepartureRowView(
@@ -125,6 +130,7 @@ struct CompactDepartureRowView: View {
                 platform: "7"
             ),
             config: .mediumDepartures,
+            entryDate: Date(),
             showPlatform: true
         )
         DepartureRowView(
@@ -138,7 +144,8 @@ struct CompactDepartureRowView: View {
                 colorBg: "#FFFFFF",
                 platform: nil
             ),
-            config: .mediumDepartures
+            config: .mediumDepartures,
+            entryDate: Date()
         )
     }
     .padding()

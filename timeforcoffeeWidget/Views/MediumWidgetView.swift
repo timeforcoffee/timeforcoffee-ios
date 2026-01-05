@@ -51,7 +51,7 @@ struct MediumWidgetView: View {
 
             // Departures
             ForEach(entry.departures.prefix(config.limits.maxItems)) { departure in
-                DepartureRowView(departure: departure, config: config)
+                DepartureRowView(departure: departure, config: config, stationName: entry.stationName)
             }
 
             if entry.departures.count < config.limits.maxItems {

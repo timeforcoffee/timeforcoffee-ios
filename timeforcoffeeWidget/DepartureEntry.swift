@@ -233,11 +233,41 @@ struct WidgetDeparture: Identifiable, Codable {
 
     /// Formatted destination for display: "Zürich, Limmatplatz" -> "Limmatplatz (Zürich)"
     var formattedDestination: String {
-        if let commaRange = destination.range(of: ", ") {
-            let city = String(destination[..<commaRange.lowerBound])
-            let station = String(destination[commaRange.upperBound...])
-            return "\(station) (\(city))"
+        formattedDestination(forStationName: nil)
+    }
+
+    /// Formatted destination, stripping city if it matches the departure station's city
+    /// Example: Station "Höfliweg (Zürich)", Destination "Holzerhurd (Zürich)" -> "Holzerhurd"
+    func formattedDestination(forStationName stationName: String?) -> String {
+        // Check if destination has "City, Station" format
+        guard let destCommaRange = destination.range(of: ", ") else {
+            return destination
         }
-        return destination
+
+        let destCity = String(destination[..<destCommaRange.lowerBound])
+        let destStation = String(destination[destCommaRange.upperBound...])
+
+        // Check if station name has a city (either "City, Station" or "Station (City)" format)
+        if let stationName = stationName {
+            var stationCity: String?
+
+            // Check for "City, Station" format
+            if let stationCommaRange = stationName.range(of: ", ") {
+                stationCity = String(stationName[..<stationCommaRange.lowerBound])
+            }
+            // Check for "Station (City)" format
+            else if let openParen = stationName.range(of: " ("),
+                    let closeParen = stationName.range(of: ")", range: openParen.upperBound..<stationName.endIndex) {
+                stationCity = String(stationName[openParen.upperBound..<closeParen.lowerBound])
+            }
+
+            // If cities match, return just the station name without city
+            if let stationCity = stationCity, stationCity == destCity {
+                return destStation
+            }
+        }
+
+        // Default: reformat as "Station (City)"
+        return "\(destStation) (\(destCity))"
     }
 }

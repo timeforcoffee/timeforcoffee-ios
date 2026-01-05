@@ -21,7 +21,7 @@ struct AccessoryInlineView: View {
             if let errorMessage = entry.errorMessage {
                 Text(errorMessage)
             } else if let departure = firstDeparture {
-                Text("\(departure.line) \(departure.formattedDestination) \(departure.minutesDisplay(relativeTo: entry.date))")
+                Text("\(departure.line) \(departure.formattedDestination(forStationName: stationNameForInline)) \(departure.minutesDisplay(relativeTo: entry.date))")
             } else {
                 Text("No departures")
             }
@@ -35,6 +35,15 @@ struct AccessoryInlineView: View {
             return entry.departures.first { $0.departureTime > entry.date.addingTimeInterval(-60) }
         case .nearbyStations:
             return entry.nearbyStations.first?.firstDeparture(relativeTo: entry.date)
+        }
+    }
+
+    private var stationNameForInline: String? {
+        switch entry.viewMode {
+        case .singleStation:
+            return entry.stationName
+        case .nearbyStations:
+            return entry.nearbyStations.first?.name
         }
     }
 }
@@ -75,7 +84,7 @@ struct AccessoryRectangularView: View {
 
             // Up to 2 departures
             ForEach(validDepartures.prefix(2)) { departure in
-                AccessoryDepartureRow(departure: departure, entryDate: entry.date)
+                AccessoryDepartureRow(departure: departure, entryDate: entry.date, stationName: entry.stationName)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -117,13 +126,14 @@ struct AccessoryRectangularView: View {
 struct AccessoryDepartureRow: View {
     let departure: WidgetDeparture
     let entryDate: Date
+    var stationName: String? = nil
 
     var body: some View {
         HStack(spacing: 2) {
             Text(departure.line)
                 .fontWeight(.bold)
 
-            Text(departure.formattedDestination)
+            Text(departure.formattedDestination(forStationName: stationName))
                 .lineLimit(1)
 
             Spacer(minLength: 2)
