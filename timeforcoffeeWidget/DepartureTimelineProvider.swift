@@ -62,9 +62,9 @@ struct DepartureTimelineProvider: AppIntentTimelineProvider {
             let entryDate = calendar.date(byAdding: .minute, value: minuteOffset, to: minuteStart)!
 
             if currentEntry.viewMode == .singleStation {
-                // Filter departures that have already left
+                // Filter departures that have already left (departure must be in current minute or later)
                 let validDepartures = currentEntry.departures.filter { departure in
-                    departure.departureTime > entryDate.addingTimeInterval(-60)
+                    departure.departureTime >= entryDate
                 }
 
                 let entry = DepartureEntry(

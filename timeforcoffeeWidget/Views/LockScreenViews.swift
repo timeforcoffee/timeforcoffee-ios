@@ -32,7 +32,7 @@ struct AccessoryInlineView: View {
     private var firstDeparture: WidgetDeparture? {
         switch entry.viewMode {
         case .singleStation:
-            return entry.departures.first { $0.departureTime > entry.date.addingTimeInterval(-60) }
+            return entry.departures.first { $0.departureTime >= entry.date }
         case .nearbyStations:
             return entry.nearbyStations.first?.firstDeparture(relativeTo: entry.date)
         }
@@ -118,7 +118,7 @@ struct AccessoryRectangularView: View {
     }
 
     private var validDepartures: [WidgetDeparture] {
-        entry.departures.filter { $0.departureTime > entry.date.addingTimeInterval(-60) }
+        entry.departures.filter { $0.departureTime >= entry.date }
     }
 }
 
@@ -191,7 +191,7 @@ struct AccessoryCircularView: View {
     private var firstDeparture: WidgetDeparture? {
         switch entry.viewMode {
         case .singleStation:
-            return entry.departures.first { $0.departureTime > entry.date.addingTimeInterval(-60) }
+            return entry.departures.first { $0.departureTime >= entry.date }
         case .nearbyStations:
             return entry.nearbyStations.first?.firstDeparture(relativeTo: entry.date)
         }

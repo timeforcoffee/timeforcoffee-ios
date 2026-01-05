@@ -175,7 +175,7 @@ struct NearbyStation: Identifiable {
 
     /// First departure that hasn't passed relative to a specific date
     func firstDeparture(relativeTo date: Date) -> WidgetDeparture? {
-        departures.first { $0.departureTime > date.addingTimeInterval(-60) }
+        departures.first { $0.departureTime >= date }
     }
 
     /// Legacy initializer for compatibility
