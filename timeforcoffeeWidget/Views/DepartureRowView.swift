@@ -164,7 +164,8 @@ struct CompactDepartureRowView: View {
                 colorBg: "#FFCC00",
                 platform: nil
             ),
-            config: .smallDepartures
+            config: .smallDepartures,
+            entryDate: Date()
         )
         CompactDepartureRowView(
             departure: WidgetDeparture(
@@ -177,7 +178,8 @@ struct CompactDepartureRowView: View {
                 colorBg: "#0066CC",
                 platform: nil
             ),
-            config: .smallDepartures
+            config: .smallDepartures,
+            entryDate: Date()
         )
     }
     .padding()

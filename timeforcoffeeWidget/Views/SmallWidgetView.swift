@@ -35,7 +35,7 @@ struct SmallWidgetView: View {
 
             // Departures
             ForEach(entry.departures.prefix(config.limits.maxItems)) { departure in
-                CompactDepartureRowView(departure: departure, config: config, stationName: entry.stationName)
+                CompactDepartureRowView(departure: departure, config: config, entryDate: entry.date, stationName: entry.stationName)
             }
 
             Spacer(minLength: 0)

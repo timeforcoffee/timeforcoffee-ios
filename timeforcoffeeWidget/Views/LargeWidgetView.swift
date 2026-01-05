@@ -66,7 +66,7 @@ struct LargeWidgetView: View {
 
             // Departures
             ForEach(entry.departures.prefix(config.limits.maxItems)) { departure in
-                DepartureRowView(departure: departure, config: config, showPlatform: true, stationName: entry.stationName)
+                DepartureRowView(departure: departure, config: config, entryDate: entry.date, showPlatform: true, stationName: entry.stationName)
             }
 
             Spacer(minLength: 0)
