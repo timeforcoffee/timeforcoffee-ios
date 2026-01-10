@@ -124,7 +124,13 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
 
         if (!isInBackground) {
             DLog("fetchDepartureData")
-            TFCWatchDataFetch.sharedInstance.fetchDepartureData()
+            // Fetch for the specific station being displayed
+            if let station = self.station {
+                DLog("fetchDepartureDataForStation: \(station.st_id)")
+                TFCWatchDataFetch.sharedInstance.fetchDepartureDataForStation(station)
+            } else {
+                TFCWatchDataFetch.sharedInstance.fetchDepartureData()
+            }
         }
 
     }
@@ -209,19 +215,6 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         self.initTable = false
         let _ = self.station?.removeObsoleteDepartures()
         let _ = self.displayDepartures(self.station)
-        if drawAsNewStation {
-            DispatchQueue.main.async(execute: {
-                
-                self.clearAllMenuItems()
-                if (self.station?.isFavorite() == true) {
-                    self.addMenuItem(with: WKMenuItemIcon.decline, title: "Unfavorite Station", action: #selector(StationViewController.contextButtonFavorite))
-                } else {
-                    self.addMenuItem(with: WKMenuItemIcon.add, title: "Favorite Station", action: #selector(StationViewController.contextButtonFavorite))
-                }
-                self.addMenuItem(with: WKMenuItemIcon.resume, title: "Reload", action: #selector(StationViewController.contextButtonReload))
-                self.addMenuItem(with: WKMenuItemIcon.maybe, title: "Map", action: #selector(StationViewController.contextButtonMap))
-            })
-        }
         if (!isInBackground) {
             if let station2 = self.station {
                 DispatchQueue.main.async(execute: {
@@ -243,17 +236,25 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         DLog("updateCurrentStation", toFile: true)
         if (self.activated) {
             DispatchQueue.main.async {
+                let userInfo = notification.userInfo as? [String:Any]
+
+                // Check if notification is for the station we're displaying
+                if let notificationStId = userInfo?["st_id"] as? String,
+                   let currentStId = self.station?.st_id,
+                   notificationStId != currentStId {
+                    DLog("updateCurrentStation: ignoring notification for \(notificationStId), displaying \(currentStId)", toFile: true)
+                    return
+                }
+
                 // reload station from cache
-             //   DLog("count before for \(String(describing: self.station?.name)): \(String(describing: self.station?.getDepartures()?.count))", toFile: true)
                 if let st_id = self.station?.st_id {
                     self.station = TFCStation.initWithCacheId(st_id)
                 }
-                let userInfo = notification.userInfo as? [String:Any]
                 var error:Error? = nil
                 if let errorInfo = userInfo?["error"] as? Error {
                    error = errorInfo
                 }
-             //   DLog("count after for \(String(describing: self.station?.name)): \(String(describing: self.station?.getDepartures()?.count))", toFile: true)
+                DLog("updateCurrentStation: updating departures for \(String(describing: self.station?.name)) count: \(String(describing: self.station?.getDepartures()?.count))", toFile: true)
                 self.departuresUpdated(error, context: nil, forStation: self.station)
             }
         }
@@ -373,26 +374,4 @@ class StationViewController: WKInterfaceController, TFCDeparturesUpdatedProtocol
         departuresUpdated(nil, context: ["cached": "true"], forStation: forStation)
     }
 
-    @objc func contextButtonReload() {
-        func reload(_ stations: TFCStations?) {
-            setStationValues()
-        }
-        func errorReply(_ text: String) {
-            infoGroup.setHidden(false)
-            infoLabel.setText(text)
-        }
-
-        TFCDataStore.sharedInstance.requestAllDataFromPhone()
-        DLog("send requestAllDataFromPhone")
-        watchdata.getStations(reload, errorReply: errorReply, stopWithFavorites: false)
-    }
-
-    @objc func contextButtonMap() {
-        self.presentController(withName: "MapPage", context: self.station)
-    }
-
-    @objc func contextButtonFavorite() {
-        self.station?.toggleFavorite()
-        setStationValues()
-    }
 }

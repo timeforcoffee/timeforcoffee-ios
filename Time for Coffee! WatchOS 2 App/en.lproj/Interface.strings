@@ -1,0 +1,21 @@
+/* StationPage - info label */
+"IVN-0O-4Oc.text" = "Loading... This may take a while on the first start up. If it doesn't go away, swipe right or reopen app.";
+
+/* StationsOverview - info label */
+"H2T-Pm-ZC9.text" = "Loading ...";
+
+/* FavoriteStationsOverview - info label */
+"TdN-1E-wjM.text" = "Loading ...";
+
+/* Map page title */
+"cCd-lg-BUO.title" = "Map";
+
+/* Station row - placeholder values (overwritten programmatically) */
+"dbP-Hm-64x.text" = "12";
+"qmq-be-vci.text" = "Zürich, Röntgenstrasse";
+"Kdx-go-JUj.text" = "in 0' / 17:30";
+"wVu-EU-Rtc.text" = "28'";
+
+/* Stations row - placeholder values (overwritten programmatically) */
+"k9f-Vh-KpK.text" = "Zürich, Röntgenstrasse";
+"4WG-r1-s2c.text" = "Zürich, Röntgenstrasse";

@@ -17,6 +17,22 @@
       "subtype" : "42mm"
     },
     {
+      "size" : "33x33",
+      "idiom" : "watch",
+      "filename" : "time-for-coffee-icon_66.png",
+      "scale" : "2x",
+      "role" : "notificationCenter",
+      "subtype" : "45mm"
+    },
+    {
+      "size" : "36x36",
+      "idiom" : "watch",
+      "filename" : "time-for-coffee-icon_72.png",
+      "scale" : "2x",
+      "role" : "notificationCenter",
+      "subtype" : "49mm"
+    },
+    {
       "size" : "29x29",
       "idiom" : "watch",
       "filename" : "Icon-Small@2x.png",
@@ -47,12 +63,36 @@
       "subtype" : "40mm"
     },
     {
+      "size" : "46x46",
+      "idiom" : "watch",
+      "filename" : "time-for-coffee-icon_92.png",
+      "scale" : "2x",
+      "role" : "appLauncher",
+      "subtype" : "41mm"
+    },
+    {
       "size" : "50x50",
       "idiom" : "watch",
       "filename" : "time-for-coffee-icon_100.png",
       "scale" : "2x",
       "role" : "appLauncher",
       "subtype" : "44mm"
+    },
+    {
+      "size" : "51x51",
+      "idiom" : "watch",
+      "filename" : "time-for-coffee-icon_102.png",
+      "scale" : "2x",
+      "role" : "appLauncher",
+      "subtype" : "45mm"
+    },
+    {
+      "size" : "54x54",
+      "idiom" : "watch",
+      "filename" : "time-for-coffee-icon_108.png",
+      "scale" : "2x",
+      "role" : "appLauncher",
+      "subtype" : "49mm"
     },
     {
       "size" : "86x86",
@@ -77,6 +117,22 @@
       "scale" : "2x",
       "role" : "quickLook",
       "subtype" : "44mm"
+    },
+    {
+      "size" : "117x117",
+      "idiom" : "watch",
+      "filename" : "time-for-coffee-icon_234.png",
+      "scale" : "2x",
+      "role" : "quickLook",
+      "subtype" : "45mm"
+    },
+    {
+      "size" : "129x129",
+      "idiom" : "watch",
+      "filename" : "time-for-coffee-icon_258.png",
+      "scale" : "2x",
+      "role" : "quickLook",
+      "subtype" : "49mm"
     },
     {
       "size" : "1024x1024",

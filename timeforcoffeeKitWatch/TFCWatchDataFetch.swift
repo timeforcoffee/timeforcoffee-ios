@@ -256,11 +256,10 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
                 DLog("__")
                 let  data = JSON(data: fileContent)
                 station.didReceiveAPIResults(data, error: nil, context: nil)
-                let isActive:Bool
-                isActive = (WKApplication.shared().applicationState == .active)
-                if (st_id == self.getLastViewedStation()?.st_id  && isActive) {
-                    DLog("notification TFCWatchkitUpdateCurrentStation")
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: "TFCWatchkitUpdateCurrentStation"), object: nil, userInfo: nil)
+                // Always post notification - the view controller will check if it's relevant
+                DLog("notification TFCWatchkitUpdateCurrentStation for \(st_id)")
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: "TFCWatchkitUpdateCurrentStation"), object: nil, userInfo: ["st_id": st_id])
                 }
                 self.updateComplicationIfNeeded(station)
             }
@@ -338,11 +337,10 @@ open class TFCWatchDataFetch: NSObject, URLSessionDownloadDelegate {
             TFCDataStore.sharedInstance.watchdata.scheduleNextUpdate()
             if let st_id = task.taskDescription {
                 self.downloading.removeValue(forKey: st_id)
-                if let station = TFCStation.initWithCacheId(st_id) {
-                    DLog("__")
-                    if (st_id == self.getLastViewedStation()?.st_id ) {
-                        DLog("notification TFCWatchkitUpdateCurrentStation")
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: "TFCWatchkitUpdateCurrentStation"), object: nil, userInfo: ["error": error ?? "An error occurred"])
+                if let _ = TFCStation.initWithCacheId(st_id) {
+                    DLog("notification TFCWatchkitUpdateCurrentStation with error for \(st_id)")
+                    DispatchQueue.main.async {
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: "TFCWatchkitUpdateCurrentStation"), object: nil, userInfo: ["st_id": st_id, "error": error ?? "An error occurred"])
                     }
                 }
             }

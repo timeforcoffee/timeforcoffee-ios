@@ -50,7 +50,6 @@ class StationsOverviewViewController: WKInterfaceController {
                 self.setTitle("Favorites")
             } else {
                 self.setTitle("Nearby Stations")
-                self.addMenuItem(with: WKMenuItemIcon.resume, title: "Reload", action: #selector(StationsOverviewViewController.contextButtonReload))
             }
             activatedOnce = true
             getStations()
@@ -66,14 +65,6 @@ class StationsOverviewViewController: WKInterfaceController {
         DLog("didDeactivate")
         self.activated = false
         super.didDeactivate()
-    }
-
-    @objc func contextButtonReload() {
-        if let ud =  UserDefaults(suiteName: "group.ch.opendata.timeforcoffee") {
-            ud.setValue(nil, forKey: "lastFirstStationId")
-        }
-        getStations()
-        TFCDataStore.sharedInstance.requestAllDataFromPhone()
     }
 
     fileprivate func getStations() {
