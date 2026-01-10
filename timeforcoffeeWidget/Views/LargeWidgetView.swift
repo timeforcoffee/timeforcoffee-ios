@@ -14,6 +14,13 @@ struct LargeWidgetView: View {
     let entry: DepartureEntry
     private let config = WidgetConfig.largeDepartures
 
+    /// Check if any visible departure has platform information
+    private var hasPlatformInfo: Bool {
+        entry.departures.prefix(config.limits.maxItems).contains {
+            $0.platform != nil && !($0.platform?.isEmpty ?? true)
+        }
+    }
+
     var body: some View {
         if let error = entry.errorMessage {
             errorView(message: error)
@@ -55,8 +62,10 @@ struct LargeWidgetView: View {
                     .frame(width: 36, alignment: .leading)
                 Text("Destination")
                 Spacer()
-                Text("Pl.")
-                    .frame(width: 24)
+                if hasPlatformInfo {
+                    Text("Pl.")
+                        .frame(width: 30, alignment: .trailing)
+                }
                 Text("Dep.")
                     .frame(width: 40, alignment: .trailing)
             }
@@ -66,7 +75,7 @@ struct LargeWidgetView: View {
 
             // Departures
             ForEach(entry.departures.prefix(config.limits.maxItems)) { departure in
-                DepartureRowView(departure: departure, config: config, entryDate: entry.date, showPlatform: true, stationName: entry.stationName)
+                DepartureRowView(departure: departure, config: config, entryDate: entry.date, showPlatform: hasPlatformInfo, stationName: entry.stationName)
             }
 
             Spacer(minLength: 0)

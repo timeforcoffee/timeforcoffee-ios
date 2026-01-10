@@ -36,12 +36,12 @@ struct DepartureRowView: View {
 
             Spacer(minLength: 0)
 
-            // Platform (optional)
-            if showPlatform, let platform = departure.platform, !platform.isEmpty {
-                Text(platform)
-                    .font(.system(size: config.fontSize.secondary, weight: .light))
-                    .foregroundColor(.secondary)
-                    .frame(minWidth: 20)
+            // Platform (always reserve space when showPlatform is true for alignment)
+            if showPlatform {
+                Text(departure.platform ?? "")
+                    .font(.system(size: config.fontSize.content, weight: .regular))
+                    .foregroundColor(.primary)
+                    .frame(width: 30, alignment: .trailing)
             }
 
             // Minutes until departure
@@ -50,7 +50,7 @@ struct DepartureRowView: View {
                 .foregroundColor(minutesColor)
                 .minimumScaleFactor(0.7)
                 .lineLimit(1)
-                .layoutPriority(1)
+                .frame(width: 40, alignment: .trailing)
         }
         .padding(.vertical, config.spacing.rowVerticalPadding)
     }

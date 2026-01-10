@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Automatic widget refresh when favorites change
 - Lock screen widgets: circular (departure countdown gauge), rectangular (station + departures), and inline (single departure text)
 - Apple Watch app icons for larger watch sizes (Series 7+, Ultra)
+- Nearby Stations widget added to widget gallery for easier discovery
 
 ### Changed
 
@@ -33,6 +34,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Fixed
 
+- Widget: Platform column now properly aligned with header, uses larger black text, and only shows when platform info is available
 - watchOS 10+: Fixed display bug showing localization keys (e.g., "IVN-0O-4Oc.text") instead of actual text
 - watchOS: Station departure data now correctly updates when switching between stations
 - watchOS: Removed deprecated Force Touch menu code (not supported since watchOS 7)
