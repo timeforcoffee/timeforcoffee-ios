@@ -192,3 +192,86 @@ struct DepartureTimelineProvider: AppIntentTimelineProvider {
         }
     }
 }
+
+/// Timeline provider for the Nearby Stations widget
+struct NearbyStationsTimelineProvider: AppIntentTimelineProvider {
+    typealias Entry = DepartureEntry
+    typealias Intent = NearbyStationsWidgetConfigurationIntent
+
+    private let locationManager = WidgetLocationManager()
+
+    func placeholder(in context: Context) -> DepartureEntry {
+        DepartureEntry.nearbyPlaceholder
+    }
+
+    func snapshot(for configuration: NearbyStationsWidgetConfigurationIntent, in context: Context) async -> DepartureEntry {
+        if context.isPreview {
+            return DepartureEntry.nearbyPlaceholder
+        }
+        return await fetchNearbyStationsEntry()
+    }
+
+    func timeline(for configuration: NearbyStationsWidgetConfigurationIntent, in context: Context) async -> Timeline<DepartureEntry> {
+        let currentEntry = await fetchNearbyStationsEntry()
+
+        var entries: [DepartureEntry] = []
+
+        let now = Date()
+        let calendar = Calendar.current
+        let nowComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: now)
+        let minuteStart = calendar.date(from: nowComponents) ?? now
+
+        let timelineMinutes = calculateRefreshInterval(for: currentEntry, from: now)
+
+        for minuteOffset in stride(from: 0, to: timelineMinutes, by: 1) {
+            let entryDate = calendar.date(byAdding: .minute, value: minuteOffset, to: minuteStart)!
+            let entry = DepartureEntry(
+                date: entryDate,
+                viewMode: .nearbyStations,
+                stationName: currentEntry.stationName,
+                stationId: currentEntry.stationId,
+                departures: [],
+                nearbyStations: currentEntry.nearbyStations,
+                isPlaceholder: currentEntry.isPlaceholder,
+                errorMessage: currentEntry.errorMessage
+            )
+            entries.append(entry)
+        }
+
+        let refreshDate = calendar.date(byAdding: .minute, value: timelineMinutes, to: minuteStart)!
+        return Timeline(entries: entries, policy: .after(refreshDate))
+    }
+
+    private func fetchNearbyStationsEntry() async -> DepartureEntry {
+        logger.debug("NearbyStationsTimelineProvider - getting location")
+        if let location = await locationManager.getCurrentLocation() {
+            logger.debug("Got location: \(location.coordinate.latitude), \(location.coordinate.longitude)")
+            return await WidgetDataFetcher.fetchNearbyStationsEntry(
+                latitude: location.coordinate.latitude,
+                longitude: location.coordinate.longitude
+            )
+        }
+        logger.warning("No location for nearby stations mode")
+        return DepartureEntry.empty(message: NSLocalizedString("Location unavailable", comment: ""))
+    }
+
+    private func calculateRefreshInterval(for entry: DepartureEntry, from now: Date) -> Int {
+        let nextDepartureTime = entry.nearbyStations
+            .compactMap { $0.departures.first?.departureTime }
+            .min()
+
+        guard let nextTime = nextDepartureTime else {
+            return 60
+        }
+
+        let minutesUntilNextDeparture = Int(nextTime.timeIntervalSince(now) / 60)
+
+        if minutesUntilNextDeparture < 60 {
+            return 15
+        } else if minutesUntilNextDeparture < 120 {
+            return 30
+        } else {
+            return 60
+        }
+    }
+}

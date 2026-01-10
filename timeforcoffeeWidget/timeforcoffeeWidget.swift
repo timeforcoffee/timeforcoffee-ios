@@ -32,6 +32,26 @@ struct TimeforcoffeeWidget: Widget {
     }
 }
 
+/// Nearby Stations widget - shows multiple nearby stations with their next departures
+struct NearbyStationsWidget: Widget {
+    let kind: String = "ch.opendata.timeforcoffee.nearbystations"
+
+    var body: some WidgetConfiguration {
+        AppIntentConfiguration(
+            kind: kind,
+            intent: NearbyStationsWidgetConfigurationIntent.self,
+            provider: NearbyStationsTimelineProvider()
+        ) { entry in
+            TimeforcoffeeWidgetEntryView(entry: entry)
+                .containerBackground(.fill.tertiary, for: .widget)
+        }
+        .configurationDisplayName("Nearby Stations")
+        .description("Shows multiple nearby stations with their next departures.")
+        .supportedFamilies([.systemSmall, .systemMedium, .systemLarge])
+        .contentMarginsDisabled()
+    }
+}
+
 /// The widget entry view that renders based on widget family and view mode
 struct TimeforcoffeeWidgetEntryView: View {
     @Environment(\.widgetFamily) var family
@@ -92,6 +112,7 @@ struct TimeforcoffeeWidgetEntryView: View {
 struct TimeforcoffeeWidgetBundle: WidgetBundle {
     var body: some Widget {
         TimeforcoffeeWidget()
+        NearbyStationsWidget()
     }
 }
 

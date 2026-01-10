@@ -116,3 +116,11 @@ struct DepartureWidgetConfigurationIntent: WidgetConfigurationIntent {
         }
     }
 }
+
+/// Configuration intent specifically for Nearby Stations widget
+struct NearbyStationsWidgetConfigurationIntent: WidgetConfigurationIntent {
+    static var title: LocalizedStringResource = "Configure Nearby Stations"
+    static var description = IntentDescription("Shows multiple nearby stations with their next departures")
+
+    // No parameters needed - this widget always shows nearby stations
+}
